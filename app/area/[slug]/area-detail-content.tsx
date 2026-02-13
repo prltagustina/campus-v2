@@ -103,7 +103,7 @@ function ParallaxLayer({
   const y = useTransform(scrollYProgress, [0, 1], [speed * -120, speed * 120]);
 
   return (
-    <div ref={ref} className={`relative overflow-hidden ${className}`}>
+    <div ref={ref} className={`relative overflow-hidden ${className}`} style={{ position: "relative" }}>
       <motion.div style={{ y }}>{children}</motion.div>
     </div>
   );
@@ -152,7 +152,7 @@ function FadingHeader({
   const translateY = useTransform(scrollYProgress, [0, 0.55], [0, -30]);
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative" style={{ position: "relative" }}>
       <motion.div style={{ opacity, scale, y: translateY, transformOrigin: "top center" }}>
         <AreaHeader
           area={area}
@@ -339,7 +339,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
             style="slide-up"
             className="scroll-mt-24"
           >
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-20 md:pt-32 lg:pt-40 pb-28 md:pb-36 lg:pb-44">
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-20 md:pt-32 lg:pt-40 pb-40 md:pb-48 lg:pb-56">
               <FormacionesSection
                 area={area}
                 prevArea={prevArea}
@@ -350,8 +350,8 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
         </div>
       </main>
 
-      {/* Footer -- desktop only, mobile uses MobileNav */}
-      <div className="hidden lg:block relative z-[70]">
+      {/* Sticky footer -- desktop only, mobile uses MobileNav */}
+      <div className="hidden lg:block">
         <AreaFooter
           area={area}
           prevArea={prevArea}
