@@ -40,9 +40,7 @@ export default function HomePage() {
 
   const handleAreaDoubleClick = (areaId: number | "marco-general") => {
     if (areaId === "marco-general") {
-      document
-        .getElementById("marco-general")
-        ?.scrollIntoView({ behavior: "smooth" });
+      router.push("/marco-general");
       return;
     }
     const area = areasData.find((a) => a.id === areaId);
@@ -77,7 +75,7 @@ export default function HomePage() {
 
       <SectionDivider color="#B159A7" width="45%" speed={-0.1} />
 
-      {/* 4) Marco General */}
+      {/* 4) Marco General (simplified: video + CTA) */}
       <ParallaxSection speed={0.08}>
         <ScrollReveal delay={0.05}>
           <MarcoGeneralSection />
@@ -86,35 +84,26 @@ export default function HomePage() {
 
       <SectionDivider color="#494963" width="35%" speed={0.2} />
 
-      {/* 5) Ejes Centrales */}
+      {/* 5) Ejes Centrales (compact grid) */}
       <ScrollReveal delay={0.05} direction="up" distance={70}>
         <EjesCentralesSection />
       </ScrollReveal>
 
       <SectionDivider color="#B159A7" width="50%" speed={-0.15} />
 
-      {/* 6) Organizacion de areas */}
-      <ParallaxSection speed={0.06}>
-        <ScrollReveal delay={0.05}>
-          <AreaOrganizationSection />
-        </ScrollReveal>
-      </ParallaxSection>
-
-      {/* 7) Main Wheel Section -- Rueda Curricular */}
+      {/* 6) Main Wheel Section -- Rueda Curricular */}
       <section id="areas" className="pt-8 md:pt-12 pb-16 md:pb-24 bg-[#fafafa] flex-1">
         <div className="max-w-7xl mx-auto px-4">
           {/* Section title */}
           <ScrollReveal delay={0.05} distance={50}>
             <div className="text-center mb-10 md:mb-14">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
-                Un marco comun
+                {"Un marco comun"}
               </h2>
               <p className="text-lg md:text-xl text-[#494963]/70 mt-5 max-w-3xl mx-auto leading-relaxed">
-                {
-                  "El diseno desarrolla las siguientes areas: Matematica, Lengua y Literatura, Ciencias Naturales, Ciencias Sociales, Educacion Fisica, Educacion Artistica, Lenguas Extranjeras, Educacion Tecnologica y "
-                }
+                {"El diseno desarrolla las siguientes areas: Matematica, Lengua y Literatura, Ciencias Naturales, Ciencias Sociales, Educacion Fisica, Educacion Artistica, Lenguas Extranjeras, Educacion Tecnologica y "}
                 <strong className="text-[#494963] font-bold">
-                  Saberes, Vidas y Mundos
+                  {"Saberes, Vidas y Mundos"}
                 </strong>
                 {", un espacio curricular innovador."}
               </p>
@@ -199,7 +188,7 @@ export default function HomePage() {
                       className="text-sm font-semibold mb-3"
                       style={{ color: "#494963" }}
                     >
-                      Ejes de contenidos:
+                      {"Ejes de contenidos:"}
                     </h3>
                     <div className="space-y-2.5 mb-6 text-left">
                       {selectedArea.axes.map((eje, ejeIndex) => (
@@ -226,7 +215,7 @@ export default function HomePage() {
               <Link
                 href={
                   selectedAreaId === "marco-general"
-                    ? "#marco-general"
+                    ? "/marco-general"
                     : `/area/${selectedArea?.slug}`
                 }
                 className="inline-block px-8 py-2.5 rounded-full font-semibold text-white text-base transition-all duration-300 hover:brightness-110"
@@ -237,7 +226,7 @@ export default function HomePage() {
                       : selectedArea?.color,
                 }}
               >
-                Ver mas
+                {"Ver mas"}
               </Link>
             </div>
           </div>
@@ -273,6 +262,13 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* 7) Organizacion de areas */}
+      <ParallaxSection speed={0.06}>
+        <ScrollReveal delay={0.05}>
+          <AreaOrganizationSection />
+        </ScrollReveal>
+      </ParallaxSection>
 
       {/* 8) Linea de Tiempo */}
       <ScrollReveal delay={0.05} distance={60}>

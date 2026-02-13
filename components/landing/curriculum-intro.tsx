@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Download } from "lucide-react";
 
 export function CurriculumIntro() {
   return (
@@ -14,7 +15,7 @@ export function CurriculumIntro() {
             <div className="w-16 h-16 md:w-20 md:h-20">
               <Image
                 src="/images/recurso-3.png"
-                alt="Logo Diseño Curricular"
+                alt="Logo Diseno Curricular"
                 width={80}
                 height={80}
                 className="w-full h-full object-contain"
@@ -22,46 +23,47 @@ export function CurriculumIntro() {
               />
             </div>
 
-            {/* Title: Inter Tight */}
+            {/* Title */}
             <h1
-              className="font-bold text-3xl md:text-4xl lg:text-[2.75rem] text-[#3D3D5C] leading-tight"
+              className="font-bold text-3xl md:text-4xl lg:text-[2.75rem] text-[#3D3D5C] leading-tight tracking-tight"
               style={{
                 fontFamily:
                   "'Inter Tight', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
               }}
             >
-              Diseño Curricular
+              {"Diseno Curricular"}
               <br />
-              para la Educación
+              {"para la Educacion"}
               <br />
-              Primaria de Santa Fe
+              {"Primaria de Santa Fe"}
             </h1>
 
             {/* Paragraphs */}
-            <div className="space-y-5 text-[#3D3D5C] max-w-md">
+            <div className="space-y-4 text-[#3D3D5C]/80 max-w-md">
               <p className="text-base md:text-lg leading-relaxed">
-                Un marco común que orienta qué enseñar, cómo hacerlo y con qué
-                propósito.
+                {"Un marco comun que orienta que ensenar, como hacerlo y con que proposito."}
               </p>
               <p className="text-base md:text-lg leading-relaxed">
-                Una política concreta para garantizar una enseñanza de calidad,
-                centrada en los aprendizajes claves para las infancias del siglo
-                XXI, en sus derechos, sus intereses y sus desafíos.
-              </p>
-              <p className="text-base md:text-lg leading-relaxed">
-                Una hoja de ruta en la que cada docente tiene el rol
-                insustituible de convertir este diseño en prácticas situadas y
-                significativas.
+                {"Una hoja de ruta en la que cada docente tiene el rol insustituible de convertir este diseno en practicas situadas y significativas."}
               </p>
             </div>
 
-            {/* Button */}
-            <div className="pt-4 flex justify-center lg:justify-start">
-              <Link
-                href="#marco-general"
-                className="inline-flex items-center px-6 py-2.5 rounded-full border-2 border-[#B159A7] text-[#B159A7] font-medium text-sm hover:bg-[#C084FC]/10 transition-colors"
+            {/* Double CTA */}
+            <div className="pt-4 flex flex-col sm:flex-row items-center lg:items-start gap-3">
+              <a
+                href="https://campuseducativo.santafe.edu.ar/diseno-curricular/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-7 py-3 rounded-lg bg-[#494963] text-white font-semibold text-sm hover:bg-[#3a3a4f] transition-colors shadow-sm"
               >
-                Conocer más
+                <Download className="w-4 h-4" />
+                {"Descargar Diseno Curricular"}
+              </a>
+              <Link
+                href="/marco-general"
+                className="inline-flex items-center px-7 py-3 rounded-lg border-2 border-[#494963]/20 text-[#494963] font-medium text-sm hover:border-[#494963]/40 hover:bg-[#494963]/4 transition-colors"
+              >
+                {"Conocer mas"}
               </Link>
             </div>
           </div>
@@ -74,8 +76,8 @@ export function CurriculumIntro() {
       {/* Right illustration */}
       <div className="relative lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full lg:w-[55%] h-[380px] md:h-[520px] lg:h-[90%] mt-8 lg:mt-0 pointer-events-none">
         <Image
-                src="/images/ilustracionIntro.png"
-          alt="Ilustración del diseño curricular con mapa de Santa Fe"
+          src="/images/ilustracionIntro.png"
+          alt="Ilustracion del diseno curricular con mapa de Santa Fe"
           fill
           className="object-contain object-center lg:object-right lg:translate-x-[12%]"
           priority
