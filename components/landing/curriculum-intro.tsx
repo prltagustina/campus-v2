@@ -25,7 +25,7 @@ export function CurriculumIntro() {
 
             {/* Title */}
             <h1
-              className="font-bold text-3xl md:text-4xl lg:text-[2.75rem] text-[#3D3D5C] leading-tight tracking-tight font-sans"
+              className="font-bold text-4xl md:text-5xl lg:text-[3.25rem] text-[#3D3D5C] leading-tight tracking-tight font-display"
             >
               {"Dise\u00f1o Curricular"}
               <br />
@@ -36,30 +36,30 @@ export function CurriculumIntro() {
 
             {/* Paragraphs */}
             <div className="space-y-4 text-[#3D3D5C]/80 max-w-md">
-              <p className="text-base md:text-lg leading-relaxed">
+              <p className="text-lg md:text-xl leading-relaxed">
                 {"Un marco com\u00fan que orienta qu\u00e9 ense\u00f1ar, c\u00f3mo hacerlo y con qu\u00e9 prop\u00f3sito."}
               </p>
-              <p className="text-base md:text-lg leading-relaxed">
+              <p className="text-lg md:text-xl leading-relaxed">
                 {"Una hoja de ruta en la que cada docente tiene el rol insustituible de convertir este dise\u00f1o en pr\u00e1cticas situadas y significativas."}
               </p>
             </div>
 
             {/* Double CTA */}
-            <div className="pt-4 flex flex-col sm:flex-row items-center lg:items-start gap-3">
+            <div className="pt-4 flex flex-col sm:flex-row items-stretch lg:items-start gap-3 w-full sm:w-auto">
               <a
                 href="https://campuseducativo.santafe.edu.ar/diseno-curricular/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-lg bg-[#494963] text-white font-semibold text-sm hover:bg-[#3a3a4f] transition-colors shadow-sm"
+                className="inline-flex items-center justify-center gap-2 px-7 h-12 rounded-lg bg-[#494963] text-white font-semibold text-base hover:bg-[#3a3a4f] transition-colors shadow-sm"
               >
                 <Download className="w-4 h-4" />
                 {"Descargar Dise\u00f1o Curricular"}
               </a>
               <Link
                 href="/marco-general"
-                className="inline-flex items-center px-7 py-3 rounded-lg border-2 border-[#494963]/20 text-[#494963] font-medium text-sm hover:border-[#494963]/40 hover:bg-[#494963]/4 transition-colors"
+                className="inline-flex items-center justify-center px-7 h-12 rounded-lg border-2 border-[#494963]/20 text-[#494963] font-semibold text-base hover:border-[#494963]/40 hover:bg-[#494963]/4 transition-colors"
               >
-                {"Ver m\u00e1s"}
+                {"Conocer m\u00e1s"}
               </Link>
             </div>
           </div>
