@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 const ejes = [
   {
@@ -78,36 +79,64 @@ export function EjesDetail() {
   };
 
   return (
-    <section id="ejes" className="w-full py-16 md:py-24 bg-[#fafafa]">
+    <section id="ejes" className="w-full py-20 md:py-32 bg-[#fafafa]">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#494963] mb-2">
-            {"Ejes centrales de la propuesta"}
-          </h2>
-          <p className="text-[#494963]/50 text-base mb-8">
-            {"13 ejes que definen la identidad del nuevo diseno curricular. Haz clic en cada uno para conocer mas."}
-          </p>
+        <div className="max-w-6xl mx-auto">
+          {/* Header with illustration */}
+          <div className="grid md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-end mb-12">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#494963]/40 mb-3 block">
+                Identidad del diseno
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-3">
+                {"Ejes centrales de la propuesta"}
+              </h2>
+              <p className="text-[#494963]/50 text-lg max-w-xl">
+                {"13 ejes que definen la identidad del nuevo diseno curricular. Toca cada uno para conocer mas."}
+              </p>
+            </div>
 
-          <div className="w-full h-px bg-[#494963]/10 mb-2" />
+            {/* Decorative illustration */}
+            <div className="hidden md:block w-48 h-48 relative opacity-60">
+              <Image
+                src="/images/ilustracionIntro.png"
+                alt=""
+                width={192}
+                height={192}
+                className="object-contain"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
 
-          <div className="divide-y divide-[#494963]/8">
+          {/* Ejes list */}
+          <div className="space-y-0">
             {ejes.map((eje, index) => (
-              <div key={index}>
+              <div
+                key={index}
+                className="border-b border-[#494963]/8 last:border-b-0"
+              >
                 <button
                   onClick={() => toggle(index)}
                   aria-expanded={active === index}
                   className="w-full flex items-center justify-between gap-4 py-5 text-left group"
                 >
                   <div className="flex items-center gap-4 flex-1 min-w-0">
-                    <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#494963]/8 text-[#494963]/50 text-xs font-semibold flex items-center justify-center">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#494963]/6 text-[#494963]/40 text-xs font-bold flex items-center justify-center">
                       {index + 1}
                     </span>
-                    <h4 className="text-base md:text-lg font-semibold text-[#494963]/80 group-hover:text-[#494963] transition-colors leading-snug">
+                    <h4
+                      className={`text-base md:text-lg font-semibold transition-colors leading-snug ${
+                        active === index
+                          ? "text-[#494963]"
+                          : "text-[#494963]/60 group-hover:text-[#494963]"
+                      }`}
+                    >
                       {eje.title}
                     </h4>
                   </div>
                   <svg
-                    className={`w-5 h-5 flex-shrink-0 text-[#494963]/40 transform transition-transform duration-200 ${
+                    className={`w-5 h-5 flex-shrink-0 text-[#494963]/30 transform transition-transform duration-300 ${
                       active === index ? "rotate-90" : "rotate-0"
                     }`}
                     viewBox="0 0 12 12"
@@ -118,13 +147,13 @@ export function EjesDetail() {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-300 ${
+                  className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                     active === index
                       ? "max-h-[400px] opacity-100 pb-5"
                       : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="text-base text-[#494963]/60 leading-relaxed pl-11">
+                  <p className="text-base text-[#494963]/50 leading-relaxed pl-12">
                     {eje.description}
                   </p>
                 </div>

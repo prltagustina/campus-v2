@@ -12,7 +12,7 @@ import { AreaPicker } from "@/components/home/area-picker";
 import { CurriculumIntro } from "@/components/landing/curriculum-intro";
 import { WhatWhyHowSection } from "@/components/landing/what-why-how-section";
 import { MarcoGeneralSection } from "@/components/landing/marco-general-section";
-import { EjesCentralesSection } from "@/components/landing/ejes-centrales-section";
+
 import { AreaOrganizationSection } from "@/components/landing/area-organization-section";
 import { TimelineSection } from "@/components/landing/timeline-section";
 import { QuickAccessBar } from "@/components/landing/quick-access-bar";
@@ -65,31 +65,22 @@ export default function HomePage() {
         <QuickAccessBar />
       </ScrollReveal>
 
-      {/* 3) Que ensenar -- white bg for contrast */}
-      <ParallaxSection speed={0.05}>
+      {/* 3) Que ensenar -- white bg */}
+      <ParallaxSection speed={0.04}>
         <ScrollReveal delay={0.05}>
           <WhatWhyHowSection />
         </ScrollReveal>
       </ParallaxSection>
 
-      {/* 4) Marco General -- light gray bg for contrast */}
-      <ParallaxSection speed={0.1}>
-        <ScrollReveal delay={0.05}>
-          <div className="bg-[#f0f0f5]">
-            <MarcoGeneralSection />
-          </div>
-        </ScrollReveal>
-      </ParallaxSection>
+      {/* 4) Marco General -- institutional dark */}
+      <ScrollReveal delay={0.05}>
+        <div className="bg-[#494963]">
+          <MarcoGeneralSection />
+        </div>
+      </ScrollReveal>
 
-      {/* 5) Ejes Centrales -- white bg */}
-      <ParallaxSection speed={0.06}>
-        <ScrollReveal delay={0.05} direction="up" distance={70}>
-          <EjesCentralesSection />
-        </ScrollReveal>
-      </ParallaxSection>
-
-      {/* 6) Main Wheel Section -- Rueda Curricular -- light bg for contrast */}
-      <section id="areas" className="pt-8 md:pt-12 pb-16 md:pb-24 bg-[#f0f0f5] flex-1">
+      {/* 5) Main Wheel Section -- Rueda Curricular -- light bg */}
+      <section id="areas" className="pt-16 md:pt-24 pb-16 md:pb-24 bg-[#EDEDF0] flex-1">
         <div className="max-w-7xl mx-auto px-4">
           {/* Section title */}
           <ScrollReveal delay={0.05} distance={50}>
@@ -258,19 +249,40 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        {/* EIB access -- near the wheel */}
+        <div className="max-w-lg mx-auto mt-10 mb-4 px-4">
+          <Link
+            href="/eib"
+            className="group flex items-center gap-4 px-6 py-4 rounded-xl bg-white/80 backdrop-blur border border-[#494963]/8 hover:border-[#494963]/20 hover:shadow-md transition-all"
+          >
+            <div className="w-10 h-10 rounded-full bg-[#494963]/6 flex items-center justify-center flex-shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <span className="text-sm font-semibold text-[#494963] block leading-tight">
+                {"Educacion Intercultural Bilingue"}
+              </span>
+              <span className="text-xs text-[#494963]/45 block mt-0.5">
+                {"Enfoque intercultural y bilingue del diseno"}
+              </span>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-0 -translate-x-1 group-hover:opacity-50 group-hover:translate-x-0 transition-all flex-shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </Link>
+        </div>
       </section>
 
-      {/* 7) Organizacion de areas -- white bg */}
-      <ParallaxSection speed={0.06}>
+      {/* 6) Organizacion de areas -- white bg for contrast */}
+      <ParallaxSection speed={0.05}>
         <ScrollReveal delay={0.05}>
           <AreaOrganizationSection />
         </ScrollReveal>
       </ParallaxSection>
 
-      {/* 8) Linea de Tiempo -- light bg for contrast */}
-      <ParallaxSection speed={0.04}>
+      {/* 7) Linea de Tiempo -- light bg */}
+      <ParallaxSection speed={0.03}>
         <ScrollReveal delay={0.05} distance={60}>
-          <div className="bg-[#f0f0f5]">
+          <div className="bg-[#EDEDF0]">
             <TimelineSection />
           </div>
         </ScrollReveal>
