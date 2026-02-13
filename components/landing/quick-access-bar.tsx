@@ -17,10 +17,10 @@ export function QuickAccessBar() {
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 block mb-3">
                 Acceso r&aacute;pido
               </span>
-              <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-3 font-sans">
+              <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-3 font-display">
                 Para Familias
               </h3>
-              <p className="text-sm text-white/45 leading-relaxed max-w-xs">
+              <p className="text-base text-white/45 leading-relaxed max-w-xs">
                 Informaci&oacute;n sobre el nuevo dise&ntilde;o curricular pensada para las familias de la comunidad educativa.
               </p>
             </div>
@@ -39,10 +39,10 @@ export function QuickAccessBar() {
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#494963]/25 block mb-3">
                 Acceso r&aacute;pido
               </span>
-              <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-3 text-[#494963] font-sans">
+              <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-3 text-[#494963] font-display">
                 Para Docentes y Directivos
               </h3>
-              <p className="text-sm text-[#494963]/40 leading-relaxed max-w-xs">
+              <p className="text-base text-[#494963]/40 leading-relaxed max-w-xs">
                 Marco general, documentos de descarga, formaciones y orientaciones para la pr&aacute;ctica docente.
               </p>
             </div>

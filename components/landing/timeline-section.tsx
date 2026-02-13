@@ -231,7 +231,7 @@ export function TimelineSection() {
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#494963]/30 block mb-3">
               Proceso de Escritura
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-sans">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#494963] leading-tight font-display">
               L&iacute;nea hist&oacute;rica
               <br className="hidden md:block" />
               {" del dise\u00f1o"}

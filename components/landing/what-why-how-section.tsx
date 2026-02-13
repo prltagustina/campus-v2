@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const sections = [
@@ -35,6 +35,8 @@ const sections = [
 
 export function WhatWhyHowSection() {
   const [active, setActive] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   const prev = useCallback(
     () => setActive((c) => (c - 1 + sections.length) % sections.length),
@@ -44,6 +46,25 @@ export function WhatWhyHowSection() {
     () => setActive((c) => (c + 1) % sections.length),
     []
   );
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = null;
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = () => {
+    if (touchStartX.current !== null && touchEndX.current !== null) {
+      const diff = touchStartX.current - touchEndX.current;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) next();
+        else prev();
+      }
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 
   return (
     <section id="que-ensenar" className="w-full py-20 md:py-32 bg-white">
@@ -55,17 +76,17 @@ export function WhatWhyHowSection() {
               <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#494963]/30 mb-3 block">
                 Propuesta curricular
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-sans">
-                Qu&eacute; ense&ntilde;ar
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#494963] leading-tight font-display">
+                {"Qu\u00e9 ense\u00f1ar"}
                 <br />
-                C&oacute;mo hacerlo
+                {"C\u00f3mo hacerlo"}
                 <br />
-                Y con qu&eacute; prop&oacute;sito
+                {"Y con qu\u00e9 prop\u00f3sito"}
               </h2>
             </div>
 
-            {/* Navigation controls */}
-            <div className="flex items-center gap-3">
+            {/* Navigation controls -- hidden on mobile */}
+            <div className="hidden md:flex items-center gap-3">
               <button
                 onClick={prev}
                 className="w-11 h-11 rounded-full border-2 border-[#494963]/15 flex items-center justify-center text-[#494963]/40 hover:border-[#494963]/30 hover:text-[#494963] transition-colors"
@@ -86,8 +107,13 @@ export function WhatWhyHowSection() {
             </div>
           </div>
 
-          {/* Carousel content */}
-          <div className="relative overflow-hidden">
+          {/* Carousel content -- swipeable on mobile */}
+          <div
+            className="relative overflow-hidden touch-pan-y"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <div
               className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
               style={{ transform: `translateX(-${active * 100}%)` }}
@@ -99,16 +125,16 @@ export function WhatWhyHowSection() {
                 >
                   <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-14 items-start">
                     {/* Big number */}
-                    <span className="text-[7rem] md:text-[10rem] lg:text-[12rem] font-black text-[#494963]/5 leading-none select-none -mb-6 md:-mb-8">
+                    <span className="text-[7rem] md:text-[10rem] lg:text-[12rem] font-black text-[#494963]/10 leading-none select-none -mb-6 md:-mb-8">
                       {section.number}
                     </span>
 
                     {/* Content */}
                     <div className="flex flex-col justify-center md:py-8">
-                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#494963] mb-6">
+                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#494963] mb-6 font-display">
                         {section.title}
                       </h3>
-                      <p className="text-lg md:text-xl text-[#494963]/65 leading-relaxed mb-4 max-w-2xl">
+                      <p className="text-lg md:text-xl lg:text-2xl text-[#494963]/65 leading-relaxed mb-4 max-w-2xl">
                         {section.content}
                       </p>
                       <p className="text-base md:text-lg text-[#494963]/35 leading-relaxed max-w-2xl">
