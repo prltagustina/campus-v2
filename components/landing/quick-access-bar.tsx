@@ -5,23 +5,51 @@ import { ArrowRight } from "lucide-react";
 
 export function QuickAccessBar() {
   return (
-    <div className="w-full bg-white border-y border-gray-100">
+    <div className="w-full bg-white py-10 md:py-14">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-0 border border-[#494963]/8 rounded-2xl overflow-hidden">
+          {/* Familias -- dark / primary */}
           <Link
             href="/familias"
-            className="group flex items-center justify-center gap-3 px-8 py-5 text-[#494963] hover:bg-[#494963]/[0.03] transition-colors"
+            className="group relative flex flex-col justify-between p-8 md:p-10 bg-[#494963] text-white hover:bg-[#3a3a4f] transition-colors"
           >
-            <span className="text-sm font-semibold tracking-wide">Para Familias</span>
-            <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all" />
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 block mb-3">
+                Acceso r&aacute;pido
+              </span>
+              <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-3 font-sans">
+                Para Familias
+              </h3>
+              <p className="text-sm text-white/45 leading-relaxed max-w-xs">
+                Informaci&oacute;n sobre el nuevo dise&ntilde;o curricular pensada para las familias de la comunidad educativa.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 mt-6 text-white/50 group-hover:text-white transition-colors">
+              <span className="text-xs font-semibold uppercase tracking-wider">Explorar</span>
+              <ArrowRight className="w-4 h-4 -translate-x-1 group-hover:translate-x-0 transition-transform" />
+            </div>
           </Link>
 
+          {/* Docentes -- light / secondary */}
           <Link
-            href="/eib"
-            className="group flex items-center justify-center gap-3 px-8 py-5 text-[#494963] hover:bg-[#494963]/[0.03] transition-colors"
+            href="/marco-general"
+            className="group relative flex flex-col justify-between p-8 md:p-10 bg-white text-[#494963] hover:bg-[#494963]/[0.02] transition-colors"
           >
-            <span className="text-sm font-semibold tracking-wide">{'Educaci\u00f3n Intercultural Biling\u00fce'}</span>
-            <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all" />
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#494963]/25 block mb-3">
+                Acceso r&aacute;pido
+              </span>
+              <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-3 text-[#494963] font-sans">
+                Para Docentes y Directivos
+              </h3>
+              <p className="text-sm text-[#494963]/40 leading-relaxed max-w-xs">
+                Marco general, documentos de descarga, formaciones y orientaciones para la pr&aacute;ctica docente.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 mt-6 text-[#494963]/40 group-hover:text-[#494963] transition-colors">
+              <span className="text-xs font-semibold uppercase tracking-wider">Explorar</span>
+              <ArrowRight className="w-4 h-4 -translate-x-1 group-hover:translate-x-0 transition-transform" />
+            </div>
           </Link>
         </div>
       </div>

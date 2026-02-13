@@ -12,7 +12,7 @@ import { AreaPicker } from "@/components/home/area-picker";
 import { CurriculumIntro } from "@/components/landing/curriculum-intro";
 import { WhatWhyHowSection } from "@/components/landing/what-why-how-section";
 import { MarcoGeneralSection } from "@/components/landing/marco-general-section";
-import { EjesCentralesSection } from "@/components/landing/ejes-centrales-section";
+
 import { AreaOrganizationSection } from "@/components/landing/area-organization-section";
 import { TimelineSection } from "@/components/landing/timeline-section";
 import { QuickAccessBar } from "@/components/landing/quick-access-bar";
@@ -21,7 +21,6 @@ import { Footer } from "@/components/landing/landing-footer";
 import {
   ScrollReveal,
   ParallaxSection,
-  SectionDivider,
 } from "@/components/landing/scroll-reveal";
 
 export default function HomePage() {
@@ -40,9 +39,7 @@ export default function HomePage() {
 
   const handleAreaDoubleClick = (areaId: number | "marco-general") => {
     if (areaId === "marco-general") {
-      document
-        .getElementById("marco-general")
-        ?.scrollIntoView({ behavior: "smooth" });
+      router.push("/marco-general");
       return;
     }
     const area = areasData.find((a) => a.id === areaId);
@@ -68,53 +65,33 @@ export default function HomePage() {
         <QuickAccessBar />
       </ScrollReveal>
 
-      <SectionDivider color="#494963" width="30%" speed={0.15} />
+      {/* 3) Qu\u00e9 ense\u00f1ar -- white bg */}
+      <ParallaxSection speed={0.04}>
+        <ScrollReveal delay={0.05}>
+          <WhatWhyHowSection />
+        </ScrollReveal>
+      </ParallaxSection>
 
-      {/* 3) Que ensenar */}
+      {/* 4) Marco General -- institutional dark */}
       <ScrollReveal delay={0.05}>
-        <WhatWhyHowSection />
-      </ScrollReveal>
-
-      <SectionDivider color="#B159A7" width="45%" speed={-0.1} />
-
-      {/* 4) Marco General */}
-      <ParallaxSection speed={0.08}>
-        <ScrollReveal delay={0.05}>
+        <div className="bg-[#494963]">
           <MarcoGeneralSection />
-        </ScrollReveal>
-      </ParallaxSection>
-
-      <SectionDivider color="#494963" width="35%" speed={0.2} />
-
-      {/* 5) Ejes Centrales */}
-      <ScrollReveal delay={0.05} direction="up" distance={70}>
-        <EjesCentralesSection />
+        </div>
       </ScrollReveal>
 
-      <SectionDivider color="#B159A7" width="50%" speed={-0.15} />
-
-      {/* 6) Organizacion de areas */}
-      <ParallaxSection speed={0.06}>
-        <ScrollReveal delay={0.05}>
-          <AreaOrganizationSection />
-        </ScrollReveal>
-      </ParallaxSection>
-
-      {/* 7) Main Wheel Section -- Rueda Curricular */}
-      <section id="areas" className="pt-8 md:pt-12 pb-16 md:pb-24 bg-[#fafafa] flex-1">
+      {/* 5) Main Wheel Section -- Rueda Curricular -- light bg */}
+      <section id="areas" className="pt-16 md:pt-24 pb-16 md:pb-24 bg-[#EDEDF0] flex-1">
         <div className="max-w-7xl mx-auto px-4">
           {/* Section title */}
           <ScrollReveal delay={0.05} distance={50}>
             <div className="text-center mb-10 md:mb-14">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
-                Un marco comun
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-sans">
+                {"Un marco com\u00fan"}
               </h2>
               <p className="text-lg md:text-xl text-[#494963]/70 mt-5 max-w-3xl mx-auto leading-relaxed">
-                {
-                  "El diseno desarrolla las siguientes areas: Matematica, Lengua y Literatura, Ciencias Naturales, Ciencias Sociales, Educacion Fisica, Educacion Artistica, Lenguas Extranjeras, Educacion Tecnologica y "
-                }
+                {"El dise\u00f1o desarrolla las siguientes \u00e1reas: Matem\u00e1tica, Lengua y Literatura, Ciencias Naturales, Ciencias Sociales, Educaci\u00f3n F\u00edsica, Educaci\u00f3n Art\u00edstica, Lenguas Extranjeras, Educaci\u00f3n Tecnol\u00f3gica y "}
                 <strong className="text-[#494963] font-bold">
-                  Saberes, Vidas y Mundos
+                  {"Saberes, Vidas y Mundos"}
                 </strong>
                 {", un espacio curricular innovador."}
               </p>
@@ -199,7 +176,7 @@ export default function HomePage() {
                       className="text-sm font-semibold mb-3"
                       style={{ color: "#494963" }}
                     >
-                      Ejes de contenidos:
+                      {"Ejes de contenidos:"}
                     </h3>
                     <div className="space-y-2.5 mb-6 text-left">
                       {selectedArea.axes.map((eje, ejeIndex) => (
@@ -226,7 +203,7 @@ export default function HomePage() {
               <Link
                 href={
                   selectedAreaId === "marco-general"
-                    ? "#marco-general"
+                    ? "/marco-general"
                     : `/area/${selectedArea?.slug}`
                 }
                 className="inline-block px-8 py-2.5 rounded-full font-semibold text-white text-base transition-all duration-300 hover:brightness-110"
@@ -237,7 +214,7 @@ export default function HomePage() {
                       : selectedArea?.color,
                 }}
               >
-                Ver mas
+                {"Ver m\u00e1s"}
               </Link>
             </div>
           </div>
@@ -272,12 +249,52 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
       </section>
 
-      {/* 8) Linea de Tiempo */}
-      <ScrollReveal delay={0.05} distance={60}>
-        <TimelineSection />
-      </ScrollReveal>
+      {/* EIB -- editorial block below wheel */}
+      <div className="w-full bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <Link
+              href="/eib"
+              className="group flex flex-col md:flex-row md:items-center justify-between py-10 md:py-14 border-t border-[#494963]/8 hover:border-[#494963]/15 transition-colors"
+            >
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#494963]/25 block mb-3">
+                  Enfoque transversal
+                </span>
+                <h3 className="text-2xl md:text-3xl font-bold text-[#494963] leading-tight">
+                  {"Educaci\u00f3n Intercultural Biling\u00fce"}
+                </h3>
+                <p className="text-sm text-[#494963]/40 leading-relaxed mt-2 max-w-md">
+                  {"Enfoque intercultural y biling\u00fce integrado al dise\u00f1o curricular."}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 mt-4 md:mt-0 text-[#494963]/40 group-hover:text-[#494963] transition-colors flex-shrink-0">
+                <span className="text-xs font-semibold uppercase tracking-wider">Explorar</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="-translate-x-1 group-hover:translate-x-0 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* 6) Organizacion de areas -- white bg for contrast */}
+      <ParallaxSection speed={0.05}>
+        <ScrollReveal delay={0.05}>
+          <AreaOrganizationSection />
+        </ScrollReveal>
+      </ParallaxSection>
+
+      {/* 7) Linea de Tiempo -- light bg */}
+      <ParallaxSection speed={0.03}>
+        <ScrollReveal delay={0.05} distance={60}>
+          <div className="bg-[#EDEDF0]">
+            <TimelineSection />
+          </div>
+        </ScrollReveal>
+      </ParallaxSection>
 
       <Footer />
     </main>

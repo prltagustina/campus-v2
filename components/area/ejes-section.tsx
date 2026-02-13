@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useRef, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import type { AreaContent } from "@/lib/area-content";
 import { grados, enfoquesTransversales, ENFOQUE_COLOR } from "@/lib/constants";
@@ -27,16 +29,25 @@ export function EjesSection({
   activeAxis,
   setActiveAxis,
 }: EjesSectionProps) {
-  const currentEje = areaContent.ejes[selectedEje] || areaContent.ejes[0];
-  
   const ejesInfo = ejesInfoPorArea[area.slug];
   const useInteractiveSchema = !!ejesInfo;
+  const totalEjes = areaContent.ejes.length;
+
+  const goNext = useCallback(() => {
+    setSelectedEje((selectedEje + 1) % totalEjes);
+  }, [selectedEje, totalEjes, setSelectedEje]);
+
+  const goPrev = useCallback(() => {
+    setSelectedEje((selectedEje - 1 + totalEjes) % totalEjes);
+  }, [selectedEje, totalEjes, setSelectedEje]);
+
+  const currentEje = areaContent.ejes[selectedEje] || areaContent.ejes[0];
 
   const renderEnfoqueBadge = (enfoqueId: string) => {
-    const enfoque = enfoquesTransversales.find(e => e.id === enfoqueId);
+    const enfoque = enfoquesTransversales.find((e) => e.id === enfoqueId);
     if (!enfoque) return null;
     return (
-      <span 
+      <span
         key={enfoqueId}
         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold text-white uppercase"
         style={{ backgroundColor: ENFOQUE_COLOR }}
@@ -58,114 +69,164 @@ export function EjesSection({
     );
   }
 
-  // Fallback: classic timeline view
+  // Carousel view for "Que ensenar"
   return (
-    <>
-      <section id="ejes" className="mb-16 scroll-mt-32">
-        <div className="mb-4">
-          <span className="text-xs text-gray-400 uppercase tracking-widest font-bold">EJES</span>
-        </div>
-        
-        <div className="flex gap-3 mb-6">
-          {areaContent.ejes.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setSelectedEje(idx)}
-              className="w-5 h-5 rounded-full transition-all"
-              style={{ 
-                border: `3px solid ${area.color}`,
-                backgroundColor: selectedEje === idx ? area.color : 'transparent'
-              }}
-            />
-          ))}
+    <section id="ejes" className="scroll-mt-32">
+      {/* Carousel header with navigation */}
+      <div className="flex items-center justify-between mb-10">
+        <div>
+          <span
+            className="text-[11px] font-bold uppercase tracking-[0.2em] mb-3 block"
+            style={{ color: area.color }}
+          >
+            {"Qu\u00e9 ense\u00f1ar"}
+          </span>
+          <h2
+            className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight text-balance"
+            style={{ color: "#494963" }}
+          >
+            {currentEje.titulo}
+          </h2>
         </div>
 
-        <h2 
-          className="text-2xl md:text-3xl lg:text-4xl font-bold leading-snug mb-10"
-          style={{ color: area.color }}
-        >
-          {currentEje.titulo}
-        </h2>
+        {/* Carousel controls */}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={goPrev}
+            className="w-11 h-11 rounded-full border-2 flex items-center justify-center transition-all hover:scale-105"
+            style={{ borderColor: area.color, color: area.color }}
+            aria-label="Eje anterior"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
-        <div className="relative">
-          {grados.map((grado) => {
-            const contenidos = currentEje.contenidos[grado.id];
-            const hasContent = contenidos && contenidos.length > 0;
-            const isExpanded = expandedGrados.includes(grado.id);
-            
-            return (
-              <div key={grado.id} className="flex">
-                <button
-                  type="button"
-                  onClick={() => hasContent && toggleGrado(grado.id)}
-                  className={`w-32 md:w-40 flex-shrink-0 pr-4 text-right py-3 transition-all ${hasContent ? 'cursor-pointer hover:opacity-80' : 'cursor-default'}`}
-                  disabled={!hasContent}
+          {/* Dots indicator */}
+          <div className="flex gap-2">
+            {areaContent.ejes.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setSelectedEje(idx)}
+                className="w-2.5 h-2.5 rounded-full transition-all"
+                style={{
+                  backgroundColor:
+                    selectedEje === idx ? area.color : "#d1d5db",
+                  transform: selectedEje === idx ? "scale(1.3)" : "scale(1)",
+                }}
+                aria-label={`Ir al eje ${idx + 1}`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={goNext}
+            className="w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-105 text-white"
+            style={{ backgroundColor: area.color }}
+            aria-label="Siguiente eje"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Eje counter */}
+      <p className="text-sm text-[#494963]/40 font-medium mb-8">
+        Eje {selectedEje + 1} de {totalEjes}
+      </p>
+
+      {/* Content - grados timeline with no divider lines */}
+      <div className="relative">
+        {grados.map((grado) => {
+          const contenidos = currentEje.contenidos[grado.id];
+          const hasContent = contenidos && contenidos.length > 0;
+          const isExpanded = expandedGrados.includes(grado.id);
+
+          return (
+            <div key={grado.id} className="flex">
+              <button
+                type="button"
+                onClick={() => hasContent && toggleGrado(grado.id)}
+                className={`w-32 md:w-40 flex-shrink-0 pr-4 text-right py-3 transition-all ${
+                  hasContent
+                    ? "cursor-pointer hover:opacity-80"
+                    : "cursor-default"
+                }`}
+                disabled={!hasContent}
+              >
+                <span
+                  className={`text-[11px] font-bold uppercase tracking-wide transition-all ${
+                    hasContent
+                      ? isExpanded
+                        ? ""
+                        : "opacity-60"
+                      : "text-gray-300"
+                  }`}
+                  style={hasContent ? { color: area.color } : undefined}
                 >
-                  <span 
-                    className={`text-[11px] font-bold uppercase tracking-wide transition-all ${
-                      hasContent 
-                        ? (isExpanded ? '' : 'opacity-60') 
-                        : 'text-gray-300'
-                    }`}
-                    style={hasContent ? { color: area.color } : undefined}
-                  >
-                    {grado.name}
-                  </span>
-                </button>
-                
-                <button
-                  type="button"
-                  onClick={() => hasContent && toggleGrado(grado.id)}
-                  className={`relative w-1 flex-shrink-0 transition-all ${hasContent ? 'cursor-pointer' : 'cursor-default'}`}
-                  disabled={!hasContent}
+                  {grado.name}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => hasContent && toggleGrado(grado.id)}
+                className={`relative w-1 flex-shrink-0 transition-all ${
+                  hasContent ? "cursor-pointer" : "cursor-default"
+                }`}
+                disabled={!hasContent}
+              >
+                <div
+                  className={`w-full h-full transition-all ${
+                    hasContent
+                      ? isExpanded
+                        ? ""
+                        : "opacity-40"
+                      : "bg-gray-200"
+                  }`}
+                  style={
+                    hasContent ? { backgroundColor: area.color } : undefined
+                  }
+                />
+              </button>
+
+              <div className="flex-1 pl-6 overflow-hidden">
+                <div
+                  className={`transition-all duration-300 ease-in-out ${
+                    hasContent && isExpanded
+                      ? "max-h-[1000px] opacity-100 py-3"
+                      : hasContent
+                        ? "max-h-0 opacity-0 py-0"
+                        : "py-3"
+                  }`}
                 >
-                  <div 
-                    className={`w-full h-full transition-all ${
-                      hasContent 
-                        ? (isExpanded ? '' : 'opacity-40') 
-                        : 'bg-gray-200'
-                    }`}
-                    style={hasContent ? { backgroundColor: area.color } : undefined}
-                  />
-                </button>
-                
-                <div className="flex-1 pl-6 overflow-hidden">
-                  <div 
-                    className={`transition-all duration-300 ease-in-out ${
-                      hasContent && isExpanded 
-                        ? 'max-h-[1000px] opacity-100 py-3' 
-                        : hasContent 
-                          ? 'max-h-0 opacity-0 py-0' 
-                          : 'py-3'
-                    }`}
-                  >
-                    {hasContent && isExpanded && (
-                      <div className="space-y-3">
-                        {contenidos.map((contenido, cIdx) => (
-                          <div key={cIdx}>
-                            <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-                              {contenido.texto}
-                            </p>
-                            {contenido.enfoques && contenido.enfoques.length > 0 && (
+                  {hasContent && isExpanded && (
+                    <div className="space-y-3">
+                      {contenidos.map((contenido, cIdx) => (
+                        <div key={cIdx}>
+                          <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+                            {contenido.texto}
+                          </p>
+                          {contenido.enfoques &&
+                            contenido.enfoques.length > 0 && (
                               <div className="flex flex-wrap gap-2 mt-3">
-                                {contenido.enfoques.map(enfoqueId => renderEnfoqueBadge(enfoqueId))}
+                                {contenido.enfoques.map((enfoqueId) =>
+                                  renderEnfoqueBadge(enfoqueId)
+                                )}
                               </div>
                             )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {!hasContent && (
-                      <div className="h-4" />
-                    )}
-                  </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {!hasContent && <div className="h-4" />}
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </section>
-    </>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }

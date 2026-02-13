@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
+import Image from "next/image";
 
 interface TimelineEvent {
   date: string;
-  dateShort: string;
   title: string;
   description: string;
   image: string;
@@ -20,15 +20,15 @@ interface TimelineYear {
 const timelineData: TimelineYear[] = [
   {
     year: "1997",
-    subtitle: "Diseño anterior",
+    subtitle: "Dise\u00f1o anterior",
     description:
-      "Fecha del último diseño curricular para la Educación Primaria en Santa Fe.",
+      "Fecha del \u00faltimo dise\u00f1o curricular para la Educaci\u00f3n Primaria en Santa Fe.",
   },
   {
     year: "hasta 2022",
     subtitle: "Experiencias previas",
     description:
-      "Experiencias pedagógicas y escrituras preliminares del nuevo diseño curricular.",
+      "Experiencias pedag\u00f3gicas y escrituras preliminares del nuevo dise\u00f1o curricular.",
   },
   {
     year: "2023",
@@ -37,295 +37,213 @@ const timelineData: TimelineYear[] = [
   },
   {
     year: "2024",
-    subtitle: "Conformación",
+    subtitle: "Conformaci\u00f3n",
     description:
-      "Recuperación de escrituras anteriores y conformación de nuevos equipos de trabajo. Presentación de la propuesta y consulta a delegados, coordinadores pedagógicos regionales y supervisores. Consultas a especialistas.",
+      "Recuperaci\u00f3n de escrituras anteriores y conformaci\u00f3n de nuevos equipos de trabajo. Presentaci\u00f3n de la propuesta y consulta a delegados, coordinadores pedag\u00f3gicos regionales y supervisores. Consultas a especialistas.",
   },
   {
     year: "2025",
-    subtitle: "Consolidación",
+    subtitle: "Consolidaci\u00f3n",
     description:
-      "Consolidación de la escritura del nuevo borrador y realización de jornadas focales de socialización y consulta  a la comunidad educativa. Formaciones docentes.",
+      "Consolidaci\u00f3n de la escritura del nuevo borrador y realizaci\u00f3n de jornadas focales de socializaci\u00f3n y consulta a la comunidad educativa. Formaciones docentes.",
     events: [
       {
         date: "22 de Julio",
-        dateShort: "22 Jul",
-        title: "Encuentro con el Comité de Educación Ambiental.",
+        title: "Encuentro con el Comit\u00e9 de Educaci\u00f3n Ambiental.",
         description:
-          "Se presentaron los enfoques transversales, particularmente el de Educación Ambiental Integral. En esta instancia se socializaron contenidos del enfoque y se propuso su abordaje como eje transversal del diseño, así como su inclusión en el nuevo espacio Saberes, Vidas y Mundos.",
+          "Se presentaron los enfoques transversales, particularmente el de Educaci\u00f3n Ambiental Integral.",
         image: "/images/foto-1-22julio.jpg",
       },
       {
         date: "25 de Julio",
-        dateShort: "25 Jul",
-        title:
-          "Encuentro presencial con directores y supervisores de diferentes regionales.",
+        title: "Encuentro presencial con directores y supervisores.",
         description:
-          "Se llevó a cabo la presentación general de la propuesta y se conformaron mesas de trabajo dedicadas a la lectura y análisis de fragmentos del diseño.",
+          "Se llev\u00f3 a cabo la presentaci\u00f3n general de la propuesta y se conformaron mesas de trabajo.",
         image: "/images/foto-2-25julio.jpg",
       },
       {
         date: "01 de Agosto",
-        dateShort: "01 Ago",
-        title: "Reunión con delegados y coordinadores regionales.",
+        title: "Reuni\u00f3n con delegados y coordinadores regionales.",
         description:
-          "En esta oportunidad se realizó la presentación del proceso de escritura, se expusieron los rasgos distintivos de la propuesta y se abrió el diálogo en torno a dudas e inquietudes planteadas por los participantes.",
+          "Presentaci\u00f3n del proceso de escritura y di\u00e1logo en torno a dudas e inquietudes.",
         image: "/images/foto-3-01agosto.jpg",
       },
       {
         date: "14 de Agosto",
-        dateShort: "14 Ago",
-        title:
-          "Instancia de socialización y consulta con equipos de supervisión.",
+        title: "Socializaci\u00f3n y consulta con equipos de supervisi\u00f3n.",
         description:
-          "Estuvo dirigida a supervisores/as de Nivel Primario, Educación Especial, Educación Física, Música, Plástica, Tecnología y Talleres Manuales, contando con la participación de más de 150 supervisores/as de toda la provincia.",
+          "Con participaci\u00f3n de m\u00e1s de 150 supervisores/as de toda la provincia.",
         image: "/images/foto-4-14agosto.jpg",
       },
       {
         date: "27 de Agosto",
-        dateShort: "27 Ago",
-        title:
-          "Presentación en la 3° Asamblea Ordinaria del Comité Asesor Provincial de Discapacidad.",
+        title: "Presentaci\u00f3n al Comit\u00e9 Asesor Provincial de Discapacidad.",
         description:
-          "Se presentó la propuesta del diseño curricular en la 3° Asamblea Ordinaria del Comité Asesor Provincial de Discapacidad, organizada por la Subsecretaría de Personas con Discapacidad.",
+          "Se present\u00f3 la propuesta en la 3\u00aa Asamblea Ordinaria del Comit\u00e9 Asesor Provincial.",
         image: "/images/foto-5-27agosto.jpg",
       },
       {
         date: "31 de Agosto",
-        dateShort: "31 Ago",
-        title:
-          "Instancias de Consulta a instituciones de Educación Primaria y a Institutos de Formación Docente.",
+        title: "Consulta a instituciones de Educaci\u00f3n Primaria e IFD.",
         description:
-          "Consulta mediante la plataforma Educativa del ministerio de educación. Se prevé la llegada y lectura del borrador en todas las instituciones de educación primaria y a los Institutos de Formación Docente de la Provincia. Mesa de trabajo focales en diferentes puntos del territorio contando con la participación de directores y maestros.",
+          "Consulta mediante la plataforma Educativa del ministerio de educaci\u00f3n.",
         image: "/images/foto-6-31agosto.jpg",
       },
       {
         date: "Septiembre 2025",
-        dateShort: "Sep",
-        title: "Jornadas de Socialización y Consulta",
+        title: "Jornadas de Socializaci\u00f3n y Consulta",
         description:
-          "En el norte, centro y sur de la provincia, con equipos directivos y docentes del nivel primario, las modalidades especial y rural y el área de tecnología. Trabajo focal sobre la planificación de la enseñanza con el borrador del nuevo diseño curricular como hoja de ruta.",
+          "En el norte, centro y sur de la provincia, con equipos directivos y docentes.",
         image: "/images/foto-7-septiembre2025.jpg",
       },
     ],
   },
   {
     year: "2026",
-    subtitle: "Implementación",
+    subtitle: "Implementaci\u00f3n",
     description:
-      "Implementación de nuevo diseño curricular.\n Construcción de metas de aprendizajes.\n Materiales didácticos para el aula.\n Formación docente.",
+      "Implementaci\u00f3n de nuevo dise\u00f1o curricular. Construcci\u00f3n de metas de aprendizajes. Materiales did\u00e1cticos para el aula. Formaci\u00f3n docente.",
   },
 ];
 
-// Hook para detectar cuando un elemento entra en viewport
-function useInView(options?: IntersectionObserverInit) {
+function useInViewOnce() {
   const ref = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
-
+  const [seen, setSeen] = useState(false);
   useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-        }
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) setSeen(true);
       },
-      { threshold: 0.15, ...options }
+      { threshold: 0.12 }
     );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [options]);
-
-  return { ref, isInView };
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, seen };
 }
 
-// Componente para cada item del timeline con animación
-function TimelineItem({
-  data,
-  index,
-  isLast,
-}: {
-  data: TimelineYear;
-  index: number;
-  isLast: boolean;
-}) {
-  const { ref, isInView } = useInView();
+/* === Single year entry === */
+function YearEntry({ data, index }: { data: TimelineYear; index: number }) {
+  const { ref, seen } = useInViewOnce();
+  const [expanded, setExpanded] = useState(false);
   const hasEvents = data.events && data.events.length > 0;
 
   return (
-    <div ref={ref} className="relative">
-      {/* Línea vertical conectora */}
-      {!isLast && (
-        <div
-          className="absolute left-4 md:left-6 top-8 bottom-0 w-px bg-gray-200 transition-all duration-1000"
-          style={{
-            opacity: isInView ? 1 : 0,
-            transform: isInView ? "scaleY(1)" : "scaleY(0)",
-            transformOrigin: "top",
-          }}
-        />
-      )}
+    <div
+      ref={ref}
+      className="relative flex gap-6 md:gap-10"
+      style={{
+        opacity: seen ? 1 : 0,
+        transform: seen ? "translateY(0)" : "translateY(48px)",
+        transition: `opacity 0.7s ease-out ${index * 0.1}s, transform 0.7s ease-out ${index * 0.1}s`,
+      }}
+    >
+      {/* Vertical line + dot */}
+      <div className="flex flex-col items-center flex-shrink-0 w-8">
+        <div className="w-4 h-4 rounded-full bg-[#494963] border-4 border-[#EDEDF0] relative z-10 mt-1.5" />
+        <div className="w-px flex-1 bg-[#494963]/12" />
+      </div>
 
-      {/* Contenido principal del año */}
-      <div
-        className="relative pl-12 md:pl-20 pb-12 md:pb-16"
-        style={{
-          opacity: isInView ? 1 : 0,
-          transform: isInView ? "translateY(0)" : "translateY(30px)",
-          transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
-        }}
-      >
-        {/* Punto del timeline */}
-        <div
-          className="absolute left-2 md:left-4 top-1 w-5 h-5 md:w-5 md:h-5 rounded-full bg-[#494963] border-4 border-white shadow-sm z-10"
-          style={{
-            transform: isInView ? "scale(1)" : "scale(0)",
-            transition: "transform 0.4s ease-out 0.2s",
-          }}
-        />
-
-        {/* Header del año */}
-        <div className="mb-4 md:mb-6">
-          <span className="text-xs uppercase tracking-[0.2em] text-gray-400 block mb-1">
+      {/* Content */}
+      <div className="pb-12 md:pb-16 flex-1 min-w-0">
+        {/* Year heading */}
+        <div className="flex items-baseline gap-4 mb-2">
+          <span className="text-3xl md:text-4xl font-black text-[#494963] tracking-tight font-sans">
+            {data.year}
+          </span>
+          <span className="text-[11px] uppercase tracking-[0.15em] text-[#494963]/35 font-semibold">
             {data.subtitle}
           </span>
-          <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold text-[#494963] leading-none tracking-tight">
-            {data.year}
-          </h3>
         </div>
 
-        {/* Descripción */}
-        <p className="text-base md:text-lg text-gray-700 leading-relaxed max-w-2xl whitespace-pre-line">
+        <p className="text-sm md:text-base text-[#494963]/60 leading-relaxed max-w-lg mb-4">
           {data.description}
         </p>
 
-        {/* Eventos (si los hay) */}
+        {/* Events toggle */}
         {hasEvents && (
-          <div className="mt-8 md:mt-12 space-y-8 md:space-y-12">
-            {data.events!.map((event, eventIndex) => (
-              <EventCard key={eventIndex} event={event} index={eventIndex} />
-            ))}
-          </div>
+          <>
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="inline-flex items-center gap-2 text-[#494963] text-xs font-semibold uppercase tracking-wider hover:text-[#494963]/70 transition-colors mb-4"
+            >
+              <span>{expanded ? "Ocultar" : "Ver"} {data.events!.length} eventos</span>
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+              />
+            </button>
+
+            {/* Events grid with images */}
+            <div
+              className="overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                maxHeight: expanded ? 2000 : 0,
+                opacity: expanded ? 1 : 0,
+              }}
+            >
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+                {data.events!.map((event, i) => (
+                  <div
+                    key={i}
+                    className="group rounded-xl overflow-hidden border border-[#494963]/5 bg-white"
+                  >
+                    <div className="aspect-[16/10] overflow-hidden bg-[#494963]/5">
+                      <Image
+                        src={event.image}
+                        alt={event.title}
+                        width={400}
+                        height={250}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <span className="text-[10px] uppercase tracking-[0.15em] text-[#494963]/30 font-semibold block mb-1.5">
+                        {event.date}
+                      </span>
+                      <h4 className="text-sm font-bold text-[#494963] leading-snug mb-1.5">
+                        {event.title}
+                      </h4>
+                      <p className="text-xs text-[#494963]/45 leading-relaxed">
+                        {event.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>
   );
 }
 
-// Componente para cada evento con su propia animación
-function EventCard({ event, index }: { event: TimelineEvent; index: number }) {
-  const { ref, isInView } = useInView();
-
-  return (
-    <div
-      ref={ref}
-      className="relative"
-      style={{
-        opacity: isInView ? 1 : 0,
-        transform: isInView ? "translateY(0)" : "translateY(40px)",
-        transition: `opacity 0.6s ease-out ${index * 0.1}s, transform 0.6s ease-out ${index * 0.1}s`,
-      }}
-    >
-      {/* Línea conectora al evento */}
-      <div
-        className="absolute -left-8 md:-left-14 top-4 w-6 md:w-10 h-px bg-gray-300"
-        style={{
-          transform: isInView ? "scaleX(1)" : "scaleX(0)",
-          transformOrigin: "left",
-          transition: "transform 0.4s ease-out 0.3s",
-        }}
-      />
-
-      {/* Punto pequeño del evento */}
-      <div
-        className="absolute -left-10 md:-left-16 top-2.5 w-2.5 h-2.5 rounded-full bg-gray-400"
-        style={{
-          transform: isInView ? "scale(1)" : "scale(0)",
-          transition: "transform 0.3s ease-out 0.4s",
-        }}
-      />
-
-      {/* Fecha alineada con el punto */}
-      <span className="inline-block text-xs uppercase tracking-[0.15em] text-gray-500 mb-4">
-        {event.date}
-      </span>
-
-      {/* Grid imagen + contenido sin contenedor gris */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-        {/* Imagen */}
-        <div className="relative aspect-[16/10] lg:aspect-[4/3] bg-gray-100 overflow-hidden rounded-md group">
-          <img
-            src={event.image || "/placeholder.svg"}
-            alt={event.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </div>
-
-        {/* Contenido texto */}
-        <div className="flex flex-col justify-center">
-          <h4 className="text-lg md:text-xl lg:text-2xl font-medium text-[#494963] leading-snug mb-3">
-            {event.title}
-          </h4>
-          <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-            {event.description}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
+/* === Main Timeline === */
 export function TimelineSection() {
   return (
-    <section id="proceso" className="w-full bg-white">
-      {/* Header sticky */}
-      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-gray-100">
-        <div className="container mx-auto px-4 md:px-6 lg:px-20 py-4 md:py-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-gray-400 mb-1 md:mb-2">
-            Proceso de Escritura
-          </p>
-
-          {/* Aquí aplicamos Inter Tight al título */}
-          <h2 className="text-2xl md:text-3xl lg:text-5xl text-[#494963] leading-tight font-bold">
-            <span
-              style={{
-                fontFamily:
-                  "'Inter Tight', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-                fontWeight: 700,
-                display: "block",
-              }}
-            >
-              Nuevo Diseño Curricular
+    <section id="proceso" className="w-full py-20 md:py-32">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="mb-14 md:mb-20">
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#494963]/30 block mb-3">
+              Proceso de Escritura
             </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-sans">
+              L&iacute;nea hist&oacute;rica
+              <br className="hidden md:block" />
+              {" del dise\u00f1o"}
+            </h2>
+          </div>
 
-            <span
-              style={{
-                fontFamily:
-                  "'Inter Tight', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-                fontWeight: 700,
-                display: "block",
-              }}
-            >
-              para la Educación Primaria
-            </span>
-          </h2>
-        </div>
-      </div>
-
-      {/* Timeline vertical scrolleable */}
-      <div className="container mx-auto px-4 md:px-6 lg:px-20 py-8 md:py-16">
-        <div className="max-w-4xl">
-          {timelineData.map((item, index) => (
-            <TimelineItem
-              key={index}
-              data={item}
-              index={index}
-              isLast={index === timelineData.length - 1}
-            />
-          ))}
+          {/* Vertical timeline */}
+          <div className="relative">
+            {timelineData.map((item, i) => (
+              <YearEntry key={i} data={item} index={i} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

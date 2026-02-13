@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useInView, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { areasData, type Area } from "@/lib/areas-data";
 import { contenidosPorArea } from "@/lib/area-content";
 import { areasOrder, subAreasPorArea } from "@/lib/constants";
@@ -15,11 +15,11 @@ import { VideoSection } from "@/components/area/video-section";
 import { MaterialesSection } from "@/components/area/materiales-section";
 import { FormacionesSection } from "@/components/area/formaciones-section";
 import { AreaFooter } from "@/components/area/area-footer";
-import { ScrollToTop } from "@/components/area/scroll-to-top";
+
 
 /* ─────────────────────────────────────────────
- * GSAP-inspired scroll reveal with multiple animation styles.
- * Each section can have a different entrance effect.
+ * RevealSection -- each content section fades/slides
+ * into view as the user scrolls down. Multiple styles.
  * ───────────────────────────────────────────── */
 type RevealStyle = "slide-up" | "slide-left" | "scale" | "clip" | "blur";
 
@@ -37,19 +37,19 @@ function RevealSection({
   style?: RevealStyle;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const variants: Record<RevealStyle, { initial: object; animate: object }> = {
     "slide-up": {
-      initial: { opacity: 0, y: 80 },
+      initial: { opacity: 0, y: 100 },
       animate: { opacity: 1, y: 0 },
     },
     "slide-left": {
-      initial: { opacity: 0, x: 60 },
+      initial: { opacity: 0, x: 80 },
       animate: { opacity: 1, x: 0 },
     },
     scale: {
-      initial: { opacity: 0, scale: 0.92 },
+      initial: { opacity: 0, scale: 0.88 },
       animate: { opacity: 1, scale: 1 },
     },
     clip: {
@@ -57,7 +57,7 @@ function RevealSection({
       animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)" },
     },
     blur: {
-      initial: { opacity: 0, filter: "blur(12px)", y: 40 },
+      initial: { opacity: 0, filter: "blur(16px)", y: 60 },
       animate: { opacity: 1, filter: "blur(0px)", y: 0 },
     },
   };
@@ -71,7 +71,7 @@ function RevealSection({
       initial={v.initial}
       animate={isInView ? v.animate : v.initial}
       transition={{
-        duration: 1,
+        duration: 1.1,
         ease: [0.16, 1, 0.3, 1],
         delay,
       }}
@@ -83,38 +83,39 @@ function RevealSection({
 }
 
 /* ─────────────────────────────────────────────
- * ParallaxStripe -- a full-width decorative element
- * that drifts at a different scroll speed.
+ * ParallaxLayer -- a container that moves at a different
+ * scroll speed than the rest of the page content.
  * ───────────────────────────────────────────── */
-function ParallaxStripe({
-  color,
-  speed = 0.25,
-  opacity = 0.08,
+function ParallaxLayer({
+  children,
+  speed = 0.15,
+  className = "",
 }: {
-  color: string;
+  children: React.ReactNode;
   speed?: number;
-  opacity?: number;
+  className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-  const x = useTransform(scrollYProgress, [0, 1], [speed * -100, speed * 100]);
+  const y = useTransform(scrollYProgress, [0, 1], [speed * -120, speed * 120]);
 
   return (
-    <motion.div ref={ref} style={{ x }} className="py-6 md:py-10">
-      <div
-        className="mx-auto h-[2px] rounded-full"
-        style={{ backgroundColor: color, opacity, width: "50%" }}
-      />
-    </motion.div>
+    <div
+      ref={ref}
+      className={`relative overflow-hidden ${className}`}
+      style={{ position: "relative" }}
+    >
+      <motion.div style={{ y }}>{children}</motion.div>
+    </div>
   );
 }
 
 /* ─────────────────────────────────────────────
- * FadingHeader -- wraps AreaHeader so that the
- * media-rueda fades out + shrinks as the user scrolls.
+ * FadingHeader -- the media-rueda fades + shrinks
+ * as the user scrolls past it.
  * ───────────────────────────────────────────── */
 function FadingHeader({
   area,
@@ -130,12 +131,15 @@ function FadingHeader({
     target: ref,
     offset: ["start start", "end start"],
   });
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.6], [1, 0.94]);
+  const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.55], [1, 0.92]);
+  const translateY = useTransform(scrollYProgress, [0, 0.55], [0, -30]);
 
   return (
-    <div ref={ref}>
-      <motion.div style={{ opacity, scale, transformOrigin: "top center" }}>
+    <div ref={ref} className="relative" style={{ position: "relative" }}>
+      <motion.div
+        style={{ opacity, scale, y: translateY, transformOrigin: "top center" }}
+      >
         <AreaHeader
           area={area}
           activeAxis={activeAxis}
@@ -221,9 +225,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
       : null;
 
   return (
-    <div className="min-h-screen bg-[#fafafa] overflow-x-hidden">
-
-
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <MobileNav
         area={area}
         activeSection={activeSection}
@@ -231,7 +233,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
         setMobileMenuOpen={setMobileMenuOpen}
         scrollToSection={scrollToSection}
       />
-      <ScrollToTop area={area} />
+
       <Sidebar
         area={area}
         activeSection={activeSection}
@@ -240,23 +242,19 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
         scrollToSection={scrollToSection}
       />
 
-      <main className="lg:ml-16">
-        {/* HERO: media rueda -- fades out on scroll */}
+      <main>
+        {/* HERO: media rueda with parallax fade */}
         <FadingHeader
           area={area}
           activeAxis={activeAxis}
           setActiveAxis={setActiveAxis}
         />
 
-        {/* CONTENT SECTIONS */}
+        {/* CONTENT SECTIONS -- no divider lines, generous spacing */}
         <div className="relative">
-          {/* -- Ejes Section -- */}
-          <RevealSection
-            delay={0.05}
-            style="blur"
-            className="px-4 sm:px-6 md:px-10 lg:px-16 pt-12 sm:pt-16 md:pt-24 pb-8 sm:pb-10 md:pb-14 scroll-mt-24"
-          >
-            <div className="max-w-4xl mx-auto">
+          {/* Ejes Interactive Schema -- white bg */}
+          <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-white">
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-10 md:pt-16 pb-16 md:pb-24">
               <SubareasPills
                 area={area}
                 subAreas={subAreas}
@@ -276,66 +274,54 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
             </div>
           </RevealSection>
 
-          <ParallaxStripe color={area.color} speed={0.3} opacity={0.1} />
-
-          {/* -- Descarga -- */}
-          <RevealSection
-            delay={0.08}
-            style="scale"
-            className="px-4 sm:px-6 md:px-10 lg:px-16 py-16 sm:py-20 md:py-28"
-          >
-            <div className="max-w-4xl mx-auto">
-              <DescargaDocumentoSection area={area} />
-            </div>
+          {/* Descarga Documento -- light gray bg */}
+          <RevealSection delay={0.08} style="scale" className="scroll-mt-24 bg-[#EDEDF0]">
+            <ParallaxLayer speed={0.1}>
+              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
+                <DescargaDocumentoSection area={area} />
+              </div>
+            </ParallaxLayer>
           </RevealSection>
 
-          <ParallaxStripe color={area.color} speed={-0.2} opacity={0.06} />
-
-          {/* -- Video -- */}
-          <RevealSection
-            delay={0.06}
-            style="clip"
-            className="px-4 sm:px-6 md:px-10 lg:px-16 py-16 sm:py-20 md:py-28 scroll-mt-24"
-          >
-            <div className="max-w-4xl mx-auto">
-              <VideoSection area={area} />
-            </div>
+          {/* Video de Presentacion -- white bg */}
+          <RevealSection delay={0.06} style="clip" className="scroll-mt-24 bg-white">
+            <ParallaxLayer speed={0.06}>
+              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
+                <VideoSection area={area} />
+              </div>
+            </ParallaxLayer>
           </RevealSection>
 
-          <ParallaxStripe color={area.color} speed={0.25} opacity={0.08} />
-
-          {/* -- Materiales -- */}
+          {/* Materiales de Descarga -- light gray bg */}
           <RevealSection
             delay={0.06}
             style="slide-left"
-            className="px-4 sm:px-6 md:px-10 lg:px-16 py-16 sm:py-20 md:py-28 scroll-mt-24"
+            className="scroll-mt-24 bg-[#EDEDF0]"
           >
-            <div className="max-w-4xl mx-auto">
-              <MaterialesSection area={area} />
-            </div>
+            <ParallaxLayer speed={0.08}>
+              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
+                <MaterialesSection area={area} />
+              </div>
+            </ParallaxLayer>
           </RevealSection>
 
-          <ParallaxStripe color={area.color} speed={-0.15} opacity={0.05} />
-
-          {/* -- Formaciones -- */}
-          <RevealSection
-            delay={0.06}
-            style="slide-up"
-            className="px-4 sm:px-6 md:px-10 lg:px-16 pt-16 sm:pt-20 md:pt-28 pb-20 sm:pb-24 md:pb-32 scroll-mt-24"
-          >
-            <div className="max-w-4xl mx-auto">
-              <FormacionesSection
-                area={area}
-                prevArea={prevArea}
-                nextArea={nextArea}
-              />
-            </div>
+          {/* Formaciones Docentes -- white bg */}
+          <RevealSection delay={0.06} style="slide-up" className="scroll-mt-24 bg-white">
+            <ParallaxLayer speed={0.05}>
+              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-24 md:pt-36 lg:pt-44 pb-16 md:pb-24">
+                <FormacionesSection
+                  area={area}
+                  prevArea={prevArea}
+                  nextArea={nextArea}
+                />
+              </div>
+            </ParallaxLayer>
           </RevealSection>
         </div>
       </main>
 
-      {/* Footer -- only desktop, mobile uses MobileNav */}
-      <div className="hidden lg:block relative z-[70]">
+      {/* Footer -- full-width, non-fixed, desktop only */}
+      <div className="hidden lg:block w-full">
         <AreaFooter
           area={area}
           prevArea={prevArea}

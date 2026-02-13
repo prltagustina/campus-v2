@@ -1,180 +1,141 @@
 "use client";
 
-import { useState } from "react";
-import { Inter_Tight } from "next/font/google";
-const interTight = Inter_Tight({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+import { useState, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+const sections = [
+  {
+    id: "que",
+    number: "01",
+    title: "Qu\u00e9 ense\u00f1ar",
+    content:
+      "Define los contenidos fundamentales que todas las escuelas deben ense\u00f1ar, organizados por \u00e1reas, ciclos y grados.",
+    detail:
+      "Los contenidos de cada \u00e1rea se presentan en cuadros que muestran su progresi\u00f3n y complejizaci\u00f3n, a fin de facilitar la planificaci\u00f3n de propuestas integrales y articuladas.",
+  },
+  {
+    id: "como",
+    number: "02",
+    title: "C\u00f3mo hacerlo",
+    content:
+      "Propone articular contenidos, incorporar enfoques transversales y diversificar las estrategias de ense\u00f1anza para garantizar aprendizajes significativos en todas las aulas.",
+    detail:
+      "Mediante orientaciones did\u00e1cticas, ejemplos y recomendaciones espec\u00edficas para cada \u00e1rea y ciclo.",
+  },
+  {
+    id: "por-que",
+    number: "03",
+    title: "Con qu\u00e9 prop\u00f3sito",
+    content:
+      "Se articula en torno a principios pol\u00edtico-pedag\u00f3gicos s\u00f3lidos para que las infancias accedan al conocimiento y se desarrollen plenamente como ciudadanas y ciudadanos cr\u00edticos, creativos y solidarios.",
+    detail:
+      "En las escuelas, el Estado materializa su responsabilidad indelegable: garantizar el derecho a la Educaci\u00f3n.",
+  },
+];
 
 export function WhatWhyHowSection() {
-  const [activeSection, setActiveSection] = useState<number | null>(null);
+  const [active, setActive] = useState(0);
 
-  const sections = [
-    {
-      id: "que",
-      title: "Qué enseñar",
-      content: (
-        <>
-          Define los{" "}
-          <strong>
-            contenidos fundamentales que todas las escuelas deben enseñar
-          </strong>
-          , organizados por áreas, ciclos y grados.
-        </>
-      ),
-      detail: (
-        <>
-          Los contenidos de cada área se presentan en cuadros que muestran su{" "}
-          <strong>progresión y complejización</strong>, a fin de facilitar la
-          planificación de propuestas integrales y articuladas.
-        </>
-      ),
-    },
-    {
-      id: "como",
-      title: "Cómo hacerlo",
-      content: (
-        <>
-          Propone <strong>articular contenidos</strong>, incorporar{" "}
-          <strong>enfoques transversales</strong> y diversificar las estrategias
-          de enseñanza para garantizar aprendizajes significativos en todas las
-          aulas.
-        </>
-      ),
-      detail: (
-        <>
-          Mediante{" "}
-          <strong>orientaciones didácticas, ejemplos y recomendaciones</strong>{" "}
-          específicas para cada área y ciclo.
-        </>
-      ),
-    },
-    {
-      id: "por-que",
-      title: "Con qué propósito",
-      content: (
-        <>
-          Se articula en torno a principios político-pedagógicos sólidos para
-          que las infancias accedan al conocimiento y se desarrollen plenamente
-          como{" "}
-          <strong>
-            ciudadanas y ciudadanos críticos, creativos y solidarios
-          </strong>
-          .
-        </>
-      ),
-      detail: (
-        <>
-          En las escuelas, el Estado materializa su responsabilidad indelegable:{" "}
-          <strong>garantizar el derecho a la Educación</strong>.
-        </>
-      ),
-    },
-  ];
+  const prev = useCallback(
+    () => setActive((c) => (c - 1 + sections.length) % sections.length),
+    []
+  );
+  const next = useCallback(
+    () => setActive((c) => (c + 1) % sections.length),
+    []
+  );
 
   return (
-    <section id="que-ensenar" className="w-full bg-white py-16 md:py-24">
+    <section id="que-ensenar" className="w-full py-20 md:py-32 bg-white">
       <div className="container mx-auto px-4">
-        <div className="max-w-7xl mx-auto">
-          {/* TÍTULO */}
-          <div className="mb-10">
-            <h2
-              className={`${interTight.className} text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight`}
-            >
-              Qué enseñar,
-              <br />
-              cómo hacerlo
-              <br />y con qué propósito
-            </h2>
+        <div className="max-w-6xl mx-auto">
+          {/* Header row */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#494963]/30 mb-3 block">
+                Propuesta curricular
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-sans">
+                Qu&eacute; ense&ntilde;ar
+                <br />
+                C&oacute;mo hacerlo
+                <br />
+                Y con qu&eacute; prop&oacute;sito
+              </h2>
+            </div>
+
+            {/* Navigation controls */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={prev}
+                className="w-11 h-11 rounded-full border-2 border-[#494963]/15 flex items-center justify-center text-[#494963]/40 hover:border-[#494963]/30 hover:text-[#494963] transition-colors"
+                aria-label="Anterior"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <span className="text-sm font-semibold text-[#494963]/30 tabular-nums min-w-[3ch] text-center">
+                {active + 1}/{sections.length}
+              </span>
+              <button
+                onClick={next}
+                className="w-11 h-11 rounded-full border-2 border-[#494963]/15 flex items-center justify-center text-[#494963]/40 hover:border-[#494963]/30 hover:text-[#494963] transition-colors"
+                aria-label="Siguiente"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
-          {/* DESKTOP */}
-          <div className="hidden md:block">
-            <div className="grid grid-cols-3">
-              {sections.map((section, index) => (
+          {/* Carousel content */}
+          <div className="relative overflow-hidden">
+            <div
+              className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{ transform: `translateX(-${active * 100}%)` }}
+            >
+              {sections.map((section) => (
                 <div
                   key={section.id}
-                  className={`py-8 px-6 ${
-                    index !== sections.length - 1
-                      ? "border-r border-gray-200"
-                      : ""
-                  }`}
-                  onMouseEnter={() => setActiveSection(index)}
-                  onMouseLeave={() => setActiveSection(null)}
+                  className="w-full flex-shrink-0 px-1"
                 >
-                  <h3
-                    className={`text-2xl md:text-3xl font-bold mb-4 transition-colors duration-300 ${
-                      activeSection === index
-                        ? "text-[#494963]"
-                        : "text-[#494963]/60"
-                    }`}
-                  >
-                    {section.title}
-                  </h3>
+                  <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-14 items-start">
+                    {/* Big number */}
+                    <span className="text-[7rem] md:text-[10rem] lg:text-[12rem] font-black text-[#494963]/5 leading-none select-none -mb-6 md:-mb-8">
+                      {section.number}
+                    </span>
 
-                  <div
-                    className={`h-0.5 mb-6 bg-[#494963] transition-all duration-500 ${
-                      activeSection === index ? "w-full" : "w-8"
-                    }`}
-                  />
-
-                  <p className="text-lg text-gray-600 leading-relaxed mb-4">
-                    {section.content}
-                  </p>
-
-                  <p className="text-lg text-gray-500 leading-relaxed">
-                    {section.detail}
-                  </p>
+                    {/* Content */}
+                    <div className="flex flex-col justify-center md:py-8">
+                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#494963] mb-6">
+                        {section.title}
+                      </h3>
+                      <p className="text-lg md:text-xl text-[#494963]/65 leading-relaxed mb-4 max-w-2xl">
+                        {section.content}
+                      </p>
+                      <p className="text-base md:text-lg text-[#494963]/35 leading-relaxed max-w-2xl">
+                        {section.detail}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* MOBILE */}
-          <div className="md:hidden">
-            {sections.map((section, index) => (
-              <div
-                key={section.id}
-                className={`${
-                  index !== sections.length - 1
-                    ? "border-b border-gray-200"
-                    : ""
+          {/* Dot indicators */}
+          <div className="flex items-center justify-center gap-2 mt-10 md:mt-14">
+            {sections.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                className={`h-1.5 rounded-full transition-all duration-500 ${
+                  active === i
+                    ? "w-8 bg-[#494963]"
+                    : "w-3 bg-[#494963]/10 hover:bg-[#494963]/25"
                 }`}
-              >
-                <button
-                  onClick={() =>
-                    setActiveSection(activeSection === index ? null : index)
-                  }
-                  className="w-full py-6 text-left flex justify-between items-center"
-                >
-                  <h3
-                    className={`text-xl font-bold ${
-                      activeSection === index
-                        ? "text-[#494963]"
-                        : "text-[#494963]/70"
-                    }`}
-                  >
-                    {section.title}
-                  </h3>
-                  <div className="w-6 h-0.5 bg-[#494963]" />
-                </button>
-
-                <div
-                  className={`overflow-hidden transition-all duration-500 ${
-                    activeSection === index ? "max-h-96 pb-6" : "max-h-0"
-                  }`}
-                >
-                  <p className="text-lg text-gray-600 mb-3">
-                    {section.content}
-                  </p>
-                  <p className="text-lg text-gray-500">{section.detail}</p>
-                </div>
-              </div>
+                aria-label={`Slide ${i + 1}`}
+              />
             ))}
           </div>
-
-
         </div>
       </div>
     </section>

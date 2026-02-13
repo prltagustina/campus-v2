@@ -150,11 +150,11 @@ export function MobileNav({
       </AnimatePresence>
 
       {/* Bottom tab bar */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-gray-200/80 px-4 py-2 safe-area-pb">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#494963] backdrop-blur-md px-4 py-2 safe-area-pb shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
         <div className="flex items-center justify-around max-w-md mx-auto">
           <Link href="/" className="flex flex-col items-center gap-1 p-2">
-            <Home className="w-5 h-5 text-gray-400" />
-            <span className="text-[10px] text-gray-400">Inicio</span>
+            <Home className="w-5 h-5 text-white/50" />
+            <span className="text-[10px] text-white/50">Inicio</span>
           </Link>
 
           <button
@@ -164,11 +164,11 @@ export function MobileNav({
           >
             <AreasIcon
               className="w-5 h-5"
-              color={mobileMenuOpen ? area.color : "#9CA3AF"}
+              color={mobileMenuOpen ? area.color : "rgba(255,255,255,0.5)"}
             />
             <span
               className="text-[10px]"
-              style={{ color: mobileMenuOpen ? area.color : "#9CA3AF" }}
+              style={{ color: mobileMenuOpen ? area.color : "rgba(255,255,255,0.5)" }}
             >
               {"Áreas"}
             </span>
@@ -181,11 +181,11 @@ export function MobileNav({
           >
             <Download
               className="w-5 h-5"
-              style={{ color: activeSection === "materiales" ? area.color : "#9CA3AF" }}
+              style={{ color: activeSection === "materiales" ? area.color : "rgba(255,255,255,0.5)" }}
             />
             <span
               className="text-[10px]"
-              style={{ color: activeSection === "materiales" ? area.color : "#9CA3AF" }}
+              style={{ color: activeSection === "materiales" ? area.color : "rgba(255,255,255,0.5)" }}
             >
               Descargas
             </span>
@@ -199,13 +199,13 @@ export function MobileNav({
             <MoreHorizontal
               className="w-5 h-5"
               style={{
-                color: ["video", "formacion"].includes(activeSection) ? area.color : "#9CA3AF",
+                color: ["video", "formacion"].includes(activeSection) ? area.color : "rgba(255,255,255,0.5)",
               }}
             />
             <span
               className="text-[10px]"
               style={{
-                color: ["video", "formacion"].includes(activeSection) ? area.color : "#9CA3AF",
+                color: ["video", "formacion"].includes(activeSection) ? area.color : "rgba(255,255,255,0.5)",
               }}
             >
               {"Ver más"}

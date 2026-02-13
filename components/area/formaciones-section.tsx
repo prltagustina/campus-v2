@@ -17,32 +17,32 @@ export function FormacionesSection({
 }: FormacionesSectionProps) {
   return (
     <section id="formacion" className="pb-24 lg:pb-0 scroll-mt-32">
-      <div className="mb-8">
-        <h3
-          className="text-xs font-bold uppercase tracking-widest"
-          style={{ color: "#494963" }}
+      {/* Section header -- centered, stronger hierarchy */}
+      <div className="flex flex-col items-center text-center mb-14 md:mb-20">
+        <span
+          className="text-[11px] font-bold uppercase tracking-[0.2em] mb-3"
+          style={{ color: area.color }}
         >
+          Capacitaciones
+        </span>
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963]">
           Formaciones Docentes
         </h3>
-        <div
-          className="mt-2 h-[2px] w-10 rounded-full"
-          style={{ backgroundColor: area.color }}
-        />
       </div>
 
-      {/* Formation cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* Formation cards -- larger with more whitespace */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-all group bg-white"
+            className="rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group bg-white"
           >
             {/* Header */}
             <div
-              className="p-5 text-white"
+              className="p-6 md:p-7 text-white"
               style={{ backgroundColor: area.color }}
             >
-              <h4 className="text-sm font-bold leading-snug mb-2 pr-6">
+              <h4 className="text-sm md:text-base font-bold leading-snug mb-3 pr-4">
                 Afectividad y emociones en la escuela. Fortaleciendo los
                 vinculos desde la ESI - C{i}
               </h4>
@@ -52,7 +52,7 @@ export function FormacionesSection({
             </div>
 
             {/* Details */}
-            <div className="p-5 space-y-2.5">
+            <div className="p-6 md:p-7 space-y-3">
               {[
                 { icon: Monitor, text: "Virtual asincronico" },
                 { icon: Clock, text: "3 Encuentros" },
@@ -62,16 +62,16 @@ export function FormacionesSection({
               ].map(({ icon: Icon, text }) => (
                 <div
                   key={text}
-                  className="flex items-center gap-2.5 text-[13px] text-gray-600"
+                  className="flex items-center gap-3 text-[13px] text-gray-600"
                 >
-                  <Icon className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" />
+                  <Icon className="w-4 h-4 text-gray-300 flex-shrink-0" />
                   <span>{text}</span>
                 </div>
               ))}
             </div>
 
             {/* Footer */}
-            <div className="border-t border-gray-50 px-5 py-3">
+            <div className="border-t border-gray-50 px-6 md:px-7 py-4">
               <a
                 href="#"
                 className="text-xs font-bold transition-colors hover:underline"
@@ -84,8 +84,8 @@ export function FormacionesSection({
         ))}
       </div>
 
-      {/* Mobile area navigation */}
-      <div className="lg:hidden mt-12 flex items-center justify-between border-t border-gray-100 pt-6">
+      {/* Mobile area navigation -- improved spacing */}
+      <div className="lg:hidden mt-16 flex items-center justify-between border-t border-gray-100 pt-8">
         {prevArea ? (
           <Link
             href={`/area/${prevArea.slug}`}
@@ -111,7 +111,7 @@ export function FormacionesSection({
         )}
         <Link
           href="/"
-          className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors"
+          className="w-11 h-11 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors"
         >
           <Home className="w-4 h-4" />
         </Link>
