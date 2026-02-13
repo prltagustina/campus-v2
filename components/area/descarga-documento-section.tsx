@@ -4,12 +4,20 @@ import { Download } from "lucide-react";
 import Image from "next/image";
 import type { Area } from "@/lib/areas-data";
 
-/* Full wheel SVG icon -- same as sidebar AreasIcon */
+function darken(hex: string, f: number) {
+  const c = hex.replace("#", "");
+  const r = Math.max(0, Math.floor(Number.parseInt(c.substring(0, 2), 16) * f));
+  const g = Math.max(0, Math.floor(Number.parseInt(c.substring(2, 4), 16) * f));
+  const b = Math.max(0, Math.floor(Number.parseInt(c.substring(4, 6), 16) * f));
+  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+}
+
+/* Wheel badge icon */
 function WheelBadge({ color }: { color: string }) {
   const dark = darken(color, 0.55);
   return (
     <div
-      className="absolute -top-6 left-8 sm:left-12 w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-30"
+      className="absolute -top-7 left-10 sm:left-14 w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-30"
       style={{ backgroundColor: dark }}
     >
       <svg viewBox="0 0 48.52 52.44" className="w-7 h-7" fill={color} aria-hidden>
@@ -19,53 +27,48 @@ function WheelBadge({ color }: { color: string }) {
   );
 }
 
-function darken(hex: string, f: number) {
-  const c = hex.replace("#", "");
-  const r = Math.max(0, Math.floor(Number.parseInt(c.substring(0, 2), 16) * f));
-  const g = Math.max(0, Math.floor(Number.parseInt(c.substring(2, 4), 16) * f));
-  const b = Math.max(0, Math.floor(Number.parseInt(c.substring(4, 6), 16) * f));
-  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-}
-
 interface DescargaDocumentoSectionProps {
   area: Area;
 }
 
 export function DescargaDocumentoSection({ area }: DescargaDocumentoSectionProps) {
   return (
-    <section id="descarga" className="mt-20 mb-8">
-      <div className="max-w-2xl mx-auto">
-        {/* Card with overflow visible for badge + book */}
+    <section id="descarga" className="flex flex-col items-center">
+      {/* Card -- larger, centered, with depth */}
+      <div className="w-full max-w-3xl mx-auto">
         <div
           className="relative rounded-3xl overflow-visible"
-          style={{ backgroundColor: area.color }}
+          style={{
+            backgroundColor: "#494963",
+            boxShadow: `0 30px 70px -15px ${area.color}30, 0 15px 35px -10px rgba(0,0,0,0.12)`,
+          }}
         >
           <WheelBadge color={area.color} />
 
           <div className="flex flex-col sm:flex-row items-center sm:items-end">
-            {/* Book cover -- same scale mobile & desktop, overflows above card */}
-            <div className="flex-shrink-0 -mt-6 sm:mt-0 sm:ml-1 relative z-20 pt-8 sm:pt-6">
+            {/* Book cover -- larger, with tilt for visual interest */}
+            <div className="flex-shrink-0 -mt-8 sm:mt-0 sm:ml-2 relative z-20 pt-10 sm:pt-8 pb-4 sm:pb-0">
               <Image
                 src="/images/portada-lengua.png"
                 alt={`Portada ${area.name}`}
-                width={250}
-                height={350}
-                className="w-[220px] h-auto drop-shadow-2xl"
-                style={{ transform: "rotate(-6deg)" }}
+                width={280}
+                height={396}
+                className="w-[240px] md:w-[260px] h-auto drop-shadow-2xl"
+                style={{ transform: "rotate(-6deg) translateY(-8px)" }}
               />
             </div>
 
-            {/* Text + button */}
-            <div className="flex-1 flex flex-col justify-center px-6 sm:px-10 py-8 sm:py-12 text-center sm:text-left">
-              <p className="text-white text-lg sm:text-2xl font-extrabold leading-snug">
+            {/* Text + button -- vertically centered */}
+            <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 py-10 sm:py-14 text-center sm:text-left">
+              <p className="text-white text-xl sm:text-2xl md:text-3xl font-extrabold leading-snug text-balance">
                 {"Descarg\u00e1 el documento completo para profundizar en los contenidos"}
               </p>
 
-              <div className="mt-6">
+              <div className="mt-8">
                 <a
                   href="#"
-                  className="inline-flex items-center gap-3 rounded-full bg-white px-7 py-3 text-base font-bold hover:scale-[1.02] transition-transform shadow-md"
-                  style={{ color: area.color }}
+                  className="inline-flex items-center gap-3 rounded-full px-8 py-3.5 text-base font-bold transition-all hover:scale-[1.03] hover:shadow-lg shadow-md"
+                  style={{ backgroundColor: area.color, color: "white" }}
                 >
                   Descargar PDF
                   <Download className="w-4 h-4" />

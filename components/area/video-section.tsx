@@ -19,26 +19,32 @@ const videoIds: Record<string, string> = {
 
 export function VideoSection({ area }: VideoSectionProps) {
   const videoId = videoIds[area.slug];
-
   if (!videoId) return null;
 
   return (
     <section id="video" className="scroll-mt-32">
-      <div className="mb-6">
-        <h3
-          className="text-xs font-bold uppercase tracking-widest"
-          style={{ color: "#494963" }}
-        >
-          Video de presentacion
-        </h3>
+      {/* Section header -- centered alignment */}
+      <div className="flex flex-col items-center text-center mb-12 md:mb-16">
         <div
-          className="mt-2 h-[2px] w-10 rounded-full"
+          className="w-10 h-1 rounded-full mb-6"
           style={{ backgroundColor: area.color }}
         />
+        <h3
+          className="text-xs md:text-sm font-bold uppercase tracking-[0.25em]"
+          style={{ color: "#494963" }}
+        >
+          {"Video de presentaci\u00f3n"}
+        </h3>
       </div>
 
-      <div className="w-full max-w-2xl">
-        <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-gray-50 shadow-sm ring-1 ring-gray-100">
+      {/* Video embed -- full width for impact */}
+      <div className="w-full max-w-4xl mx-auto">
+        <div
+          className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5"
+          style={{
+            boxShadow: `0 25px 60px -12px ${area.color}20, 0 12px 30px -8px rgba(0,0,0,0.08)`,
+          }}
+        >
           <iframe
             src={`https://www.youtube.com/embed/${videoId}`}
             title={`Presentacion ${area.name}`}
