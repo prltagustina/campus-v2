@@ -83,7 +83,7 @@ export function EjesSection({
           </span>
           <h2
             className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight text-balance"
-            style={{ color: "#1a1a2e" }}
+            style={{ color: "#494963" }}
           >
             {currentEje.titulo}
           </h2>

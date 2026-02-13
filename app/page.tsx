@@ -21,7 +21,6 @@ import { Footer } from "@/components/landing/landing-footer";
 import {
   ScrollReveal,
   ParallaxSection,
-  SectionDivider,
 } from "@/components/landing/scroll-reveal";
 
 export default function HomePage() {
@@ -66,33 +65,31 @@ export default function HomePage() {
         <QuickAccessBar />
       </ScrollReveal>
 
-      <SectionDivider color="#494963" width="30%" speed={0.15} />
-
-      {/* 3) Que ensenar */}
-      <ScrollReveal delay={0.05}>
-        <WhatWhyHowSection />
-      </ScrollReveal>
-
-      <SectionDivider color="#B159A7" width="45%" speed={-0.1} />
-
-      {/* 4) Marco General (simplified: video + CTA) */}
-      <ParallaxSection speed={0.08}>
+      {/* 3) Que ensenar -- white bg for contrast */}
+      <ParallaxSection speed={0.05}>
         <ScrollReveal delay={0.05}>
-          <MarcoGeneralSection />
+          <WhatWhyHowSection />
         </ScrollReveal>
       </ParallaxSection>
 
-      <SectionDivider color="#494963" width="35%" speed={0.2} />
+      {/* 4) Marco General -- light gray bg for contrast */}
+      <ParallaxSection speed={0.1}>
+        <ScrollReveal delay={0.05}>
+          <div className="bg-[#f0f0f5]">
+            <MarcoGeneralSection />
+          </div>
+        </ScrollReveal>
+      </ParallaxSection>
 
-      {/* 5) Ejes Centrales (compact grid) */}
-      <ScrollReveal delay={0.05} direction="up" distance={70}>
-        <EjesCentralesSection />
-      </ScrollReveal>
+      {/* 5) Ejes Centrales -- white bg */}
+      <ParallaxSection speed={0.06}>
+        <ScrollReveal delay={0.05} direction="up" distance={70}>
+          <EjesCentralesSection />
+        </ScrollReveal>
+      </ParallaxSection>
 
-      <SectionDivider color="#B159A7" width="50%" speed={-0.15} />
-
-      {/* 6) Main Wheel Section -- Rueda Curricular */}
-      <section id="areas" className="pt-8 md:pt-12 pb-16 md:pb-24 bg-[#fafafa] flex-1">
+      {/* 6) Main Wheel Section -- Rueda Curricular -- light bg for contrast */}
+      <section id="areas" className="pt-8 md:pt-12 pb-16 md:pb-24 bg-[#f0f0f5] flex-1">
         <div className="max-w-7xl mx-auto px-4">
           {/* Section title */}
           <ScrollReveal delay={0.05} distance={50}>
@@ -263,17 +260,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7) Organizacion de areas */}
+      {/* 7) Organizacion de areas -- white bg */}
       <ParallaxSection speed={0.06}>
         <ScrollReveal delay={0.05}>
           <AreaOrganizationSection />
         </ScrollReveal>
       </ParallaxSection>
 
-      {/* 8) Linea de Tiempo */}
-      <ScrollReveal delay={0.05} distance={60}>
-        <TimelineSection />
-      </ScrollReveal>
+      {/* 8) Linea de Tiempo -- light bg for contrast */}
+      <ParallaxSection speed={0.04}>
+        <ScrollReveal delay={0.05} distance={60}>
+          <div className="bg-[#f0f0f5]">
+            <TimelineSection />
+          </div>
+        </ScrollReveal>
+      </ParallaxSection>
 
       <Footer />
     </main>

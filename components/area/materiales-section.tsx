@@ -51,7 +51,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         >
           Recursos
         </span>
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#1a1a2e]">
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963]">
           Descarga de materiales
         </h3>
       </div>
