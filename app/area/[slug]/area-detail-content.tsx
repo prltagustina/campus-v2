@@ -252,8 +252,8 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
 
         {/* CONTENT SECTIONS -- no divider lines, generous spacing */}
         <div className="relative">
-          {/* Ejes Interactive Schema */}
-          <RevealSection delay={0.05} style="blur" className="scroll-mt-24">
+          {/* Ejes Interactive Schema -- white bg */}
+          <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-white">
             <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-24 md:pt-36 pb-16 md:pb-24">
               <SubareasPills
                 area={area}
@@ -274,42 +274,48 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
             </div>
           </RevealSection>
 
-          {/* Descarga Documento */}
-          <RevealSection delay={0.08} style="scale" className="scroll-mt-24">
-            <ParallaxLayer speed={0.08}>
+          {/* Descarga Documento -- light gray bg */}
+          <RevealSection delay={0.08} style="scale" className="scroll-mt-24 bg-[#EDEDF0]">
+            <ParallaxLayer speed={0.1}>
               <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
                 <DescargaDocumentoSection area={area} />
               </div>
             </ParallaxLayer>
           </RevealSection>
 
-          {/* Video de Presentacion */}
-          <RevealSection delay={0.06} style="clip" className="scroll-mt-24">
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-              <VideoSection area={area} />
-            </div>
+          {/* Video de Presentacion -- white bg */}
+          <RevealSection delay={0.06} style="clip" className="scroll-mt-24 bg-white">
+            <ParallaxLayer speed={0.06}>
+              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
+                <VideoSection area={area} />
+              </div>
+            </ParallaxLayer>
           </RevealSection>
 
-          {/* Materiales de Descarga */}
+          {/* Materiales de Descarga -- light gray bg */}
           <RevealSection
             delay={0.06}
             style="slide-left"
-            className="scroll-mt-24"
+            className="scroll-mt-24 bg-[#EDEDF0]"
           >
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-              <MaterialesSection area={area} />
-            </div>
+            <ParallaxLayer speed={0.08}>
+              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
+                <MaterialesSection area={area} />
+              </div>
+            </ParallaxLayer>
           </RevealSection>
 
-          {/* Formaciones Docentes */}
-          <RevealSection delay={0.06} style="slide-up" className="scroll-mt-24">
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-24 md:pt-36 lg:pt-44 pb-16 md:pb-24">
-              <FormacionesSection
-                area={area}
-                prevArea={prevArea}
-                nextArea={nextArea}
-              />
-            </div>
+          {/* Formaciones Docentes -- white bg */}
+          <RevealSection delay={0.06} style="slide-up" className="scroll-mt-24 bg-white">
+            <ParallaxLayer speed={0.05}>
+              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-24 md:pt-36 lg:pt-44 pb-16 md:pb-24">
+                <FormacionesSection
+                  area={area}
+                  prevArea={prevArea}
+                  nextArea={nextArea}
+                />
+              </div>
+            </ParallaxLayer>
           </RevealSection>
         </div>
       </main>

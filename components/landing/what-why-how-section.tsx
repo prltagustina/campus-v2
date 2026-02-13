@@ -51,16 +51,14 @@ export function WhatWhyHowSection() {
     []
   );
 
-  const current = sections[active];
-
   return (
-    <section id="que-ensenar" className="w-full bg-white py-20 md:py-32">
+    <section id="que-ensenar" className="w-full py-20 md:py-32">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header row */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
             <h2
-              className={`${interTight.className} text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight`}
+              className={`${interTight.className} text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight`}
             >
               {"Que ensenar,"}
               <br />
@@ -73,17 +71,17 @@ export function WhatWhyHowSection() {
             <div className="flex items-center gap-3">
               <button
                 onClick={prev}
-                className="w-11 h-11 rounded-full border-2 border-[#494963]/20 flex items-center justify-center text-[#494963]/50 hover:border-[#494963]/40 hover:text-[#494963] transition-colors"
+                className="w-11 h-11 rounded-full border-2 border-white/20 flex items-center justify-center text-white/50 hover:border-white/40 hover:text-white transition-colors"
                 aria-label="Anterior"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
-              <span className="text-sm font-semibold text-[#494963]/50 tabular-nums min-w-[3ch] text-center">
+              <span className="text-sm font-semibold text-white/40 tabular-nums min-w-[3ch] text-center">
                 {active + 1}/{sections.length}
               </span>
               <button
                 onClick={next}
-                className="w-11 h-11 rounded-full border-2 border-[#494963]/20 flex items-center justify-center text-[#494963]/50 hover:border-[#494963]/40 hover:text-[#494963] transition-colors"
+                className="w-11 h-11 rounded-full border-2 border-white/20 flex items-center justify-center text-white/50 hover:border-white/40 hover:text-white transition-colors"
                 aria-label="Siguiente"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -104,19 +102,19 @@ export function WhatWhyHowSection() {
                 >
                   <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-14 items-start">
                     {/* Big number */}
-                    <span className="text-[7rem] md:text-[10rem] lg:text-[12rem] font-black text-[#494963]/5 leading-none select-none -mb-6 md:-mb-8">
+                    <span className="text-[7rem] md:text-[10rem] lg:text-[12rem] font-black text-white/5 leading-none select-none -mb-6 md:-mb-8">
                       {section.number}
                     </span>
 
                     {/* Content */}
                     <div className="flex flex-col justify-center md:py-8">
-                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#494963] mb-6">
+                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6">
                         {section.title}
                       </h3>
-                      <p className="text-lg md:text-xl text-[#494963]/70 leading-relaxed mb-4 max-w-2xl">
+                      <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-4 max-w-2xl">
                         {section.content}
                       </p>
-                      <p className="text-base md:text-lg text-[#494963]/50 leading-relaxed max-w-2xl">
+                      <p className="text-base md:text-lg text-white/40 leading-relaxed max-w-2xl">
                         {section.detail}
                       </p>
                     </div>
@@ -134,8 +132,8 @@ export function WhatWhyHowSection() {
                 onClick={() => setActive(i)}
                 className={`h-1.5 rounded-full transition-all duration-500 ${
                   active === i
-                    ? "w-8 bg-[#494963]"
-                    : "w-3 bg-[#494963]/15 hover:bg-[#494963]/30"
+                    ? "w-8 bg-white"
+                    : "w-3 bg-white/15 hover:bg-white/30"
                 }`}
                 aria-label={`Slide ${i + 1}`}
               />

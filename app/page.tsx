@@ -65,17 +65,17 @@ export default function HomePage() {
         <QuickAccessBar />
       </ScrollReveal>
 
-      {/* 3) Que ensenar -- white bg */}
-      <ParallaxSection speed={0.04}>
+      {/* 3) Marco General -- light bg */}
+      <ParallaxSection speed={0.06}>
         <ScrollReveal delay={0.05}>
-          <WhatWhyHowSection />
+          <MarcoGeneralSection />
         </ScrollReveal>
       </ParallaxSection>
 
-      {/* 4) Marco General -- institutional dark */}
+      {/* 4) Que ensenar -- institutional dark */}
       <ScrollReveal delay={0.05}>
         <div className="bg-[#494963]">
-          <MarcoGeneralSection />
+          <WhatWhyHowSection />
         </div>
       </ScrollReveal>
 

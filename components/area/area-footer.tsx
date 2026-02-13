@@ -30,38 +30,38 @@ export function AreaFooter({
 
   return (
     <footer id="area-footer" className="lg:ml-16">
-      {/* Top bar: section quick links -- uses area institutional color */}
-      <div
-        className="w-full py-4 flex items-center justify-center gap-8 sm:gap-12"
-        style={{ backgroundColor: area.color }}
-      >
+      {/* Top bar: section quick links -- institutional blue */}
+      <div className="w-full py-4 flex items-center justify-center gap-8 sm:gap-12 bg-[#494963]">
         {SECTIONS.map((s) => (
           <button
             key={s.id}
             type="button"
             onClick={() => scrollToSection(s.id)}
-            className="text-[11px] font-bold tracking-[0.15em] text-white/70 transition-all hover:text-white"
+            className="text-[11px] font-bold tracking-[0.15em] text-white/60 transition-all hover:text-white"
           >
             {s.label}
           </button>
         ))}
       </div>
 
-      {/* Bottom bar: prev / home / next navigation */}
-      <div className="relative py-4 px-6 sm:px-10 flex items-center justify-between bg-[#f5f5f5]">
+      {/* Thin separator */}
+      <div className="w-full h-px bg-white/10" style={{ backgroundColor: "rgba(73,73,99,0.15)" }} />
+
+      {/* Bottom bar: prev / home / next navigation -- slightly lighter shade */}
+      <div className="relative py-5 px-6 sm:px-10 flex items-center justify-between bg-[#3d3d54]">
         {/* Prev area */}
         <div className="flex-1 flex justify-start">
           {prevArea ? (
             <Link
               href={`/area/${prevArea.slug}`}
-              className="flex items-center gap-2.5 text-[#494963]/60 transition-colors hover:text-[#494963]"
+              className="flex items-center gap-2.5 text-white/50 transition-colors hover:text-white"
             >
               <ChevronLeft className="w-5 h-5" />
               <div className="hidden sm:block">
-                <span className="block text-[10px] uppercase tracking-wider text-[#494963]/40 font-medium">
+                <span className="block text-[10px] uppercase tracking-wider text-white/30 font-medium">
                   Anterior
                 </span>
-                <span className="block text-sm font-bold leading-tight text-[#494963]">
+                <span className="block text-sm font-bold leading-tight text-white">
                   {prevArea.name}
                 </span>
               </div>
@@ -75,7 +75,7 @@ export function AreaFooter({
         <div className="flex items-center justify-center">
           <Link
             href="/"
-            className="w-11 h-11 rounded-full bg-[#494963]/5 flex items-center justify-center text-[#494963]/50 transition-all hover:bg-[#494963]/10 hover:text-[#494963]"
+            className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white/40 transition-all hover:bg-white/10 hover:text-white"
           >
             <Home className="w-5 h-5" />
           </Link>
@@ -86,13 +86,13 @@ export function AreaFooter({
           {nextArea ? (
             <Link
               href={`/area/${nextArea.slug}`}
-              className="flex items-center gap-2.5 text-[#494963]/60 transition-colors hover:text-[#494963]"
+              className="flex items-center gap-2.5 text-white/50 transition-colors hover:text-white"
             >
               <div className="hidden sm:block text-right">
-                <span className="block text-[10px] uppercase tracking-wider text-[#494963]/40 font-medium">
+                <span className="block text-[10px] uppercase tracking-wider text-white/30 font-medium">
                   Siguiente
                 </span>
-                <span className="block text-sm font-bold leading-tight text-[#494963]">
+                <span className="block text-sm font-bold leading-tight text-white">
                   {nextArea.name}
                 </span>
               </div>
@@ -104,7 +104,7 @@ export function AreaFooter({
           <button
             type="button"
             onClick={scrollToTop}
-            className="w-9 h-9 rounded-full border border-[#494963]/10 flex items-center justify-center text-[#494963]/30 transition-all hover:border-[#494963]/30 hover:text-[#494963]/60"
+            className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/30 transition-all hover:border-white/30 hover:text-white/60"
             aria-label="Volver arriba"
           >
             <ArrowUp className="w-4 h-4" />

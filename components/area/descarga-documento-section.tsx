@@ -25,8 +25,7 @@ interface DescargaDocumentoSectionProps {
 export function DescargaDocumentoSection({ area }: DescargaDocumentoSectionProps) {
   return (
     <section id="descarga" className="flex flex-col items-center">
-      {/* Card -- centered with institutional blue background */}
-      <div className="w-full max-w-3xl mx-auto">
+      <div className="w-full max-w-4xl mx-auto">
         <div
           className="relative rounded-3xl overflow-visible"
           style={{
@@ -37,32 +36,32 @@ export function DescargaDocumentoSection({ area }: DescargaDocumentoSectionProps
           <WheelBadge color={area.color} />
 
           <div className="flex flex-col sm:flex-row items-center sm:items-end">
-            {/* Book cover -- tilted for visual interest */}
+            {/* Book cover -- tilted */}
             <div className="flex-shrink-0 -mt-8 sm:mt-0 sm:ml-2 relative z-20 pt-10 sm:pt-8 pb-4 sm:pb-0">
               <Image
                 src="/images/portada-lengua.png"
                 alt={`Portada ${area.name}`}
-                width={280}
-                height={396}
-                className="w-[220px] md:w-[250px] h-auto drop-shadow-2xl"
-                style={{ transform: "rotate(-6deg) translateY(-8px)" }}
+                width={320}
+                height={452}
+                className="w-[200px] md:w-[280px] lg:w-[300px] h-auto drop-shadow-2xl"
+                style={{ transform: "rotate(-6deg) translateY(-12px)" }}
               />
             </div>
 
-            {/* Text + button */}
-            <div className="flex-1 flex flex-col justify-center px-8 sm:px-10 py-8 sm:py-12 text-center sm:text-left">
-              <p className="text-white text-lg sm:text-xl md:text-2xl font-bold leading-snug text-balance">
+            {/* Text + button -- LARGE text to match reference */}
+            <div className="flex-1 flex flex-col justify-center px-8 sm:px-10 md:px-12 py-8 sm:py-12 md:py-14 text-center sm:text-left">
+              <p className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-bold italic leading-tight text-balance">
                 {"Descarg\u00e1 el documento completo para profundizar en los contenidos"}
               </p>
 
-              <div className="mt-6">
+              <div className="mt-8">
                 <a
                   href="#"
-                  className="inline-flex items-center gap-3 rounded-full px-7 py-3 text-sm font-bold transition-all hover:scale-[1.03] hover:shadow-lg shadow-md"
+                  className="inline-flex items-center gap-3 rounded-full px-8 py-3.5 text-base font-bold transition-all hover:scale-[1.03] hover:shadow-lg shadow-md"
                   style={{ backgroundColor: area.color, color: "white" }}
                 >
                   Descargar PDF
-                  <Download className="w-4 h-4" />
+                  <Download className="w-5 h-5" />
                 </a>
               </div>
             </div>
