@@ -1,10 +1,10 @@
 "use client";
-import { useState, useRef, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
+import Image from "next/image";
 
 interface TimelineEvent {
   date: string;
-  dateShort: string;
   title: string;
   description: string;
   image: string;
@@ -49,7 +49,6 @@ const timelineData: TimelineYear[] = [
     events: [
       {
         date: "22 de Julio",
-        dateShort: "22 Jul",
         title: "Encuentro con el Comit\u00e9 de Educaci\u00f3n Ambiental.",
         description:
           "Se presentaron los enfoques transversales, particularmente el de Educaci\u00f3n Ambiental Integral.",
@@ -57,7 +56,6 @@ const timelineData: TimelineYear[] = [
       },
       {
         date: "25 de Julio",
-        dateShort: "25 Jul",
         title: "Encuentro presencial con directores y supervisores.",
         description:
           "Se llev\u00f3 a cabo la presentaci\u00f3n general de la propuesta y se conformaron mesas de trabajo.",
@@ -65,7 +63,6 @@ const timelineData: TimelineYear[] = [
       },
       {
         date: "01 de Agosto",
-        dateShort: "01 Ago",
         title: "Reuni\u00f3n con delegados y coordinadores regionales.",
         description:
           "Presentaci\u00f3n del proceso de escritura y di\u00e1logo en torno a dudas e inquietudes.",
@@ -73,7 +70,6 @@ const timelineData: TimelineYear[] = [
       },
       {
         date: "14 de Agosto",
-        dateShort: "14 Ago",
         title: "Socializaci\u00f3n y consulta con equipos de supervisi\u00f3n.",
         description:
           "Con participaci\u00f3n de m\u00e1s de 150 supervisores/as de toda la provincia.",
@@ -81,7 +77,6 @@ const timelineData: TimelineYear[] = [
       },
       {
         date: "27 de Agosto",
-        dateShort: "27 Ago",
         title: "Presentaci\u00f3n al Comit\u00e9 Asesor Provincial de Discapacidad.",
         description:
           "Se present\u00f3 la propuesta en la 3\u00aa Asamblea Ordinaria del Comit\u00e9 Asesor Provincial.",
@@ -89,7 +84,6 @@ const timelineData: TimelineYear[] = [
       },
       {
         date: "31 de Agosto",
-        dateShort: "31 Ago",
         title: "Consulta a instituciones de Educaci\u00f3n Primaria e IFD.",
         description:
           "Consulta mediante la plataforma Educativa del ministerio de educaci\u00f3n.",
@@ -97,7 +91,6 @@ const timelineData: TimelineYear[] = [
       },
       {
         date: "Septiembre 2025",
-        dateShort: "Sep",
         title: "Jornadas de Socializaci\u00f3n y Consulta",
         description:
           "En el norte, centro y sur de la provincia, con equipos directivos y docentes.",
@@ -120,8 +113,10 @@ function useInViewOnce() {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setSeen(true); },
-      { threshold: 0.15 }
+      ([e]) => {
+        if (e.isIntersecting) setSeen(true);
+      },
+      { threshold: 0.12 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -129,178 +124,126 @@ function useInViewOnce() {
   return { ref, seen };
 }
 
-/* -- Year Card with inline event images -- */
-function YearCard({
-  data,
-  index,
-  isExpanded,
-  onToggle,
-}: {
-  data: TimelineYear;
-  index: number;
-  isExpanded: boolean;
-  onToggle: () => void;
-}) {
+/* === Single year entry === */
+function YearEntry({ data, index }: { data: TimelineYear; index: number }) {
   const { ref, seen } = useInViewOnce();
+  const [expanded, setExpanded] = useState(false);
   const hasEvents = data.events && data.events.length > 0;
 
   return (
     <div
       ref={ref}
-      className={`flex-shrink-0 snap-center transition-all duration-500 ${
-        isExpanded ? "w-[90vw] max-w-4xl" : "w-[280px] md:w-[340px]"
-      }`}
+      className="relative flex gap-6 md:gap-10"
       style={{
         opacity: seen ? 1 : 0,
-        transform: seen ? "translateY(0)" : "translateY(40px)",
-        transition: `opacity 0.7s ease-out ${index * 0.08}s, transform 0.7s ease-out ${index * 0.08}s, width 0.5s ease`,
+        transform: seen ? "translateY(0)" : "translateY(48px)",
+        transition: `opacity 0.7s ease-out ${index * 0.1}s, transform 0.7s ease-out ${index * 0.1}s`,
       }}
     >
-      {/* Year label + track dot */}
-      <div className="flex flex-col items-center mb-6">
-        <span className="text-5xl md:text-6xl font-black text-[#494963] leading-none tracking-tight">
-          {data.year}
-        </span>
-        <span className="text-[11px] uppercase tracking-[0.15em] text-[#494963]/40 font-semibold mt-2">
-          {data.subtitle}
-        </span>
-        <div className="mt-5 w-3.5 h-3.5 rounded-full bg-[#494963] border-4 border-[#EDEDF0] relative z-10" />
+      {/* Vertical line + dot */}
+      <div className="flex flex-col items-center flex-shrink-0 w-8">
+        <div className="w-4 h-4 rounded-full bg-[#494963] border-4 border-[#EDEDF0] relative z-10 mt-1.5" />
+        <div className="w-px flex-1 bg-[#494963]/12" />
       </div>
 
-      {/* Card */}
-      <div
-        className={`rounded-2xl bg-white shadow-sm border border-[#494963]/5 transition-all ${
-          hasEvents ? "cursor-pointer hover:shadow-md hover:border-[#494963]/12" : ""
-        }`}
-        onClick={hasEvents && !isExpanded ? onToggle : undefined}
-        role={hasEvents ? "button" : undefined}
-        tabIndex={hasEvents ? 0 : undefined}
-        onKeyDown={hasEvents ? (e) => { if (e.key === "Enter") onToggle(); } : undefined}
-      >
-        <div className="p-6 md:p-7">
-          <p className="text-sm md:text-base text-[#494963]/70 leading-relaxed">
-            {data.description}
-          </p>
-          {hasEvents && !isExpanded && (
-            <div className="mt-4 flex items-center gap-2 text-[#494963] text-xs font-semibold uppercase tracking-wider">
-              <span>Ver {data.events!.length} eventos</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </div>
-          )}
+      {/* Content */}
+      <div className="pb-12 md:pb-16 flex-1 min-w-0">
+        {/* Year heading */}
+        <div className="flex items-baseline gap-4 mb-2">
+          <span className="text-3xl md:text-4xl font-black text-[#494963] tracking-tight font-sans">
+            {data.year}
+          </span>
+          <span className="text-[11px] uppercase tracking-[0.15em] text-[#494963]/35 font-semibold">
+            {data.subtitle}
+          </span>
         </div>
 
-        {/* Expanded: events with images */}
-        {isExpanded && hasEvents && (
-          <div className="border-t border-[#494963]/5">
-            <div className="p-6 md:p-7 flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#494963]/40">
-                Eventos {data.year}
-              </span>
-              <button
-                onClick={(e) => { e.stopPropagation(); onToggle(); }}
-                className="w-8 h-8 rounded-full bg-[#494963]/5 flex items-center justify-center text-[#494963]/50 hover:bg-[#494963]/10 hover:text-[#494963] transition-colors"
-                aria-label="Cerrar"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="px-6 md:px-7 pb-7 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {data.events!.map((event, i) => (
-                <div key={i} className="group rounded-xl overflow-hidden border border-[#494963]/5 bg-[#fafafa]">
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img
-                      src={event.image || "/placeholder.svg"}
-                      alt={event.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      crossOrigin="anonymous"
-                    />
+        <p className="text-sm md:text-base text-[#494963]/60 leading-relaxed max-w-lg mb-4">
+          {data.description}
+        </p>
+
+        {/* Events toggle */}
+        {hasEvents && (
+          <>
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="inline-flex items-center gap-2 text-[#494963] text-xs font-semibold uppercase tracking-wider hover:text-[#494963]/70 transition-colors mb-4"
+            >
+              <span>{expanded ? "Ocultar" : "Ver"} {data.events!.length} eventos</span>
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+              />
+            </button>
+
+            {/* Events grid with images */}
+            <div
+              className="overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                maxHeight: expanded ? 2000 : 0,
+                opacity: expanded ? 1 : 0,
+              }}
+            >
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+                {data.events!.map((event, i) => (
+                  <div
+                    key={i}
+                    className="group rounded-xl overflow-hidden border border-[#494963]/5 bg-white"
+                  >
+                    <div className="aspect-[16/10] overflow-hidden bg-[#494963]/5">
+                      <Image
+                        src={event.image}
+                        alt={event.title}
+                        width={400}
+                        height={250}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <span className="text-[10px] uppercase tracking-[0.15em] text-[#494963]/30 font-semibold block mb-1.5">
+                        {event.date}
+                      </span>
+                      <h4 className="text-sm font-bold text-[#494963] leading-snug mb-1.5">
+                        {event.title}
+                      </h4>
+                      <p className="text-xs text-[#494963]/45 leading-relaxed">
+                        {event.description}
+                      </p>
+                    </div>
                   </div>
-                  <div className="p-4">
-                    <span className="text-[10px] uppercase tracking-[0.15em] text-[#494963]/35 font-semibold block mb-1.5">
-                      {event.date}
-                    </span>
-                    <h4 className="text-sm font-bold text-[#494963] leading-snug mb-1.5">
-                      {event.title}
-                    </h4>
-                    <p className="text-xs text-[#494963]/50 leading-relaxed">
-                      {event.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>
   );
 }
 
-/* -- Main Timeline -- */
+/* === Main Timeline === */
 export function TimelineSection() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [expandedYear, setExpandedYear] = useState<number | null>(null);
-
-  const scroll = useCallback((dir: number) => {
-    trackRef.current?.scrollBy({ left: dir * 360, behavior: "smooth" });
-  }, []);
-
   return (
     <section id="proceso" className="w-full py-20 md:py-32">
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#494963]/30 block mb-3">
-                Proceso de Escritura
-              </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
-                {"L\u00ednea hist\u00f3rica"}
-                <br className="hidden md:block" />
-                {" del dise\u00f1o"}
-              </h2>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => scroll(-1)}
-                className="w-11 h-11 rounded-full border-2 border-[#494963]/15 flex items-center justify-center text-[#494963]/40 hover:border-[#494963]/30 hover:text-[#494963] transition-colors"
-                aria-label="Anterior"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => scroll(1)}
-                className="w-11 h-11 rounded-full border-2 border-[#494963]/15 flex items-center justify-center text-[#494963]/40 hover:border-[#494963]/30 hover:text-[#494963] transition-colors"
-                aria-label="Siguiente"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+          <div className="mb-14 md:mb-20">
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#494963]/30 block mb-3">
+              Proceso de Escritura
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-sans">
+              L&iacute;nea hist&oacute;rica
+              <br className="hidden md:block" />
+              {" del dise\u00f1o"}
+            </h2>
           </div>
-        </div>
-      </div>
 
-      {/* Horizontal scroll track */}
-      <div className="relative">
-        {/* Horizontal line behind dots */}
-        <div className="absolute left-0 right-0 top-[calc(5rem+4.25rem+1.25rem+0.625rem)] h-px bg-[#494963]/10 z-0 hidden md:block" />
-
-        <div
-          ref={trackRef}
-          className="flex gap-6 md:gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 px-[max(1rem,calc((100vw-72rem)/2+1rem))] no-scrollbar"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {timelineData.map((item, i) => (
-            <YearCard
-              key={i}
-              data={item}
-              index={i}
-              isExpanded={expandedYear === i}
-              onToggle={() => setExpandedYear(expandedYear === i ? null : i)}
-            />
-          ))}
+          {/* Vertical timeline */}
+          <div className="relative">
+            {timelineData.map((item, i) => (
+              <YearEntry key={i} data={item} index={i} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

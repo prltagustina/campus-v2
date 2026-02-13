@@ -25,11 +25,7 @@ export function CurriculumIntro() {
 
             {/* Title */}
             <h1
-              className="font-bold text-3xl md:text-4xl lg:text-[2.75rem] text-[#3D3D5C] leading-tight tracking-tight"
-              style={{
-                fontFamily:
-                  "'Inter Tight', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-              }}
+              className="font-bold text-3xl md:text-4xl lg:text-[2.75rem] text-[#3D3D5C] leading-tight tracking-tight font-sans"
             >
               {"Dise\u00f1o Curricular"}
               <br />

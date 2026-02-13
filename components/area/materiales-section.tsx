@@ -1,22 +1,27 @@
 "use client";
 
 import React, { useState } from "react";
-import { FileText, Clock, ArrowDownToLine, BookOpen } from "lucide-react";
+import { FileText, Clock, ArrowDownToLine, BookOpen, Palette } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 
 interface MaterialesSectionProps {
   area: Area;
 }
 
-type Categoria = "jornada-ampliada" | "documentacion";
+type Categoria = "jornada-ampliada" | "documentacion" | "fanzines";
 
 export function MaterialesSection({ area }: MaterialesSectionProps) {
+  const isLenguasExtranjeras = area.slug === "lenguas-extranjeras";
+
   const [categoriaActiva, setCategoriaActiva] =
     useState<Categoria>("jornada-ampliada");
 
   const categorias: { id: Categoria; label: string; icon: typeof Clock }[] = [
     { id: "jornada-ampliada", label: "Jornada Ampliada", icon: Clock },
     { id: "documentacion", label: "Documentaci\u00f3n", icon: BookOpen },
+    ...(isLenguasExtranjeras
+      ? [{ id: "fanzines" as Categoria, label: "Fanzines", icon: Palette }]
+      : []),
   ];
 
   const jornadaFiles = [
@@ -38,8 +43,19 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
     { nombre: `Planificaci\u00f3n anual - ${area.name}`, formato: "PDF", size: "1.5 MB" },
   ];
 
+  const fanzineFiles = [
+    { nombre: "Fanzine - Ingl\u00e9s - Primer Ciclo", formato: "PDF", size: "3.8 MB" },
+    { nombre: "Fanzine - Ingl\u00e9s - Segundo Ciclo", formato: "PDF", size: "4.1 MB" },
+    { nombre: "Fanzine - Franc\u00e9s - Primer Ciclo", formato: "PDF", size: "3.5 MB" },
+    { nombre: "Fanzine - Portugu\u00e9s - Primer Ciclo", formato: "PDF", size: "3.2 MB" },
+  ];
+
   const files =
-    categoriaActiva === "jornada-ampliada" ? jornadaFiles : docFiles;
+    categoriaActiva === "fanzines"
+      ? fanzineFiles
+      : categoriaActiva === "jornada-ampliada"
+        ? jornadaFiles
+        : docFiles;
 
   return (
     <section id="materiales" className="scroll-mt-32">
@@ -51,13 +67,13 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         >
           Recursos
         </span>
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963]">
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-sans">
           Descarga de materiales
         </h3>
       </div>
 
       {/* Category tabs -- centered */}
-      <div className="flex justify-center gap-3 mb-10 md:mb-12">
+      <div className="flex flex-wrap justify-center gap-3 mb-10 md:mb-12">
         {categorias.map((cat) => {
           const isActive = categoriaActiva === cat.id;
           const Icon = cat.icon;

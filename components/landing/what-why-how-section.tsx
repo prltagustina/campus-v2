@@ -7,7 +7,7 @@ const sections = [
   {
     id: "que",
     number: "01",
-    title: "\u00bfQu\u00e9 ense\u00f1ar?",
+    title: "Qu\u00e9 ense\u00f1ar",
     content:
       "Define los contenidos fundamentales que todas las escuelas deben ense\u00f1ar, organizados por \u00e1reas, ciclos y grados.",
     detail:
@@ -16,7 +16,7 @@ const sections = [
   {
     id: "como",
     number: "02",
-    title: "\u00bfC\u00f3mo hacerlo?",
+    title: "C\u00f3mo hacerlo",
     content:
       "Propone articular contenidos, incorporar enfoques transversales y diversificar las estrategias de ense\u00f1anza para garantizar aprendizajes significativos en todas las aulas.",
     detail:
@@ -25,7 +25,7 @@ const sections = [
   {
     id: "por-que",
     number: "03",
-    title: "\u00bfCon qu\u00e9 prop\u00f3sito?",
+    title: "Con qu\u00e9 prop\u00f3sito",
     content:
       "Se articula en torno a principios pol\u00edtico-pedag\u00f3gicos s\u00f3lidos para que las infancias accedan al conocimiento y se desarrollen plenamente como ciudadanas y ciudadanos cr\u00edticos, creativos y solidarios.",
     detail:
@@ -55,12 +55,12 @@ export function WhatWhyHowSection() {
               <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#494963]/30 mb-3 block">
                 Propuesta curricular
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
-                {"\u00bfQu\u00e9 ense\u00f1ar, c\u00f3mo"}
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-sans">
+                Qu&eacute; ense&ntilde;ar
                 <br />
-                {"hacerlo y con qu\u00e9"}
+                C&oacute;mo hacerlo
                 <br />
-                {"prop\u00f3sito?"}
+                Y con qu&eacute; prop&oacute;sito
               </h2>
             </div>
 

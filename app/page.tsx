@@ -85,7 +85,7 @@ export default function HomePage() {
           {/* Section title */}
           <ScrollReveal delay={0.05} distance={50}>
             <div className="text-center mb-10 md:mb-14">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-sans">
                 {"Un marco com\u00fan"}
               </h2>
               <p className="text-lg md:text-xl text-[#494963]/70 mt-5 max-w-3xl mx-auto leading-relaxed">

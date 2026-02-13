@@ -254,7 +254,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
         <div className="relative">
           {/* Ejes Interactive Schema -- white bg */}
           <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-white">
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-24 md:pt-36 pb-16 md:pb-24">
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-10 md:pt-16 pb-16 md:pb-24">
               <SubareasPills
                 area={area}
                 subAreas={subAreas}

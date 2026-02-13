@@ -69,7 +69,7 @@ export function AreaOrganizationSection() {
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#494963]/40 mb-3 block">
                 Estructura compartida
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-sans">
                 {"C\u00f3mo est\u00e1"}
                 <br />
                 {"organizada cada \u00e1rea"}
