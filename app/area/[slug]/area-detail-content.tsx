@@ -103,28 +103,12 @@ function ParallaxLayer({
   const y = useTransform(scrollYProgress, [0, 1], [speed * -120, speed * 120]);
 
   return (
-    <div ref={ref} className={`relative overflow-hidden ${className}`} style={{ position: "relative" }}>
+    <div
+      ref={ref}
+      className={`relative overflow-hidden ${className}`}
+      style={{ position: "relative" }}
+    >
       <motion.div style={{ y }}>{children}</motion.div>
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────
- * HorizontalRule -- a subtle separator that slides in.
- * ───────────────────────────────────────────── */
-function HorizontalRule({ color }: { color: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
-
-  return (
-    <div ref={ref} className="flex items-center justify-center py-2">
-      <motion.div
-        className="h-px rounded-full"
-        style={{ backgroundColor: color }}
-        initial={{ width: 0, opacity: 0 }}
-        animate={isInView ? { width: "40%", opacity: 0.12 } : { width: 0, opacity: 0 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-      />
     </div>
   );
 }
@@ -153,7 +137,9 @@ function FadingHeader({
 
   return (
     <div ref={ref} className="relative" style={{ position: "relative" }}>
-      <motion.div style={{ opacity, scale, y: translateY, transformOrigin: "top center" }}>
+      <motion.div
+        style={{ opacity, scale, y: translateY, transformOrigin: "top center" }}
+      >
         <AreaHeader
           area={area}
           activeAxis={activeAxis}
@@ -174,7 +160,9 @@ interface AreaDetailContentProps {
 export function AreaDetailContent({ area }: AreaDetailContentProps) {
   const [selectedSubarea, setSelectedSubarea] = useState<string | null>(null);
   const [selectedEje, setSelectedEje] = useState<number>(0);
-  const [expandedGrados, setExpandedGrados] = useState<string[]>(["presentacion"]);
+  const [expandedGrados, setExpandedGrados] = useState<string[]>([
+    "presentacion",
+  ]);
   const [activeSection, setActiveSection] = useState<string>("ejes");
   const [showAreasNav, setShowAreasNav] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -223,7 +211,8 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
   const toggleGrado = (gradoId: string) =>
     setExpandedGrados((p) => (p.includes(gradoId) ? [] : [gradoId]));
 
-  const areaContent = contenidosPorArea[area.slug] || contenidosPorArea["matematica"];
+  const areaContent =
+    contenidosPorArea[area.slug] || contenidosPorArea["matematica"];
   const subAreas = subAreasPorArea[area.slug] || [];
   const currentIdx = areasOrder.indexOf(area.id);
   const prevArea =
@@ -254,23 +243,18 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
       />
 
       <main className="lg:ml-16">
-        {/* ── HERO: media rueda with parallax fade ── */}
+        {/* HERO: media rueda with parallax fade */}
         <FadingHeader
           area={area}
           activeAxis={activeAxis}
           setActiveAxis={setActiveAxis}
         />
 
-        {/* ── CONTENT SECTIONS ── */}
+        {/* CONTENT SECTIONS -- no divider lines, generous spacing */}
         <div className="relative">
-
-          {/* ── Ejes Interactive Schema ── */}
-          <RevealSection
-            delay={0.05}
-            style="blur"
-            className="scroll-mt-24"
-          >
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-20 md:pt-32 pb-12 md:pb-20">
+          {/* Ejes Interactive Schema */}
+          <RevealSection delay={0.05} style="blur" className="scroll-mt-24">
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-24 md:pt-36 pb-16 md:pb-24">
               <SubareasPills
                 area={area}
                 subAreas={subAreas}
@@ -290,56 +274,36 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
             </div>
           </RevealSection>
 
-          <HorizontalRule color={area.color} />
-
-          {/* ── Descarga Documento ── */}
-          <RevealSection
-            delay={0.08}
-            style="scale"
-            className="scroll-mt-24"
-          >
+          {/* Descarga Documento */}
+          <RevealSection delay={0.08} style="scale" className="scroll-mt-24">
             <ParallaxLayer speed={0.08}>
-              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-32 lg:py-40">
+              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
                 <DescargaDocumentoSection area={area} />
               </div>
             </ParallaxLayer>
           </RevealSection>
 
-          <HorizontalRule color={area.color} />
-
-          {/* ── Video de Presentacion ── */}
-          <RevealSection
-            delay={0.06}
-            style="clip"
-            className="scroll-mt-24"
-          >
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-32 lg:py-40">
+          {/* Video de Presentacion */}
+          <RevealSection delay={0.06} style="clip" className="scroll-mt-24">
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
               <VideoSection area={area} />
             </div>
           </RevealSection>
 
-          <HorizontalRule color={area.color} />
-
-          {/* ── Materiales de Descarga ── */}
+          {/* Materiales de Descarga */}
           <RevealSection
             delay={0.06}
             style="slide-left"
             className="scroll-mt-24"
           >
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-32 lg:py-40">
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
               <MaterialesSection area={area} />
             </div>
           </RevealSection>
 
-          <HorizontalRule color={area.color} />
-
-          {/* ── Formaciones Docentes ── */}
-          <RevealSection
-            delay={0.06}
-            style="slide-up"
-            className="scroll-mt-24"
-          >
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-20 md:pt-32 lg:pt-40 pb-40 md:pb-48 lg:pb-56">
+          {/* Formaciones Docentes */}
+          <RevealSection delay={0.06} style="slide-up" className="scroll-mt-24">
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-24 md:pt-36 lg:pt-44 pb-16 md:pb-24">
               <FormacionesSection
                 area={area}
                 prevArea={prevArea}
@@ -350,7 +314,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
         </div>
       </main>
 
-      {/* Sticky footer -- desktop only, mobile uses MobileNav */}
+      {/* Footer -- non-fixed, in normal document flow, desktop only */}
       <div className="hidden lg:block">
         <AreaFooter
           area={area}
