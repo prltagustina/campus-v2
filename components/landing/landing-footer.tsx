@@ -11,17 +11,17 @@ export function Footer() {
             {/* Brand */}
             <div>
               <p className="text-white font-semibold text-sm uppercase tracking-wider mb-3">
-                {"Diseno Curricular"}
+                {"Dise\u00f1o Curricular"}
               </p>
               <p className="text-white/50 text-sm leading-relaxed max-w-xs">
-                {"Educacion Primaria de la Provincia de Santa Fe. Ministerio de Educacion."}
+                {"Educaci\u00f3n Primaria de la Provincia de Santa Fe. Ministerio de Educaci\u00f3n."}
               </p>
             </div>
 
             {/* Navigation */}
             <div>
               <p className="text-white/40 text-xs font-semibold uppercase tracking-wider mb-3">
-                {"Navegacion"}
+                {"Navegaci\u00f3n"}
               </p>
               <nav className="flex flex-col gap-2">
                 <Link href="/" className="text-sm text-white/60 hover:text-white transition-colors">
@@ -34,7 +34,7 @@ export function Footer() {
                   {"Para Familias"}
                 </Link>
                 <Link href="/eib" className="text-sm text-white/60 hover:text-white transition-colors">
-                  {"Educacion Intercultural Bilingue"}
+                  {"Educaci\u00f3n Intercultural Biling\u00fce"}
                 </Link>
               </nav>
             </div>
@@ -42,7 +42,7 @@ export function Footer() {
             {/* Areas */}
             <div>
               <p className="text-white/40 text-xs font-semibold uppercase tracking-wider mb-3">
-                {"Areas curriculares"}
+{"\u00c1reas curriculares"}
               </p>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                 {areasData.map((area) => (
@@ -70,7 +70,7 @@ export function Footer() {
               </div>
               <div>
                 <p className="text-sm font-medium text-white/80">Santa Fe</p>
-                <p className="text-xs text-white/40">Ministerio de Educacion</p>
+                <p className="text-xs text-white/40">Ministerio de Educaci\u00f3n</p>
               </div>
             </div>
 

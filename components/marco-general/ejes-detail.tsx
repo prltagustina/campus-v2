@@ -7,67 +7,67 @@ const ejes = [
   {
     title: "Aprendizajes comunes, fundantes y significativos",
     description:
-      "Saberes que aseguran el avance hacia conocimientos mas complejos y promueven la participacion plena en la vida social.",
+      "Saberes que aseguran el avance hacia conocimientos m\u00e1s complejos y promueven la participaci\u00f3n plena en la vida social.",
   },
   {
-    title: "Relacion dialogica entre la ensenanza y la evaluacion",
+    title: "Relaci\u00f3n dial\u00f3gica entre la ense\u00f1anza y la evaluaci\u00f3n",
     description:
-      "La ensenanza como practica intencional y situada en el marco de enfoques activos. La evaluacion planificada de la mano de la ensenanza.",
+      "La ense\u00f1anza como pr\u00e1ctica intencional y situada en el marco de enfoques activos. La evaluaci\u00f3n planificada de la mano de la ense\u00f1anza.",
   },
   {
-    title: "Alfabetizacion desde el inicio",
+    title: "Alfabetizaci\u00f3n desde el inicio",
     description:
-      "Una alfabetizacion plena desde Primer Grado como base imprescindible para el desarrollo integral de las trayectorias escolares.",
+      "Una alfabetizaci\u00f3n plena desde Primer Grado como base imprescindible para el desarrollo integral de las trayectorias escolares.",
   },
   {
-    title: "Matematica en situaciones reales",
+    title: "Matem\u00e1tica en situaciones reales",
     description:
-      "La resolucion de problemas autenticos desde la evidencia, el razonamiento, la argumentacion y la validacion matematica en dialogo con la vida cotidiana.",
+      "La resoluci\u00f3n de problemas aut\u00e9nticos desde la evidencia, el razonamiento, la argumentaci\u00f3n y la validaci\u00f3n matem\u00e1tica en di\u00e1logo con la vida cotidiana.",
   },
   {
-    title: "Mas tiempo para pensar cientificamente",
+    title: "M\u00e1s tiempo para pensar cient\u00edficamente",
     description:
-      "El pensamiento critico, cientifico y ciudadano desde los primeros anos a partir de la ampliacion horaria para las ciencias.",
+      "El pensamiento cr\u00edtico, cient\u00edfico y ciudadano desde los primeros a\u00f1os a partir de la ampliaci\u00f3n horaria para las ciencias.",
   },
   {
     title: "Saberes, Vidas y Mundos: un espacio flexible y por proyectos",
     description:
-      "El abordaje de tematicas actuales a traves de la participacion activa de las infancias y la articulacion de los contenidos de las areas y los enfoques transversales.",
+      "El abordaje de tem\u00e1ticas actuales a trav\u00e9s de la participaci\u00f3n activa de las infancias y la articulaci\u00f3n de los contenidos de las \u00e1reas y los enfoques transversales.",
   },
   {
-    title: "Educacion Tecnologica actualizada",
+    title: "Educaci\u00f3n Tecnol\u00f3gica actualizada",
     description:
-      "La actualizacion de Educacion Tecnologica, a la que se suman el pensamiento computacional, la robotica, la ciudadania digital y una mirada critica sobre los consumos tecnologicos.",
+      "La actualizaci\u00f3n de Educaci\u00f3n Tecnol\u00f3gica, a la que se suman el pensamiento computacional, la rob\u00f3tica, la ciudadan\u00eda digital y una mirada cr\u00edtica sobre los consumos tecnol\u00f3gicos.",
   },
   {
     title: "Lenguas Extranjeras a lo largo de toda la escolaridad",
     description:
-      "La incorporacion gradual de Lenguas Extranjeras a lo largo de toda la escolaridad para garantizar el derecho a aprender otras lenguas y culturas desde una perspectiva plurilingue e intercultural.",
+      "La incorporaci\u00f3n gradual de Lenguas Extranjeras a lo largo de toda la escolaridad para garantizar el derecho a aprender otras lenguas y culturas desde una perspectiva pluriling\u00fce e intercultural.",
   },
   {
-    title: "Lenguajes artisticos con sentido territorial",
+    title: "Lenguajes art\u00edsticos con sentido territorial",
     description:
-      "La presencia de los lenguajes artisticos articulados por ejes comunes, con saberes situados en el contexto y en dialogo con las producciones artisticas identitarias y con el patrimonio cultural provincial.",
+      "La presencia de los lenguajes art\u00edsticos articulados por ejes comunes, con saberes situados en el contexto y en di\u00e1logo con las producciones art\u00edsticas identitarias y con el patrimonio cultural provincial.",
   },
   {
-    title: "Practicas corporales como diversidad cultural",
+    title: "Pr\u00e1cticas corporales como diversidad cultural",
     description:
-      "El valor de la diversidad de practicas corporales y motrices como manifestaciones culturales y desde una perspectiva que prioriza el juego, la expresion y el respeto por las subjetividades.",
+      "El valor de la diversidad de pr\u00e1cticas corporales y motrices como manifestaciones culturales y desde una perspectiva que prioriza el juego, la expresi\u00f3n y el respeto por las subjetividades.",
   },
   {
-    title: "Enfoques transversales en todas las areas",
+    title: "Enfoques transversales en todas las \u00e1reas",
     description:
-      "Un abordaje de los enfoques transversales que los convierte en parte integral de los espacios curriculares con orientaciones explicitas para la articulacion.",
+      "Un abordaje de los enfoques transversales que los convierte en parte integral de los espacios curriculares con orientaciones expl\u00edcitas para la articulaci\u00f3n.",
   },
   {
     title: "La heterogeneidad como punto de partida",
     description:
-      "El reconocimiento de la heterogeneidad inherente a los grupos escolares como una riqueza a valorar y la diversidad como punto de partida de la ensenanza.",
+      "El reconocimiento de la heterogeneidad inherente a los grupos escolares como una riqueza a valorar y la diversidad como punto de partida de la ense\u00f1anza.",
   },
   {
-    title: "Formacion Etica y Ciudadana",
+    title: "Formaci\u00f3n \u00c9tica y Ciudadana",
     description:
-      "La resignificacion y profundizacion de los contenidos de Formacion Etica y Ciudadana, presentes en el enfoque transversal Ciudadania, Derechos Humanos y Participacion, en Saberes, Vidas y Mundos, y en Ciencias Sociales.",
+      "La resignificaci\u00f3n y profundizaci\u00f3n de los contenidos de Formaci\u00f3n \u00c9tica y Ciudadana, presentes en el enfoque transversal Ciudadan\u00eda, Derechos Humanos y Participaci\u00f3n, en Saberes, Vidas y Mundos, y en Ciencias Sociales.",
   },
 ];
 
@@ -86,13 +86,13 @@ export function EjesDetail() {
           <div className="grid md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-end mb-12">
             <div>
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#494963]/40 mb-3 block">
-                Identidad del diseno
+                Identidad del dise\u00f1o
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-3">
                 {"Ejes centrales de la propuesta"}
               </h2>
               <p className="text-[#494963]/50 text-lg max-w-xl">
-                {"13 ejes que definen la identidad del nuevo diseno curricular. Toca cada uno para conocer mas."}
+                {"13 ejes que definen la identidad del nuevo dise\u00f1o curricular. Toc\u00e1 cada uno para conocer m\u00e1s."}
               </p>
             </div>
 

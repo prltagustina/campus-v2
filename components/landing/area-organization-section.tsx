@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const items = [
   {
     number: "01",
-    title: "Presentacion del area",
+    title: "Presentaci\u00f3n del \u00e1rea",
     description:
       "Fundamentos, sentido formativo y ejes de contenido que orientan la propuesta curricular.",
   },
@@ -14,31 +14,31 @@ const items = [
     number: "02",
     title: "Objetivos",
     description:
-      "Metas de aprendizaje por ciclo (primero, segundo y tercero) y para septimo grado.",
+      "Metas de aprendizaje por ciclo (primero, segundo y tercero) y para s\u00e9ptimo grado.",
   },
   {
     number: "03",
     title: "Contenidos",
     description:
-      "Organizados en cuadros por eje y grado, con progresion clara y articulacion vertical.",
+      "Organizados en cuadros por eje y grado, con progresi\u00f3n clara y articulaci\u00f3n vertical.",
   },
   {
     number: "04",
     title: "Enfoques transversales",
     description:
-      "Etiquetas que senalan que contenidos pueden trabajarse desde la ciudadania, la educacion ambiental y otros enfoques.",
+      "Etiquetas que se\u00f1alan qu\u00e9 contenidos pueden trabajarse desde la ciudadan\u00eda, la educaci\u00f3n ambiental y otros enfoques.",
   },
   {
     number: "05",
     title: "Recomendaciones",
     description:
-      "Orientaciones especificas para la ensenanza, la evaluacion y la diversificacion.",
+      "Orientaciones espec\u00edficas para la ense\u00f1anza, la evaluaci\u00f3n y la diversificaci\u00f3n.",
   },
   {
     number: "06",
     title: "Lecturas sugeridas y glosario",
     description:
-      "Bibliografia complementaria y definiciones clave para profundizar en cada area.",
+      "Bibliograf\u00eda complementaria y definiciones clave para profundizar en cada \u00e1rea.",
   },
 ];
 
@@ -70,9 +70,9 @@ export function AreaOrganizationSection() {
                 Estructura compartida
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
-                {"Como esta"}
+                {"C\u00f3mo est\u00e1"}
                 <br />
-                {"organizada cada area"}
+                {"organizada cada \u00e1rea"}
               </h2>
               <p className="text-lg text-[#494963]/50 mt-4 max-w-md">
                 {"Todas comparten una misma estructura de seis secciones."}

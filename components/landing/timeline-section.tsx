@@ -20,15 +20,15 @@ interface TimelineYear {
 const timelineData: TimelineYear[] = [
   {
     year: "1997",
-    subtitle: "Diseno anterior",
+    subtitle: "Dise\u00f1o anterior",
     description:
-      "Fecha del ultimo diseno curricular para la Educacion Primaria en Santa Fe.",
+      "Fecha del \u00faltimo dise\u00f1o curricular para la Educaci\u00f3n Primaria en Santa Fe.",
   },
   {
     year: "hasta 2022",
     subtitle: "Experiencias previas",
     description:
-      "Experiencias pedagogicas y escrituras preliminares del nuevo diseno curricular.",
+      "Experiencias pedag\u00f3gicas y escrituras preliminares del nuevo dise\u00f1o curricular.",
   },
   {
     year: "2023",
@@ -37,22 +37,22 @@ const timelineData: TimelineYear[] = [
   },
   {
     year: "2024",
-    subtitle: "Conformacion",
+    subtitle: "Conformaci\u00f3n",
     description:
-      "Recuperacion de escrituras anteriores y conformacion de nuevos equipos de trabajo. Presentacion de la propuesta y consulta a delegados, coordinadores pedagogicos regionales y supervisores. Consultas a especialistas.",
+      "Recuperaci\u00f3n de escrituras anteriores y conformaci\u00f3n de nuevos equipos de trabajo. Presentaci\u00f3n de la propuesta y consulta a delegados, coordinadores pedag\u00f3gicos regionales y supervisores. Consultas a especialistas.",
   },
   {
     year: "2025",
-    subtitle: "Consolidacion",
+    subtitle: "Consolidaci\u00f3n",
     description:
-      "Consolidacion de la escritura del nuevo borrador y realizacion de jornadas focales de socializacion y consulta a la comunidad educativa. Formaciones docentes.",
+      "Consolidaci\u00f3n de la escritura del nuevo borrador y realizaci\u00f3n de jornadas focales de socializaci\u00f3n y consulta a la comunidad educativa. Formaciones docentes.",
     events: [
       {
         date: "22 de Julio",
         dateShort: "22 Jul",
-        title: "Encuentro con el Comite de Educacion Ambiental.",
+        title: "Encuentro con el Comit\u00e9 de Educaci\u00f3n Ambiental.",
         description:
-          "Se presentaron los enfoques transversales, particularmente el de Educacion Ambiental Integral.",
+          "Se presentaron los enfoques transversales, particularmente el de Educaci\u00f3n Ambiental Integral.",
         image: "/images/foto-1-22julio.jpg",
       },
       {
@@ -60,45 +60,45 @@ const timelineData: TimelineYear[] = [
         dateShort: "25 Jul",
         title: "Encuentro presencial con directores y supervisores.",
         description:
-          "Se llevo a cabo la presentacion general de la propuesta y se conformaron mesas de trabajo.",
+          "Se llev\u00f3 a cabo la presentaci\u00f3n general de la propuesta y se conformaron mesas de trabajo.",
         image: "/images/foto-2-25julio.jpg",
       },
       {
         date: "01 de Agosto",
         dateShort: "01 Ago",
-        title: "Reunion con delegados y coordinadores regionales.",
+        title: "Reuni\u00f3n con delegados y coordinadores regionales.",
         description:
-          "Presentacion del proceso de escritura y dialogo en torno a dudas e inquietudes.",
+          "Presentaci\u00f3n del proceso de escritura y di\u00e1logo en torno a dudas e inquietudes.",
         image: "/images/foto-3-01agosto.jpg",
       },
       {
         date: "14 de Agosto",
         dateShort: "14 Ago",
-        title: "Socializacion y consulta con equipos de supervision.",
+        title: "Socializaci\u00f3n y consulta con equipos de supervisi\u00f3n.",
         description:
-          "Con participacion de mas de 150 supervisores/as de toda la provincia.",
+          "Con participaci\u00f3n de m\u00e1s de 150 supervisores/as de toda la provincia.",
         image: "/images/foto-4-14agosto.jpg",
       },
       {
         date: "27 de Agosto",
         dateShort: "27 Ago",
-        title: "Presentacion al Comite Asesor Provincial de Discapacidad.",
+        title: "Presentaci\u00f3n al Comit\u00e9 Asesor Provincial de Discapacidad.",
         description:
-          "Se presento la propuesta en la 3a Asamblea Ordinaria del Comite Asesor Provincial.",
+          "Se present\u00f3 la propuesta en la 3\u00aa Asamblea Ordinaria del Comit\u00e9 Asesor Provincial.",
         image: "/images/foto-5-27agosto.jpg",
       },
       {
         date: "31 de Agosto",
         dateShort: "31 Ago",
-        title: "Consulta a instituciones de Educacion Primaria e IFD.",
+        title: "Consulta a instituciones de Educaci\u00f3n Primaria e IFD.",
         description:
-          "Consulta mediante la plataforma Educativa del ministerio de educacion.",
+          "Consulta mediante la plataforma Educativa del ministerio de educaci\u00f3n.",
         image: "/images/foto-6-31agosto.jpg",
       },
       {
         date: "Septiembre 2025",
         dateShort: "Sep",
-        title: "Jornadas de Socializacion y Consulta",
+        title: "Jornadas de Socializaci\u00f3n y Consulta",
         description:
           "En el norte, centro y sur de la provincia, con equipos directivos y docentes.",
         image: "/images/foto-7-septiembre2025.jpg",
@@ -107,9 +107,9 @@ const timelineData: TimelineYear[] = [
   },
   {
     year: "2026",
-    subtitle: "Implementacion",
+    subtitle: "Implementaci\u00f3n",
     description:
-      "Implementacion de nuevo diseno curricular. Construccion de metas de aprendizajes. Materiales didacticos para el aula. Formacion docente.",
+      "Implementaci\u00f3n de nuevo dise\u00f1o curricular. Construcci\u00f3n de metas de aprendizajes. Materiales did\u00e1cticos para el aula. Formaci\u00f3n docente.",
   },
 ];
 
@@ -129,15 +129,17 @@ function useInViewOnce() {
   return { ref, seen };
 }
 
-/* ── Year Card ─────────────────────────────────── */
+/* -- Year Card with inline event images -- */
 function YearCard({
   data,
   index,
-  onExpand,
+  isExpanded,
+  onToggle,
 }: {
   data: TimelineYear;
   index: number;
-  onExpand: () => void;
+  isExpanded: boolean;
+  onToggle: () => void;
 }) {
   const { ref, seen } = useInViewOnce();
   const hasEvents = data.events && data.events.length > 0;
@@ -145,14 +147,16 @@ function YearCard({
   return (
     <div
       ref={ref}
-      className="flex-shrink-0 w-[280px] md:w-[340px] snap-center"
+      className={`flex-shrink-0 snap-center transition-all duration-500 ${
+        isExpanded ? "w-[90vw] max-w-4xl" : "w-[280px] md:w-[340px]"
+      }`}
       style={{
         opacity: seen ? 1 : 0,
         transform: seen ? "translateY(0)" : "translateY(40px)",
-        transition: `opacity 0.7s ease-out ${index * 0.08}s, transform 0.7s ease-out ${index * 0.08}s`,
+        transition: `opacity 0.7s ease-out ${index * 0.08}s, transform 0.7s ease-out ${index * 0.08}s, width 0.5s ease`,
       }}
     >
-      {/* Top: year + track dot */}
+      {/* Year label + track dot */}
       <div className="flex flex-col items-center mb-6">
         <span className="text-5xl md:text-6xl font-black text-[#494963] leading-none tracking-tight">
           {data.year}
@@ -160,25 +164,71 @@ function YearCard({
         <span className="text-[11px] uppercase tracking-[0.15em] text-[#494963]/40 font-semibold mt-2">
           {data.subtitle}
         </span>
-        {/* Dot on track */}
         <div className="mt-5 w-3.5 h-3.5 rounded-full bg-[#494963] border-4 border-[#EDEDF0] relative z-10" />
       </div>
 
-      {/* Card body */}
+      {/* Card */}
       <div
-        className="rounded-2xl p-6 md:p-7 bg-white shadow-sm border border-[#494963]/5 cursor-pointer hover:shadow-md hover:border-[#494963]/12 transition-all group"
-        onClick={hasEvents ? onExpand : undefined}
+        className={`rounded-2xl bg-white shadow-sm border border-[#494963]/5 transition-all ${
+          hasEvents ? "cursor-pointer hover:shadow-md hover:border-[#494963]/12" : ""
+        }`}
+        onClick={hasEvents && !isExpanded ? onToggle : undefined}
         role={hasEvents ? "button" : undefined}
         tabIndex={hasEvents ? 0 : undefined}
-        onKeyDown={hasEvents ? (e) => { if (e.key === "Enter") onExpand(); } : undefined}
+        onKeyDown={hasEvents ? (e) => { if (e.key === "Enter") onToggle(); } : undefined}
       >
-        <p className="text-sm md:text-base text-[#494963]/70 leading-relaxed">
-          {data.description}
-        </p>
-        {hasEvents && (
-          <div className="mt-4 flex items-center gap-2 text-[#494963] text-xs font-semibold uppercase tracking-wider group-hover:underline">
-            <span>Ver {data.events!.length} eventos</span>
-            <ChevronRight className="w-3.5 h-3.5" />
+        <div className="p-6 md:p-7">
+          <p className="text-sm md:text-base text-[#494963]/70 leading-relaxed">
+            {data.description}
+          </p>
+          {hasEvents && !isExpanded && (
+            <div className="mt-4 flex items-center gap-2 text-[#494963] text-xs font-semibold uppercase tracking-wider">
+              <span>Ver {data.events!.length} eventos</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </div>
+          )}
+        </div>
+
+        {/* Expanded: events with images */}
+        {isExpanded && hasEvents && (
+          <div className="border-t border-[#494963]/5">
+            <div className="p-6 md:p-7 flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#494963]/40">
+                Eventos {data.year}
+              </span>
+              <button
+                onClick={(e) => { e.stopPropagation(); onToggle(); }}
+                className="w-8 h-8 rounded-full bg-[#494963]/5 flex items-center justify-center text-[#494963]/50 hover:bg-[#494963]/10 hover:text-[#494963] transition-colors"
+                aria-label="Cerrar"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="px-6 md:px-7 pb-7 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {data.events!.map((event, i) => (
+                <div key={i} className="group rounded-xl overflow-hidden border border-[#494963]/5 bg-[#fafafa]">
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <img
+                      src={event.image || "/placeholder.svg"}
+                      alt={event.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      crossOrigin="anonymous"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <span className="text-[10px] uppercase tracking-[0.15em] text-[#494963]/35 font-semibold block mb-1.5">
+                      {event.date}
+                    </span>
+                    <h4 className="text-sm font-bold text-[#494963] leading-snug mb-1.5">
+                      {event.title}
+                    </h4>
+                    <p className="text-xs text-[#494963]/50 leading-relaxed">
+                      {event.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -186,67 +236,7 @@ function YearCard({
   );
 }
 
-/* ── Events Panel (modal-style overlay) ────────── */
-function EventsPanel({
-  year,
-  events,
-  onClose,
-}: {
-  year: string;
-  events: TimelineEvent[];
-  onClose: () => void;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 md:p-8">
-      <div className="relative bg-white rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
-        {/* Header */}
-        <div className="sticky top-0 bg-white/95 backdrop-blur-sm z-10 px-6 md:px-10 py-5 border-b border-[#494963]/5 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-[0.15em] text-[#494963]/40 font-semibold">
-              Eventos
-            </span>
-            <h3 className="text-2xl md:text-3xl font-bold text-[#494963]">{year}</h3>
-          </div>
-          <button
-            onClick={onClose}
-            className="w-10 h-10 rounded-full bg-[#494963]/5 flex items-center justify-center text-[#494963]/50 hover:bg-[#494963]/10 hover:text-[#494963] transition-colors"
-            aria-label="Cerrar"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Events list */}
-        <div className="px-6 md:px-10 py-6 md:py-8 space-y-8">
-          {events.map((event, i) => (
-            <div key={i} className="flex flex-col md:flex-row gap-5">
-              <div className="flex-shrink-0 w-full md:w-56 aspect-[16/10] rounded-xl overflow-hidden bg-[#494963]/5">
-                <img
-                  src={event.image || "/placeholder.svg"}
-                  alt={event.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1">
-                <span className="text-[11px] uppercase tracking-[0.15em] text-[#494963]/40 font-semibold block mb-1.5">
-                  {event.date}
-                </span>
-                <h4 className="text-base md:text-lg font-bold text-[#494963] mb-2 leading-snug">
-                  {event.title}
-                </h4>
-                <p className="text-sm text-[#494963]/60 leading-relaxed">
-                  {event.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ── Main Timeline ─────────────────────────────── */
+/* -- Main Timeline -- */
 export function TimelineSection() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [expandedYear, setExpandedYear] = useState<number | null>(null);
@@ -266,9 +256,9 @@ export function TimelineSection() {
                 Proceso de Escritura
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
-                {"Linea historica"}
+                {"L\u00ednea hist\u00f3rica"}
                 <br className="hidden md:block" />
-                {" del diseno"}
+                {" del dise\u00f1o"}
               </h2>
             </div>
 
@@ -307,20 +297,12 @@ export function TimelineSection() {
               key={i}
               data={item}
               index={i}
-              onExpand={() => setExpandedYear(i)}
+              isExpanded={expandedYear === i}
+              onToggle={() => setExpandedYear(expandedYear === i ? null : i)}
             />
           ))}
         </div>
       </div>
-
-      {/* Events modal */}
-      {expandedYear !== null && timelineData[expandedYear].events && (
-        <EventsPanel
-          year={timelineData[expandedYear].year}
-          events={timelineData[expandedYear].events!}
-          onClose={() => setExpandedYear(null)}
-        />
-      )}
     </section>
   );
 }

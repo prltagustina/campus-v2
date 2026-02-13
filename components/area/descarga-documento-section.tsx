@@ -50,7 +50,7 @@ export function DescargaDocumentoSection({ area }: DescargaDocumentoSectionProps
 
             {/* Text + button -- LARGE text to match reference */}
             <div className="flex-1 flex flex-col justify-center px-8 sm:px-10 md:px-12 py-8 sm:py-12 md:py-14 text-center sm:text-left">
-              <p className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-bold italic leading-tight text-balance">
+              <p className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight text-balance">
                 {"Descarg\u00e1 el documento completo para profundizar en los contenidos"}
               </p>
 

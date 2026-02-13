@@ -5,7 +5,6 @@ import {
   Home,
   Lightbulb,
   Play,
-  Compass,
   Clock,
 } from "lucide-react";
 
@@ -13,10 +12,9 @@ const sections = [
   { id: "inicio", label: "Inicio", icon: Home },
   { id: "que-ensenar", label: "Propuesta", icon: Lightbulb },
   { id: "marco-general", label: "Marco General", icon: Play },
-  { id: "ejes-centrales", label: "Ejes", icon: Compass },
   {
     id: "areas",
-    label: "Areas",
+    label: "\u00c1reas",
     icon: null,
   },
   { id: "proceso", label: "Proceso", icon: Clock },

@@ -15,7 +15,7 @@ export function CurriculumIntro() {
             <div className="w-16 h-16 md:w-20 md:h-20">
               <Image
                 src="/images/recurso-3.png"
-                alt="Logo Diseno Curricular"
+                alt="Logo Dise\u00f1o Curricular"
                 width={80}
                 height={80}
                 className="w-full h-full object-contain"
@@ -31,9 +31,9 @@ export function CurriculumIntro() {
                   "'Inter Tight', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
               }}
             >
-              {"Diseno Curricular"}
+              {"Dise\u00f1o Curricular"}
               <br />
-              {"para la Educacion"}
+              {"para la Educaci\u00f3n"}
               <br />
               {"Primaria de Santa Fe"}
             </h1>
@@ -41,10 +41,10 @@ export function CurriculumIntro() {
             {/* Paragraphs */}
             <div className="space-y-4 text-[#3D3D5C]/80 max-w-md">
               <p className="text-base md:text-lg leading-relaxed">
-                {"Un marco comun que orienta que ensenar, como hacerlo y con que proposito."}
+                {"Un marco com\u00fan que orienta qu\u00e9 ense\u00f1ar, c\u00f3mo hacerlo y con qu\u00e9 prop\u00f3sito."}
               </p>
               <p className="text-base md:text-lg leading-relaxed">
-                {"Una hoja de ruta en la que cada docente tiene el rol insustituible de convertir este diseno en practicas situadas y significativas."}
+                {"Una hoja de ruta en la que cada docente tiene el rol insustituible de convertir este dise\u00f1o en pr\u00e1cticas situadas y significativas."}
               </p>
             </div>
 
@@ -57,13 +57,13 @@ export function CurriculumIntro() {
                 className="inline-flex items-center gap-2 px-7 py-3 rounded-lg bg-[#494963] text-white font-semibold text-sm hover:bg-[#3a3a4f] transition-colors shadow-sm"
               >
                 <Download className="w-4 h-4" />
-                {"Descargar Diseno Curricular"}
+                {"Descargar Dise\u00f1o Curricular"}
               </a>
               <Link
                 href="/marco-general"
                 className="inline-flex items-center px-7 py-3 rounded-lg border-2 border-[#494963]/20 text-[#494963] font-medium text-sm hover:border-[#494963]/40 hover:bg-[#494963]/4 transition-colors"
               >
-                {"Conocer mas"}
+                {"Conocer m\u00e1s"}
               </Link>
             </div>
           </div>
@@ -77,7 +77,7 @@ export function CurriculumIntro() {
       <div className="relative lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full lg:w-[55%] h-[380px] md:h-[520px] lg:h-[90%] mt-8 lg:mt-0 pointer-events-none">
         <Image
           src="/images/ilustracionIntro.png"
-          alt="Ilustracion del diseno curricular con mapa de Santa Fe"
+          alt="Ilustraci\u00f3n del dise\u00f1o curricular con mapa de Santa Fe"
           fill
           className="object-contain object-center lg:object-right lg:translate-x-[12%]"
           priority

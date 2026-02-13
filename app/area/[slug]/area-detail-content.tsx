@@ -15,7 +15,7 @@ import { VideoSection } from "@/components/area/video-section";
 import { MaterialesSection } from "@/components/area/materiales-section";
 import { FormacionesSection } from "@/components/area/formaciones-section";
 import { AreaFooter } from "@/components/area/area-footer";
-import { ScrollToTop } from "@/components/area/scroll-to-top";
+
 
 /* ─────────────────────────────────────────────
  * RevealSection -- each content section fades/slides
@@ -225,7 +225,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
       : null;
 
   return (
-    <div className="min-h-screen bg-[#fafafa] overflow-x-hidden">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <MobileNav
         area={area}
         activeSection={activeSection}
@@ -233,7 +233,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
         setMobileMenuOpen={setMobileMenuOpen}
         scrollToSection={scrollToSection}
       />
-      <ScrollToTop area={area} />
+
       <Sidebar
         area={area}
         activeSection={activeSection}
@@ -242,7 +242,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
         scrollToSection={scrollToSection}
       />
 
-      <main className="lg:ml-16">
+      <main>
         {/* HERO: media rueda with parallax fade */}
         <FadingHeader
           area={area}
@@ -320,8 +320,8 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
         </div>
       </main>
 
-      {/* Footer -- non-fixed, in normal document flow, desktop only */}
-      <div className="hidden lg:block">
+      {/* Footer -- full-width, non-fixed, desktop only */}
+      <div className="hidden lg:block w-full">
         <AreaFooter
           area={area}
           prevArea={prevArea}

@@ -65,17 +65,17 @@ export default function HomePage() {
         <QuickAccessBar />
       </ScrollReveal>
 
-      {/* 3) Marco General -- light bg */}
-      <ParallaxSection speed={0.06}>
+      {/* 3) Qu\u00e9 ense\u00f1ar -- white bg */}
+      <ParallaxSection speed={0.04}>
         <ScrollReveal delay={0.05}>
-          <MarcoGeneralSection />
+          <WhatWhyHowSection />
         </ScrollReveal>
       </ParallaxSection>
 
-      {/* 4) Que ensenar -- institutional dark */}
+      {/* 4) Marco General -- institutional dark */}
       <ScrollReveal delay={0.05}>
         <div className="bg-[#494963]">
-          <WhatWhyHowSection />
+          <MarcoGeneralSection />
         </div>
       </ScrollReveal>
 
@@ -86,10 +86,10 @@ export default function HomePage() {
           <ScrollReveal delay={0.05} distance={50}>
             <div className="text-center mb-10 md:mb-14">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
-                {"Un marco comun"}
+                {"Un marco com\u00fan"}
               </h2>
               <p className="text-lg md:text-xl text-[#494963]/70 mt-5 max-w-3xl mx-auto leading-relaxed">
-                {"El diseno desarrolla las siguientes areas: Matematica, Lengua y Literatura, Ciencias Naturales, Ciencias Sociales, Educacion Fisica, Educacion Artistica, Lenguas Extranjeras, Educacion Tecnologica y "}
+                {"El dise\u00f1o desarrolla las siguientes \u00e1reas: Matem\u00e1tica, Lengua y Literatura, Ciencias Naturales, Ciencias Sociales, Educaci\u00f3n F\u00edsica, Educaci\u00f3n Art\u00edstica, Lenguas Extranjeras, Educaci\u00f3n Tecnol\u00f3gica y "}
                 <strong className="text-[#494963] font-bold">
                   {"Saberes, Vidas y Mundos"}
                 </strong>
@@ -214,7 +214,7 @@ export default function HomePage() {
                       : selectedArea?.color,
                 }}
               >
-                {"Ver mas"}
+                {"Ver m\u00e1s"}
               </Link>
             </div>
           </div>
@@ -261,10 +261,10 @@ export default function HomePage() {
             </div>
             <div className="flex-1 min-w-0">
               <span className="text-sm font-semibold text-[#494963] block leading-tight">
-                {"Educacion Intercultural Bilingue"}
+                {"Educaci\u00f3n Intercultural Biling\u00fce"}
               </span>
               <span className="text-xs text-[#494963]/45 block mt-0.5">
-                {"Enfoque intercultural y bilingue del diseno"}
+                {"Enfoque intercultural y biling\u00fce del dise\u00f1o"}
               </span>
             </div>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-0 -translate-x-1 group-hover:opacity-50 group-hover:translate-x-0 transition-all flex-shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>

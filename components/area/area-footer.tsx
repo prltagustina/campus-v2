@@ -29,9 +29,9 @@ export function AreaFooter({
   };
 
   return (
-    <footer id="area-footer" className="lg:ml-16">
-      {/* Top bar: section quick links -- institutional blue */}
-      <div className="w-full py-4 flex items-center justify-center gap-8 sm:gap-12 bg-[#494963]">
+    <footer id="area-footer" className="w-full bg-[#494963]">
+      {/* Top bar: section quick links */}
+      <div className="w-full py-4 flex items-center justify-center gap-8 sm:gap-12">
         {SECTIONS.map((s) => (
           <button
             key={s.id}
@@ -44,10 +44,7 @@ export function AreaFooter({
         ))}
       </div>
 
-      {/* Thin separator */}
-      <div className="w-full h-px bg-white/10" style={{ backgroundColor: "rgba(73,73,99,0.15)" }} />
-
-      {/* Bottom bar: prev / home / next navigation -- slightly lighter shade */}
+      {/* Bottom bar: prev / home / scroll-to-top / next -- same bg, no separator */}
       <div className="relative py-5 px-6 sm:px-10 flex items-center justify-between bg-[#3d3d54]">
         {/* Prev area */}
         <div className="flex-1 flex justify-start">
@@ -71,7 +68,7 @@ export function AreaFooter({
           )}
         </div>
 
-        {/* Home button */}
+        {/* Center: Home button */}
         <div className="flex items-center justify-center">
           <Link
             href="/"
@@ -81,8 +78,8 @@ export function AreaFooter({
           </Link>
         </div>
 
-        {/* Next area + scroll to top */}
-        <div className="flex-1 flex justify-end items-center gap-3">
+        {/* Next area + scroll to top (area color, larger, no container) */}
+        <div className="flex-1 flex justify-end items-center gap-4">
           {nextArea ? (
             <Link
               href={`/area/${nextArea.slug}`}
@@ -104,10 +101,11 @@ export function AreaFooter({
           <button
             type="button"
             onClick={scrollToTop}
-            className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/30 transition-all hover:border-white/30 hover:text-white/60"
+            className="flex items-center justify-center transition-all hover:scale-110"
+            style={{ color: area.color }}
             aria-label="Volver arriba"
           >
-            <ArrowUp className="w-4 h-4" />
+            <ArrowUp className="w-7 h-7" />
           </button>
         </div>
       </div>

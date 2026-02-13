@@ -2,40 +2,34 @@
 
 import { useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Inter_Tight } from "next/font/google";
-
-const interTight = Inter_Tight({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 const sections = [
   {
     id: "que",
     number: "01",
-    title: "Que ensenar",
+    title: "\u00bfQu\u00e9 ense\u00f1ar?",
     content:
-      "Define los contenidos fundamentales que todas las escuelas deben ensenar, organizados por areas, ciclos y grados.",
+      "Define los contenidos fundamentales que todas las escuelas deben ense\u00f1ar, organizados por \u00e1reas, ciclos y grados.",
     detail:
-      "Los contenidos de cada area se presentan en cuadros que muestran su progresion y complejizacion, a fin de facilitar la planificacion de propuestas integrales y articuladas.",
+      "Los contenidos de cada \u00e1rea se presentan en cuadros que muestran su progresi\u00f3n y complejizaci\u00f3n, a fin de facilitar la planificaci\u00f3n de propuestas integrales y articuladas.",
   },
   {
     id: "como",
     number: "02",
-    title: "Como hacerlo",
+    title: "\u00bfC\u00f3mo hacerlo?",
     content:
-      "Propone articular contenidos, incorporar enfoques transversales y diversificar las estrategias de ensenanza para garantizar aprendizajes significativos en todas las aulas.",
+      "Propone articular contenidos, incorporar enfoques transversales y diversificar las estrategias de ense\u00f1anza para garantizar aprendizajes significativos en todas las aulas.",
     detail:
-      "Mediante orientaciones didacticas, ejemplos y recomendaciones especificas para cada area y ciclo.",
+      "Mediante orientaciones did\u00e1cticas, ejemplos y recomendaciones espec\u00edficas para cada \u00e1rea y ciclo.",
   },
   {
     id: "por-que",
     number: "03",
-    title: "Con que proposito",
+    title: "\u00bfCon qu\u00e9 prop\u00f3sito?",
     content:
-      "Se articula en torno a principios politico-pedagogicos solidos para que las infancias accedan al conocimiento y se desarrollen plenamente como ciudadanas y ciudadanos criticos, creativos y solidarios.",
+      "Se articula en torno a principios pol\u00edtico-pedag\u00f3gicos s\u00f3lidos para que las infancias accedan al conocimiento y se desarrollen plenamente como ciudadanas y ciudadanos cr\u00edticos, creativos y solidarios.",
     detail:
-      "En las escuelas, el Estado materializa su responsabilidad indelegable: garantizar el derecho a la Educacion.",
+      "En las escuelas, el Estado materializa su responsabilidad indelegable: garantizar el derecho a la Educaci\u00f3n.",
   },
 ];
 
@@ -52,36 +46,39 @@ export function WhatWhyHowSection() {
   );
 
   return (
-    <section id="que-ensenar" className="w-full py-20 md:py-32">
+    <section id="que-ensenar" className="w-full py-20 md:py-32 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header row */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
-            <h2
-              className={`${interTight.className} text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight`}
-            >
-              {"Que ensenar,"}
-              <br />
-              {"como hacerlo"}
-              <br />
-              {"y con que proposito"}
-            </h2>
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#494963]/30 mb-3 block">
+                Propuesta curricular
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight">
+                {"\u00bfQu\u00e9 ense\u00f1ar, c\u00f3mo"}
+                <br />
+                {"hacerlo y con qu\u00e9"}
+                <br />
+                {"prop\u00f3sito?"}
+              </h2>
+            </div>
 
             {/* Navigation controls */}
             <div className="flex items-center gap-3">
               <button
                 onClick={prev}
-                className="w-11 h-11 rounded-full border-2 border-white/20 flex items-center justify-center text-white/50 hover:border-white/40 hover:text-white transition-colors"
+                className="w-11 h-11 rounded-full border-2 border-[#494963]/15 flex items-center justify-center text-[#494963]/40 hover:border-[#494963]/30 hover:text-[#494963] transition-colors"
                 aria-label="Anterior"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
-              <span className="text-sm font-semibold text-white/40 tabular-nums min-w-[3ch] text-center">
+              <span className="text-sm font-semibold text-[#494963]/30 tabular-nums min-w-[3ch] text-center">
                 {active + 1}/{sections.length}
               </span>
               <button
                 onClick={next}
-                className="w-11 h-11 rounded-full border-2 border-white/20 flex items-center justify-center text-white/50 hover:border-white/40 hover:text-white transition-colors"
+                className="w-11 h-11 rounded-full border-2 border-[#494963]/15 flex items-center justify-center text-[#494963]/40 hover:border-[#494963]/30 hover:text-[#494963] transition-colors"
                 aria-label="Siguiente"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -102,19 +99,19 @@ export function WhatWhyHowSection() {
                 >
                   <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-14 items-start">
                     {/* Big number */}
-                    <span className="text-[7rem] md:text-[10rem] lg:text-[12rem] font-black text-white/5 leading-none select-none -mb-6 md:-mb-8">
+                    <span className="text-[7rem] md:text-[10rem] lg:text-[12rem] font-black text-[#494963]/5 leading-none select-none -mb-6 md:-mb-8">
                       {section.number}
                     </span>
 
                     {/* Content */}
                     <div className="flex flex-col justify-center md:py-8">
-                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6">
+                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#494963] mb-6">
                         {section.title}
                       </h3>
-                      <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-4 max-w-2xl">
+                      <p className="text-lg md:text-xl text-[#494963]/65 leading-relaxed mb-4 max-w-2xl">
                         {section.content}
                       </p>
-                      <p className="text-base md:text-lg text-white/40 leading-relaxed max-w-2xl">
+                      <p className="text-base md:text-lg text-[#494963]/35 leading-relaxed max-w-2xl">
                         {section.detail}
                       </p>
                     </div>
@@ -132,8 +129,8 @@ export function WhatWhyHowSection() {
                 onClick={() => setActive(i)}
                 className={`h-1.5 rounded-full transition-all duration-500 ${
                   active === i
-                    ? "w-8 bg-white"
-                    : "w-3 bg-white/15 hover:bg-white/30"
+                    ? "w-8 bg-[#494963]"
+                    : "w-3 bg-[#494963]/10 hover:bg-[#494963]/25"
                 }`}
                 aria-label={`Slide ${i + 1}`}
               />
