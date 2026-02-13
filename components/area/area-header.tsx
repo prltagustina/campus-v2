@@ -52,7 +52,7 @@ export function AreaHeader({ area, activeAxis, onAxisClick }: AreaHeaderProps) {
       {/* Image: constrained to ~75% width, centered, flush to top */}
       <div
         className="relative mx-auto"
-        style={{ lineHeight: 0, maxWidth: 1100, marginTop: -4 }}
+        style={{ lineHeight: 0, maxWidth: 900, marginTop: -4 }}
       >
         <Image
           src={mediaRuedaSrc || "/placeholder.svg"}

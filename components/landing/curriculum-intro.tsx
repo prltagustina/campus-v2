@@ -63,7 +63,7 @@ export function CurriculumIntro() {
                 href="/marco-general"
                 className="inline-flex items-center px-7 py-3 rounded-lg border-2 border-[#494963]/20 text-[#494963] font-medium text-sm hover:border-[#494963]/40 hover:bg-[#494963]/4 transition-colors"
               >
-                {"Conocer m\u00e1s"}
+                {"Ver m\u00e1s"}
               </Link>
             </div>
           </div>

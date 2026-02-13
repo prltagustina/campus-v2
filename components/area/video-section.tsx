@@ -29,7 +29,7 @@ export function VideoSection({ area }: VideoSectionProps) {
           className="text-[11px] font-bold uppercase tracking-[0.2em] mb-3"
           style={{ color: area.color }}
         >
-          Conoce el area
+          Presentaci\u00f3n
         </span>
         <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963]">
           {"Video de presentaci\u00f3n"}

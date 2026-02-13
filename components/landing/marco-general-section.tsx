@@ -14,10 +14,8 @@ export function MarcoGeneralSection() {
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-3 block">
                 Fundamentos
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
-                {"Conoc\u00e9 el"}
-                <br />
-                {"marco general"}
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight font-sans">
+                Marco General
               </h2>
               <p className="text-white/45 text-lg mt-4 max-w-lg leading-relaxed">
                 {"Un video introductorio sobre los fundamentos, la estructura y los ejes del nuevo dise\u00f1o curricular."}
@@ -28,7 +26,7 @@ export function MarcoGeneralSection() {
               href="/marco-general"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/20 text-white font-medium text-sm hover:border-white/40 hover:bg-white/5 transition-colors flex-shrink-0 self-start md:self-end"
             >
-              {"Conocer m\u00e1s"}
+              {"Ver m\u00e1s"}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

@@ -250,27 +250,35 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* EIB access -- near the wheel */}
-        <div className="max-w-lg mx-auto mt-10 mb-4 px-4">
-          <Link
-            href="/eib"
-            className="group flex items-center gap-4 px-6 py-4 rounded-xl bg-white/80 backdrop-blur border border-[#494963]/8 hover:border-[#494963]/20 hover:shadow-md transition-all"
-          >
-            <div className="w-10 h-10 rounded-full bg-[#494963]/6 flex items-center justify-center flex-shrink-0">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            </div>
-            <div className="flex-1 min-w-0">
-              <span className="text-sm font-semibold text-[#494963] block leading-tight">
-                {"Educaci\u00f3n Intercultural Biling\u00fce"}
-              </span>
-              <span className="text-xs text-[#494963]/45 block mt-0.5">
-                {"Enfoque intercultural y biling\u00fce del dise\u00f1o"}
-              </span>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-0 -translate-x-1 group-hover:opacity-50 group-hover:translate-x-0 transition-all flex-shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </Link>
-        </div>
       </section>
+
+      {/* EIB -- editorial block below wheel */}
+      <div className="w-full bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <Link
+              href="/eib"
+              className="group flex flex-col md:flex-row md:items-center justify-between py-10 md:py-14 border-t border-[#494963]/8 hover:border-[#494963]/15 transition-colors"
+            >
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#494963]/25 block mb-3">
+                  Enfoque transversal
+                </span>
+                <h3 className="text-2xl md:text-3xl font-bold text-[#494963] leading-tight">
+                  {"Educaci\u00f3n Intercultural Biling\u00fce"}
+                </h3>
+                <p className="text-sm text-[#494963]/40 leading-relaxed mt-2 max-w-md">
+                  {"Enfoque intercultural y biling\u00fce integrado al dise\u00f1o curricular."}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 mt-4 md:mt-0 text-[#494963]/40 group-hover:text-[#494963] transition-colors flex-shrink-0">
+                <span className="text-xs font-semibold uppercase tracking-wider">Explorar</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="-translate-x-1 group-hover:translate-x-0 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
 
       {/* 6) Organizacion de areas -- white bg for contrast */}
       <ParallaxSection speed={0.05}>

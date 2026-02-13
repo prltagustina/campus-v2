@@ -113,7 +113,7 @@ export function AreaOrganizationSection() {
                 <div
                   className={`relative h-full rounded-2xl p-6 md:p-7 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-default ${
                     hoveredIndex === index
-                      ? "bg-[#494963] text-white scale-[1.03] shadow-xl"
+                      ? "bg-[#494963] text-white shadow-xl"
                       : "bg-[#494963]/[0.03] text-[#494963]"
                   }`}
                 >

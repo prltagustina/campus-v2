@@ -43,7 +43,7 @@ export function DescargaDocumentoSection({ area }: DescargaDocumentoSectionProps
                 alt={`Portada ${area.name}`}
                 width={320}
                 height={452}
-                className="w-[200px] md:w-[280px] lg:w-[300px] h-auto drop-shadow-2xl"
+                className="w-[220px] md:w-[300px] lg:w-[340px] h-auto drop-shadow-2xl"
                 style={{ transform: "rotate(-6deg) translateY(-12px)" }}
               />
             </div>
