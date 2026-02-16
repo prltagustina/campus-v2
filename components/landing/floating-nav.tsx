@@ -5,6 +5,7 @@ import {
   Home,
   Lightbulb,
   Play,
+  LayoutGrid,
   Clock,
 } from "lucide-react";
 
@@ -17,6 +18,7 @@ const sections = [
     label: "\u00c1reas",
     icon: null,
   },
+  { id: "organizacion", label: "Organizaci\u00f3n", icon: LayoutGrid },
   { id: "proceso", label: "Proceso", icon: Clock },
 ];
 

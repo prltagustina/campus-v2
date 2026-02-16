@@ -47,11 +47,10 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                isActive(link.href)
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${isActive(link.href)
                   ? "text-[#494963] bg-[#494963]/6"
                   : "text-[#494963]/60 hover:text-[#494963] hover:bg-[#494963]/4"
-              }`}
+                }`}
             >
               {link.label}
             </Link>
@@ -65,15 +64,14 @@ export function Header() {
           >
             <button
               type="button"
-              className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-1 ${
-                pathname.startsWith("/area")
+              className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-1 ${pathname.startsWith("/area")
                   ? "text-[#494963] bg-[#494963]/6"
                   : "text-[#494963]/60 hover:text-[#494963] hover:bg-[#494963]/4"
-              }`}
+                }`}
               aria-expanded={areasOpen}
               aria-haspopup="true"
             >
-              {"Areas"}
+              {"Áreas"}
               <ChevronDown className={`w-3.5 h-3.5 transition-transform ${areasOpen ? "rotate-180" : ""}`} />
             </button>
 
@@ -130,11 +128,10 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className={`px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                  isActive(link.href)
+                className={`px-4 py-3 text-sm font-medium rounded-lg transition-colors ${isActive(link.href)
                     ? "text-[#494963] bg-[#494963]/6"
                     : "text-[#494963]/60 hover:text-[#494963] hover:bg-[#494963]/4"
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
