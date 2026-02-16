@@ -14,7 +14,7 @@ export function Footer() {
                 {"Dise\u00f1o Curricular"}
               </p>
               <p className="text-white/50 text-sm leading-relaxed max-w-xs">
-                {"Educaci\u00f3n Primaria de la Provincia de Santa Fe. Ministerio de Educaci\u00f3n."}
+                {"Educación Primaria de la Provincia de Santa Fe. Ministerio de Educación."}
               </p>
             </div>
 
@@ -42,7 +42,7 @@ export function Footer() {
             {/* Areas */}
             <div>
               <p className="text-white/40 text-xs font-semibold uppercase tracking-wider mb-3">
-{"\u00c1reas curriculares"}
+                {"\u00c1reas curriculares"}
               </p>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                 {areasData.map((area) => (
