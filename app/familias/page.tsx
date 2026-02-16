@@ -15,7 +15,7 @@ const materialesGenerales = [
   },
   {
     nombre: "PTT DISENO CURRICULAR para FAMILIAS.pptx.pdf",
-    titulo: "Presentacion del Diseno Curricular para Familias",
+    titulo: "Presentación del Diseño Curricular para Familias",
     descripcion: "Presentacion general del marco curricular en formato visual.",
     formato: "PPT",
     url: "/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf",
