@@ -13,7 +13,7 @@ export function AreasAccess() {
             {"Explorar las areas curriculares"}
           </h2>
           <p className="text-[#494963]/50 text-base mb-8">
-            {"Accede al detalle de cada area: ejes de contenidos, orientaciones didacticas, formaciones docentes y materiales."}
+            {"Accedé al detalle de cada área: ejes de contenidos, orientaciones didácticas, formaciones docentes y materiales."}
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">

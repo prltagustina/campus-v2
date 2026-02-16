@@ -86,12 +86,12 @@ const timelineData: TimelineYear[] = [
         date: "31 de Agosto",
         title: "Consulta a instituciones de Educaci\u00f3n Primaria e IFD.",
         description:
-          "Consulta mediante la plataforma Educativa del ministerio de educaci\u00f3n.",
+          "Consulta mediante la plataforma Educativa del Ministerio de Educación.",
         image: "/images/foto-6-31agosto.jpg",
       },
       {
         date: "Septiembre 2025",
-        title: "Jornadas de Socializaci\u00f3n y Consulta",
+        title: "Jornadas de Socialización y Consulta",
         description:
           "En el norte, centro y sur de la provincia, con equipos directivos y docentes.",
         image: "/images/foto-7-septiembre2025.jpg",

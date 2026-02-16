@@ -59,22 +59,22 @@ export function AreaOrganizationSection() {
   return (
     <section
       id="organizacion"
-      className="w-full py-20 md:py-32 bg-[#494963] md:bg-white overflow-hidden"
+      className="w-full py-20 md:py-32 bg-white overflow-hidden"
     >
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
             <div>
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/30 md:text-[#494963]/40 mb-3 block">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#494963]/40 mb-3 block">
                 Estructura compartida
               </span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white md:text-[#494963] leading-tight font-display">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#494963] leading-tight font-display">
                 {"C\u00f3mo est\u00e1"}
                 <br />
                 {"organizada cada \u00e1rea"}
               </h2>
-              <p className="text-lg md:text-xl text-white/50 md:text-[#494963]/50 mt-4 max-w-md">
+              <p className="text-lg md:text-xl text-[#494963]/50 mt-4 max-w-md">
                 {"Todas comparten una misma estructura de seis secciones."}
               </p>
             </div>
@@ -111,39 +111,37 @@ export function AreaOrganizationSection() {
                 onMouseLeave={() => setHoveredIndex(null)}
               >
                 <div
-                  className={`relative h-full min-h-[220px] rounded-2xl p-6 md:p-7 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-default overflow-hidden ${
-                    hoveredIndex === index
-                      ? "md:bg-[#494963] md:text-white md:shadow-xl bg-white/15 text-white"
-                      : "md:bg-[#494963]/[0.03] md:text-[#494963] bg-white/8 text-white"
-                  }`}
+                  className={`relative h-full min-h-[220px] rounded-2xl p-6 md:p-7 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-default overflow-hidden ${hoveredIndex === index
+                      ? // Hovered state
+                      "md:bg-[#494963] md:text-white md:shadow-xl bg-[#494963] text-white"
+                      : // Not hovered
+                      "md:bg-[#494963]/[0.03] md:text-[#494963] bg-[#494963]/[0.90] text-white"
+                    }`}
                 >
                   {/* Number */}
                   <span
-                    className={`text-5xl md:text-6xl font-black leading-none block mb-5 transition-colors duration-500 ${
-                      hoveredIndex === index
+                    className={`text-5xl md:text-6xl font-black leading-none block mb-5 transition-colors duration-500 ${hoveredIndex === index
                         ? "md:text-white/20 text-white/25"
                         : "md:text-[#494963]/15 text-white/20"
-                    }`}
+                      }`}
                   >
                     {item.number}
                   </span>
 
                   <h3
-                    className={`text-lg md:text-xl font-bold leading-snug mb-3 transition-colors duration-500 font-display ${
-                      hoveredIndex === index
+                    className={`text-lg md:text-xl font-bold leading-snug mb-3 transition-colors duration-500 font-display ${hoveredIndex === index
                         ? "md:text-white text-white"
                         : "md:text-[#494963] text-white"
-                    }`}
+                      }`}
                   >
                     {item.title}
                   </h3>
 
                   <p
-                    className={`text-sm md:text-base leading-relaxed transition-colors duration-500 ${
-                      hoveredIndex === index
+                    className={`text-sm md:text-base leading-relaxed transition-colors duration-500 ${hoveredIndex === index
                         ? "md:text-white/70 text-white/70"
-                        : "md:text-[#494963]/50 text-white/45"
-                    }`}
+                        : "md:text-[#494963]/50 text-white/75"
+                      }`}
                   >
                     {item.description}
                   </p>

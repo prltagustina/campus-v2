@@ -15,8 +15,8 @@ const materialesGenerales = [
   },
   {
     nombre: "PTT DISENO CURRICULAR para FAMILIAS.pptx.pdf",
-    titulo: "Presentacion del Diseno Curricular para Familias",
-    descripcion: "Presentacion general del marco curricular en formato visual.",
+    titulo: "Presentación del Diseño Curricular para Familias",
+    descripcion: "Presentación general del marco curricular en formato visual.",
     formato: "PPT",
     url: "/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf",
   },
@@ -31,10 +31,10 @@ const materialesPorArea = [
     url: "/docs/Familias_objetivos_contenido_LenguayLiteratura.pdf",
   },
   {
-    area: "Matematica",
+    area: "Matemática",
     color: "#E42153",
     nombre: "Familias_objetivos_contenido_Matematica.pdf",
-    titulo: "Objetivos y contenidos - Matematica",
+    titulo: "Objetivos y contenidos - Matemática",
     url: "/docs/Familias_objetivos_contenido_Matematica.pdf",
   },
 ];
@@ -56,7 +56,7 @@ export default function FamiliasPage() {
               Materiales para Familias
             </h1>
             <p className="text-lg text-[#494963]/60 leading-relaxed max-w-2xl">
-              Recursos y orientaciones para acompanar el proceso educativo de sus hijos e hijas en el marco del nuevo Diseno Curricular.
+              Recursos y orientaciones para acompañar el proceso educativo de sus hijos e hijas en el marco del nuevo Diseño Curricular.
             </p>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function FamiliasPage() {
       <section className="py-12 md:py-16 border-t border-gray-100">
         <div className="container mx-auto px-4">
           <h2 className="text-xs uppercase tracking-[0.15em] text-[#494963]/40 font-semibold mb-6">
-            Materiales por Area
+            Materiales por Área
           </h2>
           <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
             {materialesPorArea.map((mat) => (
@@ -123,7 +123,7 @@ export default function FamiliasPage() {
             ))}
           </div>
           <p className="text-xs text-[#494963]/30 mt-4">
-            Se iran sumando materiales para mas areas a medida que esten disponibles.
+            Se irán sumando materiales para más áreas a medida que estén disponibles.
           </p>
         </div>
       </section>

@@ -4,12 +4,12 @@ import { Download, ArrowRight, BookOpen, FileText } from "lucide-react";
 
 const documentos = [
   {
-    label: "Documento de acompanamiento para docentes y directivos",
+    label: "Documento de acompañamiento para docentes y directivos",
     href: "#",
     icon: FileText,
   },
   {
-    label: "Presentacion para supervisores, directivos y docentes",
+    label: "Presentación para supervisores, directivos y docentes",
     href: "#",
     icon: FileText,
   },
@@ -17,7 +17,7 @@ const documentos = [
 
 const formaciones = [
   {
-    label: "Diversificacion para la Ensenanza",
+    label: "Diversificación para la Enseñanza",
     href: "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza/",
     external: true,
   },
