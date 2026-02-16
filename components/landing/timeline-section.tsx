@@ -86,7 +86,7 @@ const timelineData: TimelineYear[] = [
         date: "31 de Agosto",
         title: "Consulta a instituciones de Educaci\u00f3n Primaria e IFD.",
         description:
-          "Consulta mediante la plataforma Educativa del ministerio de educaci\u00f3n.",
+          "Consulta mediante la plataforma Educativa del Ministerio de Educación.",
         image: "/images/foto-6-31agosto.jpg",
       },
       {
