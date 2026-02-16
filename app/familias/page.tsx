@@ -34,7 +34,7 @@ const materialesPorArea = [
     area: "Matemática",
     color: "#E42153",
     nombre: "Familias_objetivos_contenido_Matematica.pdf",
-    titulo: "Objetivos y contenidos - Matematica",
+    titulo: "Objetivos y contenidos - Matemática",
     url: "/docs/Familias_objetivos_contenido_Matematica.pdf",
   },
 ];
