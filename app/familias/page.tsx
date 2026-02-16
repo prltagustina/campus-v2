@@ -56,7 +56,7 @@ export default function FamiliasPage() {
               Materiales para Familias
             </h1>
             <p className="text-lg text-[#494963]/60 leading-relaxed max-w-2xl">
-              Recursos y orientaciones para acompanar el proceso educativo de sus hijos e hijas en el marco del nuevo Diseno Curricular.
+              Recursos y orientaciones para acompañar el proceso educativo de sus hijos e hijas en el marco del nuevo Diseño Curricular.
             </p>
           </div>
         </div>
