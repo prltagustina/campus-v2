@@ -53,7 +53,7 @@ export function CurriculumIntro() {
                 className="inline-flex items-center justify-center gap-2 px-7 h-12 rounded-lg bg-[#494963] text-white font-semibold text-base hover:bg-[#3a3a4f] transition-colors shadow-sm"
               >
                 <Download className="w-4 h-4" />
-                {"Descargar Dise\u00f1o Curricular"}
+                {"DESCARGAR DISEÑO CURRICULAR"}
               </a>
               <Link
                 href="/marco-general"
