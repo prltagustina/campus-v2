@@ -21,7 +21,7 @@ export function Footer() {
             {/* Navigation */}
             <div>
               <p className="text-white/40 text-xs font-semibold uppercase tracking-wider mb-3">
-                {"Navegaci\u00f3n"}
+                {"Navegación"}
               </p>
               <nav className="flex flex-col gap-2">
                 <Link href="/" className="text-sm text-white/60 hover:text-white transition-colors">
