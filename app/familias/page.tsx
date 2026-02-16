@@ -123,7 +123,7 @@ export default function FamiliasPage() {
             ))}
           </div>
           <p className="text-xs text-[#494963]/30 mt-4">
-            Se iran sumando materiales para mas areas a medida que esten disponibles.
+            Se irán sumando materiales para más áreas a medida que estén disponibles.
           </p>
         </div>
       </section>
