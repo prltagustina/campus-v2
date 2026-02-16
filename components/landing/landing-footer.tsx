@@ -70,7 +70,7 @@ export function Footer() {
               </div>
               <div>
                 <p className="text-sm font-medium text-white/80">Santa Fe</p>
-                <p className="text-xs text-white/40">Ministerio de Educaci\u00f3n</p>
+                <p className="text-xs text-white/40">Ministerio de Educación</p>
               </div>
             </div>
 

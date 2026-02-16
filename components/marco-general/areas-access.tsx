@@ -10,7 +10,7 @@ export function AreasAccess() {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-[#494963] mb-2">
-            {"Explorar las areas curriculares"}
+            {"Explorar las áreas curriculares"}
           </h2>
           <p className="text-[#494963]/50 text-base mb-8">
             {"Accedé al detalle de cada área: ejes de contenidos, orientaciones didácticas, formaciones docentes y materiales."}
