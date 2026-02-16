@@ -99,7 +99,7 @@ export default function FamiliasPage() {
       <section className="py-12 md:py-16 border-t border-gray-100">
         <div className="container mx-auto px-4">
           <h2 className="text-xs uppercase tracking-[0.15em] text-[#494963]/40 font-semibold mb-6">
-            Materiales por Area
+            Materiales por Área
           </h2>
           <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
             {materialesPorArea.map((mat) => (
