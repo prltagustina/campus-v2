@@ -16,7 +16,7 @@ export function MarcoHero() {
             {"nuevo Diseño Curricular"}
           </h1>
           <p className="text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
-            {"El marco general establece los principios politico-pedagogicos, los ejes centrales y las orientaciones que organizan la propuesta curricular para la educacion primaria de la provincia de Santa Fe."}
+            {"El Marco General establece los principios político-pedagógicos, los ejes centrales y las orientaciones que organizan la propuesta curricular para la educación primaria de la provincia de Santa Fe."}
           </p>
           <a
             href="https://campuseducativo.santafe.edu.ar/diseno-curricular/"
