@@ -7,7 +7,7 @@ const ejes = [
   {
     title: "Aprendizajes comunes, fundantes y significativos",
     description:
-      "Saberes que aseguran el avance hacia conocimientos m\u00e1s complejos y promueven la participaci\u00f3n plena en la vida social.",
+      "Saberes que aseguran el avance hacia conocimientos m\u00e1s complejos y promueven la participación plena en la vida social.",
   },
   {
     title: "Relaci\u00f3n dial\u00f3gica entre la ense\u00f1anza y la evaluaci\u00f3n",
@@ -126,19 +126,17 @@ export function EjesDetail() {
                       {index + 1}
                     </span>
                     <h4
-                      className={`text-base md:text-lg font-semibold transition-colors leading-snug ${
-                        active === index
+                      className={`text-base md:text-lg font-semibold transition-colors leading-snug ${active === index
                           ? "text-[#494963]"
                           : "text-[#494963]/60 group-hover:text-[#494963]"
-                      }`}
+                        }`}
                     >
                       {eje.title}
                     </h4>
                   </div>
                   <svg
-                    className={`w-5 h-5 flex-shrink-0 text-[#494963]/30 transform transition-transform duration-300 ${
-                      active === index ? "rotate-90" : "rotate-0"
-                    }`}
+                    className={`w-5 h-5 flex-shrink-0 text-[#494963]/30 transform transition-transform duration-300 ${active === index ? "rotate-90" : "rotate-0"
+                      }`}
                     viewBox="0 0 12 12"
                     fill="none"
                   >
@@ -147,11 +145,10 @@ export function EjesDetail() {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    active === index
+                  className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${active === index
                       ? "max-h-[400px] opacity-100 pb-5"
                       : "max-h-0 opacity-0"
-                  }`}
+                    }`}
                 >
                   <p className="text-base text-[#494963]/50 leading-relaxed pl-12">
                     {eje.description}
