@@ -91,7 +91,7 @@ const timelineData: TimelineYear[] = [
       },
       {
         date: "Septiembre 2025",
-        title: "Jornadas de Socializaci\u00f3n y Consulta",
+        title: "Jornadas de Socialización y Consulta",
         description:
           "En el norte, centro y sur de la provincia, con equipos directivos y docentes.",
         image: "/images/foto-7-septiembre2025.jpg",
