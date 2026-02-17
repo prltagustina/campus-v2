@@ -45,7 +45,7 @@ export default function EIBPage() {
               <Globe className="w-3.5 h-3.5" />
               Enfoque transversal
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#494963] leading-tight mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-6 font-display">
               Educacion Intercultural
               <br />
               Bilingue
@@ -60,7 +60,7 @@ export default function EIBPage() {
       {/* Ejes de trabajo */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-semibold text-[#494963] mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#494963] mb-10 font-display">
             Ejes de trabajo
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -88,7 +88,7 @@ export default function EIBPage() {
             <div className="w-16 h-16 rounded-full bg-[#3C3AE5]/10 flex items-center justify-center mx-auto mb-6">
               <Globe className="w-8 h-8 text-[#3C3AE5]" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-[#494963] mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#494963] mb-4 font-display">
               Contenido en desarrollo
             </h2>
             <p className="text-[#494963]/60 leading-relaxed">

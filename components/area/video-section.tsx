@@ -25,13 +25,7 @@ export function VideoSection({ area }: VideoSectionProps) {
     <section id="video" className="scroll-mt-32">
       {/* Section header -- centered alignment, stronger hierarchy */}
       <div className="flex flex-col items-center text-center mb-14 md:mb-20">
-        <span
-          className="text-[11px] font-bold uppercase tracking-[0.2em] mb-3"
-          style={{ color: area.color }}
-        >
-          Presentación
-        </span>
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963]">
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display">
           {"Video de presentaci\u00f3n"}
         </h3>
       </div>

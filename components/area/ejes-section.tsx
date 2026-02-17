@@ -75,14 +75,8 @@ export function EjesSection({
       {/* Carousel header with navigation */}
       <div className="flex items-center justify-between mb-10">
         <div>
-          <span
-            className="text-[11px] font-bold uppercase tracking-[0.2em] mb-3 block"
-            style={{ color: area.color }}
-          >
-            {"Qu\u00e9 ense\u00f1ar"}
-          </span>
           <h2
-            className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight text-balance"
+            className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight text-balance font-display"
             style={{ color: "#494963" }}
           >
             {currentEje.titulo}

@@ -22,6 +22,10 @@ export interface Area {
   shortDescription: string;
   fullDescription: string;
   color: string;
+  /** Color de texto a usar cuando el color del area es fondo.
+   *  Para colores claros (celeste, amarillo, rosa) se usa un tono oscuro complementario.
+   *  Para colores oscuros se usa blanco. */
+  textOnColor: string;
   gradient: string;
   gradientFrom: string;
   gradientTo: string;
@@ -41,6 +45,7 @@ export const areasData: Area[] = [
     fullDescription:
       "La enseñanza de la matemática se concibe como una práctica social, reflexiva y accesible a todas las infancias. Las y los estudiantes se involucran en quehaceres matemáticos: resuelven problemas, exploran, representan, argumentan, comunican y validan ideas; construyen saberes de manera progresiva en relación con distintos contextos.\n\nLa enseñanza se organiza en torno a la resolución de problemas como eje central. La docencia diseña secuencias que promueven la participación, es mediadora en los procesos de resolución y recupera colectivamente lo aprendido para construir significados compartidos.",
     color: "#E42153",
+    textOnColor: "#ffffff",
     gradient: "linear-gradient(135deg, #E42153 0%, #B159A7 100%)",
     gradientFrom: "#E42153",
     gradientTo: "#B159A7",
@@ -85,6 +90,7 @@ export const areasData: Area[] = [
     fullDescription:
       "El área enseña la lengua y la literatura como prácticas sociales, reflexivas y contextualizadas. Las y los estudiantes desarrollan capacidades para: comunicarse oralmente con claridad; leer con fluidez y sentido crítico distintos tipos de textos; escribir con una actitud reflexiva; analizar el funcionamiento de la lengua; y comprender la literatura como manifestación artística y cultural.\n\nLa enseñanza se organiza mediante una planificación espiralada, articulando ejes y contenidos en propuestas progresivas, situadas y significativas.",
     color: "#FF7402",
+    textOnColor: "#ffffff",
     gradient: "linear-gradient(135deg, #FF7402 0%, #B159A7 100%)",
     gradientFrom: "#FF7402",
     gradientTo: "#B159A7",
@@ -115,6 +121,7 @@ export const areasData: Area[] = [
     fullDescription:
       "El área posibilita la comprensión de fenómenos químicos, físicos y biológicos, promoviendo la toma de decisiones responsables sobre el cuidado de la salud, el ambiente y la relación con los bienes que nos brinda la naturaleza.\n\nLas actividades experimentales simples (AES) son fundamentales para el área. Además, mediante el aprendizaje basado en proyectos (ABP), el aprendizaje basado en el juego (ABJ), las salidas escolares y otras metodologías de enseñanza en contexto, las y los estudiantes exploran su entorno, comprenden fenómenos y fortalecen el pensamiento crítico, la comunicación y el trabajo colaborativo.",
     color: "#78BB0B",
+    textOnColor: "#ffffff",
     gradient: "linear-gradient(135deg, #78BB0B 0%, #B159A7 100%)",
     gradientFrom: "#78BB0B",
     gradientTo: "#B159A7",
@@ -143,6 +150,7 @@ export const areasData: Area[] = [
     fullDescription:
       "El área propone acercar la realidad social a las infancias para formar ciudadanos y ciudadanas capaces de comprender y transformar su entorno. La realidad social es compleja, dinámica y conflictiva, y su estudio requiere considerar a los actores sociales y sus experiencias históricas.\n\nLa enseñanza se organiza mediante recortes didácticos que permiten abordar esa complejidad desde preguntas o proyectos que movilizan, orientan el recorrido y promueven la autonomía y el pensamiento crítico.",
     color: "#99CCFF",
+    textOnColor: "#1a3a5c",
     gradient: "linear-gradient(135deg, #99CCFF 0%, #B159A7 100%)",
     gradientFrom: "#99CCFF",
     gradientTo: "#B159A7",
@@ -170,6 +178,7 @@ export const areasData: Area[] = [
     fullDescription:
       "Las situaciones de enseñanza de Educación Física para la Educación Primaria se configuran en contenidos que dialogan con la corporeidad, la corporalidad y la motricidad y se encuentran organizados y secuenciados en un recorrido por ciclos y grados.\n\nHabilita y diversifica todas las prácticas corporales y motrices y las considera bienes culturales. Reconoce el juego y el jugar como contenidos necesarios en todos los ciclos y valora el deporte de la escuela.",
     color: "#20BAA1",
+    textOnColor: "#ffffff",
     gradient: "linear-gradient(135deg, #20BAA1 0%, #B159A7 100%)",
     gradientFrom: "#20BAA1",
     gradientTo: "#B159A7",
@@ -198,6 +207,7 @@ export const areasData: Area[] = [
     fullDescription:
       "El área ofrece propuestas que posibilitan desarrollar aprendizajes creativos, expresivos, críticos y simbólicos en diversos entornos en clave intercultural y desde un enfoque inclusivo. Así mismo, favorece el contacto con el patrimonio artístico local y mundial desde la promoción de la pregunta, el intercambio con pares y con artistas y agentes culturales y la mediación de manifestaciones creativas y estéticas.",
     color: "#FF6D7E",
+    textOnColor: "#ffffff",
     gradient: "linear-gradient(135deg, #FF6D7E 0%, #B159A7 100%)",
     gradientFrom: "#FF6D7E",
     gradientTo: "#B159A7",
@@ -270,6 +280,7 @@ export const areasData: Area[] = [
     fullDescription:
       "El diseño incorpora progresivamente la enseñanza de una lengua extranjera en toda la escolaridad primaria. Las escuelas pueden optar por Alemán, Francés, Inglés, Italiano o Portugués.\n\nDesde un enfoque intercultural y plurilingüe, el área contribuye a la construcción de identidades, al desarrollo cognitivo y a la alfabetización inicial y avanzada. Prioriza propuestas basadas en el juego, el trabajo por proyectos y la reflexión sobre la lengua propia y la lengua extranjera.",
     color: "#FFCB02",
+    textOnColor: "#5c4a00",
     gradient: "linear-gradient(135deg, #FFCB02 0%, #B159A7 100%)",
     gradientFrom: "#FFCB02",
     gradientTo: "#B159A7",
@@ -299,6 +310,7 @@ export const areasData: Area[] = [
     fullDescription:
       "El área aborda saberes que permiten analizar artefactos, sistemas y procesos técnicos: materiales y sus propiedades, transformaciones, operaciones y funciones, y la organización de procesos productivos y de sistemas de control.\n\nIncluye progresivamente saberes vinculados con sistemas basados en información y comunicación: uso de dispositivos computacionales, redes, lenguajes digitales, programación y robótica, junto con la reflexión sobre ciudadanía digital, seguridad y convivencia en entornos virtuales.\n\nSu enseñanza integra estrategias de exploración, indagación, juego, análisis de casos, trabajo por proyectos y enfoques interdisciplinarios como STEAM (Ciencia, Tecnología, Ingeniería, Arte y Matemática).",
     color: "#3C3AE5",
+    textOnColor: "#ffffff",
     gradient: "linear-gradient(135deg, #3C3AE5 0%, #B159A7 100%)",
     gradientFrom: "#3C3AE5",
     gradientTo: "#B159A7",
@@ -340,6 +352,7 @@ export const areasData: Area[] = [
     fullDescription:
       "Es un área curricular flexible donde se reconfiguran las formas, los espacios y los tiempos para aprender, se habilitan agrupamientos integrados e interciclo y se promueve la participación activa de las infancias.\n\nAdopta una metodología basada en proyectos, en la que los contenidos de las áreas y de los enfoques transversales se articulan para abordar temáticas urgentes y actuales.",
     color: "#B159A7",
+    textOnColor: "#ffffff",
     gradient: "linear-gradient(135deg, #B159A7 0%, #B159A7 100%)",
     gradientFrom: "#B159A7",
     gradientTo: "#B159A7",

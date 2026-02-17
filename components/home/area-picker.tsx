@@ -23,36 +23,36 @@ export function AreaPicker({
   const displaySlug = isMarcoGeneral ? "marco-general" : selectedArea?.slug;
 
   return (
-    <div className="w-full max-w-[420px] lg:max-w-none lg:pt-12">
-      {/* Título */}
+    <div className="w-full max-w-[420px] lg:max-w-none lg:pt-8">
+      {/* Titulo */}
       <h2
-        className="text-3xl md:text-4xl lg:text-5xl font-black transition-all duration-300 mb-6"
+        className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black transition-all duration-300 mb-7 font-display"
         style={{ color: displayColor }}
       >
         {displayName}
       </h2>
       
-      {/* Ejes del área seleccionada (solo si no es Marco General) */}
+      {/* Ejes del area seleccionada (solo si no es Marco General) */}
       {!isMarcoGeneral && selectedArea?.axes && selectedArea.axes.length > 0 && (
         <>
           <h3 
-            className="text-base font-semibold mb-4"
+            className="text-base lg:text-lg font-semibold mb-5"
             style={{ color: "#494963" }}
           >
             Ejes de contenidos:
           </h3>
-          <div className="space-y-3 mb-8">
+          <div className="space-y-3.5 mb-9">
             {selectedArea.axes.map((eje, ejeIndex) => (
               <div key={ejeIndex} className="flex items-start gap-3">
                 <div
-                  className="w-5 h-5 rounded-full flex-shrink-0 mt-0.5"
+                  className="w-5 h-5 lg:w-6 lg:h-6 rounded-full flex-shrink-0 mt-0.5"
                   style={{ 
                     border: `3px solid ${displayColor}`,
                     backgroundColor: 'transparent'
                   }}
                 />
                 <span 
-                  className="text-base leading-relaxed"
+                  className="text-base lg:text-lg leading-relaxed"
                   style={{ color: displayColor }}
                 >
                   {eje}
@@ -66,8 +66,8 @@ export function AreaPicker({
       {/* Botón ver más */}
       <Link
         href={isMarcoGeneral ? "#marco-general" : `/area/${displaySlug}`}
-        className="inline-block px-10 py-3 rounded-full font-semibold text-white text-base transition-all duration-300 hover:brightness-110"
-        style={{ backgroundColor: displayColor }}
+        className="inline-block px-10 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:brightness-110"
+        style={{ backgroundColor: displayColor, color: isMarcoGeneral ? "#ffffff" : selectedArea?.textOnColor || "#ffffff" }}
       >
         Ver más
       </Link>

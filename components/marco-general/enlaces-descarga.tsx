@@ -36,7 +36,7 @@ export function EnlacesDescarga() {
                   <Download className="w-5 h-5 text-[#494963]" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-[#494963]">
+                  <h3 className="text-lg font-bold text-[#494963] font-display">
                     {"Documentos y descargas"}
                   </h3>
                   <p className="text-sm text-[#494963]/50">
@@ -71,7 +71,7 @@ export function EnlacesDescarga() {
                   <BookOpen className="w-5 h-5 text-[#494963]" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-[#494963]">
+                  <h3 className="text-lg font-bold text-[#494963] font-display">
                     {"Formaciones docentes"}
                   </h3>
                   <p className="text-sm text-[#494963]/50">
