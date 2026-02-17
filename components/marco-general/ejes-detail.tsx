@@ -85,10 +85,7 @@ export function EjesDetail() {
           {/* Header with illustration */}
           <div className="grid md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-end mb-12">
             <div>
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#494963]/40 mb-3 block">
-                Identidad del diseño
-              </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-3">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-display mb-3">
                 {"Ejes centrales de la propuesta"}
               </h2>
               <p className="text-[#494963]/50 text-lg max-w-xl">

@@ -10,7 +10,7 @@ export function MarcoHero() {
           <p className="text-white/50 text-sm font-medium uppercase tracking-wider mb-4">
             {"Marco General"}
           </p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 font-display">
             {"Los fundamentos del"}
             <br />
             {"nuevo Diseño Curricular"}

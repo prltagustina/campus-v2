@@ -19,13 +19,7 @@ export function FormacionesSection({
     <section id="formacion" className="pb-24 lg:pb-0 scroll-mt-32">
       {/* Section header -- centered, stronger hierarchy */}
       <div className="flex flex-col items-center text-center mb-14 md:mb-20">
-        <span
-          className="text-[11px] font-bold uppercase tracking-[0.2em] mb-3"
-          style={{ color: area.color }}
-        >
-          Capacitaciones
-        </span>
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963]">
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display">
           Formaciones Docentes
         </h3>
       </div>
@@ -39,14 +33,14 @@ export function FormacionesSection({
           >
             {/* Header */}
             <div
-              className="p-6 md:p-7 text-white"
-              style={{ backgroundColor: area.color }}
+              className="p-6 md:p-7"
+              style={{ backgroundColor: area.color, color: area.textOnColor }}
             >
               <h4 className="text-sm md:text-base font-bold leading-snug mb-3 pr-4">
                 Afectividad y emociones en la escuela. Fortaleciendo los
                 vinculos desde la ESI - C{i}
               </h4>
-              <p className="text-[11px] opacity-75 font-medium">
+              <p className="text-[11px] font-medium" style={{ opacity: 0.75 }}>
                 Comunidades de Aprendizajes
               </p>
             </div>

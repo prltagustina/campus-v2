@@ -58,7 +58,7 @@ export function DescargaDocumentoSection({ area }: DescargaDocumentoSectionProps
                 <a
                   href="#"
                   className="inline-flex items-center gap-3 rounded-full px-8 py-3.5 text-base font-bold transition-all hover:scale-[1.03] hover:shadow-lg shadow-md"
-                  style={{ backgroundColor: area.color, color: "white" }}
+                  style={{ backgroundColor: area.color, color: area.textOnColor }}
                 >
                   Descargar PDF
                   <Download className="w-5 h-5" />

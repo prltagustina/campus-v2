@@ -5,7 +5,7 @@ export function MarcoVideo() {
     <section className="w-full bg-white py-16 md:py-24">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#494963] mb-3">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#494963] mb-3 font-display">
             {"Video de presentación"}
           </h2>
           <p className="text-[#494963]/60 text-base mb-8 max-w-lg">

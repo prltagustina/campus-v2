@@ -81,7 +81,7 @@ export default function HomePage() {
 
       {/* 5) Main Wheel Section -- Rueda Curricular -- light bg */}
       <section id="areas" className="pt-16 md:pt-24 pb-16 md:pb-24 bg-[#EDEDF0] flex-1">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-[90rem] mx-auto px-4 lg:px-8">
           {/* Section title */}
           <ScrollReveal delay={0.05} distance={50}>
             <div className="text-center mb-10 md:mb-14">
@@ -206,12 +206,16 @@ export default function HomePage() {
                     ? "/marco-general"
                     : `/area/${selectedArea?.slug}`
                 }
-                className="inline-block px-8 h-12 leading-[3rem] rounded-full font-semibold text-white text-base transition-all duration-300 hover:brightness-110"
+                className="inline-block px-8 h-12 leading-[3rem] rounded-full font-semibold text-base transition-all duration-300 hover:brightness-110"
                 style={{
                   backgroundColor:
                     selectedAreaId === "marco-general"
                       ? MARCO_GENERAL_COLOR
                       : selectedArea?.color,
+                  color:
+                    selectedAreaId === "marco-general"
+                      ? "#ffffff"
+                      : selectedArea?.textOnColor || "#ffffff",
                 }}
               >
                 {"Ver m\u00e1s"}
@@ -220,8 +224,8 @@ export default function HomePage() {
           </div>
 
           {/* Desktop Layout */}
-          <div className="hidden lg:flex items-start justify-center gap-16 xl:gap-24">
-            <div className="flex-shrink-0 w-[160px]">
+          <div className="hidden lg:flex items-start justify-center gap-12 xl:gap-20">
+            <div className="flex-shrink-0 w-[200px] xl:w-[220px]">
               <AreaDotsNav
                 areasOrder={areasOrder}
                 selectedAreaId={selectedAreaId}
@@ -238,7 +242,7 @@ export default function HomePage() {
               />
             </div>
 
-            <div className="flex-shrink-0 w-[320px] xl:w-[380px]">
+            <div className="flex-shrink-0 w-[360px] xl:w-[420px]">
               <AreaPicker
                 areasOrder={areasOrder}
                 selectedAreaId={selectedAreaId}
@@ -261,9 +265,6 @@ export default function HomePage() {
               className="group flex flex-col md:flex-row md:items-center justify-between py-12 md:py-16 transition-colors"
             >
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 block mb-3">
-                  Enfoque transversal
-                </span>
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight font-display">
                   {"Educaci\u00f3n Intercultural Biling\u00fce"}
                 </h3>

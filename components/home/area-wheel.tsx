@@ -65,7 +65,7 @@ export function AreaWheel({ selectedAreaId, onAreaClick, onCenterClick }: AreaWh
   };
 
   return (
-    <div className="w-[320px] sm:w-[400px] lg:w-[450px] relative">
+    <div className="w-[320px] sm:w-[400px] lg:w-[520px] xl:w-[560px] relative">
       <img
         src="/images/rueda-actualizada.png"
         alt="Rueda curricular con enfoques transversales"

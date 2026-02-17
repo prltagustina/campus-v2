@@ -66,9 +66,6 @@ export function AreaOrganizationSection() {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
             <div>
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#494963]/40 mb-3 block">
-                Estructura compartida
-              </span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#494963] leading-tight font-display">
                 {"C\u00f3mo est\u00e1"}
                 <br />
