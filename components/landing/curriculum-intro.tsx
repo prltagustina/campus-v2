@@ -7,7 +7,10 @@ import { Download } from "lucide-react";
 
 export function CurriculumIntro() {
   return (
-    <section id="inicio" className="w-full min-h-screen bg-[#EDEDF0] py-16 md:py-20 lg:py-0 overflow-hidden relative">
+    <section
+      id="inicio"
+      className="w-full min-h-screen bg-[#EDEDF0] py-16 md:py-20 lg:py-0 overflow-hidden relative"
+    >
       <div className="container mx-auto px-6 md:px-8 lg:px-12 h-full">
         <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-8 lg:h-screen">
           {/* Left Content (text block) */}
@@ -24,9 +27,7 @@ export function CurriculumIntro() {
             </div>
 
             {/* Title */}
-            <h1
-              className="font-bold text-4xl md:text-5xl lg:text-[3.25rem] text-[#3D3D5C] leading-tight tracking-tight font-display"
-            >
+            <h1 className="font-bold text-4xl md:text-5xl lg:text-[3.25rem] text-[#3D3D5C] leading-tight tracking-tight font-display">
               {"Dise\u00f1o Curricular"}
               <br />
               {"para la Educaci\u00f3n"}
@@ -37,10 +38,19 @@ export function CurriculumIntro() {
             {/* Paragraphs */}
             <div className="space-y-4 text-[#3D3D5C]/80 max-w-md">
               <p className="text-lg md:text-xl leading-relaxed">
-                {"Un marco com\u00fan que orienta qu\u00e9 ense\u00f1ar, c\u00f3mo hacerlo y con qu\u00e9 prop\u00f3sito."}
+                {
+                  "Un marco com\u00fan que orienta qu\u00e9 ense\u00f1ar, c\u00f3mo hacerlo y con qu\u00e9 prop\u00f3sito."
+                }
               </p>
               <p className="text-lg md:text-xl leading-relaxed">
-                {"Una hoja de ruta en la que cada docente tiene el rol insustituible de convertir este dise\u00f1o en pr\u00e1cticas situadas y significativas."}
+                {
+                  "Una política concreta para garantizar una enseñanza de calidad, centrada en los aprendizajes claves para las infancias del siglo XXI, en sus derechos, sus intereses y sus desafíos."
+                }
+              </p>
+              <p className="text-lg md:text-xl leading-relaxed">
+                {
+                  "Una hoja de ruta en la que cada docente tiene el rol insustituible de convertir este dise\u00f1o en pr\u00e1cticas situadas y significativas."
+                }
               </p>
             </div>
 
