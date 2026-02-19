@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import type { Area } from "@/lib/areas-data";
 
 export interface EjeInfo {
@@ -17,29 +16,134 @@ interface EjesSchemaInteractiveProps {
   selectedSubarea?: string | null;
 }
 
-/* === Static SVG image mapping === */
-const STATIC_SVG_MAP: Record<string, string> = {
-  "matematica": "/images/ejes/matematica.svg",
-  "lengua-y-literatura": "/images/ejes/lengua-y-literatura.svg",
-  "ciencias-naturales": "/images/ejes/ciencias-naturales.svg",
-  "ciencias-sociales": "/images/ejes/ciencias-sociales.svg",
-  "educacion-fisica": "/images/ejes/educacion-fisica.svg",
-  "lenguas-extranjeras": "/images/ejes/lenguas-extranjeras.svg",
+/* ===================================================================
+   Static SVG data: path, viewBox, and clickable node positions
+   Each node maps to an ejesInfo index via `ejeIdx`.
+   Coordinates (cx, cy) are in SVG viewBox units.
+   =================================================================== */
+
+interface SvgNodeData {
+  cx: number;
+  cy: number;
+  r: number;
+  ejeIdx: number; // maps to ejesInfo[ejeIdx]
+}
+
+interface StaticSvgData {
+  path: string;
+  vbW: number;
+  vbH: number;
+  nodes: SvgNodeData[];
+}
+
+const STATIC_SVG_DATA: Record<string, StaticSvgData> = {
+  "ciencias-sociales": {
+    path: "/images/ejes/ciencias-sociales.svg",
+    vbW: 496.66, vbH: 375.89,
+    nodes: [
+      { cx: 316.86, cy: 185.50, r: 8.19, ejeIdx: 1 }, // Las sociedades en el tiempo
+      { cx: 148.81, cy: 282.52, r: 8.19, ejeIdx: 2 }, // Las sociedades, vida cotidiana
+      { cx: 148.81, cy:  88.49, r: 8.19, ejeIdx: 0 }, // Las sociedades y construccion
+    ],
+  },
+  "ciencias-naturales": {
+    path: "/images/ejes/ciencias-naturales.svg",
+    vbW: 529.69, vbH: 441.51,
+    nodes: [
+      { cx: 260.55, cy:  90.78, r: 7.94, ejeIdx: 0 }, // Seres vivos
+      { cx: 373.97, cy: 204.20, r: 7.94, ejeIdx: 1 }, // Materiales
+      { cx: 260.55, cy: 317.63, r: 7.94, ejeIdx: 2 }, // Fenomenos fisicos
+      { cx: 147.12, cy: 204.20, r: 7.94, ejeIdx: 3 }, // La Tierra
+    ],
+  },
+  "matematica": {
+    path: "/images/ejes/matematica.svg",
+    vbW: 511.91, vbH: 357.72,
+    nodes: [
+      { cx: 240.24, cy:  62.69, r: 8.04, ejeIdx: 0 }, // Numeros y operaciones
+      { cx: 355.05, cy: 177.49, r: 8.04, ejeIdx: 1 }, // Estadistica y probabilidad
+      { cx: 240.24, cy: 292.30, r: 8.04, ejeIdx: 3 }, // Geometria y medida
+      { cx: 125.44, cy: 177.49, r: 8.04, ejeIdx: 2 }, // Iniciacion al algebra
+    ],
+  },
+  "lengua-y-literatura": {
+    path: "/images/ejes/lengua-y-literatura.svg",
+    vbW: 450.98, vbH: 309.37,
+    nodes: [
+      { cx: 292.05, cy:  55.91, r: 8.86, ejeIdx: 0 }, // Oralidad
+      { cx: 165.46, cy:  97.04, r: 8.86, ejeIdx: 1 }, // Literatura
+      { cx: 165.46, cy: 230.14, r: 8.86, ejeIdx: 4 }, // Conocimiento y reflexion
+      { cx: 292.05, cy: 271.27, r: 8.86, ejeIdx: 3 }, // Lectura
+      { cx: 370.24, cy: 163.59, r: 8.86, ejeIdx: 2 }, // Escritura
+    ],
+  },
+  "lenguas-extranjeras": {
+    path: "/images/ejes/lenguas-extranjeras.svg",
+    vbW: 464.07, vbH: 378.61,
+    nodes: [
+      { cx: 280.53, cy:  41.00, r: 8.94, ejeIdx: 0 }, // Lectura
+      { cx: 359.41, cy: 149.63, r: 8.94, ejeIdx: 1 }, // Escritura
+      { cx: 280.53, cy: 258.26, r: 8.94, ejeIdx: 2 }, // Oralidad
+      { cx: 152.82, cy: 216.77, r: 8.94, ejeIdx: 3 }, // Reflexion sobre la lengua
+      { cx: 152.82, cy:  82.50, r: 8.94, ejeIdx: 4 }, // Reflexion intercultural
+    ],
+  },
+  "educacion-fisica": {
+    path: "/images/ejes/educacion-fisica.svg",
+    vbW: 527.50, vbH: 404.65,
+    nodes: [
+      { cx: 278.62, cy: 203.82, r: 8.40, ejeIdx: 1 }, // Interaccion con otras personas
+      { cx:  98.69, cy: 307.70, r: 8.40, ejeIdx: 2 }, // Interaccion con el ambiente
+      { cx:  98.69, cy:  99.95, r: 8.40, ejeIdx: 0 }, // Conocimiento de si mismo
+    ],
+  },
 };
 
 /* Subarea SVGs for Educacion Artistica */
-const SUBAREA_SVG_MAP: Record<string, string> = {
-  "artes-visuales": "/images/ejes/artes-visuales.svg",
-  "musica": "/images/ejes/musica.svg",
-  "artes-audiovisuales": "/images/ejes/artes-audiovisuales.svg",
-  "teatro": "/images/ejes/teatro.svg",
+const SUBAREA_SVG_DATA: Record<string, StaticSvgData> = {
+  "artes-visuales": {
+    path: "/images/ejes/artes-visuales.svg",
+    vbW: 394.89, vbH: 283.82,
+    nodes: [
+      { cx: 101.56, cy: 238.09, r: 7.82, ejeIdx: 1 }, // Apreciacion
+      { cx: 269.05, cy: 141.39, r: 7.82, ejeIdx: 2 }, // Produccion
+      { cx: 101.56, cy:  44.69, r: 7.82, ejeIdx: 0 }, // Artes en contexto
+    ],
+  },
+  "musica": {
+    path: "/images/ejes/musica.svg",
+    vbW: 375.46, vbH: 283.82,
+    nodes: [
+      { cx: 101.56, cy: 238.09, r: 7.82, ejeIdx: 1 }, // Apreciacion
+      { cx: 269.05, cy: 141.39, r: 7.82, ejeIdx: 2 }, // Produccion
+      { cx: 101.56, cy:  44.69, r: 7.82, ejeIdx: 0 }, // Artes en contexto
+    ],
+  },
+  "artes-audiovisuales": {
+    path: "/images/ejes/artes-audiovisuales.svg",
+    vbW: 404.25, vbH: 283.82,
+    nodes: [
+      { cx: 113.80, cy: 238.09, r: 7.82, ejeIdx: 1 }, // Apreciacion
+      { cx: 281.29, cy: 141.39, r: 7.82, ejeIdx: 2 }, // Produccion
+      { cx: 113.80, cy:  44.69, r: 7.82, ejeIdx: 0 }, // Artes en contexto
+    ],
+  },
+  "teatro": {
+    path: "/images/ejes/teatro.svg",
+    vbW: 376.20, vbH: 283.82,
+    nodes: [
+      { cx:  97.65, cy: 238.09, r: 7.82, ejeIdx: 1 }, // Apreciacion
+      { cx: 265.14, cy: 141.39, r: 7.82, ejeIdx: 2 }, // Produccion
+      { cx:  97.65, cy:  44.69, r: 7.82, ejeIdx: 0 }, // Artes en contexto
+    ],
+  },
 };
 
-function getStaticSvgPath(areaSlug: string, selectedSubarea?: string | null): string | null {
-  if (areaSlug === "educacion-artistica" && selectedSubarea && SUBAREA_SVG_MAP[selectedSubarea]) {
-    return SUBAREA_SVG_MAP[selectedSubarea];
+function getStaticSvgData(areaSlug: string, selectedSubarea?: string | null): StaticSvgData | null {
+  if (areaSlug === "educacion-artistica" && selectedSubarea && SUBAREA_SVG_DATA[selectedSubarea]) {
+    return SUBAREA_SVG_DATA[selectedSubarea];
   }
-  return STATIC_SVG_MAP[areaSlug] || null;
+  return STATIC_SVG_DATA[areaSlug] || null;
 }
 
 /* === SVG Constants from the original reference design === */
@@ -151,23 +255,110 @@ export function EjesSchemaInteractive({
 
   useEffect(() => {
     setActiveAxis(null);
-  }, [area.id, setActiveAxis]);
+  }, [area.id, selectedSubarea, setActiveAxis]);
 
   /* Check if we have a static SVG for this area/subarea */
-  const staticSvgPath = getStaticSvgPath(area.slug, selectedSubarea);
+  const staticSvgData = getStaticSvgData(area.slug, selectedSubarea);
 
-  /* If a static SVG is available, render it instead of the programmatic diagram */
-  if (staticSvgPath) {
+  /* If a static SVG is available, render it with interactive overlays */
+  if (staticSvgData) {
+    const { path, vbW, vbH, nodes } = staticSvgData;
+    const toggleStatic = (ejeIdx: number) =>
+      setActiveAxis(activeAxis === ejeIdx ? null : ejeIdx);
+
+    /* Hit target radius as % of viewBox — ~3x the visible node for easy clicking */
+    const hitR = 20;
+
     return (
       <section id="ejes" className="scroll-mt-24">
         <div className="w-full mx-auto flex flex-col items-center" style={{ maxWidth: 740 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={staticSvgPath}
-            alt={`Esquema de ejes de contenido de ${area.name}`}
-            className="w-full h-auto block"
-            style={{ maxWidth: "100%" }}
-          />
+          {/* Container preserves SVG aspect ratio */}
+          <div className="relative w-full" style={{ aspectRatio: `${vbW} / ${vbH}` }}>
+            {/* Background: the exact designer SVG */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={path}
+              alt={`Esquema de ejes de contenido de ${area.name}`}
+              className="absolute inset-0 w-full h-full block"
+              draggable={false}
+            />
+
+            {/* Overlay SVG with same viewBox — only click targets + highlight rings */}
+            <svg
+              viewBox={`0 0 ${vbW} ${vbH}`}
+              className="absolute inset-0 w-full h-full"
+              style={{ pointerEvents: "none" }}
+              aria-hidden="true"
+            >
+              {nodes.map((node, i) => {
+                const isActive = activeAxis === node.ejeIdx;
+                return (
+                  <g key={i} style={{ pointerEvents: "auto", cursor: "pointer" }}>
+                    {/* Active highlight ring */}
+                    {isActive && (
+                      <circle
+                        cx={node.cx}
+                        cy={node.cy}
+                        r={node.r + 5}
+                        fill="none"
+                        stroke={area.color}
+                        strokeWidth={3}
+                        opacity={0.6}
+                        style={{ transition: "all 0.3s" }}
+                      />
+                    )}
+                    {/* Active fill overlay */}
+                    {isActive && (
+                      <circle
+                        cx={node.cx}
+                        cy={node.cy}
+                        r={node.r}
+                        fill={area.color}
+                        opacity={0.35}
+                        style={{ transition: "all 0.3s" }}
+                      />
+                    )}
+                    {/* Invisible click target */}
+                    <circle
+                      cx={node.cx}
+                      cy={node.cy}
+                      r={hitR}
+                      fill="transparent"
+                      onClick={() => toggleStatic(node.ejeIdx)}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={ejesInfo[node.ejeIdx]?.titulo || `Eje ${node.ejeIdx + 1}`}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          toggleStatic(node.ejeIdx);
+                        }
+                      }}
+                      style={{ outline: "none" }}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          {/* Hint */}
+          {activeAxis === null && (
+            <div
+              className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
+              style={{ animation: "hintPulse 3s ease-in-out infinite" }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
+                <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
+                <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
+                <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
+                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+              </svg>
+              <span className="text-sm font-medium text-[#494963]/50 tracking-wide">
+                {"Seleccion\u00e1 un eje para explorar"}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Spacer */}
@@ -187,6 +378,27 @@ export function EjesSchemaInteractive({
             transition: "all 0.5s ease-in-out",
           }}
         >
+          {/* Arrow-up caret */}
+          <div
+            className="absolute w-0 h-0"
+            style={{
+              top: -14, left: 45,
+              borderLeft: "10px solid transparent",
+              borderRight: "10px solid transparent",
+              borderBottom: `12px solid ${area.color}`,
+            }}
+          />
+          <div
+            className="absolute w-0 h-0"
+            style={{
+              top: -12, left: 45,
+              borderLeft: "10px solid transparent",
+              borderRight: "10px solid transparent",
+              borderBottom: "12px solid #f4f5f7",
+              zIndex: 1,
+            }}
+          />
+
           {activeAxis !== null && ejesInfo[activeAxis] && (
             <div>
               <h2
@@ -197,6 +409,12 @@ export function EjesSchemaInteractive({
               </h2>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold" style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}>
                 {ejesInfo[activeAxis].descripcion}
+              </p>
+              <p className="mt-4 text-sm text-gray-500">
+                {"Descarg\u00e1 el documento completo para "}
+                <a href="#descarga" className="font-bold hover:underline" style={{ color: area.color }}>
+                  ver m{"\u00e1"}s
+                </a>
               </p>
             </div>
           )}
