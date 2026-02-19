@@ -270,6 +270,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
                 toggleGrado={toggleGrado}
                 activeAxis={activeAxis}
                 setActiveAxis={setActiveAxis}
+                selectedSubarea={selectedSubarea}
               />
             </div>
           </RevealSection>

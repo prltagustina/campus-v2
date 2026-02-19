@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import type { Area } from "@/lib/areas-data";
 
 export interface EjeInfo {
@@ -13,6 +14,32 @@ interface EjesSchemaInteractiveProps {
   ejesInfo: EjeInfo[];
   activeAxis: number | null;
   setActiveAxis: (idx: number | null) => void;
+  selectedSubarea?: string | null;
+}
+
+/* === Static SVG image mapping === */
+const STATIC_SVG_MAP: Record<string, string> = {
+  "matematica": "/images/ejes/matematica.svg",
+  "lengua-y-literatura": "/images/ejes/lengua-y-literatura.svg",
+  "ciencias-naturales": "/images/ejes/ciencias-naturales.svg",
+  "ciencias-sociales": "/images/ejes/ciencias-sociales.svg",
+  "educacion-fisica": "/images/ejes/educacion-fisica.svg",
+  "lenguas-extranjeras": "/images/ejes/lenguas-extranjeras.svg",
+};
+
+/* Subarea SVGs for Educacion Artistica */
+const SUBAREA_SVG_MAP: Record<string, string> = {
+  "artes-visuales": "/images/ejes/artes-visuales.svg",
+  "musica": "/images/ejes/musica.svg",
+  "artes-audiovisuales": "/images/ejes/artes-audiovisuales.svg",
+  "teatro": "/images/ejes/teatro.svg",
+};
+
+function getStaticSvgPath(areaSlug: string, selectedSubarea?: string | null): string | null {
+  if (areaSlug === "educacion-artistica" && selectedSubarea && SUBAREA_SVG_MAP[selectedSubarea]) {
+    return SUBAREA_SVG_MAP[selectedSubarea];
+  }
+  return STATIC_SVG_MAP[areaSlug] || null;
 }
 
 /* === SVG Constants from the original reference design === */
@@ -118,12 +145,65 @@ export function EjesSchemaInteractive({
   ejesInfo,
   activeAxis,
   setActiveAxis,
+  selectedSubarea,
 }: EjesSchemaInteractiveProps) {
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setActiveAxis(null);
   }, [area.id, setActiveAxis]);
+
+  /* Check if we have a static SVG for this area/subarea */
+  const staticSvgPath = getStaticSvgPath(area.slug, selectedSubarea);
+
+  /* If a static SVG is available, render it instead of the programmatic diagram */
+  if (staticSvgPath) {
+    return (
+      <section id="ejes" className="scroll-mt-24">
+        <div className="w-full mx-auto flex flex-col items-center" style={{ maxWidth: 740 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={staticSvgPath}
+            alt={`Esquema de ejes de contenido de ${area.name}`}
+            className="w-full h-auto block"
+            style={{ maxWidth: "100%" }}
+          />
+        </div>
+
+        {/* Spacer */}
+        <div className="h-5 sm:h-8" />
+
+        {/* Info panel -- slides open/closed with max-height */}
+        <div
+          ref={panelRef}
+          className="w-full relative overflow-hidden mx-auto"
+          style={{
+            maxWidth: 740,
+            maxHeight: activeAxis !== null ? 350 : 0,
+            opacity: activeAxis !== null ? 1 : 0,
+            padding: activeAxis !== null ? "30px 24px" : "0 24px",
+            borderTop: activeAxis !== null ? `2px solid ${area.color}` : "2px solid transparent",
+            backgroundColor: "#f4f5f7",
+            transition: "all 0.5s ease-in-out",
+          }}
+        >
+          {activeAxis !== null && ejesInfo[activeAxis] && (
+            <div>
+              <h2
+                className="text-xl md:text-2xl font-bold mb-2 leading-snug"
+                style={{ color: area.color }}
+              >
+                {ejesInfo[activeAxis].titulo}
+              </h2>
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold" style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}>
+                {ejesInfo[activeAxis].descripcion}
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
 
   const n = ejesInfo.length;
   const is5 = n === 5;
