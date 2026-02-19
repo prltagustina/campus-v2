@@ -282,6 +282,53 @@ function InlineSvgSchema({
           }
         });
 
+        /* ---- Tag the dashed orbit arcs with data-arc-endpoints ----
+           Each arc path connects two consecutive node circles.
+           We find paths that have dashed strokes and match them to nodes
+           by proximity of their start/end points to node centers. */
+        const nodePositions = filteredCircles.map((c, i) => ({
+          idx: i < config.nodeOrder.length ? config.nodeOrder[i] : -1,
+          cx: parseFloat(c.getAttribute("cx") || "0"),
+          cy: parseFloat(c.getAttribute("cy") || "0"),
+        }));
+
+        /* Find all dashed-stroke paths (the orbit arcs) */
+        svg.querySelectorAll("path").forEach((p) => {
+          const cs = window.getComputedStyle(p);
+          const da = cs.strokeDasharray;
+          if (!da || da === "none") return;
+          /* Skip paths already tagged */
+          if (p.hasAttribute("data-eje")) return;
+
+          /* Get start and end points of this path */
+          try {
+            const len = p.getTotalLength();
+            if (len < 10) return;
+            const start = p.getPointAtLength(0);
+            const end = p.getPointAtLength(len);
+
+            /* Find closest node to start and end */
+            const findClosest = (pt: SVGPoint) => {
+              let best = -1, bestD = Infinity;
+              nodePositions.forEach((n) => {
+                const d = Math.sqrt((pt.x - n.cx) ** 2 + (pt.y - n.cy) ** 2);
+                if (d < bestD) { bestD = d; best = n.idx; }
+              });
+              return bestD < 40 ? best : -1;
+            };
+            const startEje = findClosest(start);
+            const endEje = findClosest(end);
+
+            if (startEje >= 0 || endEje >= 0) {
+              p.setAttribute("data-arc-start", String(startEje));
+              p.setAttribute("data-arc-end", String(endEje));
+              p.setAttribute("data-arc", "1");
+              (p as SVGElement).style.transition =
+                "stroke 0.35s ease, opacity 0.35s ease";
+            }
+          } catch { /* getTotalLength may fail */ }
+        });
+
         /* Click handler via event delegation */
         svg.addEventListener("click", (e) => {
           const target = (e.target as Element).closest("[data-eje]");
