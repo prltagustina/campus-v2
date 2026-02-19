@@ -1,8 +1,13 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 
-/* ── ScrollReveal ─────────────────────────────────────── */
+/**
+ * ScrollReveal -- GSAP-inspired section reveal wrapper.
+ * Each section fades + slides in when it enters the viewport,
+ * with optional parallax offset for depth.
+ */
 export function ScrollReveal({
   children,
   className = "",
@@ -19,53 +24,46 @@ export function ScrollReveal({
   id?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "-80px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const offsets: Record<string, { x: string; y: string }> = {
-    up: { x: "0px", y: `${distance}px` },
-    down: { x: "0px", y: `-${distance}px` },
-    left: { x: `${distance}px`, y: "0px" },
-    right: { x: `-${distance}px`, y: "0px" },
+  const dirMap = {
+    up: { x: 0, y: distance },
+    down: { x: 0, y: -distance },
+    left: { x: distance, y: 0 },
+    right: { x: -distance, y: 0 },
   };
-  const d = offsets[direction];
+
+  const initial = { opacity: 0, ...dirMap[direction] };
+  const animate = isInView
+    ? { opacity: 1, x: 0, y: 0 }
+    : initial;
 
   return (
-    <div
+    <motion.div
       id={id}
       ref={ref}
-      className={className}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translate(0,0)" : `translate(${d.x},${d.y})`,
-        transition: `opacity 0.9s cubic-bezier(.16,1,.3,1) ${delay}s, transform 0.9s cubic-bezier(.16,1,.3,1) ${delay}s`,
-        willChange: "opacity, transform",
+      initial={initial}
+      animate={animate}
+      transition={{
+        duration: 0.9,
+        ease: [0.16, 1, 0.3, 1],
+        delay,
       }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
-/* ── ParallaxSection (lightweight wrapper) ────────────── */
+/**
+ * ParallaxSection -- a wrapper that moves at a different speed
+ * relative to scroll, creating depth/layering.
+ */
 export function ParallaxSection({
   children,
   className = "",
+  speed = 0.15,
   id,
 }: {
   children: React.ReactNode;
@@ -73,33 +71,66 @@ export function ParallaxSection({
   speed?: number;
   id?: string;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [speed * 120, speed * -120]);
+
   return (
-    <div id={id} className={className}>
+    <motion.div
+      id={id}
+      ref={ref}
+      style={{ y }}
+      className={`relative ${className}`}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
-/* ── SectionDivider ───────────────────────────────────── */
+/**
+ * SectionDivider -- a decorative horizontal line that moves
+ * at a different speed, separating sections visually.
+ */
 export function SectionDivider({
   color = "#494963",
   width = "40%",
+  speed = 0.2,
 }: {
   color?: string;
   width?: string;
   speed?: number;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const x = useTransform(scrollYProgress, [0, 1], [speed * -80, speed * 80]);
+
   return (
-    <div className="flex items-center justify-center py-4 md:py-8">
+    <motion.div
+      ref={ref}
+      style={{ x }}
+      className="flex items-center justify-center py-4 md:py-8"
+    >
       <div
         className="h-px rounded-full"
-        style={{ backgroundColor: color, opacity: 0.12, width }}
+        style={{
+          backgroundColor: color,
+          opacity: 0.12,
+          width,
+        }}
       />
-    </div>
+    </motion.div>
   );
 }
 
-/* ── StaggerChildren ──────────────────────────────────── */
+/**
+ * StaggerChildren -- animates children in sequence.
+ */
 export function StaggerChildren({
   children,
   className = "",
@@ -110,37 +141,36 @@ export function StaggerChildren({
   staggerDelay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "-60px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <div ref={ref} className={className}>
-      {React.Children.map(children, (child, i) => (
-        <div
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(30px)",
-            transition: `opacity .6s cubic-bezier(.16,1,.3,1) ${0.1 + i * staggerDelay}s, transform .6s cubic-bezier(.16,1,.3,1) ${0.1 + i * staggerDelay}s`,
+    <motion.div
+      ref={ref}
+      className={className}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: { staggerChildren: staggerDelay, delayChildren: 0.1 },
+        },
+      }}
+    >
+      {React.Children.map(children, (child) => (
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
+            visible: {
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+              transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+            },
           }}
         >
           {child}
-        </div>
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }

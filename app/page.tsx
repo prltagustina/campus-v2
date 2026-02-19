@@ -18,7 +18,10 @@ import { TimelineSection } from "@/components/landing/timeline-section";
 import { QuickAccessBar } from "@/components/landing/quick-access-bar";
 import { FloatingNav } from "@/components/landing/floating-nav";
 import { Footer } from "@/components/landing/landing-footer";
-import { ScrollReveal, ParallaxSection } from "@/components/landing/scroll-reveal";
+import {
+  ScrollReveal,
+  ParallaxSection,
+} from "@/components/landing/scroll-reveal";
 
 export default function HomePage() {
   const router = useRouter();
