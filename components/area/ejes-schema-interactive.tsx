@@ -328,13 +328,12 @@ function InlineSvgSchema({
           } catch { /* getTotalLength may fail */ }
         });
 
-        /* Click handler via event delegation -- ONLY node circles are interactive */
+        /* Click handler -- only node circles (and their hit areas) are interactive */
         svg.addEventListener("click", (e) => {
-          const target = e.target as Element;
-          /* Only respond to clicks on node circles or their invisible hit areas */
-          const nodeEl = target.closest("[data-eje-node]") || (target.tagName === "circle" && target.hasAttribute("data-eje") && !target.hasAttribute("data-eje-text") ? target : null);
-          if (nodeEl) {
-            const ejeIdx = parseInt(nodeEl.getAttribute("data-eje")!, 10);
+          const t = e.target as Element;
+          /* Direct click on a circle with data-eje (node or hit area) */
+          if (t.tagName === "circle" && t.hasAttribute("data-eje")) {
+            const ejeIdx = parseInt(t.getAttribute("data-eje")!, 10);
             toggle(ejeIdx);
           }
         });
