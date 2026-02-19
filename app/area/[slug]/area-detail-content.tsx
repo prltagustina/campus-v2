@@ -245,7 +245,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
         scrollToSection={scrollToSection}
       />
 
-      <main>
+      <main className="relative">
         {/* HERO: media rueda with parallax fade */}
         <FadingHeader
           area={area}
