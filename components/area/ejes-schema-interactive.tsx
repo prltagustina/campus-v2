@@ -253,7 +253,7 @@ function InlineSvgSchema({
           }
         });
 
-        /* Tag node <circle> elements with data-eje */
+        /* Tag node <circle> elements with data-eje and add invisible hit area */
         const nodeCircles = svg.querySelectorAll(
           `circle.${config.nodeCircleClass}`,
         );
@@ -263,11 +263,22 @@ function InlineSvgSchema({
         });
         filteredCircles.forEach((c, i) => {
           if (i < config.nodeOrder.length) {
-            c.setAttribute("data-eje", String(config.nodeOrder[i]));
+            const ejeIdx = String(config.nodeOrder[i]);
+            c.setAttribute("data-eje", ejeIdx);
             c.setAttribute("data-eje-node", "1");
             (c as SVGElement).style.cursor = "pointer";
             (c as SVGElement).style.transition =
               "opacity 0.35s ease, filter 0.35s ease, stroke-width 0.35s ease, fill 0.35s ease";
+
+            /* Add a larger invisible hit area circle behind the node */
+            const hitCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            hitCircle.setAttribute("cx", c.getAttribute("cx") || "0");
+            hitCircle.setAttribute("cy", c.getAttribute("cy") || "0");
+            hitCircle.setAttribute("r", "20");
+            hitCircle.setAttribute("fill", "transparent");
+            hitCircle.setAttribute("data-eje", ejeIdx);
+            hitCircle.style.cursor = "pointer";
+            c.parentNode?.insertBefore(hitCircle, c);
           }
         });
 
@@ -557,7 +568,7 @@ export function EjesSchemaInteractive({
           {/* Hint when nothing selected */}
           {activeAxis === null && (
             <div
-              className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
+              className="mt-8 flex items-center justify-center gap-2.5 pointer-events-none select-none"
               style={{ animation: "hintPulse 3s ease-in-out infinite" }}
             >
               <svg
@@ -583,8 +594,8 @@ export function EjesSchemaInteractive({
           )}
         </div>
 
-        {/* Spacer */}
-        <div className="h-5 sm:h-8" />
+        {/* Spacer between schema and info panel */}
+        <div className="h-8 sm:h-12" />
 
         {/* Info panel */}
         <div
@@ -617,6 +628,16 @@ export function EjesSchemaInteractive({
                 style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}
               >
                 {ejesInfo[activeAxis].descripcion}
+              </p>
+              <p className="mt-4 text-sm text-gray-500">
+                {"Descarg\u00e1 el documento completo para "}
+                <a
+                  href="#descarga"
+                  className="font-bold hover:underline"
+                  style={{ color: area.color }}
+                >
+                  ver m{"\u00e1"}s
+                </a>
               </p>
             </div>
           )}
@@ -790,7 +811,7 @@ export function EjesSchemaInteractive({
 
         {activeAxis === null && (
           <div
-            className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
+            className="mt-8 flex items-center justify-center gap-2.5 pointer-events-none select-none"
             style={{ animation: "hintPulse 3s ease-in-out infinite" }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
@@ -806,7 +827,7 @@ export function EjesSchemaInteractive({
         )}
       </div>
 
-      <div className="h-5 sm:h-8" />
+      <div className="h-8 sm:h-12" />
 
       <div
         ref={panelRef}
