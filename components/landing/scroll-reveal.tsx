@@ -79,14 +79,11 @@ export function ParallaxSection({
   const y = useTransform(scrollYProgress, [0, 1], [speed * 120, speed * -120]);
 
   return (
-    <motion.div
-      id={id}
-      ref={ref}
-      style={{ y }}
-      className={className}
-    >
-      {children}
-    </motion.div>
+    <div ref={ref} className={`relative ${className}`} id={id}>
+      <motion.div style={{ y }}>
+        {children}
+      </motion.div>
+    </div>
   );
 }
 
@@ -111,20 +108,21 @@ export function SectionDivider({
   const x = useTransform(scrollYProgress, [0, 1], [speed * -80, speed * 80]);
 
   return (
-    <motion.div
-      ref={ref}
-      style={{ x }}
-      className="flex items-center justify-center py-4 md:py-8"
-    >
-      <div
-        className="h-px rounded-full"
-        style={{
-          backgroundColor: color,
-          opacity: 0.12,
-          width,
-        }}
-      />
-    </motion.div>
+    <div ref={ref} className="relative">
+      <motion.div
+        style={{ x }}
+        className="flex items-center justify-center py-4 md:py-8"
+      >
+        <div
+          className="h-px rounded-full"
+          style={{
+            backgroundColor: color,
+            opacity: 0.12,
+            width,
+          }}
+        />
+      </motion.div>
+    </div>
   );
 }
 
