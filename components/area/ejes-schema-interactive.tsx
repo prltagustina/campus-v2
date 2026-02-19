@@ -420,15 +420,18 @@ function InlineSvgSchema({
   }, [loaded]);
 
   /* ---- Update active/dimmed visual states ----
-     Only node circles and axis title texts get dimmed/highlighted.
-     Everything else (orbit lines, center circle, center text, decorative
-     paths) stays fully visible at all times. */
+     - Node circles & axis title texts: dim non-active, highlight active
+     - Dashed orbit lines: always fully visible
+     - Center circle: always visible
+     - Center text: always visible
+     - Sector highlight: draw a bright arc on the center circle for the active eje */
   useEffect(() => {
     const el = containerRef.current;
     if (!el || !loaded) return;
     const svg = el.querySelector("svg");
     if (!svg) return;
 
+    /* 1. Dim/highlight tagged elements (node circles + title texts) */
     const allEjeEls = svg.querySelectorAll("[data-eje]");
     allEjeEls.forEach((elem) => {
       const ejeIdx = parseInt(elem.getAttribute("data-eje")!, 10);
@@ -454,7 +457,6 @@ function InlineSvgSchema({
           s.fill = area.color;
         }
       } else {
-        /* No axis selected -- reset all to normal */
         s.opacity = "1";
         s.filter = "none";
         if (isNode) {
@@ -463,6 +465,103 @@ function InlineSvgSchema({
         }
       }
     });
+
+    /* 2. Sector highlight on center circle ---
+       Find center filled circle, compute angles from the node positions,
+       draw an arc sector overlay for the active eje. */
+    const existingOverlay = svg.querySelector("[data-sector-overlay]");
+    if (existingOverlay) existingOverlay.remove();
+
+    if (activeAxis === null) return;
+
+    /* Find center circle (largest filled circle) */
+    let centerCx = 0, centerCy = 0, centerR = 0;
+    svg.querySelectorAll("circle").forEach((c) => {
+      const r = parseFloat(c.getAttribute("r") || "0");
+      if (r <= centerR || r < 30) return;
+      const computedFill = window.getComputedStyle(c).fill;
+      if (computedFill === "none" || computedFill === "transparent") return;
+      centerR = r;
+      centerCx = parseFloat(c.getAttribute("cx") || "0");
+      centerCy = parseFloat(c.getAttribute("cy") || "0");
+    });
+
+    if (centerR === 0) return;
+
+    /* Collect node positions sorted by angle around center */
+    const nodeEls = svg.querySelectorAll("[data-eje-node]");
+    const nodes: { ejeIdx: number; cx: number; cy: number; angle: number }[] = [];
+    nodeEls.forEach((c) => {
+      const ejeIdx = parseInt(c.getAttribute("data-eje")!, 10);
+      const cx = parseFloat(c.getAttribute("cx") || "0");
+      const cy = parseFloat(c.getAttribute("cy") || "0");
+      const angle = Math.atan2(cy - centerCy, cx - centerCx);
+      nodes.push({ ejeIdx, cx, cy, angle });
+    });
+
+    if (nodes.length < 2) return;
+
+    /* Sort by angle */
+    nodes.sort((a, b) => a.angle - b.angle);
+
+    /* Find which sorted slot is the active one */
+    const activeNodeIdx = nodes.findIndex((n) => n.ejeIdx === activeAxis);
+    if (activeNodeIdx === -1) return;
+
+    /* The sector goes from the midpoint before this node to the midpoint after */
+    const prevIdx = (activeNodeIdx - 1 + nodes.length) % nodes.length;
+    const nextIdx = (activeNodeIdx + 1) % nodes.length;
+
+    const midAngleBefore = (() => {
+      let a1 = nodes[prevIdx].angle;
+      let a2 = nodes[activeNodeIdx].angle;
+      if (a2 - a1 > Math.PI) a1 += 2 * Math.PI;
+      if (a1 - a2 > Math.PI) a2 += 2 * Math.PI;
+      return (a1 + a2) / 2;
+    })();
+
+    const midAngleAfter = (() => {
+      let a1 = nodes[activeNodeIdx].angle;
+      let a2 = nodes[nextIdx].angle;
+      if (a2 - a1 > Math.PI) a1 += 2 * Math.PI;
+      if (a1 - a2 > Math.PI) a2 += 2 * Math.PI;
+      return (a1 + a2) / 2;
+    })();
+
+    /* Draw sector arc as a path overlay */
+    const sR = centerR - 2;
+    const startX = centerCx + sR * Math.cos(midAngleBefore);
+    const startY = centerCy + sR * Math.sin(midAngleBefore);
+    const endX = centerCx + sR * Math.cos(midAngleAfter);
+    const endY = centerCy + sR * Math.sin(midAngleAfter);
+
+    /* Determine if arc is > 180 degrees */
+    let arcSpan = midAngleAfter - midAngleBefore;
+    if (arcSpan < 0) arcSpan += 2 * Math.PI;
+    const largeArc = arcSpan > Math.PI ? 1 : 0;
+
+    const sectorPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    sectorPath.setAttribute("d",
+      `M ${centerCx} ${centerCy} L ${startX} ${startY} A ${sR} ${sR} 0 ${largeArc} 1 ${endX} ${endY} Z`
+    );
+    sectorPath.setAttribute("fill", "rgba(255,255,255,0.18)");
+    sectorPath.setAttribute("data-sector-overlay", "1");
+    sectorPath.style.pointerEvents = "none";
+    sectorPath.style.transition = "opacity 0.35s ease";
+
+    /* Insert the sector just after the center circle so it overlays it
+       but is under the center text */
+    let centerCircleEl: SVGCircleElement | null = null;
+    svg.querySelectorAll("circle").forEach((c) => {
+      const r = parseFloat(c.getAttribute("r") || "0");
+      if (Math.abs(r - centerR) < 1) centerCircleEl = c;
+    });
+
+    if (centerCircleEl && centerCircleEl.parentNode) {
+      centerCircleEl.parentNode.insertBefore(sectorPath, centerCircleEl.nextSibling);
+    } else {
+      svg.appendChild(sectorPath);
+    }
   }, [activeAxis, loaded, area.color]);
 
   return (
