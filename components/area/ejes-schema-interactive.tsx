@@ -19,11 +19,9 @@ interface EjesSchemaInteractiveProps {
 /* ===================================================================
    Static SVG config per area / subarea.
    - `path`: public URL of the SVG file
-   - `nodeOrder`: maps each cls-3/cls-6 *node circle* (DOM order) to
-     its ejesInfo index.
-   - `textOrder`: maps each *axis title text* (DOM order) to ejesInfo index.
-   - `titleTextClass`: CSS class used for axis title `<text>` elements
-     in this SVG (varies between SVGs: cls-6, cls-1, cls-5, cls-3).
+   - `nodeOrder`: maps each node circle (DOM order) to its ejesInfo index.
+   - `textOrder`: maps each axis title text (DOM order) to ejesInfo index.
+   - `titleTextClass`: CSS class used for axis title `<text>` elements.
    - `nodeCircleClass`: CSS class used for clickable node `<circle>` elements.
    =================================================================== */
 
@@ -33,7 +31,6 @@ interface StaticSvgConfig {
   textOrder: number[];
   titleTextClass: string;
   nodeCircleClass: string;
-  /** Font size replacement: original -> target */
   fontSizeOriginal?: string;
   fontSizeTarget?: string;
 }
@@ -60,9 +57,9 @@ const STATIC_SVG_CONFIG: Record<string, StaticSvgConfig> = {
   "matematica": {
     path: "/images/ejes/matematica.svg",
     nodeOrder: [0, 1, 3, 2],
-    textOrder: [3], // only 1 <text>: "Estadistica y probabilidad" = eje 3
+    textOrder: [3],
     titleTextClass: "cls-5",
-    nodeCircleClass: "cls-3",
+    nodeCircleClass: "cls-4",
     fontSizeOriginal: "22px",
     fontSizeTarget: "17px",
   },
@@ -71,7 +68,7 @@ const STATIC_SVG_CONFIG: Record<string, StaticSvgConfig> = {
     nodeOrder: [0, 1, 4, 3, 2],
     textOrder: [0, 4, 2, 1, 3],
     titleTextClass: "cls-1",
-    nodeCircleClass: "cls-3",
+    nodeCircleClass: "cls-5",
     fontSizeOriginal: "17px",
     fontSizeTarget: "14px",
   },
@@ -86,8 +83,8 @@ const STATIC_SVG_CONFIG: Record<string, StaticSvgConfig> = {
   },
   "educacion-fisica": {
     path: "/images/ejes/educacion-fisica.svg",
-    nodeOrder: [0, 1, 2], // top-left=0, right=1, bottom-left=2
-    textOrder: [1, 2],    // only 2 <text> elements exist; 3rd axis is vector paths
+    nodeOrder: [0, 1, 2],
+    textOrder: [1, 2],
     titleTextClass: "cls-3",
     nodeCircleClass: "cls-6",
     fontSizeOriginal: "18px",
@@ -95,8 +92,8 @@ const STATIC_SVG_CONFIG: Record<string, StaticSvgConfig> = {
   },
   "educacion-tecnologica": {
     path: "/images/ejes/educacion-tecnologica.svg",
-    nodeOrder: [3, 1, 2, 0], // DOM order of cls-3 circles: left(3), right(1), bottom(2), top(0)
-    textOrder: [0, 1, 3, 2], // DOM order of cls-4 texts: procesos(0), medios(1), reflexion(3), TIC(2)
+    nodeOrder: [3, 1, 2, 0],
+    textOrder: [0, 1, 3, 2],
     titleTextClass: "cls-4",
     nodeCircleClass: "cls-3",
     fontSizeOriginal: "22px",
@@ -108,43 +105,43 @@ const SUBAREA_SVG_CONFIG: Record<string, StaticSvgConfig> = {
   "artes-visuales": {
     path: "/images/ejes/artes-visuales.svg",
     nodeOrder: [1, 2, 0],
-    textOrder: [1], // only 1 <text>: "Apreciacion" = eje 1
+    textOrder: [1],
     titleTextClass: "cls-5",
-    nodeCircleClass: "cls-3",
+    nodeCircleClass: "cls-2",
     fontSizeOriginal: "22px",
     fontSizeTarget: "17px",
   },
   "musica": {
     path: "/images/ejes/musica.svg",
     nodeOrder: [1, 2, 0],
-    textOrder: [1], // only 1 <text>: "Apreciacion" = eje 1
+    textOrder: [1],
     titleTextClass: "cls-5",
-    nodeCircleClass: "cls-3",
+    nodeCircleClass: "cls-2",
     fontSizeOriginal: "22px",
     fontSizeTarget: "17px",
   },
   "artes-audiovisuales": {
     path: "/images/ejes/artes-audiovisuales.svg",
     nodeOrder: [1, 2, 0],
-    textOrder: [1], // only 1 <text>: "Apreciacion" = eje 1
+    textOrder: [1],
     titleTextClass: "cls-5",
-    nodeCircleClass: "cls-3",
+    nodeCircleClass: "cls-2",
     fontSizeOriginal: "22px",
     fontSizeTarget: "17px",
   },
   "teatro": {
     path: "/images/ejes/teatro.svg",
     nodeOrder: [1, 2, 0],
-    textOrder: [1], // only 1 <text>: "Apreciacion" = eje 1
+    textOrder: [1],
     titleTextClass: "cls-5",
-    nodeCircleClass: "cls-3",
+    nodeCircleClass: "cls-2",
     fontSizeOriginal: "22px",
     fontSizeTarget: "17px",
   },
   "danza": {
     path: "/images/ejes/danza.svg",
-    nodeOrder: [2, 1, 0], // DOM order of cls-2 circles: bottom-left(2=Apreciacion), right(1=Danza en contexto), top-left(0=Produccion en danza)
-    textOrder: [2],        // only 1 <text> cls-5: "Apreciacion" = eje 2
+    nodeOrder: [2, 1, 0],
+    textOrder: [2],
     titleTextClass: "cls-5",
     nodeCircleClass: "cls-2",
     fontSizeOriginal: "18px",
@@ -251,12 +248,11 @@ function InlineSvgSchema({
           }
         });
 
-        /* Tag node <circle> elements with data-eje */
+        /* Tag node <circle> elements with data-eje.
+           Only keep small circles (r < 20) to exclude orbit/center circles. */
         const nodeCircles = svg.querySelectorAll(
           `circle.${config.nodeCircleClass}`,
         );
-        /* The orbit dashed circle also has cls-4 / cls-6 sometimes.
-           We only want the small ones (r < 20) */
         const filteredCircles = Array.from(nodeCircles).filter((c) => {
           const r = parseFloat(c.getAttribute("r") || "0");
           return r < 20;
@@ -271,13 +267,102 @@ function InlineSvgSchema({
           }
         });
 
+        /* Tag path elements with vector text (axes that use paths instead of <text>)
+           by proximity to each node circle */
+        const allPaths = svg.querySelectorAll("path");
+        const allGs = svg.querySelectorAll("g");
+        
+        /* For each node, find nearby path-based text labels.
+           We look at <g> groups that contain paths with data that looks like
+           text glyphs (small paths near node positions). */
+        filteredCircles.forEach((circle) => {
+          const ejeIdx = circle.getAttribute("data-eje");
+          if (!ejeIdx) return;
+          const cx = parseFloat(circle.getAttribute("cx") || "0");
+          const cy = parseFloat(circle.getAttribute("cy") || "0");
+
+          /* Find ALL path elements whose bounding box center is close to
+             this node position (within a reasonable radius). These are
+             likely the vector text labels for this axis. */
+          allPaths.forEach((p) => {
+            if (p.hasAttribute("data-eje")) return;
+            try {
+              const bbox = (p as SVGGraphicsElement).getBBox();
+              // Skip very large paths (likely arcs/petals, not text)
+              if (bbox.width > 200 || bbox.height > 200) return;
+              const pathCx = bbox.x + bbox.width / 2;
+              const pathCy = bbox.y + bbox.height / 2;
+              const dist = Math.sqrt((pathCx - cx) ** 2 + (pathCy - cy) ** 2);
+              // Text labels are typically within ~150px of their node
+              if (dist < 150) {
+                // Check this path is NOT inside center circle
+                const centerCircle = svg.querySelector("circle:not([data-eje-node])");
+                let centerCx = 0, centerCy = 0, centerR = 0;
+                if (centerCircle) {
+                  const cr = parseFloat(centerCircle.getAttribute("r") || "0");
+                  if (cr > 50) {
+                    centerCx = parseFloat(centerCircle.getAttribute("cx") || "0");
+                    centerCy = parseFloat(centerCircle.getAttribute("cy") || "0");
+                    centerR = cr;
+                  }
+                }
+                // Find actual largest circle for center
+                svg.querySelectorAll("circle").forEach((cc) => {
+                  const r = parseFloat(cc.getAttribute("r") || "0");
+                  if (r > centerR) {
+                    centerR = r;
+                    centerCx = parseFloat(cc.getAttribute("cx") || "0");
+                    centerCy = parseFloat(cc.getAttribute("cy") || "0");
+                  }
+                });
+                const distFromCenter = Math.sqrt((pathCx - centerCx) ** 2 + (pathCy - centerCy) ** 2);
+                if (distFromCenter < centerR * 0.9) return; // Inside center, skip
+                
+                p.setAttribute("data-eje", ejeIdx);
+                p.setAttribute("data-eje-label", "1");
+              }
+            } catch {
+              /* getBBox may fail */
+            }
+          });
+        });
+
+        /* Also tag nearby <g> elements that contain path-based text */
+        allGs.forEach((g) => {
+          if (g.hasAttribute("data-eje")) return;
+          const childPaths = g.querySelectorAll(":scope > path[data-eje]");
+          if (childPaths.length > 0) {
+            // If most children in this g are tagged with same eje, tag the whole g
+            const ejeCounts: Record<string, number> = {};
+            childPaths.forEach((cp) => {
+              const ej = cp.getAttribute("data-eje") || "";
+              ejeCounts[ej] = (ejeCounts[ej] || 0) + 1;
+            });
+          }
+        });
+
         /* Click handler via event delegation */
         svg.addEventListener("click", (e) => {
           const target = (e.target as Element).closest("[data-eje]");
-          if (target) {
-            const ejeIdx = parseInt(target.getAttribute("data-eje")!, 10);
-            toggle(ejeIdx);
+          if (!target) {
+            // Also check if we clicked directly on a tagged element
+            const el = e.target as Element;
+            if (el.hasAttribute("data-eje")) {
+              const ejeIdx = parseInt(el.getAttribute("data-eje")!, 10);
+              toggle(ejeIdx);
+              return;
+            }
+            // Check parent path/g
+            const parent = el.parentElement;
+            if (parent && parent.hasAttribute("data-eje")) {
+              const ejeIdx = parseInt(parent.getAttribute("data-eje")!, 10);
+              toggle(ejeIdx);
+              return;
+            }
+            return;
           }
+          const ejeIdx = parseInt(target.getAttribute("data-eje")!, 10);
+          toggle(ejeIdx);
         });
 
         containerRef.current.appendChild(svg);
@@ -297,43 +382,7 @@ function InlineSvgSchema({
     const svg = el.querySelector("svg");
     if (!svg) return;
 
-    /* 1. Process data-eje tagged elements (nodes + text labels) */
-    const allEjeEls = svg.querySelectorAll("[data-eje]");
-    allEjeEls.forEach((elem) => {
-      const ejeIdx = parseInt(elem.getAttribute("data-eje")!, 10);
-      const s = (elem as SVGElement).style;
-      const isNode = elem.hasAttribute("data-eje-node");
-      const isActive = activeAxis === ejeIdx;
-      const isDimmed = activeAxis !== null && !isActive;
-
-      s.transition = "opacity 0.35s ease, filter 0.35s ease, fill 0.35s ease, stroke-width 0.35s ease";
-
-      if (isDimmed) {
-        s.opacity = "0.18";
-        s.filter = "saturate(0)";
-        if (isNode) {
-          s.strokeWidth = "";
-          s.fill = "#e0e0e0";
-        }
-      } else if (isActive) {
-        s.opacity = "1";
-        s.filter = "none";
-        if (isNode) {
-          s.strokeWidth = "6";
-          s.fill = area.color;
-        }
-      } else {
-        s.opacity = "1";
-        s.filter = "none";
-        if (isNode) {
-          s.strokeWidth = "";
-          s.fill = "";
-        }
-      }
-    });
-
-    /* 2. Find the center circle to know its bounding region.
-       Center circle = largest circle (r > 50) */
+    /* Find center circle (largest r) for reference */
     let centerCx = 0, centerCy = 0, centerR = 0;
     svg.querySelectorAll("circle").forEach((c) => {
       const r = parseFloat(c.getAttribute("r") || "0");
@@ -344,17 +393,54 @@ function InlineSvgSchema({
       }
     });
 
-    /* 3. Dim ALL non-tagged elements except center circle + center text.
-       Elements whose bounding box center is inside the center circle radius
-       are considered "center content" and stay visible. */
-    const allShapes = svg.querySelectorAll("path, circle, text, rect");
+    /* 1. Process data-eje tagged elements (nodes + text labels) */
+    const allEjeEls = svg.querySelectorAll("[data-eje]");
+    allEjeEls.forEach((elem) => {
+      const ejeIdx = parseInt(elem.getAttribute("data-eje")!, 10);
+      const s = (elem as SVGElement).style;
+      const isNode = elem.hasAttribute("data-eje-node");
+      const isActive = activeAxis === ejeIdx;
+      const isDimmed = activeAxis !== null && !isActive;
+
+      s.transition = "opacity 0.35s ease, filter 0.35s ease, fill 0.35s ease, stroke 0.35s ease, stroke-width 0.35s ease";
+
+      if (isDimmed) {
+        s.opacity = "0.18";
+        s.filter = "saturate(0)";
+        if (isNode) {
+          s.strokeWidth = "";
+          s.fill = "#ffffff";
+          s.stroke = "#c0c0c0";
+        }
+      } else if (isActive) {
+        s.opacity = "1";
+        s.filter = "none";
+        if (isNode) {
+          s.strokeWidth = "6";
+          s.fill = area.color;
+          s.stroke = area.color;
+        }
+      } else {
+        s.opacity = "1";
+        s.filter = "none";
+        if (isNode) {
+          s.strokeWidth = "";
+          s.fill = "";
+          s.stroke = "";
+        }
+      }
+    });
+
+    /* 2. Dim ALL non-tagged elements except center circle + center text.
+       Elements inside center circle region stay visible. */
+    const allShapes = svg.querySelectorAll("path, circle, text, rect, line, polyline, polygon");
     allShapes.forEach((elem) => {
       if (elem.hasAttribute("data-eje")) return;
 
       const sp = elem as SVGElement;
       sp.style.transition = "opacity 0.35s ease, filter 0.35s ease";
 
-      /* Keep center circle itself fully visible */
+      /* Keep the filled center circle (largest r) fully visible */
       if (elem.tagName === "circle") {
         const r = parseFloat(elem.getAttribute("r") || "0");
         if (r > 50) {
@@ -364,25 +450,24 @@ function InlineSvgSchema({
         }
       }
 
-      /* Check if element is inside center circle region using getBBox */
+      /* Check if element is inside center circle region */
       try {
         const bbox = (elem as SVGGraphicsElement).getBBox();
         const elCx = bbox.x + bbox.width / 2;
         const elCy = bbox.y + bbox.height / 2;
         const dist = Math.sqrt((elCx - centerCx) ** 2 + (elCy - centerCy) ** 2);
-        if (dist < centerR * 0.95) {
-          /* Inside center circle -- center text, keep visible */
+        if (dist < centerR * 0.92) {
           sp.style.opacity = "1";
           sp.style.filter = "none";
           return;
         }
       } catch {
-        /* getBBox may fail for hidden elements */
+        /* getBBox may fail */
       }
 
       /* Everything else: dim when an axis is selected */
       if (activeAxis !== null) {
-        sp.style.opacity = "0.22";
+        sp.style.opacity = "0.12";
         sp.style.filter = "saturate(0)";
       } else {
         sp.style.opacity = "1";
@@ -390,7 +475,7 @@ function InlineSvgSchema({
       }
     });
 
-    /* 4. Re-highlight active node + text above the global dim */
+    /* 3. Re-highlight active node + text + labels above the global dim */
     if (activeAxis !== null) {
       svg.querySelectorAll(`[data-eje="${activeAxis}"]`).forEach((elem) => {
         const s = (elem as SVGElement).style;
@@ -404,7 +489,7 @@ function InlineSvgSchema({
     <div
       ref={containerRef}
       className="w-full mx-auto flex items-center justify-center"
-      style={{ maxWidth: 600 }}
+      style={{ maxWidth: 540 }}
       aria-label={`Esquema de ejes de contenido de ${area.name}`}
     />
   );
@@ -412,7 +497,6 @@ function InlineSvgSchema({
 
 /* ===================================================================
    Fallback: programmatic SVG for areas without a designer SVG.
-   (Uses the existing coordinate/petal math.)
    =================================================================== */
 
 const VB_W = 765.09;
@@ -510,6 +594,102 @@ function splitText(text: string, max: number): string[] {
 }
 
 /* ===================================================================
+   Info Panel - shared between static and fallback
+   =================================================================== */
+
+function InfoPanel({
+  area,
+  ejesInfo,
+  activeAxis,
+  panelRef,
+}: {
+  area: Area;
+  ejesInfo: EjeInfo[];
+  activeAxis: number | null;
+  panelRef: React.RefObject<HTMLDivElement | null>;
+}) {
+  return (
+    <div
+      ref={panelRef}
+      className="w-full relative overflow-hidden mx-auto"
+      style={{
+        maxWidth: 540,
+        maxHeight: activeAxis !== null ? 400 : 0,
+        opacity: activeAxis !== null ? 1 : 0,
+        padding: activeAxis !== null ? "30px 24px" : "0 24px",
+        borderTop:
+          activeAxis !== null
+            ? `2px solid ${area.color}`
+            : "2px solid transparent",
+        backgroundColor: "#f4f5f7",
+        borderRadius: "0 0 12px 12px",
+        transition: "all 0.5s ease-in-out",
+      }}
+    >
+      {activeAxis !== null && ejesInfo[activeAxis] && (
+        <div>
+          <h2
+            className="text-lg md:text-xl font-bold mb-2 leading-snug"
+            style={{ color: area.color }}
+          >
+            {ejesInfo[activeAxis].titulo}
+          </h2>
+          <p
+            className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold"
+            style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}
+          >
+            {ejesInfo[activeAxis].descripcion}
+          </p>
+          <p className="mt-4 text-sm text-gray-500">
+            {"Descarg\u00e1 el documento completo para "}
+            <a
+              href="#descarga"
+              className="font-bold hover:underline"
+              style={{ color: area.color }}
+            >
+              {"ver m\u00e1s"}
+            </a>
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ===================================================================
+   Hint - shared between static and fallback
+   =================================================================== */
+
+function SelectionHint() {
+  return (
+    <div
+      className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
+      style={{ animation: "hintPulse 3s ease-in-out infinite" }}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#494963"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="opacity-50"
+      >
+        <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
+        <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
+        <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
+        <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+      </svg>
+      <span className="text-sm font-medium text-[#494963]/50 tracking-wide">
+        {"Seleccion\u00e1 un eje para explorar"}
+      </span>
+    </div>
+  );
+}
+
+/* ===================================================================
    Main exported component
    =================================================================== */
 
@@ -526,7 +706,6 @@ export function EjesSchemaInteractive({
     setActiveAxis(null);
   }, [area.id, selectedSubarea, setActiveAxis]);
 
-  /* Try to find a static SVG config for this area */
   const config = getStaticSvgConfig(area.slug, selectedSubarea);
 
   /* ---- STATIC SVG PATH ---- */
@@ -535,9 +714,8 @@ export function EjesSchemaInteractive({
       <section id="ejes" className="scroll-mt-24">
         <div
           className="w-full mx-auto flex flex-col items-center"
-          style={{ maxWidth: 600 }}
+          style={{ maxWidth: 540 }}
         >
-          {/* Inline interactive SVG */}
           <InlineSvgSchema
             config={config}
             area={area}
@@ -545,79 +723,22 @@ export function EjesSchemaInteractive({
             activeAxis={activeAxis}
             setActiveAxis={setActiveAxis}
           />
-
-          {/* Hint when nothing selected */}
-          {activeAxis === null && (
-            <div
-              className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
-              style={{ animation: "hintPulse 3s ease-in-out infinite" }}
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#494963"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="opacity-50"
-              >
-                <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
-                <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
-                <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
-                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
-              </svg>
-              <span className="text-sm font-medium text-[#494963]/50 tracking-wide">
-                {"Seleccion\u00e1 un eje para explorar"}
-              </span>
-            </div>
-          )}
+          {activeAxis === null && <SelectionHint />}
         </div>
 
-        {/* Spacer */}
         <div className="h-5 sm:h-8" />
 
-        {/* Info panel */}
-        <div
-          ref={panelRef}
-          className="w-full relative overflow-hidden mx-auto"
-          style={{
-            maxWidth: 600,
-            maxHeight: activeAxis !== null ? 400 : 0,
-            opacity: activeAxis !== null ? 1 : 0,
-            padding: activeAxis !== null ? "30px 24px" : "0 24px",
-            borderTop:
-              activeAxis !== null
-                ? `2px solid ${area.color}`
-                : "2px solid transparent",
-            backgroundColor: "#f4f5f7",
-            borderRadius: "0 0 12px 12px",
-            transition: "all 0.5s ease-in-out",
-          }}
-        >
-          {activeAxis !== null && ejesInfo[activeAxis] && (
-            <div>
-              <h2
-                className="text-lg md:text-xl font-bold mb-2 leading-snug"
-                style={{ color: area.color }}
-              >
-                {ejesInfo[activeAxis].titulo}
-              </h2>
-              <p
-                className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold"
-                style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}
-              >
-                {ejesInfo[activeAxis].descripcion}
-              </p>
-            </div>
-          )}
-        </div>
+        <InfoPanel
+          area={area}
+          ejesInfo={ejesInfo}
+          activeAxis={activeAxis}
+          panelRef={panelRef}
+        />
       </section>
     );
   }
 
-  /* ---- FALLBACK: programmatic SVG for areas without a designer SVG ---- */
+  /* ---- FALLBACK: programmatic SVG ---- */
   const n = ejesInfo.length;
   const is5 = n === 5;
   const coords = is5 ? COORDS_5 : getCoordsN(n);
@@ -651,7 +772,7 @@ export function EjesSchemaInteractive({
     <section id="ejes" className="scroll-mt-24">
       <div
         className="w-full mx-auto flex flex-col items-center"
-        style={{ maxWidth: 600 }}
+        style={{ maxWidth: 540 }}
       >
         {/* Mobile SVG */}
         <svg
@@ -705,9 +826,9 @@ export function EjesSchemaInteractive({
             const fontSize = isMulti ? 18 : 24;
             return (
               <g key={`node-m-${i}`} className="cursor-pointer outline-none" onClick={() => toggle(i)} role="button" tabIndex={0} aria-label={titulo} style={{ outline: "none" }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(i); } }}>
-                <circle cx={c.x} cy={c.y} r={isActive ? NODE_R_ACTIVE : NODE_R} fill={isActive ? area.color : isDimmed ? "#e0e0e0" : "white"} stroke={isActive ? area.color : isDimmed ? "#999999" : area.color} strokeWidth={5} style={{ transition: "all 0.4s" }} />
+                <circle cx={c.x} cy={c.y} r={isActive ? NODE_R_ACTIVE : NODE_R} fill={isActive ? area.color : isDimmed ? "#ffffff" : "white"} stroke={isActive ? area.color : isDimmed ? "#c0c0c0" : area.color} strokeWidth={5} style={{ transition: "all 0.4s" }} />
                 {lines.map((line, li) => (
-                  <text key={`label-m-${i}-${li}`} x={lbl.x} y={lbl.y + li * (fontSize + 2)} textAnchor={lbl.anchor} fill={isDimmed ? "#777777" : area.color} fontSize={fontSize} fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none" style={{ transition: "fill 0.4s" }}>{line}</text>
+                  <text key={`label-m-${i}-${li}`} x={lbl.x} y={lbl.y + li * (fontSize + 2)} textAnchor={lbl.anchor} fill={isDimmed ? "#aaaaaa" : area.color} fontSize={fontSize} fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none" style={{ transition: "fill 0.4s", opacity: isDimmed ? 0.3 : 1 }}>{line}</text>
                 ))}
               </g>
             );
@@ -766,101 +887,26 @@ export function EjesSchemaInteractive({
             const fontSize = isMulti ? 18 : 24;
             return (
               <g key={`node-${i}`} className="cursor-pointer outline-none" onClick={() => toggle(i)} role="button" tabIndex={0} aria-label={titulo} style={{ outline: "none" }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(i); } }}>
-                <circle cx={c.x} cy={c.y} r={isActive ? NODE_R_ACTIVE : NODE_R} fill={isActive ? area.color : isDimmed ? "#e0e0e0" : "white"} stroke={isActive ? area.color : isDimmed ? "#999999" : area.color} strokeWidth={5} style={{ transition: "all 0.4s" }} />
+                <circle cx={c.x} cy={c.y} r={isActive ? NODE_R_ACTIVE : NODE_R} fill={isActive ? area.color : isDimmed ? "#ffffff" : "white"} stroke={isActive ? area.color : isDimmed ? "#c0c0c0" : area.color} strokeWidth={5} style={{ transition: "all 0.4s" }} />
                 {lines.map((line, li) => (
-                  <text key={`label-${i}-${li}`} x={lbl.x} y={lbl.y + li * (fontSize + 2)} textAnchor={lbl.anchor} fill={isDimmed ? "#777777" : area.color} fontSize={fontSize} fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none" style={{ transition: "fill 0.4s" }}>{line}</text>
+                  <text key={`label-${i}-${li}`} x={lbl.x} y={lbl.y + li * (fontSize + 2)} textAnchor={lbl.anchor} fill={isDimmed ? "#aaaaaa" : area.color} fontSize={fontSize} fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none" style={{ transition: "fill 0.4s", opacity: isDimmed ? 0.3 : 1 }}>{line}</text>
                 ))}
               </g>
             );
           })}
         </svg>
 
-        {activeAxis === null && (
-          <div
-            className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
-            style={{ animation: "hintPulse 3s ease-in-out infinite" }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
-              <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
-              <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
-              <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
-              <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
-            </svg>
-            <span className="text-sm font-medium text-[#494963]/50 tracking-wide">
-              {"Seleccion\u00e1 un eje para explorar"}
-            </span>
-          </div>
-        )}
+        {activeAxis === null && <SelectionHint />}
       </div>
 
       <div className="h-5 sm:h-8" />
 
-      <div
-        ref={panelRef}
-        className="w-full relative overflow-hidden mx-auto"
-        style={{
-          maxWidth: 600,
-          maxHeight: activeAxis !== null ? 400 : 0,
-          opacity: activeAxis !== null ? 1 : 0,
-          padding: activeAxis !== null ? "30px 24px" : "0 24px",
-          borderTop:
-            activeAxis !== null
-              ? `2px solid ${area.color}`
-              : "2px solid transparent",
-          backgroundColor: "#f4f5f7",
-          borderRadius: "0 0 12px 12px",
-          transition: "all 0.5s ease-in-out",
-        }}
-      >
-        <div
-          className="absolute w-0 h-0"
-          style={{
-            top: -14,
-            left: 45,
-            borderLeft: "10px solid transparent",
-            borderRight: "10px solid transparent",
-            borderBottom: `12px solid ${area.color}`,
-          }}
-        />
-        <div
-          className="absolute w-0 h-0"
-          style={{
-            top: -12,
-            left: 45,
-            borderLeft: "10px solid transparent",
-            borderRight: "10px solid transparent",
-            borderBottom: "12px solid #f4f5f7",
-            zIndex: 1,
-          }}
-        />
-
-        {activeAxis !== null && ejesInfo[activeAxis] && (
-          <div>
-            <h2
-              className="text-lg md:text-xl font-bold mb-2 leading-snug"
-              style={{ color: area.color }}
-            >
-              {ejesInfo[activeAxis].titulo}
-            </h2>
-            <p
-              className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold"
-              style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}
-            >
-              {ejesInfo[activeAxis].descripcion}
-            </p>
-            <p className="mt-4 text-sm text-gray-500">
-              {"Descarg\u00e1 el documento completo para "}
-              <a
-                href="#descarga"
-                className="font-bold hover:underline"
-                style={{ color: area.color }}
-              >
-                ver m{"\u00e1"}s
-              </a>
-            </p>
-          </div>
-        )}
-      </div>
+      <InfoPanel
+        area={area}
+        ejesInfo={ejesInfo}
+        activeAxis={activeAxis}
+        panelRef={panelRef}
+      />
     </section>
   );
 }
