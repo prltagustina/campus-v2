@@ -17,7 +17,6 @@ interface EjesSectionProps {
   toggleGrado: (gradoId: string) => void;
   activeAxis: number | null;
   setActiveAxis: (idx: number | null) => void;
-  selectedSubarea?: string | null;
 }
 
 export function EjesSection({
@@ -29,7 +28,6 @@ export function EjesSection({
   toggleGrado,
   activeAxis,
   setActiveAxis,
-  selectedSubarea,
 }: EjesSectionProps) {
   const ejesInfo = ejesInfoPorArea[area.slug];
   const useInteractiveSchema = !!ejesInfo;
@@ -67,7 +65,6 @@ export function EjesSection({
         ejesInfo={ejesInfo}
         activeAxis={activeAxis}
         setActiveAxis={setActiveAxis}
-        selectedSubarea={selectedSubarea}
       />
     );
   }
