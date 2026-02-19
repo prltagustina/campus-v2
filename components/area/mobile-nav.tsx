@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Home, Download, MoreHorizontal, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { areasData, type Area } from "@/lib/areas-data";
 import { areasOrder, MARCO_GENERAL_COLOR } from "@/lib/constants";
 
@@ -20,7 +20,7 @@ const AreasIcon = ({ className, color }: { className?: string; color?: string })
   </svg>
 );
 
-/* Staggered menu overlay -- inspired by reactbits staggered-menu */
+/* Staggered menu overlay -- CSS-only animations */
 function StaggeredAreasMenu({
   currentArea,
   onClose,
@@ -28,6 +28,13 @@ function StaggeredAreasMenu({
   currentArea: Area;
   onClose: () => void;
 }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger entrance animation on next frame
+    requestAnimationFrame(() => setVisible(true));
+  }, []);
+
   const allItems = [
     ...areasOrder.map((id) => {
       const a = areasData.find((x) => x.id === id);
@@ -37,57 +44,53 @@ function StaggeredAreasMenu({
   ];
 
   return (
-    <motion.div
+    <div
       className="fixed inset-0 z-[60] flex flex-col"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.25 }}
+      style={{
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.25s ease",
+      }}
     >
       {/* Backdrop */}
-      <motion.div
+      <div
         className="absolute inset-0 bg-[#0e0e1a]/90 backdrop-blur-sm"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
         onClick={onClose}
       />
 
       {/* Close button */}
-      <motion.button
+      <button
         type="button"
         onClick={onClose}
-        className="absolute top-5 right-5 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        transition={{ delay: 0.15 }}
-        whileTap={{ scale: 0.9 }}
+        className="absolute top-5 right-5 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/70 active:scale-90 transition-transform"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "scale(1)" : "scale(0.8)",
+          transition: "opacity 0.25s ease 0.15s, transform 0.25s ease 0.15s",
+        }}
       >
         <X className="w-5 h-5" />
-      </motion.button>
+      </button>
 
       {/* Menu items */}
       <div className="relative z-10 flex flex-col justify-center h-full px-8 py-16">
-        <motion.p
+        <p
           className="text-white/40 text-xs uppercase tracking-[0.2em] font-semibold mb-6 pl-1"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(10px)",
+            transition: "opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s",
+          }}
         >
-          {"Áreas curriculares"}
-        </motion.p>
+          {"Areas curriculares"}
+        </p>
 
         {allItems.map((item, i) => (
-          <motion.div
+          <div
             key={item.slug}
-            initial={{ opacity: 0, x: -40, filter: "blur(8px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, x: -20, filter: "blur(4px)" }}
-            transition={{
-              duration: 0.45,
-              delay: 0.08 + i * 0.04,
-              ease: [0.16, 1, 0.3, 1],
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? "translateX(0)" : "translateX(-40px)",
+              transition: `opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1) ${0.08 + i * 0.04}s, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) ${0.08 + i * 0.04}s`,
             }}
           >
             <Link
@@ -116,17 +119,16 @@ function StaggeredAreasMenu({
 
               {/* Active indicator */}
               {item.isCurrent && (
-                <motion.div
+                <div
                   className="ml-auto h-1 rounded-full"
                   style={{ backgroundColor: item.color, width: 24 }}
-                  layoutId="mobile-active-bar"
                 />
               )}
             </Link>
-          </motion.div>
+          </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -140,14 +142,12 @@ export function MobileNav({
   return (
     <>
       {/* Staggered Areas overlay */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <StaggeredAreasMenu
-            currentArea={area}
-            onClose={() => setMobileMenuOpen(false)}
-          />
-        )}
-      </AnimatePresence>
+      {mobileMenuOpen && (
+        <StaggeredAreasMenu
+          currentArea={area}
+          onClose={() => setMobileMenuOpen(false)}
+        />
+      )}
 
       {/* Bottom tab bar */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#494963] backdrop-blur-md px-4 py-2 safe-area-pb shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
@@ -170,7 +170,7 @@ export function MobileNav({
               className="text-[10px]"
               style={{ color: mobileMenuOpen ? area.color : "rgba(255,255,255,0.5)" }}
             >
-              {"Áreas"}
+              {"Areas"}
             </span>
           </button>
 
@@ -208,7 +208,7 @@ export function MobileNav({
                 color: ["video", "formacion"].includes(activeSection) ? area.color : "rgba(255,255,255,0.5)",
               }}
             >
-              {"Ver más"}
+              {"Ver mas"}
             </span>
           </button>
         </div>
