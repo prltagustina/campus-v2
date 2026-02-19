@@ -2,10 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 
-/**
- * ScrollReveal -- section reveal wrapper using IntersectionObserver.
- * Each section fades + slides in when it enters the viewport.
- */
+/* ── ScrollReveal ─────────────────────────────────────── */
 export function ScrollReveal({
   children,
   className = "",
@@ -22,32 +19,31 @@ export function ScrollReveal({
   id?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsInView(true);
-          obs.disconnect();
+          setVisible(true);
+          observer.disconnect();
         }
       },
       { rootMargin: "-80px" }
     );
-    obs.observe(el);
-    return () => obs.disconnect();
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
-  const dirMap = {
+  const offsets: Record<string, { x: string; y: string }> = {
     up: { x: "0px", y: `${distance}px` },
     down: { x: "0px", y: `-${distance}px` },
     left: { x: `${distance}px`, y: "0px" },
     right: { x: `-${distance}px`, y: "0px" },
   };
-
-  const dir = dirMap[direction];
+  const d = offsets[direction];
 
   return (
     <div
@@ -55,11 +51,9 @@ export function ScrollReveal({
       ref={ref}
       className={className}
       style={{
-        opacity: isInView ? 1 : 0,
-        transform: isInView
-          ? "translate(0px, 0px)"
-          : `translate(${dir.x}, ${dir.y})`,
-        transition: `opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translate(0,0)" : `translate(${d.x},${d.y})`,
+        transition: `opacity 0.9s cubic-bezier(.16,1,.3,1) ${delay}s, transform 0.9s cubic-bezier(.16,1,.3,1) ${delay}s`,
         willChange: "opacity, transform",
       }}
     >
@@ -68,10 +62,7 @@ export function ScrollReveal({
   );
 }
 
-/**
- * ParallaxSection -- a simple wrapper for visual grouping.
- * Parallax disabled to avoid scroll calculation issues and heavy re-renders.
- */
+/* ── ParallaxSection (lightweight wrapper) ────────────── */
 export function ParallaxSection({
   children,
   className = "",
@@ -89,9 +80,7 @@ export function ParallaxSection({
   );
 }
 
-/**
- * SectionDivider -- a decorative horizontal line.
- */
+/* ── SectionDivider ───────────────────────────────────── */
 export function SectionDivider({
   color = "#494963",
   width = "40%",
@@ -104,19 +93,13 @@ export function SectionDivider({
     <div className="flex items-center justify-center py-4 md:py-8">
       <div
         className="h-px rounded-full"
-        style={{
-          backgroundColor: color,
-          opacity: 0.12,
-          width,
-        }}
+        style={{ backgroundColor: color, opacity: 0.12, width }}
       />
     </div>
   );
 }
 
-/**
- * StaggerChildren -- animates children in sequence using CSS.
- */
+/* ── StaggerChildren ──────────────────────────────────── */
 export function StaggerChildren({
   children,
   className = "",
@@ -127,22 +110,22 @@ export function StaggerChildren({
   staggerDelay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsInView(true);
-          obs.disconnect();
+          setVisible(true);
+          observer.disconnect();
         }
       },
       { rootMargin: "-60px" }
     );
-    obs.observe(el);
-    return () => obs.disconnect();
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -150,9 +133,9 @@ export function StaggerChildren({
       {React.Children.map(children, (child, i) => (
         <div
           style={{
-            opacity: isInView ? 1 : 0,
-            transform: isInView ? "translateY(0)" : "translateY(30px)",
-            transition: `opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${0.1 + i * staggerDelay}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${0.1 + i * staggerDelay}s`,
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(30px)",
+            transition: `opacity .6s cubic-bezier(.16,1,.3,1) ${0.1 + i * staggerDelay}s, transform .6s cubic-bezier(.16,1,.3,1) ${0.1 + i * staggerDelay}s`,
           }}
         >
           {child}
