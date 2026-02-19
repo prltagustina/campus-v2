@@ -169,6 +169,7 @@ function InlineSvgSchema({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
+  const [offsetX, setOffsetX] = useState(0);
   const activeRef = useRef(activeAxis);
   activeRef.current = activeAxis;
 
@@ -186,6 +187,7 @@ function InlineSvgSchema({
     if (!el) return;
     el.innerHTML = "";
     setLoaded(false);
+    setOffsetX(0);
 
     fetch(config.path)
       .then((r) => r.text())
@@ -237,8 +239,6 @@ function InlineSvgSchema({
         const nodeCircles = svg.querySelectorAll(
           `circle.${config.nodeCircleClass}`,
         );
-        /* The orbit dashed circle also has cls-4 / cls-6 sometimes.
-           We only want the small ones (r < 20) */
         const filteredCircles = Array.from(nodeCircles).filter((c) => {
           const r = parseFloat(c.getAttribute("r") || "0");
           return r < 20;
@@ -263,7 +263,44 @@ function InlineSvgSchema({
         });
 
         containerRef.current.appendChild(svg);
-        setLoaded(true);
+
+        /* ---- CENTER the wheel horizontally ----
+           The designer SVGs have the wheel at different x-positions
+           within their viewBox. We find the center filled circle,
+           calculate its x-offset as a % of the viewBox width, then
+           translate the SVG so the wheel always sits at 50% of the
+           container. */
+        requestAnimationFrame(() => {
+          if (cancelled || !containerRef.current) return;
+          const vb = svg.getAttribute("viewBox");
+          if (!vb) { setLoaded(true); return; }
+          const [, , vbWStr] = vb.split(/\s+/);
+          const vbW = parseFloat(vbWStr);
+
+          /* Find center filled circle (largest r with a visible fill) */
+          let wheelCx = vbW / 2;
+          let maxR = 0;
+          svg.querySelectorAll("circle").forEach((c) => {
+            const r = parseFloat(c.getAttribute("r") || "0");
+            if (r <= maxR || r < 30) return;
+            const fill = window.getComputedStyle(c).fill;
+            if (fill === "none" || fill === "transparent") return;
+            maxR = r;
+            wheelCx = parseFloat(c.getAttribute("cx") || "0");
+          });
+
+          /* wheelCx is in viewBox units. Its % position: */
+          const wheelPct = wheelCx / vbW;          // e.g. 0.41
+          const desiredPct = 0.5;                   // we want it at 50%
+          const shiftPct = (desiredPct - wheelPct); // how far to push right
+
+          /* Convert to pixels based on current rendered width */
+          const renderedW = containerRef.current.offsetWidth;
+          const px = shiftPct * renderedW;
+
+          setOffsetX(px);
+          setLoaded(true);
+        });
       })
       .catch(() => {});
 
@@ -271,6 +308,40 @@ function InlineSvgSchema({
       cancelled = true;
     };
   }, [config.path, config.nodeOrder, config.textOrder, config.titleTextClass, config.nodeCircleClass, config.fontSizeOriginal, config.fontSizeTarget, toggle]);
+
+  /* ---- Recalculate center offset on resize ---- */
+  useEffect(() => {
+    if (!loaded) return;
+    const recalc = () => {
+      const el = containerRef.current;
+      if (!el) return;
+      const svg = el.querySelector("svg");
+      if (!svg) return;
+      const vb = svg.getAttribute("viewBox");
+      if (!vb) return;
+      const [, , vbWStr] = vb.split(/\s+/);
+      const vbW = parseFloat(vbWStr);
+      let wheelCx = vbW / 2;
+      let maxR = 0;
+      svg.querySelectorAll("circle").forEach((c) => {
+        const r = parseFloat(c.getAttribute("r") || "0");
+        if (r <= maxR || r < 30) return;
+        const fill = window.getComputedStyle(c).fill;
+        if (fill === "none" || fill === "transparent") return;
+        maxR = r;
+        wheelCx = parseFloat(c.getAttribute("cx") || "0");
+      });
+      const shiftPct = 0.5 - wheelCx / vbW;
+      // Temporarily reset transform to measure natural width
+      el.style.transform = "none";
+      const renderedW = el.offsetWidth;
+      const px = shiftPct * renderedW;
+      setOffsetX(px);
+      el.style.transform = px ? `translateX(${px}px)` : "";
+    };
+    window.addEventListener("resize", recalc);
+    return () => window.removeEventListener("resize", recalc);
+  }, [loaded]);
 
   /* ---- Update active/dimmed visual states ---- */
   useEffect(() => {
@@ -388,8 +459,12 @@ function InlineSvgSchema({
   return (
     <div
       ref={containerRef}
-      className="w-full mx-auto flex items-center justify-center"
-      style={{ maxWidth: 520 }}
+      className="w-full mx-auto"
+      style={{
+        maxWidth: 560,
+        transform: offsetX ? `translateX(${offsetX}px)` : undefined,
+        transition: "transform 0.4s ease",
+      }}
       aria-label={`Esquema de ejes de contenido de ${area.name}`}
     />
   );
@@ -517,11 +592,8 @@ export function EjesSchemaInteractive({
   /* ---- STATIC SVG PATH ---- */
   if (config) {
     return (
-      <section id="ejes" className="scroll-mt-24">
-        <div
-          className="w-full mx-auto flex flex-col items-center"
-          style={{ maxWidth: 600 }}
-        >
+      <section id="ejes" className="scroll-mt-24 overflow-hidden">
+        <div className="w-full mx-auto flex flex-col items-center">
           {/* Inline interactive SVG */}
           <InlineSvgSchema
             config={config}
@@ -568,7 +640,7 @@ export function EjesSchemaInteractive({
           ref={panelRef}
           className="w-full relative overflow-hidden mx-auto"
           style={{
-            maxWidth: 600,
+            maxWidth: 560,
             maxHeight: activeAxis !== null ? 400 : 0,
             opacity: activeAxis !== null ? 1 : 0,
             padding: activeAxis !== null ? "30px 24px" : "0 24px",
