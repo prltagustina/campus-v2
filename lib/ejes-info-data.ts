@@ -103,19 +103,67 @@ export const ejesInfoPorArea: Record<string, EjeInfo[]> = {
     }
   ],
 
-  // Educación Artística - 3 ejes
-  "educacion-artistica": [
+  // Artes Visuales - 3 ejes (subarea de Educación Artística)
+  "artes-visuales": [
     {
-      titulo: "Artes en contexto",
-      descripcion: "Este eje aborda la comprensión de las manifestaciones artísticas en relación con sus contextos de producción, circulación y recepción. Se estudian las artes como prácticas sociales y culturales, promoviendo el conocimiento del patrimonio artístico local, regional y mundial. Las y los estudiantes desarrollan una mirada crítica y situada sobre las artes."
+      titulo: "Producción visual",
+      descripcion: "Este eje se centra en la creación de producciones visuales mediante la exploración de técnicas, materiales y procedimientos propios del lenguaje visual. Las y los estudiantes experimentan con el dibujo, la pintura, la escultura, el grabado y otras disciplinas, desarrollando capacidades expresivas y técnicas en contextos significativos."
     },
     {
       titulo: "Apreciación",
-      descripcion: "Se trabaja con la percepción, el análisis y la interpretación de obras y manifestaciones artísticas diversas. Se promueve el desarrollo de la sensibilidad estética y la capacidad de argumentar sobre las producciones artísticas. Las y los estudiantes aprenden a observar, escuchar y reflexionar sobre las artes desde múltiples perspectivas."
+      descripcion: "Se trabaja con la percepción, el análisis y la interpretación de obras y manifestaciones artísticas visuales diversas. Se promueve el desarrollo de la sensibilidad estética y la capacidad de argumentar sobre las producciones artísticas. Las y los estudiantes aprenden a observar y reflexionar sobre las artes visuales desde múltiples perspectivas."
     },
     {
-      titulo: "Producción",
-      descripcion: "Este eje se centra en la creación artística en sus diferentes lenguajes. Se trabaja con procesos de exploración, experimentación y producción, promoviendo la expresión personal y colectiva. Las y los estudiantes desarrollan capacidades técnicas y expresivas, y participan en proyectos creativos significativos."
+      titulo: "Artes Visuales en contexto",
+      descripcion: "Este eje aborda la comprensión de las manifestaciones visuales en relación con sus contextos de producción, circulación y recepción. Se estudian las artes visuales como prácticas sociales y culturales, promoviendo el conocimiento del patrimonio artístico local, regional y mundial."
+    }
+  ],
+
+  // Música - 3 ejes (subarea de Educación Artística)
+  "musica": [
+    {
+      titulo: "Músicas en contexto",
+      descripcion: "Este eje aborda la comprensión de las manifestaciones musicales en relación con sus contextos de producción, circulación y recepción. Se estudian las músicas como prácticas sociales y culturales, promoviendo el conocimiento del patrimonio musical local, regional y mundial."
+    },
+    {
+      titulo: "Apreciación",
+      descripcion: "Se trabaja con la percepción, el análisis y la interpretación de obras y manifestaciones musicales diversas. Se promueve el desarrollo de la sensibilidad estética y la capacidad de argumentar sobre las producciones musicales. Las y los estudiantes aprenden a escuchar y reflexionar sobre la música desde múltiples perspectivas."
+    },
+    {
+      titulo: "Producción musical",
+      descripcion: "Este eje se centra en la creación musical mediante la exploración, la interpretación y la composición. Se trabaja con el canto, la ejecución instrumental, la sonorización y la creación colectiva, desarrollando capacidades expresivas y técnicas en contextos significativos."
+    }
+  ],
+
+  // Danza - 3 ejes (subarea de Educación Artística)
+  "danza": [
+    {
+      titulo: "Producción en danza",
+      descripcion: "Este eje se centra en la creación y producción de danza mediante la exploración del movimiento, la improvisación y la composición coreográfica. Las y los estudiantes experimentan con su cuerpo en movimiento, desarrollando capacidades expresivas y técnicas en contextos significativos."
+    },
+    {
+      titulo: "Danza en contexto",
+      descripcion: "Este eje aborda la comprensión de las manifestaciones de danza en relación con sus contextos de producción, circulación y recepción. Se estudian las danzas como prácticas sociales y culturales, promoviendo el conocimiento del patrimonio coreográfico local, regional y mundial."
+    },
+    {
+      titulo: "Apreciación",
+      descripcion: "Se trabaja con la percepción, el análisis y la interpretación de obras y manifestaciones de danza diversas. Se promueve el desarrollo de la sensibilidad estética y la capacidad de argumentar sobre las producciones de danza. Las y los estudiantes aprenden a observar y reflexionar sobre la danza desde múltiples perspectivas."
+    }
+  ],
+
+  // Teatro - 3 ejes (subarea de Educación Artística)
+  "teatro": [
+    {
+      titulo: "Teatro en contexto",
+      descripcion: "Este eje aborda la comprensión de las manifestaciones teatrales en relación con sus contextos de producción, circulación y recepción. Se estudian el teatro como práctica social y cultural, promoviendo el conocimiento del patrimonio teatral local, regional y mundial."
+    },
+    {
+      titulo: "Apreciación",
+      descripcion: "Se trabaja con la percepción, el análisis y la interpretación de obras y manifestaciones teatrales diversas. Se promueve el desarrollo de la sensibilidad estética y la capacidad de argumentar sobre las producciones teatrales. Las y los estudiantes aprenden a observar y reflexionar sobre el teatro desde múltiples perspectivas."
+    },
+    {
+      titulo: "Producción teatral",
+      descripcion: "Este eje se centra en la creación teatral mediante la exploración de la acción dramática, la improvisación y la puesta en escena. Las y los estudiantes experimentan con la representación, desarrollando capacidades expresivas y técnicas en contextos significativos."
     }
   ],
 

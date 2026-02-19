@@ -31,7 +31,11 @@ export function EjesSection({
   setActiveAxis,
   selectedSubarea,
 }: EjesSectionProps) {
-  const ejesInfo = ejesInfoPorArea[area.slug];
+  // For ed. artistica with a selected subarea, use the subarea's ejes
+  const ejesKey = (area.slug === "educacion-artistica" && selectedSubarea)
+    ? selectedSubarea
+    : area.slug;
+  const ejesInfo = ejesInfoPorArea[ejesKey];
   const useInteractiveSchema = !!ejesInfo;
   const totalEjes = areaContent.ejes.length;
 

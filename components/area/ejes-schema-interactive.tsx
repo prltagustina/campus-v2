@@ -93,6 +93,15 @@ const STATIC_SVG_CONFIG: Record<string, StaticSvgConfig> = {
     fontSizeOriginal: "18px",
     fontSizeTarget: "15px",
   },
+  "educacion-tecnologica": {
+    path: "/images/ejes/educacion-tecnologica.svg",
+    nodeOrder: [3, 1, 2, 0], // DOM order of cls-3 circles: left(3), right(1), bottom(2), top(0)
+    textOrder: [0, 1, 3, 2], // DOM order of cls-4 texts: procesos(0), medios(1), reflexion(3), TIC(2)
+    titleTextClass: "cls-4",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
+  },
 };
 
 const SUBAREA_SVG_CONFIG: Record<string, StaticSvgConfig> = {
@@ -131,6 +140,15 @@ const SUBAREA_SVG_CONFIG: Record<string, StaticSvgConfig> = {
     nodeCircleClass: "cls-3",
     fontSizeOriginal: "22px",
     fontSizeTarget: "17px",
+  },
+  "danza": {
+    path: "/images/ejes/danza.svg",
+    nodeOrder: [2, 1, 0], // DOM order of cls-2 circles: bottom-left(2=Apreciacion), right(1=Danza en contexto), top-left(0=Produccion en danza)
+    textOrder: [2],        // only 1 <text> cls-5: "Apreciacion" = eje 2
+    titleTextClass: "cls-5",
+    nodeCircleClass: "cls-2",
+    fontSizeOriginal: "18px",
+    fontSizeTarget: "15px",
   },
 };
 
@@ -386,7 +404,7 @@ function InlineSvgSchema({
     <div
       ref={containerRef}
       className="w-full mx-auto flex items-center justify-center"
-      style={{ maxWidth: 520 }}
+      style={{ maxWidth: 600 }}
       aria-label={`Esquema de ejes de contenido de ${area.name}`}
     />
   );

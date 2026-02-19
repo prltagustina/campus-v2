@@ -121,10 +121,12 @@ function FadingHeader({
   area,
   activeAxis,
   setActiveAxis,
+  selectedSubarea,
 }: {
   area: Area;
   activeAxis: number | null;
   setActiveAxis: (v: number | null) => void;
+  selectedSubarea?: string | null;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -146,6 +148,7 @@ function FadingHeader({
           onAxisClick={(idx) =>
             setActiveAxis(activeAxis === idx ? null : idx)
           }
+          selectedSubarea={selectedSubarea}
         />
       </motion.div>
     </div>
@@ -248,6 +251,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
           area={area}
           activeAxis={activeAxis}
           setActiveAxis={setActiveAxis}
+          selectedSubarea={selectedSubarea}
         />
 
         {/* CONTENT SECTIONS -- no divider lines, generous spacing */}

@@ -8,6 +8,7 @@ interface AreaHeaderProps {
   area: Area;
   activeAxis?: number | null;
   onAxisClick?: (index: number) => void;
+  selectedSubarea?: string | null;
 }
 
 /**
@@ -41,10 +42,14 @@ function getNodePositions(count: number) {
   });
 }
 
-export function AreaHeader({ area, activeAxis, onAxisClick }: AreaHeaderProps) {
+export function AreaHeader({ area, activeAxis, onAxisClick, selectedSubarea }: AreaHeaderProps) {
   const mediaRuedaSrc = `/images/media-ruedas/${area.slug}.png`;
-  const ejesInfo = ejesInfoPorArea[area.slug];
-  const numAxes = ejesInfo?.length || area.axes?.length || 0;
+  // For ed. artistica with a selected subarea, use the subarea's ejes
+  const ejesKey = (area.slug === "educacion-artistica" && selectedSubarea)
+    ? selectedSubarea
+    : area.slug;
+  const ejesInfo = ejesInfoPorArea[ejesKey];
+  const numAxes = ejesInfo?.length || 0;
   const nodes = numAxes > 0 ? getNodePositions(numAxes) : [];
 
   return (
