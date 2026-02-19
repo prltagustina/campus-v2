@@ -239,7 +239,7 @@ function InlineSvgSchema({
           }
         }
 
-        /* Tag axis title <text> elements with data-eje */
+        /* Tag axis title <text> elements with data-eje (visual dimming only, NOT clickable) */
         const titleTexts = svg.querySelectorAll(
           `text.${config.titleTextClass}`,
         );
@@ -247,7 +247,6 @@ function InlineSvgSchema({
           if (i < config.textOrder.length) {
             t.setAttribute("data-eje", String(config.textOrder[i]));
             t.setAttribute("data-eje-text", "1");
-            (t as SVGElement).style.cursor = "pointer";
             (t as SVGElement).style.transition =
               "opacity 0.35s ease, filter 0.35s ease";
           }
@@ -329,11 +328,13 @@ function InlineSvgSchema({
           } catch { /* getTotalLength may fail */ }
         });
 
-        /* Click handler via event delegation */
+        /* Click handler via event delegation -- ONLY node circles are interactive */
         svg.addEventListener("click", (e) => {
-          const target = (e.target as Element).closest("[data-eje]");
-          if (target) {
-            const ejeIdx = parseInt(target.getAttribute("data-eje")!, 10);
+          const target = e.target as Element;
+          /* Only respond to clicks on node circles or their invisible hit areas */
+          const nodeEl = target.closest("[data-eje-node]") || (target.tagName === "circle" && target.hasAttribute("data-eje") && !target.hasAttribute("data-eje-text") ? target : null);
+          if (nodeEl) {
+            const ejeIdx = parseInt(nodeEl.getAttribute("data-eje")!, 10);
             toggle(ejeIdx);
           }
         });
