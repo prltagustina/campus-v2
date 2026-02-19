@@ -219,7 +219,7 @@ function InlineSvgSchema({
           }
         }
 
-        /* Tag axis title <text> elements with data-eje */
+        /* Tag axis title <text> elements with data-eje (NOT clickable) */
         const titleTexts = svg.querySelectorAll(
           `text.${config.titleTextClass}`,
         );
@@ -227,9 +227,10 @@ function InlineSvgSchema({
           if (i < config.textOrder.length) {
             t.setAttribute("data-eje", String(config.textOrder[i]));
             t.setAttribute("data-eje-text", "1");
-            (t as SVGElement).style.cursor = "pointer";
+            (t as SVGElement).style.cursor = "default";
+            (t as SVGElement).style.pointerEvents = "none";
             (t as SVGElement).style.transition =
-              "opacity 0.35s ease, filter 0.35s ease";
+              "opacity 0.35s ease, filter 0.35s ease, fill 0.35s ease";
           }
         });
 
@@ -253,9 +254,9 @@ function InlineSvgSchema({
           }
         });
 
-        /* Click handler via event delegation */
+        /* Click handler via event delegation -- ONLY node circles */
         svg.addEventListener("click", (e) => {
-          const target = (e.target as Element).closest("[data-eje]");
+          const target = (e.target as Element).closest("[data-eje-node]");
           if (target) {
             const ejeIdx = parseInt(target.getAttribute("data-eje")!, 10);
             toggle(ejeIdx);
@@ -285,6 +286,7 @@ function InlineSvgSchema({
       const ejeIdx = parseInt(elem.getAttribute("data-eje")!, 10);
       const s = (elem as SVGElement).style;
       const isNode = elem.hasAttribute("data-eje-node");
+      const isText = elem.hasAttribute("data-eje-text");
       const isActive = activeAxis === ejeIdx;
       const isDimmed = activeAxis !== null && !isActive;
 
@@ -297,6 +299,9 @@ function InlineSvgSchema({
           s.strokeWidth = "";
           s.fill = "#e0e0e0";
         }
+        if (isText) {
+          s.fill = "";
+        }
       } else if (isActive) {
         s.opacity = "1";
         s.filter = "none";
@@ -304,11 +309,18 @@ function InlineSvgSchema({
           s.strokeWidth = "6";
           s.fill = area.color;
         }
+        if (isText) {
+          /* Title turns red when its axis is selected */
+          s.fill = "#E42153";
+        }
       } else {
         s.opacity = "1";
         s.filter = "none";
         if (isNode) {
           s.strokeWidth = "";
+          s.fill = "";
+        }
+        if (isText) {
           s.fill = "";
         }
       }
@@ -686,10 +698,11 @@ export function EjesSchemaInteractive({
             const lines = isMulti ? splitText(titulo, 18) : [titulo];
             const fontSize = isMulti ? 18 : 24;
             return (
-              <g key={`node-m-${i}`} className="cursor-pointer outline-none" onClick={() => toggle(i)} role="button" tabIndex={0} aria-label={titulo} style={{ outline: "none" }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(i); } }}>
-                <circle cx={c.x} cy={c.y} r={isActive ? NODE_R_ACTIVE : NODE_R} fill={isActive ? area.color : isDimmed ? "#e0e0e0" : "white"} stroke={isActive ? area.color : isDimmed ? "#999999" : area.color} strokeWidth={5} style={{ transition: "all 0.4s" }} />
+              <g key={`node-m-${i}`}>
+                {/* Only the circle is clickable */}
+                <circle cx={c.x} cy={c.y} r={isActive ? NODE_R_ACTIVE : NODE_R} fill={isActive ? area.color : isDimmed ? "#e0e0e0" : "white"} stroke={isActive ? area.color : isDimmed ? "#999999" : area.color} strokeWidth={5} className="cursor-pointer outline-none" style={{ transition: "all 0.4s" }} onClick={() => toggle(i)} role="button" tabIndex={0} aria-label={titulo} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(i); } }} />
                 {lines.map((line, li) => (
-                  <text key={`label-m-${i}-${li}`} x={lbl.x} y={lbl.y + li * (fontSize + 2)} textAnchor={lbl.anchor} fill={isDimmed ? "#777777" : area.color} fontSize={fontSize} fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none" style={{ transition: "fill 0.4s" }}>{line}</text>
+                  <text key={`label-m-${i}-${li}`} x={lbl.x} y={lbl.y + li * (fontSize + 2)} textAnchor={lbl.anchor} fill={isActive ? "#E42153" : isDimmed ? "#777777" : area.color} fontSize={fontSize} fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none" style={{ transition: "fill 0.4s" }}>{line}</text>
                 ))}
               </g>
             );
@@ -747,10 +760,11 @@ export function EjesSchemaInteractive({
             const lines = isMulti ? splitText(titulo, 18) : [titulo];
             const fontSize = isMulti ? 18 : 24;
             return (
-              <g key={`node-${i}`} className="cursor-pointer outline-none" onClick={() => toggle(i)} role="button" tabIndex={0} aria-label={titulo} style={{ outline: "none" }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(i); } }}>
-                <circle cx={c.x} cy={c.y} r={isActive ? NODE_R_ACTIVE : NODE_R} fill={isActive ? area.color : isDimmed ? "#e0e0e0" : "white"} stroke={isActive ? area.color : isDimmed ? "#999999" : area.color} strokeWidth={5} style={{ transition: "all 0.4s" }} />
+              <g key={`node-${i}`}>
+                {/* Only the circle is clickable */}
+                <circle cx={c.x} cy={c.y} r={isActive ? NODE_R_ACTIVE : NODE_R} fill={isActive ? area.color : isDimmed ? "#e0e0e0" : "white"} stroke={isActive ? area.color : isDimmed ? "#999999" : area.color} strokeWidth={5} className="cursor-pointer outline-none" style={{ transition: "all 0.4s" }} onClick={() => toggle(i)} role="button" tabIndex={0} aria-label={titulo} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(i); } }} />
                 {lines.map((line, li) => (
-                  <text key={`label-${i}-${li}`} x={lbl.x} y={lbl.y + li * (fontSize + 2)} textAnchor={lbl.anchor} fill={isDimmed ? "#777777" : area.color} fontSize={fontSize} fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none" style={{ transition: "fill 0.4s" }}>{line}</text>
+                  <text key={`label-${i}-${li}`} x={lbl.x} y={lbl.y + li * (fontSize + 2)} textAnchor={lbl.anchor} fill={isActive ? "#E42153" : isDimmed ? "#777777" : area.color} fontSize={fontSize} fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none" style={{ transition: "fill 0.4s" }}>{line}</text>
                 ))}
               </g>
             );
