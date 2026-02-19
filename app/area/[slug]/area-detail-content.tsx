@@ -225,7 +225,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
       : null;
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
+    <div className="relative min-h-screen bg-white overflow-x-hidden">
       <MobileNav
         area={area}
         activeSection={activeSection}
@@ -270,6 +270,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
                 toggleGrado={toggleGrado}
                 activeAxis={activeAxis}
                 setActiveAxis={setActiveAxis}
+                selectedSubarea={selectedSubarea}
               />
             </div>
           </RevealSection>
