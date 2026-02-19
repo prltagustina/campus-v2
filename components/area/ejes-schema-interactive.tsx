@@ -314,16 +314,19 @@ function InlineSvgSchema({
       }
     });
 
-    /* 2. Find the center circle to know its bounding region.
-       Center circle = largest circle (r > 50) */
+    /* 2. Find the center filled circle.
+       It's the largest circle that has a visible fill (not "none", not the
+       dashed orbit which typically has fill:none via cls-4/cls-5). */
     let centerCx = 0, centerCy = 0, centerR = 0;
     svg.querySelectorAll("circle").forEach((c) => {
       const r = parseFloat(c.getAttribute("r") || "0");
-      if (r > centerR) {
-        centerR = r;
-        centerCx = parseFloat(c.getAttribute("cx") || "0");
-        centerCy = parseFloat(c.getAttribute("cy") || "0");
-      }
+      if (r <= centerR || r < 30) return;
+      /* Check computed fill - skip circles with fill:none (orbit lines) */
+      const computedFill = window.getComputedStyle(c).fill;
+      if (computedFill === "none" || computedFill === "transparent") return;
+      centerR = r;
+      centerCx = parseFloat(c.getAttribute("cx") || "0");
+      centerCy = parseFloat(c.getAttribute("cy") || "0");
     });
 
     /* 3. Dim ALL non-tagged elements except center circle + center text.
