@@ -17,50 +17,81 @@ interface EjesSchemaInteractiveProps {
 }
 
 /* ===================================================================
-   Static SVG config: path + node-to-eje mappings.
-   `nodeOrder` maps each <circle class="cls-3"> (in document order)
-   to its ejesInfo index.
-   `textOrder` maps each <text class="cls-6"> to its ejesInfo index.
+   Static SVG config per area / subarea.
+   - `path`: public URL of the SVG file
+   - `nodeOrder`: maps each cls-3/cls-6 *node circle* (DOM order) to
+     its ejesInfo index.
+   - `textOrder`: maps each *axis title text* (DOM order) to ejesInfo index.
+   - `titleTextClass`: CSS class used for axis title `<text>` elements
+     in this SVG (varies between SVGs: cls-6, cls-1, cls-5, cls-3).
+   - `nodeCircleClass`: CSS class used for clickable node `<circle>` elements.
    =================================================================== */
 
 interface StaticSvgConfig {
   path: string;
-  /** Maps node circle DOM order -> ejesInfo index */
   nodeOrder: number[];
-  /** Maps text label DOM order -> ejesInfo index */
   textOrder: number[];
+  titleTextClass: string;
+  nodeCircleClass: string;
+  /** Font size replacement: original -> target */
+  fontSizeOriginal?: string;
+  fontSizeTarget?: string;
 }
 
 const STATIC_SVG_CONFIG: Record<string, StaticSvgConfig> = {
   "ciencias-sociales": {
     path: "/images/ejes/ciencias-sociales.svg",
-    nodeOrder: [1, 2, 0], // circle[0]=right->eje1, circle[1]=bottom-left->eje2, circle[2]=top-left->eje0
-    textOrder: [0, 1, 2], // text elements in SVG follow ejesInfo order
+    nodeOrder: [1, 2, 0],
+    textOrder: [0, 1, 2],
+    titleTextClass: "cls-6",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
   },
   "ciencias-naturales": {
     path: "/images/ejes/ciencias-naturales.svg",
     nodeOrder: [0, 1, 2, 3],
     textOrder: [0, 1, 2, 3],
+    titleTextClass: "cls-1",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
   },
   "matematica": {
     path: "/images/ejes/matematica.svg",
-    nodeOrder: [0, 1, 3, 2], // top->eje0, right->eje1, bottom->eje3, left->eje2
-    textOrder: [0, 1, 2, 3],
+    nodeOrder: [0, 1, 3, 2],
+    textOrder: [3], // only 1 <text>: "Estadistica y probabilidad" = eje 3
+    titleTextClass: "cls-5",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
   },
   "lengua-y-literatura": {
     path: "/images/ejes/lengua-y-literatura.svg",
-    nodeOrder: [0, 1, 4, 3, 2], // matching original circle DOM order
-    textOrder: [0, 1, 2, 3, 4],
+    nodeOrder: [0, 1, 4, 3, 2],
+    textOrder: [0, 4, 2, 1, 3],
+    titleTextClass: "cls-1",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "17px",
+    fontSizeTarget: "14px",
   },
   "lenguas-extranjeras": {
     path: "/images/ejes/lenguas-extranjeras.svg",
     nodeOrder: [0, 1, 2, 3, 4],
     textOrder: [0, 1, 2, 3, 4],
+    titleTextClass: "cls-1",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
   },
   "educacion-fisica": {
     path: "/images/ejes/educacion-fisica.svg",
-    nodeOrder: [1, 2, 0], // right->eje1, bottom-left->eje2, top-left->eje0
-    textOrder: [0, 1, 2],
+    nodeOrder: [0, 1, 2], // top-left=0, right=1, bottom-left=2
+    textOrder: [1, 2],    // only 2 <text> elements exist; 3rd axis is vector paths
+    titleTextClass: "cls-3",
+    nodeCircleClass: "cls-6",
+    fontSizeOriginal: "18px",
+    fontSizeTarget: "15px",
   },
 };
 
@@ -68,35 +99,59 @@ const SUBAREA_SVG_CONFIG: Record<string, StaticSvgConfig> = {
   "artes-visuales": {
     path: "/images/ejes/artes-visuales.svg",
     nodeOrder: [1, 2, 0],
-    textOrder: [0, 1, 2],
+    textOrder: [1], // only 1 <text>: "Apreciacion" = eje 1
+    titleTextClass: "cls-5",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
   },
   "musica": {
     path: "/images/ejes/musica.svg",
     nodeOrder: [1, 2, 0],
-    textOrder: [0, 1, 2],
+    textOrder: [1], // only 1 <text>: "Apreciacion" = eje 1
+    titleTextClass: "cls-5",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
   },
   "artes-audiovisuales": {
     path: "/images/ejes/artes-audiovisuales.svg",
     nodeOrder: [1, 2, 0],
-    textOrder: [0, 1, 2],
+    textOrder: [1], // only 1 <text>: "Apreciacion" = eje 1
+    titleTextClass: "cls-5",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
   },
   "teatro": {
     path: "/images/ejes/teatro.svg",
     nodeOrder: [1, 2, 0],
-    textOrder: [0, 1, 2],
+    textOrder: [1], // only 1 <text>: "Apreciacion" = eje 1
+    titleTextClass: "cls-5",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
   },
 };
 
-function getStaticSvgConfig(areaSlug: string, selectedSubarea?: string | null): StaticSvgConfig | null {
-  if (areaSlug === "educacion-artistica" && selectedSubarea && SUBAREA_SVG_CONFIG[selectedSubarea]) {
+function getStaticSvgConfig(
+  areaSlug: string,
+  selectedSubarea?: string | null,
+): StaticSvgConfig | null {
+  if (
+    areaSlug === "educacion-artistica" &&
+    selectedSubarea &&
+    SUBAREA_SVG_CONFIG[selectedSubarea]
+  ) {
     return SUBAREA_SVG_CONFIG[selectedSubarea];
   }
   return STATIC_SVG_CONFIG[areaSlug] || null;
 }
 
 /* ===================================================================
-   InlineSvgSchema: fetches the SVG, inlines it, and adds interactive
-   click handlers + CSS class toggling for active/dimmed states.
+   InlineSvgSchema: fetches the designer SVG, injects it inline,
+   tags interactive elements with `data-eje`, and applies CSS-driven
+   active/dimmed visual states.
    =================================================================== */
 
 function InlineSvgSchema({
@@ -124,7 +179,7 @@ function InlineSvgSchema({
     [setActiveAxis],
   );
 
-  /* Fetch + inject the SVG once */
+  /* ---- Fetch + inject the SVG once ---- */
   useEffect(() => {
     let cancelled = false;
     const el = containerRef.current;
@@ -137,7 +192,6 @@ function InlineSvgSchema({
       .then((svgText) => {
         if (cancelled || !containerRef.current) return;
 
-        /* Parse into DOM */
         const parser = new DOMParser();
         const doc = parser.parseFromString(svgText, "image/svg+xml");
         const svg = doc.querySelector("svg");
@@ -146,50 +200,60 @@ function InlineSvgSchema({
         /* Make SVG responsive */
         svg.removeAttribute("width");
         svg.removeAttribute("height");
-        svg.setAttribute("class", "ejes-inline-svg");
         svg.style.width = "100%";
         svg.style.height = "auto";
         svg.style.display = "block";
 
-        /* Reduce font size on cls-6 text elements (axis titles) */
-        const style = svg.querySelector("style");
-        if (style) {
-          style.textContent = style.textContent!
-            .replace(/(\.cls-6\s*\{[^}]*font-size:\s*)22px/g, "$116px");
+        /* Reduce axis title font size via <style> rewrite */
+        if (config.fontSizeOriginal && config.fontSizeTarget) {
+          const styleEl = svg.querySelector("style");
+          if (styleEl && styleEl.textContent) {
+            const re = new RegExp(
+              `(\\.${config.titleTextClass}\\s*\\{[^}]*font-size:\\s*)${config.fontSizeOriginal.replace(".", "\\.")}`,
+              "g",
+            );
+            styleEl.textContent = styleEl.textContent.replace(
+              re,
+              `$1${config.fontSizeTarget}`,
+            );
+          }
         }
 
-        /* Tag the text labels with data-eje attributes */
-        const textEls = svg.querySelectorAll("text.cls-6, text[class*='cls-6'], text[class*='cls-1']");
-        /* Some SVGs use cls-1 for colored text class depending on the SVG. Fall back to finding colored fill text */
-        let titleTexts: Element[] = [];
-        if (textEls.length >= config.textOrder.length) {
-          titleTexts = Array.from(textEls);
-        } else {
-          /* Broader search: grab all <text> outside the center circle group */
-          titleTexts = Array.from(svg.querySelectorAll("text")).filter((t) => {
-            const cls = t.getAttribute("class") || "";
-            return !cls.includes("cls-2") && !cls.includes("cls-5") && !cls.includes("cls-7");
-          });
-        }
+        /* Tag axis title <text> elements with data-eje */
+        const titleTexts = svg.querySelectorAll(
+          `text.${config.titleTextClass}`,
+        );
         titleTexts.forEach((t, i) => {
           if (i < config.textOrder.length) {
             t.setAttribute("data-eje", String(config.textOrder[i]));
+            t.setAttribute("data-eje-text", "1");
             (t as SVGElement).style.cursor = "pointer";
-            (t as SVGElement).style.transition = "opacity 0.35s ease, filter 0.35s ease";
+            (t as SVGElement).style.transition =
+              "opacity 0.35s ease, filter 0.35s ease";
           }
         });
 
-        /* Tag the node circles */
-        const nodeCircles = svg.querySelectorAll("circle.cls-3, circle[class*='cls-3']");
-        nodeCircles.forEach((c, i) => {
+        /* Tag node <circle> elements with data-eje */
+        const nodeCircles = svg.querySelectorAll(
+          `circle.${config.nodeCircleClass}`,
+        );
+        /* The orbit dashed circle also has cls-4 / cls-6 sometimes.
+           We only want the small ones (r < 20) */
+        const filteredCircles = Array.from(nodeCircles).filter((c) => {
+          const r = parseFloat(c.getAttribute("r") || "0");
+          return r < 20;
+        });
+        filteredCircles.forEach((c, i) => {
           if (i < config.nodeOrder.length) {
             c.setAttribute("data-eje", String(config.nodeOrder[i]));
+            c.setAttribute("data-eje-node", "1");
             (c as SVGElement).style.cursor = "pointer";
-            (c as SVGElement).style.transition = "opacity 0.35s ease, filter 0.35s ease, stroke-width 0.35s ease";
+            (c as SVGElement).style.transition =
+              "opacity 0.35s ease, filter 0.35s ease, stroke-width 0.35s ease, fill 0.35s ease";
           }
         });
 
-        /* Add click handlers via event delegation */
+        /* Click handler via event delegation */
         svg.addEventListener("click", (e) => {
           const target = (e.target as Element).closest("[data-eje]");
           if (target) {
@@ -203,71 +267,136 @@ function InlineSvgSchema({
       })
       .catch(() => {});
 
-    return () => { cancelled = true; };
-  }, [config.path, config.nodeOrder, config.textOrder, toggle]);
+    return () => {
+      cancelled = true;
+    };
+  }, [config.path, config.nodeOrder, config.textOrder, config.titleTextClass, config.nodeCircleClass, config.fontSizeOriginal, config.fontSizeTarget, toggle]);
 
-  /* Update visual states when activeAxis changes */
+  /* ---- Update active/dimmed visual states ---- */
   useEffect(() => {
     const el = containerRef.current;
     if (!el || !loaded) return;
     const svg = el.querySelector("svg");
     if (!svg) return;
 
+    /* 1. Process data-eje tagged elements (nodes + text labels) */
     const allEjeEls = svg.querySelectorAll("[data-eje]");
-
     allEjeEls.forEach((elem) => {
       const ejeIdx = parseInt(elem.getAttribute("data-eje")!, 10);
-      const svgEl = elem as SVGElement;
+      const s = (elem as SVGElement).style;
+      const isNode = elem.hasAttribute("data-eje-node");
       const isActive = activeAxis === ejeIdx;
       const isDimmed = activeAxis !== null && !isActive;
 
+      s.transition = "opacity 0.35s ease, filter 0.35s ease, fill 0.35s ease, stroke-width 0.35s ease";
+
       if (isDimmed) {
-        svgEl.style.opacity = "0.22";
-        svgEl.style.filter = "saturate(0)";
+        s.opacity = "0.18";
+        s.filter = "saturate(0)";
+        if (isNode) {
+          s.strokeWidth = "";
+          s.fill = "#e0e0e0";
+        }
       } else if (isActive) {
-        svgEl.style.opacity = "1";
-        svgEl.style.filter = "none";
-        /* Enlarge active node circle */
-        if (elem.tagName === "circle") {
-          svgEl.style.strokeWidth = "5";
+        s.opacity = "1";
+        s.filter = "none";
+        if (isNode) {
+          s.strokeWidth = "6";
+          s.fill = area.color;
         }
       } else {
-        /* Nothing selected — full color */
-        svgEl.style.opacity = "1";
-        svgEl.style.filter = "none";
-        if (elem.tagName === "circle") {
-          svgEl.style.strokeWidth = "";
+        s.opacity = "1";
+        s.filter = "none";
+        if (isNode) {
+          s.strokeWidth = "";
+          s.fill = "";
         }
       }
     });
 
-    /* Also dim the dashed orbit arcs + petal paths when an axis is active */
-    const decorPaths = svg.querySelectorAll("path.cls-4, path[class*='cls-4'], circle.cls-4, circle[class*='cls-4']");
-    decorPaths.forEach((p) => {
-      const sp = p as SVGElement;
-      if (!p.hasAttribute("data-eje")) {
-        if (activeAxis !== null) {
-          sp.style.opacity = "0.3";
-          sp.style.transition = "opacity 0.35s ease";
-        } else {
-          sp.style.opacity = "1";
-          sp.style.transition = "opacity 0.35s ease";
-        }
+    /* 2. Find the center circle to know its bounding region.
+       Center circle = largest circle (r > 50) */
+    let centerCx = 0, centerCy = 0, centerR = 0;
+    svg.querySelectorAll("circle").forEach((c) => {
+      const r = parseFloat(c.getAttribute("r") || "0");
+      if (r > centerR) {
+        centerR = r;
+        centerCx = parseFloat(c.getAttribute("cx") || "0");
+        centerCy = parseFloat(c.getAttribute("cy") || "0");
       }
     });
-  }, [activeAxis, loaded]);
+
+    /* 3. Dim ALL non-tagged elements except center circle + center text.
+       Elements whose bounding box center is inside the center circle radius
+       are considered "center content" and stay visible. */
+    const allShapes = svg.querySelectorAll("path, circle, text, rect");
+    allShapes.forEach((elem) => {
+      if (elem.hasAttribute("data-eje")) return;
+
+      const sp = elem as SVGElement;
+      sp.style.transition = "opacity 0.35s ease, filter 0.35s ease";
+
+      /* Keep center circle itself fully visible */
+      if (elem.tagName === "circle") {
+        const r = parseFloat(elem.getAttribute("r") || "0");
+        if (r > 50) {
+          sp.style.opacity = "1";
+          sp.style.filter = "none";
+          return;
+        }
+      }
+
+      /* Check if element is inside center circle region using getBBox */
+      try {
+        const bbox = (elem as SVGGraphicsElement).getBBox();
+        const elCx = bbox.x + bbox.width / 2;
+        const elCy = bbox.y + bbox.height / 2;
+        const dist = Math.sqrt((elCx - centerCx) ** 2 + (elCy - centerCy) ** 2);
+        if (dist < centerR * 0.95) {
+          /* Inside center circle -- center text, keep visible */
+          sp.style.opacity = "1";
+          sp.style.filter = "none";
+          return;
+        }
+      } catch {
+        /* getBBox may fail for hidden elements */
+      }
+
+      /* Everything else: dim when an axis is selected */
+      if (activeAxis !== null) {
+        sp.style.opacity = "0.22";
+        sp.style.filter = "saturate(0)";
+      } else {
+        sp.style.opacity = "1";
+        sp.style.filter = "none";
+      }
+    });
+
+    /* 4. Re-highlight active node + text above the global dim */
+    if (activeAxis !== null) {
+      svg.querySelectorAll(`[data-eje="${activeAxis}"]`).forEach((elem) => {
+        const s = (elem as SVGElement).style;
+        s.opacity = "1";
+        s.filter = "none";
+      });
+    }
+  }, [activeAxis, loaded, area.color]);
 
   return (
     <div
       ref={containerRef}
-      className="w-full mx-auto"
-      style={{ maxWidth: 540 }}
+      className="w-full mx-auto flex items-center justify-center"
+      style={{ maxWidth: 520 }}
       aria-label={`Esquema de ejes de contenido de ${area.name}`}
     />
   );
 }
 
-/* === SVG Constants from the original reference design === */
+/* ===================================================================
+   Fallback: programmatic SVG for areas without a designer SVG.
+   (Uses the existing coordinate/petal math.)
+   =================================================================== */
+
 const VB_W = 765.09;
 const VB_H = 480;
 const CX = 293.18;
@@ -277,16 +406,14 @@ const CENTER_R = 112.51;
 const NODE_R = 12;
 const NODE_R_ACTIVE = 14;
 
-/* === Exact 5-node coordinates from reference SVG === */
 const COORDS_5 = [
-  { x: 342.94, y: 87.01 },   // 0: Oralidad (top-right)
-  { x: 163.08, y: 145.45 },  // 1: Literatura (left-upper)
-  { x: 163.08, y: 334.55 },  // 2: Escritura (left-lower)
-  { x: 342.94, y: 392.99 },  // 3: Lectura (bottom-right)
-  { x: 454.03, y: 240 },     // 4: Reflexion (right-center)
+  { x: 342.94, y: 87.01 },
+  { x: 163.08, y: 145.45 },
+  { x: 163.08, y: 334.55 },
+  { x: 342.94, y: 392.99 },
+  { x: 454.03, y: 240 },
 ];
 
-/* === Exact petal arc paths from reference SVG === */
 const PETALS_5 = [
   "M341.81,87.96c-18.41-22.89-46.64-37.54-78.3-37.54-53.58,0-97.35,41.96-100.27,94.81",
   "M454.12,239.88c10.63-15.93,16.84-35.08,16.84-55.67,0-55.46-44.96-100.43-100.43-100.43-9.98,0-19.62,1.46-28.72,4.18",
@@ -295,16 +422,13 @@ const PETALS_5 = [
   "M163.24,145.22c-39.12,13.73-67.16,50.97-67.16,94.78s28.05,81.05,67.16,94.78",
 ];
 
-/* === Exact label positions from user's reference code === */
 function getLabel5(i: number, c: { x: number; y: number }) {
-  // From the original: x offset, y offset, textAnchor
   const dx = i === 4 ? 20 : i === 0 ? 22 : i === 3 ? 22 : -20;
   const dy = i === 4 ? 0 : i === 1 ? 5 : i === 2 ? 10 : i === 3 ? 15 : -7;
   const anchor = i === 1 || i === 2 ? "end" : "start";
   return { x: c.x + dx, y: c.y + dy, anchor };
 }
 
-/* === Dynamic N-node support for 3 and 4 node areas === */
 function polarToXY(angleDeg: number, r: number) {
   const rad = (angleDeg * Math.PI) / 180;
   return { x: CX + r * Math.cos(rad), y: CY + r * Math.sin(rad) };
@@ -333,13 +457,15 @@ function getPetalsN(coords: { x: number; y: number }[], n: number) {
 function getLabelN(i: number, c: { x: number; y: number }) {
   const angle = Math.atan2(c.y - CY, c.x - CX) * (180 / Math.PI);
   const norm = ((angle % 360) + 360) % 360;
-  if (norm >= 315 || norm < 45) return { x: c.x + 20, y: c.y + 5, anchor: "start" };
-  if (norm >= 45 && norm < 135) return { x: c.x, y: c.y + 24, anchor: "middle" };
-  if (norm >= 135 && norm < 225) return { x: c.x - 20, y: c.y + 5, anchor: "end" };
+  if (norm >= 315 || norm < 45)
+    return { x: c.x + 20, y: c.y + 5, anchor: "start" };
+  if (norm >= 45 && norm < 135)
+    return { x: c.x, y: c.y + 24, anchor: "middle" };
+  if (norm >= 135 && norm < 225)
+    return { x: c.x - 20, y: c.y + 5, anchor: "end" };
   return { x: c.x, y: c.y - 16, anchor: "middle" };
 }
 
-/* === Color helpers === */
 function darken(hex: string, f: number) {
   const c = hex.replace("#", "");
   const r = Math.max(0, Math.floor(parseInt(c.substring(0, 2), 16) * f));
@@ -365,6 +491,10 @@ function splitText(text: string, max: number): string[] {
   return lines;
 }
 
+/* ===================================================================
+   Main exported component
+   =================================================================== */
+
 export function EjesSchemaInteractive({
   area,
   ejesInfo,
@@ -378,98 +508,43 @@ export function EjesSchemaInteractive({
     setActiveAxis(null);
   }, [area.id, selectedSubarea, setActiveAxis]);
 
-  /* Check if we have a static SVG for this area/subarea */
-  const staticSvgData = getStaticSvgData(area.slug, selectedSubarea);
+  /* Try to find a static SVG config for this area */
+  const config = getStaticSvgConfig(area.slug, selectedSubarea);
 
-  /* If a static SVG is available, render it with interactive overlays */
-  if (staticSvgData) {
-    const { path, vbW, vbH, nodes } = staticSvgData;
-    const toggleStatic = (ejeIdx: number) =>
-      setActiveAxis(activeAxis === ejeIdx ? null : ejeIdx);
-
-    /* Hit target radius as % of viewBox — ~3x the visible node for easy clicking */
-    const hitR = 20;
-
+  /* ---- STATIC SVG PATH ---- */
+  if (config) {
     return (
       <section id="ejes" className="scroll-mt-24">
-        <div className="w-full mx-auto flex flex-col items-center" style={{ maxWidth: 740 }}>
-          {/* Container preserves SVG aspect ratio */}
-          <div className="relative w-full" style={{ aspectRatio: `${vbW} / ${vbH}` }}>
-            {/* Background: the exact designer SVG */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={path}
-              alt={`Esquema de ejes de contenido de ${area.name}`}
-              className="absolute inset-0 w-full h-full block"
-              draggable={false}
-            />
+        <div
+          className="w-full mx-auto flex flex-col items-center"
+          style={{ maxWidth: 600 }}
+        >
+          {/* Inline interactive SVG */}
+          <InlineSvgSchema
+            config={config}
+            area={area}
+            ejesInfo={ejesInfo}
+            activeAxis={activeAxis}
+            setActiveAxis={setActiveAxis}
+          />
 
-            {/* Overlay SVG with same viewBox — only click targets + highlight rings */}
-            <svg
-              viewBox={`0 0 ${vbW} ${vbH}`}
-              className="absolute inset-0 w-full h-full"
-              style={{ pointerEvents: "none" }}
-              aria-hidden="true"
-            >
-              {nodes.map((node, i) => {
-                const isActive = activeAxis === node.ejeIdx;
-                return (
-                  <g key={i} style={{ pointerEvents: "auto", cursor: "pointer" }}>
-                    {/* Active highlight ring */}
-                    {isActive && (
-                      <circle
-                        cx={node.cx}
-                        cy={node.cy}
-                        r={node.r + 5}
-                        fill="none"
-                        stroke={area.color}
-                        strokeWidth={3}
-                        opacity={0.6}
-                        style={{ transition: "all 0.3s" }}
-                      />
-                    )}
-                    {/* Active fill overlay */}
-                    {isActive && (
-                      <circle
-                        cx={node.cx}
-                        cy={node.cy}
-                        r={node.r}
-                        fill={area.color}
-                        opacity={0.35}
-                        style={{ transition: "all 0.3s" }}
-                      />
-                    )}
-                    {/* Invisible click target */}
-                    <circle
-                      cx={node.cx}
-                      cy={node.cy}
-                      r={hitR}
-                      fill="transparent"
-                      onClick={() => toggleStatic(node.ejeIdx)}
-                      role="button"
-                      tabIndex={0}
-                      aria-label={ejesInfo[node.ejeIdx]?.titulo || `Eje ${node.ejeIdx + 1}`}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          toggleStatic(node.ejeIdx);
-                        }
-                      }}
-                      style={{ outline: "none" }}
-                    />
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
-
-          {/* Hint */}
+          {/* Hint when nothing selected */}
           {activeAxis === null && (
             <div
               className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
               style={{ animation: "hintPulse 3s ease-in-out infinite" }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#494963"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="opacity-50"
+              >
                 <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
                 <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
                 <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
@@ -485,57 +560,37 @@ export function EjesSchemaInteractive({
         {/* Spacer */}
         <div className="h-5 sm:h-8" />
 
-        {/* Info panel -- slides open/closed with max-height */}
+        {/* Info panel */}
         <div
           ref={panelRef}
           className="w-full relative overflow-hidden mx-auto"
           style={{
-            maxWidth: 740,
-            maxHeight: activeAxis !== null ? 350 : 0,
+            maxWidth: 600,
+            maxHeight: activeAxis !== null ? 400 : 0,
             opacity: activeAxis !== null ? 1 : 0,
             padding: activeAxis !== null ? "30px 24px" : "0 24px",
-            borderTop: activeAxis !== null ? `2px solid ${area.color}` : "2px solid transparent",
+            borderTop:
+              activeAxis !== null
+                ? `2px solid ${area.color}`
+                : "2px solid transparent",
             backgroundColor: "#f4f5f7",
+            borderRadius: "0 0 12px 12px",
             transition: "all 0.5s ease-in-out",
           }}
         >
-          {/* Arrow-up caret */}
-          <div
-            className="absolute w-0 h-0"
-            style={{
-              top: -14, left: 45,
-              borderLeft: "10px solid transparent",
-              borderRight: "10px solid transparent",
-              borderBottom: `12px solid ${area.color}`,
-            }}
-          />
-          <div
-            className="absolute w-0 h-0"
-            style={{
-              top: -12, left: 45,
-              borderLeft: "10px solid transparent",
-              borderRight: "10px solid transparent",
-              borderBottom: "12px solid #f4f5f7",
-              zIndex: 1,
-            }}
-          />
-
           {activeAxis !== null && ejesInfo[activeAxis] && (
             <div>
               <h2
-                className="text-xl md:text-2xl font-bold mb-2 leading-snug"
+                className="text-lg md:text-xl font-bold mb-2 leading-snug"
                 style={{ color: area.color }}
               >
                 {ejesInfo[activeAxis].titulo}
               </h2>
-              <p className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold" style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}>
+              <p
+                className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold"
+                style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}
+              >
                 {ejesInfo[activeAxis].descripcion}
-              </p>
-              <p className="mt-4 text-sm text-gray-500">
-                {"Descarg\u00e1 el documento completo para "}
-                <a href="#descarga" className="font-bold hover:underline" style={{ color: area.color }}>
-                  ver m{"\u00e1"}s
-                </a>
               </p>
             </div>
           )}
@@ -544,13 +599,13 @@ export function EjesSchemaInteractive({
     );
   }
 
+  /* ---- FALLBACK: programmatic SVG for areas without a designer SVG ---- */
   const n = ejesInfo.length;
   const is5 = n === 5;
   const coords = is5 ? COORDS_5 : getCoordsN(n);
   const petals = is5 ? PETALS_5 : getPetalsN(coords, n);
   const darkColor = darken(area.color, 0.45);
 
-  // Center text lines -- special case for multi-word area names
   let centerDark: string[] = [];
   if (area.slug === "lenguas-extranjeras") {
     centerDark = ["en Lenguas", "Extranjeras"];
@@ -561,11 +616,11 @@ export function EjesSchemaInteractive({
   } else if (area.slug === "ciencias-sociales") {
     centerDark = ["en Ciencias", "Sociales"];
   } else if (area.slug === "educacion-fisica") {
-    centerDark = ["en Educación", "Física"];
+    centerDark = ["en Educaci\u00f3n", "F\u00edsica"];
   } else if (area.slug === "educacion-artistica") {
-    centerDark = ["en Educación", "Artística"];
+    centerDark = ["en Educaci\u00f3n", "Art\u00edstica"];
   } else if (area.slug === "educacion-tecnologica") {
-    centerDark = ["en Educación", "Tecnológica"];
+    centerDark = ["en Educaci\u00f3n", "Tecnol\u00f3gica"];
   } else if (area.slug === "saberes-vidas-y-mundos") {
     centerDark = ["en Saberes,", "Vidas y Mundos"];
   } else {
@@ -576,8 +631,11 @@ export function EjesSchemaInteractive({
 
   return (
     <section id="ejes" className="scroll-mt-24">
-      {/* SVG diagram -- centered on screen */}
-      <div className="w-full mx-auto flex flex-col items-center" style={{ maxWidth: 740 }}>
+      <div
+        className="w-full mx-auto flex flex-col items-center"
+        style={{ maxWidth: 600 }}
+      >
+        {/* Mobile SVG */}
         <svg
           viewBox="60 30 660 420"
           className="w-full h-auto block sm:hidden"
@@ -638,7 +696,7 @@ export function EjesSchemaInteractive({
           })}
         </svg>
 
-        {/* Desktop SVG -- wider viewBox */}
+        {/* Desktop SVG */}
         <svg
           viewBox="0 0 780 480"
           className="w-full h-auto hidden sm:block"
@@ -659,62 +717,27 @@ export function EjesSchemaInteractive({
               <path d="M0,0 L10,5 L0,10 Z" fill="#494963" />
             </marker>
           </defs>
-
-          {/* Dashed orbit circle */}
-          <circle
-            cx={CX} cy={CY} r={ORBIT_R}
-            fill="none" stroke="#494963"
-            strokeWidth={1.2} strokeDasharray="6"
-          />
-
-          {/* Petal arcs with arrow markers */}
+          <circle cx={CX} cy={CY} r={ORBIT_R} fill="none" stroke="#494963" strokeWidth={1.2} strokeDasharray="6" />
           {petals.map((d, i) => (
-            <path
-              key={`petal-${i}`}
-              d={d}
-              fill="none" stroke="#494963"
-              strokeWidth={1.2} strokeDasharray="6"
-              markerStart={`url(#arrow-${area.slug})`}
-              markerEnd={`url(#arrow-${area.slug})`}
-            />
+            <path key={`petal-${i}`} d={d} fill="none" stroke="#494963" strokeWidth={1.2} strokeDasharray="6" markerStart={`url(#arrow-${area.slug})`} markerEnd={`url(#arrow-${area.slug})`} />
           ))}
-
-          {/* Center filled circle */}
           <circle cx={CX} cy={CY} r={CENTER_R} fill={area.color} />
-
-          {/* Center text */}
           {(() => {
-            const whiteLines = ["Ejes de", "contenido"]; // displayed in white on the colored circle
+            const whiteLines = ["Ejes de", "contenido"];
             const allLines = [...whiteLines, ...centerDark];
             const lh = 24;
             const startY = CY - ((allLines.length - 1) * lh) / 2;
             return (
               <>
                 {whiteLines.map((l, li) => (
-                  <text
-                    key={`cw-${li}`}
-                    x={CX} y={startY + li * lh}
-                    textAnchor="middle" fill="#ffffff"
-                    fontSize="20" fontWeight="700"
-                    fontFamily="Inter, system-ui, sans-serif"
-                    className="pointer-events-none select-none"
-                  >{l}</text>
+                  <text key={`cw-${li}`} x={CX} y={startY + li * lh} textAnchor="middle" fill="#ffffff" fontSize="20" fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none">{l}</text>
                 ))}
                 {centerDark.map((l, li) => (
-                  <text
-                    key={`cd-${li}`}
-                    x={CX} y={startY + (whiteLines.length + li) * lh}
-                    textAnchor="middle" fill={darkColor}
-                    fontSize="20" fontWeight="700"
-                    fontFamily="Inter, system-ui, sans-serif"
-                    className="pointer-events-none select-none"
-                  >{l}</text>
+                  <text key={`cd-${li}`} x={CX} y={startY + (whiteLines.length + li) * lh} textAnchor="middle" fill={darkColor} fontSize="20" fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none">{l}</text>
                 ))}
               </>
             );
           })()}
-
-          {/* Interactive nodes + labels */}
           {coords.map((c, i) => {
             const isActive = activeAxis === i;
             const isDimmed = activeAxis !== null && activeAxis !== i;
@@ -723,51 +746,17 @@ export function EjesSchemaInteractive({
             const isMulti = titulo.length > 18;
             const lines = isMulti ? splitText(titulo, 18) : [titulo];
             const fontSize = isMulti ? 18 : 24;
-
             return (
-              <g
-                key={`node-${i}`}
-                className="cursor-pointer outline-none"
-                onClick={() => toggle(i)}
-                role="button"
-                tabIndex={0}
-                aria-label={titulo}
-                style={{ outline: "none" }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    toggle(i);
-                  }
-                }}
-              >
-                <circle
-                  cx={c.x} cy={c.y}
-                  r={isActive ? NODE_R_ACTIVE : NODE_R}
-                  fill={isActive ? area.color : isDimmed ? "#e0e0e0" : "white"}
-                  stroke={isActive ? area.color : isDimmed ? "#999999" : area.color}
-                  strokeWidth={5}
-                  style={{ transition: "all 0.4s" }}
-                />
+              <g key={`node-${i}`} className="cursor-pointer outline-none" onClick={() => toggle(i)} role="button" tabIndex={0} aria-label={titulo} style={{ outline: "none" }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(i); } }}>
+                <circle cx={c.x} cy={c.y} r={isActive ? NODE_R_ACTIVE : NODE_R} fill={isActive ? area.color : isDimmed ? "#e0e0e0" : "white"} stroke={isActive ? area.color : isDimmed ? "#999999" : area.color} strokeWidth={5} style={{ transition: "all 0.4s" }} />
                 {lines.map((line, li) => (
-                  <text
-                    key={`label-${i}-${li}`}
-                    x={lbl.x}
-                    y={lbl.y + li * (fontSize + 2)}
-                    textAnchor={lbl.anchor}
-                    fill={isDimmed ? "#777777" : area.color}
-                    fontSize={fontSize}
-                    fontWeight="700"
-                    fontFamily="Inter, system-ui, sans-serif"
-                    className="pointer-events-none select-none"
-                    style={{ transition: "fill 0.4s" }}
-                  >{line}</text>
+                  <text key={`label-${i}-${li}`} x={lbl.x} y={lbl.y + li * (fontSize + 2)} textAnchor={lbl.anchor} fill={isDimmed ? "#777777" : area.color} fontSize={fontSize} fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none" style={{ transition: "fill 0.4s" }}>{line}</text>
                 ))}
               </g>
             );
           })}
         </svg>
 
-        {/* Subtle hint below diagram */}
         {activeAxis === null && (
           <div
             className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
@@ -786,28 +775,30 @@ export function EjesSchemaInteractive({
         )}
       </div>
 
-      {/* Spacer between SVG and info panel */}
       <div className="h-5 sm:h-8" />
 
-      {/* Info panel -- slides open/closed with max-height */}
       <div
         ref={panelRef}
         className="w-full relative overflow-hidden mx-auto"
         style={{
-          maxWidth: 740,
-          maxHeight: activeAxis !== null ? 350 : 0,
+          maxWidth: 600,
+          maxHeight: activeAxis !== null ? 400 : 0,
           opacity: activeAxis !== null ? 1 : 0,
           padding: activeAxis !== null ? "30px 24px" : "0 24px",
-          borderTop: activeAxis !== null ? `2px solid ${area.color}` : "2px solid transparent",
+          borderTop:
+            activeAxis !== null
+              ? `2px solid ${area.color}`
+              : "2px solid transparent",
           backgroundColor: "#f4f5f7",
+          borderRadius: "0 0 12px 12px",
           transition: "all 0.5s ease-in-out",
         }}
       >
-        {/* Arrow-up caret with colored border */}
         <div
           className="absolute w-0 h-0"
           style={{
-            top: -14, left: 45,
+            top: -14,
+            left: 45,
             borderLeft: "10px solid transparent",
             borderRight: "10px solid transparent",
             borderBottom: `12px solid ${area.color}`,
@@ -816,7 +807,8 @@ export function EjesSchemaInteractive({
         <div
           className="absolute w-0 h-0"
           style={{
-            top: -12, left: 45,
+            top: -12,
+            left: 45,
             borderLeft: "10px solid transparent",
             borderRight: "10px solid transparent",
             borderBottom: "12px solid #f4f5f7",
@@ -827,17 +819,24 @@ export function EjesSchemaInteractive({
         {activeAxis !== null && ejesInfo[activeAxis] && (
           <div>
             <h2
-              className="text-xl md:text-2xl font-bold mb-2 leading-snug"
+              className="text-lg md:text-xl font-bold mb-2 leading-snug"
               style={{ color: area.color }}
             >
               {ejesInfo[activeAxis].titulo}
             </h2>
-            <p className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold" style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}>
+            <p
+              className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold"
+              style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}
+            >
               {ejesInfo[activeAxis].descripcion}
             </p>
             <p className="mt-4 text-sm text-gray-500">
               {"Descarg\u00e1 el documento completo para "}
-              <a href="#descarga" className="font-bold hover:underline" style={{ color: area.color }}>
+              <a
+                href="#descarga"
+                className="font-bold hover:underline"
+                style={{ color: area.color }}
+              >
                 ver m{"\u00e1"}s
               </a>
             </p>
