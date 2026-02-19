@@ -93,15 +93,6 @@ const STATIC_SVG_CONFIG: Record<string, StaticSvgConfig> = {
     fontSizeOriginal: "18px",
     fontSizeTarget: "15px",
   },
-  "educacion-tecnologica": {
-    path: "/images/ejes/educacion-tecnologica.svg",
-    nodeOrder: [3, 1, 2, 0], // left=reflexion(3), right=medios(1), bottom=TIC(2), top=procesos(0)
-    textOrder: [0, 1, 3, 2], // top=procesos(0), right=medios(1), left=reflexion(3), bottom=TIC(2)
-    titleTextClass: "cls-4",
-    nodeCircleClass: "cls-3",
-    fontSizeOriginal: "22px",
-    fontSizeTarget: "17px",
-  },
 };
 
 const SUBAREA_SVG_CONFIG: Record<string, StaticSvgConfig> = {
@@ -141,15 +132,6 @@ const SUBAREA_SVG_CONFIG: Record<string, StaticSvgConfig> = {
     fontSizeOriginal: "22px",
     fontSizeTarget: "17px",
   },
-  "danza": {
-    path: "/images/ejes/danza.svg",
-    nodeOrder: [1, 0, 2], // bottom-left=Apreciacion(1), right=DanzaEnContexto(0), top-left=Produccion(2)
-    textOrder: [1],        // only 1 <text>: "Apreciacion" = eje 1
-    titleTextClass: "cls-5",
-    nodeCircleClass: "cls-2",
-    fontSizeOriginal: "18px",
-    fontSizeTarget: "15px",
-  },
 };
 
 function getStaticSvgConfig(
@@ -178,14 +160,12 @@ function InlineSvgSchema({
   ejesInfo,
   activeAxis,
   setActiveAxis,
-  maxWidth = 520,
 }: {
   config: StaticSvgConfig;
   area: Area;
   ejesInfo: EjeInfo[];
   activeAxis: number | null;
   setActiveAxis: (idx: number | null) => void;
-  maxWidth?: number;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
@@ -241,7 +221,7 @@ function InlineSvgSchema({
           }
         }
 
-        /* Tag axis title <text> elements with data-eje (visual dimming only) */
+        /* Tag axis title <text> elements with data-eje */
         const titleTexts = svg.querySelectorAll(
           `text.${config.titleTextClass}`,
         );
@@ -249,6 +229,7 @@ function InlineSvgSchema({
           if (i < config.textOrder.length) {
             t.setAttribute("data-eje", String(config.textOrder[i]));
             t.setAttribute("data-eje-text", "1");
+            (t as SVGElement).style.cursor = "pointer";
             (t as SVGElement).style.transition =
               "opacity 0.35s ease, filter 0.35s ease";
           }
@@ -264,53 +245,39 @@ function InlineSvgSchema({
         });
         filteredCircles.forEach((c, i) => {
           if (i < config.nodeOrder.length) {
-            const ejeIdx = String(config.nodeOrder[i]);
-            c.setAttribute("data-eje", ejeIdx);
+            c.setAttribute("data-eje", String(config.nodeOrder[i]));
             c.setAttribute("data-eje-node", "1");
             (c as SVGElement).style.cursor = "pointer";
             (c as SVGElement).style.transition =
               "opacity 0.35s ease, filter 0.35s ease, stroke-width 0.35s ease, fill 0.35s ease";
-
-            /* Invisible hit area circle (r=22) for easier clicking */
-            const hit = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-            hit.setAttribute("cx", c.getAttribute("cx") || "0");
-            hit.setAttribute("cy", c.getAttribute("cy") || "0");
-            hit.setAttribute("r", "22");
-            hit.setAttribute("fill", "transparent");
-            hit.setAttribute("stroke", "none");
-            hit.setAttribute("data-eje-hit", ejeIdx);
-            hit.style.cursor = "pointer";
-            c.parentNode?.insertBefore(hit, c);
           }
         });
 
-        /* Click: event delegation on the SVG element */
+        /* Click handler via event delegation */
         svg.addEventListener("click", (e) => {
-          let t = e.target as Element | null;
-          /* Walk up a bit to find a tagged element */
-          for (let i = 0; i < 3 && t && t !== svg; i++) {
-            if (t.hasAttribute("data-eje-node")) {
-              toggle(parseInt(t.getAttribute("data-eje")!, 10));
-              return;
-            }
-            if (t.hasAttribute("data-eje-hit")) {
-              toggle(parseInt(t.getAttribute("data-eje-hit")!, 10));
-              return;
-            }
-            t = t.parentElement;
+          const target = (e.target as Element).closest("[data-eje]");
+          if (target) {
+            const ejeIdx = parseInt(target.getAttribute("data-eje")!, 10);
+            toggle(ejeIdx);
           }
         });
 
         containerRef.current.appendChild(svg);
 
-        /* ---- CENTER the wheel horizontally ---- */
+        /* ---- CENTER the wheel horizontally ----
+           The designer SVGs have the wheel at different x-positions
+           within their viewBox. We find the center filled circle,
+           calculate its x-offset as a % of the viewBox width, then
+           translate the SVG so the wheel always sits at 50% of the
+           container. */
         requestAnimationFrame(() => {
           if (cancelled || !containerRef.current) return;
           const vb = svg.getAttribute("viewBox");
           if (!vb) { setLoaded(true); return; }
-          const parts = vb.split(/\s+/);
-          const vbW = parseFloat(parts[2]);
+          const [, , vbWStr] = vb.split(/\s+/);
+          const vbW = parseFloat(vbWStr);
 
+          /* Find center filled circle (largest r with a visible fill) */
           let wheelCx = vbW / 2;
           let maxR = 0;
           svg.querySelectorAll("circle").forEach((c) => {
@@ -322,15 +289,24 @@ function InlineSvgSchema({
             wheelCx = parseFloat(c.getAttribute("cx") || "0");
           });
 
-          const shiftPct = 0.5 - wheelCx / vbW;
+          /* wheelCx is in viewBox units. Its % position: */
+          const wheelPct = wheelCx / vbW;          // e.g. 0.41
+          const desiredPct = 0.5;                   // we want it at 50%
+          const shiftPct = (desiredPct - wheelPct); // how far to push right
+
+          /* Convert to pixels based on current rendered width */
           const renderedW = containerRef.current.offsetWidth;
-          setOffsetX(shiftPct * renderedW);
+          const px = shiftPct * renderedW;
+
+          setOffsetX(px);
           setLoaded(true);
         });
       })
       .catch(() => {});
 
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [config.path, config.nodeOrder, config.textOrder, config.titleTextClass, config.nodeCircleClass, config.fontSizeOriginal, config.fontSizeTarget, toggle]);
 
   /* ---- Recalculate center offset on resize ---- */
@@ -343,7 +319,8 @@ function InlineSvgSchema({
       if (!svg) return;
       const vb = svg.getAttribute("viewBox");
       if (!vb) return;
-      const vbW = parseFloat(vb.split(/\s+/)[2]);
+      const [, , vbWStr] = vb.split(/\s+/);
+      const vbW = parseFloat(vbWStr);
       let wheelCx = vbW / 2;
       let maxR = 0;
       svg.querySelectorAll("circle").forEach((c) => {
@@ -355,6 +332,7 @@ function InlineSvgSchema({
         wheelCx = parseFloat(c.getAttribute("cx") || "0");
       });
       const shiftPct = 0.5 - wheelCx / vbW;
+      // Temporarily reset transform to measure natural width
       el.style.transform = "none";
       const renderedW = el.offsetWidth;
       const px = shiftPct * renderedW;
@@ -365,19 +343,16 @@ function InlineSvgSchema({
     return () => window.removeEventListener("resize", recalc);
   }, [loaded]);
 
-  /* ---- Update visual states on active axis change ----
-     1. Node circles: active = filled with area color, dimmed = gray, idle = original
-     2. Title texts: active = full opacity, dimmed = faded + desaturated
-     3. Sector on center wheel: a subtle bright arc overlay for the active eje
-     4. Orbit lines + center text: ALWAYS fully visible */
+  /* ---- Update active/dimmed visual states ---- */
   useEffect(() => {
     const el = containerRef.current;
     if (!el || !loaded) return;
     const svg = el.querySelector("svg");
     if (!svg) return;
 
-    /* -- dim/highlight node circles + text titles -- */
-    svg.querySelectorAll("[data-eje]").forEach((elem) => {
+    /* 1. Process data-eje tagged elements (nodes + text labels) */
+    const allEjeEls = svg.querySelectorAll("[data-eje]");
+    allEjeEls.forEach((elem) => {
       const ejeIdx = parseInt(elem.getAttribute("data-eje")!, 10);
       const s = (elem as SVGElement).style;
       const isNode = elem.hasAttribute("data-eje-node");
@@ -387,89 +362,97 @@ function InlineSvgSchema({
       s.transition = "opacity 0.35s ease, filter 0.35s ease, fill 0.35s ease, stroke-width 0.35s ease";
 
       if (isDimmed) {
-        s.opacity = "0.22";
+        s.opacity = "0.18";
         s.filter = "saturate(0)";
-        if (isNode) { s.strokeWidth = ""; s.fill = "#e0e0e0"; }
+        if (isNode) {
+          s.strokeWidth = "";
+          s.fill = "#e0e0e0";
+        }
       } else if (isActive) {
         s.opacity = "1";
         s.filter = "none";
-        if (isNode) { s.strokeWidth = "5"; s.fill = area.color; }
+        if (isNode) {
+          s.strokeWidth = "6";
+          s.fill = area.color;
+        }
       } else {
         s.opacity = "1";
         s.filter = "none";
-        if (isNode) { s.strokeWidth = ""; s.fill = ""; }
+        if (isNode) {
+          s.strokeWidth = "";
+          s.fill = "";
+        }
       }
     });
 
-    /* -- Sector overlay on center wheel -- */
-    svg.querySelector("[data-sector-overlay]")?.remove();
-    if (activeAxis === null) return;
-
-    /* Find center filled circle */
+    /* 2. Find the center filled circle.
+       It's the largest circle that has a visible fill (not "none", not the
+       dashed orbit which typically has fill:none via cls-4/cls-5). */
     let centerCx = 0, centerCy = 0, centerR = 0;
     svg.querySelectorAll("circle").forEach((c) => {
       const r = parseFloat(c.getAttribute("r") || "0");
       if (r <= centerR || r < 30) return;
-      const f = window.getComputedStyle(c).fill;
-      if (f === "none" || f === "transparent") return;
-      centerR = r; centerCx = parseFloat(c.getAttribute("cx") || "0"); centerCy = parseFloat(c.getAttribute("cy") || "0");
+      /* Check computed fill - skip circles with fill:none (orbit lines) */
+      const computedFill = window.getComputedStyle(c).fill;
+      if (computedFill === "none" || computedFill === "transparent") return;
+      centerR = r;
+      centerCx = parseFloat(c.getAttribute("cx") || "0");
+      centerCy = parseFloat(c.getAttribute("cy") || "0");
     });
-    if (centerR === 0) return;
 
-    /* Collect node angles around center */
-    const nodes: { ejeIdx: number; angle: number }[] = [];
-    svg.querySelectorAll("[data-eje-node]").forEach((c) => {
-      const cx = parseFloat(c.getAttribute("cx") || "0");
-      const cy = parseFloat(c.getAttribute("cy") || "0");
-      nodes.push({
-        ejeIdx: parseInt(c.getAttribute("data-eje")!, 10),
-        angle: Math.atan2(cy - centerCy, cx - centerCx),
+    /* 3. Dim ALL non-tagged elements except center circle + center text.
+       Elements whose bounding box center is inside the center circle radius
+       are considered "center content" and stay visible. */
+    const allShapes = svg.querySelectorAll("path, circle, text, rect");
+    allShapes.forEach((elem) => {
+      if (elem.hasAttribute("data-eje")) return;
+
+      const sp = elem as SVGElement;
+      sp.style.transition = "opacity 0.35s ease, filter 0.35s ease";
+
+      /* Keep center circle itself fully visible */
+      if (elem.tagName === "circle") {
+        const r = parseFloat(elem.getAttribute("r") || "0");
+        if (r > 50) {
+          sp.style.opacity = "1";
+          sp.style.filter = "none";
+          return;
+        }
+      }
+
+      /* Check if element is inside center circle region using getBBox */
+      try {
+        const bbox = (elem as SVGGraphicsElement).getBBox();
+        const elCx = bbox.x + bbox.width / 2;
+        const elCy = bbox.y + bbox.height / 2;
+        const dist = Math.sqrt((elCx - centerCx) ** 2 + (elCy - centerCy) ** 2);
+        if (dist < centerR * 0.95) {
+          /* Inside center circle -- center text, keep visible */
+          sp.style.opacity = "1";
+          sp.style.filter = "none";
+          return;
+        }
+      } catch {
+        /* getBBox may fail for hidden elements */
+      }
+
+      /* Everything else: dim when an axis is selected */
+      if (activeAxis !== null) {
+        sp.style.opacity = "0.22";
+        sp.style.filter = "saturate(0)";
+      } else {
+        sp.style.opacity = "1";
+        sp.style.filter = "none";
+      }
+    });
+
+    /* 4. Re-highlight active node + text above the global dim */
+    if (activeAxis !== null) {
+      svg.querySelectorAll(`[data-eje="${activeAxis}"]`).forEach((elem) => {
+        const s = (elem as SVGElement).style;
+        s.opacity = "1";
+        s.filter = "none";
       });
-    });
-    if (nodes.length < 2) return;
-    nodes.sort((a, b) => a.angle - b.angle);
-
-    const ai = nodes.findIndex((n) => n.ejeIdx === activeAxis);
-    if (ai === -1) return;
-    const prev = (ai - 1 + nodes.length) % nodes.length;
-    const next = (ai + 1) % nodes.length;
-
-    const midAngle = (a1: number, a2: number) => {
-      if (a2 - a1 > Math.PI) a1 += 2 * Math.PI;
-      if (a1 - a2 > Math.PI) a2 += 2 * Math.PI;
-      return (a1 + a2) / 2;
-    };
-    const angStart = midAngle(nodes[prev].angle, nodes[ai].angle);
-    const angEnd = midAngle(nodes[ai].angle, nodes[next].angle);
-
-    /* Draw the sector as an arc stroke on the center circle edge (not a filled wedge) */
-    const sR = centerR * 0.82;
-    const strokeW = centerR * 0.34;
-    const x1 = centerCx + sR * Math.cos(angStart);
-    const y1 = centerCy + sR * Math.sin(angStart);
-    const x2 = centerCx + sR * Math.cos(angEnd);
-    const y2 = centerCy + sR * Math.sin(angEnd);
-    let span = angEnd - angStart;
-    if (span < 0) span += 2 * Math.PI;
-    const large = span > Math.PI ? 1 : 0;
-
-    const arc = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    arc.setAttribute("d", `M ${x1} ${y1} A ${sR} ${sR} 0 ${large} 1 ${x2} ${y2}`);
-    arc.setAttribute("fill", "none");
-    arc.setAttribute("stroke", "rgba(255,255,255,0.22)");
-    arc.setAttribute("stroke-width", String(strokeW));
-    arc.setAttribute("data-sector-overlay", "1");
-    arc.style.pointerEvents = "none";
-
-    /* Insert after center circle */
-    let ccEl: SVGCircleElement | null = null;
-    svg.querySelectorAll("circle").forEach((c) => {
-      if (Math.abs(parseFloat(c.getAttribute("r") || "0") - centerR) < 1) ccEl = c;
-    });
-    if (ccEl && ccEl.parentNode) {
-      ccEl.parentNode.insertBefore(arc, ccEl.nextSibling);
-    } else {
-      svg.appendChild(arc);
     }
   }, [activeAxis, loaded, area.color]);
 
@@ -478,7 +461,7 @@ function InlineSvgSchema({
       ref={containerRef}
       className="w-full mx-auto"
       style={{
-        maxWidth,
+        maxWidth: 560,
         transform: offsetX ? `translateX(${offsetX}px)` : undefined,
         transition: "transform 0.4s ease",
       }}
@@ -623,7 +606,7 @@ export function EjesSchemaInteractive({
           {/* Hint when nothing selected */}
           {activeAxis === null && (
             <div
-              className="mt-8 flex items-center justify-center gap-2.5 pointer-events-none select-none"
+              className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
               style={{ animation: "hintPulse 3s ease-in-out infinite" }}
             >
               <svg
@@ -649,8 +632,8 @@ export function EjesSchemaInteractive({
           )}
         </div>
 
-        {/* Spacer between schema and info panel */}
-        <div className="h-8 sm:h-12" />
+        {/* Spacer */}
+        <div className="h-5 sm:h-8" />
 
         {/* Info panel */}
         <div
@@ -684,26 +667,11 @@ export function EjesSchemaInteractive({
               >
                 {ejesInfo[activeAxis].descripcion}
               </p>
-              <p className="mt-4 text-sm text-gray-500">
-                {"Descarg\u00e1 el documento completo para "}
-                <a
-                  href="#descarga"
-                  className="font-bold hover:underline"
-                  style={{ color: area.color }}
-                >
-                  ver m{"\u00e1"}s
-                </a>
-              </p>
             </div>
           )}
         </div>
       </section>
     );
-  }
-
-  /* ---- educacion-artistica without a subarea: show nothing (only subareas have SVGs) ---- */
-  if (area.slug === "educacion-artistica" && !selectedSubarea) {
-    return null;
   }
 
   /* ---- FALLBACK: programmatic SVG for areas without a designer SVG ---- */
@@ -866,7 +834,7 @@ export function EjesSchemaInteractive({
 
         {activeAxis === null && (
           <div
-            className="mt-8 flex items-center justify-center gap-2.5 pointer-events-none select-none"
+            className="mt-4 flex items-center justify-center gap-2.5 pointer-events-none select-none"
             style={{ animation: "hintPulse 3s ease-in-out infinite" }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#494963" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
@@ -882,7 +850,7 @@ export function EjesSchemaInteractive({
         )}
       </div>
 
-      <div className="h-8 sm:h-12" />
+      <div className="h-5 sm:h-8" />
 
       <div
         ref={panelRef}

@@ -75,7 +75,6 @@ export function ParallaxSection({
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
-    layoutEffect: false,
   });
   const y = useTransform(scrollYProgress, [0, 1], [speed * 120, speed * -120]);
 
@@ -108,7 +107,6 @@ export function SectionDivider({
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
-    layoutEffect: false,
   });
   const x = useTransform(scrollYProgress, [0, 1], [speed * -80, speed * 80]);
 

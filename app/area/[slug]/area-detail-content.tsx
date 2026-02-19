@@ -99,12 +99,15 @@ function ParallaxLayer({
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
-    layoutEffect: false,
   });
   const y = useTransform(scrollYProgress, [0, 1], [speed * -120, speed * 120]);
 
   return (
-    <div ref={ref} className={`relative overflow-hidden ${className}`}>
+    <div
+      ref={ref}
+      className={`relative overflow-hidden ${className}`}
+      style={{ position: "relative" }}
+    >
       <motion.div style={{ y }}>{children}</motion.div>
     </div>
   );
@@ -127,14 +130,13 @@ function FadingHeader({
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
-    layoutEffect: false,
   });
   const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.55], [1, 0.92]);
   const translateY = useTransform(scrollYProgress, [0, 0.55], [0, -30]);
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative" style={{ position: "relative" }}>
       <motion.div
         style={{ opacity, scale, y: translateY, transformOrigin: "top center" }}
       >
