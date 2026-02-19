@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import type { Area } from "@/lib/areas-data";
 
 export interface EjeInfo {
@@ -17,133 +17,254 @@ interface EjesSchemaInteractiveProps {
 }
 
 /* ===================================================================
-   Static SVG data: path, viewBox, and clickable node positions
-   Each node maps to an ejesInfo index via `ejeIdx`.
-   Coordinates (cx, cy) are in SVG viewBox units.
+   Static SVG config: path + node-to-eje mappings.
+   `nodeOrder` maps each <circle class="cls-3"> (in document order)
+   to its ejesInfo index.
+   `textOrder` maps each <text class="cls-6"> to its ejesInfo index.
    =================================================================== */
 
-interface SvgNodeData {
-  cx: number;
-  cy: number;
-  r: number;
-  ejeIdx: number; // maps to ejesInfo[ejeIdx]
-}
-
-interface StaticSvgData {
+interface StaticSvgConfig {
   path: string;
-  vbW: number;
-  vbH: number;
-  nodes: SvgNodeData[];
+  /** Maps node circle DOM order -> ejesInfo index */
+  nodeOrder: number[];
+  /** Maps text label DOM order -> ejesInfo index */
+  textOrder: number[];
 }
 
-const STATIC_SVG_DATA: Record<string, StaticSvgData> = {
+const STATIC_SVG_CONFIG: Record<string, StaticSvgConfig> = {
   "ciencias-sociales": {
     path: "/images/ejes/ciencias-sociales.svg",
-    vbW: 496.66, vbH: 375.89,
-    nodes: [
-      { cx: 316.86, cy: 185.50, r: 8.19, ejeIdx: 1 }, // Las sociedades en el tiempo
-      { cx: 148.81, cy: 282.52, r: 8.19, ejeIdx: 2 }, // Las sociedades, vida cotidiana
-      { cx: 148.81, cy:  88.49, r: 8.19, ejeIdx: 0 }, // Las sociedades y construccion
-    ],
+    nodeOrder: [1, 2, 0], // circle[0]=right->eje1, circle[1]=bottom-left->eje2, circle[2]=top-left->eje0
+    textOrder: [0, 1, 2], // text elements in SVG follow ejesInfo order
   },
   "ciencias-naturales": {
     path: "/images/ejes/ciencias-naturales.svg",
-    vbW: 529.69, vbH: 441.51,
-    nodes: [
-      { cx: 260.55, cy:  90.78, r: 7.94, ejeIdx: 0 }, // Seres vivos
-      { cx: 373.97, cy: 204.20, r: 7.94, ejeIdx: 1 }, // Materiales
-      { cx: 260.55, cy: 317.63, r: 7.94, ejeIdx: 2 }, // Fenomenos fisicos
-      { cx: 147.12, cy: 204.20, r: 7.94, ejeIdx: 3 }, // La Tierra
-    ],
+    nodeOrder: [0, 1, 2, 3],
+    textOrder: [0, 1, 2, 3],
   },
   "matematica": {
     path: "/images/ejes/matematica.svg",
-    vbW: 511.91, vbH: 357.72,
-    nodes: [
-      { cx: 240.24, cy:  62.69, r: 8.04, ejeIdx: 0 }, // Numeros y operaciones
-      { cx: 355.05, cy: 177.49, r: 8.04, ejeIdx: 1 }, // Estadistica y probabilidad
-      { cx: 240.24, cy: 292.30, r: 8.04, ejeIdx: 3 }, // Geometria y medida
-      { cx: 125.44, cy: 177.49, r: 8.04, ejeIdx: 2 }, // Iniciacion al algebra
-    ],
+    nodeOrder: [0, 1, 3, 2], // top->eje0, right->eje1, bottom->eje3, left->eje2
+    textOrder: [0, 1, 2, 3],
   },
   "lengua-y-literatura": {
     path: "/images/ejes/lengua-y-literatura.svg",
-    vbW: 450.98, vbH: 309.37,
-    nodes: [
-      { cx: 292.05, cy:  55.91, r: 8.86, ejeIdx: 0 }, // Oralidad
-      { cx: 165.46, cy:  97.04, r: 8.86, ejeIdx: 1 }, // Literatura
-      { cx: 165.46, cy: 230.14, r: 8.86, ejeIdx: 4 }, // Conocimiento y reflexion
-      { cx: 292.05, cy: 271.27, r: 8.86, ejeIdx: 3 }, // Lectura
-      { cx: 370.24, cy: 163.59, r: 8.86, ejeIdx: 2 }, // Escritura
-    ],
+    nodeOrder: [0, 1, 4, 3, 2], // matching original circle DOM order
+    textOrder: [0, 1, 2, 3, 4],
   },
   "lenguas-extranjeras": {
     path: "/images/ejes/lenguas-extranjeras.svg",
-    vbW: 464.07, vbH: 378.61,
-    nodes: [
-      { cx: 280.53, cy:  41.00, r: 8.94, ejeIdx: 0 }, // Lectura
-      { cx: 359.41, cy: 149.63, r: 8.94, ejeIdx: 1 }, // Escritura
-      { cx: 280.53, cy: 258.26, r: 8.94, ejeIdx: 2 }, // Oralidad
-      { cx: 152.82, cy: 216.77, r: 8.94, ejeIdx: 3 }, // Reflexion sobre la lengua
-      { cx: 152.82, cy:  82.50, r: 8.94, ejeIdx: 4 }, // Reflexion intercultural
-    ],
+    nodeOrder: [0, 1, 2, 3, 4],
+    textOrder: [0, 1, 2, 3, 4],
   },
   "educacion-fisica": {
     path: "/images/ejes/educacion-fisica.svg",
-    vbW: 527.50, vbH: 404.65,
-    nodes: [
-      { cx: 278.62, cy: 203.82, r: 8.40, ejeIdx: 1 }, // Interaccion con otras personas
-      { cx:  98.69, cy: 307.70, r: 8.40, ejeIdx: 2 }, // Interaccion con el ambiente
-      { cx:  98.69, cy:  99.95, r: 8.40, ejeIdx: 0 }, // Conocimiento de si mismo
-    ],
+    nodeOrder: [1, 2, 0], // right->eje1, bottom-left->eje2, top-left->eje0
+    textOrder: [0, 1, 2],
   },
 };
 
-/* Subarea SVGs for Educacion Artistica */
-const SUBAREA_SVG_DATA: Record<string, StaticSvgData> = {
+const SUBAREA_SVG_CONFIG: Record<string, StaticSvgConfig> = {
   "artes-visuales": {
     path: "/images/ejes/artes-visuales.svg",
-    vbW: 394.89, vbH: 283.82,
-    nodes: [
-      { cx: 101.56, cy: 238.09, r: 7.82, ejeIdx: 1 }, // Apreciacion
-      { cx: 269.05, cy: 141.39, r: 7.82, ejeIdx: 2 }, // Produccion
-      { cx: 101.56, cy:  44.69, r: 7.82, ejeIdx: 0 }, // Artes en contexto
-    ],
+    nodeOrder: [1, 2, 0],
+    textOrder: [0, 1, 2],
   },
   "musica": {
     path: "/images/ejes/musica.svg",
-    vbW: 375.46, vbH: 283.82,
-    nodes: [
-      { cx: 101.56, cy: 238.09, r: 7.82, ejeIdx: 1 }, // Apreciacion
-      { cx: 269.05, cy: 141.39, r: 7.82, ejeIdx: 2 }, // Produccion
-      { cx: 101.56, cy:  44.69, r: 7.82, ejeIdx: 0 }, // Artes en contexto
-    ],
+    nodeOrder: [1, 2, 0],
+    textOrder: [0, 1, 2],
   },
   "artes-audiovisuales": {
     path: "/images/ejes/artes-audiovisuales.svg",
-    vbW: 404.25, vbH: 283.82,
-    nodes: [
-      { cx: 113.80, cy: 238.09, r: 7.82, ejeIdx: 1 }, // Apreciacion
-      { cx: 281.29, cy: 141.39, r: 7.82, ejeIdx: 2 }, // Produccion
-      { cx: 113.80, cy:  44.69, r: 7.82, ejeIdx: 0 }, // Artes en contexto
-    ],
+    nodeOrder: [1, 2, 0],
+    textOrder: [0, 1, 2],
   },
   "teatro": {
     path: "/images/ejes/teatro.svg",
-    vbW: 376.20, vbH: 283.82,
-    nodes: [
-      { cx:  97.65, cy: 238.09, r: 7.82, ejeIdx: 1 }, // Apreciacion
-      { cx: 265.14, cy: 141.39, r: 7.82, ejeIdx: 2 }, // Produccion
-      { cx:  97.65, cy:  44.69, r: 7.82, ejeIdx: 0 }, // Artes en contexto
-    ],
+    nodeOrder: [1, 2, 0],
+    textOrder: [0, 1, 2],
   },
 };
 
-function getStaticSvgData(areaSlug: string, selectedSubarea?: string | null): StaticSvgData | null {
-  if (areaSlug === "educacion-artistica" && selectedSubarea && SUBAREA_SVG_DATA[selectedSubarea]) {
-    return SUBAREA_SVG_DATA[selectedSubarea];
+function getStaticSvgConfig(areaSlug: string, selectedSubarea?: string | null): StaticSvgConfig | null {
+  if (areaSlug === "educacion-artistica" && selectedSubarea && SUBAREA_SVG_CONFIG[selectedSubarea]) {
+    return SUBAREA_SVG_CONFIG[selectedSubarea];
   }
-  return STATIC_SVG_DATA[areaSlug] || null;
+  return STATIC_SVG_CONFIG[areaSlug] || null;
+}
+
+/* ===================================================================
+   InlineSvgSchema: fetches the SVG, inlines it, and adds interactive
+   click handlers + CSS class toggling for active/dimmed states.
+   =================================================================== */
+
+function InlineSvgSchema({
+  config,
+  area,
+  ejesInfo,
+  activeAxis,
+  setActiveAxis,
+}: {
+  config: StaticSvgConfig;
+  area: Area;
+  ejesInfo: EjeInfo[];
+  activeAxis: number | null;
+  setActiveAxis: (idx: number | null) => void;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [loaded, setLoaded] = useState(false);
+  const activeRef = useRef(activeAxis);
+  activeRef.current = activeAxis;
+
+  const toggle = useCallback(
+    (ejeIdx: number) => {
+      setActiveAxis(activeRef.current === ejeIdx ? null : ejeIdx);
+    },
+    [setActiveAxis],
+  );
+
+  /* Fetch + inject the SVG once */
+  useEffect(() => {
+    let cancelled = false;
+    const el = containerRef.current;
+    if (!el) return;
+    el.innerHTML = "";
+    setLoaded(false);
+
+    fetch(config.path)
+      .then((r) => r.text())
+      .then((svgText) => {
+        if (cancelled || !containerRef.current) return;
+
+        /* Parse into DOM */
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgText, "image/svg+xml");
+        const svg = doc.querySelector("svg");
+        if (!svg) return;
+
+        /* Make SVG responsive */
+        svg.removeAttribute("width");
+        svg.removeAttribute("height");
+        svg.setAttribute("class", "ejes-inline-svg");
+        svg.style.width = "100%";
+        svg.style.height = "auto";
+        svg.style.display = "block";
+
+        /* Reduce font size on cls-6 text elements (axis titles) */
+        const style = svg.querySelector("style");
+        if (style) {
+          style.textContent = style.textContent!
+            .replace(/(\.cls-6\s*\{[^}]*font-size:\s*)22px/g, "$116px");
+        }
+
+        /* Tag the text labels with data-eje attributes */
+        const textEls = svg.querySelectorAll("text.cls-6, text[class*='cls-6'], text[class*='cls-1']");
+        /* Some SVGs use cls-1 for colored text class depending on the SVG. Fall back to finding colored fill text */
+        let titleTexts: Element[] = [];
+        if (textEls.length >= config.textOrder.length) {
+          titleTexts = Array.from(textEls);
+        } else {
+          /* Broader search: grab all <text> outside the center circle group */
+          titleTexts = Array.from(svg.querySelectorAll("text")).filter((t) => {
+            const cls = t.getAttribute("class") || "";
+            return !cls.includes("cls-2") && !cls.includes("cls-5") && !cls.includes("cls-7");
+          });
+        }
+        titleTexts.forEach((t, i) => {
+          if (i < config.textOrder.length) {
+            t.setAttribute("data-eje", String(config.textOrder[i]));
+            (t as SVGElement).style.cursor = "pointer";
+            (t as SVGElement).style.transition = "opacity 0.35s ease, filter 0.35s ease";
+          }
+        });
+
+        /* Tag the node circles */
+        const nodeCircles = svg.querySelectorAll("circle.cls-3, circle[class*='cls-3']");
+        nodeCircles.forEach((c, i) => {
+          if (i < config.nodeOrder.length) {
+            c.setAttribute("data-eje", String(config.nodeOrder[i]));
+            (c as SVGElement).style.cursor = "pointer";
+            (c as SVGElement).style.transition = "opacity 0.35s ease, filter 0.35s ease, stroke-width 0.35s ease";
+          }
+        });
+
+        /* Add click handlers via event delegation */
+        svg.addEventListener("click", (e) => {
+          const target = (e.target as Element).closest("[data-eje]");
+          if (target) {
+            const ejeIdx = parseInt(target.getAttribute("data-eje")!, 10);
+            toggle(ejeIdx);
+          }
+        });
+
+        containerRef.current.appendChild(svg);
+        setLoaded(true);
+      })
+      .catch(() => {});
+
+    return () => { cancelled = true; };
+  }, [config.path, config.nodeOrder, config.textOrder, toggle]);
+
+  /* Update visual states when activeAxis changes */
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || !loaded) return;
+    const svg = el.querySelector("svg");
+    if (!svg) return;
+
+    const allEjeEls = svg.querySelectorAll("[data-eje]");
+
+    allEjeEls.forEach((elem) => {
+      const ejeIdx = parseInt(elem.getAttribute("data-eje")!, 10);
+      const svgEl = elem as SVGElement;
+      const isActive = activeAxis === ejeIdx;
+      const isDimmed = activeAxis !== null && !isActive;
+
+      if (isDimmed) {
+        svgEl.style.opacity = "0.22";
+        svgEl.style.filter = "saturate(0)";
+      } else if (isActive) {
+        svgEl.style.opacity = "1";
+        svgEl.style.filter = "none";
+        /* Enlarge active node circle */
+        if (elem.tagName === "circle") {
+          svgEl.style.strokeWidth = "5";
+        }
+      } else {
+        /* Nothing selected — full color */
+        svgEl.style.opacity = "1";
+        svgEl.style.filter = "none";
+        if (elem.tagName === "circle") {
+          svgEl.style.strokeWidth = "";
+        }
+      }
+    });
+
+    /* Also dim the dashed orbit arcs + petal paths when an axis is active */
+    const decorPaths = svg.querySelectorAll("path.cls-4, path[class*='cls-4'], circle.cls-4, circle[class*='cls-4']");
+    decorPaths.forEach((p) => {
+      const sp = p as SVGElement;
+      if (!p.hasAttribute("data-eje")) {
+        if (activeAxis !== null) {
+          sp.style.opacity = "0.3";
+          sp.style.transition = "opacity 0.35s ease";
+        } else {
+          sp.style.opacity = "1";
+          sp.style.transition = "opacity 0.35s ease";
+        }
+      }
+    });
+  }, [activeAxis, loaded]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="w-full mx-auto"
+      style={{ maxWidth: 540 }}
+      aria-label={`Esquema de ejes de contenido de ${area.name}`}
+    />
+  );
 }
 
 /* === SVG Constants from the original reference design === */
