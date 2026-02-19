@@ -93,6 +93,15 @@ const STATIC_SVG_CONFIG: Record<string, StaticSvgConfig> = {
     fontSizeOriginal: "18px",
     fontSizeTarget: "15px",
   },
+  "educacion-tecnologica": {
+    path: "/images/ejes/educacion-tecnologica.svg",
+    nodeOrder: [3, 1, 2, 0], // left=reflexion(3), right=medios(1), bottom=TIC(2), top=procesos(0)
+    textOrder: [0, 1, 3, 2], // top=procesos(0), right=medios(1), left=reflexion(3), bottom=TIC(2)
+    titleTextClass: "cls-4",
+    nodeCircleClass: "cls-3",
+    fontSizeOriginal: "22px",
+    fontSizeTarget: "17px",
+  },
 };
 
 const SUBAREA_SVG_CONFIG: Record<string, StaticSvgConfig> = {
@@ -131,6 +140,15 @@ const SUBAREA_SVG_CONFIG: Record<string, StaticSvgConfig> = {
     nodeCircleClass: "cls-3",
     fontSizeOriginal: "22px",
     fontSizeTarget: "17px",
+  },
+  "danza": {
+    path: "/images/ejes/danza.svg",
+    nodeOrder: [1, 0, 2], // bottom-left=Apreciacion(1), right=DanzaEnContexto(0), top-left=Produccion(2)
+    textOrder: [1],        // only 1 <text>: "Apreciacion" = eje 1
+    titleTextClass: "cls-5",
+    nodeCircleClass: "cls-2",
+    fontSizeOriginal: "18px",
+    fontSizeTarget: "15px",
   },
 };
 
@@ -343,14 +361,16 @@ function InlineSvgSchema({
     return () => window.removeEventListener("resize", recalc);
   }, [loaded]);
 
-  /* ---- Update active/dimmed visual states ---- */
+  /* ---- Update active/dimmed visual states ----
+     Only node circles and axis title texts get dimmed/highlighted.
+     Everything else (orbit lines, center circle, center text, decorative
+     paths) stays fully visible at all times. */
   useEffect(() => {
     const el = containerRef.current;
     if (!el || !loaded) return;
     const svg = el.querySelector("svg");
     if (!svg) return;
 
-    /* 1. Process data-eje tagged elements (nodes + text labels) */
     const allEjeEls = svg.querySelectorAll("[data-eje]");
     allEjeEls.forEach((elem) => {
       const ejeIdx = parseInt(elem.getAttribute("data-eje")!, 10);
@@ -362,7 +382,7 @@ function InlineSvgSchema({
       s.transition = "opacity 0.35s ease, filter 0.35s ease, fill 0.35s ease, stroke-width 0.35s ease";
 
       if (isDimmed) {
-        s.opacity = "0.18";
+        s.opacity = "0.22";
         s.filter = "saturate(0)";
         if (isNode) {
           s.strokeWidth = "";
@@ -376,6 +396,7 @@ function InlineSvgSchema({
           s.fill = area.color;
         }
       } else {
+        /* No axis selected -- reset all to normal */
         s.opacity = "1";
         s.filter = "none";
         if (isNode) {
@@ -384,76 +405,6 @@ function InlineSvgSchema({
         }
       }
     });
-
-    /* 2. Find the center filled circle.
-       It's the largest circle that has a visible fill (not "none", not the
-       dashed orbit which typically has fill:none via cls-4/cls-5). */
-    let centerCx = 0, centerCy = 0, centerR = 0;
-    svg.querySelectorAll("circle").forEach((c) => {
-      const r = parseFloat(c.getAttribute("r") || "0");
-      if (r <= centerR || r < 30) return;
-      /* Check computed fill - skip circles with fill:none (orbit lines) */
-      const computedFill = window.getComputedStyle(c).fill;
-      if (computedFill === "none" || computedFill === "transparent") return;
-      centerR = r;
-      centerCx = parseFloat(c.getAttribute("cx") || "0");
-      centerCy = parseFloat(c.getAttribute("cy") || "0");
-    });
-
-    /* 3. Dim ALL non-tagged elements except center circle + center text.
-       Elements whose bounding box center is inside the center circle radius
-       are considered "center content" and stay visible. */
-    const allShapes = svg.querySelectorAll("path, circle, text, rect");
-    allShapes.forEach((elem) => {
-      if (elem.hasAttribute("data-eje")) return;
-
-      const sp = elem as SVGElement;
-      sp.style.transition = "opacity 0.35s ease, filter 0.35s ease";
-
-      /* Keep center circle itself fully visible */
-      if (elem.tagName === "circle") {
-        const r = parseFloat(elem.getAttribute("r") || "0");
-        if (r > 50) {
-          sp.style.opacity = "1";
-          sp.style.filter = "none";
-          return;
-        }
-      }
-
-      /* Check if element is inside center circle region using getBBox */
-      try {
-        const bbox = (elem as SVGGraphicsElement).getBBox();
-        const elCx = bbox.x + bbox.width / 2;
-        const elCy = bbox.y + bbox.height / 2;
-        const dist = Math.sqrt((elCx - centerCx) ** 2 + (elCy - centerCy) ** 2);
-        if (dist < centerR * 0.95) {
-          /* Inside center circle -- center text, keep visible */
-          sp.style.opacity = "1";
-          sp.style.filter = "none";
-          return;
-        }
-      } catch {
-        /* getBBox may fail for hidden elements */
-      }
-
-      /* Everything else: dim when an axis is selected */
-      if (activeAxis !== null) {
-        sp.style.opacity = "0.22";
-        sp.style.filter = "saturate(0)";
-      } else {
-        sp.style.opacity = "1";
-        sp.style.filter = "none";
-      }
-    });
-
-    /* 4. Re-highlight active node + text above the global dim */
-    if (activeAxis !== null) {
-      svg.querySelectorAll(`[data-eje="${activeAxis}"]`).forEach((elem) => {
-        const s = (elem as SVGElement).style;
-        s.opacity = "1";
-        s.filter = "none";
-      });
-    }
   }, [activeAxis, loaded, area.color]);
 
   return (
@@ -672,6 +623,11 @@ export function EjesSchemaInteractive({
         </div>
       </section>
     );
+  }
+
+  /* ---- educacion-artistica without a subarea: show nothing (only subareas have SVGs) ---- */
+  if (area.slug === "educacion-artistica" && !selectedSubarea) {
+    return null;
   }
 
   /* ---- FALLBACK: programmatic SVG for areas without a designer SVG ---- */
