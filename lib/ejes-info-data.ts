@@ -119,6 +119,78 @@ export const ejesInfoPorArea: Record<string, EjeInfo[]> = {
     }
   ],
 
+  // Subareas de Ed. Artistica
+  "artes-visuales": [
+    {
+      titulo: "Artes Visuales en contexto",
+      descripcion: "Este eje aborda la compresi\u00f3n de las manifestaciones visuales en relaci\u00f3n con sus contextos de producci\u00f3n, circulaci\u00f3n y recepci\u00f3n. Se estudian las artes visuales como pr\u00e1cticas sociales y culturales, promoviendo el conocimiento del patrimonio art\u00edstico visual local, regional y mundial."
+    },
+    {
+      titulo: "Apreciaci\u00f3n",
+      descripcion: "Se trabaja con la percepci\u00f3n, el an\u00e1lisis y la interpretaci\u00f3n de obras y manifestaciones de artes visuales diversas. Se promueve el desarrollo de la sensibilidad est\u00e9tica y la capacidad de argumentar sobre las producciones visuales."
+    },
+    {
+      titulo: "Producci\u00f3n visual",
+      descripcion: "Este eje se centra en la creaci\u00f3n visual en sus diferentes t\u00e9cnicas y procedimientos. Se trabaja con procesos de exploraci\u00f3n, experimentaci\u00f3n y producci\u00f3n, promoviendo la expresi\u00f3n personal y colectiva a trav\u00e9s del lenguaje visual."
+    }
+  ],
+  "musica": [
+    {
+      titulo: "M\u00fasicas en contexto",
+      descripcion: "Este eje aborda la comprensi\u00f3n de las manifestaciones musicales en relaci\u00f3n con sus contextos de producci\u00f3n y circulaci\u00f3n. Se estudian las m\u00fasicas como pr\u00e1cticas sociales y culturales, promoviendo el conocimiento del patrimonio musical diverso."
+    },
+    {
+      titulo: "Apreciaci\u00f3n",
+      descripcion: "Se trabaja con la percepci\u00f3n, el an\u00e1lisis y la interpretaci\u00f3n de obras y manifestaciones musicales diversas. Se promueve el desarrollo de la escucha activa y la capacidad de argumentar sobre las producciones musicales."
+    },
+    {
+      titulo: "Producci\u00f3n musical",
+      descripcion: "Este eje se centra en la creaci\u00f3n musical en sus diferentes formas: canto, ejecuci\u00f3n instrumental, sonorizaci\u00f3n y composici\u00f3n. Se trabaja con procesos de exploraci\u00f3n, experimentaci\u00f3n y producci\u00f3n sonora."
+    }
+  ],
+  "artes-audiovisuales": [
+    {
+      titulo: "Artes audiovisuales en contexto",
+      descripcion: "Este eje aborda la comprensi\u00f3n de las manifestaciones audiovisuales en relaci\u00f3n con sus contextos de producci\u00f3n, circulaci\u00f3n y recepci\u00f3n. Se promueve la alfabetizaci\u00f3n audiovisual y el conocimiento del patrimonio audiovisual."
+    },
+    {
+      titulo: "Apreciaci\u00f3n",
+      descripcion: "Se trabaja con la percepci\u00f3n, el an\u00e1lisis y la interpretaci\u00f3n de producciones audiovisuales diversas. Se promueve el desarrollo de la mirada cr\u00edtica y la capacidad de analizar mensajes audiovisuales."
+    },
+    {
+      titulo: "Producci\u00f3n audiovisual",
+      descripcion: "Este eje se centra en la creaci\u00f3n audiovisual. Se trabaja con procesos de exploraci\u00f3n, experimentaci\u00f3n y producci\u00f3n, articulando imagen y sonido en propuestas creativas."
+    }
+  ],
+  "teatro": [
+    {
+      titulo: "Teatro en contexto",
+      descripcion: "Este eje aborda la comprensi\u00f3n de las manifestaciones teatrales en relaci\u00f3n con sus contextos de producci\u00f3n y circulaci\u00f3n. Se estudia el teatro como pr\u00e1ctica social y cultural, promoviendo el conocimiento del patrimonio teatral."
+    },
+    {
+      titulo: "Apreciaci\u00f3n",
+      descripcion: "Se trabaja con la percepci\u00f3n, el an\u00e1lisis y la interpretaci\u00f3n de obras y manifestaciones teatrales diversas. Se promueve el desarrollo de la sensibilidad est\u00e9tica y la capacidad de reflexionar sobre las producciones teatrales."
+    },
+    {
+      titulo: "Producci\u00f3n teatral",
+      descripcion: "Este eje se centra en la creaci\u00f3n teatral colectiva. Se trabaja con procesos de exploraci\u00f3n, improvisaci\u00f3n, dramatizaci\u00f3n y representaci\u00f3n, promoviendo la expresi\u00f3n y la comunicaci\u00f3n."
+    }
+  ],
+  "danza": [
+    {
+      titulo: "Danza en contexto",
+      descripcion: "Este eje aborda la comprensi\u00f3n de las manifestaciones danc\u00edsticas en relaci\u00f3n con sus contextos de producci\u00f3n y circulaci\u00f3n. Se estudia la danza como pr\u00e1ctica social y cultural, promoviendo el conocimiento del patrimonio danc\u00edstico diverso."
+    },
+    {
+      titulo: "Apreciaci\u00f3n",
+      descripcion: "Se trabaja con la percepci\u00f3n, el an\u00e1lisis y la interpretaci\u00f3n de obras y manifestaciones de danza diversas. Se promueve el desarrollo de la sensibilidad est\u00e9tica corporal y la capacidad de reflexionar sobre el movimiento."
+    },
+    {
+      titulo: "Producci\u00f3n en danza",
+      descripcion: "Este eje se centra en la creaci\u00f3n en danza. Se trabaja con procesos de exploraci\u00f3n del movimiento, improvisaci\u00f3n y composici\u00f3n coreogr\u00e1fica, promoviendo la expresi\u00f3n corporal y la comunicaci\u00f3n a trav\u00e9s del movimiento."
+    }
+  ],
+
   // Lenguas Extranjeras - 5 ejes
   "lenguas-extranjeras": [
     {
