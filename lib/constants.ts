@@ -43,8 +43,9 @@ export const enfoquesTransversales = [
 // Sub áreas por área (solo donde corresponde)
 export const subAreasPorArea: Record<string, { id: string; name: string }[]> = {
   "educacion-artistica": [
-    { id: "musica", name: "Música" },
     { id: "artes-visuales", name: "Artes Visuales" },
+    { id: "musica", name: "M\u00fasica" },
+    { id: "artes-audiovisuales", name: "Artes Audiovisuales" },
     { id: "teatro", name: "Teatro" },
     { id: "danza", name: "Danza" },
   ],

@@ -17,6 +17,8 @@ interface EjesSectionProps {
   toggleGrado: (gradoId: string) => void;
   activeAxis: number | null;
   setActiveAxis: (idx: number | null) => void;
+  /** For Ed. Artistica: selected subarea id */
+  selectedSubarea?: string | null;
 }
 
 export function EjesSection({
@@ -28,8 +30,13 @@ export function EjesSection({
   toggleGrado,
   activeAxis,
   setActiveAxis,
+  selectedSubarea,
 }: EjesSectionProps) {
-  const ejesInfo = ejesInfoPorArea[area.slug];
+  // For Ed. Artistica with a selected subarea, use the subarea's ejes info
+  const effectiveKey = (area.slug === "educacion-artistica" && selectedSubarea)
+    ? selectedSubarea
+    : area.slug;
+  const ejesInfo = ejesInfoPorArea[effectiveKey] || ejesInfoPorArea[area.slug];
   const useInteractiveSchema = !!ejesInfo;
   const totalEjes = areaContent.ejes.length;
 
