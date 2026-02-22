@@ -184,6 +184,11 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
     setActiveAxis(null);
   }, [area.slug]);
 
+  // Reset activeAxis when subarea changes
+  useEffect(() => {
+    setActiveAxis(null);
+  }, [selectedSubarea]);
+
   useEffect(() => {
     const ids = ["ejes", "video", "materiales", "formacion"];
     const onScroll = () => {
@@ -270,6 +275,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
                 toggleGrado={toggleGrado}
                 activeAxis={activeAxis}
                 setActiveAxis={setActiveAxis}
+                selectedSubarea={selectedSubarea}
               />
             </div>
           </RevealSection>

@@ -117,10 +117,10 @@ const matematica: EjeSvgConfig = {
     "M126.37,176.03c-12.36-14.16-19.86-32.7-19.86-52.97,0-44.51,36.08-80.6,80.59-80.6,20.48,0,39.17,7.64,53.4,20.23",
   ],
   labels: [
-    { x: 0, y: 156, lines: ["La Tierra,", "el universo", "y sus cambios"], lineHeight: 21.68, anchor: "start" },
-    { x: 380, y: 156, lines: ["Materiales:", "composici\u00f3n,", "propiedades", "y cambios"], lineHeight: 21.68, anchor: "start" },
-    { x: 230, y: 310, lines: ["Los fen\u00f3menos del", "mundo f\u00edsico"], lineHeight: 21.68, anchor: "start" },
-    { x: 230, y: 2.45, lines: ["N\u00fameros y", "operaciones"], lineHeight: 21.68, anchor: "start" },
+    { x: 0, y: 156, lines: ["N\u00fameros y", "operaciones"], lineHeight: 21.68, anchor: "start" },
+    { x: 380, y: 156, lines: ["Estad\u00edstica y", "probabilidades"], lineHeight: 21.68, anchor: "start" },
+    { x: 230, y: 310, lines: ["Iniciaci\u00f3n al", "\u00e1lgebra y funciones"], lineHeight: 21.68, anchor: "start" },
+    { x: 230, y: 2.45, lines: ["Geometr\u00eda", "y medida"], lineHeight: 21.68, anchor: "start" },
   ],
   darkTextColor: "#89133b",
   labelColor: "#e42254",
@@ -237,9 +237,9 @@ const artesVisuales = makeArtisticaSubarea(
   ],
   artesVisualesArcs,
   [
-    { x: 289.67, y: 129.66, lines: ["Artes Visuales"], lineHeight: 21.6, anchor: "start" },
-    { x: 289.67, y: 155, lines: ["en contexto"], lineHeight: 21.6, anchor: "start" },
     { x: 3.91, y: 268.64, lines: ["Apreciaci\u00f3n"], lineHeight: 21.6, anchor: "start" },
+    { x: 289.67, y: 129.66, lines: ["Artes Visuales", "en contexto"], lineHeight: 21.6, anchor: "start" },
+    { x: 3.91, y: 14, lines: ["Producci\u00f3n", "visual"], lineHeight: 21.6, anchor: "start" },
   ]
 );
 
@@ -254,9 +254,9 @@ const musica = makeArtisticaSubarea(
   ],
   artesVisualesArcs,
   [
-    { x: 289.12, y: 129.66, lines: ["M\u00fasicas en"], lineHeight: 21.6, anchor: "start" },
-    { x: 289.12, y: 151, lines: ["contexto"], lineHeight: 21.6, anchor: "start" },
     { x: 3.91, y: 268.64, lines: ["Apreciaci\u00f3n"], lineHeight: 21.6, anchor: "start" },
+    { x: 289.12, y: 129.66, lines: ["M\u00fasicas en", "contexto"], lineHeight: 21.6, anchor: "start" },
+    { x: 3.91, y: 14, lines: ["Producci\u00f3n", "musical"], lineHeight: 21.6, anchor: "start" },
   ]
 );
 
@@ -275,9 +275,9 @@ const audioVisuales = makeArtisticaSubarea(
     "M113.84,44.72C131.16,18,161.24.32,195.46.32c53.68,0,97.2,43.52,97.2,97.2,0,15.94-3.84,30.98-10.63,44.25",
   ],
   [
-    { x: 301.91, y: 117.46, lines: ["Artes audiovisuales"], lineHeight: 21.6, anchor: "start" },
-    { x: 301.91, y: 139, lines: ["en contexto"], lineHeight: 21.6, anchor: "start" },
     { x: 3.91, y: 268.64, lines: ["Apreciaci\u00f3n"], lineHeight: 21.6, anchor: "start" },
+    { x: 301.91, y: 117.46, lines: ["Artes audiovisuales", "en contexto"], lineHeight: 21.6, anchor: "start" },
+    { x: 3.91, y: 14, lines: ["Producci\u00f3n", "audiovisual"], lineHeight: 21.6, anchor: "start" },
   ]
 );
 
@@ -296,9 +296,9 @@ const teatro = makeArtisticaSubarea(
     "M97.69,44.72C115.01,18,145.09.32,179.31.32c53.68,0,97.2,43.52,97.2,97.2,0,15.94-3.84,30.98-10.63,44.25",
   ],
   [
-    { x: 284.49, y: 115.77, lines: ["Teatro en"], lineHeight: 21.6, anchor: "start" },
-    { x: 284.49, y: 137, lines: ["contexto"], lineHeight: 21.6, anchor: "start" },
     { x: 0, y: 268.64, lines: ["Apreciaci\u00f3n"], lineHeight: 21.6, anchor: "start" },
+    { x: 284.49, y: 115.77, lines: ["Teatro en", "contexto"], lineHeight: 21.6, anchor: "start" },
+    { x: 0, y: 14, lines: ["Producci\u00f3n", "teatral"], lineHeight: 21.6, anchor: "start" },
   ]
 );
 
@@ -317,11 +317,65 @@ const danza = makeArtisticaSubarea(
     "M113.84,44.72C131.16,18,161.24.32,195.46.32c53.68,0,97.2,43.52,97.2,97.2,0,15.94-3.84,30.98-10.63,44.25",
   ],
   [
-    { x: 302.94, y: 114.36, lines: ["Danza en"], lineHeight: 21.6, anchor: "start" },
-    { x: 302.94, y: 136, lines: ["contexto"], lineHeight: 21.6, anchor: "start" },
     { x: 16.15, y: 268.64, lines: ["Apreciaci\u00f3n"], lineHeight: 21.6, anchor: "start" },
+    { x: 302.94, y: 114.36, lines: ["Danza en", "contexto"], lineHeight: 21.6, anchor: "start" },
+    { x: 16.15, y: 14, lines: ["Producci\u00f3n", "en danza"], lineHeight: 21.6, anchor: "start" },
   ]
 );
+
+/* ── Educacion Artistica generico (3 ejes, antes de seleccionar subarea) ── */
+const educacionArtistica: EjeSvgConfig = {
+  viewBox: "0 0 496.66 375.89",
+  center: { cx: 205.12, cy: 185.79, r: 79.35 },
+  centerFill: "#ff6d7e",
+  orbit: { cx: 204.84, cy: 185.5, r: 112.01 },
+  nodes: [
+    { cx: 316.86, cy: 185.5, r: 8.19 },
+    { cx: 148.81, cy: 282.52, r: 8.19 },
+    { cx: 148.81, cy: 88.49, r: 8.19 },
+  ],
+  nodeStroke: "#ff6d7e",
+  nodeStrokeWidth: 3.47,
+  arcs: [
+    "M318.86,181.84c18.58-29.15,21.15-67.26,3.41-99.75-25.95-47.51-85.5-65-133.02-39.05-18.08,9.88-31.8,24.63-40.45,41.72",
+    "M135.92,283.82c-34.57-.28-67.94-18.87-85.53-51.44-25.73-47.63-7.98-107.1,39.66-132.84,18.13-9.79,37.97-13.27,57.02-11.22",
+    "M320.02,185.5c19.68,28.42,23.7,66.41,7.21,99.54-24.12,48.47-82.96,68.21-131.43,44.09-18.45-9.18-32.72-23.4-42.01-40.15",
+  ],
+  labels: [
+    { x: 350.22, y: 152.98, lines: ["Artes en", "contexto"], lineHeight: 26.4, anchor: "start" },
+    { x: 0, y: 316.06, lines: ["Apreciaci\u00f3n"], lineHeight: 26.4, anchor: "start" },
+    { x: 0, y: 19, lines: ["Producci\u00f3n"], lineHeight: 26.4, anchor: "start" },
+  ],
+  darkTextColor: "#72132b",
+  labelColor: "#ff6d7e",
+};
+
+/* ── Saberes, Vidas y Mundos (3 ejes, reuses 3-node structure similar to Cs Sociales) ── */
+const saberesVidasYMundos: EjeSvgConfig = {
+  viewBox: "0 0 520 375.89",
+  center: { cx: 205.12, cy: 185.79, r: 79.35 },
+  centerFill: "#B159A7",
+  orbit: { cx: 204.84, cy: 185.5, r: 112.01 },
+  nodes: [
+    { cx: 316.86, cy: 185.5, r: 8.19 },
+    { cx: 148.81, cy: 282.52, r: 8.19 },
+    { cx: 148.81, cy: 88.49, r: 8.19 },
+  ],
+  nodeStroke: "#B159A7",
+  nodeStrokeWidth: 3.47,
+  arcs: [
+    "M318.86,181.84c18.58-29.15,21.15-67.26,3.41-99.75-25.95-47.51-85.5-65-133.02-39.05-18.08,9.88-31.8,24.63-40.45,41.72",
+    "M135.92,283.82c-34.57-.28-67.94-18.87-85.53-51.44-25.73-47.63-7.98-107.1,39.66-132.84,18.13-9.79,37.97-13.27,57.02-11.22",
+    "M320.02,185.5c19.68,28.42,23.7,66.41,7.21,99.54-24.12,48.47-82.96,68.21-131.43,44.09-18.45-9.18-32.72-23.4-42.01-40.15",
+  ],
+  labels: [
+    { x: 0, y: 14, lines: ["Integraci\u00f3n de", "saberes curriculares", "y enfoques", "transversales"], lineHeight: 24, anchor: "start" },
+    { x: 350, y: 152, lines: ["Abordaje de", "tem\u00e1ticas urgentes", "y actuales"], lineHeight: 24, anchor: "start" },
+    { x: 0, y: 310, lines: ["Participaci\u00f3n", "activa de las", "infancias"], lineHeight: 24, anchor: "start" },
+  ],
+  darkTextColor: "#6b2e63",
+  labelColor: "#B159A7",
+};
 
 /**
  * Maps area slug (or subarea id) to its SVG configuration.
@@ -334,6 +388,8 @@ export const ejesSvgConfigs: Record<string, EjeSvgConfig> = {
   "matematica": matematica,
   "ciencias-naturales": cienciasNaturales,
   "educacion-tecnologica": educacionTecnologica,
+  "educacion-artistica": educacionArtistica,
+  "saberes-vidas-y-mundos": saberesVidasYMundos,
   // Ed. Artistica subareas
   "artes-visuales": artesVisuales,
   "musica": musica,

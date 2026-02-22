@@ -72,6 +72,7 @@ export function EjesSection({
         ejesInfo={ejesInfo}
         activeAxis={activeAxis}
         setActiveAxis={setActiveAxis}
+        svgConfigKey={effectiveKey !== area.slug ? effectiveKey : undefined}
       />
     );
   }
