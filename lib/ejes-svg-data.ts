@@ -186,11 +186,71 @@ const educacionTecnologica: EjeSvgConfig = {
   labelColor: "#3c3ae5",
 };
 
-/* ── Lengua y Literatura (5 ejes) -- uses existing hardcoded coords ── */
-/* The Lengua SVG has 5 nodes; we keep the existing system for it */
+/* ── Lengua y Literatura (5 ejes) ── */
+const lenguaYLiteratura: EjeSvgConfig = {
+  viewBox: "0 0 450.98 309.37",
+  center: { cx: 257.04, cy: 163.59, r: 81.7 },
+  centerFill: "#ff7402",
+  orbit: { cx: 257.04, cy: 163.59, r: 113.2 },
+  nodes: [
+    { cx: 292.05, cy: 55.91, r: 8.86 },
+    { cx: 165.46, cy: 97.04, r: 8.86 },
+    { cx: 165.46, cy: 230.14, r: 8.86 },
+    { cx: 292.05, cy: 271.27, r: 8.86 },
+    { cx: 370.24, cy: 163.59, r: 8.86 },
+  ],
+  nodeStroke: "#ff7402",
+  nodeStrokeWidth: 3.82,
+  arcs: [
+    "M371.2,162.81c10.47-12.09,16.82-27.85,16.82-45.1,0-38.09-30.88-68.97-68.97-68.97-9.57,0-18.69,1.95-26.98,5.48",
+    "M291.97,54.36c-8.43-13.6-21.58-24.35-38.05-29.49-36.36-11.35-75.04,8.93-86.39,45.3-2.85,9.14-3.7,18.42-2.81,27.39",
+    "M149.48,97.05c-15.09,5.32-28.41,15.86-36.96,30.84-18.88,33.09-7.37,75.21,25.72,94.09,8.32,4.75,17.2,7.57,26.15,8.61",
+    "M164.62,233.52c-1.52,15.92,2.44,32.44,12.43,46.5,22.08,31.05,65.14,38.32,96.18,16.24,7.8-5.55,14.1-12.42,18.81-20.1",
+    "M290.18,269.9c14.6,6.54,31.52,8.07,48.04,3.09,36.47-10.99,57.14-49.46,46.15-85.94-2.76-9.17-7.26-17.33-13.03-24.25",
+  ],
+  labels: [
+    { x: 290.18, y: 14.66, lines: ["Oralidad ", "(escucha y habla)"], lineHeight: 20.37, anchor: "start" },
+    { x: 80.63, y: 88.18, lines: ["Literatura"], lineHeight: 20.37, anchor: "start" },
+    { x: 0, y: 210.65, lines: ["Conocimiento ", "y reflexi\u00f3n sobre ", "la lengua y los textos"], lineHeight: 20.37, anchor: "start" },
+    { x: 290.18, y: 299.47, lines: ["Lectura"], lineHeight: 20.37, anchor: "start" },
+    { x: 387.32, y: 169.68, lines: ["Escritura"], lineHeight: 20.37, anchor: "start" },
+  ],
+  darkTextColor: "#b74d04",
+  labelColor: "#ff7402",
+};
 
-/* ── Lenguas Extranjeras (5 ejes) -- uses existing hardcoded coords ── */
-/* Same 5-node layout as Lengua */
+/* ── Lenguas Extranjeras (5 ejes) ── */
+const lenguasExtranjeras: EjeSvgConfig = {
+  viewBox: "0 0 464.07 378.61",
+  center: { cx: 245.21, cy: 149.63, r: 82.42 },
+  centerFill: "#ffcb02",
+  orbit: { cx: 245.21, cy: 149.63, r: 114.2 },
+  nodes: [
+    { cx: 280.53, cy: 41, r: 8.94 },
+    { cx: 152.82, cy: 82.5, r: 8.94 },
+    { cx: 152.82, cy: 216.77, r: 8.94 },
+    { cx: 280.53, cy: 258.26, r: 8.94 },
+    { cx: 359.41, cy: 149.63, r: 8.94 },
+  ],
+  nodeStroke: "#ffcb02",
+  nodeStrokeWidth: 4.45,
+  arcs: [
+    "M360.37,148.84c10.56-12.2,16.96-28.1,16.96-45.5,0-38.43-31.15-69.58-69.58-69.58-9.66,0-18.86,1.97-27.22,5.53",
+    "M280.45,39.44c-8.5-13.72-21.77-24.56-38.38-29.75-36.68-11.45-75.7,9.01-87.15,45.7-2.88,9.22-3.74,18.59-2.83,27.63",
+    "M136.7,82.5c-15.22,5.36-28.66,16-37.29,31.11-19.05,33.38-7.43,75.88,25.95,94.92,8.39,4.79,17.35,7.63,26.38,8.69",
+    "M151.98,220.17c-1.54,16.06,2.46,32.73,12.54,46.91,22.27,31.32,65.71,38.65,97.03,16.38,7.87-5.6,14.22-12.53,18.98-20.28",
+    "M278.64,256.88c14.73,6.59,31.8,8.14,48.46,3.12,36.8-11.08,57.64-49.9,46.56-86.69-2.79-9.25-7.33-17.49-13.14-24.47",
+  ],
+  labels: [
+    { x: 280.87, y: 19, lines: ["Lectura"], lineHeight: 22, anchor: "start" },
+    { x: 27.04, y: 41, lines: ["Reflexi\u00f3n", "intercultural"], lineHeight: 26.4, anchor: "start" },
+    { x: 0, y: 217.23, lines: ["Reflexi\u00f3n", "sobre la lengua", "que se aprende"], lineHeight: 26.4, anchor: "start" },
+    { x: 278.64, y: 292.39, lines: ["Oralidad: ", "- Comprensi\u00f3n ", "- Producci\u00f3n ", "- Interacci\u00f3n"], lineHeight: 26.4, anchor: "start" },
+    { x: 381.57, y: 154.8, lines: ["Escritura"], lineHeight: 22, anchor: "start" },
+  ],
+  darkTextColor: "#b58a00",
+  labelColor: "#d8a400",
+};
 
 /* ── Subareas de Ed. Artistica (3 ejes cada una, misma estructura) ── */
 function makeArtisticaSubarea(
@@ -388,8 +448,9 @@ export const ejesSvgConfigs: Record<string, EjeSvgConfig> = {
   "matematica": matematica,
   "ciencias-naturales": cienciasNaturales,
   "educacion-tecnologica": educacionTecnologica,
+  "lengua-y-literatura": lenguaYLiteratura,
+  "lenguas-extranjeras": lenguasExtranjeras,
   "educacion-artistica": educacionArtistica,
-  "saberes-vidas-y-mundos": saberesVidasYMundos,
   // Ed. Artistica subareas
   "artes-visuales": artesVisuales,
   "musica": musica,

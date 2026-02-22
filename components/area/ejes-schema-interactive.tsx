@@ -126,11 +126,11 @@ function SvgConfigRenderer({
 
   // Calculate center text positioning
   const allCenterLines = [...whiteLines, ...centerDark];
-  const centerLh = 22;
+  const centerLh = 18;
   const centerStartY = cfg.center.cy - ((allCenterLines.length - 1) * centerLh) / 2;
 
   // Font size for center text scales with center radius
-  const centerFontSize = Math.min(18, cfg.center.r * 0.22);
+  const centerFontSize = Math.min(14.5, cfg.center.r * 0.18);
 
   return (
     <svg
@@ -222,13 +222,15 @@ function SvgConfigRenderer({
       {/* Eje label texts (positioned from original SVG) */}
       {cfg.labels.map((label, i) => {
         const isDimmed = activeAxis !== null && activeAxis !== i;
-        const isActive = activeAxis === i;
+        // Use a font size proportional to the lineHeight from the original SVG
+        // Original SVGs use ~17px for tight labels and ~22px for spacious ones
+        const labelFontSize = Math.min(label.lineHeight * 0.82, 17);
         return (
           <text
             key={`label-${i}`}
             transform={`translate(${label.x} ${label.y})`}
-            fill={isDimmed ? "#aaaaaa" : isActive ? cfg.labelColor : cfg.labelColor}
-            fontSize={label.lineHeight > 24 ? 22 : 18}
+            fill={isDimmed ? "#aaaaaa" : cfg.labelColor}
+            fontSize={labelFontSize}
             fontFamily="'Inter Tight', Inter, sans-serif"
             fontWeight="400"
             className="pointer-events-none select-none"
@@ -336,10 +338,10 @@ function FallbackRenderer({
       <circle cx={CX} cy={CY} r={CENTER_R} fill={area.color} />
 
       {whiteLines.map((l, li) => (
-        <text key={`cw-${li}`} x={CX} y={startY + li * lh} textAnchor="middle" fill="#ffffff" fontSize="20" fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none">{l}</text>
+        <text key={`cw-${li}`} x={CX} y={startY + li * lh} textAnchor="middle" fill="#ffffff" fontSize="16" fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none">{l}</text>
       ))}
       {centerDark.map((l, li) => (
-        <text key={`cd-${li}`} x={CX} y={startY + (whiteLines.length + li) * lh} textAnchor="middle" fill={darkColor} fontSize="20" fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none">{l}</text>
+        <text key={`cd-${li}`} x={CX} y={startY + (whiteLines.length + li) * lh} textAnchor="middle" fill={darkColor} fontSize="16" fontWeight="700" fontFamily="Inter, system-ui, sans-serif" className="pointer-events-none select-none">{l}</text>
       ))}
 
       {coords.map((c, i) => {
@@ -349,7 +351,7 @@ function FallbackRenderer({
         const lbl = getLabel5(i, c);
         const isMulti = titulo.length > 18;
         const lines = isMulti ? splitText(titulo, 18) : [titulo];
-        const fontSize = isMulti ? 18 : 24;
+        const fontSize = isMulti ? 14 : 17;
 
         return (
           <g key={`node-${i}`} className="cursor-pointer outline-none" onClick={() => toggle(i)} role="button" tabIndex={0} aria-label={titulo} style={{ outline: "none" }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(i); } }}>
@@ -389,7 +391,7 @@ export function EjesSchemaInteractive({
 
   return (
     <section id="ejes" className="scroll-mt-24">
-      <div className="w-full mx-auto flex flex-col items-center" style={{ maxWidth: 740 }}>
+      <div className="w-full mx-auto flex flex-col items-center" style={{ maxWidth: svgConfig ? 520 : 740 }}>
         {svgConfig ? (
           <SvgConfigRenderer
             cfg={svgConfig}

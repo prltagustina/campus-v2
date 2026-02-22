@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import type { AreaContent } from "@/lib/area-content";
@@ -64,6 +65,26 @@ export function EjesSection({
       </span>
     );
   };
+
+  // Saberes, Vidas y Mundos: show the static home wheel instead of an ejes schema
+  if (area.slug === "saberes-vidas-y-mundos") {
+    return (
+      <section id="ejes" className="scroll-mt-24">
+        <div className="w-full mx-auto flex flex-col items-center" style={{ maxWidth: 420 }}>
+          <Image
+            src="/images/rueda-actualizada.png"
+            alt="Rueda curricular - Saberes, Vidas y Mundos"
+            width={520}
+            height={520}
+            className="w-full h-auto block"
+          />
+          <p className="mt-6 text-sm text-center text-[#494963]/60 leading-relaxed max-w-md">
+            {"Saberes, Vidas y Mundos es un espacio curricular que integra contenidos de todas las \u00e1reas del dise\u00f1o curricular."}
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   if (useInteractiveSchema && ejesInfo) {
     return (
