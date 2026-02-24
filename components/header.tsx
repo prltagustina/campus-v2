@@ -168,7 +168,8 @@ export function Header() {
               className="mt-3 flex items-center justify-center gap-2 px-4 py-3 bg-[#494963] text-white text-sm font-medium rounded-lg hover:bg-[#3a3a4f] transition-colors"
             >
               <Download className="w-4 h-4" />
-              {"DESCARGAR DISEÑO CURRICULAR"}
+              <span className="hidden sm:inline">{"DESCARGAR DISE\u00d1O CURRICULAR"}</span>
+              <span className="sm:hidden">DESCARGAR</span>
             </a>
           </nav>
         </div>
