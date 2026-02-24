@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Home, BookOpen, Video, FileText, Bookmark } from "lucide-react";
+import { Home, BookOpen, Video, FileText, Bookmark, Download } from "lucide-react";
 import { areasData, type Area } from "@/lib/areas-data";
 import { areasOrder, MARCO_GENERAL_COLOR } from "@/lib/constants";
 
 const secciones = [
   { id: "ejes", name: "Ejes", icon: BookOpen },
+  { id: "descarga", name: "Descarga", icon: Download },
   { id: "video", name: "Video", icon: Video },
   { id: "materiales", name: "Materiales", icon: FileText },
   { id: "formacion", name: "Formaciones", icon: Bookmark },

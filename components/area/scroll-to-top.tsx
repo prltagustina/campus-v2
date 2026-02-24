@@ -38,11 +38,11 @@ export function ScrollToTop({ area }: ScrollToTopProps) {
     <button
       type="button"
       onClick={scrollToTop}
-      className="fixed bottom-20 lg:bottom-8 right-4 lg:right-8 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all hover:brightness-110 z-50"
-      style={{ backgroundColor: area.color }}
+      className="fixed bottom-24 lg:bottom-10 right-4 lg:right-8 flex items-center justify-center transition-all hover:scale-110 z-50"
+      style={{ color: area.color }}
       aria-label="Volver arriba"
     >
-      <ArrowUp className="w-5 h-5 text-white" />
+      <ArrowUp className="w-8 h-8 lg:w-9 lg:h-9" strokeWidth={2.5} />
     </button>
   );
 }

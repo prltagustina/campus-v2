@@ -191,7 +191,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
   }, [selectedSubarea]);
 
   useEffect(() => {
-    const ids = ["ejes", "video", "materiales", "formacion"];
+    const ids = ["ejes", "descarga", "video", "materiales", "formacion"];
     const onScroll = () => {
       let cur = "ejes";
       for (const id of ids) {

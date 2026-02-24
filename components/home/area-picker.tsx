@@ -65,7 +65,7 @@ export function AreaPicker({
 
       {/* Botón ver más */}
       <Link
-        href={isMarcoGeneral ? "#marco-general" : `/area/${displaySlug}`}
+        href={isMarcoGeneral ? "/marco-general" : `/area/${displaySlug}`}
         className="inline-block px-10 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:brightness-110"
         style={{ backgroundColor: displayColor, color: isMarcoGeneral ? "#ffffff" : selectedArea?.textOnColor || "#ffffff" }}
       >

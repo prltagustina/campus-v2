@@ -30,11 +30,11 @@ export function AreaDotsNav({
             type="button"
             onClick={() => onAreaClick(areaId)}
             onDoubleClick={() => onAreaDoubleClick(areaId)}
-            className="flex items-center gap-3 py-[7px] px-1 group w-full text-left transition-all duration-200"
+            className="flex items-center gap-3 py-[9px] px-1 group w-full text-left transition-all duration-200"
           >
             <div
               className={`rounded-full flex-shrink-0 transition-all duration-300 ${
-                isSelected ? "w-3.5 h-3.5" : "w-2.5 h-2.5 group-hover:scale-125"
+                isSelected ? "w-4 h-4" : "w-3 h-3 group-hover:scale-125"
               }`}
               style={{
                 backgroundColor: isSelected ? area?.color : "#ccc",
@@ -44,7 +44,7 @@ export function AreaDotsNav({
               }}
             />
             <span
-              className={`text-xs uppercase tracking-wider whitespace-nowrap transition-all duration-300 leading-none ${
+              className={`text-sm uppercase tracking-wider whitespace-nowrap transition-all duration-300 leading-none ${
                 isSelected
                   ? "font-bold"
                   : "font-medium text-gray-300 group-hover:text-gray-400"
@@ -67,11 +67,11 @@ export function AreaDotsNav({
         type="button"
         onClick={() => onAreaClick("marco-general")}
         onDoubleClick={() => onAreaDoubleClick("marco-general")}
-        className="flex items-center gap-3 py-[7px] px-1 group w-full text-left transition-all duration-200"
+        className="flex items-center gap-3 py-[9px] px-1 group w-full text-left transition-all duration-200"
       >
         <div
           className={`rounded-full flex-shrink-0 transition-all duration-300 ${
-            isMarcoSelected ? "w-3.5 h-3.5" : "w-2.5 h-2.5 group-hover:scale-125"
+            isMarcoSelected ? "w-4 h-4" : "w-3 h-3 group-hover:scale-125"
           }`}
           style={{
             backgroundColor: isMarcoSelected ? MARCO_GENERAL_COLOR : "#ccc",
@@ -81,7 +81,7 @@ export function AreaDotsNav({
           }}
         />
         <span
-          className={`text-xs uppercase tracking-wider whitespace-nowrap transition-all duration-300 leading-none ${
+          className={`text-sm uppercase tracking-wider whitespace-nowrap transition-all duration-300 leading-none ${
             isMarcoSelected
               ? "font-bold"
               : "font-medium text-gray-300 group-hover:text-gray-400"
