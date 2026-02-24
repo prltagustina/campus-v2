@@ -61,22 +61,15 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
     <section id="descarga" className="flex flex-col items-center">
       <div className="w-full max-w-3xl mx-auto">
         <div className="flex flex-col sm:flex-row items-center gap-10 sm:gap-14">
-          {/* Book cover -- editorial style with subtle shadow and border */}
-          <div className="flex-shrink-0 relative group">
-            {/* Subtle colored accent line on left */}
-            <div
-              className="absolute -left-3 top-4 bottom-4 w-0.5 rounded-full hidden sm:block"
-              style={{ backgroundColor: `${area.color}40` }}
+          {/* Book cover -- editorial style with subtle shadow */}
+          <div className="flex-shrink-0">
+            <Image
+              src={coverSrc}
+              alt={`Portada ${displayName}`}
+              width={280}
+              height={396}
+              className="w-[200px] sm:w-[220px] md:w-[260px] h-auto object-cover rounded-sm shadow-[0_2px_20px_-4px_rgba(0,0,0,0.12)]"
             />
-            <div className="relative">
-              <Image
-                src={coverSrc}
-                alt={`Portada ${displayName}`}
-                width={280}
-                height={396}
-                className="w-[200px] sm:w-[220px] md:w-[260px] h-auto object-cover rounded-sm shadow-[0_2px_20px_-4px_rgba(0,0,0,0.12)]"
-              />
-            </div>
           </div>
 
           {/* Text + button -- clean editorial layout */}
@@ -98,7 +91,7 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
             </h3>
 
             {/* Description */}
-            <p className="text-[#494963]/45 text-sm sm:text-base leading-relaxed mb-8 max-w-sm">
+            <p className="text-[#494963]/60 text-base sm:text-lg leading-relaxed mb-8 max-w-md font-medium">
               {"Para profundizar en los contenidos, ejes y orientaciones de esta \u00e1rea curricular."}
             </p>
 
