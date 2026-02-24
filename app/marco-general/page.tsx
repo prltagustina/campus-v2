@@ -5,6 +5,7 @@ import { MarcoHero } from "@/components/marco-general/marco-hero";
 import { MarcoVideo } from "@/components/marco-general/marco-video";
 import { EjesDetail } from "@/components/marco-general/ejes-detail";
 import { EnlacesDescarga } from "@/components/marco-general/enlaces-descarga";
+import { DescargaMarcoSection } from "@/components/marco-general/descarga-marco-section";
 import { AreasAccess } from "@/components/marco-general/areas-access";
 
 export const metadata: Metadata = {
@@ -23,6 +24,8 @@ export default function MarcoGeneralPage() {
       <MarcoVideo />
 
       <EjesDetail />
+
+      <DescargaMarcoSection />
 
       <EnlacesDescarga />
 

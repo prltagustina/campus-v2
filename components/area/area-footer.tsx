@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home, ChevronLeft, ChevronRight, ArrowUp } from "lucide-react";
+import { Home, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 
 interface AreaFooterProps {
@@ -24,10 +24,6 @@ export function AreaFooter({
   nextArea,
   scrollToSection,
 }: AreaFooterProps) {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <footer id="area-footer" className="w-full bg-[#494963]">
       {/* Top bar: section quick links */}
@@ -78,8 +74,8 @@ export function AreaFooter({
           </Link>
         </div>
 
-        {/* Next area + scroll to top (area color, larger, no container) */}
-        <div className="flex-1 flex justify-end items-center gap-4">
+        {/* Next area */}
+        <div className="flex-1 flex justify-end items-center">
           {nextArea ? (
             <Link
               href={`/area/${nextArea.slug}`}
@@ -98,15 +94,6 @@ export function AreaFooter({
           ) : (
             <div />
           )}
-          <button
-            type="button"
-            onClick={scrollToTop}
-            className="flex items-center justify-center transition-all hover:scale-110"
-            style={{ color: area.color }}
-            aria-label="Volver arriba"
-          >
-            <ArrowUp className="w-7 h-7" />
-          </button>
         </div>
       </div>
     </footer>
