@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const MARCO_COLOR = "#494963";
 
-/* Wheel badge icon */
+/* Wheel badge icon -- same as area version */
 function WheelBadge() {
   return (
     <div
@@ -21,54 +21,57 @@ function WheelBadge() {
 
 export function DescargaMarcoSection() {
   return (
-    <section id="descarga-marco" className="w-full py-24 md:py-36 lg:py-44 bg-[#EDEDF0]">
-      <div className="container mx-auto px-4">
-        <div className="w-full max-w-3xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-center gap-10 sm:gap-14">
-            {/* Book cover */}
-            <div className="flex-shrink-0">
-              <Image
-                src="/images/marco-general-portada.png"
-                alt="Portada Marco General"
-                width={300}
-                height={424}
-                className="w-[220px] sm:w-[260px] md:w-[300px] h-auto object-cover rounded-sm shadow-[0_2px_20px_-4px_rgba(0,0,0,0.12)]"
-              />
-            </div>
-
-            {/* Text + button */}
-            <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-              {/* Badge */}
-              <div className="flex items-center gap-3 mb-5">
-                <WheelBadge />
-                <span
-                  className="text-sm font-semibold uppercase tracking-[0.15em]"
-                  style={{ color: MARCO_COLOR }}
-                >
-                  Marco General
-                </span>
+    <section id="descarga-marco" className="w-full bg-[#EDEDF0]">
+      <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
+        <div className="flex flex-col items-center">
+          <div className="w-full max-w-3xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-10 sm:gap-14">
+              {/* Book cover -- editorial style with subtle shadow */}
+              <div className="flex-shrink-0">
+                <Image
+                  src="/images/marco-general-portada.jpg"
+                  alt="Portada Marco General"
+                  width={280}
+                  height={396}
+                  className="w-[220px] sm:w-[260px] md:w-[300px] h-auto object-cover rounded-sm shadow-[0_2px_20px_-4px_rgba(0,0,0,0.12)]"
+                />
               </div>
 
-              {/* Title */}
-              <h3 className="text-3xl sm:text-4xl md:text-[2.5rem] font-bold text-[#494963] leading-snug mb-4 text-balance font-display">
-                {"Descarg\u00e1"}
-                <br />
-                {"el documento completo"}
-              </h3>
+              {/* Text + button -- clean editorial layout */}
+              <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+                {/* Badge */}
+                <div className="flex items-center gap-3 mb-5">
+                  <WheelBadge />
+                  <span
+                    className="text-sm font-semibold uppercase tracking-[0.15em]"
+                    style={{ color: MARCO_COLOR }}
+                  >
+                    Marco General
+                  </span>
+                </div>
 
-              {/* Description */}
-              <p className="text-[#494963]/60 text-lg sm:text-xl leading-relaxed mb-9 max-w-md font-medium">
-                {"Fundamentos, estructura y ejes del nuevo dise\u00f1o curricular para la Educaci\u00f3n Primaria."}
-              </p>
+                {/* Title */}
+                <h3 className="text-3xl sm:text-4xl md:text-[2.5rem] font-bold text-[#494963] leading-snug mb-4 text-balance font-display">
+                  {"Descarg\u00e1"}
+                  <br />
+                  {"el documento completo"}
+                </h3>
 
-              {/* Download button */}
-              <a
-                href="#"
-                className="inline-flex items-center gap-3 rounded-lg px-7 py-3.5 text-base font-semibold transition-all hover:opacity-90 hover:shadow-md bg-[#494963] text-white"
-              >
-                <Download className="w-5 h-5" />
-                Descargar PDF
-              </a>
+                {/* Description */}
+                <p className="text-[#494963]/60 text-lg sm:text-xl leading-relaxed mb-9 max-w-md font-medium">
+                  {"Fundamentos, estructura y ejes del nuevo dise\u00f1o curricular para la Educaci\u00f3n Primaria."}
+                </p>
+
+                {/* Download button */}
+                <a
+                  href="#"
+                  className="inline-flex items-center gap-3 rounded-lg px-7 py-3.5 text-base font-semibold transition-all hover:opacity-90 hover:shadow-md bg-[#494963] text-white"
+                >
+                  <Download className="w-5 h-5" />
+                  <span className="hidden sm:inline">Descargar PDF</span>
+                  <span className="sm:hidden">Descargar</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
