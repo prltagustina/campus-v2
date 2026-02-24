@@ -25,7 +25,8 @@ export function MarcoHero() {
             className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-[#494963] font-semibold text-sm rounded-lg hover:bg-white/90 transition-colors"
           >
             <Download className="w-4 h-4" />
-            {"DESCARGAR DISEÑO CURRICULAR COMPLETO"}
+            <span className="hidden sm:inline">{"DESCARGAR DISE\u00d1O CURRICULAR COMPLETO"}</span>
+            <span className="sm:hidden">DESCARGAR</span>
           </a>
         </div>
       </div>
