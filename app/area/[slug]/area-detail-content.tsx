@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { areasData, type Area } from "@/lib/areas-data";
 import { contenidosPorArea } from "@/lib/area-content";
 import { areasOrder, subAreasPorArea } from "@/lib/constants";
+import { Header } from "@/components/header";
 import { MobileNav } from "@/components/area/mobile-nav";
 import { Sidebar } from "@/components/area/sidebar";
 import { AreaHeader } from "@/components/area/area-header";
@@ -231,6 +232,8 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
+      <Header />
+
       <MobileNav
         area={area}
         activeSection={activeSection}
@@ -284,7 +287,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
           <RevealSection delay={0.08} style="scale" className="scroll-mt-24 bg-[#EDEDF0]">
             <ParallaxLayer speed={0.1}>
               <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-                <DescargaDocumentoSection area={area} />
+                <DescargaDocumentoSection area={area} selectedSubarea={selectedSubarea} />
               </div>
             </ParallaxLayer>
           </RevealSection>

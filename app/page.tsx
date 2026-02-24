@@ -72,15 +72,15 @@ export default function HomePage() {
         </ScrollReveal>
       </ParallaxSection>
 
-      {/* 4) Marco General -- white bg */}
+      {/* 4) Marco General -- grayish bg */}
       <ScrollReveal delay={0.05}>
-        <div className="bg-white">
+        <div className="bg-[#EDEDF0]">
           <MarcoGeneralSection />
         </div>
       </ScrollReveal>
 
-      {/* 5) Main Wheel Section -- Rueda Curricular -- light bg */}
-      <section id="areas" className="pt-16 md:pt-24 pb-16 md:pb-24 bg-[#EDEDF0] flex-1">
+      {/* 5) Main Wheel Section -- Rueda Curricular -- white bg */}
+      <section id="areas" className="pt-16 md:pt-24 pb-16 md:pb-24 bg-white flex-1">
         <div className="max-w-[90rem] mx-auto px-4 lg:px-8">
           {/* Section title */}
           <ScrollReveal delay={0.05} distance={50}>
@@ -126,7 +126,7 @@ export default function HomePage() {
                       style={{
                         backgroundColor: isSelected
                           ? area?.color
-                          : "#D1D5DB",
+                          : `${area?.color}40`,
                       }}
                     />
                   </button>
@@ -146,7 +146,7 @@ export default function HomePage() {
                     backgroundColor:
                       selectedAreaId === "marco-general"
                         ? MARCO_GENERAL_COLOR
-                        : "#D1D5DB",
+                        : `${MARCO_GENERAL_COLOR}40`,
                   }}
                 />
               </button>

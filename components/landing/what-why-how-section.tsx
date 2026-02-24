@@ -83,23 +83,23 @@ export function WhatWhyHowSection() {
             </div>
 
             {/* Navigation controls -- hidden on mobile */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-4">
               <button
                 onClick={prev}
-                className="w-11 h-11 rounded-full border-2 border-[#494963]/15 flex items-center justify-center text-[#494963]/40 hover:border-[#494963]/30 hover:text-[#494963] transition-colors"
+                className="flex items-center justify-center text-[#494963]/30 hover:text-[#494963] transition-colors"
                 aria-label="Anterior"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-6 h-6" />
               </button>
               <span className="text-sm font-semibold text-[#494963]/30 tabular-nums min-w-[3ch] text-center">
                 {active + 1}/{sections.length}
               </span>
               <button
                 onClick={next}
-                className="w-11 h-11 rounded-full border-2 border-[#494963]/15 flex items-center justify-center text-[#494963]/40 hover:border-[#494963]/30 hover:text-[#494963] transition-colors"
+                className="flex items-center justify-center text-[#494963]/30 hover:text-[#494963] transition-colors"
                 aria-label="Siguiente"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-6 h-6" />
               </button>
             </div>
           </div>
