@@ -1,64 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Download, FileText, Monitor, Clock, Users, MapPin, Bookmark } from "lucide-react";
+import { ArrowLeft, Download, FileText, ArrowRight, Bookmark } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
 
 const documentos = [
   {
-    nombre: "Marco_General_Diseno_Curricular.pdf",
-    titulo: "Marco General del Diseño Curricular",
-    formato: "PDF",
-    url: "/docs/Marco_General_Diseno_Curricular.pdf",
+    titulo: "Documento de acompañamiento para docentes y directivos",
+    url: "/docs/Documento_Acompanamiento.pdf",
   },
   {
-    nombre: "Guia_Planificacion_Docente.pdf",
-    titulo: "Guía de Planificación Docente",
-    formato: "PDF",
-    url: "/docs/Guia_Planificacion_Docente.pdf",
-  },
-  {
-    nombre: "Orientaciones_Evaluacion.pdf",
-    titulo: "Orientaciones para la Evaluación",
-    formato: "PDF",
-    url: "/docs/Orientaciones_Evaluacion.pdf",
-  },
-  {
-    nombre: "Organizacion_Curricular.pdf",
-    titulo: "Organización Curricular",
-    formato: "PDF",
-    url: "/docs/Organizacion_Curricular.pdf",
+    titulo: "Presentación para supervisores, directivos y docentes",
+    url: "/docs/Presentacion_Supervisores.pdf",
   },
 ];
 
 const formaciones = [
   {
-    titulo: "Afectividad y emociones en la escuela. Fortaleciendo los vínculos desde la ESI",
-    programa: "Comunidades de Aprendizajes",
-    modalidad: "Virtual asincrónico",
-    encuentros: "3 Encuentros",
-    destinatarios: "Docentes",
-    plataforma: "Plataforma Educativa",
-    nivel: "Todos",
-  },
-  {
-    titulo: "Estrategias didácticas para el nuevo Diseño Curricular",
-    programa: "Formación Continua",
-    modalidad: "Virtual asincrónico",
-    encuentros: "4 Encuentros",
-    destinatarios: "Docentes y Directivos",
-    plataforma: "Plataforma Educativa",
-    nivel: "Primario",
-  },
-  {
-    titulo: "Evaluación formativa: nuevos enfoques y herramientas",
-    programa: "Comunidades de Aprendizajes",
-    modalidad: "Virtual sincrónico",
-    encuentros: "2 Encuentros",
-    destinatarios: "Docentes",
-    plataforma: "Zoom",
-    nivel: "Todos",
+    titulo: "Diversificación para la Enseñanza",
+    url: "https://campuseducativo.santafe.edu.ar/diversificacion-para-la-ensenanza/",
   },
 ];
 
@@ -103,96 +64,74 @@ export default function DocentesPage() {
         </div>
       </section>
 
-      {/* Documentos y Descargas */}
+      {/* Documentos y Formaciones - Two columns */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-8 font-display">
-              Documentos y Descargas
-            </h2>
-            <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
-            {documentos.map((doc) => (
-              <a
-                key={doc.nombre}
-                href={doc.url}
-                download
-                className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 transition-colors group"
-              >
-                <FileText className="w-5 h-5 flex-shrink-0 text-[#494963]" />
-                <div className="flex-1 min-w-0">
-                  <span className="text-sm text-[#494963] font-medium block truncate">{doc.titulo}</span>
-                  <span className="text-xs text-[#494963]/40 block mt-0.5">{doc.nombre}</span>
-                </div>
-                <span className="text-[10px] uppercase tracking-wider text-[#494963]/30 font-semibold flex-shrink-0">{doc.formato}</span>
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors text-[#494963]/30 group-hover:text-[#494963]/60 group-hover:bg-gray-100">
-                  <Download className="w-3.5 h-3.5" />
-                </div>
-              </a>
-            ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Formaciones Docentes */}
-      <section className="py-12 md:py-16 bg-[#F5F5F7]">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-10 font-display">
-              Formaciones Docentes
-            </h2>
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12">
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {formaciones.map((formacion, i) => (
-              <div
-                key={i}
-                className="rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group bg-white"
-              >
-                {/* Header */}
-                <div
-                  className="p-6 md:p-7"
-                  style={{ backgroundColor: PRIMARY_COLOR, color: "#ffffff" }}
-                >
-                  <h4 className="text-sm md:text-base font-bold leading-snug mb-3 pr-4">
-                    {formacion.titulo}
-                  </h4>
-                  <p className="text-[11px] font-medium opacity-75">
-                    {formacion.programa}
+            {/* Documentos y descargas */}
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-full bg-[#494963]/5 flex items-center justify-center">
+                  <Download className="w-5 h-5 text-[#494963]" />
+                </div>
+                <div>
+                  <h2 className="text-lg md:text-xl font-bold text-[#494963] font-display">
+                    Documentos y descargas
+                  </h2>
+                  <p className="text-sm text-[#494963]/50">
+                    Material de apoyo para el trabajo institucional
                   </p>
                 </div>
-
-                {/* Details */}
-                <div className="p-6 md:p-7 space-y-3">
-                  {[
-                    { icon: Monitor, text: formacion.modalidad },
-                    { icon: Clock, text: formacion.encuentros },
-                    { icon: Users, text: formacion.destinatarios },
-                    { icon: MapPin, text: formacion.plataforma },
-                    { icon: Bookmark, text: `Nivel: ${formacion.nivel}` },
-                  ].map(({ icon: Icon, text }) => (
-                    <div
-                      key={text}
-                      className="flex items-center gap-3 text-[13px] text-gray-600"
-                    >
-                      <Icon className="w-4 h-4 text-gray-300 flex-shrink-0" />
-                      <span>{text}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Footer */}
-                <div className="border-t border-gray-50 px-6 md:px-7 py-4">
+              </div>
+              
+              <div className="mt-6 space-y-2">
+                {documentos.map((doc, i) => (
                   <a
-                    href="#"
-                    className="text-xs font-bold transition-colors hover:underline"
-                    style={{ color: PRIMARY_COLOR }}
+                    key={i}
+                    href={doc.url}
+                    download
+                    className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#F5F5F7] hover:bg-[#EDEDF0] transition-colors group"
                   >
-                    + Info
+                    <FileText className="w-4 h-4 flex-shrink-0 text-[#494963]/40" />
+                    <span className="text-sm text-[#494963] flex-1">{doc.titulo}</span>
                   </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Formaciones docentes */}
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-full bg-[#494963]/5 flex items-center justify-center">
+                  <Bookmark className="w-5 h-5 text-[#494963]" />
+                </div>
+                <div>
+                  <h2 className="text-lg md:text-xl font-bold text-[#494963] font-display">
+                    Formaciones docentes
+                  </h2>
+                  <p className="text-sm text-[#494963]/50">
+                    Cursos y capacitaciones en Campus Educativo
+                  </p>
                 </div>
               </div>
-            ))}
+              
+              <div className="mt-6 space-y-2">
+                {formaciones.map((formacion, i) => (
+                  <a
+                    key={i}
+                    href={formacion.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#F5F5F7] hover:bg-[#EDEDF0] transition-colors group"
+                  >
+                    <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#494963]/40" />
+                    <span className="text-sm text-[#494963] flex-1">{formacion.titulo}</span>
+                  </a>
+                ))}
+              </div>
             </div>
+            
           </div>
         </div>
       </section>
