@@ -1,27 +1,28 @@
 "use client";
 
 import React, { useState } from "react";
-import { FileText, Clock, ArrowDownToLine, BookOpen, Palette } from "lucide-react";
+import { FileText, Clock, ArrowDownToLine, BookOpen } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 
 interface MaterialesSectionProps {
   area: Area;
 }
 
-type Categoria = "jornada-ampliada" | "documentacion" | "fanzines";
+type Categoria = "descargas" | "fanzines" | "jornada-ampliada";
 
 export function MaterialesSection({ area }: MaterialesSectionProps) {
   const isLenguasExtranjeras = area.slug === "lenguas-extranjeras";
 
   const [categoriaActiva, setCategoriaActiva] =
-    useState<Categoria>("jornada-ampliada");
+    useState<Categoria>("descargas");
 
-  const categorias: { id: Categoria; label: string; icon: typeof Clock }[] = [
-    { id: "jornada-ampliada", label: "Jornada Ampliada", icon: Clock },
-    { id: "documentacion", label: "Documentaci\u00f3n", icon: BookOpen },
+  /* Orden: Descargas primero, Fanzines si aplica, Jornada Ampliada siempre último */
+  const categorias: { id: Categoria; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+    { id: "descargas", label: "Descargas", icon: ArrowDownToLine },
     ...(isLenguasExtranjeras
-      ? [{ id: "fanzines" as Categoria, label: "Fanzines", icon: Palette }]
+      ? [{ id: "fanzines" as Categoria, label: "Fanzines", icon: BookOpen }]
       : []),
+    { id: "jornada-ampliada", label: "Jornada Ampliada", icon: Clock },
   ];
 
   const jornadaFiles = [
@@ -53,9 +54,9 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
   const files =
     categoriaActiva === "fanzines"
       ? fanzineFiles
-      : categoriaActiva === "jornada-ampliada"
-        ? jornadaFiles
-        : docFiles;
+      : categoriaActiva === "descargas"
+        ? docFiles
+        : jornadaFiles;
 
   return (
     <section id="materiales" className="scroll-mt-32">

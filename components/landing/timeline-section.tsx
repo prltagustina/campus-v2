@@ -19,76 +19,17 @@ interface TimelineYear {
 
 const timelineData: TimelineYear[] = [
   {
-    year: "1997",
-    subtitle: "Dise\u00f1o anterior",
+    year: "2026",
+    subtitle: "Implementación",
     description:
-      "Fecha del \u00faltimo dise\u00f1o curricular para la Educaci\u00f3n Primaria en Santa Fe.",
-  },
-  {
-    year: "hasta 2022",
-    subtitle: "Experiencias previas",
-    description:
-      "Experiencias pedag\u00f3gicas y escrituras preliminares del nuevo dise\u00f1o curricular.",
-  },
-  {
-    year: "2023",
-    subtitle: "Consultas",
-    description: "Jornadas de consulta en las instituciones educativas.",
-  },
-  {
-    year: "2024",
-    subtitle: "Conformaci\u00f3n",
-    description:
-      "Recuperaci\u00f3n de escrituras anteriores y conformaci\u00f3n de nuevos equipos de trabajo. Presentaci\u00f3n de la propuesta y consulta a delegados, coordinadores pedag\u00f3gicos regionales y supervisores. Consultas a especialistas.",
+      "Implementación de nuevo diseño curricular. Construcción de metas de aprendizajes. Materiales didácticos para el aula. Formación docente.",
   },
   {
     year: "2025",
-    subtitle: "Consolidaci\u00f3n",
+    subtitle: "Consolidación",
     description:
-      "Consolidaci\u00f3n de la escritura del nuevo borrador y realizaci\u00f3n de jornadas focales de socializaci\u00f3n y consulta a la comunidad educativa. Formaciones docentes.",
+      "Consolidación de la escritura del nuevo borrador y realización de jornadas focales de socialización y consulta a la comunidad educativa. Formaciones docentes.",
     events: [
-      {
-        date: "22 de Julio",
-        title: "Encuentro con el Comit\u00e9 de Educaci\u00f3n Ambiental.",
-        description:
-          "Se presentaron los enfoques transversales, particularmente el de Educaci\u00f3n Ambiental Integral.",
-        image: "/images/foto-1-22julio.jpg",
-      },
-      {
-        date: "25 de Julio",
-        title: "Encuentro presencial con directores y supervisores.",
-        description:
-          "Se llev\u00f3 a cabo la presentaci\u00f3n general de la propuesta y se conformaron mesas de trabajo.",
-        image: "/images/foto-2-25julio.jpg",
-      },
-      {
-        date: "01 de Agosto",
-        title: "Reuni\u00f3n con delegados y coordinadores regionales.",
-        description:
-          "Presentaci\u00f3n del proceso de escritura y di\u00e1logo en torno a dudas e inquietudes.",
-        image: "/images/foto-3-01agosto.jpg",
-      },
-      {
-        date: "14 de Agosto",
-        title: "Socializaci\u00f3n y consulta con equipos de supervisi\u00f3n.",
-        description:
-          "Con participaci\u00f3n de m\u00e1s de 150 supervisores/as de toda la provincia.",
-        image: "/images/foto-4-14agosto.jpg",
-      },
-      {
-        date: "27 de Agosto",
-        title: "Presentaci\u00f3n al Comit\u00e9 Asesor Provincial de Discapacidad.",
-        description:
-          "Se present\u00f3 la propuesta en la 3\u00aa Asamblea Ordinaria del Comit\u00e9 Asesor Provincial.",
-        image: "/images/foto-5-27agosto.jpg",
-      },
-      {
-        date: "31 de Agosto",
-        title: "Consulta a instituciones de Educaci\u00f3n Primaria e IFD.",
-        description:
-          "Consulta mediante la plataforma Educativa del Ministerio de Educación.",
-        image: "/images/foto-6-31agosto.jpg",
-      },
       {
         date: "Septiembre 2025",
         title: "Jornadas de Socialización y Consulta",
@@ -96,13 +37,72 @@ const timelineData: TimelineYear[] = [
           "En el norte, centro y sur de la provincia, con equipos directivos y docentes.",
         image: "/images/foto-7-septiembre2025.jpg",
       },
+      {
+        date: "31 de Agosto",
+        title: "Consulta a instituciones de Educación Primaria e IFD.",
+        description:
+          "Consulta mediante la plataforma Educativa del Ministerio de Educación.",
+        image: "/images/foto-6-31agosto.jpg",
+      },
+      {
+        date: "27 de Agosto",
+        title: "Presentación al Comité Asesor Provincial de Discapacidad.",
+        description:
+          "Se presentó la propuesta en la 3ª Asamblea Ordinaria del Comité Asesor Provincial.",
+        image: "/images/foto-5-27agosto.jpg",
+      },
+      {
+        date: "14 de Agosto",
+        title: "Socialización y consulta con equipos de supervisión.",
+        description:
+          "Con participación de más de 150 supervisores/as de toda la provincia.",
+        image: "/images/foto-4-14agosto.jpg",
+      },
+      {
+        date: "01 de Agosto",
+        title: "Reunión con delegados y coordinadores regionales.",
+        description:
+          "Presentación del proceso de escritura y diálogo en torno a dudas e inquietudes.",
+        image: "/images/foto-3-01agosto.jpg",
+      },
+      {
+        date: "25 de Julio",
+        title: "Encuentro presencial con directores y supervisores.",
+        description:
+          "Se llevó a cabo la presentación general de la propuesta y se conformaron mesas de trabajo.",
+        image: "/images/foto-2-25julio.jpg",
+      },
+      {
+        date: "22 de Julio",
+        title: "Encuentro con el Comité de Educación Ambiental.",
+        description:
+          "Se presentaron los enfoques transversales, particularmente el de Educación Ambiental Integral.",
+        image: "/images/foto-1-22julio.jpg",
+      },
     ],
   },
   {
-    year: "2026",
-    subtitle: "Implementaci\u00f3n",
+    year: "2024",
+    subtitle: "Conformación",
     description:
-      "Implementaci\u00f3n de nuevo dise\u00f1o curricular. Construcci\u00f3n de metas de aprendizajes. Materiales did\u00e1cticos para el aula. Formaci\u00f3n docente.",
+      "Recuperación de escrituras anteriores y conformación de nuevos equipos de trabajo. Presentación de la propuesta y consulta a delegados, coordinadores pedagógicos regionales y supervisores. Consultas a especialistas.",
+  },
+  {
+    year: "2023",
+    subtitle: "Consultas",
+    description: "Jornadas de consulta en las instituciones educativas.",
+  },
+  {
+    year: "hasta 2022",
+    subtitle: "Experiencias previas",
+    description:
+      "Experiencias pedagógicas y escrituras preliminares del nuevo diseño curricular.",
+  },
+  {
+    year: "1997",
+    subtitle: "Diseño anterior",
+    description:
+      "Fecha del último diseño curricular para la Educación Primaria en Santa Fe.",
   },
 ];
 

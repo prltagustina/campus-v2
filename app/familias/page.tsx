@@ -1,33 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Download, FileText, Presentation } from "lucide-react";
+import { ArrowLeft, Download, FileText } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
 
-const materialesGenerales = [
+const materiales = [
   {
     nombre: "Familias_cartilla_familias.pdf",
     titulo: "Cartilla para familias",
-    descripcion: "Orientaciones generales sobre el nuevo Diseno Curricular para acompanar desde el hogar.",
     formato: "PDF",
     url: "/docs/Familias_cartilla_familias.pdf",
   },
   {
     nombre: "PTT DISENO CURRICULAR para FAMILIAS.pptx.pdf",
     titulo: "Presentación del Diseño Curricular para Familias",
-    descripcion: "Presentación general del marco curricular en formato visual.",
-    formato: "PPT",
+    formato: "PDF",
     url: "/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf",
   },
-];
-
-const materialesPorArea = [
   {
     area: "Lengua y Literatura",
     color: "#FF7402",
     nombre: "Familias_objetivos_contenido_LenguayLiteratura.pdf",
     titulo: "Objetivos y contenidos - Lengua y Literatura",
+    formato: "PDF",
     url: "/docs/Familias_objetivos_contenido_LenguayLiteratura.pdf",
   },
   {
@@ -35,6 +31,7 @@ const materialesPorArea = [
     color: "#E42153",
     nombre: "Familias_objetivos_contenido_Matematica.pdf",
     titulo: "Objetivos y contenidos - Matemática",
+    formato: "PDF",
     url: "/docs/Familias_objetivos_contenido_Matematica.pdf",
   },
 ];
@@ -45,7 +42,7 @@ export default function FamiliasPage() {
       <Header />
 
       {/* Hero */}
-      <section className="bg-[#F5F5F7] py-16 md:py-20">
+      <section className="bg-[#F5F5F7] py-16 md:py-20 mt-16">
         <div className="container mx-auto px-4">
           <Link href="/" className="inline-flex items-center gap-2 text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-8">
             <ArrowLeft className="w-4 h-4" />
@@ -55,29 +52,49 @@ export default function FamiliasPage() {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-4 font-display">
               Materiales para Familias
             </h1>
-            <p className="text-lg text-[#494963]/60 leading-relaxed max-w-2xl">
-              Recursos y orientaciones para acompañar el proceso educativo de sus hijos e hijas en el marco del nuevo Diseño Curricular.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* Materiales Generales */}
+      {/* PDF Preview Section */}
+      <section className="py-12 md:py-16 bg-[#EDEDF0]">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-6 font-display">
+              Presentación del Diseño Curricular
+            </h2>
+            <div className="bg-white rounded-xl overflow-hidden shadow-lg">
+              <iframe
+                src="https://docs.google.com/presentation/d/1iE4BFRuhcT7yXhRfCoDpeEEx8ZSYyqWH/embed?start=false&loop=false&delayms=3000"
+                className="w-full h-[350px] md:h-[450px] lg:h-[500px]"
+                title="Presentación del Diseño Curricular para Familias"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Materiales para descargar */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-xs uppercase tracking-[0.15em] text-[#494963]/40 font-semibold mb-6">
-            Materiales Generales
-          </h2>
-          <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
-            {materialesGenerales.map((mat) => (
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-8 font-display">
+              Materiales para descargar
+            </h2>
+            <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
+            {materiales.map((mat) => (
               <a
                 key={mat.nombre}
                 href={mat.url}
                 download
                 className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 transition-colors group"
               >
-                {mat.formato === "PPT" ? (
-                  <Presentation className="w-5 h-5 flex-shrink-0 text-[#B159A7]" />
+                {"area" in mat && mat.area ? (
+                  <>
+                    <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: mat.color }} />
+                    <FileText className="w-5 h-5 flex-shrink-0" style={{ color: mat.color }} />
+                  </>
                 ) : (
                   <FileText className="w-5 h-5 flex-shrink-0 text-[#E42153]" />
                 )}
@@ -92,39 +109,10 @@ export default function FamiliasPage() {
               </a>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Materiales por Area */}
-      <section className="py-12 md:py-16 border-t border-gray-100">
-        <div className="container mx-auto px-4">
-          <h2 className="text-xs uppercase tracking-[0.15em] text-[#494963]/40 font-semibold mb-6">
-            Materiales por Área
-          </h2>
-          <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
-            {materialesPorArea.map((mat) => (
-              <a
-                key={mat.nombre}
-                href={mat.url}
-                download
-                className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 transition-colors group"
-              >
-                <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: mat.color }} />
-                <FileText className="w-5 h-5 flex-shrink-0" style={{ color: mat.color }} />
-                <div className="flex-1 min-w-0">
-                  <span className="text-sm text-[#494963] font-medium block truncate">{mat.titulo}</span>
-                  <span className="text-xs text-[#494963]/40 block mt-0.5">{mat.nombre}</span>
-                </div>
-                <span className="text-[10px] uppercase tracking-wider text-[#494963]/30 font-semibold flex-shrink-0">PDF</span>
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors text-[#494963]/30 group-hover:text-[#494963]/60 group-hover:bg-gray-100">
-                  <Download className="w-3.5 h-3.5" />
-                </div>
-              </a>
-            ))}
+            <p className="text-xs text-[#494963]/30 mt-4">
+              Se irán sumando materiales para más áreas a medida que estén disponibles.
+            </p>
           </div>
-          <p className="text-xs text-[#494963]/30 mt-4">
-            Se irán sumando materiales para más áreas a medida que estén disponibles.
-          </p>
         </div>
       </section>
 

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Download, Menu, X, ChevronDown } from "lucide-react";
 import { areasData } from "@/lib/areas-data";
 
@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/marco-general", label: "Marco General" },
   { href: "/familias", label: "Familias" },
+  { href: "/docentes", label: "Docentes" },
   { href: "/eib", label: "EIB" },
 ];
 
@@ -18,6 +19,16 @@ export function Header() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [areasOpen, setAreasOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setVisible(window.scrollY > 100);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -25,7 +36,14 @@ export function Header() {
   };
 
   return (
-    <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-[#494963]/8">
+    <header 
+      className="w-full bg-white/95 backdrop-blur-md fixed top-0 z-50 border-b border-[#494963]/8 transition-all duration-300"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(-100%)",
+        pointerEvents: visible ? "auto" : "none",
+      }}
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 flex-shrink-0">

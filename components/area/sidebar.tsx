@@ -1,12 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { Home, BookOpen, Video, FileText, Bookmark, Download } from "lucide-react";
+import { Home, Video, FileText, Bookmark, Download } from "lucide-react";
 import { areasData, type Area } from "@/lib/areas-data";
 import { areasOrder, MARCO_GENERAL_COLOR } from "@/lib/constants";
 
+/* Icono de Ejes - círculo con checkmark */
+const EjesIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 42.85 42.85" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="21.43" cy="21.43" r="20" strokeWidth="2.86" />
+    <polyline points="11.28 21.21 18.19 28.12 31.58 14.73" strokeWidth="2.51" />
+  </svg>
+);
+
 const secciones = [
-  { id: "ejes", name: "Ejes", icon: BookOpen },
+  { id: "ejes", name: "Ejes", icon: EjesIcon },
   { id: "descarga", name: "Descarga", icon: Download },
   { id: "video", name: "Video", icon: Video },
   { id: "materiales", name: "Materiales", icon: FileText },
