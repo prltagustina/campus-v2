@@ -59,15 +59,16 @@ export default function FamiliasPage() {
       {/* PDF Preview Section */}
       <section className="py-12 md:py-16 bg-[#EDEDF0]">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-6 text-center font-display">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-6 font-display">
               Presentación del Diseño Curricular
             </h2>
             <div className="bg-white rounded-xl overflow-hidden shadow-lg">
               <iframe
-                src="/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf"
-                className="w-full h-[500px] md:h-[600px] lg:h-[700px]"
+                src="https://docs.google.com/presentation/d/1iE4BFRuhcT7yXhRfCoDpeEEx8ZSYyqWH/embed?start=false&loop=false&delayms=3000"
+                className="w-full h-[350px] md:h-[450px] lg:h-[500px]"
                 title="Presentación del Diseño Curricular para Familias"
+                allowFullScreen
               />
             </div>
           </div>
@@ -77,10 +78,11 @@ export default function FamiliasPage() {
       {/* Materiales para descargar */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-8 text-center font-display">
-            Materiales para descargar
-          </h2>
-          <div className="max-w-3xl mx-auto border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-8 font-display">
+              Materiales para descargar
+            </h2>
+            <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
             {materiales.map((mat) => (
               <a
                 key={mat.nombre}
@@ -107,9 +109,10 @@ export default function FamiliasPage() {
               </a>
             ))}
           </div>
-          <p className="text-xs text-[#494963]/30 mt-4 text-center">
-            Se irán sumando materiales para más áreas a medida que estén disponibles.
-          </p>
+            <p className="text-xs text-[#494963]/30 mt-4">
+              Se irán sumando materiales para más áreas a medida que estén disponibles.
+            </p>
+          </div>
         </div>
       </section>
 

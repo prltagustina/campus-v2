@@ -1,16 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { FileText, Clock, ArrowDownToLine } from "lucide-react";
+import { FileText, Clock, ArrowDownToLine, BookOpen } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
-
-/* Icono de Ejes - círculo con checkmark */
-const EjesIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 42.85 42.85" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="21.43" cy="21.43" r="20" strokeWidth="2.86" />
-    <polyline points="11.28 21.21 18.19 28.12 31.58 14.73" strokeWidth="2.51" />
-  </svg>
-);
 
 interface MaterialesSectionProps {
   area: Area;
@@ -28,7 +20,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
   const categorias: { id: Categoria; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: "descargas", label: "Descargas", icon: ArrowDownToLine },
     ...(isLenguasExtranjeras
-      ? [{ id: "fanzines" as Categoria, label: "Fanzines", icon: EjesIcon }]
+      ? [{ id: "fanzines" as Categoria, label: "Fanzines", icon: BookOpen }]
       : []),
     { id: "jornada-ampliada", label: "Jornada Ampliada", icon: Clock },
   ];
