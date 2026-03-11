@@ -256,31 +256,6 @@ export default function HomePage() {
 
       </section>
 
-      {/* EIB -- editorial block below wheel */}
-      <div className="w-full bg-[#494963]">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <Link
-              href="/eib"
-              className="group flex flex-col md:flex-row md:items-center justify-between py-12 md:py-16 transition-colors"
-            >
-              <div>
-                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight font-display">
-                  {"Educaci\u00f3n Intercultural Biling\u00fce"}
-                </h3>
-                <p className="text-base text-white/45 leading-relaxed mt-2 max-w-md">
-                  {"Enfoque intercultural y biling\u00fce integrado al dise\u00f1o curricular."}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 mt-4 md:mt-0 text-white/40 group-hover:text-white transition-colors flex-shrink-0">
-                <span className="text-xs font-semibold uppercase tracking-wider">Explorar</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="-translate-x-1 group-hover:translate-x-0 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-
       {/* 6) Organizacion de areas -- white bg for contrast */}
       <ParallaxSection speed={0.05}>
         <ScrollReveal delay={0.05}>
