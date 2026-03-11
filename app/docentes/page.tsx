@@ -39,7 +39,7 @@ export default function DocentesPage() {
           </Link>
           <div className="max-w-3xl">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-4 font-display">
-              Para Docentes y Directivos
+              Docentes y directivos
             </h1>
           </div>
         </div>

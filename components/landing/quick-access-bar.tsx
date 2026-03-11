@@ -66,7 +66,7 @@ export function QuickAccessBar() {
                 Para Docentes y Directivos
               </h3>
               <p className="text-base font-medium text-white/80 leading-relaxed max-w-xs">
-                Marco general, documentos de descarga, formaciones y orientaciones para la pr&aacute;ctica docente.
+                Documentos de descarga, formaciones y orientaciones para la pr&aacute;ctica docente.
               </p>
             </div>
             <div className="relative z-10 flex items-center gap-2 mt-6 text-white/70 group-hover:text-white transition-colors">
