@@ -49,7 +49,7 @@ export function QuickAccessBar() {
           >
             {/* Background image */}
             <Image
-              src="/images/banner-directivos.png"
+              src="/images/banner-directivos.jpg"
               alt=""
               fill
               className="object-cover"
