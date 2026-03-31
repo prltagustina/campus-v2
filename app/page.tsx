@@ -14,6 +14,7 @@ import { WhatWhyHowSection } from "@/components/landing/what-why-how-section";
 import { MarcoGeneralSection } from "@/components/landing/marco-general-section";
 
 import { AreaOrganizationSection } from "@/components/landing/area-organization-section";
+import { FullDocumentDownload } from "@/components/landing/full-document-download";
 import { TimelineSection } from "@/components/landing/timeline-section";
 import { QuickAccessBar } from "@/components/landing/quick-access-bar";
 import { FloatingNav } from "@/components/landing/floating-nav";
@@ -263,7 +264,12 @@ export default function HomePage() {
         </ScrollReveal>
       </ParallaxSection>
 
-      {/* 7) Linea de Tiempo -- light bg */}
+      {/* 7) Descarga documento completo */}
+      <ScrollReveal delay={0.05}>
+        <FullDocumentDownload />
+      </ScrollReveal>
+
+      {/* 8) Linea de Tiempo -- light bg */}
       <ParallaxSection speed={0.03}>
         <ScrollReveal delay={0.05} distance={60}>
           <div className="bg-[#EDEDF0]">
