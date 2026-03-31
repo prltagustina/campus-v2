@@ -14,6 +14,7 @@ import { WhatWhyHowSection } from "@/components/landing/what-why-how-section";
 import { MarcoGeneralSection } from "@/components/landing/marco-general-section";
 
 import { AreaOrganizationSection } from "@/components/landing/area-organization-section";
+import { FullDocumentDownload } from "@/components/landing/full-document-download";
 import { TimelineSection } from "@/components/landing/timeline-section";
 import { QuickAccessBar } from "@/components/landing/quick-access-bar";
 import { FloatingNav } from "@/components/landing/floating-nav";
@@ -65,14 +66,19 @@ export default function HomePage() {
         <QuickAccessBar />
       </ScrollReveal>
 
-      {/* 3) Qu\u00e9 ense\u00f1ar -- white bg */}
+      {/* 3) Qué enseñar -- white bg */}
       <ParallaxSection speed={0.04}>
         <ScrollReveal delay={0.05}>
           <WhatWhyHowSection />
         </ScrollReveal>
       </ParallaxSection>
 
-      {/* 4) Marco General -- grayish bg */}
+      {/* 4) Descarga documento completo */}
+      <ScrollReveal delay={0.05}>
+        <FullDocumentDownload />
+      </ScrollReveal>
+
+      {/* 5) Marco General -- grayish bg */}
       <ScrollReveal delay={0.05}>
         <div className="bg-[#EDEDF0]">
           <MarcoGeneralSection />
@@ -256,14 +262,14 @@ export default function HomePage() {
 
       </section>
 
-      {/* 6) Organizacion de areas -- white bg for contrast */}
+      {/* 8) Organizacion de areas -- white bg for contrast */}
       <ParallaxSection speed={0.05}>
         <ScrollReveal delay={0.05}>
           <AreaOrganizationSection />
         </ScrollReveal>
       </ParallaxSection>
 
-      {/* 7) Linea de Tiempo -- light bg */}
+      {/* 9) Linea de Tiempo -- light bg */}
       <ParallaxSection speed={0.03}>
         <ScrollReveal delay={0.05} distance={60}>
           <div className="bg-[#EDEDF0]">

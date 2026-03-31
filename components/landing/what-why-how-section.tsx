@@ -74,11 +74,11 @@ export function WhatWhyHowSection() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
             <div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#494963] leading-tight font-display">
-                {"Qu\u00e9 ense\u00f1ar"}
+                {"Qué enseñar"}
                 <br />
-                {"C\u00f3mo hacerlo"}
+                {"cómo hacerlo"}
                 <br />
-                {"Y con qu\u00e9 prop\u00f3sito"}
+                {"y con qué propósito"}
               </h2>
             </div>
 

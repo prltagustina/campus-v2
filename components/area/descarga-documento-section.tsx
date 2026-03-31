@@ -87,9 +87,9 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
 
             {/* Title */}
             <h3 className="text-3xl sm:text-4xl md:text-[2.5rem] font-bold text-[#494963] leading-snug mb-4 text-balance font-display">
-              {"Descarg\u00e1"}
+              {"Descargá"}
               <br />
-              {"el documento completo"}
+              {"el documento del área"}
             </h3>
 
             {/* Description */}
