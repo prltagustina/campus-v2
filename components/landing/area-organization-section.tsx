@@ -194,8 +194,8 @@ export function AreaOrganizationSection() {
                   <div className="flex items-center gap-3 mb-5">
                     <item.icon
                       className={`w-5 h-5 flex-shrink-0 transition-colors duration-500 ${hoveredIndex === index
-                          ? "md:text-white/40 text-white/50"
-                          : "md:text-[#494963]/30 text-white/40"
+                          ? "md:text-white/80 text-white/80"
+                          : "md:text-[#494963] text-white/80"
                         }`}
                     />
                     <span

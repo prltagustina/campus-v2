@@ -12,7 +12,7 @@ export function FullDocumentDownload() {
             {/* Book cover */}
             <div className="flex-shrink-0">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1-MarcoGeneral-web_Pa%CC%81gina_01-KVu4N50A14MHe61Ey0J3NdM5rfZAMQ.jpg"
+                src="/images/portada-diseno-curricular.png"
                 alt="Portada Diseño Curricular"
                 width={320}
                 height={452}
