@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Download, FileText, ArrowRight, Bookmark } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
@@ -31,8 +32,15 @@ export default function DocentesPage() {
       <Header />
 
       {/* Hero */}
-      <section className="bg-[#F5F5F7] py-16 md:py-20 mt-16">
-        <div className="container mx-auto px-4">
+      <section className="relative py-16 md:py-20 mt-16 overflow-hidden">
+        <Image
+          src="/images/cabecera-docentes.png"
+          alt=""
+          fill
+          className="object-cover object-right"
+          priority
+        />
+        <div className="relative z-10 container mx-auto px-4">
           <Link href="/" className="inline-flex items-center gap-2 text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-8">
             <ArrowLeft className="w-4 h-4" />
             Volver al inicio
