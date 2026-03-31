@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export function FullDocumentDownload() {
   return (
-    <section className="w-full py-16 md:py-24 bg-[#EDEDF0]">
+    <section className="w-full py-16 md:py-24 bg-[#F5F5F7]">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
