@@ -66,29 +66,17 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* Idiomas grid */}
-        <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Idiomas - diseño editorial compacto */}
+        <div className="max-w-xl mx-auto flex flex-wrap justify-center gap-2">
           {idiomas.map((idioma) => (
             <Link
               key={idioma.id}
               href={`/area/lenguas-extranjeras/materiales/${idioma.id}`}
-              className="group flex items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white px-6 py-5 transition-all hover:border-gray-200 hover:shadow-md"
+              className="group inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-[#494963] transition-all hover:border-[#494963]/30 hover:bg-[#494963]/[0.03]"
             >
-              <div className="flex items-center gap-4">
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: `${area.color}0D` }}
-                >
-                  <span className="text-lg font-bold" style={{ color: area.color }}>
-                    {idioma.name.charAt(0)}
-                  </span>
-                </div>
-                <span className="text-base text-[#494963] font-medium">
-                  {idioma.name}
-                </span>
-              </div>
+              <span>{idioma.name}</span>
               <ChevronRight 
-                className="w-5 h-5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors" 
+                className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors" 
               />
             </Link>
           ))}

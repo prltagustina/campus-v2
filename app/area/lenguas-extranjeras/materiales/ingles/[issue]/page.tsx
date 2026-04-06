@@ -21,15 +21,15 @@ const categorias: { id: CategoriaId; label: string; icon: typeof FileText }[] = 
 const issuesInfo: Record<string, { name: string; description: string }> = {
   "issue-1": { 
     name: "Issue 1", 
-    description: "Primer número de English Fanzines con actividades y recursos para el aula." 
+    description: "Primer número de English Funzines con actividades y recursos para el aula." 
   },
   "issue-2": { 
     name: "Issue 2", 
-    description: "Segundo número de English Fanzines con nuevas propuestas didácticas." 
+    description: "Segundo número de English Funzines con nuevas propuestas didácticas." 
   },
   "issue-3": { 
     name: "Issue 3", 
-    description: "Tercer número de English Fanzines con contenidos actualizados." 
+    description: "Tercer número de English Funzines con contenidos actualizados." 
   },
 };
 
@@ -124,7 +124,7 @@ export default function IssuePage() {
             className="inline-flex items-center gap-2 text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            Volver a English Fanzines
+            Volver a English Funzines
           </Link>
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 mb-4">
@@ -135,7 +135,7 @@ export default function IssuePage() {
                 Inglés
               </span>
               <span className="text-xs text-[#494963]/40">
-                English Fanzines
+                English Funzines
               </span>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-4 font-display">

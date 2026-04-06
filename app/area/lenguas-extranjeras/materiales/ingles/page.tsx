@@ -8,10 +8,10 @@ import { Footer } from "@/components/landing/landing-footer";
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
 
-const fanzines = [
-  { id: "issue-1", name: "Issue 1", description: "Primer número de English Fanzines" },
-  { id: "issue-2", name: "Issue 2", description: "Segundo número de English Fanzines" },
-  { id: "issue-3", name: "Issue 3", description: "Tercer número de English Fanzines" },
+const funzines = [
+  { id: "issue-1", name: "Issue 1", description: "Primer número de English Funzines" },
+  { id: "issue-2", name: "Issue 2", description: "Segundo número de English Funzines" },
+  { id: "issue-3", name: "Issue 3", description: "Tercer número de English Funzines" },
 ];
 
 export default function InglesMaterilesPage() {
@@ -59,7 +59,7 @@ export default function InglesMaterilesPage() {
               </div>
               <div>
                 <h2 className="text-xl md:text-2xl font-bold text-[#494963] font-display">
-                  English Fanzines
+                  English Funzines
                 </h2>
                 <p className="text-sm text-[#494963]/50">
                   Seleccioná un número para ver los materiales disponibles
@@ -68,10 +68,10 @@ export default function InglesMaterilesPage() {
             </div>
 
             <div className="flex flex-col gap-4">
-              {fanzines.map((fanzine) => (
+              {funzines.map((funzine) => (
                 <Link
-                  key={fanzine.id}
-                  href={`/area/lenguas-extranjeras/materiales/ingles/${fanzine.id}`}
+                  key={funzine.id}
+                  href={`/area/lenguas-extranjeras/materiales/ingles/${funzine.id}`}
                   className="group flex items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white px-6 py-5 transition-all hover:border-gray-200 hover:shadow-md"
                 >
                   <div className="flex items-center gap-4">
@@ -80,15 +80,15 @@ export default function InglesMaterilesPage() {
                       style={{ backgroundColor: `${AREA_COLOR}0D` }}
                     >
                       <span className="text-lg font-bold" style={{ color: AREA_COLOR }}>
-                        {fanzine.id.split("-")[1]}
+                        {funzine.id.split("-")[1]}
                       </span>
                     </div>
                     <div>
                       <p className="text-base text-[#494963] font-medium">
-                        {fanzine.name}
+                        {funzine.name}
                       </p>
                       <p className="text-sm text-[#494963]/40 mt-0.5">
-                        {fanzine.description}
+                        {funzine.description}
                       </p>
                     </div>
                   </div>
