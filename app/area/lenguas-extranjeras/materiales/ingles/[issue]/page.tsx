@@ -116,8 +116,8 @@ export default function IssuePage() {
     <div className="min-h-screen bg-white flex flex-col">
       <Header />
       
-      {/* Hero */}
-      <section className="bg-[#F5F5F7] py-12 sm:py-16 md:py-20 mt-16">
+      {/* Hero - fondo amarillo clarito */}
+      <section className="py-12 sm:py-16 md:py-20 mt-16" style={{ backgroundColor: `${AREA_COLOR}12` }}>
         <div className="container mx-auto px-4">
           <Link 
             href="/area/lenguas-extranjeras/materiales/ingles" 
@@ -130,7 +130,7 @@ export default function IssuePage() {
             <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
               <span 
                 className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-wider px-2.5 sm:px-3 py-1 rounded-full"
-                style={{ backgroundColor: `${AREA_COLOR}20`, color: TEXT_ON_COLOR }}
+                style={{ backgroundColor: `${AREA_COLOR}40`, color: TEXT_ON_COLOR }}
               >
                 Inglés
               </span>

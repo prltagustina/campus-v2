@@ -66,27 +66,21 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* Idiomas - botones amarillos del área */}
+        {/* Idiomas - botones amarillos sólidos */}
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
           {idiomas.map((idioma) => (
             <Link
               key={idioma.id}
               href={`/area/lenguas-extranjeras/materiales/${idioma.id}`}
-              className="group inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold transition-all"
+              className="group inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold transition-all hover:shadow-md hover:scale-105"
               style={{ 
-                backgroundColor: `${area.color}15`,
+                backgroundColor: area.color,
                 color: "#5c4a00",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = area.color;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = `${area.color}15`;
               }}
             >
               <span>{idioma.name}</span>
               <ChevronRight 
-                className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-50 group-hover:opacity-80 transition-opacity" 
+                className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" 
               />
             </Link>
           ))}
