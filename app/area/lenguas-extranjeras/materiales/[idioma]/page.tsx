@@ -47,26 +47,26 @@ export default function IdiomaMaterilesPage() {
       <Header />
       
       {/* Hero */}
-      <section className="bg-[#F5F5F7] py-16 md:py-20 mt-16">
+      <section className="bg-[#F5F5F7] py-12 sm:py-16 md:py-20 mt-16">
         <div className="container mx-auto px-4">
           <Link 
             href="/area/lenguas-extranjeras#materiales" 
-            className="inline-flex items-center gap-2 text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-6 sm:mb-8"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Volver a Lenguas Extranjeras
           </Link>
           <div className="max-w-3xl">
             <span 
-              className="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4"
+              className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-wider px-2.5 sm:px-3 py-1 rounded-full mb-3 sm:mb-4"
               style={{ backgroundColor: `${AREA_COLOR}20`, color: TEXT_ON_COLOR }}
             >
               Lenguas Extranjeras
             </span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-4 font-display">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-3 sm:mb-4 font-display">
               {info.name}
             </h1>
-            <p className="text-lg text-[#494963]/60 max-w-2xl">
+            <p className="text-base sm:text-lg text-[#494963]/60 max-w-2xl">
               {info.description}
             </p>
           </div>
@@ -74,32 +74,32 @@ export default function IdiomaMaterilesPage() {
       </section>
 
       {/* Coming soon */}
-      <section className="py-16 md:py-24 flex-1">
+      <section className="py-12 sm:py-16 md:py-24 flex-1">
         <div className="container mx-auto px-4">
           <div className="max-w-xl mx-auto text-center">
             <div 
-              className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
+              className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6"
               style={{ backgroundColor: `${AREA_COLOR}15` }}
             >
-              <Clock className="w-8 h-8" style={{ color: AREA_COLOR }} />
+              <Clock className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: AREA_COLOR }} />
             </div>
-            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-4 font-display">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] mb-3 sm:mb-4 font-display">
               Próximamente
             </h2>
-            <p className="text-base text-[#494963]/50">
+            <p className="text-sm sm:text-base text-[#494963]/50">
               Los materiales para {info.name} estarán disponibles muy pronto. 
               Estamos trabajando para ofrecerte recursos de calidad.
             </p>
             <Link
               href="/area/lenguas-extranjeras#materiales"
-              className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-full text-sm font-semibold transition-all border"
+              className="inline-flex items-center gap-2 mt-6 sm:mt-8 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition-all border"
               style={{ 
                 backgroundColor: AREA_COLOR, 
                 borderColor: AREA_COLOR, 
                 color: TEXT_ON_COLOR 
               }}
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               Volver a seleccionar idioma
             </Link>
           </div>
