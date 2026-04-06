@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { ArrowLeft, FileText, Headphones, Video, ArrowDownToLine, Play, FolderDown } from "lucide-react";
+import { ArrowLeft, FileText, Headphones, Video, ArrowDownToLine, Play, Download } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
 
@@ -152,120 +152,79 @@ export default function IssuePage() {
       <section className="py-12 sm:py-16 md:py-20 flex-1">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            {/* Category tabs */}
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 md:mb-12">
+            {/* Category tabs - minimalista */}
+            <div className="flex justify-center gap-1 mb-8 sm:mb-10 p-1 bg-gray-100/60 rounded-full w-fit mx-auto">
               {categorias.map((cat) => {
                 const isActive = categoriaActiva === cat.id;
                 const Icon = cat.icon;
-                const count = materiales[cat.id]?.length || 0;
                 return (
                   <button
                     key={cat.id}
                     type="button"
                     onClick={() => setCategoriaActiva(cat.id)}
-                    className="inline-flex items-center gap-1.5 sm:gap-2.5 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all border"
-                    style={{
-                      backgroundColor: isActive ? AREA_COLOR : "transparent",
-                      borderColor: isActive ? AREA_COLOR : "#e5e5e5",
-                      color: isActive ? TEXT_ON_COLOR : "#494963",
-                      opacity: isActive ? 1 : 0.6,
-                    }}
+                    className={`inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+                      isActive 
+                        ? "bg-white shadow-sm text-[#494963]" 
+                        : "text-[#494963]/50 hover:text-[#494963]/70"
+                    }`}
                   >
-                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <Icon className="w-3.5 h-3.5" />
                     {cat.label}
-                    <span 
-                      className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full"
-                      style={{ 
-                        backgroundColor: isActive ? `${TEXT_ON_COLOR}20` : "#e5e5e5",
-                        color: isActive ? TEXT_ON_COLOR : "#494963"
-                      }}
-                    >
-                      {count}
-                    </span>
                   </button>
                 );
               })}
             </div>
 
-            {/* Download all option */}
+            {/* Download all - minimalista */}
             {archivosActivos.length > 0 && (
-              <div className="mb-6 sm:mb-8 p-4 sm:p-5 rounded-xl sm:rounded-2xl border-2 border-dashed" style={{ borderColor: `${AREA_COLOR}50`, backgroundColor: `${AREA_COLOR}08` }}>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ backgroundColor: AREA_COLOR }}
-                    >
-                      <FolderDown className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: TEXT_ON_COLOR }} />
-                    </div>
-                    <div>
-                      <p className="text-sm sm:text-base text-[#494963] font-semibold">
-                        Descargar todo ({categorias.find(c => c.id === categoriaActiva)?.label})
-                      </p>
-                      <p className="text-[10px] sm:text-xs text-[#494963]/50 mt-0.5">
-                        {archivosActivos.length} archivos en un ZIP
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all hover:shadow-md"
-                    style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
-                  >
-                    <ArrowDownToLine className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    Descargar ZIP
-                  </button>
-                </div>
+              <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+                <span className="text-xs text-[#494963]/40">
+                  {archivosActivos.length} {archivosActivos.length === 1 ? 'archivo' : 'archivos'}
+                </span>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium transition-colors hover:opacity-80"
+                  style={{ color: TEXT_ON_COLOR }}
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  Descargar todo
+                </button>
               </div>
             )}
 
-            {/* Files list - individual downloads */}
-            <p className="text-xs sm:text-sm text-[#494963]/40 mb-3 sm:mb-4">O descargá por separado:</p>
+            {/* Files list */}
             {archivosActivos.length > 0 ? (
-              <div className="flex flex-col gap-3 sm:gap-4">
+              <div className="divide-y divide-gray-50">
                 {archivosActivos.map((file, index) => {
                   const CategoryIcon = getIconForCategory(categoriaActiva);
                   const ActionIcon = getActionIcon(categoriaActiva);
                   return (
                     <div
                       key={`${file.nombre}-${index}`}
-                      className="group flex items-center gap-3 sm:gap-5 rounded-xl sm:rounded-2xl border border-gray-100 bg-white px-4 sm:px-6 py-4 sm:py-5 transition-all hover:border-gray-200 hover:shadow-md"
+                      className="group flex items-center gap-4 py-3 transition-colors hover:bg-gray-50/50 -mx-2 px-2 rounded-lg"
                     >
-                      <div
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: `${AREA_COLOR}0D` }}
-                      >
-                        <CategoryIcon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: AREA_COLOR }} />
-                      </div>
+                      <CategoryIcon className="w-4 h-4 flex-shrink-0 text-[#494963]/25" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs sm:text-sm md:text-base text-[#494963] font-medium truncate leading-snug">
+                        <p className="text-sm text-[#494963] truncate">
                           {file.nombre}
                         </p>
-                        <p className="text-[10px] sm:text-xs text-[#494963]/35 mt-0.5 sm:mt-1">
-                          {file.formato} &middot; {file.size}
+                        <p className="text-[10px] text-[#494963]/30 mt-0.5">
+                          {file.formato} · {file.size}
                         </p>
                       </div>
                       <button
                         type="button"
-                        className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all text-[#494963]/30 hover:text-white group-hover:opacity-100 opacity-60"
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLElement).style.backgroundColor = AREA_COLOR;
-                          (e.currentTarget as HTMLElement).style.color = TEXT_ON_COLOR;
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLElement).style.backgroundColor = "";
-                          (e.currentTarget as HTMLElement).style.color = "";
-                        }}
+                        className="flex-shrink-0 p-2 rounded-full transition-colors text-[#494963]/20 hover:text-[#494963]/60 hover:bg-gray-100"
                       >
-                        <ActionIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        <ActionIcon className="w-4 h-4" />
                       </button>
                     </div>
                   );
                 })}
               </div>
             ) : (
-              <div className="text-center py-10 sm:py-12">
-                <p className="text-sm sm:text-base text-[#494963]/50">
+              <div className="text-center py-10">
+                <p className="text-sm text-[#494963]/40">
                   No hay materiales disponibles en esta categoría.
                 </p>
               </div>
