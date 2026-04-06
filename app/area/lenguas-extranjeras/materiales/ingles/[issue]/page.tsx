@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { ArrowLeft, FileText, Headphones, Video, ArrowDownToLine, Play } from "lucide-react";
+import { ArrowLeft, FileText, Headphones, Video, ArrowDownToLine, Play, FolderDown } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
 
@@ -187,7 +187,40 @@ export default function IssuePage() {
               })}
             </div>
 
-            {/* Files list */}
+            {/* Download all option */}
+            {archivosActivos.length > 0 && (
+              <div className="mb-6 sm:mb-8 p-4 sm:p-5 rounded-xl sm:rounded-2xl border-2 border-dashed" style={{ borderColor: `${AREA_COLOR}50`, backgroundColor: `${AREA_COLOR}08` }}>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ backgroundColor: AREA_COLOR }}
+                    >
+                      <FolderDown className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: TEXT_ON_COLOR }} />
+                    </div>
+                    <div>
+                      <p className="text-sm sm:text-base text-[#494963] font-semibold">
+                        Descargar todo ({categorias.find(c => c.id === categoriaActiva)?.label})
+                      </p>
+                      <p className="text-[10px] sm:text-xs text-[#494963]/50 mt-0.5">
+                        {archivosActivos.length} archivos en un ZIP
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all hover:shadow-md"
+                    style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
+                  >
+                    <ArrowDownToLine className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    Descargar ZIP
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Files list - individual downloads */}
+            <p className="text-xs sm:text-sm text-[#494963]/40 mb-3 sm:mb-4">O descargá por separado:</p>
             {archivosActivos.length > 0 ? (
               <div className="flex flex-col gap-3 sm:gap-4">
                 {archivosActivos.map((file, index) => {
