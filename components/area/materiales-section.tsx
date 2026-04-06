@@ -1,14 +1,24 @@
 "use client";
 
 import React, { useState } from "react";
-import { FileText, Clock, ArrowDownToLine, BookOpen } from "lucide-react";
+import Link from "next/link";
+import { FileText, Clock, ArrowDownToLine, ChevronRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 
 interface MaterialesSectionProps {
   area: Area;
 }
 
-type Categoria = "descargas" | "fanzines" | "jornada-ampliada";
+type Categoria = "descargas" | "jornada-ampliada";
+
+/* Idiomas disponibles para Lenguas Extranjeras */
+const idiomas = [
+  { id: "aleman", name: "Alemán" },
+  { id: "frances", name: "Francés" },
+  { id: "ingles", name: "Inglés" },
+  { id: "italiano", name: "Italiano" },
+  { id: "portugues", name: "Portugués" },
+];
 
 export function MaterialesSection({ area }: MaterialesSectionProps) {
   const isLenguasExtranjeras = area.slug === "lenguas-extranjeras";
@@ -16,12 +26,8 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
   const [categoriaActiva, setCategoriaActiva] =
     useState<Categoria>("descargas");
 
-  /* Orden: Descargas primero, Fanzines si aplica, Jornada Ampliada siempre último */
   const categorias: { id: Categoria; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: "descargas", label: "Descargas", icon: ArrowDownToLine },
-    ...(isLenguasExtranjeras
-      ? [{ id: "fanzines" as Categoria, label: "Fanzines", icon: BookOpen }]
-      : []),
     { id: "jornada-ampliada", label: "Jornada Ampliada", icon: Clock },
   ];
 
@@ -40,34 +46,104 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
 
   const docFiles = [
     { nombre: `Programa de estudio - ${area.name}`, formato: "PDF", size: "1.8 MB" },
-    { nombre: `Gu\u00eda did\u00e1ctica - ${area.name}`, formato: "PDF", size: "2.2 MB" },
-    { nombre: `Planificaci\u00f3n anual - ${area.name}`, formato: "PDF", size: "1.5 MB" },
+    { nombre: `Guía didáctica - ${area.name}`, formato: "PDF", size: "2.2 MB" },
+    { nombre: `Planificación anual - ${area.name}`, formato: "PDF", size: "1.5 MB" },
   ];
 
-  const fanzineFiles = [
-    { nombre: "Fanzine - Ingl\u00e9s - Primer Ciclo", formato: "PDF", size: "3.8 MB" },
-    { nombre: "Fanzine - Ingl\u00e9s - Segundo Ciclo", formato: "PDF", size: "4.1 MB" },
-    { nombre: "Fanzine - Franc\u00e9s - Primer Ciclo", formato: "PDF", size: "3.5 MB" },
-    { nombre: "Fanzine - Portugu\u00e9s - Primer Ciclo", formato: "PDF", size: "3.2 MB" },
-  ];
+  const files = categoriaActiva === "descargas" ? docFiles : jornadaFiles;
 
-  const files =
-    categoriaActiva === "fanzines"
-      ? fanzineFiles
-      : categoriaActiva === "descargas"
-        ? docFiles
-        : jornadaFiles;
+  /* Para Lenguas Extranjeras: mostrar selector de idiomas */
+  if (isLenguasExtranjeras) {
+    return (
+      <section id="materiales" className="scroll-mt-32">
+        {/* Section header */}
+        <div className="flex flex-col items-center text-center mb-14 md:mb-20">
+          <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display">
+            Descarga de materiales
+          </h3>
+          <p className="text-base text-[#494963]/50 mt-4 max-w-xl">
+            Seleccioná un idioma para acceder a los materiales de descarga correspondientes.
+          </p>
+        </div>
 
+        {/* Idiomas - botones amarillos sólidos */}
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+          {idiomas.map((idioma) => (
+            <Link
+              key={idioma.id}
+              href={`/area/lenguas-extranjeras/materiales/${idioma.id}`}
+              className="group inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold transition-all hover:shadow-md hover:scale-105"
+              style={{ 
+                backgroundColor: area.color,
+                color: "#5c4a00",
+              }}
+            >
+              <span>{idioma.name}</span>
+              <ChevronRight 
+                className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" 
+              />
+            </Link>
+          ))}
+        </div>
+
+        {/* Jornada Ampliada section */}
+        <div className="mt-16">
+          <h4 className="text-lg font-bold text-[#494963] text-center mb-8">
+            Jornada Ampliada
+          </h4>
+          <div className="max-w-3xl mx-auto flex flex-col gap-4">
+            {jornadaFiles.map((file) => (
+              <div
+                key={file.nombre}
+                className="group flex items-center gap-5 rounded-2xl border border-gray-100 bg-white px-6 py-5 transition-all hover:border-gray-200 hover:shadow-md"
+              >
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: `${area.color}0D` }}
+                >
+                  <FileText className="w-5 h-5" style={{ color: area.color }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm md:text-base text-[#494963] font-medium truncate leading-snug">
+                    {file.nombre}
+                  </p>
+                  <p className="text-xs text-[#494963]/35 mt-1">
+                    {file.formato} &middot; {file.size}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all text-[#494963]/30 hover:text-white group-hover:opacity-100 opacity-60"
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.backgroundColor = area.color;
+                    (e.currentTarget as HTMLElement).style.color = "white";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.backgroundColor = "";
+                    (e.currentTarget as HTMLElement).style.color = "";
+                  }}
+                >
+                  <ArrowDownToLine className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  /* Para otras áreas: mostrar tabs y archivos normales */
   return (
     <section id="materiales" className="scroll-mt-32">
-      {/* Section header -- centered, stronger hierarchy */}
+      {/* Section header */}
       <div className="flex flex-col items-center text-center mb-14 md:mb-20">
         <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display">
           Descarga de materiales
         </h3>
       </div>
 
-      {/* Category tabs -- centered */}
+      {/* Category tabs */}
       <div className="flex flex-wrap justify-center gap-3 mb-10 md:mb-12">
         {categorias.map((cat) => {
           const isActive = categoriaActiva === cat.id;
@@ -92,7 +168,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         })}
       </div>
 
-      {/* Files list -- max-width centered */}
+      {/* Files list */}
       <div className="max-w-3xl mx-auto flex flex-col gap-4">
         {files.map((file) => (
           <div
@@ -105,7 +181,6 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
             >
               <FileText className="w-5 h-5" style={{ color: area.color }} />
             </div>
-
             <div className="flex-1 min-w-0">
               <p className="text-sm md:text-base text-[#494963] font-medium truncate leading-snug">
                 {file.nombre}
@@ -114,7 +189,6 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 {file.formato} &middot; {file.size}
               </p>
             </div>
-
             <button
               type="button"
               className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all text-[#494963]/30 hover:text-white group-hover:opacity-100 opacity-60"

@@ -1,0 +1,239 @@
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { ArrowLeft, FileText, Headphones, Video, ArrowDownToLine, Play, Download } from "lucide-react";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/landing/landing-footer";
+
+const AREA_COLOR = "#FFCB02";
+const TEXT_ON_COLOR = "#5c4a00";
+
+type CategoriaId = "imprimibles" | "audios" | "videos";
+
+const categorias: { id: CategoriaId; label: string; icon: typeof FileText }[] = [
+  { id: "imprimibles", label: "Imprimibles", icon: FileText },
+  { id: "audios", label: "Audios", icon: Headphones },
+  { id: "videos", label: "Videos", icon: Video },
+];
+
+const issuesInfo: Record<string, { name: string; description: string }> = {
+  "issue-1": { 
+    name: "Issue 1", 
+    description: "Primer número de English Funzines con actividades y recursos para el aula." 
+  },
+  "issue-2": { 
+    name: "Issue 2", 
+    description: "Segundo número de English Funzines con nuevas propuestas didácticas." 
+  },
+  "issue-3": { 
+    name: "Issue 3", 
+    description: "Tercer número de English Funzines con contenidos actualizados." 
+  },
+};
+
+/* Materiales simulados - estos se cargarán desde una base de datos o CMS */
+const materialesPorIssue: Record<string, Record<CategoriaId, { nombre: string; formato: string; size: string; url?: string }[]>> = {
+  "issue-1": {
+    imprimibles: [
+      { nombre: "Flashcards - Unit 1", formato: "PDF", size: "2.1 MB" },
+      { nombre: "Worksheet - Vocabulary", formato: "PDF", size: "1.5 MB" },
+      { nombre: "Activity Book - Pages 1-10", formato: "PDF", size: "3.2 MB" },
+      { nombre: "Poster - Classroom Objects", formato: "PDF", size: "4.5 MB" },
+    ],
+    audios: [
+      { nombre: "Song - Hello Song", formato: "MP3", size: "3.2 MB" },
+      { nombre: "Listening - Unit 1 Dialogue", formato: "MP3", size: "2.8 MB" },
+      { nombre: "Chant - Numbers 1-10", formato: "MP3", size: "1.9 MB" },
+    ],
+    videos: [
+      { nombre: "Introduction Video", formato: "MP4", size: "45 MB" },
+      { nombre: "Story Time - The Little Red Hen", formato: "MP4", size: "62 MB" },
+    ],
+  },
+  "issue-2": {
+    imprimibles: [
+      { nombre: "Flashcards - Unit 2", formato: "PDF", size: "2.3 MB" },
+      { nombre: "Worksheet - Grammar", formato: "PDF", size: "1.8 MB" },
+      { nombre: "Activity Book - Pages 11-20", formato: "PDF", size: "3.5 MB" },
+    ],
+    audios: [
+      { nombre: "Song - Colors Song", formato: "MP3", size: "3.5 MB" },
+      { nombre: "Listening - Unit 2 Dialogue", formato: "MP3", size: "2.5 MB" },
+    ],
+    videos: [
+      { nombre: "Craft Tutorial - Paper Animals", formato: "MP4", size: "38 MB" },
+    ],
+  },
+  "issue-3": {
+    imprimibles: [
+      { nombre: "Flashcards - Unit 3", formato: "PDF", size: "2.0 MB" },
+      { nombre: "Worksheet - Reading", formato: "PDF", size: "1.6 MB" },
+      { nombre: "Activity Book - Pages 21-30", formato: "PDF", size: "3.8 MB" },
+      { nombre: "Board Game - Review", formato: "PDF", size: "5.2 MB" },
+    ],
+    audios: [
+      { nombre: "Song - Family Song", formato: "MP3", size: "3.1 MB" },
+      { nombre: "Listening - Unit 3 Dialogue", formato: "MP3", size: "2.9 MB" },
+      { nombre: "Story - The Three Bears", formato: "MP3", size: "5.5 MB" },
+    ],
+    videos: [
+      { nombre: "Roleplay Tutorial", formato: "MP4", size: "52 MB" },
+      { nombre: "Goodbye Song Video", formato: "MP4", size: "28 MB" },
+    ],
+  },
+};
+
+export default function IssuePage() {
+  const params = useParams();
+  const issue = params.issue as string;
+  
+  const [categoriaActiva, setCategoriaActiva] = useState<CategoriaId>("imprimibles");
+  
+  const info = issuesInfo[issue] || { 
+    name: issue.replace("-", " ").replace(/\b\w/g, l => l.toUpperCase()), 
+    description: "Materiales de descarga" 
+  };
+  
+  const materiales = materialesPorIssue[issue] || { imprimibles: [], audios: [], videos: [] };
+  const archivosActivos = materiales[categoriaActiva] || [];
+
+  const getIconForCategory = (categoria: CategoriaId) => {
+    switch (categoria) {
+      case "imprimibles": return FileText;
+      case "audios": return Headphones;
+      case "videos": return Video;
+    }
+  };
+
+  const getActionIcon = (categoria: CategoriaId) => {
+    if (categoria === "videos") return Play;
+    return ArrowDownToLine;
+  };
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      <Header />
+      
+      {/* Hero - fondo amarillo clarito */}
+      <section className="py-12 sm:py-16 md:py-20 mt-16" style={{ backgroundColor: `${AREA_COLOR}12` }}>
+        <div className="container mx-auto px-4">
+          <Link 
+            href="/area/lenguas-extranjeras/materiales/ingles" 
+            className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-6 sm:mb-8"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            Volver a English Funzines
+          </Link>
+          <div className="max-w-3xl">
+            <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
+              <span 
+                className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-wider px-2.5 sm:px-3 py-1 rounded-full"
+                style={{ backgroundColor: `${AREA_COLOR}40`, color: TEXT_ON_COLOR }}
+              >
+                Inglés
+              </span>
+              <span className="text-[10px] sm:text-xs text-[#494963]/40">
+                English Funzines
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-3 sm:mb-4 font-display">
+              {info.name}
+            </h1>
+            <p className="text-base sm:text-lg text-[#494963]/60 max-w-2xl">
+              {info.description}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Materiales */}
+      <section className="py-12 sm:py-16 md:py-20 flex-1">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            {/* Category tabs - minimalista */}
+            <div className="flex justify-center gap-1 mb-8 sm:mb-10 p-1 bg-gray-100/60 rounded-full w-fit mx-auto">
+              {categorias.map((cat) => {
+                const isActive = categoriaActiva === cat.id;
+                const Icon = cat.icon;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setCategoriaActiva(cat.id)}
+                    className={`inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+                      isActive 
+                        ? "bg-white shadow-sm text-[#494963]" 
+                        : "text-[#494963]/50 hover:text-[#494963]/70"
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    {cat.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Download all - minimalista */}
+            {archivosActivos.length > 0 && (
+              <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+                <span className="text-xs text-[#494963]/40">
+                  {archivosActivos.length} {archivosActivos.length === 1 ? 'archivo' : 'archivos'}
+                </span>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium transition-colors hover:opacity-80"
+                  style={{ color: TEXT_ON_COLOR }}
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  Descargar todo
+                </button>
+              </div>
+            )}
+
+            {/* Files list */}
+            {archivosActivos.length > 0 ? (
+              <div className="divide-y divide-gray-50">
+                {archivosActivos.map((file, index) => {
+                  const CategoryIcon = getIconForCategory(categoriaActiva);
+                  const ActionIcon = getActionIcon(categoriaActiva);
+                  return (
+                    <div
+                      key={`${file.nombre}-${index}`}
+                      className="group flex items-center gap-4 py-3 transition-colors hover:bg-gray-50/50 -mx-2 px-2 rounded-lg"
+                    >
+                      <CategoryIcon className="w-4 h-4 flex-shrink-0 text-[#494963]/25" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-[#494963] truncate">
+                          {file.nombre}
+                        </p>
+                        <p className="text-[10px] text-[#494963]/30 mt-0.5">
+                          {file.formato} · {file.size}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        className="flex-shrink-0 p-2 rounded-full transition-colors text-[#494963]/20 hover:text-[#494963]/60 hover:bg-gray-100"
+                      >
+                        <ActionIcon className="w-4 h-4" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-sm text-[#494963]/40">
+                  No hay materiales disponibles en esta categoría.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
