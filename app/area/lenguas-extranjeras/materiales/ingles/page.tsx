@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   ArrowLeft, 
   BookOpen, 
@@ -15,7 +16,6 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
-import { EnglishFunzineLogo } from "@/components/english-funzine-logo";
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
@@ -211,7 +211,13 @@ export default function InglesMaterilesPage() {
           <div className="max-w-4xl mx-auto">
             {/* Banner con logo oficial */}
             <div className="flex flex-col items-center justify-center py-8 sm:py-12 mb-8 sm:mb-10 bg-white rounded-2xl border border-gray-100">
-              <EnglishFunzineLogo size="lg" className="mb-4" />
+              <Image
+                src="/images/english-funzine-logo.png"
+                alt="English Funzine"
+                width={400}
+                height={150}
+                className="w-64 sm:w-80 md:w-96 h-auto mb-4"
+              />
               <p className="text-sm sm:text-base text-[#494963]/50 italic">
                 The magazine that makes English fun
               </p>
