@@ -209,18 +209,24 @@ export default function InglesMaterilesPage() {
       <section className="py-12 sm:py-16 md:py-20 flex-1 bg-[#FAFAFA]">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            {/* Banner con logo oficial */}
-            <div className="flex flex-col items-center justify-center py-8 sm:py-12 mb-8 sm:mb-10 bg-white rounded-2xl border border-gray-100">
+            {/* Banner destacado */}
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden mb-10 sm:mb-12">
               <Image
-                src="/images/english-funzine-logo.png"
+                src="/images/english-funzine-banner.jpg"
                 alt="English Funzine"
-                width={400}
-                height={150}
-                className="w-64 sm:w-80 md:w-96 h-auto mb-4"
+                width={900}
+                height={300}
+                className="w-full h-40 sm:h-52 md:h-64 object-cover"
               />
-              <p className="text-sm sm:text-base text-[#494963]/50 italic">
-                The magazine that makes English fun
-              </p>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#494963]/90 via-[#494963]/60 to-transparent" />
+              <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-10">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white font-display mb-1 sm:mb-2">
+                  English Funzine
+                </h2>
+                <p className="text-sm sm:text-base text-white/80 italic">
+                  The magazine that makes English fun
+                </p>
+              </div>
             </div>
 
             {/* Introducción */}
