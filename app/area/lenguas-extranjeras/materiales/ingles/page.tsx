@@ -90,77 +90,34 @@ export default function InglesMaterilesPage() {
         </div>
       </section>
 
-      {/* Materiales y recursos educativos */}
-      <section className="py-12 sm:py-16 border-b border-gray-100">
+      {/* Materiales y recursos educativos - Minimalista */}
+      <section className="py-10 sm:py-12 border-b border-gray-100">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#494963] mb-2 font-display">
+            <h2 className="text-lg sm:text-xl font-bold text-[#494963] mb-6 font-display">
               Materiales y recursos educativos
             </h2>
-            <p className="text-sm text-[#494963]/50 mb-8">
-              Recursos complementarios para la enseñanza del inglés
-            </p>
 
-            {/* Secuencias didácticas */}
-            <div className="mb-8">
-              <h3 className="text-sm font-semibold text-[#494963] mb-3 flex items-center gap-2">
-                <FileText className="w-4 h-4" style={{ color: AREA_COLOR }} />
-                Secuencias didácticas
-              </h3>
-              <div className="space-y-2">
-                {recursosEducativos.secuencias.map((item, idx) => (
-                  <div 
-                    key={idx}
-                    className="flex items-center justify-between py-3 px-4 rounded-lg bg-gray-50/70 hover:bg-gray-100/70 transition-colors group cursor-pointer"
-                  >
-                    <span className="text-sm text-[#494963]">{item.nombre}</span>
-                    <span className="text-xs text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors">
-                      {item.formato} · {item.size}
-                    </span>
-                  </div>
-                ))}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+              {/* Secuencias didácticas */}
+              <div className="p-4 rounded-xl bg-gray-50/80 hover:bg-gray-100/80 transition-colors cursor-pointer group">
+                <FileText className="w-5 h-5 mb-2 text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors" />
+                <p className="text-sm font-medium text-[#494963]">Secuencias didácticas</p>
+                <p className="text-xs text-[#494963]/40 mt-0.5">{recursosEducativos.secuencias.length} archivos</p>
               </div>
-            </div>
 
-            {/* Materiales audiovisuales */}
-            <div className="mb-8">
-              <h3 className="text-sm font-semibold text-[#494963] mb-3 flex items-center gap-2">
-                <Video className="w-4 h-4" style={{ color: AREA_COLOR }} />
-                Materiales audiovisuales
-              </h3>
-              <div className="space-y-2">
-                {recursosEducativos.audiovisuales.map((item, idx) => (
-                  <div 
-                    key={idx}
-                    className="flex items-center justify-between py-3 px-4 rounded-lg bg-gray-50/70 hover:bg-gray-100/70 transition-colors group cursor-pointer"
-                  >
-                    <span className="text-sm text-[#494963]">{item.nombre}</span>
-                    <span className="text-xs text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors">
-                      {item.formato} · {item.size}
-                    </span>
-                  </div>
-                ))}
+              {/* Materiales audiovisuales */}
+              <div className="p-4 rounded-xl bg-gray-50/80 hover:bg-gray-100/80 transition-colors cursor-pointer group">
+                <Video className="w-5 h-5 mb-2 text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors" />
+                <p className="text-sm font-medium text-[#494963]">Materiales audiovisuales</p>
+                <p className="text-xs text-[#494963]/40 mt-0.5">{recursosEducativos.audiovisuales.length} archivos</p>
               </div>
-            </div>
 
-            {/* Guías para la docencia */}
-            <div>
-              <h3 className="text-sm font-semibold text-[#494963] mb-3 flex items-center gap-2">
-                <BookOpen className="w-4 h-4" style={{ color: AREA_COLOR }} />
-                Guías para la docencia
-              </h3>
-              <div className="space-y-2">
-                {recursosEducativos.guias.map((item, idx) => (
-                  <div 
-                    key={idx}
-                    className="flex items-center justify-between py-3 px-4 rounded-lg bg-gray-50/70 hover:bg-gray-100/70 transition-colors group cursor-pointer"
-                  >
-                    <span className="text-sm text-[#494963]">{item.nombre}</span>
-                    <span className="text-xs text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors">
-                      {item.formato} · {item.size}
-                    </span>
-                  </div>
-                ))}
+              {/* Guías para la docencia */}
+              <div className="p-4 rounded-xl bg-gray-50/80 hover:bg-gray-100/80 transition-colors cursor-pointer group">
+                <BookOpen className="w-5 h-5 mb-2 text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors" />
+                <p className="text-sm font-medium text-[#494963]">Guías para la docencia</p>
+                <p className="text-xs text-[#494963]/40 mt-0.5">{recursosEducativos.guias.length} archivos</p>
               </div>
             </div>
           </div>
@@ -186,7 +143,7 @@ export default function InglesMaterilesPage() {
                   English Funzine
                 </h2>
                 <p className="text-sm sm:text-base text-white/80 italic">
-                  The magazine that makes English fun
+                  The Magazine That Makes English Fun
                 </p>
               </div>
             </div>
