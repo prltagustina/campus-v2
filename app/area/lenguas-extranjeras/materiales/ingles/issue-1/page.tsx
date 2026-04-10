@@ -70,37 +70,24 @@ export default function Issue1Page() {
     <div className="min-h-screen bg-white flex flex-col">
       <Header />
       
-      {/* Hero */}
-      <section className="py-10 sm:py-14 md:py-16 mt-16" style={{ backgroundColor: `${AREA_COLOR}12` }}>
+      {/* Hero - Minimalista */}
+      <section className="py-10 sm:py-12 mt-16" style={{ backgroundColor: `${AREA_COLOR}12` }}>
         <div className="container mx-auto px-4">
           <Link 
             href="/area/lenguas-extranjeras/materiales/ingles" 
             className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-6"
           >
             <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            Volver a English Funzine
+            Volver a Inglés
           </Link>
           
-          <div className="flex items-start gap-4">
-            <div 
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: AREA_COLOR }}
-            >
-              <span className="text-xl sm:text-2xl font-bold" style={{ color: TEXT_ON_COLOR }}>
-                {issueData.number}
-              </span>
-            </div>
-            <div>
-              <p className="text-xs text-[#494963]/40 uppercase tracking-wider font-semibold mb-1">
-                English Funzine
-              </p>
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#494963] font-display">
-                Issue {issueData.number}
-              </h1>
-              <p className="text-base sm:text-lg text-[#494963]/60 mt-1">
-                {issueData.title}
-              </p>
-            </div>
+          <div>
+            <p className="text-xs text-[#494963]/40 uppercase tracking-wider font-semibold mb-2">
+              English Funzine · Issue {issueData.number}
+            </p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#494963] font-display">
+              {issueData.title}
+            </h1>
           </div>
         </div>
       </section>
@@ -134,48 +121,63 @@ export default function Issue1Page() {
 
             {/* Documents Tab */}
             {activeTab === "documents" && (
-              <div className="space-y-3">
-                {issueData.documents.map((doc) => (
-                  <div 
-                    key={doc.id}
-                    className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div 
-                        className="w-10 h-10 rounded-lg flex items-center justify-center"
-                        style={{ backgroundColor: `${AREA_COLOR}15` }}
-                      >
-                        <FileText className="w-5 h-5" style={{ color: AREA_COLOR }} />
+              <div>
+                {/* Descargar todo */}
+                <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
+                  <span className="text-xs text-[#494963]/40">{issueData.documents.length} documentos</span>
+                  <button type="button" className="inline-flex items-center gap-1.5 text-xs font-medium text-[#494963]/50 hover:text-[#494963] transition-colors">
+                    <Download className="w-3.5 h-3.5" />
+                    Descargar todo
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {issueData.documents.map((doc) => (
+                    <div 
+                      key={doc.id}
+                      className="flex items-center justify-between py-3 px-3 rounded-lg hover:bg-gray-50 transition-colors group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <FileText className="w-4 h-4 text-[#494963]/25" />
+                        <div>
+                          <p className="text-sm text-[#494963]">{doc.name}</p>
+                          <p className="text-xs text-[#494963]/30">{doc.format} · {doc.size}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium text-[#494963]">{doc.name}</p>
-                        <p className="text-xs text-[#494963]/40">{doc.format} · {doc.size}</p>
+                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button 
+                          type="button" 
+                          className="p-2 rounded-full hover:bg-gray-100 transition-colors text-[#494963]/40 hover:text-[#494963]"
+                          title="Visualizar"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button 
+                          type="button" 
+                          className="p-2 rounded-full hover:bg-gray-100 transition-colors text-[#494963]/40 hover:text-[#494963]"
+                          title="Descargar"
+                        >
+                          <Download className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <button 
-                        type="button" 
-                        className="p-2.5 rounded-full hover:bg-gray-100 transition-colors text-[#494963]/40 hover:text-[#494963]"
-                        title="Visualizar"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      <button 
-                        type="button" 
-                        className="p-2.5 rounded-full hover:bg-gray-100 transition-colors text-[#494963]/40 hover:text-[#494963]"
-                        title="Descargar"
-                      >
-                        <Download className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
 
             {/* Audios Tab */}
             {activeTab === "audios" && (
-              <div className="space-y-8">
+              <div>
+                {/* Descargar todo */}
+                <div className="flex items-center justify-between mb-6 pb-3 border-b border-gray-100">
+                  <span className="text-xs text-[#494963]/40">{issueData.audios.magazine.length + issueData.audios.activityBook.length} audios</span>
+                  <button type="button" className="inline-flex items-center gap-1.5 text-xs font-medium text-[#494963]/50 hover:text-[#494963] transition-colors">
+                    <Download className="w-3.5 h-3.5" />
+                    Descargar todo
+                  </button>
+                </div>
+                
+                <div className="space-y-8">
                 {/* Magazine Audios */}
                 <div>
                   <p className="text-xs font-semibold text-[#494963]/50 uppercase tracking-wider mb-3">
@@ -263,12 +265,22 @@ export default function Issue1Page() {
                     })}
                   </div>
                 </div>
+                </div>
               </div>
             )}
 
             {/* Videos Tab */}
             {activeTab === "videos" && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                {/* Descargar todo */}
+                <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
+                  <span className="text-xs text-[#494963]/40">{issueData.videos.length} videos</span>
+                  <button type="button" className="inline-flex items-center gap-1.5 text-xs font-medium text-[#494963]/50 hover:text-[#494963] transition-colors">
+                    <Download className="w-3.5 h-3.5" />
+                    Descargar todo
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {issueData.videos.map((video) => (
                   <div 
                     key={video.id}
@@ -298,6 +310,7 @@ export default function Issue1Page() {
                     </div>
                   </div>
                 ))}
+                </div>
               </div>
             )}
           </div>

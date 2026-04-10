@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { 
@@ -8,8 +9,10 @@ import {
   FileText, 
   Video, 
   ChevronRight,
+  ChevronDown,
   Clock,
-  ArrowRight
+  ArrowRight,
+  Download
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
@@ -17,22 +20,26 @@ import { Footer } from "@/components/landing/landing-footer";
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
 
-/* Materiales y recursos educativos simulados */
+/* Materiales y recursos educativos simulados - Repositorio expandido */
 const recursosEducativos = {
   secuencias: [
-    { nombre: "Secuencia 1 - Getting Started", formato: "PDF", size: "2.4 MB" },
-    { nombre: "Secuencia 2 - My Family", formato: "PDF", size: "3.1 MB" },
-    { nombre: "Secuencia 3 - At School", formato: "PDF", size: "2.8 MB" },
+    { nombre: "Primeros pasos en inglés", formato: "PDF", size: "2.4 MB" },
+    { nombre: "Mi familia y yo", formato: "PDF", size: "3.1 MB" },
+    { nombre: "En la escuela", formato: "PDF", size: "2.8 MB" },
+    { nombre: "Los colores del mundo", formato: "PDF", size: "2.2 MB" },
+    { nombre: "Animales y naturaleza", formato: "PDF", size: "3.5 MB" },
   ],
   audiovisuales: [
-    { nombre: "Video: Classroom Vocabulary", formato: "MP4", size: "45 MB" },
-    { nombre: "Audio: Pronunciation Guide", formato: "MP3", size: "8.2 MB" },
-    { nombre: "Video: Interactive Songs", formato: "MP4", size: "62 MB" },
+    { nombre: "Vocabulario del aula", formato: "MP4", size: "45 MB" },
+    { nombre: "Guía de pronunciación", formato: "MP3", size: "8.2 MB" },
+    { nombre: "Canciones interactivas", formato: "MP4", size: "62 MB" },
+    { nombre: "Storytelling: The Little Star", formato: "MP4", size: "38 MB" },
   ],
   guias: [
-    { nombre: "Guía Didáctica - Nivel Inicial", formato: "PDF", size: "4.5 MB" },
-    { nombre: "Planificación Anual Sugerida", formato: "PDF", size: "1.8 MB" },
-    { nombre: "Estrategias de Evaluación", formato: "PDF", size: "2.2 MB" },
+    { nombre: "Guía didáctica - Nivel inicial", formato: "PDF", size: "4.5 MB" },
+    { nombre: "Planificación anual sugerida", formato: "PDF", size: "1.8 MB" },
+    { nombre: "Estrategias de evaluación", formato: "PDF", size: "2.2 MB" },
+    { nombre: "Recursos para el aula", formato: "PDF", size: "3.0 MB" },
   ],
 };
 
@@ -58,7 +65,15 @@ const funzineIssues = [
   },
 ];
 
+type CategoriaRecurso = "secuencias" | "audiovisuales" | "guias";
+
 export default function InglesMaterilesPage() {
+  const [categoriaAbierta, setCategoriaAbierta] = useState<CategoriaRecurso | null>(null);
+
+  const toggleCategoria = (cat: CategoriaRecurso) => {
+    setCategoriaAbierta(categoriaAbierta === cat ? null : cat);
+  };
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Header />
@@ -90,7 +105,7 @@ export default function InglesMaterilesPage() {
         </div>
       </section>
 
-      {/* Materiales y recursos educativos - Minimalista */}
+      {/* Materiales y recursos educativos - Repositorio */}
       <section className="py-10 sm:py-12 border-b border-gray-100">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -98,26 +113,92 @@ export default function InglesMaterilesPage() {
               Materiales y recursos educativos
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            <div className="divide-y divide-gray-100">
               {/* Secuencias didácticas */}
-              <div className="p-4 rounded-xl bg-gray-50/80 hover:bg-gray-100/80 transition-colors cursor-pointer group">
-                <FileText className="w-5 h-5 mb-2 text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors" />
-                <p className="text-sm font-medium text-[#494963]">Secuencias didácticas</p>
-                <p className="text-xs text-[#494963]/40 mt-0.5">{recursosEducativos.secuencias.length} archivos</p>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => toggleCategoria("secuencias")}
+                  className="w-full flex items-center justify-between py-4 text-left group"
+                >
+                  <div className="flex items-center gap-3">
+                    <FileText className="w-4 h-4 text-[#494963]/30" />
+                    <span className="text-sm font-medium text-[#494963]">Secuencias didácticas</span>
+                    <span className="text-xs text-[#494963]/30">{recursosEducativos.secuencias.length}</span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaAbierta === "secuencias" ? "rotate-180" : ""}`} />
+                </button>
+                {categoriaAbierta === "secuencias" && (
+                  <div className="pb-4 pl-7 space-y-1">
+                    {recursosEducativos.secuencias.map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 group/item">
+                        <span className="text-sm text-[#494963]/70">{item.nombre}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-[#494963]/30">{item.size}</span>
+                          <Download className="w-3.5 h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Materiales audiovisuales */}
-              <div className="p-4 rounded-xl bg-gray-50/80 hover:bg-gray-100/80 transition-colors cursor-pointer group">
-                <Video className="w-5 h-5 mb-2 text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors" />
-                <p className="text-sm font-medium text-[#494963]">Materiales audiovisuales</p>
-                <p className="text-xs text-[#494963]/40 mt-0.5">{recursosEducativos.audiovisuales.length} archivos</p>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => toggleCategoria("audiovisuales")}
+                  className="w-full flex items-center justify-between py-4 text-left group"
+                >
+                  <div className="flex items-center gap-3">
+                    <Video className="w-4 h-4 text-[#494963]/30" />
+                    <span className="text-sm font-medium text-[#494963]">Materiales audiovisuales</span>
+                    <span className="text-xs text-[#494963]/30">{recursosEducativos.audiovisuales.length}</span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaAbierta === "audiovisuales" ? "rotate-180" : ""}`} />
+                </button>
+                {categoriaAbierta === "audiovisuales" && (
+                  <div className="pb-4 pl-7 space-y-1">
+                    {recursosEducativos.audiovisuales.map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 group/item">
+                        <span className="text-sm text-[#494963]/70">{item.nombre}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-[#494963]/30">{item.size}</span>
+                          <Download className="w-3.5 h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Guías para la docencia */}
-              <div className="p-4 rounded-xl bg-gray-50/80 hover:bg-gray-100/80 transition-colors cursor-pointer group">
-                <BookOpen className="w-5 h-5 mb-2 text-[#494963]/30 group-hover:text-[#494963]/50 transition-colors" />
-                <p className="text-sm font-medium text-[#494963]">Guías para la docencia</p>
-                <p className="text-xs text-[#494963]/40 mt-0.5">{recursosEducativos.guias.length} archivos</p>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => toggleCategoria("guias")}
+                  className="w-full flex items-center justify-between py-4 text-left group"
+                >
+                  <div className="flex items-center gap-3">
+                    <BookOpen className="w-4 h-4 text-[#494963]/30" />
+                    <span className="text-sm font-medium text-[#494963]">Guías para la docencia</span>
+                    <span className="text-xs text-[#494963]/30">{recursosEducativos.guias.length}</span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaAbierta === "guias" ? "rotate-180" : ""}`} />
+                </button>
+                {categoriaAbierta === "guias" && (
+                  <div className="pb-4 pl-7 space-y-1">
+                    {recursosEducativos.guias.map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 group/item">
+                        <span className="text-sm text-[#494963]/70">{item.nombre}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-[#494963]/30">{item.size}</span>
+                          <Download className="w-3.5 h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -143,7 +224,7 @@ export default function InglesMaterilesPage() {
                   English Funzine
                 </h2>
                 <p className="text-sm sm:text-base text-white/80 italic">
-                  The Magazine That Makes English Fun
+                  The magazine that makes English fun
                 </p>
               </div>
             </div>
