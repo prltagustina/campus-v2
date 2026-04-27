@@ -10,13 +10,14 @@ import {
   ChevronRight,
   Clock,
   Play,
+  Download,
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
-const MAGENTA_COLOR = "#E91E8C";
+const ORANGE_COLOR = "#F7941D";
 
 /* Issues de English Funzine */
 const funzineIssues = [
@@ -48,6 +49,13 @@ const sidebarItems = [
   { id: "teachers-guide", label: "TEACHER'S GUIDE", sublabel: "Guia para docentes de Funzine en el aula" },
 ];
 
+/* PDF URLs */
+const pdfUrls = {
+  magazine: "https://blobs.vusercontent.net/blob/Funzine_Revista_10.04-(Con-correcciones)_compressed-HL3NHokCpytEhLuoWHdwD2yiTn4nol.pdf",
+  activityBook: "https://blobs.vusercontent.net/blob/Funzine_ActivityBook%2008.04.2026%20%28Con%20correcciones%29_compressed-uzr1tIOQJRw8M8kvs1yL61iq4X2tt6.pdf",
+  teachersGuide: "https://blobs.vusercontent.net/blob/Teacher%27s%20Guide%2010.04-%20U%CC%81ltima%20versio%CC%81n%20%28con%20correcciones%29_compressed-uoUpZxcEDQ5wMwaWnaUIUy6A2hXmr9.pdf",
+};
+
 export default function InglesMaterilesPage() {
   const [activeSection, setActiveSection] = useState("presentacion");
   const presentacionRef = useRef<HTMLDivElement>(null);
@@ -73,10 +81,21 @@ export default function InglesMaterilesPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
       
-      {/* Main content with sidebar */}
-      <div className="flex flex-1 mt-16">
-        {/* Sidebar - fixed on desktop */}
-        <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0 border-r border-[#FFCB02]/20 bg-white sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+      {/* Main content wrapper with background */}
+      <div className="flex flex-1 mt-16 relative">
+        {/* Background SVG - covers the entire content area */}
+        <div 
+          className="absolute inset-0 w-full h-full pointer-events-none z-0"
+          style={{
+            backgroundImage: "url('/images/funzine-background.svg')",
+            backgroundSize: "100% auto",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "top center",
+          }}
+        />
+
+        {/* Sidebar - fixed on desktop, above background */}
+        <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto z-10">
           <div className="p-6">
             <Link 
               href="/area/lenguas-extranjeras#materiales" 
@@ -96,14 +115,14 @@ export default function InglesMaterilesPage() {
                     onClick={() => scrollToSection(item.id)}
                     className={`w-full text-left p-3 rounded-xl transition-all ${
                       isActive 
-                        ? "bg-[#FFF9E6]" 
-                        : "hover:bg-[#FFF9E6]/50"
+                        ? "bg-white/80" 
+                        : "hover:bg-white/50"
                     }`}
                   >
                     <div className="flex items-center gap-2">
                       <div 
                         className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: isActive ? MAGENTA_COLOR : "#494963", opacity: isActive ? 1 : 0.2 }}
+                        style={{ backgroundColor: isActive ? ORANGE_COLOR : "#494963", opacity: isActive ? 1 : 0.2 }}
                       />
                       <span className={`text-xs font-bold uppercase tracking-wide ${isActive ? "text-[#494963]" : "text-[#494963]/40"}`}>
                         {item.label}
@@ -119,69 +138,54 @@ export default function InglesMaterilesPage() {
           </div>
         </aside>
 
-        {/* Main content */}
-        <main className="flex-1 overflow-hidden">
-          {/* Hero section with background image */}
-          <section className="relative">
-            {/* Background image */}
-            <div className="relative w-full">
+        {/* Main content - above background */}
+        <main className="flex-1 overflow-hidden relative z-10">
+          {/* Hero section */}
+          <section className="relative pt-8 sm:pt-12 px-4 sm:px-8 lg:px-12">
+            {/* Mobile back button */}
+            <div className="lg:hidden mb-6">
+              <Link 
+                href="/area/lenguas-extranjeras#materiales" 
+                className="inline-flex items-center gap-2 text-xs text-[#494963]/70 hover:text-[#494963] transition-colors"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                Volver a Ingles
+              </Link>
+            </div>
+
+            {/* Logo */}
+            <div className="max-w-md mb-4">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/background-funzine-NH7YIFLKw9bOSL9nHGWyz9KlBaiLcS.png"
-                alt=""
-                width={1200}
-                height={600}
-                className="w-full h-auto"
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-funzine-LQEjEmOFKR3zDMZCkWPx4Q1ircXGEX.svg"
+                alt="English Funzine"
+                width={350}
+                height={100}
+                className="w-full max-w-[280px] sm:max-w-[350px] h-auto"
                 priority
               />
               
-              {/* Content overlay on background */}
-              <div className="absolute inset-0 flex flex-col justify-start pt-8 sm:pt-12 px-4 sm:px-8 lg:px-12">
-                {/* Mobile back button */}
-                <div className="lg:hidden mb-6">
-                  <Link 
-                    href="/area/lenguas-extranjeras#materiales" 
-                    className="inline-flex items-center gap-2 text-xs text-[#494963]/70 hover:text-[#494963] transition-colors"
-                  >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    Volver a Ingles
-                  </Link>
-                </div>
-
-                {/* Logo */}
-                <div className="max-w-md">
-                  <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-funzine-LQEjEmOFKR3zDMZCkWPx4Q1ircXGEX.svg"
-                    alt="English Funzine"
-                    width={350}
-                    height={100}
-                    className="w-full max-w-[280px] sm:max-w-[350px] h-auto"
-                    priority
-                  />
-                  
-                  {/* Tagline */}
-                  <div className="flex items-center gap-2 mt-3">
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-IT34i2R2KxWNrQUNqTTfmztloIwOs6.svg"
-                      alt="The magazine that makes"
-                      width={200}
-                      height={20}
-                      className="h-4 sm:h-5 w-auto"
-                    />
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-N1q7YSUUn0jkppVWrDW7saBJh09H1F.png"
-                      alt="English fun!"
-                      width={120}
-                      height={30}
-                      className="h-5 sm:h-6 w-auto"
-                    />
-                  </div>
-                </div>
+              {/* Tagline - The magazine that makes English fun! */}
+              <div className="flex items-center gap-2 mt-3">
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-IT34i2R2KxWNrQUNqTTfmztloIwOs6.svg"
+                  alt="The magazine that makes"
+                  width={200}
+                  height={20}
+                  className="h-4 sm:h-5 w-auto"
+                />
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-N1q7YSUUn0jkppVWrDW7saBJh09H1F.png"
+                  alt="English fun!"
+                  width={120}
+                  height={30}
+                  className="h-5 sm:h-6 w-auto"
+                />
               </div>
             </div>
           </section>
 
           {/* Video de presentacion */}
-          <section ref={presentacionRef} className="px-4 sm:px-8 lg:px-12 py-8 bg-white">
+          <section ref={presentacionRef} className="px-4 sm:px-8 lg:px-12 py-8">
             <p className="text-xs font-semibold text-[#494963]/40 uppercase tracking-wider mb-3">
               Video de presentacion
             </p>
@@ -198,7 +202,7 @@ export default function InglesMaterilesPage() {
           </section>
 
           {/* Intro text */}
-          <section className="px-4 sm:px-8 lg:px-12 pb-10 bg-white">
+          <section className="px-4 sm:px-8 lg:px-12 pb-10">
             <p className="text-sm sm:text-base text-[#494963]/70 leading-relaxed max-w-2xl">
               Les damos la bienvenida a <strong className="text-[#494963]">English Funzine</strong>. 
               Esta serie de materiales esta pensada para acompañar la implementacion de Lenguas Extranjeras 
@@ -207,7 +211,7 @@ export default function InglesMaterilesPage() {
           </section>
 
           {/* Issues section */}
-          <section className="px-4 sm:px-8 lg:px-12 pb-12 bg-white">
+          <section className="px-4 sm:px-8 lg:px-12 pb-12">
             {/* Issues selector - circular badges */}
             <div className="flex items-center gap-3 mb-6">
               <BookOpen className="w-4 h-4 text-[#494963]/40" />
@@ -241,7 +245,7 @@ export default function InglesMaterilesPage() {
                 ) : (
                   <div
                     key={issue.slug}
-                    className="flex items-center gap-3 pr-4 rounded-full bg-gray-100/50 border-3 border-gray-200/50"
+                    className="flex items-center gap-3 pr-4 rounded-full bg-gray-100/50"
                     style={{ border: "3px solid #e5e5e5" }}
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-200/50">
@@ -302,21 +306,21 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     number="01"
                     title="Magazine"
-                    issueSlug={issue.slug}
+                    pdfUrl={pdfUrls.magazine}
                   />
 
                   {/* 02. Activity Book */}
                   <MaterialCard
                     number="02"
                     title="Activity Book"
-                    issueSlug={issue.slug}
+                    pdfUrl={pdfUrls.activityBook}
                   />
 
                   {/* 03. Teacher Guide */}
                   <MaterialCard
                     number="03"
                     title="Teacher Guide"
-                    issueSlug={issue.slug}
+                    pdfUrl={pdfUrls.teachersGuide}
                   />
                 </div>
               </div>
@@ -334,11 +338,11 @@ export default function InglesMaterilesPage() {
 function MaterialCard({ 
   number, 
   title, 
-  issueSlug 
+  pdfUrl,
 }: { 
   number: string; 
   title: string; 
-  issueSlug: string;
+  pdfUrl: string;
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
 
@@ -357,24 +361,26 @@ function MaterialCard({
           {number}.{title}
         </p>
 
-        {/* Google Slides embed placeholder */}
-        <div className="aspect-[4/3] bg-white rounded-xl mb-4 flex items-center justify-center border border-gray-100 shadow-sm">
-          <div className="text-center">
-            <FileText className="w-8 h-8 mx-auto mb-2 text-[#494963]/20" />
-            <p className="text-xs text-[#494963]/40">Vista previa del documento</p>
-            <p className="text-[10px] text-[#494963]/30 mt-1">Google Slides</p>
-          </div>
+        {/* Google Slides embed - PDF preview */}
+        <div className="aspect-[4/3] bg-white rounded-xl mb-4 overflow-hidden border border-gray-100 shadow-sm">
+          <iframe
+            src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
+            className="w-full h-full"
+            title={`${title} Preview`}
+          />
         </div>
 
-        {/* Download button */}
-        <Link
-          href={`/area/lenguas-extranjeras/materiales/ingles/${issueSlug}`}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all hover:shadow-md"
-          style={{ backgroundColor: MAGENTA_COLOR, color: "white" }}
+        {/* Download button - Yellow, no rounded corners */}
+        <a
+          href={pdfUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all hover:opacity-90"
+          style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
         >
-          <FileText className="w-4 h-4" />
+          <Download className="w-4 h-4" />
           Descargar PDF
-        </Link>
+        </a>
 
         {/* Tabs */}
         <div className="flex items-center gap-4 mt-6 mb-4">
@@ -431,7 +437,7 @@ function MaterialCard({
                   </div>
                   <div 
                     className="w-1 h-6 rounded-full"
-                    style={{ backgroundColor: MAGENTA_COLOR }}
+                    style={{ backgroundColor: ORANGE_COLOR }}
                   />
                 </div>
               ))}
