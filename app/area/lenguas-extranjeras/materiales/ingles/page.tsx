@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { 
@@ -10,7 +10,6 @@ import {
   ChevronRight,
   Clock,
   Play,
-  GraduationCap
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
@@ -46,7 +45,7 @@ const sidebarItems = [
   { id: "presentacion", label: "PRESENTACION", sublabel: "Video de inicio" },
   { id: "magazine", label: "MAGAZINE", sublabel: "Revista para estudiantes" },
   { id: "activity-book", label: "ACTIVITY BOOK", sublabel: "Libro de actividades de Funzine" },
-  { id: "teachers-guide", label: "TEACHER'S GUIDE", sublabel: "Guía para docentes de Funzine en el aula" },
+  { id: "teachers-guide", label: "TEACHER'S GUIDE", sublabel: "Guia para docentes de Funzine en el aula" },
 ];
 
 export default function InglesMaterilesPage() {
@@ -71,20 +70,20 @@ export default function InglesMaterilesPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#FFF9E6" }}>
+    <div className="min-h-screen flex flex-col bg-white">
       <Header />
       
       {/* Main content with sidebar */}
       <div className="flex flex-1 mt-16">
         {/* Sidebar - fixed on desktop */}
-        <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0 border-r border-[#FFCB02]/20 bg-[#FFF9E6] sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+        <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0 border-r border-[#FFCB02]/20 bg-white sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
           <div className="p-6">
             <Link 
               href="/area/lenguas-extranjeras#materiales" 
               className="inline-flex items-center gap-2 text-xs text-[#494963]/50 hover:text-[#494963] transition-colors mb-8"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              Volver a Inglés
+              Volver a Ingles
             </Link>
 
             <nav className="space-y-1">
@@ -97,8 +96,8 @@ export default function InglesMaterilesPage() {
                     onClick={() => scrollToSection(item.id)}
                     className={`w-full text-left p-3 rounded-xl transition-all ${
                       isActive 
-                        ? "bg-white shadow-sm" 
-                        : "hover:bg-white/50"
+                        ? "bg-[#FFF9E6]" 
+                        : "hover:bg-[#FFF9E6]/50"
                     }`}
                   >
                     <div className="flex items-center gap-2">
@@ -122,59 +121,67 @@ export default function InglesMaterilesPage() {
 
         {/* Main content */}
         <main className="flex-1 overflow-hidden">
-          {/* Hero section with decorative elements */}
-          <section className="relative py-8 sm:py-12 px-4 sm:px-8 lg:px-12 overflow-hidden">
-            {/* Decorative elements - bananas and stars */}
-            <div className="absolute top-4 right-4 w-16 h-16 sm:w-24 sm:h-24 opacity-60 pointer-events-none">
-              <svg viewBox="0 0 100 100" className="w-full h-full">
-                <path d="M50 5 L55 35 L85 35 L60 55 L70 85 L50 65 L30 85 L40 55 L15 35 L45 35 Z" fill="#FFCB02" opacity="0.3"/>
-              </svg>
-            </div>
-            <div className="absolute bottom-8 left-8 w-20 h-20 opacity-50 pointer-events-none hidden sm:block">
-              <svg viewBox="0 0 100 60" className="w-full h-full">
-                <path d="M10 50 Q30 10 70 20 Q90 25 95 45 Q70 35 40 40 Q20 45 10 50" fill="#FFCB02" stroke="#E0B000" strokeWidth="2"/>
-              </svg>
-            </div>
-
-            {/* Mobile back button */}
-            <div className="lg:hidden mb-6">
-              <Link 
-                href="/area/lenguas-extranjeras#materiales" 
-                className="inline-flex items-center gap-2 text-xs text-[#494963]/50 hover:text-[#494963] transition-colors"
-              >
-                <ArrowLeft className="w-3.5 h-3.5" />
-                Volver a Inglés
-              </Link>
-            </div>
-
-            {/* Logo and title */}
-            <div className="max-w-4xl">
-              <p className="text-xs font-bold uppercase tracking-wider text-[#494963]/40 mb-2">
-                ENGLISH
-              </p>
-              {/* Funzine Logo */}
-              <div className="mb-4">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-[#494963] leading-none">
-                  <span className="text-[#494963]">Fun</span>
-                  <span style={{ color: MAGENTA_COLOR }}>zine</span>
-                </h1>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="text-sm sm:text-base text-[#494963]/70 italic">
-                    The magazine that makes
-                  </span>
-                  <span 
-                    className="text-sm sm:text-base font-bold px-2 py-0.5 rounded"
-                    style={{ backgroundColor: MAGENTA_COLOR, color: "white" }}
+          {/* Hero section with background image */}
+          <section className="relative">
+            {/* Background image */}
+            <div className="relative w-full">
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/background-funzine-NH7YIFLKw9bOSL9nHGWyz9KlBaiLcS.png"
+                alt=""
+                width={1200}
+                height={600}
+                className="w-full h-auto"
+                priority
+              />
+              
+              {/* Content overlay on background */}
+              <div className="absolute inset-0 flex flex-col justify-start pt-8 sm:pt-12 px-4 sm:px-8 lg:px-12">
+                {/* Mobile back button */}
+                <div className="lg:hidden mb-6">
+                  <Link 
+                    href="/area/lenguas-extranjeras#materiales" 
+                    className="inline-flex items-center gap-2 text-xs text-[#494963]/70 hover:text-[#494963] transition-colors"
                   >
-                    English fun!
-                  </span>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    Volver a Ingles
+                  </Link>
+                </div>
+
+                {/* Logo */}
+                <div className="max-w-md">
+                  <Image
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-funzine-LQEjEmOFKR3zDMZCkWPx4Q1ircXGEX.svg"
+                    alt="English Funzine"
+                    width={350}
+                    height={100}
+                    className="w-full max-w-[280px] sm:max-w-[350px] h-auto"
+                    priority
+                  />
+                  
+                  {/* Tagline */}
+                  <div className="flex items-center gap-2 mt-3">
+                    <Image
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-IT34i2R2KxWNrQUNqTTfmztloIwOs6.svg"
+                      alt="The magazine that makes"
+                      width={200}
+                      height={20}
+                      className="h-4 sm:h-5 w-auto"
+                    />
+                    <Image
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-N1q7YSUUn0jkppVWrDW7saBJh09H1F.png"
+                      alt="English fun!"
+                      width={120}
+                      height={30}
+                      className="h-5 sm:h-6 w-auto"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
           {/* Video de presentacion */}
-          <section ref={presentacionRef} className="px-4 sm:px-8 lg:px-12 pb-8">
+          <section ref={presentacionRef} className="px-4 sm:px-8 lg:px-12 py-8 bg-white">
             <p className="text-xs font-semibold text-[#494963]/40 uppercase tracking-wider mb-3">
               Video de presentacion
             </p>
@@ -191,7 +198,7 @@ export default function InglesMaterilesPage() {
           </section>
 
           {/* Intro text */}
-          <section className="px-4 sm:px-8 lg:px-12 pb-10">
+          <section className="px-4 sm:px-8 lg:px-12 pb-10 bg-white">
             <p className="text-sm sm:text-base text-[#494963]/70 leading-relaxed max-w-2xl">
               Les damos la bienvenida a <strong className="text-[#494963]">English Funzine</strong>. 
               Esta serie de materiales esta pensada para acompañar la implementacion de Lenguas Extranjeras 
@@ -200,7 +207,7 @@ export default function InglesMaterilesPage() {
           </section>
 
           {/* Issues section */}
-          <section className="px-4 sm:px-8 lg:px-12 pb-12">
+          <section className="px-4 sm:px-8 lg:px-12 pb-12 bg-white">
             {/* Issues selector - circular badges */}
             <div className="flex items-center gap-3 mb-6">
               <BookOpen className="w-4 h-4 text-[#494963]/40" />
@@ -216,14 +223,14 @@ export default function InglesMaterilesPage() {
                     key={issue.slug}
                     type="button"
                     onClick={() => scrollToIssue(issue.slug)}
-                    className="group flex items-center gap-3 pr-4 rounded-full transition-all hover:shadow-md"
-                    style={{ backgroundColor: "white", border: `2px solid ${AREA_COLOR}` }}
+                    className="group flex items-center gap-3 pr-4 rounded-full transition-all hover:shadow-md bg-white"
+                    style={{ border: `3px solid ${AREA_COLOR}` }}
                   >
                     <div 
-                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center flex-shrink-0"
                       style={{ backgroundColor: AREA_COLOR }}
                     >
-                      <span className="text-base sm:text-lg font-bold" style={{ color: TEXT_ON_COLOR }}>
+                      <span className="text-lg sm:text-xl font-bold" style={{ color: TEXT_ON_COLOR }}>
                         {issue.number}
                       </span>
                     </div>
@@ -234,10 +241,11 @@ export default function InglesMaterilesPage() {
                 ) : (
                   <div
                     key={issue.slug}
-                    className="flex items-center gap-3 pr-4 rounded-full bg-gray-100/50 border-2 border-gray-200/50"
+                    className="flex items-center gap-3 pr-4 rounded-full bg-gray-100/50 border-3 border-gray-200/50"
+                    style={{ border: "3px solid #e5e5e5" }}
                   >
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-200/50">
-                      <span className="text-base sm:text-lg font-bold text-[#494963]/30">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-200/50">
+                      <span className="text-lg sm:text-xl font-bold text-[#494963]/30">
                         {issue.number}
                       </span>
                     </div>
@@ -250,56 +258,24 @@ export default function InglesMaterilesPage() {
               ))}
             </div>
 
-            {/* Banner image placeholder */}
-            <div className="relative rounded-2xl overflow-hidden mb-12 max-w-3xl">
-              <div 
-                className="aspect-[16/9] flex items-center justify-center"
-                style={{ backgroundColor: `${AREA_COLOR}30` }}
-              >
-                {/* Placeholder for magazine covers image */}
-                <div className="text-center p-8">
-                  <div className="flex justify-center gap-4 mb-4">
-                    {/* Magazine placeholder */}
-                    <div className="w-24 h-32 sm:w-32 sm:h-40 bg-white rounded-lg shadow-lg flex items-center justify-center transform -rotate-6">
-                      <div className="text-center">
-                        <p className="text-xs font-bold" style={{ color: MAGENTA_COLOR }}>Magazine</p>
-                        <div 
-                          className="w-8 h-8 rounded-full mx-auto mt-2 flex items-center justify-center"
-                          style={{ backgroundColor: AREA_COLOR }}
-                        >
-                          <span className="font-bold text-sm" style={{ color: TEXT_ON_COLOR }}>1</span>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Activity book placeholder */}
-                    <div className="w-24 h-32 sm:w-32 sm:h-40 bg-white rounded-lg shadow-lg flex items-center justify-center transform rotate-3">
-                      <div className="text-center">
-                        <p className="text-xs font-bold" style={{ color: MAGENTA_COLOR }}>Activity</p>
-                        <div 
-                          className="w-8 h-8 rounded-full mx-auto mt-2 flex items-center justify-center"
-                          style={{ backgroundColor: AREA_COLOR }}
-                        >
-                          <span className="font-bold text-sm" style={{ color: TEXT_ON_COLOR }}>1</span>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Teacher guide placeholder */}
-                    <div className="w-24 h-32 sm:w-32 sm:h-40 bg-white rounded-lg shadow-lg flex items-center justify-center transform rotate-6">
-                      <div className="text-center">
-                        <GraduationCap className="w-6 h-6 mx-auto mb-1" style={{ color: MAGENTA_COLOR }} />
-                        <p className="text-xs font-bold" style={{ color: MAGENTA_COLOR }}>Guide</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div 
-                    className="inline-block px-4 py-2 rounded-lg"
-                    style={{ backgroundColor: MAGENTA_COLOR }}
-                  >
-                    <p className="text-white text-xs sm:text-sm font-medium">
-                      Learn English to talk about you and your people.
-                    </p>
-                  </div>
-                </div>
+            {/* Magazine covers banner */}
+            <div className="relative mb-12 max-w-4xl">
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/portadas-funzines-NRB0hU1hxEUk3gqJ8vjhxq5flrbhNE.png"
+                alt="English Funzine - Magazine, Activity Book y Teacher Guide"
+                width={900}
+                height={500}
+                className="w-full h-auto"
+              />
+              {/* Learn English banner overlay */}
+              <div className="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 max-w-[200px] sm:max-w-[280px]">
+                <Image
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/learn-english-banner-pkWwUyCjl66AxjfaNTILQNJYiR7xr4.png"
+                  alt="Learn English to talk about you and your people."
+                  width={280}
+                  height={100}
+                  className="w-full h-auto"
+                />
               </div>
             </div>
 
@@ -375,14 +351,14 @@ function MaterialCard({
   ];
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+    <div className="bg-[#FFF9E6] rounded-2xl overflow-hidden">
       <div className="p-5 sm:p-6">
         <p className="text-xs font-semibold text-[#494963]/40 mb-2">
           {number}.{title}
         </p>
 
         {/* Google Slides embed placeholder */}
-        <div className="aspect-[4/3] bg-gray-50 rounded-xl mb-4 flex items-center justify-center border border-gray-100">
+        <div className="aspect-[4/3] bg-white rounded-xl mb-4 flex items-center justify-center border border-gray-100 shadow-sm">
           <div className="text-center">
             <FileText className="w-8 h-8 mx-auto mb-2 text-[#494963]/20" />
             <p className="text-xs text-[#494963]/40">Vista previa del documento</p>
@@ -407,7 +383,7 @@ function MaterialCard({
             onClick={() => setActiveTab("audios")}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
               activeTab === "audios" 
-                ? "bg-gray-100 text-[#494963]" 
+                ? "bg-white text-[#494963]" 
                 : "text-[#494963]/40 hover:text-[#494963]/60"
             }`}
           >
@@ -419,7 +395,7 @@ function MaterialCard({
             onClick={() => setActiveTab("videos")}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
               activeTab === "videos" 
-                ? "bg-gray-100 text-[#494963]" 
+                ? "bg-white text-[#494963]" 
                 : "text-[#494963]/40 hover:text-[#494963]/60"
             }`}
           >
@@ -442,12 +418,12 @@ function MaterialCard({
               {audios.map((audio) => (
                 <div 
                   key={audio.id}
-                  className="flex items-center justify-between py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors group"
+                  className="flex items-center justify-between py-2 px-2 rounded-lg hover:bg-white/50 transition-colors group"
                 >
                   <div className="flex items-center gap-2">
                     <div 
                       className="w-6 h-6 rounded-full flex items-center justify-center"
-                      style={{ backgroundColor: `${AREA_COLOR}20` }}
+                      style={{ backgroundColor: `${AREA_COLOR}40` }}
                     >
                       <Play className="w-3 h-3" style={{ color: TEXT_ON_COLOR }} />
                     </div>
