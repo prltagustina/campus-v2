@@ -239,34 +239,45 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               </div>
             </div>
 
-            {/* Botón English Funzine - solo para Inglés */}
+            {/* Banner English Funzine - solo para Inglés */}
             {idiomaSeleccionado === "ingles" && (
               <div className="mt-6">
                 <Link
                   href="/area/lenguas-extranjeras/materiales/ingles"
-                  className="group flex items-center justify-between p-4 sm:p-5 rounded-2xl border-2 transition-all hover:shadow-lg"
-                  style={{ 
-                    borderColor: area.color,
-                    backgroundColor: `${area.color}10`,
-                  }}
+                  className="group block overflow-hidden rounded-2xl transition-all hover:shadow-xl hover:scale-[1.01]"
+                  style={{ backgroundColor: area.color }}
                 >
-                  <div className="flex items-center gap-4">
-                    <div 
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ backgroundColor: area.color }}
-                    >
-                      <BookOpen className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: "#5c4a00" }} />
+                  <div className="relative p-5 sm:p-6 lg:p-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                    {/* Logo Funzine */}
+                    <div className="flex-shrink-0">
+                      <img 
+                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
+                        alt="English Funzine"
+                        className="h-12 sm:h-14 lg:h-16 w-auto"
+                      />
                     </div>
-                    <div>
-                      <p className="text-base sm:text-lg font-bold text-[#494963] font-display">
-                        English Funzine
+                    
+                    {/* Content */}
+                    <div className="flex-1 text-center sm:text-left">
+                      <p className="text-sm sm:text-base font-bold text-white/90">
+                        The magazine that makes English fun!
                       </p>
-                      <p className="text-xs sm:text-sm text-[#494963]/50 mt-0.5">
-                        The magazine that makes English fun
+                      <p className="text-xs sm:text-sm text-white/60 mt-1">
+                        Recursos interactivos para aprender ingles
                       </p>
                     </div>
+                    
+                    {/* Arrow */}
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                        <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </div>
+                    
+                    {/* Decorative elements */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-20 h-20 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
                   </div>
-                  <ArrowRight className="w-5 h-5 text-[#494963]/30 group-hover:text-[#494963]/60 group-hover:translate-x-1 transition-all" />
                 </Link>
               </div>
             )}
