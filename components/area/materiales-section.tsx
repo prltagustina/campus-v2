@@ -142,43 +142,43 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               </h4>
             </div>
 
-            {/* Materiales y recursos educativos */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-5 sm:p-6 shadow-sm">
-              <h5 className="text-base sm:text-lg font-bold text-[#494963] mb-5 font-display">
+            {/* Materiales y recursos educativos - LISTA ORDENADA */}
+            <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-5 lg:p-6 shadow-sm">
+              <h5 className="text-sm sm:text-base font-bold text-[#494963] mb-4 font-display">
                 Materiales y recursos educativos
               </h5>
 
-              <div className="divide-y divide-gray-100">
+              <div className="space-y-1">
                 {/* Secuencias didácticas */}
-                <div>
+                <div className="border-b border-gray-50 last:border-0">
                   <button
                     type="button"
                     onClick={() => toggleCategoriaRecurso("secuencias")}
-                    className="w-full flex items-center justify-between py-3 sm:py-4 text-left group"
+                    className="w-full flex items-center justify-between py-2.5 sm:py-3 text-left group"
                   >
-                    <div className="flex items-center gap-3">
-                      <FileText className="w-4 h-4 text-[#494963]/30" />
-                      <span className="text-sm font-medium text-[#494963]">Secuencias didácticas</span>
-                      <span className="text-xs text-[#494963]/30">{recursosEducativos.secuencias.length}</span>
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#494963]/30" />
+                      <span className="text-xs sm:text-sm font-medium text-[#494963]">Secuencias didácticas</span>
+                      <span className="text-[10px] sm:text-xs text-[#494963]/30 bg-gray-50 px-1.5 py-0.5 rounded">{recursosEducativos.secuencias.length}</span>
                     </div>
-                    <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "secuencias" ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "secuencias" ? "rotate-180" : ""}`} />
                   </button>
                   {categoriaRecursoAbierta === "secuencias" && (
-                    <div className="pb-4 pl-7 space-y-1">
+                    <div className="pb-3 sm:pb-4 pl-5 sm:pl-7 space-y-0.5">
                       {recursosEducativos.secuencias.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group/item">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-md bg-gray-100 flex items-center justify-center flex-shrink-0">
-                              <FileText className="w-4 h-4 text-[#494963]/40" />
+                        <div key={idx} className="flex items-center justify-between py-2 px-2 sm:px-3 rounded-lg hover:bg-gray-50 group/item">
+                          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded bg-gray-100 flex items-center justify-center flex-shrink-0">
+                              <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#494963]/40" />
                             </div>
-                            <div>
-                              <span className="text-sm text-[#494963]/80 block">{item.nombre}</span>
-                              <span className="text-xs text-[#494963]/40">{item.descripcion} · {item.paginas} pág.</span>
+                            <div className="min-w-0">
+                              <span className="text-xs sm:text-sm text-[#494963]/80 block truncate">{item.nombre}</span>
+                              <span className="text-[10px] sm:text-xs text-[#494963]/40 hidden sm:block">{item.descripcion} · {item.paginas} pág.</span>
                             </div>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <span className="text-xs text-[#494963]/30">{item.size}</span>
-                            <Download className="w-3.5 h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
+                          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                            <span className="text-[10px] sm:text-xs text-[#494963]/30 hidden sm:block">{item.size}</span>
+                            <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
                           </div>
                         </div>
                       ))}
@@ -187,45 +187,45 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 </div>
 
                 {/* Materiales audiovisuales */}
-                <div>
+                <div className="border-b border-gray-50 last:border-0">
                   <button
                     type="button"
                     onClick={() => toggleCategoriaRecurso("audiovisuales")}
-                    className="w-full flex items-center justify-between py-3 sm:py-4 text-left group"
+                    className="w-full flex items-center justify-between py-2.5 sm:py-3 text-left group"
                   >
-                    <div className="flex items-center gap-3">
-                      <Video className="w-4 h-4 text-[#494963]/30" />
-                      <span className="text-sm font-medium text-[#494963]">Materiales audiovisuales</span>
-                      <span className="text-xs text-[#494963]/30">{recursosEducativos.audiovisuales.length}</span>
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <Video className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#494963]/30" />
+                      <span className="text-xs sm:text-sm font-medium text-[#494963]">Materiales audiovisuales</span>
+                      <span className="text-[10px] sm:text-xs text-[#494963]/30 bg-gray-50 px-1.5 py-0.5 rounded">{recursosEducativos.audiovisuales.length}</span>
                     </div>
-                    <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "audiovisuales" ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "audiovisuales" ? "rotate-180" : ""}`} />
                   </button>
                   {categoriaRecursoAbierta === "audiovisuales" && (
-                    <div className="pb-4 pl-7 space-y-1.5">
+                    <div className="pb-3 sm:pb-4 pl-5 sm:pl-7 space-y-0.5">
                       {recursosEducativos.audiovisuales.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group/item">
-                          <div className="flex items-center gap-3">
-                            {/* Miniatura para videos - MONOCROMO */}
-                            {item.formato === "MP4" && "thumbnail" in item ? (
-                              <div className="relative w-12 h-8 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
+                        <div key={idx} className="flex items-center justify-between py-2 px-2 sm:px-3 rounded-lg hover:bg-gray-50 group/item">
+                          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                            {/* Miniatura para videos */}
+                            {"thumbnail" in item ? (
+                              <div className="relative w-10 h-7 sm:w-12 sm:h-8 rounded overflow-hidden flex-shrink-0 bg-gray-100">
                                 <img src={(item as { thumbnail: string }).thumbnail} alt="" className="w-full h-full object-cover grayscale opacity-70" />
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                                  <Video className="w-3 h-3 text-white" />
+                                  <Video className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                                 </div>
                               </div>
                             ) : (
-                              <div className="w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 bg-gray-100">
-                                <Video className="w-4 h-4 text-[#494963]/40" />
+                              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                <Video className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#494963]/40" />
                               </div>
                             )}
-                            <div>
-                              <span className="text-sm text-[#494963]/80 block">{item.nombre}</span>
-                              <span className="text-xs text-[#494963]/40">{item.formato} · {item.duracion}</span>
+                            <div className="min-w-0">
+                              <span className="text-xs sm:text-sm text-[#494963]/80 block truncate">{item.nombre}</span>
+                              <span className="text-[10px] sm:text-xs text-[#494963]/40">{item.duracion}</span>
                             </div>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <span className="text-xs text-[#494963]/30">{item.size}</span>
-                            <Download className="w-3.5 h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
+                          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                            <span className="text-[10px] sm:text-xs text-[#494963]/30 hidden sm:block">{item.size}</span>
+                            <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
                           </div>
                         </div>
                       ))}
@@ -238,31 +238,31 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                   <button
                     type="button"
                     onClick={() => toggleCategoriaRecurso("guias")}
-                    className="w-full flex items-center justify-between py-3 sm:py-4 text-left group"
+                    className="w-full flex items-center justify-between py-2.5 sm:py-3 text-left group"
                   >
-                    <div className="flex items-center gap-3">
-                      <BookOpen className="w-4 h-4 text-[#494963]/30" />
-                      <span className="text-sm font-medium text-[#494963]">Guías para la docencia</span>
-                      <span className="text-xs text-[#494963]/30">{recursosEducativos.guias.length}</span>
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#494963]/30" />
+                      <span className="text-xs sm:text-sm font-medium text-[#494963]">Guías para la docencia</span>
+                      <span className="text-[10px] sm:text-xs text-[#494963]/30 bg-gray-50 px-1.5 py-0.5 rounded">{recursosEducativos.guias.length}</span>
                     </div>
-                    <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "guias" ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "guias" ? "rotate-180" : ""}`} />
                   </button>
                   {categoriaRecursoAbierta === "guias" && (
-                    <div className="pb-4 pl-7 space-y-1">
+                    <div className="pb-3 sm:pb-4 pl-5 sm:pl-7 space-y-0.5">
                       {recursosEducativos.guias.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group/item">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-md bg-gray-100 flex items-center justify-center flex-shrink-0">
-                              <BookOpen className="w-4 h-4 text-[#494963]/40" />
+                        <div key={idx} className="flex items-center justify-between py-2 px-2 sm:px-3 rounded-lg hover:bg-gray-50 group/item">
+                          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded bg-gray-100 flex items-center justify-center flex-shrink-0">
+                              <BookOpen className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#494963]/40" />
                             </div>
-                            <div>
-                              <span className="text-sm text-[#494963]/80 block">{item.nombre}</span>
-                              <span className="text-xs text-[#494963]/40">{item.descripcion} · {item.paginas} pág.</span>
+                            <div className="min-w-0">
+                              <span className="text-xs sm:text-sm text-[#494963]/80 block truncate">{item.nombre}</span>
+                              <span className="text-[10px] sm:text-xs text-[#494963]/40 hidden sm:block">{item.descripcion} · {item.paginas} pág.</span>
                             </div>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <span className="text-xs text-[#494963]/30">{item.size}</span>
-                            <Download className="w-3.5 h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
+                          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                            <span className="text-[10px] sm:text-xs text-[#494963]/30 hidden sm:block">{item.size}</span>
+                            <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
                           </div>
                         </div>
                       ))}
@@ -272,43 +272,42 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               </div>
             </div>
 
-            {/* Banner English Funzine - solo para Inglés */}
+            {/* Banner English Funzine - solo para Inglés - MEJOR RESPONSIVE */}
             {idiomaSeleccionado === "ingles" && (
-              <div className="mt-6">
+              <div className="mt-4 sm:mt-6">
                 <Link
                   href="/area/lenguas-extranjeras/materiales/ingles"
-                  className="group block overflow-hidden rounded-2xl transition-all hover:shadow-xl hover:scale-[1.01]"
+                  className="group block overflow-hidden rounded-xl sm:rounded-2xl transition-all hover:shadow-xl hover:scale-[1.005]"
                   style={{ backgroundColor: area.color }}
                 >
-                  <div className="relative p-5 sm:p-6 lg:p-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                  <div className="relative p-4 sm:p-5 lg:p-6 flex items-center gap-3 sm:gap-4 lg:gap-5">
                     {/* Logo Funzine */}
                     <div className="flex-shrink-0">
                       <img 
                         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
                         alt="English Funzine"
-                        className="h-12 sm:h-14 lg:h-16 w-auto"
+                        className="h-8 sm:h-10 lg:h-12 w-auto"
                       />
                     </div>
                     
-                    {/* Tagline - The magazine that makes English fun! - LOGO UNIFICADO MAS GRANDE */}
-                    <div className="flex-1 flex items-center justify-center sm:justify-start">
+                    {/* Tagline - The magazine that makes English fun! */}
+                    <div className="flex-1 min-w-0">
                       <img 
                         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
                         alt="The magazine that makes English fun!"
-                        className="h-8 sm:h-10 lg:h-12 w-auto"
+                        className="h-5 sm:h-7 lg:h-9 w-auto max-w-full"
                       />
                     </div>
                     
                     {/* Arrow */}
                     <div className="flex-shrink-0">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                        <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-0.5 transition-transform" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                        <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover:translate-x-0.5 transition-transform" />
                       </div>
                     </div>
                     
                     {/* Decorative elements */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-                    <div className="absolute bottom-0 left-0 w-20 h-20 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-20 h-20 sm:w-28 sm:h-28 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
                   </div>
                 </Link>
               </div>
