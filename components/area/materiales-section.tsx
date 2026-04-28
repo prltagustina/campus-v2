@@ -107,8 +107,8 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* Idiomas - botones amarillos sólidos MAS GRANDES */}
-        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+        {/* Idiomas - botones verticales en mobile, horizontales en desktop */}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-2 sm:gap-3 max-w-xs sm:max-w-none mx-auto">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
             return (
@@ -116,16 +116,16 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 key={idioma.id}
                 type="button"
                 onClick={() => handleIdiomaClick(idioma.id)}
-                className="group inline-flex items-center gap-2 sm:gap-3 rounded-full px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 text-sm sm:text-base lg:text-lg font-semibold transition-all hover:shadow-md hover:scale-105"
+                className="group w-full sm:w-auto inline-flex items-center justify-between sm:justify-center gap-2 rounded-full px-5 sm:px-5 lg:px-6 py-2.5 sm:py-2.5 lg:py-3 text-sm sm:text-sm lg:text-base font-semibold transition-all hover:shadow-md"
                 style={{ 
-                  backgroundColor: isSelected ? area.color : `${area.color}30`,
-                  color: isSelected ? "#5c4a00" : "#5c4a00",
+                  backgroundColor: isSelected ? area.color : `${area.color}20`,
+                  color: "#5c4a00",
                   boxShadow: isSelected ? `0 4px 12px ${area.color}50` : "none",
                 }}
               >
                 <span>{idioma.name}</span>
                 <ChevronDown 
-                  className={`w-4 h-4 sm:w-5 sm:h-5 opacity-60 group-hover:opacity-100 transition-all ${isSelected ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 opacity-50 group-hover:opacity-80 transition-all ${isSelected ? "rotate-180" : ""}`}
                 />
               </button>
             );
