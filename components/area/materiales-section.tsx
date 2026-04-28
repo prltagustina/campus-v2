@@ -107,8 +107,81 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* Idiomas - botones horizontales con flex-wrap */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+        {/* MOBILE: Lista vertical tipo acordeón */}
+        <div className="sm:hidden space-y-2">
+          {idiomas.map((idioma) => {
+            const isSelected = idiomaSeleccionado === idioma.id;
+            const isIngles = idioma.id === "ingles";
+            return (
+              <div key={idioma.id} className="rounded-xl overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => handleIdiomaClick(idioma.id)}
+                  className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold transition-all"
+                  style={{ 
+                    backgroundColor: isSelected ? area.color : `${area.color}15`,
+                    color: "#5c4a00",
+                  }}
+                >
+                  <span>{idioma.name}</span>
+                  <ChevronDown 
+                    className={`w-4 h-4 opacity-60 transition-transform ${isSelected ? "rotate-180" : ""}`}
+                  />
+                </button>
+                
+                {/* Contenido desplegable en mobile */}
+                {isSelected && (
+                  <div className="bg-white border-x border-b border-gray-100 p-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                    {isIngles ? (
+                      <>
+                        {/* Materiales para Inglés */}
+                        <div className="space-y-3 mb-4">
+                          <h5 className="text-xs font-bold text-[#494963]/60 uppercase tracking-wide">Materiales</h5>
+                          <div className="space-y-1">
+                            {["Secuencias didácticas", "Materiales audiovisuales", "Guías para la docencia"].map((mat, idx) => (
+                              <div key={idx} className="flex items-center justify-between py-2 px-2 rounded-lg hover:bg-gray-50">
+                                <span className="text-xs text-[#494963]/70">{mat}</span>
+                                <Download className="w-3 h-3 text-[#494963]/30" />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        {/* Banner Funzine */}
+                        <Link
+                          href="/area/lenguas-extranjeras/materiales/ingles"
+                          className="block rounded-lg overflow-hidden"
+                          style={{ backgroundColor: area.color }}
+                        >
+                          <div className="p-3 flex items-center gap-3">
+                            <img 
+                              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
+                              alt="English Funzine"
+                              className="h-6 w-auto"
+                            />
+                            <div className="flex-1">
+                              <span className="text-[10px] text-white/80 block">Acceder a</span>
+                              <span className="text-xs font-semibold text-white">English Funzine</span>
+                            </div>
+                            <ArrowRight className="w-4 h-4 text-white/70" />
+                          </div>
+                        </Link>
+                      </>
+                    ) : (
+                      /* Próximamente para otros idiomas */
+                      <div className="text-center py-4">
+                        <Clock className="w-6 h-6 mx-auto mb-2" style={{ color: area.color }} />
+                        <p className="text-xs text-[#494963]/50">Próximamente</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* DESKTOP: Botones horizontales */}
+        <div className="hidden sm:flex flex-wrap justify-center gap-2 sm:gap-3">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
             return (
@@ -116,7 +189,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 key={idioma.id}
                 type="button"
                 onClick={() => handleIdiomaClick(idioma.id)}
-                className="group inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 text-xs sm:text-sm lg:text-base font-semibold transition-all hover:shadow-md"
+                className="group inline-flex items-center gap-2 rounded-full px-5 lg:px-6 py-2.5 lg:py-3 text-sm lg:text-base font-semibold transition-all hover:shadow-md"
                 style={{ 
                   backgroundColor: isSelected ? area.color : `${area.color}20`,
                   color: "#5c4a00",
@@ -125,17 +198,17 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               >
                 <span>{idioma.name}</span>
                 <ChevronDown 
-                  className={`w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-50 group-hover:opacity-80 transition-all ${isSelected ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 opacity-50 group-hover:opacity-80 transition-all ${isSelected ? "rotate-180" : ""}`}
                 />
               </button>
             );
           })}
         </div>
 
-        {/* Sección de Materiales y recursos educativos - aparece al seleccionar un idioma */}
+        {/* DESKTOP: Sección de Materiales - aparece al seleccionar un idioma */}
         {idiomaSeleccionado && (
-          <div className="mt-10 sm:mt-14 animate-in fade-in slide-in-from-top-4 duration-300">
-            {/* Título del idioma seleccionado - ALINEADO A LA IZQUIERDA */}
+          <div className="hidden sm:block mt-10 sm:mt-14 animate-in fade-in slide-in-from-top-4 duration-300">
+            {/* Título del idioma seleccionado */}
             <div className="mb-8">
               <h4 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#494963] font-display text-left">
                 {idiomaInfo?.name}
