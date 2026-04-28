@@ -42,12 +42,12 @@ const funzineIssues = [
   },
 ];
 
-/* Sidebar navigation items with icons - MINIMALISTA */
+/* Sidebar navigation items with icons and labels */
 const sidebarItems = [
-  { id: "presentacion", icon: Play },
-  { id: "magazine", icon: BookOpen },
-  { id: "activity-book", icon: Pencil },
-  { id: "teachers-guide", icon: Apple },
+  { id: "presentacion", icon: Play, label: "Presentación" },
+  { id: "magazine", icon: BookOpen, label: "Magazine" },
+  { id: "activity-book", icon: Pencil, label: "Activity Book" },
+  { id: "teachers-guide", icon: Apple, label: "Teacher Guide" },
 ];
 
 /* PDF URLs */
@@ -141,23 +141,29 @@ export default function InglesMaterilesPage() {
                       const isActive = activeSection === item.id;
                       const IconComponent = item.icon;
                       return (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => scrollToSection(item.id)}
-                          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                            isActive 
-                              ? "bg-white shadow-sm" 
-                              : "bg-white/50 hover:bg-white/80"
-                          }`}
-                          title={item.id.replace("-", " ").toUpperCase()}
-                        >
-                          <IconComponent 
-                            className={`w-4 h-4 transition-colors ${
-                              isActive ? "text-[#494963]" : "text-[#494963]/40"
+                        <div key={item.id} className="relative group">
+                          <button
+                            type="button"
+                            onClick={() => scrollToSection(item.id)}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                              isActive 
+                                ? "bg-white shadow-sm" 
+                                : "bg-white/50 hover:bg-white/80"
                             }`}
-                          />
-                        </button>
+                          >
+                            <IconComponent 
+                              className={`w-4 h-4 transition-colors ${
+                                isActive ? "text-[#494963]" : "text-[#494963]/40"
+                              }`}
+                            />
+                          </button>
+                          {/* Tooltip */}
+                          <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                            <span className="text-xs font-medium text-[#494963] whitespace-nowrap bg-white px-3 py-1.5 rounded-lg shadow-md">
+                              {item.label}
+                            </span>
+                          </div>
+                        </div>
                       );
                     })}
                   </nav>
@@ -271,14 +277,15 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
 
-                  {/* Magazine covers - MÁS GRANDES en desktop y un poco más en mobile */}
+                  {/* Magazine covers - RESPONSIVE PROPORCIONAL */}
                   <div className="relative pb-8 sm:pb-12 lg:pb-16">
                     <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/portadas-funzines-NRB0hU1hxEUk3gqJ8vjhxq5flrbhNE.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher Guide"
                       width={1000}
                       height={600}
-                      className="w-full max-w-[340px] sm:max-w-lg lg:max-w-2xl xl:max-w-3xl 2xl:max-w-4xl h-auto mx-auto"
+                      className="w-full h-auto mx-auto"
+                      style={{ maxWidth: "min(100%, 800px)" }}
                     />
                     {/* Learn English banner overlay */}
                     <div className="absolute bottom-2 sm:bottom-4 lg:bottom-8 right-0 sm:right-2 lg:right-4 xl:right-8 max-w-[140px] sm:max-w-[180px] lg:max-w-[240px] xl:max-w-[280px]">

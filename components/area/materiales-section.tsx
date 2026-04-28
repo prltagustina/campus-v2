@@ -32,7 +32,6 @@ const recursosEducativos = {
   ],
   audiovisuales: [
     { nombre: "Vocabulario del aula", formato: "MP4", size: "45 MB", duracion: "5:30", thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=120&h=80&fit=crop" },
-    { nombre: "Guía de pronunciación", formato: "MP3", size: "8.2 MB", duracion: "12:45" },
     { nombre: "Canciones interactivas", formato: "MP4", size: "62 MB", duracion: "8:20", thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=120&h=80&fit=crop" },
     { nombre: "Storytelling", formato: "MP4", size: "38 MB", duracion: "6:15", thumbnail: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=120&h=80&fit=crop" },
   ],
@@ -169,8 +168,8 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                       {recursosEducativos.secuencias.map((item, idx) => (
                         <div key={idx} className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group/item">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-md bg-red-50 flex items-center justify-center flex-shrink-0">
-                              <FileText className="w-4 h-4 text-red-400" />
+                            <div className="w-8 h-8 rounded-md bg-gray-100 flex items-center justify-center flex-shrink-0">
+                              <FileText className="w-4 h-4 text-[#494963]/40" />
                             </div>
                             <div>
                               <span className="text-sm text-[#494963]/80 block">{item.nombre}</span>
@@ -206,17 +205,17 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                       {recursosEducativos.audiovisuales.map((item, idx) => (
                         <div key={idx} className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group/item">
                           <div className="flex items-center gap-3">
-                            {/* Miniatura para videos */}
+                            {/* Miniatura para videos - MONOCROMO */}
                             {item.formato === "MP4" && "thumbnail" in item ? (
                               <div className="relative w-12 h-8 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
-                                <img src={(item as { thumbnail: string }).thumbnail} alt="" className="w-full h-full object-cover" />
-                                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                                <img src={(item as { thumbnail: string }).thumbnail} alt="" className="w-full h-full object-cover grayscale opacity-70" />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                                   <Video className="w-3 h-3 text-white" />
                                 </div>
                               </div>
                             ) : (
-                              <div className={`w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 ${item.formato === "MP4" ? "bg-purple-50" : "bg-blue-50"}`}>
-                                {item.formato === "MP4" ? <Video className="w-4 h-4 text-purple-400" /> : <FileText className="w-4 h-4 text-blue-400" />}
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 bg-gray-100">
+                                <Video className="w-4 h-4 text-[#494963]/40" />
                               </div>
                             )}
                             <div>
@@ -253,8 +252,8 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                       {recursosEducativos.guias.map((item, idx) => (
                         <div key={idx} className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group/item">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-md bg-green-50 flex items-center justify-center flex-shrink-0">
-                              <BookOpen className="w-4 h-4 text-green-500" />
+                            <div className="w-8 h-8 rounded-md bg-gray-100 flex items-center justify-center flex-shrink-0">
+                              <BookOpen className="w-4 h-4 text-[#494963]/40" />
                             </div>
                             <div>
                               <span className="text-sm text-[#494963]/80 block">{item.nombre}</span>
