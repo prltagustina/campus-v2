@@ -116,19 +116,19 @@ export default function InglesMaterilesPage() {
           {/* Contenido del Hero */}
           <div className="relative" style={{ zIndex: 2 }}>
             <div className="flex">
-              {/* Sidebar */}
-              <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0">
-                <div className="sticky top-20 p-6 xl:p-8">
+              {/* Sidebar - mas compacta */}
+              <aside className="hidden lg:block w-52 xl:w-56 flex-shrink-0">
+                <div className="sticky top-20 p-4 xl:p-5">
                   {/* Volver a Lenguas Extranjeras - en una sola linea */}
                   <Link 
                     href="/area/lenguas-extranjeras" 
-                    className="inline-flex items-center gap-2 text-base text-[#494963]/80 hover:text-[#494963] transition-colors mb-10 font-medium whitespace-nowrap"
+                    className="inline-flex items-center gap-1.5 text-sm text-[#494963]/70 hover:text-[#494963] transition-colors mb-6 font-medium whitespace-nowrap"
                   >
-                    <ArrowLeft className="w-5 h-5" />
+                    <ArrowLeft className="w-4 h-4" />
                     Volver a Lenguas Extranjeras
                   </Link>
 
-                  <nav className="space-y-3">
+                  <nav className="space-y-1.5">
                     {sidebarItems.map((item) => {
                       const isActive = activeSection === item.id;
                       const IconComponent = item.icon;
@@ -137,29 +137,29 @@ export default function InglesMaterilesPage() {
                           key={item.id}
                           type="button"
                           onClick={() => scrollToSection(item.id)}
-                          className={`w-full text-left p-4 rounded-xl transition-all ${
+                          className={`w-full text-left p-2.5 rounded-lg transition-all ${
                             isActive 
                               ? "bg-white/90 shadow-sm" 
-                              : "hover:bg-white/60"
+                              : "hover:bg-white/50"
                           }`}
                         >
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-3">
                             <div 
-                              className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
-                                isActive ? "bg-white shadow-sm" : "bg-white/70"
+                              className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
+                                isActive ? "bg-white shadow-sm" : "bg-white/60"
                               }`}
                             >
                               <IconComponent 
-                                className={`w-6 h-6 transition-colors ${
+                                className={`w-4 h-4 transition-colors ${
                                   isActive ? "text-[#494963]" : "text-[#494963]/50"
                                 }`}
                               />
                             </div>
-                            <div>
-                              <span className={`text-sm font-bold uppercase tracking-wide block ${isActive ? "text-[#494963]" : "text-[#494963]/60"}`}>
+                            <div className="min-w-0">
+                              <span className={`text-xs font-bold uppercase tracking-wide block truncate ${isActive ? "text-[#494963]" : "text-[#494963]/60"}`}>
                                 {item.label}
                               </span>
-                              <p className={`text-xs leading-tight mt-1 ${isActive ? "text-[#494963]/70" : "text-[#494963]/40"}`}>
+                              <p className={`text-[10px] leading-tight mt-0.5 truncate ${isActive ? "text-[#494963]/60" : "text-[#494963]/40"}`}>
                                 {item.sublabel}
                               </p>
                             </div>
