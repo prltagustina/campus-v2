@@ -273,14 +273,13 @@ export default function InglesMaterilesPage() {
                   </div>
 
                   {/* Magazine covers - MÁS GRANDES Y MÁS ABAJO para coincidir con final del background */}
-                  <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-12 sm:pb-16 lg:pb-24">
+                  <div className="relative mt-10 sm:mt-14 lg:mt-20 pb-16 sm:pb-20 lg:pb-28">
                     <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/portadas-funzines-NRB0hU1hxEUk3gqJ8vjhxq5flrbhNE.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher Guide"
-                      width={1000}
-                      height={600}
-                      className="w-full h-auto mx-auto"
-                      style={{ maxWidth: "min(100%, 900px)" }}
+                      width={1200}
+                      height={720}
+                      className="w-full max-w-4xl xl:max-w-5xl h-auto mx-auto"
                     />
                     {/* Learn English banner overlay */}
                     <div className="absolute bottom-4 sm:bottom-8 lg:bottom-12 right-0 sm:right-4 lg:right-8 xl:right-12 max-w-[160px] sm:max-w-[200px] lg:max-w-[260px] xl:max-w-[300px]">
