@@ -171,9 +171,9 @@ export default function InglesMaterilesPage() {
                 </div>
               </aside>
 
-              {/* Main hero content - CENTRADO */}
-              <div className="flex-1 flex justify-center">
-                <div className="w-full max-w-3xl px-6 sm:px-8 lg:px-10">
+              {/* Main hero content - CENTRADO independiente del sidebar */}
+              <div className="flex-1 flex justify-center lg:-ml-52 xl:-ml-56">
+                <div className="w-full max-w-2xl px-6 sm:px-8 lg:px-0">
                   {/* Mobile back button */}
                   <div className="lg:hidden pt-6 mb-6">
                     <Link 
@@ -242,18 +242,18 @@ export default function InglesMaterilesPage() {
                       </span>
                     </div>
                     
-                    {/* Issue buttons - Sin linea punteada, colores que contrastan */}
-                    <div className="flex items-center gap-5 mb-10">
+                    {/* Issue buttons - Circulos mas pequeños */}
+                    <div className="flex items-center gap-4 mb-10">
                       {funzineIssues.map((issue) => (
                         issue.available ? (
                           <button
                             key={issue.slug}
                             type="button"
                             onClick={() => scrollToSection("magazine")}
-                            className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-full flex items-center justify-center transition-all hover:scale-105 shadow-md bg-white"
+                            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all hover:scale-105 shadow-md bg-white"
                             title={issue.title}
                           >
-                            <span className="text-2xl sm:text-3xl font-bold text-[#494963]">
+                            <span className="text-lg sm:text-xl font-bold text-[#494963]">
                               {issue.number}
                             </span>
                           </button>
@@ -263,14 +263,14 @@ export default function InglesMaterilesPage() {
                             className="relative group"
                             title="Proximamente"
                           >
-                            <div className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-full flex items-center justify-center bg-white/50">
-                              <span className="text-2xl sm:text-3xl font-bold text-[#494963]/30">
+                            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-white/50">
+                              <span className="text-lg sm:text-xl font-bold text-[#494963]/30">
                                 {issue.number}
                               </span>
                             </div>
                             {/* Tooltip proximamente */}
-                            <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                              <span className="text-sm text-[#494963]/70 whitespace-nowrap bg-white px-4 py-1.5 rounded-full shadow-sm">Proximamente</span>
+                            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                              <span className="text-xs text-[#494963]/70 whitespace-nowrap bg-white px-3 py-1 rounded-full shadow-sm">Proximamente</span>
                             </div>
                           </div>
                         )
@@ -307,7 +307,7 @@ export default function InglesMaterilesPage() {
         {/* MATERIALS SECTION */}
         <section className="relative bg-[#FDFBF7]" style={{ zIndex: 0, marginTop: "-80px", paddingTop: "120px" }}>
           <div className="flex justify-center">
-            <div className="w-full max-w-3xl px-6 sm:px-8 lg:px-10 py-12 sm:py-16 lg:py-20">
+            <div className="w-full max-w-2xl px-6 sm:px-8 lg:px-0 py-12 sm:py-16 lg:py-20">
               {/* Issue 1 Title - MAS GRANDE */}
               <div className="mb-12">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#494963] flex items-center gap-3">
