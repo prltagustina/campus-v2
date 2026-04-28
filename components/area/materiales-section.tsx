@@ -107,7 +107,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* MOBILE: Lista vertical tipo acordeón */}
+        {/* MOBILE: Lista vertical tipo acordeón con todo el contenido */}
         <div className="sm:hidden space-y-2">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
@@ -129,23 +129,129 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                   />
                 </button>
                 
-                {/* Contenido desplegable en mobile */}
+                {/* Contenido desplegable en mobile - TODA LA INFO */}
                 {isSelected && (
-                  <div className="bg-white border-x border-b border-gray-100 p-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="bg-white border-x border-b border-gray-100 p-3 animate-in fade-in slide-in-from-top-2 duration-200">
                     {isIngles ? (
                       <>
-                        {/* Materiales para Inglés */}
-                        <div className="space-y-3 mb-4">
-                          <h5 className="text-xs font-bold text-[#494963]/60 uppercase tracking-wide">Materiales</h5>
+                        {/* Materiales y recursos educativos completos */}
+                        <div className="mb-4">
+                          <h5 className="text-xs font-bold text-[#494963] mb-3">Materiales y recursos educativos</h5>
+                          
                           <div className="space-y-1">
-                            {["Secuencias didácticas", "Materiales audiovisuales", "Guías para la docencia"].map((mat, idx) => (
-                              <div key={idx} className="flex items-center justify-between py-2 px-2 rounded-lg hover:bg-gray-50">
-                                <span className="text-xs text-[#494963]/70">{mat}</span>
-                                <Download className="w-3 h-3 text-[#494963]/30" />
-                              </div>
-                            ))}
+                            {/* Secuencias didácticas */}
+                            <div className="border-b border-gray-50">
+                              <button
+                                type="button"
+                                onClick={() => toggleCategoriaRecurso("secuencias")}
+                                className="w-full flex items-center justify-between py-2 text-left"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <FileText className="w-3.5 h-3.5 text-[#494963]/30" />
+                                  <span className="text-xs font-medium text-[#494963]">Secuencias didácticas</span>
+                                  <span className="text-[10px] text-[#494963]/30 bg-gray-50 px-1.5 py-0.5 rounded">{recursosEducativos.secuencias.length}</span>
+                                </div>
+                                <ChevronDown className={`w-3.5 h-3.5 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "secuencias" ? "rotate-180" : ""}`} />
+                              </button>
+                              {categoriaRecursoAbierta === "secuencias" && (
+                                <div className="pb-2 pl-5 space-y-0.5">
+                                  {recursosEducativos.secuencias.map((item, idx) => (
+                                    <div key={idx} className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-gray-50 group/item">
+                                      <div className="flex items-center gap-2 min-w-0">
+                                        <div className="w-5 h-5 rounded bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                          <FileText className="w-2.5 h-2.5 text-[#494963]/40" />
+                                        </div>
+                                        <div className="min-w-0">
+                                          <span className="text-[11px] text-[#494963]/80 block truncate">{item.nombre}</span>
+                                          <span className="text-[9px] text-[#494963]/40">{item.paginas} pág. · {item.size}</span>
+                                        </div>
+                                      </div>
+                                      <Download className="w-3 h-3 text-[#494963]/20 group-hover/item:text-[#494963]/50 flex-shrink-0" />
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Materiales audiovisuales */}
+                            <div className="border-b border-gray-50">
+                              <button
+                                type="button"
+                                onClick={() => toggleCategoriaRecurso("audiovisuales")}
+                                className="w-full flex items-center justify-between py-2 text-left"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <Video className="w-3.5 h-3.5 text-[#494963]/30" />
+                                  <span className="text-xs font-medium text-[#494963]">Materiales audiovisuales</span>
+                                  <span className="text-[10px] text-[#494963]/30 bg-gray-50 px-1.5 py-0.5 rounded">{recursosEducativos.audiovisuales.length}</span>
+                                </div>
+                                <ChevronDown className={`w-3.5 h-3.5 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "audiovisuales" ? "rotate-180" : ""}`} />
+                              </button>
+                              {categoriaRecursoAbierta === "audiovisuales" && (
+                                <div className="pb-2 pl-5 space-y-0.5">
+                                  {recursosEducativos.audiovisuales.map((item, idx) => (
+                                    <div key={idx} className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-gray-50 group/item">
+                                      <div className="flex items-center gap-2 min-w-0">
+                                        {"thumbnail" in item ? (
+                                          <div className="relative w-8 h-5 rounded overflow-hidden flex-shrink-0 bg-gray-100">
+                                            <img src={(item as { thumbnail: string }).thumbnail} alt="" className="w-full h-full object-cover grayscale opacity-70" />
+                                            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                              <Video className="w-2 h-2 text-white" />
+                                            </div>
+                                          </div>
+                                        ) : (
+                                          <div className="w-5 h-5 rounded bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                            <Video className="w-2.5 h-2.5 text-[#494963]/40" />
+                                          </div>
+                                        )}
+                                        <div className="min-w-0">
+                                          <span className="text-[11px] text-[#494963]/80 block truncate">{item.nombre}</span>
+                                          <span className="text-[9px] text-[#494963]/40">{item.duracion} · {item.size}</span>
+                                        </div>
+                                      </div>
+                                      <Download className="w-3 h-3 text-[#494963]/20 group-hover/item:text-[#494963]/50 flex-shrink-0" />
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Guías para la docencia */}
+                            <div>
+                              <button
+                                type="button"
+                                onClick={() => toggleCategoriaRecurso("guias")}
+                                className="w-full flex items-center justify-between py-2 text-left"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <BookOpen className="w-3.5 h-3.5 text-[#494963]/30" />
+                                  <span className="text-xs font-medium text-[#494963]">Guías para la docencia</span>
+                                  <span className="text-[10px] text-[#494963]/30 bg-gray-50 px-1.5 py-0.5 rounded">{recursosEducativos.guias.length}</span>
+                                </div>
+                                <ChevronDown className={`w-3.5 h-3.5 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "guias" ? "rotate-180" : ""}`} />
+                              </button>
+                              {categoriaRecursoAbierta === "guias" && (
+                                <div className="pb-2 pl-5 space-y-0.5">
+                                  {recursosEducativos.guias.map((item, idx) => (
+                                    <div key={idx} className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-gray-50 group/item">
+                                      <div className="flex items-center gap-2 min-w-0">
+                                        <div className="w-5 h-5 rounded bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                          <BookOpen className="w-2.5 h-2.5 text-[#494963]/40" />
+                                        </div>
+                                        <div className="min-w-0">
+                                          <span className="text-[11px] text-[#494963]/80 block truncate">{item.nombre}</span>
+                                          <span className="text-[9px] text-[#494963]/40">{item.paginas} pág. · {item.size}</span>
+                                        </div>
+                                      </div>
+                                      <Download className="w-3 h-3 text-[#494963]/20 group-hover/item:text-[#494963]/50 flex-shrink-0" />
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
+
                         {/* Banner Funzine */}
                         <Link
                           href="/area/lenguas-extranjeras/materiales/ingles"
@@ -158,19 +264,23 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                               alt="English Funzine"
                               className="h-6 w-auto"
                             />
-                            <div className="flex-1">
-                              <span className="text-[10px] text-white/80 block">Acceder a</span>
-                              <span className="text-xs font-semibold text-white">English Funzine</span>
+                            <div className="flex-1 min-w-0">
+                              <img 
+                                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
+                                alt="The magazine that makes English fun!"
+                                className="h-4 w-auto"
+                              />
                             </div>
-                            <ArrowRight className="w-4 h-4 text-white/70" />
+                            <ArrowRight className="w-4 h-4 text-white/70 flex-shrink-0" />
                           </div>
                         </Link>
                       </>
                     ) : (
                       /* Próximamente para otros idiomas */
-                      <div className="text-center py-4">
-                        <Clock className="w-6 h-6 mx-auto mb-2" style={{ color: area.color }} />
-                        <p className="text-xs text-[#494963]/50">Próximamente</p>
+                      <div className="text-center py-6">
+                        <Clock className="w-8 h-8 mx-auto mb-2" style={{ color: area.color }} />
+                        <p className="text-sm font-medium text-[#494963]/60">Próximamente</p>
+                        <p className="text-xs text-[#494963]/40 mt-1">Estamos trabajando en los materiales para {idioma.name}</p>
                       </div>
                     )}
                   </div>
