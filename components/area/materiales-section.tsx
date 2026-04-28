@@ -107,8 +107,8 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* Idiomas - botones verticales en mobile, horizontales en desktop */}
-        <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-2 sm:gap-3 max-w-xs sm:max-w-none mx-auto">
+        {/* Idiomas - botones horizontales con flex-wrap */}
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
             return (
@@ -116,7 +116,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 key={idioma.id}
                 type="button"
                 onClick={() => handleIdiomaClick(idioma.id)}
-                className="group w-full sm:w-auto inline-flex items-center justify-between sm:justify-center gap-2 rounded-full px-5 sm:px-5 lg:px-6 py-2.5 sm:py-2.5 lg:py-3 text-sm sm:text-sm lg:text-base font-semibold transition-all hover:shadow-md"
+                className="group inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 text-xs sm:text-sm lg:text-base font-semibold transition-all hover:shadow-md"
                 style={{ 
                   backgroundColor: isSelected ? area.color : `${area.color}20`,
                   color: "#5c4a00",
@@ -125,7 +125,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               >
                 <span>{idioma.name}</span>
                 <ChevronDown 
-                  className={`w-4 h-4 opacity-50 group-hover:opacity-80 transition-all ${isSelected ? "rotate-180" : ""}`}
+                  className={`w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-50 group-hover:opacity-80 transition-all ${isSelected ? "rotate-180" : ""}`}
                 />
               </button>
             );
