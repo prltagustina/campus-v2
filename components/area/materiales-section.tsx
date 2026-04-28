@@ -257,17 +257,12 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                       />
                     </div>
                     
-                    {/* Tagline - The magazine that makes English fun! */}
-                    <div className="flex-1 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+                    {/* Tagline - The magazine that makes English fun! - LOGO UNIFICADO */}
+                    <div className="flex-1 flex items-center justify-center sm:justify-start">
                       <img 
-                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-IT34i2R2KxWNrQUNqTTfmztloIwOs6.svg"
-                        alt="The magazine that makes"
-                        className="h-4 sm:h-5 w-auto"
-                      />
-                      <img 
-                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-N1q7YSUUn0jkppVWrDW7saBJh09H1F.png"
-                        alt="English fun!"
-                        className="h-5 sm:h-6 w-auto"
+                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
+                        alt="The magazine that makes English fun!"
+                        className="h-6 sm:h-7 lg:h-8 w-auto"
                       />
                     </div>
                     
