@@ -98,6 +98,50 @@ export default function InglesMaterilesPage() {
     <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
       <Header />
       
+      {/* SIDEBAR GLOBAL FIJO - visible en toda la página, posicionado arriba */}
+      <aside className="hidden lg:block fixed left-0 top-24 z-50 p-3">
+        {/* Volver */}
+        <Link 
+          href="/area/lenguas-extranjeras" 
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-sm transition-colors mb-6 mx-auto"
+          title="Volver a Lenguas Extranjeras"
+        >
+          <ArrowLeft className="w-4 h-4 text-[#494963]/70" />
+        </Link>
+
+        <nav className="flex flex-col items-center gap-2">
+          {sidebarItems.map((item) => {
+            const isActive = activeSection === item.id;
+            const IconComponent = item.icon;
+            return (
+              <div key={item.id} className="relative group">
+                <button
+                  type="button"
+                  onClick={() => scrollToSection(item.id)}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-sm ${
+                    isActive 
+                      ? "bg-white" 
+                      : "bg-white/80 hover:bg-white"
+                  }`}
+                >
+                  <IconComponent 
+                    className={`w-4 h-4 transition-colors ${
+                      isActive ? "text-[#494963]" : "text-[#494963]/40"
+                    }`}
+                  />
+                </button>
+                {/* Tooltip */}
+                <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  <span className="text-xs font-medium text-[#494963] whitespace-nowrap bg-white px-3 py-1.5 rounded-lg shadow-md">
+                    {item.label}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </nav>
+      </aside>
+      
       {/* MAIN LAYOUT */}
       <main className="relative mt-16 flex-1">
         {/* HERO SECTION con Background SVG */}
@@ -122,57 +166,8 @@ export default function InglesMaterilesPage() {
           </div>
 
           {/* Contenido del Hero */}
-          <div className="relative" style={{ zIndex: 2 }}>
-            <div className="flex">
-              {/* Sidebar MINIMALISTA - solo iconos */}
-              <aside className="hidden lg:block w-20 flex-shrink-0">
-                <div className="sticky top-24 p-3">
-                  {/* Volver */}
-                  <Link 
-                    href="/area/lenguas-extranjeras" 
-                    className="flex items-center justify-center w-10 h-10 rounded-full bg-white/60 hover:bg-white transition-colors mb-8 mx-auto"
-                    title="Volver a Lenguas Extranjeras"
-                  >
-                    <ArrowLeft className="w-4 h-4 text-[#494963]/70" />
-                  </Link>
-
-                  <nav className="flex flex-col items-center gap-2">
-                    {sidebarItems.map((item) => {
-                      const isActive = activeSection === item.id;
-                      const IconComponent = item.icon;
-                      return (
-                        <div key={item.id} className="relative group">
-                          <button
-                            type="button"
-                            onClick={() => scrollToSection(item.id)}
-                            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                              isActive 
-                                ? "bg-white shadow-sm" 
-                                : "bg-white/50 hover:bg-white/80"
-                            }`}
-                          >
-                            <IconComponent 
-                              className={`w-4 h-4 transition-colors ${
-                                isActive ? "text-[#494963]" : "text-[#494963]/40"
-                              }`}
-                            />
-                          </button>
-                          {/* Tooltip */}
-                          <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-                            <span className="text-xs font-medium text-[#494963] whitespace-nowrap bg-white px-3 py-1.5 rounded-lg shadow-md">
-                              {item.label}
-                            </span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </nav>
-                </div>
-              </aside>
-
-              {/* Main hero content - CENTRADO */}
-              <div className="flex-1 flex justify-center">
-                <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-0">
+          <div className="relative flex justify-center" style={{ zIndex: 2 }}>
+            <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-0">
                   {/* Mobile back button */}
                   <div className="lg:hidden pt-4 mb-4">
                     <Link 
@@ -299,9 +294,7 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
                 </div>
-              </div>
             </div>
-          </div>
         </section>
 
         {/* MATERIALS SECTION */}
