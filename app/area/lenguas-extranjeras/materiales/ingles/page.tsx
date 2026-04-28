@@ -98,8 +98,8 @@ export default function InglesMaterilesPage() {
     <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
       <Header />
       
-      {/* SIDEBAR GLOBAL FIJO - visible en toda la página */}
-      <aside className="hidden lg:block fixed left-0 top-1/2 -translate-y-1/2 z-50 p-3">
+      {/* SIDEBAR GLOBAL FIJO - visible en toda la página, posicionado arriba */}
+      <aside className="hidden lg:block fixed left-0 top-24 z-50 p-3">
         {/* Volver */}
         <Link 
           href="/area/lenguas-extranjeras" 
