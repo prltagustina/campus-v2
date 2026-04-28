@@ -21,26 +21,26 @@ const idiomas = [
   { id: "portugues", name: "Portugués" },
 ];
 
-/* Materiales y recursos educativos - comunes a todos los idiomas */
+/* Materiales y recursos educativos - con más info (thumbnails para videos) */
 const recursosEducativos = {
   secuencias: [
-    { nombre: "Primeros pasos", formato: "PDF", size: "2.4 MB" },
-    { nombre: "Mi familia y yo", formato: "PDF", size: "3.1 MB" },
-    { nombre: "En la escuela", formato: "PDF", size: "2.8 MB" },
-    { nombre: "Los colores del mundo", formato: "PDF", size: "2.2 MB" },
-    { nombre: "Animales y naturaleza", formato: "PDF", size: "3.5 MB" },
+    { nombre: "Primeros pasos", formato: "PDF", size: "2.4 MB", descripcion: "Introducción al idioma", paginas: 12 },
+    { nombre: "Mi familia y yo", formato: "PDF", size: "3.1 MB", descripcion: "Vocabulario familiar", paginas: 18 },
+    { nombre: "En la escuela", formato: "PDF", size: "2.8 MB", descripcion: "Contexto escolar", paginas: 15 },
+    { nombre: "Los colores del mundo", formato: "PDF", size: "2.2 MB", descripcion: "Colores y formas", paginas: 10 },
+    { nombre: "Animales y naturaleza", formato: "PDF", size: "3.5 MB", descripcion: "Fauna y flora", paginas: 20 },
   ],
   audiovisuales: [
-    { nombre: "Vocabulario del aula", formato: "MP4", size: "45 MB" },
-    { nombre: "Guía de pronunciación", formato: "MP3", size: "8.2 MB" },
-    { nombre: "Canciones interactivas", formato: "MP4", size: "62 MB" },
-    { nombre: "Storytelling", formato: "MP4", size: "38 MB" },
+    { nombre: "Vocabulario del aula", formato: "MP4", size: "45 MB", duracion: "5:30", thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=120&h=80&fit=crop" },
+    { nombre: "Guía de pronunciación", formato: "MP3", size: "8.2 MB", duracion: "12:45" },
+    { nombre: "Canciones interactivas", formato: "MP4", size: "62 MB", duracion: "8:20", thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=120&h=80&fit=crop" },
+    { nombre: "Storytelling", formato: "MP4", size: "38 MB", duracion: "6:15", thumbnail: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=120&h=80&fit=crop" },
   ],
   guias: [
-    { nombre: "Guía didáctica - Nivel inicial", formato: "PDF", size: "4.5 MB" },
-    { nombre: "Planificación anual sugerida", formato: "PDF", size: "1.8 MB" },
-    { nombre: "Estrategias de evaluación", formato: "PDF", size: "2.2 MB" },
-    { nombre: "Recursos para el aula", formato: "PDF", size: "3.0 MB" },
+    { nombre: "Guía didáctica - Nivel inicial", formato: "PDF", size: "4.5 MB", descripcion: "Para docentes principiantes", paginas: 32 },
+    { nombre: "Planificación anual sugerida", formato: "PDF", size: "1.8 MB", descripcion: "Calendario escolar", paginas: 8 },
+    { nombre: "Estrategias de evaluación", formato: "PDF", size: "2.2 MB", descripcion: "Rúbricas y criterios", paginas: 14 },
+    { nombre: "Recursos para el aula", formato: "PDF", size: "3.0 MB", descripcion: "Material imprimible", paginas: 24 },
   ],
 };
 
@@ -108,8 +108,8 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* Idiomas - botones amarillos sólidos */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+        {/* Idiomas - botones amarillos sólidos MAS GRANDES */}
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
             return (
@@ -117,7 +117,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 key={idioma.id}
                 type="button"
                 onClick={() => handleIdiomaClick(idioma.id)}
-                className="group inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold transition-all hover:shadow-md hover:scale-105"
+                className="group inline-flex items-center gap-2 sm:gap-3 rounded-full px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 text-sm sm:text-base lg:text-lg font-semibold transition-all hover:shadow-md hover:scale-105"
                 style={{ 
                   backgroundColor: isSelected ? area.color : `${area.color}30`,
                   color: isSelected ? "#5c4a00" : "#5c4a00",
@@ -126,7 +126,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               >
                 <span>{idioma.name}</span>
                 <ChevronDown 
-                  className={`w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-60 group-hover:opacity-100 transition-all ${isSelected ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 sm:w-5 sm:h-5 opacity-60 group-hover:opacity-100 transition-all ${isSelected ? "rotate-180" : ""}`}
                 />
               </button>
             );
@@ -136,9 +136,9 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         {/* Sección de Materiales y recursos educativos - aparece al seleccionar un idioma */}
         {idiomaSeleccionado && (
           <div className="mt-10 sm:mt-14 animate-in fade-in slide-in-from-top-4 duration-300">
-            {/* Título del idioma seleccionado */}
-            <div className="text-center mb-8">
-              <h4 className="text-xl md:text-2xl font-bold text-[#494963] font-display">
+            {/* Título del idioma seleccionado - ALINEADO A LA IZQUIERDA */}
+            <div className="mb-8">
+              <h4 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#494963] font-display text-left">
                 {idiomaInfo?.name}
               </h4>
             </div>
@@ -167,8 +167,16 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                   {categoriaRecursoAbierta === "secuencias" && (
                     <div className="pb-4 pl-7 space-y-1">
                       {recursosEducativos.secuencias.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 group/item">
-                          <span className="text-sm text-[#494963]/70">{item.nombre}</span>
+                        <div key={idx} className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group/item">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-md bg-red-50 flex items-center justify-center flex-shrink-0">
+                              <FileText className="w-4 h-4 text-red-400" />
+                            </div>
+                            <div>
+                              <span className="text-sm text-[#494963]/80 block">{item.nombre}</span>
+                              <span className="text-xs text-[#494963]/40">{item.descripcion} · {item.paginas} pág.</span>
+                            </div>
+                          </div>
                           <div className="flex items-center gap-3">
                             <span className="text-xs text-[#494963]/30">{item.size}</span>
                             <Download className="w-3.5 h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
@@ -194,10 +202,28 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                     <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "audiovisuales" ? "rotate-180" : ""}`} />
                   </button>
                   {categoriaRecursoAbierta === "audiovisuales" && (
-                    <div className="pb-4 pl-7 space-y-1">
+                    <div className="pb-4 pl-7 space-y-1.5">
                       {recursosEducativos.audiovisuales.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 group/item">
-                          <span className="text-sm text-[#494963]/70">{item.nombre}</span>
+                        <div key={idx} className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group/item">
+                          <div className="flex items-center gap-3">
+                            {/* Miniatura para videos */}
+                            {item.formato === "MP4" && "thumbnail" in item ? (
+                              <div className="relative w-12 h-8 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
+                                <img src={(item as { thumbnail: string }).thumbnail} alt="" className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                                  <Video className="w-3 h-3 text-white" />
+                                </div>
+                              </div>
+                            ) : (
+                              <div className={`w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 ${item.formato === "MP4" ? "bg-purple-50" : "bg-blue-50"}`}>
+                                {item.formato === "MP4" ? <Video className="w-4 h-4 text-purple-400" /> : <FileText className="w-4 h-4 text-blue-400" />}
+                              </div>
+                            )}
+                            <div>
+                              <span className="text-sm text-[#494963]/80 block">{item.nombre}</span>
+                              <span className="text-xs text-[#494963]/40">{item.formato} · {item.duracion}</span>
+                            </div>
+                          </div>
                           <div className="flex items-center gap-3">
                             <span className="text-xs text-[#494963]/30">{item.size}</span>
                             <Download className="w-3.5 h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
@@ -225,8 +251,16 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                   {categoriaRecursoAbierta === "guias" && (
                     <div className="pb-4 pl-7 space-y-1">
                       {recursosEducativos.guias.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 group/item">
-                          <span className="text-sm text-[#494963]/70">{item.nombre}</span>
+                        <div key={idx} className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group/item">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-md bg-green-50 flex items-center justify-center flex-shrink-0">
+                              <BookOpen className="w-4 h-4 text-green-500" />
+                            </div>
+                            <div>
+                              <span className="text-sm text-[#494963]/80 block">{item.nombre}</span>
+                              <span className="text-xs text-[#494963]/40">{item.descripcion} · {item.paginas} pág.</span>
+                            </div>
+                          </div>
                           <div className="flex items-center gap-3">
                             <span className="text-xs text-[#494963]/30">{item.size}</span>
                             <Download className="w-3.5 h-3.5 text-[#494963]/20 group-hover/item:text-[#494963]/50 transition-colors cursor-pointer" />
@@ -239,34 +273,44 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               </div>
             </div>
 
-            {/* Botón English Funzine - solo para Inglés */}
+            {/* Banner English Funzine - solo para Inglés */}
             {idiomaSeleccionado === "ingles" && (
               <div className="mt-6">
                 <Link
                   href="/area/lenguas-extranjeras/materiales/ingles"
-                  className="group flex items-center justify-between p-4 sm:p-5 rounded-2xl border-2 transition-all hover:shadow-lg"
-                  style={{ 
-                    borderColor: area.color,
-                    backgroundColor: `${area.color}10`,
-                  }}
+                  className="group block overflow-hidden rounded-2xl transition-all hover:shadow-xl hover:scale-[1.01]"
+                  style={{ backgroundColor: area.color }}
                 >
-                  <div className="flex items-center gap-4">
-                    <div 
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ backgroundColor: area.color }}
-                    >
-                      <BookOpen className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: "#5c4a00" }} />
+                  <div className="relative p-5 sm:p-6 lg:p-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                    {/* Logo Funzine */}
+                    <div className="flex-shrink-0">
+                      <img 
+                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
+                        alt="English Funzine"
+                        className="h-12 sm:h-14 lg:h-16 w-auto"
+                      />
                     </div>
-                    <div>
-                      <p className="text-base sm:text-lg font-bold text-[#494963] font-display">
-                        English Funzine
-                      </p>
-                      <p className="text-xs sm:text-sm text-[#494963]/50 mt-0.5">
-                        The magazine that makes English fun
-                      </p>
+                    
+                    {/* Tagline - The magazine that makes English fun! - LOGO UNIFICADO MAS GRANDE */}
+                    <div className="flex-1 flex items-center justify-center sm:justify-start">
+                      <img 
+                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
+                        alt="The magazine that makes English fun!"
+                        className="h-8 sm:h-10 lg:h-12 w-auto"
+                      />
                     </div>
+                    
+                    {/* Arrow */}
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                        <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </div>
+                    
+                    {/* Decorative elements */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-20 h-20 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
                   </div>
-                  <ArrowRight className="w-5 h-5 text-[#494963]/30 group-hover:text-[#494963]/60 group-hover:translate-x-1 transition-all" />
                 </Link>
               </div>
             )}
