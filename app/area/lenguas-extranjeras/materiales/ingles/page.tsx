@@ -19,7 +19,6 @@ import { Footer } from "@/components/landing/landing-footer";
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
-const ORANGE_COLOR = "#F7941D";
 
 /* Issues de English Funzine */
 const funzineIssues = [
@@ -47,8 +46,8 @@ const funzineIssues = [
 const sidebarItems = [
   { id: "presentacion", label: "PRESENTACION", sublabel: "Video de inicio", icon: Play },
   { id: "magazine", label: "MAGAZINE", sublabel: "Revista para estudiantes", icon: BookOpen },
-  { id: "activity-book", label: "ACTIVITY BOOK", sublabel: "Libro de actividades de Funzine", icon: Pencil },
-  { id: "teachers-guide", label: "TEACHER'S GUIDE", sublabel: "Guia para docentes de Funzine en el aula", icon: Apple },
+  { id: "activity-book", label: "ACTIVITY BOOK", sublabel: "Libro de actividades", icon: Pencil },
+  { id: "teachers-guide", label: "TEACHER'S GUIDE", sublabel: "Guia para docentes", icon: Apple },
 ];
 
 /* PDF URLs */
@@ -99,42 +98,37 @@ export default function InglesMaterilesPage() {
     <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
       <Header />
       
-      {/* MAIN LAYOUT con background superpuesto */}
+      {/* MAIN LAYOUT */}
       <main className="relative mt-16 flex-1">
-        {/* Background PNG - posicionado absolutamente y por DELANTE de la seccion de materiales */}
-        <div 
-          className="absolute top-0 left-0 right-0 z-10 pointer-events-none"
-          style={{ 
-            height: 'clamp(600px, 85vh, 1000px)',
-          }}
-        >
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/background-BXmAFTAagUeCfrTZzpxxVgjvDezd4c.png"
-            alt=""
-            fill
-            className="object-cover object-top"
-            style={{ objectPosition: 'center top' }}
-            priority
-          />
-        </div>
+        {/* HERO SECTION con Background SVG */}
+        <section className="relative">
+          {/* Background SVG - cubre todo el hero y se superpone a la siguiente seccion */}
+          <div className="absolute inset-0 w-full pointer-events-none" style={{ zIndex: 1 }}>
+            <Image
+              src="/images/funzine-background.svg"
+              alt=""
+              fill
+              className="object-cover object-top"
+              priority
+            />
+          </div>
 
-        {/* Contenido - dividido en dos secciones */}
-        <div className="relative">
-          {/* HERO SECTION - Contenido sobre el background amarillo */}
-          <section className="relative z-20 pointer-events-auto">
+          {/* Contenido del Hero */}
+          <div className="relative" style={{ zIndex: 2 }}>
             <div className="flex">
-              {/* Sidebar - dentro del hero para desktop */}
-              <aside className="hidden lg:block w-56 xl:w-64 flex-shrink-0">
-                <div className="sticky top-20 p-5 xl:p-6">
+              {/* Sidebar */}
+              <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0">
+                <div className="sticky top-20 p-6 xl:p-8">
+                  {/* Volver a Lenguas Extranjeras - en una sola linea */}
                   <Link 
                     href="/area/lenguas-extranjeras" 
-                    className="inline-flex items-center gap-2 text-sm text-[#494963]/80 hover:text-[#494963] transition-colors mb-8 font-medium"
+                    className="inline-flex items-center gap-2 text-base text-[#494963]/80 hover:text-[#494963] transition-colors mb-10 font-medium whitespace-nowrap"
                   >
-                    <ArrowLeft className="w-4 h-4" />
+                    <ArrowLeft className="w-5 h-5" />
                     Volver a Lenguas Extranjeras
                   </Link>
 
-                  <nav className="space-y-2">
+                  <nav className="space-y-3">
                     {sidebarItems.map((item) => {
                       const isActive = activeSection === item.id;
                       const IconComponent = item.icon;
@@ -143,29 +137,29 @@ export default function InglesMaterilesPage() {
                           key={item.id}
                           type="button"
                           onClick={() => scrollToSection(item.id)}
-                          className={`w-full text-left p-3 rounded-xl transition-all ${
+                          className={`w-full text-left p-4 rounded-xl transition-all ${
                             isActive 
                               ? "bg-white/90 shadow-sm" 
                               : "hover:bg-white/60"
                           }`}
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-4">
                             <div 
-                              className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
+                              className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
                                 isActive ? "bg-white shadow-sm" : "bg-white/70"
                               }`}
                             >
                               <IconComponent 
-                                className={`w-5 h-5 transition-colors ${
+                                className={`w-6 h-6 transition-colors ${
                                   isActive ? "text-[#494963]" : "text-[#494963]/50"
                                 }`}
                               />
                             </div>
                             <div>
-                              <span className={`text-xs font-bold uppercase tracking-wide block ${isActive ? "text-[#494963]" : "text-[#494963]/50"}`}>
+                              <span className={`text-sm font-bold uppercase tracking-wide block ${isActive ? "text-[#494963]" : "text-[#494963]/60"}`}>
                                 {item.label}
                               </span>
-                              <p className={`text-[11px] leading-tight mt-1 ${isActive ? "text-[#494963]/70" : "text-[#494963]/40"}`}>
+                              <p className={`text-xs leading-tight mt-1 ${isActive ? "text-[#494963]/70" : "text-[#494963]/40"}`}>
                                 {item.sublabel}
                               </p>
                             </div>
@@ -177,89 +171,89 @@ export default function InglesMaterilesPage() {
                 </div>
               </aside>
 
-              {/* Main hero content */}
-              <div className="flex-1 px-5 sm:px-8 lg:px-10 pb-0">
-                <div className="max-w-3xl mx-auto lg:mx-0 lg:ml-4 xl:ml-8">
+              {/* Main hero content - CENTRADO */}
+              <div className="flex-1 flex justify-center">
+                <div className="w-full max-w-3xl px-6 sm:px-8 lg:px-10">
                   {/* Mobile back button */}
-                  <div className="lg:hidden pt-5 mb-5">
+                  <div className="lg:hidden pt-6 mb-6">
                     <Link 
                       href="/area/lenguas-extranjeras" 
-                      className="inline-flex items-center gap-2 text-sm text-[#494963]/80 hover:text-[#494963] transition-colors font-medium"
+                      className="inline-flex items-center gap-2 text-base text-[#494963]/80 hover:text-[#494963] transition-colors font-medium"
                     >
-                      <ArrowLeft className="w-4 h-4" />
+                      <ArrowLeft className="w-5 h-5" />
                       Volver a Lenguas Extranjeras
                     </Link>
                   </div>
 
                   {/* Logo */}
-                  <div className="pt-6 lg:pt-10 mb-5">
+                  <div className="pt-8 lg:pt-12 mb-6">
                     <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-funzine-LQEjEmOFKR3zDMZCkWPx4Q1ircXGEX.svg"
                       alt="English Funzine"
-                      width={500}
-                      height={140}
-                      className="w-full max-w-[300px] sm:max-w-[400px] lg:max-w-[500px] h-auto"
+                      width={550}
+                      height={150}
+                      className="w-full max-w-[320px] sm:max-w-[420px] lg:max-w-[550px] h-auto"
                       priority
                     />
                   </div>
                   
-                  {/* Tagline - The magazine that makes English fun! */}
-                  <div className="mb-10 sm:mb-12">
+                  {/* Tagline - The magazine that makes English fun! - MAS GRANDE */}
+                  <div className="mb-12 sm:mb-14 lg:mb-16">
                     <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
                       alt="The magazine that makes English fun!"
-                      width={450}
-                      height={55}
-                      className="h-10 sm:h-12 lg:h-14 w-auto"
+                      width={500}
+                      height={60}
+                      className="h-12 sm:h-14 lg:h-16 w-auto"
                     />
                   </div>
 
                   {/* Video de presentacion */}
-                  <div ref={presentacionRef} id="presentacion" className="scroll-mt-20 mb-8">
-                    <p className="text-sm font-semibold text-[#494963] uppercase tracking-wider mb-4">
+                  <div ref={presentacionRef} id="presentacion" className="scroll-mt-20 mb-10">
+                    <p className="text-base font-semibold text-[#494963] uppercase tracking-wider mb-5">
                       Video de presentacion
                     </p>
-                    <div className="rounded-xl overflow-hidden bg-[#3a3a4a] aspect-video max-w-xl flex items-center justify-center shadow-lg">
+                    <div className="rounded-xl overflow-hidden bg-[#494963] aspect-video max-w-2xl flex items-center justify-center shadow-lg">
                       <div className="text-center">
                         <div 
-                          className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto cursor-pointer transition-transform hover:scale-110"
+                          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto cursor-pointer transition-transform hover:scale-110"
                           style={{ backgroundColor: AREA_COLOR }}
                         >
-                          <Play className="w-7 h-7 sm:w-8 sm:h-8 ml-1" style={{ color: TEXT_ON_COLOR }} />
+                          <Play className="w-8 h-8 sm:w-10 sm:h-10 ml-1" style={{ color: TEXT_ON_COLOR }} />
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Intro text */}
-                  <p className="text-base sm:text-lg lg:text-xl text-[#494963]/80 leading-relaxed max-w-xl mb-8">
+                  {/* Intro text - MAS GRANDE */}
+                  <p className="text-lg sm:text-xl lg:text-2xl text-[#494963]/80 leading-relaxed max-w-2xl mb-10">
                     Les damos la bienvenida a <strong className="text-[#494963]">English Funzine</strong>. 
                     Esta serie de materiales esta pensada para acompañar la implementacion de Lenguas Extranjeras 
                     en aquellas escuelas primarias de Santa Fe que elijan enseñar ingles.
                   </p>
 
                   {/* Issues section */}
-                  <div className="mb-8">
-                    {/* Issues selector */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <BookOpenCheck className="w-6 h-6 text-[#494963]/60" />
-                      <span className="text-sm font-semibold text-[#494963]/70 uppercase tracking-wider">
+                  <div className="mb-10">
+                    {/* Issues selector - MAS GRANDE */}
+                    <div className="flex items-center gap-4 mb-5">
+                      <BookOpenCheck className="w-7 h-7 text-[#494963]/60" />
+                      <span className="text-base font-semibold text-[#494963]/70 uppercase tracking-wider">
                         Issues
                       </span>
                     </div>
                     
-                    {/* Issue buttons - SIN linea punteada, colores que contrastan */}
-                    <div className="flex items-center gap-4 mb-8">
+                    {/* Issue buttons - Sin linea punteada, colores que contrastan */}
+                    <div className="flex items-center gap-5 mb-10">
                       {funzineIssues.map((issue) => (
                         issue.available ? (
                           <button
                             key={issue.slug}
                             type="button"
                             onClick={() => scrollToSection("magazine")}
-                            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all hover:scale-105 shadow-md bg-white"
+                            className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-full flex items-center justify-center transition-all hover:scale-105 shadow-md bg-white"
                             title={issue.title}
                           >
-                            <span className="text-xl sm:text-2xl font-bold text-[#494963]">
+                            <span className="text-2xl sm:text-3xl font-bold text-[#494963]">
                               {issue.number}
                             </span>
                           </button>
@@ -269,14 +263,14 @@ export default function InglesMaterilesPage() {
                             className="relative group"
                             title="Proximamente"
                           >
-                            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center bg-white/40 backdrop-blur-sm">
-                              <span className="text-xl sm:text-2xl font-bold text-[#494963]/40">
+                            <div className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-full flex items-center justify-center bg-white/50">
+                              <span className="text-2xl sm:text-3xl font-bold text-[#494963]/30">
                                 {issue.number}
                               </span>
                             </div>
                             {/* Tooltip proximamente */}
-                            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                              <span className="text-xs text-[#494963]/60 whitespace-nowrap bg-white/90 px-3 py-1 rounded-full shadow-sm">Proximamente</span>
+                            <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                              <span className="text-sm text-[#494963]/70 whitespace-nowrap bg-white px-4 py-1.5 rounded-full shadow-sm">Proximamente</span>
                             </div>
                           </div>
                         )
@@ -284,22 +278,22 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
 
-                  {/* Magazine covers banner - posicionado para coincidir con la punta del background */}
-                  <div className="relative pb-16 sm:pb-20 lg:pb-24">
+                  {/* Magazine covers - posicionado para coincidir con la punta del background */}
+                  <div className="relative">
                     <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/portadas-funzines-NRB0hU1hxEUk3gqJ8vjhxq5flrbhNE.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher Guide"
-                      width={750}
-                      height={450}
-                      className="w-full max-w-2xl lg:max-w-3xl h-auto"
+                      width={850}
+                      height={500}
+                      className="w-full max-w-3xl h-auto"
                     />
                     {/* Learn English banner overlay */}
-                    <div className="absolute bottom-20 sm:bottom-24 lg:bottom-28 right-0 sm:right-4 lg:right-8 max-w-[160px] sm:max-w-[200px] lg:max-w-[260px]">
+                    <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 right-0 sm:right-4 lg:right-8 max-w-[180px] sm:max-w-[220px] lg:max-w-[280px]">
                       <Image
                         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/learn-english-banner-pkWwUyCjl66AxjfaNTILQNJYiR7xr4.png"
                         alt="Learn English to talk about you and your people."
-                        width={260}
-                        height={100}
+                        width={280}
+                        height={110}
                         className="w-full h-auto"
                       />
                     </div>
@@ -307,59 +301,53 @@ export default function InglesMaterilesPage() {
                 </div>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* MATERIALS SECTION - Por debajo del background (z-index menor) */}
-          <section className="relative z-0 bg-[#FDFBF7]">
-            <div className="flex">
-              {/* Sidebar placeholder for layout alignment on desktop */}
-              <div className="hidden lg:block w-56 xl:w-64 flex-shrink-0" />
-              
-              {/* Materials content */}
-              <div className="flex-1 px-5 sm:px-8 lg:px-10 py-12 sm:py-16 lg:py-20">
-                <div className="max-w-3xl mx-auto lg:mx-0 lg:ml-4 xl:ml-8">
-                  {/* Issue 1 Title */}
-                  <div className="mb-10">
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#494963] flex items-center gap-3">
-                      It&apos;s great to be me
-                      <ChevronRight className="w-6 h-6 lg:w-7 lg:h-7 text-[#494963]/30" />
-                    </h2>
-                  </div>
+        {/* MATERIALS SECTION */}
+        <section className="relative bg-[#FDFBF7]" style={{ zIndex: 0, marginTop: "-80px", paddingTop: "120px" }}>
+          <div className="flex justify-center">
+            <div className="w-full max-w-3xl px-6 sm:px-8 lg:px-10 py-12 sm:py-16 lg:py-20">
+              {/* Issue 1 Title - MAS GRANDE */}
+              <div className="mb-12">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#494963] flex items-center gap-3">
+                  It&apos;s great to be me
+                  <ChevronRight className="w-7 h-7 lg:w-8 lg:h-8 text-[#494963]/30" />
+                </h2>
+              </div>
 
-                  {/* Materials */}
-                  <div className="space-y-12 lg:space-y-16">
-                    {/* 01. Magazine */}
-                    <div ref={magazineRef} id="magazine" className="scroll-mt-20">
-                      <MaterialCard
-                        number="01"
-                        title="Magazine"
-                        pdfUrl={pdfUrls.magazine}
-                      />
-                    </div>
+              {/* Materials */}
+              <div className="space-y-14 lg:space-y-20">
+                {/* 01. Magazine */}
+                <div ref={magazineRef} id="magazine" className="scroll-mt-20">
+                  <MaterialCard
+                    number="01"
+                    title="Magazine"
+                    pdfUrl={pdfUrls.magazine}
+                  />
+                </div>
 
-                    {/* 02. Activity Book */}
-                    <div ref={activityBookRef} id="activity-book" className="scroll-mt-20">
-                      <MaterialCard
-                        number="02"
-                        title="Activity Book"
-                        pdfUrl={pdfUrls.activityBook}
-                      />
-                    </div>
+                {/* 02. Activity Book */}
+                <div ref={activityBookRef} id="activity-book" className="scroll-mt-20">
+                  <MaterialCard
+                    number="02"
+                    title="Activity Book"
+                    pdfUrl={pdfUrls.activityBook}
+                  />
+                </div>
 
-                    {/* 03. Teacher Guide */}
-                    <div ref={teachersGuideRef} id="teachers-guide" className="scroll-mt-20">
-                      <MaterialCard
-                        number="03"
-                        title="Teacher Guide"
-                        pdfUrl={pdfUrls.teachersGuide}
-                      />
-                    </div>
-                  </div>
+                {/* 03. Teacher Guide */}
+                <div ref={teachersGuideRef} id="teachers-guide" className="scroll-mt-20">
+                  <MaterialCard
+                    number="03"
+                    title="Teacher Guide"
+                    pdfUrl={pdfUrls.teachersGuide}
+                  />
                 </div>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
@@ -400,12 +388,12 @@ function MaterialCard({
   return (
     <div className="bg-[#FFF9E6] rounded-2xl overflow-hidden">
       <div className="p-6 sm:p-8 lg:p-10">
-        <p className="text-lg sm:text-xl font-semibold text-[#494963]/70 mb-6">
+        <p className="text-xl sm:text-2xl font-semibold text-[#494963]/70 mb-6">
           {number}.{title}
         </p>
 
-        {/* PDF preview - MAS GRANDE */}
-        <div className="aspect-[4/3] bg-white rounded-xl mb-5 overflow-hidden border border-gray-100 shadow-sm max-w-xl lg:max-w-2xl">
+        {/* PDF preview */}
+        <div className="aspect-[4/3] bg-white rounded-xl mb-6 overflow-hidden border border-gray-100 shadow-sm">
           <iframe
             src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
             className="w-full h-full"
@@ -414,23 +402,23 @@ function MaterialCard({
         </div>
 
         {/* Google Slides link */}
-        <div className="flex justify-end mb-5">
+        <div className="flex justify-end mb-6">
           <a 
             href={pdfUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-[#494963]/50 hover:text-[#494963]/70 transition-colors"
+            className="text-base text-[#494963]/50 hover:text-[#494963]/70 transition-colors"
           >
             Google Slides
           </a>
         </div>
 
-        {/* Download button - CON BORDER RADIUS */}
+        {/* Download button */}
         <a
           href={pdfUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 text-base font-medium transition-all hover:opacity-90 rounded-lg"
+          className="inline-flex items-center gap-2 px-7 py-3.5 text-lg font-medium transition-all hover:opacity-90 rounded-lg"
           style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
         >
           <Download className="w-5 h-5" />
@@ -438,129 +426,112 @@ function MaterialCard({
         </a>
 
         {/* Tabs */}
-        <div className="flex items-center gap-3 mt-8 mb-5">
+        <div className="flex items-center gap-4 mt-10 mb-6">
           <button
             type="button"
             onClick={() => setActiveTab("audios")}
-            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-base font-medium transition-all ${
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-base font-medium transition-all ${
               activeTab === "audios" 
                 ? "bg-white text-[#494963] shadow-sm" 
                 : "text-[#494963]/50 hover:text-[#494963]/70"
             }`}
           >
-            <FileText className="w-4 h-4" />
+            <FileText className="w-5 h-5" />
             Audios
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("videos")}
-            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-base font-medium transition-all ${
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-base font-medium transition-all ${
               activeTab === "videos" 
                 ? "bg-white text-[#494963] shadow-sm" 
                 : "text-[#494963]/50 hover:text-[#494963]/70"
             }`}
           >
-            <Play className="w-4 h-4" />
+            <Play className="w-5 h-5" />
             Videos
           </button>
           
+          {/* Spacer */}
+          <div className="flex-1" />
+          
+          {/* Download all button */}
           <button
             type="button"
             onClick={handleDownloadAll}
-            className="ml-auto text-sm text-[#494963]/50 hover:text-[#494963]/70 transition-colors flex items-center gap-1.5"
+            className="inline-flex items-center gap-2 text-base text-[#494963]/50 hover:text-[#494963]/70 transition-colors"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-5 h-5" />
             Descargar todos
           </button>
         </div>
 
-        {/* Content - Audios (SIN linea lateral) */}
-        {activeTab === "audios" && (
-          <div>
-            <p className="text-sm font-semibold text-[#494963]/50 uppercase tracking-wider mb-4">
-              Lista de audios
-            </p>
-            {/* Contenedor con scroll continuo - SIN borde lateral */}
-            <div className="max-h-64 overflow-y-auto pr-2 scrollbar-thin">
-              <div className="space-y-1">
-                {mediaData.audios.map((audio) => (
-                  <div 
-                    key={audio.id}
-                    className="flex items-center justify-between py-3 px-4 rounded-lg hover:bg-white/60 transition-colors group"
-                  >
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <div 
-                        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: `${AREA_COLOR}40` }}
-                      >
-                        <Play className="w-3.5 h-3.5 ml-0.5" style={{ color: TEXT_ON_COLOR }} />
-                      </div>
-                      <span className="text-sm text-[#494963]/70 truncate">{audio.name}</span>
-                    </div>
-                    <div className="flex items-center gap-3 flex-shrink-0">
-                      <span className="text-xs text-[#494963]/40">{audio.duration}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleDownloadSingle(audio.url, audio.name)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-full hover:bg-white"
-                      >
-                        <Download className="w-4 h-4 text-[#494963]/50" />
-                      </button>
-                    </div>
+        {/* Media list con scroll */}
+        <div className="relative">
+          <p className="text-sm font-medium text-[#494963]/40 uppercase tracking-wider mb-4">
+            {activeTab === "audios" ? "Listado de audios" : "Listado de videos"}
+          </p>
+          
+          {/* Lista con scroll si hay muchos items */}
+          <div className="max-h-72 overflow-y-auto pr-2 space-y-2 scrollbar-thin">
+            {activeTab === "audios" ? (
+              mediaData.audios.map((audio) => (
+                <div
+                  key={audio.id}
+                  className="group flex items-center justify-between py-3 px-4 rounded-lg hover:bg-white/60 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <Play className="w-4 h-4 text-[#F7941D]" />
+                    <span className="text-base text-[#494963]/70">{audio.name}</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Content - Videos con thumbnails (SIN linea lateral) */}
-        {activeTab === "videos" && (
-          <div>
-            <p className="text-sm font-semibold text-[#494963]/50 uppercase tracking-wider mb-4">
-              Lista de videos
-            </p>
-            {/* Contenedor con scroll continuo - SIN borde lateral */}
-            <div className="max-h-72 overflow-y-auto pr-2 scrollbar-thin">
-              <div className="space-y-3">
-                {mediaData.videos.map((video) => (
-                  <div 
-                    key={video.id}
-                    className="flex items-center gap-4 py-3 px-4 rounded-lg hover:bg-white/60 transition-colors group"
-                  >
-                    {/* Video thumbnail */}
-                    <div className="relative w-28 h-16 sm:w-32 sm:h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200">
-                      <Image
-                        src={video.thumbnail}
-                        alt={video.name}
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                        <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center">
-                          <Play className="w-4 h-4 ml-0.5 text-[#494963]" />
-                        </div>
-                      </div>
-                      <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded">
-                        {video.duration}
-                      </div>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <span className="text-sm text-[#494963]/80 block truncate">{video.name}</span>
-                    </div>
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm text-[#494963]/40">{audio.duration}</span>
                     <button
                       type="button"
-                      onClick={() => handleDownloadSingle(video.url, video.name)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-full hover:bg-white flex-shrink-0"
+                      onClick={() => handleDownloadSingle(audio.url, audio.name)}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <Download className="w-4 h-4 text-[#494963]/50" />
+                      <Download className="w-4 h-4 text-[#494963]/40 hover:text-[#494963]/70" />
                     </button>
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              ))
+            ) : (
+              mediaData.videos.map((video) => (
+                <div
+                  key={video.id}
+                  className="group flex items-center gap-4 py-3 px-4 rounded-lg hover:bg-white/60 transition-colors"
+                >
+                  {/* Video thumbnail */}
+                  <div className="relative w-24 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200">
+                    <Image
+                      src={video.thumbnail}
+                      alt={video.name}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center">
+                        <Play className="w-4 h-4 text-[#494963] ml-0.5" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-base text-[#494963]/70 block truncate">{video.name}</span>
+                    <span className="text-sm text-[#494963]/40">{video.duration}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleDownloadSingle(video.url, video.name)}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                  >
+                    <Download className="w-4 h-4 text-[#494963]/40 hover:text-[#494963]/70" />
+                  </button>
+                </div>
+              ))
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

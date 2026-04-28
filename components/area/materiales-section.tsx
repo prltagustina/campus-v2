@@ -108,8 +108,8 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* Idiomas - botones amarillos sólidos */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+        {/* Idiomas - botones amarillos sólidos MAS GRANDES */}
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
             return (
@@ -117,7 +117,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 key={idioma.id}
                 type="button"
                 onClick={() => handleIdiomaClick(idioma.id)}
-                className="group inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold transition-all hover:shadow-md hover:scale-105"
+                className="group inline-flex items-center gap-2 sm:gap-3 rounded-full px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 text-sm sm:text-base lg:text-lg font-semibold transition-all hover:shadow-md hover:scale-105"
                 style={{ 
                   backgroundColor: isSelected ? area.color : `${area.color}30`,
                   color: isSelected ? "#5c4a00" : "#5c4a00",
@@ -126,7 +126,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               >
                 <span>{idioma.name}</span>
                 <ChevronDown 
-                  className={`w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-60 group-hover:opacity-100 transition-all ${isSelected ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 sm:w-5 sm:h-5 opacity-60 group-hover:opacity-100 transition-all ${isSelected ? "rotate-180" : ""}`}
                 />
               </button>
             );
@@ -136,9 +136,9 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         {/* Sección de Materiales y recursos educativos - aparece al seleccionar un idioma */}
         {idiomaSeleccionado && (
           <div className="mt-10 sm:mt-14 animate-in fade-in slide-in-from-top-4 duration-300">
-            {/* Título del idioma seleccionado */}
-            <div className="text-center mb-8">
-              <h4 className="text-xl md:text-2xl font-bold text-[#494963] font-display">
+            {/* Título del idioma seleccionado - ALINEADO A LA IZQUIERDA */}
+            <div className="mb-8">
+              <h4 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#494963] font-display text-left">
                 {idiomaInfo?.name}
               </h4>
             </div>
@@ -257,12 +257,12 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                       />
                     </div>
                     
-                    {/* Tagline - The magazine that makes English fun! - LOGO UNIFICADO */}
+                    {/* Tagline - The magazine that makes English fun! - LOGO UNIFICADO MAS GRANDE */}
                     <div className="flex-1 flex items-center justify-center sm:justify-start">
                       <img 
                         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
                         alt="The magazine that makes English fun!"
-                        className="h-6 sm:h-7 lg:h-8 w-auto"
+                        className="h-8 sm:h-10 lg:h-12 w-auto"
                       />
                     </div>
                     
