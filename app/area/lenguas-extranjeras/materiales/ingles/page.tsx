@@ -31,13 +31,13 @@ const funzineIssues = [
   {
     number: 2,
     slug: "issue-2", 
-    title: "Proximamente",
+    title: "Próximamente",
     available: false,
   },
   {
     number: 3,
     slug: "issue-3",
-    title: "Proximamente", 
+    title: "Próximamente", 
     available: false,
   },
 ];
@@ -145,14 +145,14 @@ export default function InglesMaterilesPage() {
       {/* MAIN LAYOUT */}
       <main className="relative mt-16 flex-1">
         {/* HERO SECTION con Background SVG */}
-        <section className="relative" style={{ minHeight: "max(100vh, 900px)" }}>
+        <section className="relative" style={{ minHeight: "max(100vh, 1100px)" }}>
           {/* Background SVG - altura dinámica que escala con el contenido */}
           <div 
             className="absolute inset-x-0 top-0 w-full pointer-events-none" 
             style={{ 
               zIndex: 1,
               height: "100%",
-              minHeight: "max(100vh, 900px)",
+              minHeight: "max(100vh, 1100px)",
             }}
           >
             <Image
@@ -202,10 +202,10 @@ export default function InglesMaterilesPage() {
                     />
                   </div>
 
-                  {/* Video de presentacion - más pequeño en mobile */}
+                  {/* Video de presentación - más pequeño en mobile */}
                   <div ref={presentacionRef} id="presentacion" className="scroll-mt-20 mb-6 sm:mb-8">
                     <p className="text-xs sm:text-sm font-semibold text-[#494963] uppercase tracking-wider mb-3 sm:mb-4">
-                      Video de presentacion
+                      Video de presentación
                     </p>
                     <div className="rounded-lg sm:rounded-xl overflow-hidden bg-[#494963] aspect-video max-w-xl flex items-center justify-center shadow-lg">
                       <div className="text-center">
@@ -222,8 +222,8 @@ export default function InglesMaterilesPage() {
                   {/* Intro text - más pequeño en mobile */}
                   <p className="text-sm sm:text-base lg:text-lg xl:text-xl text-[#494963]/80 leading-relaxed max-w-xl mb-6 sm:mb-8">
                     Les damos la bienvenida a <strong className="text-[#494963]">English Funzine</strong>. 
-                    Esta serie de materiales esta pensada para acompañar la implementacion de Lenguas Extranjeras 
-                    en aquellas escuelas primarias de Santa Fe que elijan enseñar ingles.
+                    Esta serie de materiales está pensada para acompañar la implementación de Lenguas Extranjeras 
+                    en aquellas escuelas primarias de Santa Fe que elijan enseñar inglés.
                   </p>
 
                   {/* Issues section */}
@@ -255,16 +255,16 @@ export default function InglesMaterilesPage() {
                           <div
                             key={issue.slug}
                             className="relative group"
-                            title="Proximamente"
+                            title="Próximamente"
                           >
                             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white/50">
                               <span className="text-sm sm:text-base font-bold text-[#494963]/30">
                                 {issue.number}
                               </span>
                             </div>
-                            {/* Tooltip proximamente */}
+                            {/* Tooltip próximamente */}
                             <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                              <span className="text-[10px] sm:text-xs text-[#494963]/60 whitespace-nowrap bg-white px-2 py-0.5 rounded-full shadow-sm">Proximamente</span>
+                              <span className="text-[10px] sm:text-xs text-[#494963]/60 whitespace-nowrap bg-white px-2 py-0.5 rounded-full shadow-sm">Próximamente</span>
                             </div>
                           </div>
                         )
@@ -272,23 +272,23 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
 
-                  {/* Magazine covers - RESPONSIVE PROPORCIONAL */}
-                  <div className="relative pb-8 sm:pb-12 lg:pb-16">
+                  {/* Magazine covers - MÁS GRANDES Y MÁS ABAJO para coincidir con final del background */}
+                  <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-12 sm:pb-16 lg:pb-24">
                     <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/portadas-funzines-NRB0hU1hxEUk3gqJ8vjhxq5flrbhNE.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher Guide"
                       width={1000}
                       height={600}
                       className="w-full h-auto mx-auto"
-                      style={{ maxWidth: "min(100%, 800px)" }}
+                      style={{ maxWidth: "min(100%, 900px)" }}
                     />
                     {/* Learn English banner overlay */}
-                    <div className="absolute bottom-2 sm:bottom-4 lg:bottom-8 right-0 sm:right-2 lg:right-4 xl:right-8 max-w-[140px] sm:max-w-[180px] lg:max-w-[240px] xl:max-w-[280px]">
+                    <div className="absolute bottom-4 sm:bottom-8 lg:bottom-12 right-0 sm:right-4 lg:right-8 xl:right-12 max-w-[160px] sm:max-w-[200px] lg:max-w-[260px] xl:max-w-[300px]">
                       <Image
                         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/learn-english-banner-pkWwUyCjl66AxjfaNTILQNJYiR7xr4.png"
                         alt="Learn English to talk about you and your people."
-                        width={280}
-                        height={110}
+                        width={300}
+                        height={120}
                         className="w-full h-auto"
                       />
                     </div>
@@ -490,14 +490,14 @@ function MaterialCard({
                 </div>
               ))
             ) : (
-              /* Videos list con miniaturas */
+              /* Videos list con miniaturas - COMPLETAS EN MOBILE */
               mediaData.videos.map((video) => (
                 <div 
                   key={video.id}
-                  className="group flex items-center gap-3 p-2 sm:p-2.5 rounded-lg hover:bg-white/60 transition-colors"
+                  className="group flex items-center gap-2 sm:gap-3 p-2 sm:p-2.5 rounded-lg hover:bg-white/60 transition-colors"
                 >
-                  {/* Miniatura del video */}
-                  <div className="relative w-16 h-10 sm:w-20 sm:h-12 rounded-md overflow-hidden flex-shrink-0 bg-gray-200">
+                  {/* Miniatura del video - aspect ratio 16:9 para que se vea completa */}
+                  <div className="relative w-20 sm:w-24 aspect-video rounded-md overflow-hidden flex-shrink-0 bg-gray-200">
                     <Image
                       src={video.thumbnail}
                       alt={video.name}
