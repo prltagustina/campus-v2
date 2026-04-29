@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, FileText, ExternalLink, Download, ArrowRight } from "lucide-react";
+import { ArrowLeft, FileText, ExternalLink, Download, ArrowRight, Scale, FolderOpen, Calendar } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
 
@@ -171,9 +171,20 @@ export default function EIBPage() {
       <section className="py-10 sm:py-12 md:py-16 bg-[#EDEDF0]">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] mb-6 sm:mb-8 font-display">
-              Legislación, normativa y documentos curriculares
-            </h2>
+            {/* Título con icono estilo docentes */}
+            <div className="flex items-center gap-3 mb-6 sm:mb-8">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/5 flex items-center justify-center flex-shrink-0">
+                <Scale className="w-5 h-5 sm:w-6 sm:h-6 text-[#494963]" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] font-display">
+                  Legislación, normativa y documentos curriculares
+                </h2>
+                <p className="text-sm text-[#494963]/50 mt-0.5">
+                  Marco legal y resoluciones de la modalidad EIB
+                </p>
+              </div>
+            </div>
 
             {/* Resolución */}
             <div className="mb-6 sm:mb-8">
@@ -208,18 +219,18 @@ export default function EIBPage() {
               <h3 className="text-xs sm:text-sm font-bold text-[#494963] uppercase tracking-wide mb-3 sm:mb-4 leading-snug">
                 {legislacion.elementosJuridicos.titulo}
               </h3>
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <div className="space-y-2">
                 {legislacion.elementosJuridicos.documentos.map((doc, idx) => (
                   <a
                     key={idx}
                     href={doc.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all text-sm text-[#494963] group"
+                    className="flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl hover:bg-gray-50 transition-all group"
                   >
-                    <FileText className="w-4 h-4 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors" />
-                    <span className="flex-1">{doc.nombre}</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors" />
+                    <FileText className="w-4 h-4 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors flex-shrink-0" />
+                    <span className="text-sm text-[#494963] flex-1">{doc.nombre}</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
                   </a>
                 ))}
               </div>
@@ -237,7 +248,7 @@ export default function EIBPage() {
                 href={legislacion.marcoLegal.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all text-sm font-medium text-[#494963] group"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-white rounded-xl hover:bg-gray-50 transition-all text-sm font-medium text-[#494963] group"
               >
                 <span>Ver documento</span>
                 <ExternalLink className="w-3.5 h-3.5 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors" />
@@ -251,9 +262,20 @@ export default function EIBPage() {
       <section className="py-10 sm:py-12 md:py-16">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] mb-6 sm:mb-8 font-display leading-snug">
-              Proyectos, secuencias e itinerarios de Escuelas de Modalidad EIB de la provincia de Santa Fe
-            </h2>
+            {/* Título con icono estilo docentes */}
+            <div className="flex items-center gap-3 mb-6 sm:mb-8">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/5 flex items-center justify-center flex-shrink-0">
+                <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6 text-[#494963]" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] font-display leading-snug">
+                  Proyectos, secuencias e itinerarios
+                </h2>
+                <p className="text-sm text-[#494963]/50 mt-0.5">
+                  Escuelas de Modalidad EIB de la provincia de Santa Fe
+                </p>
+              </div>
+            </div>
 
             <div className="space-y-8 sm:space-y-10">
               {/* Nivel Inicial */}
@@ -364,9 +386,20 @@ export default function EIBPage() {
       <section className="py-10 sm:py-12 md:py-16 bg-[#EDEDF0]">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] mb-6 sm:mb-8 font-display">
-              Celebraciones y efemérides de las comunidades
-            </h2>
+            {/* Título con icono estilo docentes */}
+            <div className="flex items-center gap-3 mb-6 sm:mb-8">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/5 flex items-center justify-center flex-shrink-0">
+                <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-[#494963]" />
+              </div>
+              <div>
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] font-display">
+                  Celebraciones y efemérides
+                </h2>
+                <p className="text-sm text-[#494963]/50 mt-0.5">
+                  Fechas importantes de las comunidades originarias
+                </p>
+              </div>
+            </div>
 
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
               {celebraciones.map((item, idx) => (
