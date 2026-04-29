@@ -152,23 +152,25 @@ export default function EIBPage() {
       {/* Hero sutil - sin imagen de fondo */}
       <section className="relative pt-24 sm:pt-28 pb-10 sm:pb-12 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6">
-          <Link 
-            href="/" 
-            className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-6 sm:mb-8"
-          >
-            <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            Volver al inicio
-          </Link>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-display">
-            Educación Intercultural Bilingüe
-          </h1>
+          <div className="max-w-3xl mx-auto">
+            <Link 
+              href="/" 
+              className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-6 sm:mb-8"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              Volver al inicio
+            </Link>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-display">
+              Educación Intercultural Bilingüe
+            </h1>
+          </div>
         </div>
       </section>
 
       {/* Sección 1: Legislación, normativa y documentos curriculares */}
       <section className="py-10 sm:py-12 md:py-16 bg-[#EDEDF0]">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl mx-auto">
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] mb-6 sm:mb-8 font-display">
               Legislación, normativa y documentos curriculares
             </h2>
@@ -181,7 +183,7 @@ export default function EIBPage() {
               <a
                 href={legislacion.resolucion.url}
                 download
-                className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group"
+                className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all group"
               >
                 <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-[#E42153] flex-shrink-0" />
                 <div className="flex-1 min-w-0">
@@ -194,7 +196,9 @@ export default function EIBPage() {
                 </div>
                 <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                   <span className="text-[10px] sm:text-xs text-[#494963]/40 uppercase tracking-wide hidden sm:block">PDF</span>
-                  <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors" />
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-50 group-hover:bg-gray-100 transition-colors">
+                    <Download className="w-4 h-4 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors" />
+                  </div>
                 </div>
               </a>
             </div>
@@ -211,10 +215,11 @@ export default function EIBPage() {
                     href={doc.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2.5 sm:py-2 bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all text-sm text-[#494963]/70 hover:text-[#494963]"
+                    className="inline-flex items-center gap-2 px-4 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all text-sm text-[#494963] group"
                   >
-                    <FileText className="w-4 h-4 text-[#494963]/40" />
-                    <span>{doc.nombre}</span>
+                    <FileText className="w-4 h-4 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors" />
+                    <span className="flex-1">{doc.nombre}</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors" />
                   </a>
                 ))}
               </div>
@@ -232,10 +237,10 @@ export default function EIBPage() {
                 href={legislacion.marcoLegal.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#494963]/70 hover:text-[#494963] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all text-sm font-medium text-[#494963] group"
               >
-                <ArrowRight className="w-4 h-4" />
                 <span>Ver documento</span>
+                <ExternalLink className="w-3.5 h-3.5 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors" />
               </a>
             </div>
           </div>
@@ -245,27 +250,32 @@ export default function EIBPage() {
       {/* Sección 2: Proyectos, secuencias e itinerarios */}
       <section className="py-10 sm:py-12 md:py-16">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl mx-auto">
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] mb-6 sm:mb-8 font-display leading-snug">
               Proyectos, secuencias e itinerarios de Escuelas de Modalidad EIB de la provincia de Santa Fe
             </h2>
 
-            <div className="space-y-6 sm:space-y-8">
+            <div className="space-y-8 sm:space-y-10">
               {/* Nivel Inicial */}
               <div>
-                <h3 className="text-sm sm:text-base font-bold text-[#494963] mb-3 sm:mb-4">
-                  Proyectos Nivel Inicial
-                </h3>
-                <div className="space-y-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-2 h-2 rounded-full bg-[#FF7402]" />
+                  <h3 className="text-sm sm:text-base font-bold text-[#494963]">
+                    Proyectos Nivel Inicial
+                  </h3>
+                </div>
+                <div className="space-y-2">
                   {proyectos.inicial.map((proyecto, idx) => (
                     <a
                       key={idx}
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-sm sm:text-base text-[#494963]/70 hover:text-[#494963] transition-colors py-1"
+                      className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
                     >
-                      {proyecto.nombre}
+                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#FF7402] group-hover:translate-x-0.5 transition-transform" />
+                      <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
                     </a>
                   ))}
                 </div>
@@ -273,19 +283,24 @@ export default function EIBPage() {
 
               {/* Nivel Primario */}
               <div>
-                <h3 className="text-sm sm:text-base font-bold text-[#494963] mb-3 sm:mb-4">
-                  Proyectos Nivel Primario
-                </h3>
-                <div className="space-y-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-2 h-2 rounded-full bg-[#E42153]" />
+                  <h3 className="text-sm sm:text-base font-bold text-[#494963]">
+                    Proyectos Nivel Primario
+                  </h3>
+                </div>
+                <div className="space-y-2">
                   {proyectos.primario.map((proyecto, idx) => (
                     <a
                       key={idx}
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-sm sm:text-base text-[#494963]/70 hover:text-[#494963] transition-colors py-1"
+                      className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
                     >
-                      {proyecto.nombre}
+                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#E42153] group-hover:translate-x-0.5 transition-transform" />
+                      <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
                     </a>
                   ))}
                 </div>
@@ -293,19 +308,24 @@ export default function EIBPage() {
 
               {/* Nivel Secundario */}
               <div>
-                <h3 className="text-sm sm:text-base font-bold text-[#494963] mb-3 sm:mb-4">
-                  Proyectos Nivel Secundario
-                </h3>
-                <div className="space-y-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-2 h-2 rounded-full bg-[#3B82F6]" />
+                  <h3 className="text-sm sm:text-base font-bold text-[#494963]">
+                    Proyectos Nivel Secundario
+                  </h3>
+                </div>
+                <div className="space-y-2">
                   {proyectos.secundario.map((proyecto, idx) => (
                     <a
                       key={idx}
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-sm sm:text-base text-[#494963]/70 hover:text-[#494963] transition-colors py-1"
+                      className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
                     >
-                      {proyecto.nombre}
+                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3B82F6] group-hover:translate-x-0.5 transition-transform" />
+                      <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
                     </a>
                   ))}
                 </div>
@@ -313,19 +333,24 @@ export default function EIBPage() {
 
               {/* Nivel Terciario */}
               <div>
-                <h3 className="text-sm sm:text-base font-bold text-[#494963] mb-3 sm:mb-4">
-                  Proyectos Nivel Terciario
-                </h3>
-                <div className="space-y-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-2 h-2 rounded-full bg-[#10B981]" />
+                  <h3 className="text-sm sm:text-base font-bold text-[#494963]">
+                    Proyectos Nivel Terciario
+                  </h3>
+                </div>
+                <div className="space-y-2">
                   {proyectos.terciario.map((proyecto, idx) => (
                     <a
                       key={idx}
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-sm sm:text-base text-[#494963]/70 hover:text-[#494963] transition-colors py-1"
+                      className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
                     >
-                      {proyecto.nombre}
+                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#10B981] group-hover:translate-x-0.5 transition-transform" />
+                      <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
                     </a>
                   ))}
                 </div>
@@ -338,21 +363,23 @@ export default function EIBPage() {
       {/* Sección 3: Celebraciones y efemérides */}
       <section className="py-10 sm:py-12 md:py-16 bg-[#EDEDF0]">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl mx-auto">
             <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] mb-6 sm:mb-8 font-display">
               Celebraciones y efemérides de las comunidades
             </h2>
 
-            <div className="space-y-1">
+            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
               {celebraciones.map((item, idx) => (
                 <a
                   key={idx}
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block text-sm sm:text-base text-[#494963]/70 hover:text-[#494963] transition-colors py-1.5 sm:py-2"
+                  className="flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50/50 transition-colors group"
                 >
-                  {item.nombre}
+                  <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#494963]/30 group-hover:text-[#494963]/60 group-hover:translate-x-0.5 transition-all" />
+                  <span className="text-sm text-[#494963] flex-1">{item.nombre}</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-[#494963]/20 group-hover:text-[#494963]/50 transition-colors flex-shrink-0" />
                 </a>
               ))}
             </div>
