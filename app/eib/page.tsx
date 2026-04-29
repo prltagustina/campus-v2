@@ -156,8 +156,8 @@ export default function EIBPage() {
       <section className="relative pt-24 sm:pt-28 pb-10 sm:pb-12 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-6 sm:mb-8"
             >
               <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -290,7 +290,7 @@ export default function EIBPage() {
               {/* Nivel Inicial */}
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-[#FF7402]" />
+                  <div className="w-2 h-2 rounded-full bg-[#3d3d5c]" />
                   <h3 className="text-sm sm:text-base font-bold text-[#494963]">
                     Proyectos Nivel Inicial
                   </h3>
@@ -304,7 +304,7 @@ export default function EIBPage() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
                     >
-                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#FF7402] group-hover:translate-x-0.5 transition-transform" />
+                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3d3d5c] group-hover:translate-x-0.5 transition-transform" />
                       <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
                       <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
                     </a>
@@ -315,7 +315,7 @@ export default function EIBPage() {
               {/* Nivel Primario */}
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-[#E42153]" />
+                  <div className="w-2 h-2 rounded-full bg-[#3d3d5c]" />
                   <h3 className="text-sm sm:text-base font-bold text-[#494963]">
                     Proyectos Nivel Primario
                   </h3>
@@ -329,7 +329,7 @@ export default function EIBPage() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
                     >
-                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#E42153] group-hover:translate-x-0.5 transition-transform" />
+                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3d3d5c] group-hover:translate-x-0.5 transition-transform" />
                       <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
                       <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
                     </a>
@@ -340,7 +340,7 @@ export default function EIBPage() {
               {/* Nivel Secundario */}
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-[#3B82F6]" />
+                  <div className="w-2 h-2 rounded-full bg-[#3d3d5c]" />
                   <h3 className="text-sm sm:text-base font-bold text-[#494963]">
                     Proyectos Nivel Secundario
                   </h3>
@@ -354,7 +354,7 @@ export default function EIBPage() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
                     >
-                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3B82F6] group-hover:translate-x-0.5 transition-transform" />
+                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3d3d5c] group-hover:translate-x-0.5 transition-transform" />
                       <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
                       <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
                     </a>
@@ -365,7 +365,7 @@ export default function EIBPage() {
               {/* Nivel Terciario */}
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-[#10B981]" />
+                  <div className="w-2 h-2 rounded-full bg-[#3d3d5c]" />
                   <h3 className="text-sm sm:text-base font-bold text-[#494963]">
                     Proyectos Nivel Terciario
                   </h3>
@@ -379,7 +379,7 @@ export default function EIBPage() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
                     >
-                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#10B981] group-hover:translate-x-0.5 transition-transform" />
+                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3d3d5c] group-hover:translate-x-0.5 transition-transform" />
                       <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
                       <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
                     </a>
