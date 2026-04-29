@@ -29,7 +29,8 @@ const legislacion = {
   marcoLegal: {
     titulo: "MARCO LEGAL QUE ENCUADRA EL TRABAJO DE LA",
     subtitulo: "MODALIDAD DE EDUCACIÓN INTERCULTURAL BILINGÜE",
-    descripcion: "Referencias a legislación nacional, provincial e internacional vinculada con la Modalidad de Educación Intercultural Bilingüe.",
+    descripcion: "Referencias a legislación nacional, provincial e internacional vinculada",
+    descripcion2: "con la Modalidad de Educación Intercultural Bilingüe.",
     url: "https://campuseducativo.santafe.edu.ar/marco-legal-que-encuadra-el-trabajo-de-la-modalidad-de-educacion-intercultural-bilingue/",
   },
 };
@@ -249,6 +250,8 @@ export default function EIBPage() {
               </h3>
               <p className="text-sm sm:text-base text-[#494963]/60 mb-3 sm:mb-4 leading-relaxed">
                 {legislacion.marcoLegal.descripcion}
+                <br />
+                {legislacion.marcoLegal.descripcion2}
               </p>
               <a
                 href={legislacion.marcoLegal.url}
