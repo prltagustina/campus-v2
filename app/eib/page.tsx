@@ -13,8 +13,8 @@ const legislacion = {
     url: "/documentos/resolucion-1023-26-eib.pdf",
   },
   elementosJuridicos: {
-    titulo: "ELEMENTOS JURÍDICOS RELACIONADOS CON LA",
-    subtitulo: "EDUCACIÓN INTERCULTURAL BILINGÜE",
+    titulo: "ELEMENTOS JURÍDICOS RELACIONADOS",
+    subtitulo: "CON LA EDUCACIÓN INTERCULTURAL BILINGÜE",
     documentos: [
       {
         nombre: "Documento 1",
