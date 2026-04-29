@@ -13,7 +13,8 @@ const legislacion = {
     url: "/documentos/resolucion-1023-26-eib.pdf",
   },
   elementosJuridicos: {
-    titulo: "ELEMENTOS JURÍDICOS RELACIONADOS CON LA EDUCACIÓN INTERCULTURAL BILINGÜE",
+    titulo: "ELEMENTOS JURÍDICOS RELACIONADOS CON LA",
+    subtitulo: "EDUCACIÓN INTERCULTURAL BILINGÜE",
     documentos: [
       {
         nombre: "Documento 1",
@@ -26,7 +27,8 @@ const legislacion = {
     ],
   },
   marcoLegal: {
-    titulo: "MARCO LEGAL QUE ENCUADRA EL TRABAJO DE LA MODALIDAD DE EDUCACIÓN INTERCULTURAL BILINGÜE",
+    titulo: "MARCO LEGAL QUE ENCUADRA EL TRABAJO DE LA",
+    subtitulo: "MODALIDAD DE EDUCACIÓN INTERCULTURAL BILINGÜE",
     descripcion: "Referencias a legislación nacional, provincial e internacional vinculada con la Modalidad de Educación Intercultural Bilingüe.",
     url: "https://campuseducativo.santafe.edu.ar/marco-legal-que-encuadra-el-trabajo-de-la-modalidad-de-educacion-intercultural-bilingue/",
   },
@@ -218,6 +220,8 @@ export default function EIBPage() {
             <div className="mb-6 sm:mb-8">
               <h3 className="text-xs sm:text-sm font-bold text-[#494963] uppercase tracking-wide mb-3 sm:mb-4 leading-snug">
                 {legislacion.elementosJuridicos.titulo}
+                <br />
+                {legislacion.elementosJuridicos.subtitulo}
               </h3>
               <div className="space-y-2">
                 {legislacion.elementosJuridicos.documentos.map((doc, idx) => (
@@ -240,6 +244,8 @@ export default function EIBPage() {
             <div>
               <h3 className="text-xs sm:text-sm font-bold text-[#494963] uppercase tracking-wide mb-2 sm:mb-3 leading-snug">
                 {legislacion.marcoLegal.titulo}
+                <br />
+                {legislacion.marcoLegal.subtitulo}
               </h3>
               <p className="text-sm sm:text-base text-[#494963]/60 mb-3 sm:mb-4 leading-relaxed">
                 {legislacion.marcoLegal.descripcion}
