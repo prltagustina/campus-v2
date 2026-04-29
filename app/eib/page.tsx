@@ -13,7 +13,8 @@ const legislacion = {
     url: "/documentos/resolucion-1023-26-eib.pdf",
   },
   elementosJuridicos: {
-    titulo: "ELEMENTOS JURÍDICOS RELACIONADOS CON LA EDUCACIÓN INTERCULTURAL BILINGÜE",
+    titulo: "ELEMENTOS JURÍDICOS RELACIONADOS",
+    subtitulo: "CON LA EDUCACIÓN INTERCULTURAL BILINGÜE",
     documentos: [
       {
         nombre: "Documento 1",
@@ -26,8 +27,10 @@ const legislacion = {
     ],
   },
   marcoLegal: {
-    titulo: "MARCO LEGAL QUE ENCUADRA EL TRABAJO DE LA MODALIDAD DE EDUCACIÓN INTERCULTURAL BILINGÜE",
-    descripcion: "Referencias a legislación nacional, provincial e internacional vinculada con la Modalidad de Educación Intercultural Bilingüe.",
+    titulo: "MARCO LEGAL QUE ENCUADRA EL TRABAJO DE LA",
+    subtitulo: "MODALIDAD DE EDUCACIÓN INTERCULTURAL BILINGÜE",
+    descripcion: "Referencias a legislación nacional, provincial e internacional vinculada",
+    descripcion2: "con la Modalidad de Educación Intercultural Bilingüe.",
     url: "https://campuseducativo.santafe.edu.ar/marco-legal-que-encuadra-el-trabajo-de-la-modalidad-de-educacion-intercultural-bilingue/",
   },
 };
@@ -172,15 +175,15 @@ export default function EIBPage() {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto">
             {/* Título con icono estilo docentes */}
-            <div className="flex items-center gap-3 mb-6 sm:mb-8">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/5 flex items-center justify-center flex-shrink-0">
+            <div className="flex items-start gap-3 mb-6 sm:mb-8">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/5 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Scale className="w-5 h-5 sm:w-6 sm:h-6 text-[#494963]" />
               </div>
-              <div>
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] font-display">
+              <div className="flex-1 min-w-0">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] font-display leading-tight">
                   Legislación, normativa y documentos curriculares
                 </h2>
-                <p className="text-sm text-[#494963]/50 mt-0.5">
+                <p className="text-sm text-[#494963]/50 mt-1">
                   Marco legal y resoluciones de la modalidad EIB
                 </p>
               </div>
@@ -218,6 +221,8 @@ export default function EIBPage() {
             <div className="mb-6 sm:mb-8">
               <h3 className="text-xs sm:text-sm font-bold text-[#494963] uppercase tracking-wide mb-3 sm:mb-4 leading-snug">
                 {legislacion.elementosJuridicos.titulo}
+                <br />
+                {legislacion.elementosJuridicos.subtitulo}
               </h3>
               <div className="space-y-2">
                 {legislacion.elementosJuridicos.documentos.map((doc, idx) => (
@@ -240,9 +245,13 @@ export default function EIBPage() {
             <div>
               <h3 className="text-xs sm:text-sm font-bold text-[#494963] uppercase tracking-wide mb-2 sm:mb-3 leading-snug">
                 {legislacion.marcoLegal.titulo}
+                <br />
+                {legislacion.marcoLegal.subtitulo}
               </h3>
               <p className="text-sm sm:text-base text-[#494963]/60 mb-3 sm:mb-4 leading-relaxed">
                 {legislacion.marcoLegal.descripcion}
+                <br />
+                {legislacion.marcoLegal.descripcion2}
               </p>
               <a
                 href={legislacion.marcoLegal.url}
