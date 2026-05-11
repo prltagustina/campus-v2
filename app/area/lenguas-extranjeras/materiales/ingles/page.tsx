@@ -242,13 +242,13 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
 
-                  {/* Magazine covers - Banner con personajes */}
-                  <div className="relative mt-6 sm:mt-10 lg:mt-14 pb-8 sm:pb-12 lg:pb-16 -mx-3 sm:-mx-6 lg:-mx-16 xl:-mx-24">
+                  {/* Magazine covers - Banner con personajes - MÁS GRANDE */}
+                  <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-10 sm:pb-14 lg:pb-20 -mx-6 sm:-mx-10 lg:-mx-28 xl:-mx-40">
                     <Image
                       src="/images/funzine-banner.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher Guide"
-                      width={1600}
-                      height={640}
+                      width={1920}
+                      height={768}
                       className="w-full h-auto"
                       priority
                     />
