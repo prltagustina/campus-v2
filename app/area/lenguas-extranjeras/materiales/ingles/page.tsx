@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { 
@@ -92,6 +92,45 @@ export default function InglesMaterilesPage() {
       ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  // Scroll spy - detectar sección visible automáticamente
+  useEffect(() => {
+    const sectionRefs = [
+      { id: "presentacion", ref: presentacionRef },
+      { id: "magazine", ref: magazineRef },
+      { id: "activity-book", ref: activityBookRef },
+      { id: "teachers-guide", ref: teachersGuideRef },
+    ];
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0,
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.getAttribute("id");
+          if (sectionId) {
+            setActiveSection(sectionId);
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    sectionRefs.forEach(({ ref }) => {
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FDFBF7] overflow-x-hidden">
