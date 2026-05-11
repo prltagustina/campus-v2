@@ -150,7 +150,7 @@ export default function InglesMaterilesPage() {
             className="absolute inset-x-0 top-0 w-full h-full pointer-events-none" 
             style={{ 
               zIndex: 1,
-              background: "linear-gradient(180deg, #FFE082 0%, #FFCA28 20%, #FFD54F 50%, #FFF8E1 85%, #FDFBF7 100%)",
+              background: "linear-gradient(180deg, #FFCA28 0%, #FFD54F 30%, #FFE082 60%, #FFF8E1 85%, #FDFBF7 100%)",
             }}
           />
 
@@ -226,14 +226,14 @@ export default function InglesMaterilesPage() {
                             key={issue.slug}
                             type="button"
                             onClick={() => scrollToSection("magazine")}
-                            className="px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-semibold transition-all hover:scale-105 bg-[#494963] text-white"
+                            className="px-5 sm:px-5 lg:px-6 py-3 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-bold transition-all hover:scale-105 bg-[#494963] text-white shadow-lg"
                           >
                             Issue {issue.number}
                           </button>
                         ) : (
                           <span
                             key={issue.slug}
-                            className="px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-medium bg-[#494963]/10 text-[#494963]/40"
+                            className="px-5 sm:px-5 lg:px-6 py-3 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-normal bg-white/30 text-[#494963]/20"
                           >
                             Issue {issue.number}
                           </span>
@@ -242,13 +242,13 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
 
-                  {/* Magazine covers - Banner con personajes */}
-                  <div className="relative mt-6 sm:mt-10 lg:mt-14 pb-8 sm:pb-12 lg:pb-16 -mx-3 sm:-mx-6 lg:-mx-16 xl:-mx-24">
+                  {/* Magazine covers - Banner con personajes - MÁS GRANDE */}
+                  <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-10 sm:pb-14 lg:pb-20 -mx-6 sm:-mx-10 lg:-mx-28 xl:-mx-40">
                     <Image
                       src="/images/funzine-banner.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher Guide"
-                      width={1600}
-                      height={640}
+                      width={1920}
+                      height={768}
                       className="w-full h-auto"
                       priority
                     />
