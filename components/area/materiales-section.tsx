@@ -119,15 +119,11 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                     backgroundColor: isSelected ? area.color : "rgba(0,0,0,0.03)",
                   }}
                 >
-                  <span 
-                    className="text-base font-semibold"
-                    style={{ color: isSelected ? "#FFFFFF" : "#494963" }}
-                  >
+                  <span className="text-base font-semibold text-[#494963]">
                     {idioma.name}
                   </span>
                   <ChevronDown 
-                    className={`w-5 h-5 transition-transform ${isSelected ? "rotate-180" : ""}`}
-                    style={{ color: isSelected ? "rgba(255,255,255,0.8)" : "rgba(73,73,99,0.4)" }}
+                    className={`w-5 h-5 transition-transform text-[#494963]/40 ${isSelected ? "rotate-180" : ""}`}
                   />
                 </button>
                 
