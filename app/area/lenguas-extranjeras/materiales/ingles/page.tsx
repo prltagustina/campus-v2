@@ -339,8 +339,6 @@ function MaterialCard({
   pdfUrl: string;
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
-  const [isFlipping, setIsFlipping] = useState(false);
-  const [flipDirection, setFlipDirection] = useState<"left" | "right" | null>(null);
 
   const currentMedia = activeTab === "audios" ? mediaData.audios : mediaData.videos;
 
@@ -360,88 +358,27 @@ function MaterialCard({
     link.click();
   };
 
-  const handleFlip = (direction: "left" | "right") => {
-    if (isFlipping) return;
-    setFlipDirection(direction);
-    setIsFlipping(true);
-    setTimeout(() => {
-      setIsFlipping(false);
-      setFlipDirection(null);
-    }, 600);
-  };
-
   return (
-    <div className="bg-white rounded-2xl p-6 sm:p-8 lg:p-10">
+    <div className="bg-white rounded-2xl p-5 sm:p-6 lg:p-8">
       {/* Título */}
-      <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#494963] mb-6 sm:mb-8">
+      <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#494963] mb-5 sm:mb-6">
         {number}. {title}
       </p>
 
-      {/* PDF Flipbook viewer */}
-      <div className="relative w-full mb-6 sm:mb-8">
-        {/* Contenedor del libro con perspectiva */}
+      {/* PDF viewer - responsive al dispositivo */}
+      <div className="relative w-full mb-5 sm:mb-6">
         <div 
-          className="relative mx-auto"
-          style={{ 
-            perspective: "2000px",
-            maxWidth: "600px"
-          }}
+          className="relative w-full bg-gray-100 rounded-lg overflow-hidden"
+          style={{ aspectRatio: "3/4" }}
         >
-          {/* Página del libro */}
-          <div 
-            className={`relative bg-white shadow-2xl transition-transform duration-500 ease-in-out ${
-              isFlipping && flipDirection === "right" ? "animate-flip-right" : ""
-            } ${
-              isFlipping && flipDirection === "left" ? "animate-flip-left" : ""
-            }`}
-            style={{
-              aspectRatio: "3/4",
-              transformStyle: "preserve-3d",
-              boxShadow: "0 10px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)",
-            }}
-          >
-            {/* Efecto de páginas apiladas */}
-            <div className="absolute -right-1 top-2 bottom-2 w-3 bg-gradient-to-r from-gray-100 to-gray-200 rounded-r-sm" />
-            <div className="absolute -right-2 top-4 bottom-4 w-2 bg-gradient-to-r from-gray-200 to-gray-300 rounded-r-sm" />
-            
-            {/* Iframe del PDF */}
-            <iframe
-              src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
-              className="w-full h-full absolute inset-0 rounded-sm"
-              title={`${title} Preview`}
-              style={{ border: "none" }}
-            />
-            
-            {/* Efecto de brillo en el borde */}
-            <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-black/5 to-transparent pointer-events-none" />
-          </div>
-          
-          {/* Controles de navegación flipbook */}
-          <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between pointer-events-none px-2 sm:px-0 sm:-mx-16">
-            {/* Botón anterior - efecto flip */}
-            <button
-              type="button"
-              onClick={() => handleFlip("left")}
-              className="pointer-events-auto w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-lg hover:shadow-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95"
-            >
-              <ChevronRight className="w-6 h-6 text-[#494963] rotate-180" />
-            </button>
-            
-            {/* Botón siguiente - efecto flip */}
-            <button
-              type="button"
-              onClick={() => handleFlip("right")}
-              className="pointer-events-auto w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-lg hover:shadow-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95"
-            >
-              <ChevronRight className="w-6 h-6 text-[#494963]" />
-            </button>
-          </div>
+          <iframe
+            src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
+            className="w-full h-full absolute inset-0"
+            title={`${title} Preview`}
+            style={{ border: "none" }}
+            allowFullScreen
+          />
         </div>
-        
-        {/* Indicador visual */}
-        <p className="text-center text-sm text-[#494963]/50 mt-4">
-          Usa las flechas o desplázate dentro del documento
-        </p>
       </div>
 
       {/* Download button */}
@@ -449,10 +386,10 @@ function MaterialCard({
         href={pdfUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-3 px-6 py-3 text-base sm:text-lg font-semibold transition-all hover:opacity-90 rounded-full"
+        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm sm:text-base font-semibold transition-all hover:opacity-90 rounded-full"
         style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
       >
-        <Download className="w-5 h-5" />
+        <Download className="w-4 h-4 sm:w-5 sm:h-5" />
         Descargar PDF
       </a>
 
