@@ -249,13 +249,13 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                           className="block mx-3 my-6 rounded-2xl overflow-hidden shadow-xl active:scale-[0.98] transition-transform"
                           style={{ backgroundColor: area.color }}
                         >
-                          <div className="px-6 py-6 flex items-center justify-between">
+                          <div className="px-6 py-6 flex items-center justify-between gap-4">
                             <img 
                               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
                               alt="English Funzine"
-                              className="h-14 w-auto"
+                              className="h-14 w-auto flex-1 object-contain object-left"
                             />
-                            <div className="w-12 h-12 rounded-full bg-white/25 flex items-center justify-center">
+                            <div className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white/25 flex items-center justify-center flex-shrink-0">
                               <ArrowRight className="w-5 h-5 text-white" />
                             </div>
                           </div>
