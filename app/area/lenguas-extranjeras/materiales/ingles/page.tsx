@@ -353,10 +353,10 @@ function MaterialCard({
         {number}. {title}
       </p>
 
-      {/* PDF viewer - responsive con altura mínima en mobile */}
-      <div className="relative w-full mb-4 sm:mb-5">
+      {/* PDF viewer - centrado y responsive */}
+      <div className="relative w-full mb-4 sm:mb-5 flex justify-center">
         <div 
-          className="relative w-full bg-gray-50 rounded-lg overflow-hidden"
+          className="relative w-full max-w-md bg-gray-50 rounded-lg overflow-hidden mx-auto"
           style={{ aspectRatio: "3/4", minHeight: "400px" }}
         >
           <iframe
