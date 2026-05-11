@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { 
   ArrowLeft, 
+  ArrowUp,
   BookOpen, 
   ChevronRight,
   Play,
@@ -14,7 +15,6 @@ import {
   FileText,
 } from "lucide-react";
 import { Header } from "@/components/header";
-import { Footer } from "@/components/landing/landing-footer";
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
@@ -74,6 +74,7 @@ const mediaData = {
 
 export default function InglesMaterilesPage() {
   const [activeSection, setActiveSection] = useState("presentacion");
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const presentacionRef = useRef<HTMLDivElement>(null);
   const magazineRef = useRef<HTMLDivElement>(null);
   const activityBookRef = useRef<HTMLDivElement>(null);
@@ -132,8 +133,78 @@ export default function InglesMaterilesPage() {
     };
   }, []);
 
+  // Mostrar botón de scroll to top solo cuando se llega abajo
+  useEffect(() => {
+    const toggleVisibility = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      
+      // Mostrar cuando faltan menos de 200px para llegar al final
+      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 200;
+      
+      setShowScrollTop(isNearBottom);
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FDFBF7] overflow-x-hidden">
+      {/* Header Institucional Simulado */}
+      <header className="w-full bg-white fixed top-0 z-50 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
+          {/* Logo Campus Educativo */}
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+            <Image
+              src="/images/recurso-3.png"
+              alt="Campus Educativo"
+              width={32}
+              height={32}
+              className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
+            />
+            <span className="text-sm sm:text-base font-medium text-[#494963] hidden sm:inline">
+              <span className="font-bold">Campus</span> Educativo
+            </span>
+          </Link>
+
+          {/* Navegación central - solo desktop */}
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors">
+              Formación Continua
+            </span>
+            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors flex items-center gap-1">
+              Programas
+              <ChevronRight className="w-3 h-3 rotate-90" />
+            </span>
+            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors">
+              Recursos
+            </span>
+            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors">
+              Blog
+            </span>
+          </nav>
+
+          {/* Logo Santa Fe */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <img
+              src="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2024/08/sf_provincia.png"
+              alt="Santa Fe Provincia"
+              className="h-6 sm:h-8 w-auto object-contain"
+            />
+          </div>
+        </div>
+      </header>
+
+      {/* Header de navegación que aparece al hacer scroll */}
       <Header />
       
       {/* SIDEBAR GLOBAL FIJO - visible en toda la página, posicionado arriba */}
@@ -355,7 +426,18 @@ export default function InglesMaterilesPage() {
         </section>
       </main>
 
-      <Footer />
+      {/* Botón scroll to top */}
+      {showScrollTop && (
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="fixed bottom-24 lg:bottom-10 right-4 lg:right-8 flex items-center justify-center transition-all hover:scale-110 z-50"
+          style={{ color: AREA_COLOR }}
+          aria-label="Volver arriba"
+        >
+          <ArrowUp className="w-8 h-8 lg:w-9 lg:h-9" strokeWidth={2.5} />
+        </button>
+      )}
     </div>
   );
 }
