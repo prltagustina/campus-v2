@@ -105,18 +105,18 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         </div>
 
         {/* MOBILE: Lista minimalista full-width */}
-        <div className="sm:hidden -mx-4">
+        <div className="sm:hidden -mx-4 px-3 space-y-2 py-2">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
             const isIngles = idioma.id === "ingles";
             return (
-              <div key={idioma.id} className="border-b border-gray-100 last:border-b-0">
+              <div key={idioma.id} className="rounded-xl overflow-hidden">
                 <button
                   type="button"
                   onClick={() => handleIdiomaClick(idioma.id)}
-                  className="w-full flex items-center justify-between px-4 py-5 text-left transition-colors"
+                  className="w-full flex items-center justify-between px-4 py-4 text-left transition-colors rounded-xl"
                   style={{ 
-                    backgroundColor: isSelected ? area.color : "transparent",
+                    backgroundColor: isSelected ? area.color : "rgba(0,0,0,0.03)",
                   }}
                 >
                   <span 
