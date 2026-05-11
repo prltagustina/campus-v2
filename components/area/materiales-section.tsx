@@ -241,26 +241,28 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                           )}
                         </div>
 
-                        {/* Banner Funzine - Full width */}
+                        {/* Banner Funzine - Full width y llamativo */}
                         <Link
                           href="/area/lenguas-extranjeras/materiales/ingles"
-                          className="block mx-4 my-4 rounded-xl overflow-hidden"
+                          className="block mx-4 my-5 rounded-2xl overflow-hidden shadow-lg active:scale-[0.98] transition-transform"
                           style={{ backgroundColor: area.color }}
                         >
-                          <div className="px-4 py-4 flex items-center gap-3">
+                          <div className="px-5 py-5 flex items-center gap-4">
                             <img 
                               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
                               alt="English Funzine"
-                              className="h-8 w-auto"
+                              className="h-12 w-auto"
                             />
                             <div className="flex-1 min-w-0">
                               <img 
                                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
                                 alt="The magazine that makes English fun!"
-                                className="h-5 w-auto"
+                                className="h-7 w-auto"
                               />
                             </div>
-                            <ArrowRight className="w-5 h-5 text-white/70 flex-shrink-0" />
+                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                              <ArrowRight className="w-5 h-5 text-white" />
+                            </div>
                           </div>
                         </Link>
                       </div>
@@ -479,16 +481,16 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               <div className="mt-6 lg:mt-8">
                 <Link
                   href="/area/lenguas-extranjeras/materiales/ingles"
-                  className="group block overflow-hidden rounded-2xl lg:rounded-3xl transition-all hover:shadow-xl hover:scale-[1.005]"
+                  className="group block overflow-hidden rounded-2xl lg:rounded-3xl transition-all hover:shadow-2xl hover:scale-[1.01] shadow-lg"
                   style={{ backgroundColor: area.color }}
                 >
-                  <div className="relative p-6 lg:p-8 flex items-center gap-5 lg:gap-6">
+                  <div className="relative p-8 lg:p-10 flex items-center gap-6 lg:gap-8">
                     {/* Logo Funzine */}
                     <div className="flex-shrink-0">
                       <img 
                         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
                         alt="English Funzine"
-                        className="h-12 lg:h-14 w-auto"
+                        className="h-16 lg:h-20 w-auto"
                       />
                     </div>
                     
@@ -497,19 +499,20 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                       <img 
                         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
                         alt="The magazine that makes English fun!"
-                        className="h-8 lg:h-10 w-auto max-w-full"
+                        className="h-10 lg:h-14 w-auto max-w-full"
                       />
                     </div>
                     
                     {/* Arrow */}
                     <div className="flex-shrink-0">
-                      <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                        <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6 text-white group-hover:translate-x-0.5 transition-transform" />
+                      <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                        <ArrowRight className="w-6 h-6 lg:w-7 lg:h-7 text-white group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                     
                     {/* Decorative elements */}
-                    <div className="absolute top-0 right-0 w-32 h-32 lg:w-40 lg:h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-40 h-40 lg:w-52 lg:h-52 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-24 h-24 lg:w-32 lg:h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
                   </div>
                 </Link>
               </div>
