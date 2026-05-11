@@ -520,7 +520,6 @@ function MaterialCard({
             ))
           )}
         </div>
-      </div>
     </div>
   );
 }
