@@ -110,11 +110,11 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
             const isSelected = idiomaSeleccionado === idioma.id;
             const isIngles = idioma.id === "ingles";
             return (
-              <div key={idioma.id} className="rounded-xl overflow-hidden">
+              <div key={idioma.id} className={`overflow-hidden ${isSelected ? "rounded-t-xl" : "rounded-xl"}`}>
                 <button
                   type="button"
                   onClick={() => handleIdiomaClick(idioma.id)}
-                  className="w-full flex items-center justify-between px-4 py-4 text-left transition-colors rounded-xl"
+                  className={`w-full flex items-center justify-between px-4 py-4 text-left transition-colors ${isSelected ? "rounded-t-xl" : "rounded-xl"}`}
                   style={{ 
                     backgroundColor: isSelected ? area.color : "rgba(0,0,0,0.03)",
                   }}
@@ -133,7 +133,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 
                 {/* Contenido desplegable - MINIMALISTA Y FULL WIDTH */}
                 {isSelected && (
-                  <div className="bg-gray-50/50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="bg-gray-50/80 animate-in fade-in slide-in-from-top-2 duration-200 rounded-b-xl">
                     {isIngles ? (
                       <div className="py-2">
                         {/* Secuencias didácticas */}
