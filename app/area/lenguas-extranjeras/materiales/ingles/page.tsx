@@ -224,14 +224,14 @@ export default function InglesMaterilesPage() {
                             key={issue.slug}
                             type="button"
                             onClick={() => scrollToSection("magazine")}
-                            className="px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 rounded-full text-sm sm:text-base lg:text-lg font-semibold transition-all hover:scale-105 bg-[#494963] text-white"
+                            className="px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-semibold transition-all hover:scale-105 bg-[#494963] text-white"
                           >
                             Issue {issue.number}
                           </button>
                         ) : (
                           <span
                             key={issue.slug}
-                            className="px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 rounded-full text-sm sm:text-base lg:text-lg font-medium bg-[#494963]/10 text-[#494963]/40"
+                            className="px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-medium bg-[#494963]/10 text-[#494963]/40"
                           >
                             Issue {issue.number}
                           </span>
@@ -318,10 +318,15 @@ function MaterialCard({
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
 
-  const currentMedia = activeTab === "audios" ? mediaData.audios : mediaData.videos;
-
-  const handleDownloadAll = () => {
-    currentMedia.forEach((item) => {
+  const handleDownloadAllMagazine = () => {
+    // Descargar PDF
+    const pdfLink = document.createElement("a");
+    pdfLink.href = pdfUrl;
+    pdfLink.download = `${title}.pdf`;
+    pdfLink.click();
+    
+    // Descargar todos los audios y videos
+    [...mediaData.audios, ...mediaData.videos].forEach((item) => {
       const link = document.createElement("a");
       link.href = item.url;
       link.download = item.name;
@@ -457,16 +462,19 @@ function MaterialCard({
           )}
         </div>
         
-        {/* Descargar todos - al final, siempre visible */}
-        <div className="pt-4 mt-2">
+        {/* Descargar todo el magazine - al final, siempre visible */}
+        <div className="pt-5 mt-3 border-t border-[#494963]/5">
           <button
             type="button"
-            onClick={handleDownloadAll}
-            className="w-full flex items-center justify-center gap-2 py-3 text-sm font-medium text-[#494963]/60 hover:text-[#494963] bg-[#494963]/5 hover:bg-[#494963]/10 rounded-lg transition-colors"
+            onClick={handleDownloadAllMagazine}
+            className="w-full flex items-center justify-center gap-2 py-3.5 text-sm font-semibold text-white bg-[#494963] hover:bg-[#494963]/90 rounded-lg transition-colors"
           >
             <Download className="w-4 h-4" />
-            Descargar todos los {activeTab}
+            Descargar todo el magazine
           </button>
+          <p className="text-xs text-[#494963]/40 text-center mt-2">
+            Incluye PDF, audios y videos
+          </p>
         </div>
     </div>
   );
