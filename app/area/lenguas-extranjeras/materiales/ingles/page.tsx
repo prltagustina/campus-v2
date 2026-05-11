@@ -14,7 +14,7 @@ import {
   Compass,
   FileText,
 } from "lucide-react";
-
+import { Header } from "@/components/header";
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
@@ -192,16 +192,17 @@ export default function InglesMaterilesPage() {
 
           {/* Logo Santa Fe */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            <Image
-              src="/images/santa-fe-logo.png"
+            <img
+              src="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2024/08/sf_provincia.png"
               alt="Santa Fe Provincia"
-              width={100}
-              height={32}
               className="h-6 sm:h-8 w-auto object-contain"
             />
           </div>
         </div>
       </header>
+
+      {/* Header de navegación que aparece al hacer scroll */}
+      <Header />
       
       {/* SIDEBAR GLOBAL FIJO - visible en toda la página, posicionado arriba */}
       <aside className="hidden lg:block fixed left-0 top-24 z-50 p-3">
