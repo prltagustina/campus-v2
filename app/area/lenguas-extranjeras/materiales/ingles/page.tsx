@@ -262,8 +262,8 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
 
-                  {/* Magazine covers - Banner nuevo con personajes - MÁS GRANDE */}
-                  <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-10 sm:pb-14 lg:pb-20 -mx-4 sm:-mx-6 lg:-mx-20 xl:-mx-32">
+                  {/* Magazine covers - Banner con personajes */}
+                  <div className="relative mt-6 sm:mt-10 lg:mt-14 pb-8 sm:pb-12 lg:pb-16 -mx-3 sm:-mx-6 lg:-mx-16 xl:-mx-24">
                     <Image
                       src="/images/funzine-banner.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher Guide"
@@ -278,19 +278,19 @@ export default function InglesMaterilesPage() {
         </section>
 
         {/* MATERIALS SECTION - fondo con contraste */}
-        <section className="relative bg-[#F5F3EE]" style={{ zIndex: 0, marginTop: "-40px", paddingTop: "80px" }}>
+        <section className="relative bg-[#F5F3EE]" style={{ zIndex: 0, marginTop: "-40px", paddingTop: "60px" }}>
           <div className="flex justify-center">
-            <div className="w-full max-w-3xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-18">
-              {/* Issue 1 Title - MÁS GRANDE EN MOBILE */}
-              <div className="mb-10 sm:mb-12 lg:mb-14">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#494963] flex items-center gap-3 sm:gap-4">
-                  It&apos;s great to be me
-                  <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-[#494963]/30" />
+            <div className="w-full max-w-3xl px-3 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+              {/* Issue 1 Title */}
+              <div className="mb-8 sm:mb-10 lg:mb-12">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#494963] flex items-center gap-2 sm:gap-3">
+                  <span>It&apos;s great to be me</span>
+                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-[#494963]/30 flex-shrink-0" />
                 </h2>
               </div>
 
-              {/* Materials - MÁS ESPACIADO */}
-              <div className="space-y-12 sm:space-y-16 lg:space-y-20">
+              {/* Materials */}
+              <div className="space-y-8 sm:space-y-12 lg:space-y-16">
                 {/* 01. Magazine */}
                 <div ref={magazineRef} id="magazine" className="scroll-mt-20">
                   <MaterialCard
@@ -359,17 +359,17 @@ function MaterialCard({
   };
 
   return (
-    <div className="bg-white rounded-2xl p-5 sm:p-6 lg:p-8">
+    <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8">
       {/* Título */}
-      <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#494963] mb-5 sm:mb-6">
+      <p className="text-lg sm:text-xl lg:text-2xl font-bold text-[#494963] mb-4 sm:mb-5">
         {number}. {title}
       </p>
 
-      {/* PDF viewer - responsive al dispositivo */}
-      <div className="relative w-full mb-5 sm:mb-6">
+      {/* PDF viewer - responsive con altura mínima en mobile */}
+      <div className="relative w-full mb-4 sm:mb-5">
         <div 
-          className="relative w-full bg-gray-100 rounded-lg overflow-hidden"
-          style={{ aspectRatio: "3/4" }}
+          className="relative w-full bg-gray-50 rounded-lg overflow-hidden"
+          style={{ aspectRatio: "3/4", minHeight: "400px" }}
         >
           <iframe
             src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
@@ -381,72 +381,74 @@ function MaterialCard({
         </div>
       </div>
 
-      {/* Download button */}
+      {/* Download button - full width en mobile */}
       <a
         href={pdfUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm sm:text-base font-semibold transition-all hover:opacity-90 rounded-full"
+        className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 py-3 text-sm sm:text-base font-semibold transition-all hover:opacity-90 rounded-lg sm:rounded-full"
         style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
       >
-        <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+        <Download className="w-4 h-4" />
         Descargar PDF
       </a>
 
-        {/* Tabs - minimalistas */}
-        <div className="flex items-center gap-6 mt-10 sm:mt-12 mb-6 border-b border-[#494963]/10 pb-4">
-          <button
-            type="button"
-            onClick={() => setActiveTab("audios")}
-            className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
-              activeTab === "audios" 
-                ? "text-[#494963]" 
-                : "text-[#494963]/40 hover:text-[#494963]/60"
-            }`}
-          >
-            <FileText className="w-4 h-4" />
-            Audios
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("videos")}
-            className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
-              activeTab === "videos" 
-                ? "text-[#494963]" 
-                : "text-[#494963]/40 hover:text-[#494963]/60"
-            }`}
-          >
-            <Play className="w-4 h-4" />
-            Videos
-          </button>
-          
-          <div className="flex-1" />
-          
-          <button
-            type="button"
-            onClick={handleDownloadAll}
-            className="text-sm text-[#494963]/40 hover:text-[#494963]/60 transition-colors"
-          >
-            Descargar todos
-          </button>
+        {/* Tabs - responsive */}
+        <div className="mt-8 sm:mt-10 mb-4 sm:mb-6">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 pb-3 border-b border-[#494963]/10">
+            <button
+              type="button"
+              onClick={() => setActiveTab("audios")}
+              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
+                activeTab === "audios" 
+                  ? "text-[#494963]" 
+                  : "text-[#494963]/40 hover:text-[#494963]/60"
+              }`}
+            >
+              <FileText className="w-4 h-4" />
+              Audios
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab("videos")}
+              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
+                activeTab === "videos" 
+                  ? "text-[#494963]" 
+                  : "text-[#494963]/40 hover:text-[#494963]/60"
+              }`}
+            >
+              <Play className="w-4 h-4" />
+              Videos
+            </button>
+            
+            <div className="flex-1 min-w-0" />
+            
+            <button
+              type="button"
+              onClick={handleDownloadAll}
+              className="text-xs sm:text-sm text-[#494963]/40 hover:text-[#494963]/60 transition-colors whitespace-nowrap"
+            >
+              Descargar todos
+            </button>
+          </div>
         </div>
 
-        {/* Media list - minimalista */}
-        <div className="space-y-1">
+        {/* Media list - responsive */}
+        <div className="space-y-0">
           {activeTab === "audios" ? (
             mediaData.audios.map((audio) => (
               <div 
                 key={audio.id}
-                className="group flex items-center gap-4 py-3 border-b border-[#494963]/5 last:border-0"
+                className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-0"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm sm:text-base text-[#494963] truncate">{audio.name}</p>
-                  <p className="text-xs text-[#494963]/40">{audio.duration}</p>
+                  <p className="text-sm text-[#494963] leading-tight">{audio.name}</p>
+                  <p className="text-xs text-[#494963]/40 mt-0.5">{audio.duration}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleDownloadSingle(audio.url, audio.name)}
-                  className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
                 >
                   <Download className="w-4 h-4 text-[#494963]/40" />
                 </button>
@@ -456,9 +458,9 @@ function MaterialCard({
             mediaData.videos.map((video) => (
               <div 
                 key={video.id}
-                className="group flex items-center gap-4 py-3 border-b border-[#494963]/5 last:border-0"
+                className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-0"
               >
-                <div className="relative w-24 sm:w-28 aspect-video rounded overflow-hidden flex-shrink-0 bg-[#494963]/10">
+                <div className="relative w-20 sm:w-24 aspect-video rounded overflow-hidden flex-shrink-0 bg-[#494963]/10">
                   <Image
                     src={video.thumbnail}
                     alt={video.name}
@@ -466,19 +468,19 @@ function MaterialCard({
                     className="object-cover"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">
                       <Play className="w-3 h-3 text-[#494963] ml-0.5" />
                     </div>
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm sm:text-base text-[#494963] truncate">{video.name}</p>
-                  <p className="text-xs text-[#494963]/40">{video.duration}</p>
+                  <p className="text-sm text-[#494963] leading-tight">{video.name}</p>
+                  <p className="text-xs text-[#494963]/40 mt-0.5">{video.duration}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleDownloadSingle(video.url, video.name)}
-                  className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
                 >
                   <Download className="w-4 h-4 text-[#494963]/40" />
                 </button>
