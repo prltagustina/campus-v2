@@ -247,9 +247,10 @@ export default function InglesMaterilesPage() {
 
                   {/* Intro text - más grande en mobile */}
                   <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-[#494963]/80 leading-relaxed max-w-xl mb-8 sm:mb-10">
-                    Les damos la bienvenida a <strong className="text-[#494963]">English Funzine</strong>. 
-                    Esta serie de materiales está pensada para acompañar la implementación de Lenguas Extranjeras 
-                    en aquellas escuelas primarias de Santa Fe que elijan enseñar inglés.
+                    Les damos la bienvenida a <strong className="text-[#494963]">English Funzine</strong>.<br />
+                    Esta serie de materiales está pensada para acompañar<br />
+                    la implementación de Lenguas Extranjeras en aquellas<br />
+                    escuelas primarias de Santa Fe que elijan enseñar inglés.
                   </p>
 
                   {/* Issues section - integrado con el diseño */}
