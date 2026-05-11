@@ -226,7 +226,7 @@ export default function InglesMaterilesPage() {
                       alt="The magazine that makes English fun!"
                       width={500}
                       height={60}
-                      className="h-10 sm:h-12 lg:h-14 xl:h-16 w-auto"
+                      className="h-12 sm:h-12 lg:h-14 xl:h-16 w-auto"
                     />
                   </div>
 
