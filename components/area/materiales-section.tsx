@@ -104,216 +104,172 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* MOBILE: Lista vertical tipo acordeón con todo el contenido - MÁS GRANDE */}
-        <div className="sm:hidden space-y-3">
+        {/* MOBILE: Lista minimalista full-width */}
+        <div className="sm:hidden -mx-4">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
             const isIngles = idioma.id === "ingles";
             return (
-              <div key={idioma.id} className="rounded-xl overflow-hidden shadow-sm">
+              <div key={idioma.id} className="border-b border-gray-100 last:border-b-0">
                 <button
                   type="button"
                   onClick={() => handleIdiomaClick(idioma.id)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-base font-semibold transition-all"
+                  className="w-full flex items-center justify-between px-4 py-5 text-left transition-colors"
                   style={{ 
-                    backgroundColor: isSelected ? area.color : `${area.color}15`,
-                    color: "#5c4a00",
+                    backgroundColor: isSelected ? `${area.color}10` : "transparent",
                   }}
                 >
-                  <span>{idioma.name}</span>
+                  <span className="text-base font-semibold text-[#494963]">{idioma.name}</span>
                   <ChevronDown 
-                    className={`w-5 h-5 opacity-60 transition-transform ${isSelected ? "rotate-180" : ""}`}
+                    className={`w-5 h-5 text-[#494963]/40 transition-transform ${isSelected ? "rotate-180" : ""}`}
                   />
                 </button>
                 
-                {/* Contenido desplegable en mobile - REDISEÑADO PARA MEJOR UX */}
+                {/* Contenido desplegable - MINIMALISTA Y FULL WIDTH */}
                 {isSelected && (
-                  <div className="bg-white border-x border-b border-gray-100 p-5 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="bg-gray-50/50 animate-in fade-in slide-in-from-top-2 duration-200">
                     {isIngles ? (
-                      <>
-                        {/* Materiales y recursos educativos - DISEÑO CARD GRANDE */}
-                        <div className="mb-6">
-                          <h5 className="text-base font-bold text-[#494963] mb-5">Materiales y recursos educativos</h5>
-                          
-                          <div className="space-y-3">
-                            {/* Secuencias didácticas - Card style */}
-                            <div className="bg-gray-50/80 rounded-xl overflow-hidden">
-                              <button
-                                type="button"
-                                onClick={() => toggleCategoriaRecurso("secuencias")}
-                                className="w-full flex items-center justify-between p-4 text-left"
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div 
-                                    className="w-10 h-10 rounded-lg flex items-center justify-center"
-                                    style={{ backgroundColor: `${area.color}20` }}
-                                  >
-                                    <FileText className="w-5 h-5" style={{ color: area.color }} />
-                                  </div>
-                                  <div>
-                                    <span className="text-sm font-semibold text-[#494963] block">Secuencias didácticas</span>
-                                    <span className="text-xs text-[#494963]/50">{recursosEducativos.secuencias.length} archivos disponibles</span>
-                                  </div>
-                                </div>
-                                <ChevronDown className={`w-5 h-5 text-[#494963]/40 transition-transform ${categoriaRecursoAbierta === "secuencias" ? "rotate-180" : ""}`} />
-                              </button>
-                              {categoriaRecursoAbierta === "secuencias" && (
-                                <div className="px-4 pb-4 space-y-2">
-                                  {recursosEducativos.secuencias.map((item, idx) => (
-                                    <div key={idx} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
-                                      <div className="flex items-center gap-3 min-w-0 flex-1">
-                                        <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                                          <FileText className="w-4 h-4 text-[#494963]/50" />
-                                        </div>
-                                        <div className="min-w-0 flex-1">
-                                          <span className="text-sm font-medium text-[#494963] block truncate">{item.nombre}</span>
-                                          <span className="text-xs text-[#494963]/40">{item.paginas} páginas · {item.size}</span>
-                                        </div>
-                                      </div>
-                                      <button type="button" className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0 active:bg-gray-100">
-                                        <Download className="w-4 h-4 text-[#494963]/50" />
-                                      </button>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
+                      <div className="py-2">
+                        {/* Secuencias didácticas */}
+                        <div className="border-b border-gray-100/80">
+                          <button
+                            type="button"
+                            onClick={() => toggleCategoriaRecurso("secuencias")}
+                            className="w-full flex items-center justify-between px-4 py-4"
+                          >
+                            <div className="flex items-center gap-3">
+                              <FileText className="w-5 h-5" style={{ color: area.color }} />
+                              <span className="text-sm font-medium text-[#494963]">Secuencias didácticas</span>
                             </div>
-
-                            {/* Materiales audiovisuales - Card style */}
-                            <div className="bg-gray-50/80 rounded-xl overflow-hidden">
-                              <button
-                                type="button"
-                                onClick={() => toggleCategoriaRecurso("audiovisuales")}
-                                className="w-full flex items-center justify-between p-4 text-left"
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div 
-                                    className="w-10 h-10 rounded-lg flex items-center justify-center"
-                                    style={{ backgroundColor: `${area.color}20` }}
-                                  >
-                                    <Video className="w-5 h-5" style={{ color: area.color }} />
-                                  </div>
-                                  <div>
-                                    <span className="text-sm font-semibold text-[#494963] block">Materiales audiovisuales</span>
-                                    <span className="text-xs text-[#494963]/50">{recursosEducativos.audiovisuales.length} videos disponibles</span>
-                                  </div>
-                                </div>
-                                <ChevronDown className={`w-5 h-5 text-[#494963]/40 transition-transform ${categoriaRecursoAbierta === "audiovisuales" ? "rotate-180" : ""}`} />
-                              </button>
-                              {categoriaRecursoAbierta === "audiovisuales" && (
-                                <div className="px-4 pb-4 space-y-2">
-                                  {recursosEducativos.audiovisuales.map((item, idx) => (
-                                    <div key={idx} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
-                                      <div className="flex items-center gap-3 min-w-0 flex-1">
-                                        {"thumbnail" in item ? (
-                                          <div className="relative w-14 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
-                                            <img src={(item as { thumbnail: string }).thumbnail} alt="" className="w-full h-full object-cover" />
-                                            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                                              <div className="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center">
-                                                <Video className="w-3 h-3 text-[#494963]" />
-                                              </div>
-                                            </div>
-                                          </div>
-                                        ) : (
-                                          <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                                            <Video className="w-4 h-4 text-[#494963]/50" />
-                                          </div>
-                                        )}
-                                        <div className="min-w-0 flex-1">
-                                          <span className="text-sm font-medium text-[#494963] block truncate">{item.nombre}</span>
-                                          <span className="text-xs text-[#494963]/40">{item.duracion} · {item.size}</span>
-                                        </div>
-                                      </div>
-                                      <button type="button" className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0 active:bg-gray-100">
-                                        <Download className="w-4 h-4 text-[#494963]/50" />
-                                      </button>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs text-[#494963]/40">{recursosEducativos.secuencias.length}</span>
+                              <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "secuencias" ? "rotate-180" : ""}`} />
                             </div>
-
-                            {/* Guías para la docencia - Card style */}
-                            <div className="bg-gray-50/80 rounded-xl overflow-hidden">
-                              <button
-                                type="button"
-                                onClick={() => toggleCategoriaRecurso("guias")}
-                                className="w-full flex items-center justify-between p-4 text-left"
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div 
-                                    className="w-10 h-10 rounded-lg flex items-center justify-center"
-                                    style={{ backgroundColor: `${area.color}20` }}
-                                  >
-                                    <BookOpen className="w-5 h-5" style={{ color: area.color }} />
+                          </button>
+                          {categoriaRecursoAbierta === "secuencias" && (
+                            <div className="bg-white">
+                              {recursosEducativos.secuencias.map((item, idx) => (
+                                <div key={idx} className="flex items-center justify-between px-4 py-4 border-t border-gray-50">
+                                  <div className="min-w-0 flex-1 pr-4">
+                                    <p className="text-sm font-medium text-[#494963] truncate">{item.nombre}</p>
+                                    <p className="text-xs text-[#494963]/40 mt-0.5">{item.paginas} pág. · {item.size}</p>
                                   </div>
-                                  <div>
-                                    <span className="text-sm font-semibold text-[#494963] block">Guías para la docencia</span>
-                                    <span className="text-xs text-[#494963]/50">{recursosEducativos.guias.length} guías disponibles</span>
-                                  </div>
+                                  <button type="button" className="w-10 h-10 flex items-center justify-center active:bg-gray-100 rounded-full">
+                                    <Download className="w-5 h-5 text-[#494963]/40" />
+                                  </button>
                                 </div>
-                                <ChevronDown className={`w-5 h-5 text-[#494963]/40 transition-transform ${categoriaRecursoAbierta === "guias" ? "rotate-180" : ""}`} />
-                              </button>
-                              {categoriaRecursoAbierta === "guias" && (
-                                <div className="px-4 pb-4 space-y-2">
-                                  {recursosEducativos.guias.map((item, idx) => (
-                                    <div key={idx} className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
-                                      <div className="flex items-center gap-3 min-w-0 flex-1">
-                                        <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                                          <BookOpen className="w-4 h-4 text-[#494963]/50" />
-                                        </div>
-                                        <div className="min-w-0 flex-1">
-                                          <span className="text-sm font-medium text-[#494963] block truncate">{item.nombre}</span>
-                                          <span className="text-xs text-[#494963]/40">{item.paginas} páginas · {item.size}</span>
-                                        </div>
-                                      </div>
-                                      <button type="button" className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0 active:bg-gray-100">
-                                        <Download className="w-4 h-4 text-[#494963]/50" />
-                                      </button>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
+                              ))}
                             </div>
-                          </div>
+                          )}
                         </div>
 
-                        {/* Banner Funzine - MÁS PROMINENTE */}
+                        {/* Materiales audiovisuales */}
+                        <div className="border-b border-gray-100/80">
+                          <button
+                            type="button"
+                            onClick={() => toggleCategoriaRecurso("audiovisuales")}
+                            className="w-full flex items-center justify-between px-4 py-4"
+                          >
+                            <div className="flex items-center gap-3">
+                              <Video className="w-5 h-5" style={{ color: area.color }} />
+                              <span className="text-sm font-medium text-[#494963]">Materiales audiovisuales</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs text-[#494963]/40">{recursosEducativos.audiovisuales.length}</span>
+                              <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "audiovisuales" ? "rotate-180" : ""}`} />
+                            </div>
+                          </button>
+                          {categoriaRecursoAbierta === "audiovisuales" && (
+                            <div className="bg-white">
+                              {recursosEducativos.audiovisuales.map((item, idx) => (
+                                <div key={idx} className="flex items-center justify-between px-4 py-4 border-t border-gray-50">
+                                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                                    {"thumbnail" in item && (
+                                      <div className="relative w-16 h-11 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                                        <img src={(item as { thumbnail: string }).thumbnail} alt="" className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                          <div className="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center">
+                                            <Video className="w-3 h-3 text-[#494963]" />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )}
+                                    <div className="min-w-0 flex-1">
+                                      <p className="text-sm font-medium text-[#494963] truncate">{item.nombre}</p>
+                                      <p className="text-xs text-[#494963]/40 mt-0.5">{item.duracion} · {item.size}</p>
+                                    </div>
+                                  </div>
+                                  <button type="button" className="w-10 h-10 flex items-center justify-center active:bg-gray-100 rounded-full flex-shrink-0">
+                                    <Download className="w-5 h-5 text-[#494963]/40" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Guías para la docencia */}
+                        <div className="border-b border-gray-100/80">
+                          <button
+                            type="button"
+                            onClick={() => toggleCategoriaRecurso("guias")}
+                            className="w-full flex items-center justify-between px-4 py-4"
+                          >
+                            <div className="flex items-center gap-3">
+                              <BookOpen className="w-5 h-5" style={{ color: area.color }} />
+                              <span className="text-sm font-medium text-[#494963]">Guías para la docencia</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs text-[#494963]/40">{recursosEducativos.guias.length}</span>
+                              <ChevronDown className={`w-4 h-4 text-[#494963]/30 transition-transform ${categoriaRecursoAbierta === "guias" ? "rotate-180" : ""}`} />
+                            </div>
+                          </button>
+                          {categoriaRecursoAbierta === "guias" && (
+                            <div className="bg-white">
+                              {recursosEducativos.guias.map((item, idx) => (
+                                <div key={idx} className="flex items-center justify-between px-4 py-4 border-t border-gray-50">
+                                  <div className="min-w-0 flex-1 pr-4">
+                                    <p className="text-sm font-medium text-[#494963] truncate">{item.nombre}</p>
+                                    <p className="text-xs text-[#494963]/40 mt-0.5">{item.paginas} pág. · {item.size}</p>
+                                  </div>
+                                  <button type="button" className="w-10 h-10 flex items-center justify-center active:bg-gray-100 rounded-full">
+                                    <Download className="w-5 h-5 text-[#494963]/40" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Banner Funzine - Full width */}
                         <Link
                           href="/area/lenguas-extranjeras/materiales/ingles"
-                          className="block rounded-2xl overflow-hidden shadow-lg"
+                          className="block mx-4 my-4 rounded-xl overflow-hidden"
                           style={{ backgroundColor: area.color }}
                         >
-                          <div className="p-5 flex items-center gap-4">
+                          <div className="px-4 py-4 flex items-center gap-3">
                             <img 
                               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
                               alt="English Funzine"
-                              className="h-10 w-auto"
+                              className="h-8 w-auto"
                             />
                             <div className="flex-1 min-w-0">
                               <img 
                                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
                                 alt="The magazine that makes English fun!"
-                                className="h-6 w-auto"
+                                className="h-5 w-auto"
                               />
                             </div>
-                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                              <ArrowRight className="w-5 h-5 text-white flex-shrink-0" />
-                            </div>
+                            <ArrowRight className="w-5 h-5 text-white/70 flex-shrink-0" />
                           </div>
                         </Link>
-                      </>
+                      </div>
                     ) : (
                       /* Próximamente para otros idiomas */
-                      <div className="text-center py-10">
-                        <div 
-                          className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
-                          style={{ backgroundColor: `${area.color}15` }}
-                        >
-                          <Clock className="w-8 h-8" style={{ color: area.color }} />
-                        </div>
-                        <p className="text-lg font-semibold text-[#494963]/70 mb-2">Próximamente</p>
-                        <p className="text-base text-[#494963]/50 max-w-xs mx-auto">Estamos trabajando en los materiales para {idioma.name}</p>
+                      <div className="px-4 py-12 text-center">
+                        <Clock className="w-8 h-8 mx-auto mb-3" style={{ color: area.color }} />
+                        <p className="text-base font-medium text-[#494963]/60">Próximamente</p>
+                        <p className="text-sm text-[#494963]/40 mt-1">Materiales en desarrollo</p>
                       </div>
                     )}
                   </div>
