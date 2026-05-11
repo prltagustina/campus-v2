@@ -515,7 +515,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               </div>
             </>
           ) : (
-            /* Mensaje "Próximamente" para otros idiomas - SIN sección de descarga */}
+            /* Mensaje "Próximamente" para otros idiomas - SIN sección de descarga */
             <div className="text-center py-16 lg:py-20 bg-white rounded-2xl lg:rounded-3xl border border-gray-100">
               <div 
                 className="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center mx-auto mb-5"
