@@ -255,8 +255,8 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                               alt="English Funzine"
                               className="h-14 w-auto flex-1 object-contain object-left"
                             />
-                            <div className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-full bg-white/25 flex items-center justify-center flex-shrink-0">
-                              <ArrowRight className="w-5 h-5 text-white" />
+                            <div className="w-9 h-9 rounded-full bg-white/25 flex items-center justify-center flex-shrink-0">
+                              <ArrowRight className="w-4 h-4 text-white" />
                             </div>
                           </div>
                         </Link>
