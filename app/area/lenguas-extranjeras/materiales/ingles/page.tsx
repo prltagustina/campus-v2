@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { 
   ArrowLeft, 
+  ArrowUp,
   BookOpen, 
   ChevronRight,
   Play,
@@ -74,6 +75,7 @@ const mediaData = {
 
 export default function InglesMaterilesPage() {
   const [activeSection, setActiveSection] = useState("presentacion");
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const presentacionRef = useRef<HTMLDivElement>(null);
   const magazineRef = useRef<HTMLDivElement>(null);
   const activityBookRef = useRef<HTMLDivElement>(null);
@@ -131,6 +133,27 @@ export default function InglesMaterilesPage() {
       observer.disconnect();
     };
   }, []);
+
+  // Mostrar/ocultar botón de scroll to top
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 500) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FDFBF7] overflow-x-hidden">
@@ -356,6 +379,19 @@ export default function InglesMaterilesPage() {
       </main>
 
       <Footer />
+
+      {/* Botón scroll to top */}
+      {showScrollTop && (
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="fixed bottom-24 lg:bottom-10 right-4 lg:right-8 flex items-center justify-center transition-all hover:scale-110 z-50"
+          style={{ color: AREA_COLOR }}
+          aria-label="Volver arriba"
+        >
+          <ArrowUp className="w-8 h-8 lg:w-9 lg:h-9" strokeWidth={2.5} />
+        </button>
+      )}
     </div>
   );
 }
