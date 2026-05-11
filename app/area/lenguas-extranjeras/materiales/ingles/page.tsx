@@ -14,7 +14,7 @@ import {
   Compass,
   FileText,
 } from "lucide-react";
-import { Header } from "@/components/header";
+
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
@@ -156,7 +156,52 @@ export default function InglesMaterilesPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FDFBF7] overflow-x-hidden">
-      <Header />
+      {/* Header Institucional Simulado */}
+      <header className="w-full bg-white fixed top-0 z-50 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
+          {/* Logo Campus Educativo */}
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+            <Image
+              src="/images/recurso-3.png"
+              alt="Campus Educativo"
+              width={32}
+              height={32}
+              className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
+            />
+            <span className="text-sm sm:text-base font-medium text-[#494963] hidden sm:inline">
+              <span className="font-bold">Campus</span> Educativo
+            </span>
+          </Link>
+
+          {/* Navegación central - solo desktop */}
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors">
+              Formación Continua
+            </span>
+            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors flex items-center gap-1">
+              Programas
+              <ChevronRight className="w-3 h-3 rotate-90" />
+            </span>
+            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors">
+              Recursos
+            </span>
+            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors">
+              Blog
+            </span>
+          </nav>
+
+          {/* Logo Santa Fe */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Image
+              src="/images/santa-fe-logo.png"
+              alt="Santa Fe Provincia"
+              width={100}
+              height={32}
+              className="h-6 sm:h-8 w-auto object-contain"
+            />
+          </div>
+        </div>
+      </header>
       
       {/* SIDEBAR GLOBAL FIJO - visible en toda la página, posicionado arriba */}
       <aside className="hidden lg:block fixed left-0 top-24 z-50 p-3">
