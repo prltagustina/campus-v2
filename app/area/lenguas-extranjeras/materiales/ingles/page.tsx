@@ -294,6 +294,16 @@ export default function InglesMaterilesPage() {
                       placeholder="empty"
                       unoptimized={false}
                     />
+                    {/* Learn English banner overlay */}
+                    <div className="absolute bottom-12 sm:bottom-16 lg:bottom-24 right-4 sm:right-8 lg:right-16 xl:right-24 w-[45%] sm:w-[40%] lg:w-[35%] max-w-md">
+                      <Image
+                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/learn-engluish-dGNMTPLgOkQasJEvo2XGptaLH4hpoT.png"
+                        alt="Learn English to talk about you and your people."
+                        width={500}
+                        height={200}
+                        className="w-full h-auto"
+                      />
+                    </div>
                   </div>
                 </div>
             </div>
