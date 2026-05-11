@@ -116,12 +116,18 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                   onClick={() => handleIdiomaClick(idioma.id)}
                   className="w-full flex items-center justify-between px-4 py-5 text-left transition-colors"
                   style={{ 
-                    backgroundColor: isSelected ? `${area.color}10` : "transparent",
+                    backgroundColor: isSelected ? area.color : "transparent",
                   }}
                 >
-                  <span className="text-base font-semibold text-[#494963]">{idioma.name}</span>
+                  <span 
+                    className="text-base font-semibold"
+                    style={{ color: isSelected ? "#FFFFFF" : "#494963" }}
+                  >
+                    {idioma.name}
+                  </span>
                   <ChevronDown 
-                    className={`w-5 h-5 text-[#494963]/40 transition-transform ${isSelected ? "rotate-180" : ""}`}
+                    className={`w-5 h-5 transition-transform ${isSelected ? "rotate-180" : ""}`}
+                    style={{ color: isSelected ? "rgba(255,255,255,0.8)" : "rgba(73,73,99,0.4)" }}
                   />
                 </button>
                 
