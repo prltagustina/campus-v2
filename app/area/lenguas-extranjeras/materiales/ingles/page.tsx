@@ -144,14 +144,14 @@ export default function InglesMaterilesPage() {
       
       {/* MAIN LAYOUT */}
       <main className="relative mt-16 flex-1">
-        {/* HERO SECTION con Background amarillo con más contraste */}
+        {/* HERO SECTION con Background amarillo con alto contraste */}
         <section className="relative">
-          {/* Background amarillo más visible - solo para primera sección */}
+          {/* Background amarillo saturado */}
           <div 
             className="absolute inset-x-0 top-0 w-full h-full pointer-events-none" 
             style={{ 
               zIndex: 1,
-              background: "linear-gradient(180deg, #FFF3C4 0%, #FFEFB8 30%, #FFF8E1 70%, #FDFBF7 100%)",
+              background: "linear-gradient(180deg, #FFE082 0%, #FFCA28 20%, #FFD54F 50%, #FFF8E1 85%, #FDFBF7 100%)",
             }}
           />
 
@@ -277,10 +277,10 @@ export default function InglesMaterilesPage() {
             </div>
         </section>
 
-        {/* MATERIALS SECTION */}
-        <section className="relative bg-[#FDFBF7]" style={{ zIndex: 0, marginTop: "-40px", paddingTop: "80px" }}>
+        {/* MATERIALS SECTION - fondo con contraste */}
+        <section className="relative bg-[#F5F3EE]" style={{ zIndex: 0, marginTop: "-40px", paddingTop: "80px" }}>
           <div className="flex justify-center">
-            <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-0 py-10 sm:py-14 lg:py-18">
+            <div className="w-full max-w-3xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-18">
               {/* Issue 1 Title - MÁS GRANDE EN MOBILE */}
               <div className="mb-10 sm:mb-12 lg:mb-14">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#494963] flex items-center gap-3 sm:gap-4">
@@ -369,174 +369,156 @@ function MaterialCard({
   };
 
   return (
-    <div className="bg-[#FFF5D6] rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
-      <div className="p-5 sm:p-8 lg:p-10">
-        <p className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#494963]/70 mb-5 sm:mb-8">
-          {number}. {title}
-        </p>
+    <div className="bg-white rounded-2xl p-6 sm:p-8 lg:p-10">
+      {/* Título */}
+      <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#494963] mb-6 sm:mb-8">
+        {number}. {title}
+      </p>
 
-        {/* PDF preview con aspect ratio de portada (más vertical) */}
-        <div className="relative bg-white rounded-xl sm:rounded-2xl mb-5 sm:mb-8 overflow-hidden border border-gray-100 shadow-lg">
-          {/* Aspect ratio de revista/portada - 3:4 */}
-          <div className="aspect-[3/4] sm:aspect-[4/5] lg:aspect-[3/4] relative">
-            <iframe
-              src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true#page=${currentPage}`}
-              className="w-full h-full absolute inset-0"
-              title={`${title} Preview`}
-              style={{ border: "none" }}
-            />
-          </div>
-          
-          {/* Controles flipbook */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent p-4 sm:p-6">
-            <div className="flex items-center justify-between">
-              {/* Botón anterior */}
-              <button
-                type="button"
-                onClick={goToPrevPage}
-                disabled={currentPage === 1}
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg"
-              >
-                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-[#494963] rotate-180" />
-              </button>
-              
-              {/* Indicador de página */}
-              <span className="text-sm sm:text-base font-medium text-white bg-black/40 px-4 py-2 rounded-full">
-                {currentPage} / {totalPages}
-              </span>
-              
-              {/* Botón siguiente */}
-              <button
-                type="button"
-                onClick={goToNextPage}
-                disabled={currentPage === totalPages}
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg"
-              >
-                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-[#494963]" />
-              </button>
-            </div>
+      {/* PDF preview - Full width */}
+      <div className="relative w-full mb-6 sm:mb-8">
+        {/* Aspect ratio de portada real - A4 vertical */}
+        <div className="aspect-[210/297] w-full relative bg-white">
+          <iframe
+            src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true#page=${currentPage}`}
+            className="w-full h-full absolute inset-0"
+            title={`${title} Preview`}
+            style={{ border: "none" }}
+          />
+        </div>
+        
+        {/* Controles flipbook - minimalistas */}
+        <div className="absolute bottom-4 left-0 right-0 px-4">
+          <div className="flex items-center justify-between max-w-md mx-auto">
+            <button
+              type="button"
+              onClick={goToPrevPage}
+              disabled={currentPage === 1}
+              className="w-12 h-12 rounded-full bg-[#494963] hover:bg-[#494963]/90 flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="w-5 h-5 text-white rotate-180" />
+            </button>
+            
+            <span className="text-sm font-medium text-[#494963] bg-white/90 px-4 py-2 rounded-full">
+              {currentPage} / {totalPages}
+            </span>
+            
+            <button
+              type="button"
+              onClick={goToNextPage}
+              disabled={currentPage === totalPages}
+              className="w-12 h-12 rounded-full bg-[#494963] hover:bg-[#494963]/90 flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="w-5 h-5 text-white" />
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* Download button - más grande */}
-        <a
-          href={pdfUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg lg:text-xl font-semibold transition-all hover:opacity-90 hover:scale-[1.02] rounded-xl shadow-md"
-          style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
-        >
-          <Download className="w-5 h-5 sm:w-6 sm:h-6" />
-          Descargar PDF
-        </a>
+      {/* Download button - minimalista */}
+      <a
+        href={pdfUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-3 px-6 py-3 text-base sm:text-lg font-semibold transition-all hover:opacity-90 rounded-full"
+        style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
+      >
+        <Download className="w-5 h-5" />
+        Descargar PDF
+      </a>
 
-        {/* Tabs - más grandes */}
-        <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-10 sm:mt-12 mb-5 sm:mb-6">
+        {/* Tabs - minimalistas */}
+        <div className="flex items-center gap-6 mt-10 sm:mt-12 mb-6 border-b border-[#494963]/10 pb-4">
           <button
             type="button"
             onClick={() => setActiveTab("audios")}
-            className={`inline-flex items-center gap-2 sm:gap-2.5 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all ${
+            className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
               activeTab === "audios" 
-                ? "bg-white text-[#494963] shadow-md" 
-                : "text-[#494963]/50 hover:text-[#494963]/70"
+                ? "text-[#494963]" 
+                : "text-[#494963]/40 hover:text-[#494963]/60"
             }`}
           >
-            <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
+            <FileText className="w-4 h-4" />
             Audios
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("videos")}
-            className={`inline-flex items-center gap-2 sm:gap-2.5 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all ${
+            className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
               activeTab === "videos" 
-                ? "bg-white text-[#494963] shadow-md" 
-                : "text-[#494963]/50 hover:text-[#494963]/70"
+                ? "text-[#494963]" 
+                : "text-[#494963]/40 hover:text-[#494963]/60"
             }`}
           >
-            <Play className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Play className="w-4 h-4" />
             Videos
           </button>
           
-          {/* Spacer */}
           <div className="flex-1" />
           
-          {/* Download all button */}
           <button
             type="button"
             onClick={handleDownloadAll}
-            className="inline-flex items-center gap-2 text-sm sm:text-base text-[#494963]/50 hover:text-[#494963]/70 transition-colors"
+            className="text-sm text-[#494963]/40 hover:text-[#494963]/60 transition-colors"
           >
-            <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="hidden sm:inline">Descargar todos</span>
+            Descargar todos
           </button>
         </div>
 
-        {/* Media list con scroll - más grande */}
-        <div className="relative">
-          <p className="text-sm font-medium text-[#494963]/40 uppercase tracking-wider mb-4">
-            {activeTab === "audios" ? "Listado de audios" : "Listado de videos"}
-          </p>
-          
-          <div className="max-h-72 sm:max-h-80 overflow-y-auto pr-2 space-y-2 sm:space-y-3">
-            {activeTab === "audios" ? (
-              /* Audios list - más grandes */
-              mediaData.audios.map((audio) => (
-                <div 
-                  key={audio.id}
-                  className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl hover:bg-white/60 transition-colors"
-                >
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/50" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm sm:text-base text-[#494963]/80 truncate font-medium">{audio.name}</p>
-                    <p className="text-xs sm:text-sm text-[#494963]/40">MP3 - {audio.duration}</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleDownloadSingle(audio.url, audio.name)}
-                    className="opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity p-2 sm:p-2.5 rounded-full hover:bg-white"
-                  >
-                    <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/50" />
-                  </button>
+        {/* Media list - minimalista */}
+        <div className="space-y-1">
+          {activeTab === "audios" ? (
+            mediaData.audios.map((audio) => (
+              <div 
+                key={audio.id}
+                className="group flex items-center gap-4 py-3 border-b border-[#494963]/5 last:border-0"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm sm:text-base text-[#494963] truncate">{audio.name}</p>
+                  <p className="text-xs text-[#494963]/40">{audio.duration}</p>
                 </div>
-              ))
-            ) : (
-              /* Videos list con miniaturas - MÁS GRANDES EN MOBILE */
-              mediaData.videos.map((video) => (
-                <div 
-                  key={video.id}
-                  className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl hover:bg-white/60 transition-colors"
+                <button
+                  type="button"
+                  onClick={() => handleDownloadSingle(audio.url, audio.name)}
+                  className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
                 >
-                  {/* Miniatura del video - más grande en mobile */}
-                  <div className="relative w-28 sm:w-32 lg:w-36 aspect-video rounded-lg overflow-hidden flex-shrink-0 bg-gray-200 shadow-sm">
-                    <Image
-                      src={video.thumbnail}
-                      alt={video.name}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors cursor-pointer">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 flex items-center justify-center">
-                        <Play className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963] ml-0.5" />
-                      </div>
+                  <Download className="w-4 h-4 text-[#494963]/40" />
+                </button>
+              </div>
+            ))
+          ) : (
+            mediaData.videos.map((video) => (
+              <div 
+                key={video.id}
+                className="group flex items-center gap-4 py-3 border-b border-[#494963]/5 last:border-0"
+              >
+                <div className="relative w-24 sm:w-28 aspect-video rounded overflow-hidden flex-shrink-0 bg-[#494963]/10">
+                  <Image
+                    src={video.thumbnail}
+                    alt={video.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center">
+                      <Play className="w-3 h-3 text-[#494963] ml-0.5" />
                     </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm sm:text-base text-[#494963]/80 truncate font-medium">{video.name}</p>
-                    <p className="text-xs sm:text-sm text-[#494963]/40">MP4 - {video.duration}</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleDownloadSingle(video.url, video.name)}
-                    className="opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity p-2 sm:p-2.5 rounded-full hover:bg-white"
-                  >
-                    <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/50" />
-                  </button>
                 </div>
-              ))
-            )}
-          </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm sm:text-base text-[#494963] truncate">{video.name}</p>
+                  <p className="text-xs text-[#494963]/40">{video.duration}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleDownloadSingle(video.url, video.name)}
+                  className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                >
+                  <Download className="w-4 h-4 text-[#494963]/40" />
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
