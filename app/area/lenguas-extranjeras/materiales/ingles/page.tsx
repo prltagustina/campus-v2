@@ -378,31 +378,31 @@ function MaterialCard({
         Descargar PDF
       </a>
 
-        {/* Tabs - simples */}
+        {/* Tabs */}
         <div className="mt-8 sm:mt-10 mb-4">
           <div className="flex items-center gap-4 sm:gap-6 pb-3 border-b border-[#494963]/10">
             <button
               type="button"
               onClick={() => setActiveTab("audios")}
-              className={`inline-flex items-center gap-2 text-sm font-medium transition-all ${
+              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
                 activeTab === "audios" 
                   ? "text-[#494963]" 
                   : "text-[#494963]/40 hover:text-[#494963]/60"
               }`}
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
               Audios
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("videos")}
-              className={`inline-flex items-center gap-2 text-sm font-medium transition-all ${
+              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
                 activeTab === "videos" 
                   ? "text-[#494963]" 
                   : "text-[#494963]/40 hover:text-[#494963]/60"
               }`}
             >
-              <Play className="w-4 h-4" />
+              <Play className="w-4 h-4 sm:w-5 sm:h-5" />
               Videos
             </button>
           </div>
@@ -414,18 +414,18 @@ function MaterialCard({
             mediaData.audios.map((audio) => (
               <div 
                 key={audio.id}
-                className="flex items-center gap-3 py-3 border-b border-[#494963]/5"
+                className="flex items-center gap-3 py-3.5 border-b border-[#494963]/5"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-[#494963] leading-tight">{audio.name}</p>
-                  <p className="text-xs text-[#494963]/40 mt-0.5">{audio.duration}</p>
+                  <p className="text-sm sm:text-base text-[#494963] leading-tight">{audio.name}</p>
+                  <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{audio.duration}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleDownloadSingle(audio.url, audio.name)}
-                  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                  className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
                 >
-                  <Download className="w-4 h-4 text-[#494963]/40" />
+                  <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
                 </button>
               </div>
             ))
@@ -433,7 +433,7 @@ function MaterialCard({
             mediaData.videos.map((video) => (
               <div 
                 key={video.id}
-                className="flex items-center gap-3 py-3 border-b border-[#494963]/5"
+                className="flex items-center gap-3 py-3.5 border-b border-[#494963]/5"
               >
                 <div className="relative w-20 sm:w-24 aspect-video rounded overflow-hidden flex-shrink-0 bg-[#494963]/10">
                   <Image
@@ -449,15 +449,15 @@ function MaterialCard({
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-[#494963] leading-tight">{video.name}</p>
-                  <p className="text-xs text-[#494963]/40 mt-0.5">{video.duration}</p>
+                  <p className="text-sm sm:text-base text-[#494963] leading-tight">{video.name}</p>
+                  <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{video.duration}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleDownloadSingle(video.url, video.name)}
-                  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                  className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
                 >
-                  <Download className="w-4 h-4 text-[#494963]/40" />
+                  <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
                 </button>
               </div>
             ))
@@ -469,12 +469,12 @@ function MaterialCard({
           <button
             type="button"
             onClick={handleDownloadAllMagazine}
-            className="w-full flex items-center justify-center gap-2 py-3.5 text-sm font-semibold text-white bg-[#494963] hover:bg-[#494963]/90 rounded-lg transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-3.5 text-sm sm:text-base font-semibold text-white bg-[#494963] hover:bg-[#494963]/90 rounded-lg transition-colors"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4 sm:w-5 sm:h-5" />
             Descargar todo
           </button>
-          <p className="text-xs text-[#494963]/40 text-center mt-2">
+          <p className="text-xs sm:text-sm text-[#494963]/40 text-center mt-2">
             Incluye PDF, audios y videos
           </p>
         </div>
