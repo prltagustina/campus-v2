@@ -94,7 +94,7 @@ export default function InglesMaterilesPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+    <div className="min-h-screen flex flex-col bg-[#FDFBF7] overflow-x-hidden">
       <Header />
       
       {/* SIDEBAR GLOBAL FIJO - visible en toda la página, posicionado arriba */}
@@ -142,7 +142,7 @@ export default function InglesMaterilesPage() {
       </aside>
       
       {/* MAIN LAYOUT */}
-      <main className="relative mt-16 flex-1">
+      <main className="relative mt-16 flex-1 overflow-x-hidden">
         {/* HERO SECTION con Background amarillo con alto contraste */}
         <section className="relative">
           {/* Background amarillo saturado */}
