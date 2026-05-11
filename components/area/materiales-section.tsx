@@ -243,19 +243,19 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                           )}
                         </div>
 
-                        {/* Banner Funzine - Solo logo */}
+                        {/* Banner Funzine - Solo logo - MÁS GRANDE */}
                         <Link
                           href="/area/lenguas-extranjeras/materiales/ingles"
-                          className="block mx-4 my-5 rounded-2xl overflow-hidden shadow-lg active:scale-[0.98] transition-transform"
+                          className="block mx-3 my-6 rounded-2xl overflow-hidden shadow-xl active:scale-[0.98] transition-transform"
                           style={{ backgroundColor: area.color }}
                         >
-                          <div className="px-5 py-4 flex items-center justify-between">
+                          <div className="px-6 py-6 flex items-center justify-between gap-4">
                             <img 
                               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
                               alt="English Funzine"
-                              className="h-10 w-auto"
+                              className="h-14 w-auto flex-1 object-contain object-left"
                             />
-                            <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+                            <div className="w-9 h-9 rounded-full bg-white/25 flex items-center justify-center flex-shrink-0 ml-2">
                               <ArrowRight className="w-4 h-4 text-white" />
                             </div>
                           </div>
