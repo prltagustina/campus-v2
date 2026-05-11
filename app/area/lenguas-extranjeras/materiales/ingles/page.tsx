@@ -212,26 +212,26 @@ export default function InglesMaterilesPage() {
                   </p>
 
                   {/* Issues section - integrado con el diseño */}
-                  <div className="mb-6 sm:mb-8">
-                    <p className="text-xs sm:text-sm font-medium text-[#494963]/50 uppercase tracking-wider mb-3">
+                  <div className="mb-8 sm:mb-10 lg:mb-12">
+                    <p className="text-xs sm:text-sm lg:text-base font-medium text-[#494963]/50 uppercase tracking-wider mb-3 sm:mb-4">
                       Ediciones disponibles
                     </p>
                     
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       {funzineIssues.map((issue) => (
                         issue.available ? (
                           <button
                             key={issue.slug}
                             type="button"
                             onClick={() => scrollToSection("magazine")}
-                            className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 bg-[#494963] text-white"
+                            className="px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 rounded-full text-sm sm:text-base lg:text-lg font-semibold transition-all hover:scale-105 bg-[#494963] text-white"
                           >
                             Issue {issue.number}
                           </button>
                         ) : (
                           <span
                             key={issue.slug}
-                            className="px-4 py-2 rounded-full text-sm font-medium bg-[#494963]/10 text-[#494963]/40"
+                            className="px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 rounded-full text-sm sm:text-base lg:text-lg font-medium bg-[#494963]/10 text-[#494963]/40"
                           >
                             Issue {issue.number}
                           </span>
