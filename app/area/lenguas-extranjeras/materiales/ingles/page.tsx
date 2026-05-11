@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { 
@@ -10,7 +10,7 @@ import {
   Play,
   Download,
   Pencil,
-  Apple,
+  Compass,
   FileText,
 } from "lucide-react";
 import { Header } from "@/components/header";
@@ -46,7 +46,7 @@ const sidebarItems = [
   { id: "presentacion", icon: Play, label: "Presentación" },
   { id: "magazine", icon: BookOpen, label: "Magazine" },
   { id: "activity-book", icon: Pencil, label: "Activity Book" },
-  { id: "teachers-guide", icon: Apple, label: "Teacher Guide" },
+  { id: "teachers-guide", icon: Compass, label: "Teacher's Guide" },
 ];
 
 /* PDF URLs */
@@ -92,6 +92,45 @@ export default function InglesMaterilesPage() {
       ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  // Scroll spy - detectar sección visible automáticamente
+  useEffect(() => {
+    const sectionRefs = [
+      { id: "presentacion", ref: presentacionRef },
+      { id: "magazine", ref: magazineRef },
+      { id: "activity-book", ref: activityBookRef },
+      { id: "teachers-guide", ref: teachersGuideRef },
+    ];
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0,
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.getAttribute("id");
+          if (sectionId) {
+            setActiveSection(sectionId);
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    sectionRefs.forEach(({ ref }) => {
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FDFBF7] overflow-x-hidden">
@@ -246,7 +285,7 @@ export default function InglesMaterilesPage() {
                   <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-10 sm:pb-14 lg:pb-20 -mx-6 sm:-mx-10 lg:-mx-28 xl:-mx-40">
                     <Image
                       src="/images/funzine-banner.png"
-                      alt="English Funzine - Magazine, Activity Book y Teacher Guide"
+                      alt="English Funzine - Magazine, Activity Book y Teacher's Guide"
                       width={1920}
                       height={768}
                       className="w-full h-auto"
@@ -267,7 +306,7 @@ export default function InglesMaterilesPage() {
               {/* Issue 1 Title */}
               <div className="mb-8 sm:mb-10 lg:mb-12">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#494963] flex items-center gap-2 sm:gap-3">
-                  <span>It&apos;s great to be me</span>
+                  <span>It&apos;s great to be me!</span>
                   <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-[#494963]/30 flex-shrink-0" />
                 </h2>
               </div>
@@ -292,11 +331,11 @@ export default function InglesMaterilesPage() {
                   />
                 </div>
 
-                {/* 03. Teacher Guide */}
+                {/* 03. Teacher's Guide */}
                 <div ref={teachersGuideRef} id="teachers-guide" className="scroll-mt-20">
                   <MaterialCard
                     number="03"
-                    title="Teacher Guide"
+                    title="Teacher's Guide"
                     pdfUrl={pdfUrls.teachersGuide}
                   />
                 </div>
