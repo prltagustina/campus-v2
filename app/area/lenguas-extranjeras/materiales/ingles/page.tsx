@@ -226,14 +226,14 @@ export default function InglesMaterilesPage() {
                             key={issue.slug}
                             type="button"
                             onClick={() => scrollToSection("magazine")}
-                            className="px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-semibold transition-all hover:scale-105 bg-[#494963] text-white"
+                            className="px-4 sm:px-5 lg:px-6 py-2.5 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-bold transition-all hover:scale-105 bg-[#494963] text-white shadow-md"
                           >
                             Issue {issue.number}
                           </button>
                         ) : (
                           <span
                             key={issue.slug}
-                            className="px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-medium bg-[#494963]/10 text-[#494963]/40"
+                            className="px-4 sm:px-5 lg:px-6 py-2.5 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-medium bg-white/60 text-[#494963]/30 border border-[#494963]/10"
                           >
                             Issue {issue.number}
                           </span>
