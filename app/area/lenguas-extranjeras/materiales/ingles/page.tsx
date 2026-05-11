@@ -251,6 +251,9 @@ export default function InglesMaterilesPage() {
                       height={768}
                       className="w-full h-auto"
                       priority
+                      loading="eager"
+                      placeholder="empty"
+                      unoptimized={false}
                     />
                   </div>
                 </div>
