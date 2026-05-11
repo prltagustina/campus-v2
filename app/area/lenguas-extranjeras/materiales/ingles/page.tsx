@@ -133,14 +133,17 @@ export default function InglesMaterilesPage() {
     };
   }, []);
 
-  // Mostrar/ocultar botón de scroll to top
+  // Mostrar botón de scroll to top solo cuando se llega abajo
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 500) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      
+      // Mostrar cuando faltan menos de 200px para llegar al final
+      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 200;
+      
+      setShowScrollTop(isNearBottom);
     };
 
     window.addEventListener("scroll", toggleVisibility);
