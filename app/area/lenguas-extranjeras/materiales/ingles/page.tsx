@@ -12,7 +12,6 @@ import {
   Pencil,
   Apple,
   FileText,
-  BookOpenCheck,
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/landing/landing-footer";
@@ -192,21 +191,17 @@ export default function InglesMaterilesPage() {
                     />
                   </div>
 
-                  {/* Video de presentación - más grande en mobile */}
-                  <div ref={presentacionRef} id="presentacion" className="scroll-mt-20 mb-8 sm:mb-10">
-                    <p className="text-sm sm:text-base font-semibold text-[#494963] uppercase tracking-wider mb-4 sm:mb-5">
-                      Video de presentación
-                    </p>
-                    <div className="rounded-xl sm:rounded-2xl overflow-hidden bg-[#494963] aspect-video max-w-xl flex items-center justify-center shadow-xl">
-                      <div className="text-center">
-                        <div 
-                          className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center mx-auto cursor-pointer transition-transform hover:scale-110 shadow-lg"
-                          style={{ backgroundColor: AREA_COLOR }}
-                        >
-                          <Play className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 ml-0.5" style={{ color: TEXT_ON_COLOR }} />
-                        </div>
+                  {/* Video de presentación - minimalista */}
+                  <div ref={presentacionRef} id="presentacion" className="scroll-mt-20 mb-10 sm:mb-12">
+                    <button 
+                      type="button"
+                      className="group flex items-center gap-3 text-[#494963]/70 hover:text-[#494963] transition-colors"
+                    >
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/10 flex items-center justify-center group-hover:bg-[#494963]/15 transition-colors">
+                        <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
                       </div>
-                    </div>
+                      <span className="text-sm sm:text-base font-medium">Ver video de presentación</span>
+                    </button>
                   </div>
 
                   {/* Intro text - más grande en mobile */}
@@ -216,47 +211,30 @@ export default function InglesMaterilesPage() {
                     en aquellas escuelas primarias de Santa Fe que elijan enseñar inglés.
                   </p>
 
-                  {/* Issues section - MÁS GRANDE EN MOBILE */}
-                  <div className="mb-8 sm:mb-10">
-                    {/* Issues selector */}
-                    <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-5">
-                      <BookOpenCheck className="w-6 h-6 sm:w-7 sm:h-7 text-[#494963]/50" />
-                      <span className="text-sm sm:text-base font-semibold text-[#494963]/60 uppercase tracking-wider">
-                        Issues
-                      </span>
-                    </div>
+                  {/* Issues section - integrado con el diseño */}
+                  <div className="mb-6 sm:mb-8">
+                    <p className="text-xs sm:text-sm font-medium text-[#494963]/50 uppercase tracking-wider mb-3">
+                      Ediciones disponibles
+                    </p>
                     
-                    {/* Issue buttons - más grandes en mobile */}
-                    <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-10">
+                    <div className="flex items-center gap-2">
                       {funzineIssues.map((issue) => (
                         issue.available ? (
                           <button
                             key={issue.slug}
                             type="button"
                             onClick={() => scrollToSection("magazine")}
-                            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all hover:scale-105 shadow-lg bg-white"
-                            title={issue.title}
+                            className="px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 bg-[#494963] text-white"
                           >
-                            <span className="text-base sm:text-lg font-bold text-[#494963]">
-                              {issue.number}
-                            </span>
+                            Issue {issue.number}
                           </button>
                         ) : (
-                          <div
+                          <span
                             key={issue.slug}
-                            className="relative group"
-                            title="Próximamente"
+                            className="px-4 py-2 rounded-full text-sm font-medium bg-[#494963]/10 text-[#494963]/40"
                           >
-                            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-white/50">
-                              <span className="text-base sm:text-lg font-bold text-[#494963]/30">
-                                {issue.number}
-                              </span>
-                            </div>
-                            {/* Tooltip próximamente */}
-                            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                              <span className="text-xs sm:text-sm text-[#494963]/60 whitespace-nowrap bg-white px-3 py-1 rounded-full shadow-md">Próximamente</span>
-                            </div>
-                          </div>
+                            Issue {issue.number}
+                          </span>
                         )
                       ))}
                     </div>
@@ -393,13 +371,13 @@ function MaterialCard({
         Descargar PDF
       </a>
 
-        {/* Tabs - responsive */}
-        <div className="mt-8 sm:mt-10 mb-4 sm:mb-6">
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 pb-3 border-b border-[#494963]/10">
+        {/* Tabs - simples */}
+        <div className="mt-8 sm:mt-10 mb-4">
+          <div className="flex items-center gap-4 sm:gap-6 pb-3 border-b border-[#494963]/10">
             <button
               type="button"
               onClick={() => setActiveTab("audios")}
-              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
+              className={`inline-flex items-center gap-2 text-sm font-medium transition-all ${
                 activeTab === "audios" 
                   ? "text-[#494963]" 
                   : "text-[#494963]/40 hover:text-[#494963]/60"
@@ -411,7 +389,7 @@ function MaterialCard({
             <button
               type="button"
               onClick={() => setActiveTab("videos")}
-              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-all ${
+              className={`inline-flex items-center gap-2 text-sm font-medium transition-all ${
                 activeTab === "videos" 
                   ? "text-[#494963]" 
                   : "text-[#494963]/40 hover:text-[#494963]/60"
@@ -420,26 +398,16 @@ function MaterialCard({
               <Play className="w-4 h-4" />
               Videos
             </button>
-            
-            <div className="flex-1 min-w-0" />
-            
-            <button
-              type="button"
-              onClick={handleDownloadAll}
-              className="text-xs sm:text-sm text-[#494963]/40 hover:text-[#494963]/60 transition-colors whitespace-nowrap"
-            >
-              Descargar todos
-            </button>
           </div>
         </div>
 
-        {/* Media list - responsive */}
+        {/* Media list */}
         <div className="space-y-0">
           {activeTab === "audios" ? (
             mediaData.audios.map((audio) => (
               <div 
                 key={audio.id}
-                className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-0"
+                className="flex items-center gap-3 py-3 border-b border-[#494963]/5"
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-[#494963] leading-tight">{audio.name}</p>
@@ -458,7 +426,7 @@ function MaterialCard({
             mediaData.videos.map((video) => (
               <div 
                 key={video.id}
-                className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-0"
+                className="flex items-center gap-3 py-3 border-b border-[#494963]/5"
               >
                 <div className="relative w-20 sm:w-24 aspect-video rounded overflow-hidden flex-shrink-0 bg-[#494963]/10">
                   <Image
@@ -487,6 +455,18 @@ function MaterialCard({
               </div>
             ))
           )}
+        </div>
+        
+        {/* Descargar todos - al final, siempre visible */}
+        <div className="pt-4 mt-2">
+          <button
+            type="button"
+            onClick={handleDownloadAll}
+            className="w-full flex items-center justify-center gap-2 py-3 text-sm font-medium text-[#494963]/60 hover:text-[#494963] bg-[#494963]/5 hover:bg-[#494963]/10 rounded-lg transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            Descargar todos los {activeTab}
+          </button>
         </div>
     </div>
   );
