@@ -191,17 +191,19 @@ export default function InglesMaterilesPage() {
                     />
                   </div>
 
-                  {/* Video de presentación - minimalista */}
+                  {/* Video de presentación - mockup minimalista */}
                   <div ref={presentacionRef} id="presentacion" className="scroll-mt-20 mb-10 sm:mb-12">
-                    <button 
-                      type="button"
-                      className="group flex items-center gap-3 text-[#494963]/70 hover:text-[#494963] transition-colors"
-                    >
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/10 flex items-center justify-center group-hover:bg-[#494963]/15 transition-colors">
-                        <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
+                    <p className="text-xs sm:text-sm font-medium text-[#494963]/50 uppercase tracking-wider mb-3">
+                      Video de presentación
+                    </p>
+                    <div className="relative rounded-xl overflow-hidden bg-[#494963]/5 aspect-video max-w-md cursor-pointer group">
+                      {/* Placeholder para embed de YouTube */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#494963]/10 group-hover:bg-[#494963]/20 flex items-center justify-center transition-colors">
+                          <Play className="w-6 h-6 sm:w-7 sm:h-7 text-[#494963]/60 ml-0.5" />
+                        </div>
                       </div>
-                      <span className="text-sm sm:text-base font-medium">Ver video de presentación</span>
-                    </button>
+                    </div>
                   </div>
 
                   {/* Intro text - más grande en mobile */}
@@ -462,7 +464,7 @@ function MaterialCard({
           )}
         </div>
         
-        {/* Descargar todo el magazine - al final, siempre visible */}
+        {/* Descargar todo - al final, siempre visible */}
         <div className="pt-5 mt-3 border-t border-[#494963]/5">
           <button
             type="button"
@@ -470,7 +472,7 @@ function MaterialCard({
             className="w-full flex items-center justify-center gap-2 py-3.5 text-sm font-semibold text-white bg-[#494963] hover:bg-[#494963]/90 rounded-lg transition-colors"
           >
             <Download className="w-4 h-4" />
-            Descargar todo el magazine
+            Descargar todo
           </button>
           <p className="text-xs text-[#494963]/40 text-center mt-2">
             Incluye PDF, audios y videos
