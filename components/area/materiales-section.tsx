@@ -241,27 +241,20 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                           )}
                         </div>
 
-                        {/* Banner Funzine - Full width y llamativo */}
+                        {/* Banner Funzine - Solo logo */}
                         <Link
                           href="/area/lenguas-extranjeras/materiales/ingles"
                           className="block mx-4 my-5 rounded-2xl overflow-hidden shadow-lg active:scale-[0.98] transition-transform"
                           style={{ backgroundColor: area.color }}
                         >
-                          <div className="px-5 py-5 flex items-center gap-4">
+                          <div className="px-5 py-4 flex items-center justify-between">
                             <img 
                               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
                               alt="English Funzine"
-                              className="h-12 w-auto"
+                              className="h-10 w-auto"
                             />
-                            <div className="flex-1 min-w-0">
-                              <img 
-                                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
-                                alt="The magazine that makes English fun!"
-                                className="h-7 w-auto"
-                              />
-                            </div>
-                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                              <ArrowRight className="w-5 h-5 text-white" />
+                            <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+                              <ArrowRight className="w-4 h-4 text-white" />
                             </div>
                           </div>
                         </Link>
