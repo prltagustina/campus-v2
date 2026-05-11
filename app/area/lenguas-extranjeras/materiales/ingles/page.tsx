@@ -378,7 +378,7 @@ function MaterialCard({
       {/* PDF preview - Full width */}
       <div className="relative w-full mb-6 sm:mb-8">
         {/* Aspect ratio de portada real - A4 vertical */}
-        <div className="aspect-[210/297] w-full relative bg-white">
+        <div className="aspect-[3/4] w-full relative bg-white">
           <iframe
             src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true#page=${currentPage}`}
             className="w-full h-full absolute inset-0"
