@@ -150,7 +150,7 @@ export default function InglesMaterilesPage() {
             className="absolute inset-x-0 top-0 w-full h-full pointer-events-none" 
             style={{ 
               zIndex: 1,
-              background: "linear-gradient(180deg, #FFC107 0%, #FFB300 20%, #FFCA28 45%, #FFE082 70%, #FFF8E1 90%, #FDFBF7 100%)",
+              background: "linear-gradient(180deg, #FFCA28 0%, #FFD54F 30%, #FFE082 60%, #FFF8E1 85%, #FDFBF7 100%)",
             }}
           />
 
