@@ -10,7 +10,7 @@ import {
   Play,
   Download,
   Pencil,
-  Apple,
+  Compass,
   FileText,
 } from "lucide-react";
 import { Header } from "@/components/header";
@@ -46,7 +46,7 @@ const sidebarItems = [
   { id: "presentacion", icon: Play, label: "Presentación" },
   { id: "magazine", icon: BookOpen, label: "Magazine" },
   { id: "activity-book", icon: Pencil, label: "Activity Book" },
-  { id: "teachers-guide", icon: Apple, label: "Teacher's Guide" },
+  { id: "teachers-guide", icon: Compass, label: "Teacher's Guide" },
 ];
 
 /* PDF URLs */
