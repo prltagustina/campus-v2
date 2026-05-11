@@ -144,14 +144,14 @@ export default function InglesMaterilesPage() {
       
       {/* MAIN LAYOUT */}
       <main className="relative mt-16 flex-1">
-        {/* HERO SECTION con Background amarillo claro */}
+        {/* HERO SECTION con Background amarillo con más contraste */}
         <section className="relative">
-          {/* Background amarillo claro - solo para primera sección */}
+          {/* Background amarillo más visible - solo para primera sección */}
           <div 
             className="absolute inset-x-0 top-0 w-full h-full pointer-events-none" 
             style={{ 
               zIndex: 1,
-              background: "linear-gradient(180deg, #FFF8E1 0%, #FFFBF0 60%, #FDFBF7 100%)",
+              background: "linear-gradient(180deg, #FFF3C4 0%, #FFEFB8 30%, #FFF8E1 70%, #FDFBF7 100%)",
             }}
           />
 
@@ -369,7 +369,7 @@ function MaterialCard({
   };
 
   return (
-    <div className="bg-[#FFF9E6] rounded-2xl sm:rounded-3xl overflow-hidden">
+    <div className="bg-[#FFF5D6] rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
       <div className="p-5 sm:p-8 lg:p-10">
         <p className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[#494963]/70 mb-5 sm:mb-8">
           {number}. {title}
