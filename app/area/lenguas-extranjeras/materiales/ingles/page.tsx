@@ -262,14 +262,14 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
 
-                  {/* Magazine covers - Banner nuevo con personajes */}
-                  <div className="relative mt-6 sm:mt-10 lg:mt-14 pb-8 sm:pb-12 lg:pb-16">
+                  {/* Magazine covers - Banner nuevo con personajes - MÁS GRANDE */}
+                  <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-10 sm:pb-14 lg:pb-20 -mx-4 sm:-mx-6 lg:-mx-20 xl:-mx-32">
                     <Image
                       src="/images/funzine-banner.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher Guide"
-                      width={1400}
-                      height={560}
-                      className="w-full max-w-5xl xl:max-w-6xl h-auto mx-auto"
+                      width={1600}
+                      height={640}
+                      className="w-full h-auto"
                       priority
                     />
                   </div>
@@ -339,8 +339,8 @@ function MaterialCard({
   pdfUrl: string;
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 32; // Páginas aproximadas
+  const [isFlipping, setIsFlipping] = useState(false);
+  const [flipDirection, setFlipDirection] = useState<"left" | "right" | null>(null);
 
   const currentMedia = activeTab === "audios" ? mediaData.audios : mediaData.videos;
 
@@ -360,12 +360,14 @@ function MaterialCard({
     link.click();
   };
 
-  const goToPrevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const goToNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  const handleFlip = (direction: "left" | "right") => {
+    if (isFlipping) return;
+    setFlipDirection(direction);
+    setIsFlipping(true);
+    setTimeout(() => {
+      setIsFlipping(false);
+      setFlipDirection(null);
+    }, 600);
   };
 
   return (
@@ -375,47 +377,74 @@ function MaterialCard({
         {number}. {title}
       </p>
 
-      {/* PDF preview - Full width */}
+      {/* PDF Flipbook viewer */}
       <div className="relative w-full mb-6 sm:mb-8">
-        {/* Aspect ratio de portada real - A4 vertical */}
-        <div className="aspect-[3/4] w-full relative bg-white">
-          <iframe
-            src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true#page=${currentPage}`}
-            className="w-full h-full absolute inset-0"
-            title={`${title} Preview`}
-            style={{ border: "none" }}
-          />
-        </div>
-        
-        {/* Controles flipbook - minimalistas */}
-        <div className="absolute bottom-4 left-0 right-0 px-4">
-          <div className="flex items-center justify-between max-w-md mx-auto">
+        {/* Contenedor del libro con perspectiva */}
+        <div 
+          className="relative mx-auto"
+          style={{ 
+            perspective: "2000px",
+            maxWidth: "600px"
+          }}
+        >
+          {/* Página del libro */}
+          <div 
+            className={`relative bg-white shadow-2xl transition-transform duration-500 ease-in-out ${
+              isFlipping && flipDirection === "right" ? "animate-flip-right" : ""
+            } ${
+              isFlipping && flipDirection === "left" ? "animate-flip-left" : ""
+            }`}
+            style={{
+              aspectRatio: "3/4",
+              transformStyle: "preserve-3d",
+              boxShadow: "0 10px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)",
+            }}
+          >
+            {/* Efecto de páginas apiladas */}
+            <div className="absolute -right-1 top-2 bottom-2 w-3 bg-gradient-to-r from-gray-100 to-gray-200 rounded-r-sm" />
+            <div className="absolute -right-2 top-4 bottom-4 w-2 bg-gradient-to-r from-gray-200 to-gray-300 rounded-r-sm" />
+            
+            {/* Iframe del PDF */}
+            <iframe
+              src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
+              className="w-full h-full absolute inset-0 rounded-sm"
+              title={`${title} Preview`}
+              style={{ border: "none" }}
+            />
+            
+            {/* Efecto de brillo en el borde */}
+            <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-black/5 to-transparent pointer-events-none" />
+          </div>
+          
+          {/* Controles de navegación flipbook */}
+          <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between pointer-events-none px-2 sm:px-0 sm:-mx-16">
+            {/* Botón anterior - efecto flip */}
             <button
               type="button"
-              onClick={goToPrevPage}
-              disabled={currentPage === 1}
-              className="w-12 h-12 rounded-full bg-[#494963] hover:bg-[#494963]/90 flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              onClick={() => handleFlip("left")}
+              className="pointer-events-auto w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-lg hover:shadow-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95"
             >
-              <ChevronRight className="w-5 h-5 text-white rotate-180" />
+              <ChevronRight className="w-6 h-6 text-[#494963] rotate-180" />
             </button>
             
-            <span className="text-sm font-medium text-[#494963] bg-white/90 px-4 py-2 rounded-full">
-              {currentPage} / {totalPages}
-            </span>
-            
+            {/* Botón siguiente - efecto flip */}
             <button
               type="button"
-              onClick={goToNextPage}
-              disabled={currentPage === totalPages}
-              className="w-12 h-12 rounded-full bg-[#494963] hover:bg-[#494963]/90 flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              onClick={() => handleFlip("right")}
+              className="pointer-events-auto w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-lg hover:shadow-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95"
             >
-              <ChevronRight className="w-5 h-5 text-white" />
+              <ChevronRight className="w-6 h-6 text-[#494963]" />
             </button>
           </div>
         </div>
+        
+        {/* Indicador visual */}
+        <p className="text-center text-sm text-[#494963]/50 mt-4">
+          Usa las flechas o desplázate dentro del documento
+        </p>
       </div>
 
-      {/* Download button - minimalista */}
+      {/* Download button */}
       <a
         href={pdfUrl}
         target="_blank"
