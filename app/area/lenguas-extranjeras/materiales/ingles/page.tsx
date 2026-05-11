@@ -15,7 +15,6 @@ import {
   FileText,
 } from "lucide-react";
 import { Header } from "@/components/header";
-import { Footer } from "@/components/landing/landing-footer";
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
@@ -377,8 +376,6 @@ export default function InglesMaterilesPage() {
           </div>
         </section>
       </main>
-
-      <Footer />
 
       {/* Botón scroll to top */}
       {showScrollTop && (
