@@ -145,12 +145,12 @@ export default function InglesMaterilesPage() {
       <main className="relative mt-16 flex-1">
         {/* HERO SECTION con Background amarillo con alto contraste */}
         <section className="relative">
-          {/* Background amarillo saturado */}
+          {/* Background amarillo más oscuro arriba */}
           <div 
             className="absolute inset-x-0 top-0 w-full h-full pointer-events-none" 
             style={{ 
               zIndex: 1,
-              background: "linear-gradient(180deg, #FFE082 0%, #FFCA28 20%, #FFD54F 50%, #FFF8E1 85%, #FDFBF7 100%)",
+              background: "linear-gradient(180deg, #F9A825 0%, #FBC02D 15%, #FFCA28 30%, #FFD54F 55%, #FFF8E1 85%, #FDFBF7 100%)",
             }}
           />
 
