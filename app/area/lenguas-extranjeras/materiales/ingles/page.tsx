@@ -13,6 +13,7 @@ import {
   Pencil,
   Compass,
   FileText,
+  Share2,
 } from "lucide-react";
 import { Header } from "@/components/header";
 
@@ -500,17 +501,38 @@ function MaterialCard({
         </div>
       </div>
 
-      {/* Download button - full width en mobile */}
-      <a
-        href={pdfUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 py-3 text-sm sm:text-base font-semibold transition-all hover:opacity-90 rounded-lg sm:rounded-full"
-        style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
-      >
-        <Download className="w-4 h-4" />
-        Descargar PDF
-      </a>
+      {/* Download + Share buttons */}
+      <div className="flex items-center gap-3">
+        <a
+          href={pdfUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 flex-1 sm:flex-initial px-5 py-3 text-sm sm:text-base font-semibold transition-all hover:opacity-90 rounded-lg sm:rounded-full"
+          style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
+        >
+          <Download className="w-4 h-4" />
+          Descargar PDF
+        </a>
+        <button
+          type="button"
+          onClick={() => {
+            if (navigator.share) {
+              navigator.share({
+                title: `English Funzine - ${title}`,
+                text: `English Funzine - ${title}`,
+                url: window.location.href,
+              });
+            } else {
+              navigator.clipboard.writeText(window.location.href);
+            }
+          }}
+          className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all hover:opacity-90"
+          style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
+          aria-label="Compartir"
+        >
+          <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
+        </button>
+      </div>
 
         {/* Tabs */}
         <div className="mt-8 sm:mt-10 mb-4">
