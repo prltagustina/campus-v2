@@ -523,27 +523,44 @@ function MaterialCard({
               url: window.location.href,
             };
             
+            const showFeedback = () => {
+              btn.classList.add("scale-95");
+              setTimeout(() => btn.classList.remove("scale-95"), 150);
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+              setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+            };
+            
             try {
               if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                 await navigator.share(shareData);
-              } else {
+              } else if (navigator.clipboard && navigator.clipboard.writeText) {
                 await navigator.clipboard.writeText(window.location.href);
-                // Mostrar feedback visual de copiado
-                btn.classList.add("scale-95");
-                setTimeout(() => btn.classList.remove("scale-95"), 150);
-                const originalHTML = btn.innerHTML;
-                btn.innerHTML = '<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-                setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+                showFeedback();
+              } else {
+                // Fallback: crear input temporal para copiar
+                const input = document.createElement('input');
+                input.value = window.location.href;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showFeedback();
               }
             } catch (err) {
-              // Si el usuario cancela el share o hay error, copiar al clipboard
+              // Si hay error, intentar fallback
               if ((err as Error).name !== 'AbortError') {
-                await navigator.clipboard.writeText(window.location.href);
-                btn.classList.add("scale-95");
-                setTimeout(() => btn.classList.remove("scale-95"), 150);
-                const originalHTML = btn.innerHTML;
-                btn.innerHTML = '<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-                setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+                try {
+                  const input = document.createElement('input');
+                  input.value = window.location.href;
+                  document.body.appendChild(input);
+                  input.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(input);
+                  showFeedback();
+                } catch {
+                  // Silenciar error si todo falla
+                }
               }
             }
           }}
