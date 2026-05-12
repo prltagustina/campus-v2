@@ -110,19 +110,18 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
               </a>
               <button
                 type="button"
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({
-                      title: `Documento de ${displayName}`,
-                      text: `Documento curricular de ${displayName}`,
-                      url: window.location.href,
-                    });
-                  } else {
-                    navigator.clipboard.writeText(window.location.href);
-                  }
+                onClick={(e) => {
+                  const btn = e.currentTarget;
+                  navigator.clipboard.writeText(window.location.href);
+                  btn.classList.add("scale-95");
+                  setTimeout(() => btn.classList.remove("scale-95"), 150);
+                  // Mostrar feedback visual
+                  const originalHTML = btn.innerHTML;
+                  btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                  setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
                 }}
-                className="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:opacity-90 hover:shadow-md"
-                style={{ backgroundColor: area.color, color: area.textOnColor }}
+                className="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:shadow-md border-2"
+                style={{ backgroundColor: "#FFFFFF", borderColor: area.color, color: area.color }}
                 aria-label="Compartir"
               >
                 <Share2 className="w-5 h-5" />
