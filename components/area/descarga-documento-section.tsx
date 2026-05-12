@@ -1,6 +1,6 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 import Image from "next/image";
 import type { Area } from "@/lib/areas-data";
 
@@ -97,16 +97,48 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
               {"Para profundizar en los contenidos, ejes y orientaciones de esta \u00e1rea curricular."}
             </p>
 
-            {/* Download button */}
-            <a
-              href="#"
-              className="inline-flex items-center gap-3 rounded-lg px-7 py-3.5 text-base font-semibold transition-all hover:opacity-90 hover:shadow-md"
-              style={{ backgroundColor: area.color, color: area.textOnColor }}
-            >
-              <Download className="w-5 h-5" />
-              <span className="hidden sm:inline">Descargar PDF</span>
-              <span className="sm:hidden">Descargar</span>
-            </a>
+            {/* Download + Share buttons */}
+            <div className="flex items-center gap-3">
+              <a
+                href="#"
+                className="inline-flex items-center gap-3 rounded-lg px-7 py-3.5 text-base font-semibold transition-all hover:opacity-90 hover:shadow-md"
+                style={{ backgroundColor: area.color, color: area.textOnColor }}
+              >
+                <Download className="w-5 h-5" />
+                <span className="hidden sm:inline">Descargar PDF</span>
+                <span className="sm:hidden">Descargar</span>
+              </a>
+              <button
+                type="button"
+                onClick={(e) => {
+                  const btn = e.currentTarget;
+                  navigator.clipboard.writeText(window.location.href);
+                  btn.classList.add("scale-95");
+                  setTimeout(() => btn.classList.remove("scale-95"), 150);
+                  // Mostrar feedback visual
+                  const originalHTML = btn.innerHTML;
+                  btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                  setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+                }}
+                className="group w-12 h-12 rounded-full flex items-center justify-center transition-all border-2 hover:scale-105"
+                style={{ 
+                  backgroundColor: "transparent", 
+                  borderColor: area.color, 
+                  color: area.color,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = area.color;
+                  e.currentTarget.style.color = area.textOnColor;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = area.color;
+                }}
+                aria-label="Compartir"
+              >
+                <Share2 className="w-5 h-5" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
