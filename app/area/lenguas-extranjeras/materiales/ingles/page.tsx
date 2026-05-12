@@ -515,15 +515,37 @@ function MaterialCard({
         </a>
         <button
           type="button"
-          onClick={(e) => {
+          onClick={async (e) => {
             const btn = e.currentTarget;
-            navigator.clipboard.writeText(window.location.href);
-            btn.classList.add("scale-95");
-            setTimeout(() => btn.classList.remove("scale-95"), 150);
-            // Mostrar feedback visual
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-            setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+            const shareData = {
+              title: `English Funzine - ${title}`,
+              text: `English Funzine - ${title} - Campus Educativo Santa Fe`,
+              url: window.location.href,
+            };
+            
+            try {
+              if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                await navigator.share(shareData);
+              } else {
+                await navigator.clipboard.writeText(window.location.href);
+                // Mostrar feedback visual de copiado
+                btn.classList.add("scale-95");
+                setTimeout(() => btn.classList.remove("scale-95"), 150);
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+              }
+            } catch (err) {
+              // Si el usuario cancela el share o hay error, copiar al clipboard
+              if ((err as Error).name !== 'AbortError') {
+                await navigator.clipboard.writeText(window.location.href);
+                btn.classList.add("scale-95");
+                setTimeout(() => btn.classList.remove("scale-95"), 150);
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+              }
+            }
           }}
           className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all border-2 hover:scale-105"
           style={{ 
