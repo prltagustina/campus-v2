@@ -120,8 +120,20 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
                   btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
                   setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
                 }}
-                className="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:shadow-md border-2"
-                style={{ backgroundColor: "#FFFFFF", borderColor: area.color, color: area.color }}
+                className="group w-12 h-12 rounded-full flex items-center justify-center transition-all border-2 hover:scale-105"
+                style={{ 
+                  backgroundColor: "transparent", 
+                  borderColor: area.color, 
+                  color: area.color,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = area.color;
+                  e.currentTarget.style.color = area.textOnColor;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = area.color;
+                }}
                 aria-label="Compartir"
               >
                 <Share2 className="w-5 h-5" />
