@@ -12,13 +12,13 @@ interface MaterialesSectionProps {
 type Categoria = "descargas" | "jornada-ampliada";
 type CategoriaRecurso = "secuencias" | "audiovisuales" | "guias";
 
-/* Idiomas disponibles para Lenguas Extranjeras - Inglés primero */
+/* Idiomas disponibles para Lenguas Extranjeras - Francés primero visualmente, pero Inglés se abre por defecto */
 const idiomas = [
-  { id: "ingles", name: "Inglés" },
-  { id: "aleman", name: "Alemán" },
   { id: "frances", name: "Francés" },
+  { id: "ingles", name: "Inglés" },
   { id: "italiano", name: "Italiano" },
   { id: "portugues", name: "Portugués" },
+  { id: "aleman", name: "Alemán" },
 ];
 
 /* Materiales y recursos educativos - con más info (thumbnails para videos) */
