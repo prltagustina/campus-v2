@@ -356,7 +356,7 @@ export default function InglesMaterilesPage() {
                   {/* Magazine covers - Banner con personajes - MÁS GRANDE */}
                   <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-10 sm:pb-14 lg:pb-20 -mx-6 sm:-mx-10 lg:-mx-28 xl:-mx-40">
                     <img
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/imagen_web_ingles_mockupypersonajes-HD1TXDIehcGcsUoKlsdapFD7ldsWuR.png"
+                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/imagen_web_ingles_mockupypersonajes-HLAuGaOy5Pa7aaMDJAJLLqqWWi8L0g.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher's Guide con personajes"
                       className="w-full h-auto"
                     />
