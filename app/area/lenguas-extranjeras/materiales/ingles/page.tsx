@@ -14,7 +14,6 @@ import {
   Compass,
   FileText,
   Share2,
-  Scale,
 } from "lucide-react";
 import { Header } from "@/components/header";
 
@@ -325,6 +324,19 @@ export default function InglesMaterilesPage() {
                     en aquellas escuelas primarias de Santa Fe que elijan enseñar inglés.
                   </p>
 
+                  {/* Resolución - enlace minimalista */}
+                  <a
+                    href="/documentos/resolucion-1410-26-ingles.pdf"
+                    download
+                    className="inline-flex items-center gap-2 text-sm sm:text-base font-medium text-[#494963]/70 hover:text-[#494963] transition-colors mb-8 sm:mb-10 group"
+                  >
+                    <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="border-b border-[#494963]/20 group-hover:border-[#494963]/60 transition-colors">
+                      Resolución 1410-26 EE
+                    </span>
+                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+                  </a>
+
                   {/* Issues section - integrado con el diseño */}
                   <div className="mb-8 sm:mb-10 lg:mb-12">
                     <p className="text-xs sm:text-sm lg:text-base font-medium text-[#494963]/50 uppercase tracking-wider mb-3 sm:mb-4">
@@ -415,63 +427,6 @@ export default function InglesMaterilesPage() {
                     title="Teacher's Guide"
                     pdfUrl={pdfUrls.teachersGuide}
                   />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* LEGISLACIÓN Y NORMATIVA - Resolución del programa */}
-        <section className="relative bg-[#F5F3EE] pb-12 sm:pb-16 lg:pb-20">
-          <div className="flex justify-center">
-            <div className="w-full max-w-3xl px-3 sm:px-6 lg:px-8">
-              <div className="bg-white rounded-2xl border border-gray-200 p-5 sm:p-6 lg:p-8 shadow-sm">
-                {/* Encabezado */}
-                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
-                  <div
-                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: AREA_COLOR }}
-                  >
-                    <Scale className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: TEXT_ON_COLOR }} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] leading-tight">
-                      Legislación y normativa
-                    </h2>
-                    <p className="text-sm text-[#494963]/50 mt-1">
-                      Marco legal del programa &ldquo;Inglés para la Ruralidad&rdquo;
-                    </p>
-                  </div>
-                </div>
-
-                {/* Resolución */}
-                <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-[#494963] uppercase tracking-wide mb-3 sm:mb-4">
-                    Resolución
-                  </h3>
-                  <a
-                    href="/documentos/resolucion-1410-26-ingles.pdf"
-                    download
-                    className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all group"
-                  >
-                    <FileText className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" style={{ color: "#c79a00" }} />
-                    <div className="flex-1 min-w-0">
-                      <span className="text-sm sm:text-base font-medium text-[#494963] block">
-                        Descargar Resolución
-                      </span>
-                      <span className="text-xs sm:text-sm text-[#494963]/50">
-                        Resolución 1410-26 EE
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                      <span className="text-[10px] sm:text-xs text-[#494963]/40 uppercase tracking-wide hidden sm:block">
-                        PDF
-                      </span>
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-50 group-hover:bg-gray-100 transition-colors">
-                        <Download className="w-4 h-4 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors" />
-                      </div>
-                    </div>
-                  </a>
                 </div>
               </div>
             </div>
