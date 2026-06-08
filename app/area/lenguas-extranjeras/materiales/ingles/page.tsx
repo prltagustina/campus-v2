@@ -9,6 +9,7 @@ import {
   BookOpen, 
   ChevronRight,
   Play,
+  Pause,
   Download,
   Pencil,
   Compass,
@@ -392,25 +393,22 @@ export default function InglesMaterilesPage() {
                 {/* 01. Magazine */}
                 <div ref={magazineRef} id="magazine" className="scroll-mt-20">
                   <MaterialCard
-                    number="01"
                     title="Magazine"
                     pdfUrl={pdfUrls.magazine}
                   />
                 </div>
 
-                {/* 02. Activity Book */}
+                {/* Activity Book */}
                 <div ref={activityBookRef} id="activity-book" className="scroll-mt-20">
                   <MaterialCard
-                    number="02"
                     title="Activity Book"
                     pdfUrl={pdfUrls.activityBook}
                   />
                 </div>
 
-                {/* 03. Teacher's Guide */}
+                {/* Teacher's Guide */}
                 <div ref={teachersGuideRef} id="teachers-guide" className="scroll-mt-20">
                   <MaterialCard
-                    number="03"
                     title="Teacher's Guide"
                     pdfUrl={pdfUrls.teachersGuide}
                   />
@@ -439,25 +437,48 @@ export default function InglesMaterilesPage() {
 
 /* Material Card Component con visor tipo flipbook */
 function MaterialCard({ 
-  number, 
   title, 
   pdfUrl,
 }: { 
-  number: string; 
   title: string; 
   pdfUrl: string;
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
+  const [playingAudioId, setPlayingAudioId] = useState<string | number | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const handleDownloadAllMagazine = () => {
-    // Descargar PDF
-    const pdfLink = document.createElement("a");
-    pdfLink.href = pdfUrl;
-    pdfLink.download = `${title}.pdf`;
-    pdfLink.click();
-    
-    // Descargar todos los audios y videos
-    [...mediaData.audios, ...mediaData.videos].forEach((item) => {
+  const handleTogglePlay = (id: string | number, url: string) => {
+    // Si ya hay un audio sonando, lo detenemos
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    // Si se clickeó el que estaba sonando, solo pausamos
+    if (playingAudioId === id) {
+      setPlayingAudioId(null);
+      return;
+    }
+    // Reproducir el nuevo audio
+    const audio = new Audio(url);
+    audioRef.current = audio;
+    audio.play();
+    audio.onended = () => setPlayingAudioId(null);
+    setPlayingAudioId(id);
+  };
+
+  const handleDownloadAudios = () => {
+    // Descargar todos los audios en un paquete separado
+    mediaData.audios.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = item.url;
+      link.download = item.name;
+      link.click();
+    });
+  };
+
+  const handleDownloadVideos = () => {
+    // Descargar todos los videos en un paquete separado
+    mediaData.videos.forEach((item) => {
       const link = document.createElement("a");
       link.href = item.url;
       link.download = item.name;
@@ -476,7 +497,7 @@ function MaterialCard({
     <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8">
       {/* Título */}
       <p className="text-lg sm:text-xl lg:text-2xl font-bold text-[#494963] mb-4 sm:mb-5">
-        {number}. {title}
+        {title}
       </p>
 
       {/* PDF viewer - centrado y responsive */}
@@ -616,6 +637,19 @@ function MaterialCard({
                 key={audio.id}
                 className="flex items-center gap-3 py-3.5 border-b border-[#494963]/5"
               >
+                <button
+                  type="button"
+                  onClick={() => handleTogglePlay(audio.id, audio.url)}
+                  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                  style={{ color: playingAudioId === audio.id ? AREA_COLOR : "rgba(73,73,99,0.4)" }}
+                  aria-label={playingAudioId === audio.id ? "Pausar" : "Reproducir"}
+                >
+                  {playingAudioId === audio.id ? (
+                    <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
+                  ) : (
+                    <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
+                  )}
+                </button>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base text-[#494963] leading-tight">{audio.name}</p>
                   <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{audio.duration}</p>
@@ -664,18 +698,20 @@ function MaterialCard({
           )}
         </div>
         
-        {/* Descargar todo - al final, siempre visible */}
-        <div className="pt-5 mt-3 border-t border-[#494963]/5">
+        {/* Descargar paquete - separado por audios/videos según pestaña activa */}
+        <div className="mt-5 flex flex-col items-center">
           <button
             type="button"
-            onClick={handleDownloadAllMagazine}
-            className="w-full flex items-center justify-center gap-2 py-3.5 text-sm sm:text-base font-semibold text-white bg-[#494963] hover:bg-[#494963]/90 rounded-lg transition-colors"
+            onClick={activeTab === "audios" ? handleDownloadAudios : handleDownloadVideos}
+            className="flex items-center justify-center gap-2 px-6 py-3 text-sm sm:text-base font-semibold text-white bg-[#494963] hover:bg-[#494963]/90 rounded-lg transition-colors"
           >
             <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-            Descargar todo
+            {activeTab === "audios" ? "Descargar todos los audios" : "Descargar todos los videos"}
           </button>
           <p className="text-xs sm:text-sm text-[#494963]/40 text-center mt-2">
-            Incluye PDF, audios y videos
+            {activeTab === "audios"
+              ? `Paquete con ${mediaData.audios.length} audios`
+              : `Paquete con ${mediaData.videos.length} videos`}
           </p>
         </div>
     </div>
