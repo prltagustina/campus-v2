@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FileText, Clock, ArrowDownToLine, ChevronRight, ChevronDown, BookOpen, Video, Download, ArrowRight, Scale } from "lucide-react";
+import { FileText, Clock, ArrowDownToLine, ChevronRight, ChevronDown, BookOpen, Video, Download, ArrowRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 
 interface MaterialesSectionProps {
@@ -472,21 +472,29 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 </div>
               </div>
 
-              {/* Resolución - contenedor independiente */}
-              <a
-                href="/documentos/resolucion-1410-26-ingles.pdf"
-                download
-                className="mt-4 lg:mt-5 w-full flex items-center justify-between py-4 px-5 lg:px-6 bg-white rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors group"
-              >
-                <div className="flex items-center gap-3 lg:gap-4">
-                  <Scale className="w-5 h-5 flex-shrink-0" style={{ color: area.color }} />
-                  <div>
-                    <span className="text-sm lg:text-base font-semibold text-[#494963] block">Resolución</span>
-                    <span className="text-xs lg:text-sm text-[#494963]/40">Resolución 1410-26 EE</span>
+              {/* Resolución - contenedor independiente, estilo EIB */}
+              <div className="mt-6 lg:mt-8">
+                <h5 className="text-xs lg:text-sm font-bold text-[#494963] uppercase tracking-wide mb-3 lg:mb-4">
+                  Resolución
+                </h5>
+                <a
+                  href="/documentos/resolucion-1410-26-ingles.pdf"
+                  download
+                  className="flex items-center gap-4 lg:gap-5 p-4 lg:p-5 bg-white rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all group"
+                >
+                  <FileText className="w-6 h-6 lg:w-7 lg:h-7 flex-shrink-0" style={{ color: area.color }} />
+                  <div className="flex-1 min-w-0">
+                    <span className="text-sm lg:text-base font-semibold text-[#494963] block">Descargar Resolución</span>
+                    <span className="text-xs lg:text-sm text-[#494963]/40">Resolución 1410-26 EE.pdf</span>
                   </div>
-                </div>
-                <Download className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors flex-shrink-0" />
-              </a>
+                  <div className="flex items-center gap-3 lg:gap-4 flex-shrink-0">
+                    <span className="text-xs lg:text-sm text-[#494963]/40 uppercase tracking-wide hidden sm:block">PDF</span>
+                    <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full bg-gray-50 group-hover:bg-gray-100 flex items-center justify-center transition-colors">
+                      <Download className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors" />
+                    </div>
+                  </div>
+                </a>
+              </div>
 
               {/* Banner English Funzine - MÁS GRANDE */}
               <div className="mt-6 lg:mt-8">
