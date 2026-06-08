@@ -243,6 +243,27 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                           )}
                         </div>
 
+                        {/* Resolución - mobile */}
+                        <div className="mx-3 mt-6">
+                          <h5 className="text-xs font-bold text-[#494963] uppercase tracking-wide mb-3 px-1">
+                            Resolución
+                          </h5>
+                          <a
+                            href="/documentos/resolucion-1410-26-ingles.pdf"
+                            download
+                            className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-gray-100 active:bg-gray-50 transition-colors"
+                          >
+                            <FileText className="w-6 h-6 flex-shrink-0" style={{ color: area.color }} />
+                            <div className="flex-1 min-w-0">
+                              <span className="text-sm font-semibold text-[#494963] block">Descargar Resolución</span>
+                              <span className="text-xs text-[#494963]/40">Resolución 1410-26 EE.pdf</span>
+                            </div>
+                            <div className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center flex-shrink-0">
+                              <Download className="w-4 h-4 text-[#494963]/40" />
+                            </div>
+                          </a>
+                        </div>
+
                         {/* Banner Funzine - Solo logo - MÁS GRANDE */}
                         <Link
                           href="/area/lenguas-extranjeras/materiales/ingles"
