@@ -699,11 +699,11 @@ function MaterialCard({
         </div>
         
         {/* Descargar paquete - separado por audios/videos según pestaña activa */}
-        <div className="pt-5 mt-3 border-t border-[#494963]/5">
+        <div className="pt-5 mt-3 border-t border-[#494963]/5 flex flex-col items-center">
           <button
             type="button"
             onClick={activeTab === "audios" ? handleDownloadAudios : handleDownloadVideos}
-            className="w-full flex items-center justify-center gap-2 py-3.5 text-sm sm:text-base font-semibold text-white bg-[#494963] hover:bg-[#494963]/90 rounded-lg transition-colors"
+            className="flex items-center justify-center gap-2 px-6 py-3 text-sm sm:text-base font-semibold text-white bg-[#494963] hover:bg-[#494963]/90 rounded-lg transition-colors"
           >
             <Download className="w-4 h-4 sm:w-5 sm:h-5" />
             {activeTab === "audios" ? "Descargar todos los audios" : "Descargar todos los videos"}
