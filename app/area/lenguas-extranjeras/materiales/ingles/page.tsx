@@ -449,15 +449,19 @@ function MaterialCard({
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
 
-  const handleDownloadAllMagazine = () => {
-    // Descargar PDF
-    const pdfLink = document.createElement("a");
-    pdfLink.href = pdfUrl;
-    pdfLink.download = `${title}.pdf`;
-    pdfLink.click();
-    
-    // Descargar todos los audios y videos
-    [...mediaData.audios, ...mediaData.videos].forEach((item) => {
+  const handleDownloadAudios = () => {
+    // Descargar todos los audios en un paquete separado
+    mediaData.audios.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = item.url;
+      link.download = item.name;
+      link.click();
+    });
+  };
+
+  const handleDownloadVideos = () => {
+    // Descargar todos los videos en un paquete separado
+    mediaData.videos.forEach((item) => {
       const link = document.createElement("a");
       link.href = item.url;
       link.download = item.name;
@@ -664,18 +668,20 @@ function MaterialCard({
           )}
         </div>
         
-        {/* Descargar todo - al final, siempre visible */}
+        {/* Descargar paquete - separado por audios/videos según pestaña activa */}
         <div className="pt-5 mt-3 border-t border-[#494963]/5">
           <button
             type="button"
-            onClick={handleDownloadAllMagazine}
+            onClick={activeTab === "audios" ? handleDownloadAudios : handleDownloadVideos}
             className="w-full flex items-center justify-center gap-2 py-3.5 text-sm sm:text-base font-semibold text-white bg-[#494963] hover:bg-[#494963]/90 rounded-lg transition-colors"
           >
             <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-            Descargar todo
+            {activeTab === "audios" ? "Descargar todos los audios" : "Descargar todos los videos"}
           </button>
           <p className="text-xs sm:text-sm text-[#494963]/40 text-center mt-2">
-            Incluye PDF, audios y videos
+            {activeTab === "audios"
+              ? `Paquete con ${mediaData.audios.length} audios`
+              : `Paquete con ${mediaData.videos.length} videos`}
           </p>
         </div>
     </div>
