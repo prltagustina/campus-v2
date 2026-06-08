@@ -392,25 +392,22 @@ export default function InglesMaterilesPage() {
                 {/* 01. Magazine */}
                 <div ref={magazineRef} id="magazine" className="scroll-mt-20">
                   <MaterialCard
-                    number="01"
                     title="Magazine"
                     pdfUrl={pdfUrls.magazine}
                   />
                 </div>
 
-                {/* 02. Activity Book */}
+                {/* Activity Book */}
                 <div ref={activityBookRef} id="activity-book" className="scroll-mt-20">
                   <MaterialCard
-                    number="02"
                     title="Activity Book"
                     pdfUrl={pdfUrls.activityBook}
                   />
                 </div>
 
-                {/* 03. Teacher's Guide */}
+                {/* Teacher's Guide */}
                 <div ref={teachersGuideRef} id="teachers-guide" className="scroll-mt-20">
                   <MaterialCard
-                    number="03"
                     title="Teacher's Guide"
                     pdfUrl={pdfUrls.teachersGuide}
                   />
@@ -439,11 +436,9 @@ export default function InglesMaterilesPage() {
 
 /* Material Card Component con visor tipo flipbook */
 function MaterialCard({ 
-  number, 
   title, 
   pdfUrl,
 }: { 
-  number: string; 
   title: string; 
   pdfUrl: string;
 }) {
@@ -480,7 +475,7 @@ function MaterialCard({
     <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8">
       {/* Título */}
       <p className="text-lg sm:text-xl lg:text-2xl font-bold text-[#494963] mb-4 sm:mb-5">
-        {number}. {title}
+        {title}
       </p>
 
       {/* PDF viewer - centrado y responsive */}
