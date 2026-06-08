@@ -9,6 +9,7 @@ import {
   BookOpen, 
   ChevronRight,
   Play,
+  Pause,
   Download,
   Pencil,
   Compass,
@@ -443,6 +444,27 @@ function MaterialCard({
   pdfUrl: string;
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
+  const [playingAudioId, setPlayingAudioId] = useState<string | number | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleTogglePlay = (id: string | number, url: string) => {
+    // Si ya hay un audio sonando, lo detenemos
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    // Si se clickeó el que estaba sonando, solo pausamos
+    if (playingAudioId === id) {
+      setPlayingAudioId(null);
+      return;
+    }
+    // Reproducir el nuevo audio
+    const audio = new Audio(url);
+    audioRef.current = audio;
+    audio.play();
+    audio.onended = () => setPlayingAudioId(null);
+    setPlayingAudioId(id);
+  };
 
   const handleDownloadAudios = () => {
     // Descargar todos los audios en un paquete separado
@@ -615,6 +637,23 @@ function MaterialCard({
                 key={audio.id}
                 className="flex items-center gap-3 py-3.5 border-b border-[#494963]/5"
               >
+                <button
+                  type="button"
+                  onClick={() => handleTogglePlay(audio.id, audio.url)}
+                  className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full border-2 transition-all hover:scale-105"
+                  style={{
+                    backgroundColor: playingAudioId === audio.id ? AREA_COLOR : "transparent",
+                    borderColor: AREA_COLOR,
+                    color: playingAudioId === audio.id ? TEXT_ON_COLOR : AREA_COLOR,
+                  }}
+                  aria-label={playingAudioId === audio.id ? "Pausar" : "Reproducir"}
+                >
+                  {playingAudioId === audio.id ? (
+                    <Pause className="w-4 h-4" />
+                  ) : (
+                    <Play className="w-4 h-4 ml-0.5" />
+                  )}
+                </button>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base text-[#494963] leading-tight">{audio.name}</p>
                   <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{audio.duration}</p>
