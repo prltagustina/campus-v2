@@ -699,7 +699,7 @@ function MaterialCard({
         </div>
         
         {/* Descargar paquete - separado por audios/videos según pestaña activa */}
-        <div className="pt-5 mt-3 border-t border-[#494963]/5 flex flex-col items-center">
+        <div className="pt-5 mt-3 border-t border-[#494963]/5 flex flex-col items-center sm:items-start">
           <button
             type="button"
             onClick={activeTab === "audios" ? handleDownloadAudios : handleDownloadVideos}
@@ -708,7 +708,7 @@ function MaterialCard({
             <Download className="w-4 h-4 sm:w-5 sm:h-5" />
             {activeTab === "audios" ? "Descargar todos los audios" : "Descargar todos los videos"}
           </button>
-          <p className="text-xs sm:text-sm text-[#494963]/40 text-center mt-2">
+          <p className="text-xs sm:text-sm text-[#494963]/40 text-center sm:text-left mt-2">
             {activeTab === "audios"
               ? `Paquete con ${mediaData.audios.length} audios`
               : `Paquete con ${mediaData.videos.length} videos`}
