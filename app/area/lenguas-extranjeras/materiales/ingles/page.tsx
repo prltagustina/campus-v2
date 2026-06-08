@@ -640,18 +640,14 @@ function MaterialCard({
                 <button
                   type="button"
                   onClick={() => handleTogglePlay(audio.id, audio.url)}
-                  className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full border-2 transition-all hover:scale-105"
-                  style={{
-                    backgroundColor: playingAudioId === audio.id ? AREA_COLOR : "transparent",
-                    borderColor: AREA_COLOR,
-                    color: playingAudioId === audio.id ? TEXT_ON_COLOR : AREA_COLOR,
-                  }}
+                  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                  style={{ color: playingAudioId === audio.id ? AREA_COLOR : "rgba(73,73,99,0.4)" }}
                   aria-label={playingAudioId === audio.id ? "Pausar" : "Reproducir"}
                 >
                   {playingAudioId === audio.id ? (
-                    <Pause className="w-4 h-4" />
+                    <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
                   ) : (
-                    <Play className="w-4 h-4 ml-0.5" />
+                    <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
                   )}
                 </button>
                 <div className="flex-1 min-w-0">
