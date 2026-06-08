@@ -324,19 +324,6 @@ export default function InglesMaterilesPage() {
                     en aquellas escuelas primarias de Santa Fe que elijan enseñar inglés.
                   </p>
 
-                  {/* Resolución - enlace minimalista */}
-                  <a
-                    href="/documentos/resolucion-1410-26-ingles.pdf"
-                    download
-                    className="inline-flex items-center gap-2 text-sm sm:text-base font-medium text-[#494963]/70 hover:text-[#494963] transition-colors mb-8 sm:mb-10 group"
-                  >
-                    <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span className="border-b border-[#494963]/20 group-hover:border-[#494963]/60 transition-colors">
-                      Resolución 1410-26 EE
-                    </span>
-                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                  </a>
-
                   {/* Issues section - integrado con el diseño */}
                   <div className="mb-8 sm:mb-10 lg:mb-12">
                     <p className="text-xs sm:text-sm lg:text-base font-medium text-[#494963]/50 uppercase tracking-wider mb-3 sm:mb-4">

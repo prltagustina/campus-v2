@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FileText, Clock, ArrowDownToLine, ChevronRight, ChevronDown, BookOpen, Video, Download, ArrowRight } from "lucide-react";
+import { FileText, Clock, ArrowDownToLine, ChevronRight, ChevronDown, BookOpen, Video, Download, ArrowRight, Scale } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 
 interface MaterialesSectionProps {
@@ -468,6 +468,31 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                         ))}
                       </div>
                     )}
+                  </div>
+
+                  {/* Resolución - descarga directa */}
+                  <div className="border-t border-gray-100">
+                    <a
+                      href="/documentos/resolucion-1410-26-ingles.pdf"
+                      download
+                      className="w-full flex items-center justify-between py-4 lg:py-5 text-left group"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div 
+                          className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center"
+                          style={{ backgroundColor: `${area.color}15` }}
+                        >
+                          <Scale className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
+                        </div>
+                        <div>
+                          <span className="text-sm lg:text-base font-semibold text-[#494963] block">Resolución</span>
+                          <span className="text-xs lg:text-sm text-[#494963]/40">Resolución 1410-26 EE</span>
+                        </div>
+                      </div>
+                      <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg bg-gray-50 group-hover:bg-gray-100 flex items-center justify-center transition-colors flex-shrink-0">
+                        <Download className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/50" />
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>
