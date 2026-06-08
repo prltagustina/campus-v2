@@ -473,30 +473,20 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               </div>
 
               {/* Resolución - contenedor independiente */}
-              <div className="mt-6 lg:mt-8 bg-white rounded-2xl lg:rounded-3xl border border-gray-100 shadow-sm p-5 lg:p-8">
-                <h5 className="text-base lg:text-lg font-bold text-[#494963] mb-4 lg:mb-5">Resolución</h5>
-                <a
-                  href="/documentos/resolucion-1410-26-ingles.pdf"
-                  download
-                  className="w-full flex items-center justify-between py-3 lg:py-4 px-4 lg:px-5 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors group"
-                >
-                  <div className="flex items-center gap-4">
-                    <div 
-                      className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: `${area.color}15` }}
-                    >
-                      <Scale className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
-                    </div>
-                    <div>
-                      <span className="text-sm lg:text-base font-semibold text-[#494963] block">Resolución 1410-26 EE</span>
-                      <span className="text-xs lg:text-sm text-[#494963]/40">Documento oficial · PDF</span>
-                    </div>
+              <a
+                href="/documentos/resolucion-1410-26-ingles.pdf"
+                download
+                className="mt-4 lg:mt-5 w-full flex items-center justify-between py-4 px-5 lg:px-6 bg-white rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors group"
+              >
+                <div className="flex items-center gap-3 lg:gap-4">
+                  <Scale className="w-5 h-5 flex-shrink-0" style={{ color: area.color }} />
+                  <div>
+                    <span className="text-sm lg:text-base font-semibold text-[#494963] block">Resolución</span>
+                    <span className="text-xs lg:text-sm text-[#494963]/40">Resolución 1410-26 EE</span>
                   </div>
-                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg bg-gray-50 group-hover:bg-gray-100 flex items-center justify-center transition-colors flex-shrink-0">
-                    <Download className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/50" />
-                  </div>
-                </a>
-              </div>
+                </div>
+                <Download className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors flex-shrink-0" />
+              </a>
 
               {/* Banner English Funzine - MÁS GRANDE */}
               <div className="mt-6 lg:mt-8">
