@@ -8,19 +8,35 @@ import { Footer } from "@/components/landing/landing-footer";
 
 const documentos = [
   {
-    titulo: "Documento de acompañamiento para docentes y directivos",
+    titulo: "Documento de acompañamiento para docentes y directivos, N° 1.",
     url: "/docs/Documento_Acompanamiento.pdf",
+  },
+  {
+    titulo: "Documento de acompañamiento para docentes y directivos, N° 2.",
+    url: "/docs/Documento_Acompanamiento_2.pdf",
   },
   {
     titulo: "Presentación para supervisores, directivos y docentes",
     url: "/docs/Presentacion_Supervisores.pdf",
+  },
+  {
+    titulo: "Res. 43/2026 - Implementación del área de Lenguas Extranjeras",
+    url: "/documentos/resolucion-43-26-lenguas-extranjeras.pdf",
+  },
+  {
+    titulo: "Res. 1410/2026 - Programa Inglés para la Ruralidad",
+    url: "/documentos/resolucion-1410-26-ingles.pdf",
   },
 ];
 
 const formaciones = [
   {
     titulo: "Diversificación para la Enseñanza",
-    url: "https://campuseducativo.santafe.edu.ar/diversificacion-para-la-ensenanza/",
+    url: "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2",
+  },
+  {
+    titulo: "Planificar la enseñanza en el marco del nuevo Diseño Curricular",
+    url: "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/",
   },
 ];
 
