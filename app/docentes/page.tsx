@@ -19,6 +19,9 @@ const documentos = [
     titulo: "Presentación para supervisores, directivos y docentes",
     url: "/docs/Presentacion_Supervisores.pdf",
   },
+];
+
+const normativa = [
   {
     titulo: "Res. 43/2026 - Implementación del área de Lenguas Extranjeras",
     url: "/documentos/resolucion-43-26-lenguas-extranjeras.pdf",
@@ -111,6 +114,24 @@ export default function DocentesPage() {
               
               <div className="mt-6 space-y-2">
                 {documentos.map((doc, i) => (
+                  <a
+                    key={i}
+                    href={doc.url}
+                    download
+                    className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#F5F5F7] hover:bg-[#EDEDF0] transition-colors group"
+                  >
+                    <FileText className="w-4 h-4 flex-shrink-0 text-[#494963]/40" />
+                    <span className="text-sm text-[#494963] flex-1">{doc.titulo}</span>
+                  </a>
+                ))}
+              </div>
+
+              {/* Normativa */}
+              <h3 className="mt-8 mb-3 text-xs font-bold uppercase tracking-wider text-[#494963]/50">
+                Normativa
+              </h3>
+              <div className="space-y-2">
+                {normativa.map((doc, i) => (
                   <a
                     key={i}
                     href={doc.url}
