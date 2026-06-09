@@ -8,8 +8,20 @@ import { Footer } from "@/components/landing/landing-footer";
 
 const documentos = [
   {
-    titulo: "Documento de acompañamiento para docentes y directivos",
+    titulo: "Documento de acompañamiento N° 1 - Implementación del Diseño Curricular",
     url: "/docs/Documento_Acompanamiento.pdf",
+  },
+  {
+    titulo: "Documento de acompañamiento N° 2 - Implementación del área Saberes, Vidas y Mundos",
+    url: "/docs/Documento_Acompanamiento_2.pdf",
+  },
+  {
+    titulo: "Res. 43/2026 - Implementación del área de Lenguas Extranjeras",
+    url: "/documentos/resolucion-43-26-lenguas-extranjeras.pdf",
+  },
+  {
+    titulo: "Res. 1410/2026 - Programa Inglés para la Ruralidad",
+    url: "/documentos/resolucion-1410-26-ingles.pdf",
   },
   {
     titulo: "Presentación para supervisores, directivos y docentes",
