@@ -8,11 +8,11 @@ import { Footer } from "@/components/landing/landing-footer";
 
 const documentos = [
   {
-    titulo: "Documento de acompañamiento para docentes y directivos, N° 1.",
+    titulo: "Documento de acompañamiento N° 1 - Implementación del Diseño Curricular.",
     url: "/docs/Documento_Acompanamiento.pdf",
   },
   {
-    titulo: "Documento de acompañamiento para docentes y directivos, N° 2.",
+    titulo: "Documento de acompañamiento N° 2 - Implementación del área Saberes, Vidas y Mundos.",
     url: "/docs/Documento_Acompanamiento_2.pdf",
   },
   {
