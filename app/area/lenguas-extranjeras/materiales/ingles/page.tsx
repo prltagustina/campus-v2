@@ -156,11 +156,6 @@ const funzineMedia: Record<"magazine" | "activityBook" | "teachersGuide", Materi
           { id: "ab-3.4", name: "AB1_Audio3.4", duration: "0:55", url: drive("1U1WoVz21rQhSLMBY8vAEaUj7uNiAnlAU") },
           { id: "ab-3.5", name: "AB1_Audio3.5", duration: "0:53", url: drive("1957SDOJ-jgMH2rvMGplBNR3oRhCCJRiK") },
           { id: "ab-3.6", name: "AB1_Audio3.6", duration: "0:40", url: drive("10wlt_lPkIWlBBOWeUa9AWX_BC9u1niYD") },
-        ],
-      },
-      {
-        seq: 4,
-        items: [
           { id: "ab-4.1", name: "AB1_Audio4.1", duration: "1:22", url: drive("1VMSWIxiVaUmF8ZQy-Gm6u6-OhKt9vaej") },
         ],
       },
