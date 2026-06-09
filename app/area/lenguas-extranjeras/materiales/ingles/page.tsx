@@ -59,36 +59,140 @@ const pdfUrls = {
   teachersGuide: "https://blobs.vusercontent.net/blob/Teacher%27s%20Guide%2010.04-%20U%CC%81ltima%20versio%CC%81n%20%28con%20correcciones%29_compressed-uoUpZxcEDQ5wMwaWnaUIUy6A2hXmr9.pdf",
 };
 
-/* Audio/Video data agrupado por unidades */
-const mediaUnits = [
-  {
-    id: "u1",
-    title: "Unit 1 - Hello!",
-    audios: [
-      { id: "t1", name: "Track 01 - Welcome Song", duration: "2:34", url: "#" },
-      { id: "t2", name: "Track 02 - Hello Chant", duration: "1:45", url: "#" },
-      { id: "t3", name: "Track 03 - My Name Is...", duration: "2:12", url: "#" },
-    ],
-    videos: [
-      { id: "v1", name: "Video 01 - Introduction", duration: "3:20", url: "#", thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=300&h=200&fit=crop" },
-      { id: "v2", name: "Video 02 - Hello Song", duration: "2:45", url: "#", thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=300&h=200&fit=crop" },
-    ],
-  },
-  {
-    id: "u2",
-    title: "Unit 2 - Numbers & Colors",
-    audios: [
-      { id: "t4", name: "Track 04 - Numbers Song", duration: "2:58", url: "#" },
-      { id: "t5", name: "Track 05 - Colors Rhyme", duration: "1:55", url: "#" },
-    ],
-    videos: [
-      { id: "v3", name: "Video 03 - My Family", duration: "4:10", url: "#", thumbnail: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=300&h=200&fit=crop" },
-    ],
-  },
-];
+/* Helpers para construir URLs reales (Google Drive / YouTube) */
+const drive = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
+const ytThumb = (id: string) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 
-const allAudios = mediaUnits.flatMap((u) => u.audios);
-const allVideos = mediaUnits.flatMap((u) => u.videos);
+/* Estilos por secuencia: escala de celeste (clarito → petróleo) */
+const SEQUENCE_STYLES: Record<number, { label: string; tint: string; bar: string; badgeBg: string; badgeText: string }> = {
+  1: { label: "Secuencia 1", tint: "#EAF6FC", bar: "#9BD3EC", badgeBg: "#9BD3EC", badgeText: "#1B4654" }, // celeste clarito
+  2: { label: "Secuencia 2", tint: "#DCEEF8", bar: "#3DA0CE", badgeBg: "#3DA0CE", badgeText: "#FFFFFF" }, // celeste más fuerte
+  3: { label: "Secuencia 3", tint: "#E0EBEE", bar: "#1B6B7E", badgeBg: "#1B6B7E", badgeText: "#FFFFFF" }, // petróleo
+  4: { label: "Secuencia 4", tint: "#DDE8EA", bar: "#0E4A57", badgeBg: "#0E4A57", badgeText: "#FFFFFF" }, // petróleo oscuro
+};
+
+/* Tipos de media */
+type AudioItem = { id: string; name: string; duration: string; url: string };
+type VideoItem = { id: string; name: string; duration: string; url: string; thumbnail: string };
+type MediaSequence = { seq: number; items: AudioItem[] };
+type MaterialMedia = { audios: MediaSequence[]; videos: VideoItem[] };
+
+/*
+ * Audios y videos REALES de English Funzine - Issue 1 ("It's great to be me!")
+ * Fuente: https://campuseducativo.santafe.edu.ar/diseno-curricular/lenguas-extranjeras/funzine/
+ * La secuencia de cada audio surge del nombre del archivo: AudioN.x → Secuencia N.
+ */
+const funzineMedia: Record<"magazine" | "activityBook" | "teachersGuide", MaterialMedia> = {
+  magazine: {
+    audios: [
+      {
+        seq: 1,
+        items: [
+          { id: "mag-carta", name: "00 Carta", duration: "1:06", url: drive("1KtoELCMpNoJf9c1DgYcGPF_c-4HV8zRC") },
+          { id: "mag-1.1", name: "EF1_Audio1.1", duration: "0:55", url: drive("1JuXVw6HCeU3yzJQ0aWb4fUtDR_QArvIF") },
+          { id: "mag-1.2", name: "EF1_Audio1.2", duration: "0:55", url: drive("1e0F7qOXyyao-aiedegYnbCLDTD8kKnYn") },
+          { id: "mag-1.3", name: "EF1_Audio1.3", duration: "0:14", url: drive("1BvDphSdCYMVd3bgNWof4Ta0oBWVdWKbL") },
+          { id: "mag-1.4", name: "EF1_Audio1.4", duration: "1:11", url: drive("1LnYSlCnC613Pgob3tGBMsUzJojlg-Zkj") },
+          { id: "mag-1.6", name: "EF1_Audio1.6", duration: "2:05", url: drive("1NFbWcQiiEyIz7tc7osqww8NztP2Ikr53") },
+          { id: "mag-1.7", name: "EF1_Audio1.7", duration: "0:36", url: drive("1WJfefD8DwXJ3ajnuMpFxXhAMiwtf9516") },
+          { id: "mag-1.8", name: "EF1_Audio1.8", duration: "0:26", url: drive("1U7J66Xu5VuLOm8UJrMArcKI-JPDqhFtH") },
+        ],
+      },
+      {
+        seq: 2,
+        items: [
+          { id: "mag-2.1", name: "EF1_Audio2.1", duration: "0:38", url: drive("1MUIN2SEvZGiJ-CKx-Khj6pygNQqPPVIt") },
+          { id: "mag-2.2", name: "EF1_Audio2.2", duration: "1:02", url: drive("1M5yEIRqU3otRf5Mp82i3Ay2Qy84gALBm") },
+          { id: "mag-2.3", name: "EF1_Audio2.3", duration: "0:42", url: drive("1ApT2uFBaLKap7Uo0OuPuR2PBaaR8I6lx") },
+          { id: "mag-2.4", name: "EF1_Audio2.4", duration: "1:44", url: drive("1_NOeA7MF81FMFQzO56nCX9JejYZANFuO") },
+          { id: "mag-2.5", name: "EF1_Audio2.5", duration: "0:54", url: drive("1n3sSzIadb87IdlOwALV8kKjcoOI_p-5K") },
+          { id: "mag-2.6", name: "EF1_Audio2.6", duration: "1:02", url: drive("1f53QI2_CRzEcPdpAZriPrqOsfKT9S5WQ") },
+          { id: "mag-2.7", name: "EF1_Audio2.7", duration: "0:25", url: drive("1aMxILTGp1Jx3fkHcn_pxP0BbVwYvPSYO") },
+          { id: "mag-2.8", name: "EF1_Audio2.8", duration: "0:57", url: drive("199Kr3e11ehgfME-kWSwfRKkyuwnE_Ag7") },
+        ],
+      },
+      {
+        seq: 3,
+        items: [
+          { id: "mag-3.1", name: "EF1_Audio3.1", duration: "1:44", url: drive("1xLhN-a419qqUlwmwdCXMXR4X1rLMIofb") },
+          { id: "mag-3.2", name: "EF1_Audio3.2", duration: "1:24", url: drive("1UYq8RF5helw623TOK2kxjO1FlHpg-Rk9") },
+          { id: "mag-3.3", name: "EF1_Audio3.3", duration: "0:52", url: drive("1uthp52rdTA3cgKSaKJGyDtuGtZVTTwVb") },
+          { id: "mag-3.4", name: "EF1_Audio3.4", duration: "0:54", url: drive("1GeauF_q7SS0HW22_mvH9VWFN7huRFgty") },
+        ],
+      },
+    ],
+    videos: [
+      { id: "mag-v01", name: "Video 01 - Hello, everyone!", duration: "1:53", url: "https://youtu.be/9ECTWSZEoPw", thumbnail: ytThumb("9ECTWSZEoPw") },
+      { id: "mag-v05", name: "Video 05 - Recap - Hello, everyone!", duration: "0:57", url: drive("1XlS4Uc6V8z43mGq08tPOpd5yY7j_dK4p"), thumbnail: "" },
+      { id: "mag-v06", name: "Video 06 - Make a Fanzine", duration: "1:44", url: "https://youtu.be/nvbYsV_CdG4", thumbnail: ytThumb("nvbYsV_CdG4") },
+      { id: "mag-v07", name: "Video 07 - Make a Collage", duration: "1:47", url: "https://youtu.be/5d8GVryIKfQ", thumbnail: ytThumb("5d8GVryIKfQ") },
+      { id: "mag-v08", name: "Video 08 - Fairy Tale Families", duration: "1:57", url: "https://youtu.be/S8RXpcbH4_g", thumbnail: ytThumb("S8RXpcbH4_g") },
+    ],
+  },
+  activityBook: {
+    audios: [
+      {
+        seq: 1,
+        items: [
+          { id: "ab-1.1", name: "AB1_Audio1.1", duration: "0:42", url: drive("10cJZ7B2prL3qDc0I90s5AnXQep4DRi98") },
+          { id: "ab-1.2", name: "AB1_Audio1.2", duration: "0:33", url: drive("17xOt5-wPrs5goqEkh5d0oITAKXPW3znY") },
+          { id: "ab-1.3", name: "AB1_Audio1.3", duration: "0:27", url: drive("17NKn-X0gY1DcVIsS7kzoUtgnEupkLsud") },
+          { id: "ab-1.4", name: "AB1_Audio1.4", duration: "2:14", url: drive("1o0TeXENcEiyFsdgxlk_qrSFPNt7TqAX3") },
+          { id: "ab-1.5", name: "AB1_Audio1.5", duration: "0:55", url: drive("1qlCkTQtYFZ7T4p-6hDJ7xWLnmjHHGXiC") },
+          { id: "ab-1.6", name: "AB1_Audio1.6", duration: "0:31", url: drive("1HPQgm6ZsYU0uj0C6DfEw266vA-Fo00We") },
+          { id: "ab-1.7", name: "AB1_Audio1.7", duration: "0:52", url: drive("1noJbyMEV_qQ-bmyJ7hNsFVtnUQEfwzCv") },
+          { id: "ab-1.8", name: "AB1_Audio1.8", duration: "0:33", url: drive("14Ot5lnEnxQwTYQPKBPNYiqJ91OmwpdcK") },
+          { id: "ab-1.9", name: "AB1_Audio1.9", duration: "0:53", url: drive("1sd10bGUgoD2QDf2WN64QnoAzuqskWeX7") },
+          { id: "ab-1.10", name: "AB1_Audio1.10", duration: "0:39", url: drive("1YSJU_94skWBF-5N8odG6eaI4eUaH0FXL") },
+          { id: "ab-1.11", name: "AB1_Audio1.11", duration: "0:50", url: drive("1-f0m-mTm-Lsyycd67IKHhRvATUxWHBJA") },
+          { id: "ab-1.12", name: "AB1_Audio1.12", duration: "0:35", url: drive("12bOG3BmmDJYt3eCCaCkZjPxwSzJkw_PU") },
+        ],
+      },
+      {
+        seq: 2,
+        items: [
+          { id: "ab-2.1", name: "AB1_Audio2.1", duration: "0:42", url: drive("1yCFfniQVbVMq_xsrQCM0vpGh-cFnSsd5") },
+          { id: "ab-2.2", name: "AB1_Audio2.2", duration: "1:54", url: drive("1gpAjnUcG498rhLNkYWgFLomHULCsCmcV") },
+        ],
+      },
+      {
+        seq: 3,
+        items: [
+          { id: "ab-3.1", name: "AB1_Audio3.1", duration: "0:57", url: drive("1b1YoNkC42EibcLwLfszVvcIQLA2eKk7-") },
+          { id: "ab-3.2", name: "AB1_Audio3.2", duration: "0:59", url: drive("1n9fCnmpobhpgZWeF0fPf9eVU5x5SM-Fx") },
+          { id: "ab-3.3", name: "AB1_Audio3.3", duration: "0:41", url: drive("1ivY8Vs-oNX3F1ij4fhBxvKXeYV1h2UXL") },
+          { id: "ab-3.4", name: "AB1_Audio3.4", duration: "0:55", url: drive("1U1WoVz21rQhSLMBY8vAEaUj7uNiAnlAU") },
+          { id: "ab-3.5", name: "AB1_Audio3.5", duration: "0:53", url: drive("1957SDOJ-jgMH2rvMGplBNR3oRhCCJRiK") },
+          { id: "ab-3.6", name: "AB1_Audio3.6", duration: "0:40", url: drive("10wlt_lPkIWlBBOWeUa9AWX_BC9u1niYD") },
+        ],
+      },
+      {
+        seq: 4,
+        items: [
+          { id: "ab-4.1", name: "AB1_Audio4.1", duration: "1:22", url: drive("1VMSWIxiVaUmF8ZQy-Gm6u6-OhKt9vaej") },
+        ],
+      },
+    ],
+    videos: [
+      { id: "ab-v02", name: "Video 02 - Hello Song", duration: "2:17", url: "https://youtu.be/9ECTWSZEoPw", thumbnail: ytThumb("9ECTWSZEoPw") },
+      { id: "ab-v03", name: "Video 03 - Name Chant", duration: "1:20", url: "https://youtu.be/cclzNLWuMXk", thumbnail: ytThumb("cclzNLWuMXk") },
+    ],
+  },
+  teachersGuide: {
+    audios: [
+      {
+        seq: 1,
+        items: [
+          { id: "tg-1.5", name: "EF1_Audio1.5", duration: "0:50", url: drive("1Fi6RDL0qNSsWIOfPfTlbZ_o7jFh6Sfs5") },
+        ],
+      },
+    ],
+    videos: [
+      { id: "tg-v04", name: "Video 04 - Hello in LSA", duration: "1:12", url: "https://youtu.be/7GIZGvh7Q90", thumbnail: ytThumb("7GIZGvh7Q90") },
+      { id: "tg-v05", name: "Video 05 - Recap - Hello, everyone!", duration: "0:57", url: "https://youtu.be/j6gGcJ6WX1s", thumbnail: ytThumb("j6gGcJ6WX1s") },
+    ],
+  },
+};
 
 export default function InglesMaterilesPage() {
   const [activeSection, setActiveSection] = useState("presentacion");
@@ -455,18 +559,23 @@ export default function InglesMaterilesPage() {
 function MaterialCard({ 
   title, 
   pdfUrl,
+  media,
 }: { 
   title: string; 
   pdfUrl: string;
+  media: MaterialMedia;
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
   const [playingAudioId, setPlayingAudioId] = useState<string | number | null>(null);
-  const [openUnits, setOpenUnits] = useState<string[]>(() => mediaUnits.map((u) => u.id));
+  const [openSeqs, setOpenSeqs] = useState<number[]>(() => media.audios.map((s) => s.seq));
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const toggleUnit = (id: string) => {
-    setOpenUnits((prev) =>
-      prev.includes(id) ? prev.filter((u) => u !== id) : [...prev, id]
+  const allAudios = media.audios.flatMap((s) => s.items);
+  const allVideos = media.videos;
+
+  const toggleSeq = (seq: number) => {
+    setOpenSeqs((prev) =>
+      prev.includes(seq) ? prev.filter((s) => s !== seq) : [...prev, seq]
     );
   };
 
@@ -484,7 +593,7 @@ function MaterialCard({
     // Reproducir el nuevo audio
     const audio = new Audio(url);
     audioRef.current = audio;
-    audio.play();
+    audio.play().catch(() => {});
     audio.onended = () => setPlayingAudioId(null);
     setPlayingAudioId(id);
   };
