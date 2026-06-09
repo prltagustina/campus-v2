@@ -63,14 +63,6 @@ const pdfUrls = {
 const drive = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
 const ytThumb = (id: string) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 
-/* Estilos por secuencia: escala de celeste (clarito → petróleo) */
-const SEQUENCE_STYLES: Record<number, { label: string; tint: string; bar: string; badgeBg: string; badgeText: string }> = {
-  1: { label: "Secuencia 1", tint: "#EAF6FC", bar: "#9BD3EC", badgeBg: "#9BD3EC", badgeText: "#1B4654" }, // celeste clarito
-  2: { label: "Secuencia 2", tint: "#DCEEF8", bar: "#3DA0CE", badgeBg: "#3DA0CE", badgeText: "#FFFFFF" }, // celeste más fuerte
-  3: { label: "Secuencia 3", tint: "#E0EBEE", bar: "#1B6B7E", badgeBg: "#1B6B7E", badgeText: "#FFFFFF" }, // petróleo
-  4: { label: "Secuencia 4", tint: "#DDE8EA", bar: "#0E4A57", badgeBg: "#0E4A57", badgeText: "#FFFFFF" }, // petróleo oscuro
-};
-
 /* Tipos de media */
 type AudioItem = { id: string; name: string; duration: string; url: string };
 type VideoItem = { id: string; name: string; duration: string; url: string; thumbnail: string };
@@ -570,7 +562,7 @@ function MaterialCard({
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
   const [playingAudioId, setPlayingAudioId] = useState<string | number | null>(null);
-  const [openSeqs, setOpenSeqs] = useState<number[]>(() => media.audios.map((s) => s.seq));
+  const [openSeqs, setOpenSeqs] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const allAudios = media.audios.flatMap((s) => s.items);
@@ -757,63 +749,54 @@ function MaterialCard({
           </div>
         </div>
 
-        {/* AUDIOS: agrupados por secuencia con escala de celeste */}
+        {/* AUDIOS: agrupados por secuencia (acordeón minimalista) */}
         {activeTab === "audios" && (
           <div className="space-y-3">
             {media.audios.length === 0 && (
               <p className="text-sm text-[#494963]/40 py-6 text-center">No hay audios disponibles.</p>
             )}
             {media.audios.map((sequence) => {
-              const style = SEQUENCE_STYLES[sequence.seq];
               const isOpen = openSeqs.includes(sequence.seq);
               return (
                 <div
                   key={sequence.seq}
-                  className="rounded-xl overflow-hidden border border-black/5"
-                  style={{ backgroundColor: style.tint }}
+                  className="border border-[#494963]/10 rounded-xl overflow-hidden"
                 >
                   {/* Cabecera de secuencia */}
                   <button
                     type="button"
                     onClick={() => toggleSeq(sequence.seq)}
-                    className="w-full flex items-center justify-between gap-3 px-3 sm:px-4 py-3 text-left"
+                    className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left hover:bg-[#494963]/[0.03] transition-colors"
                     aria-expanded={isOpen}
                   >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span
-                        className="text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: style.badgeBg, color: style.badgeText }}
-                      >
-                        {style.label}
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="text-sm sm:text-base font-semibold text-[#494963]">
+                        Secuencia {sequence.seq}
                       </span>
-                      <span className="text-xs sm:text-sm font-medium text-[#1B4654]/70 flex-shrink-0">
+                      <span className="text-xs text-[#494963]/40 flex-shrink-0">
                         {sequence.items.length} {sequence.items.length === 1 ? "audio" : "audios"}
                       </span>
                     </div>
                     <ChevronDown
-                      className={`w-5 h-5 flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
-                      style={{ color: style.bar }}
+                      className={`w-5 h-5 text-[#494963]/40 flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
                     />
                   </button>
 
                   {/* Lista de audios de la secuencia */}
                   {isOpen && (
-                    <div className="px-2 sm:px-3 pb-2">
+                    <div className="px-4 pb-2 border-t border-[#494963]/5">
                       {sequence.items.map((audio) => {
                         const isPlaying = playingAudioId === audio.id;
                         return (
                           <div
                             key={audio.id}
-                            className="flex items-center gap-2 sm:gap-3 py-2.5 px-1.5 sm:px-2 rounded-lg bg-white/55"
+                            className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-b-0"
                           >
                             <button
                               type="button"
                               onClick={() => handleTogglePlay(audio.id, audio.url)}
-                              className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full transition-colors"
-                              style={{
-                                backgroundColor: isPlaying ? style.bar : "transparent",
-                                color: isPlaying ? "#FFFFFF" : style.bar,
-                              }}
+                              className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                              style={{ color: isPlaying ? AREA_COLOR : "rgba(73,73,99,0.4)" }}
                               aria-label={isPlaying ? "Pausar" : "Reproducir"}
                             >
                               {isPlaying ? (
@@ -823,16 +806,16 @@ function MaterialCard({
                               )}
                             </button>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm sm:text-base text-[#1B4654] leading-tight truncate">{audio.name}</p>
-                              <p className="text-xs text-[#1B4654]/45 mt-0.5">{audio.duration}</p>
+                              <p className="text-sm sm:text-base text-[#494963] leading-tight truncate">{audio.name}</p>
+                              <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{audio.duration}</p>
                             </div>
                             <a
                               href={audio.url}
                               download
-                              className="w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-black/5 transition-colors"
+                              className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
                               aria-label={`Descargar ${audio.name}`}
                             >
-                              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#1B4654]/45" />
+                              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
                             </a>
                           </div>
                         );
