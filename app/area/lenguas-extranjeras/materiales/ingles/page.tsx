@@ -8,6 +8,7 @@ import {
   ArrowUp,
   BookOpen, 
   ChevronRight,
+  ChevronDown,
   Play,
   Pause,
   Download,
@@ -58,20 +59,126 @@ const pdfUrls = {
   teachersGuide: "https://blobs.vusercontent.net/blob/Teacher%27s%20Guide%2010.04-%20U%CC%81ltima%20versio%CC%81n%20%28con%20correcciones%29_compressed-uoUpZxcEDQ5wMwaWnaUIUy6A2hXmr9.pdf",
 };
 
-/* Audio/Video data */
-const mediaData = {
-  audios: [
-    { id: "t1", name: "Track 01 - Welcome Song", duration: "2:34", url: "#" },
-    { id: "t2", name: "Track 02 - Hello Chant", duration: "1:45", url: "#" },
-    { id: "t3", name: "Track 03 - My Name Is...", duration: "2:12", url: "#" },
-    { id: "t4", name: "Track 04 - Numbers Song", duration: "2:58", url: "#" },
-    { id: "t5", name: "Track 05 - Colors Rhyme", duration: "1:55", url: "#" },
-  ],
-  videos: [
-    { id: "v1", name: "Video 01 - Introduction", duration: "3:20", url: "#", thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=300&h=200&fit=crop" },
-    { id: "v2", name: "Video 02 - Hello Song", duration: "2:45", url: "#", thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=300&h=200&fit=crop" },
-    { id: "v3", name: "Video 03 - My Family", duration: "4:10", url: "#", thumbnail: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=300&h=200&fit=crop" },
-  ],
+/* Helpers para construir URLs reales (Google Drive / YouTube) */
+const drive = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
+const ytThumb = (id: string) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+
+/* Tipos de media */
+type AudioItem = { id: string; name: string; duration: string; url: string };
+type VideoItem = { id: string; name: string; duration: string; url: string; thumbnail: string };
+type MediaSequence = { seq: number; items: AudioItem[] };
+type MaterialMedia = { audios: MediaSequence[]; videos: VideoItem[] };
+
+/*
+ * Audios y videos REALES de English Funzine - Issue 1 ("It's great to be me!")
+ * Fuente: https://campuseducativo.santafe.edu.ar/diseno-curricular/lenguas-extranjeras/funzine/
+ * La secuencia de cada audio surge del nombre del archivo: AudioN.x → Secuencia N.
+ */
+const funzineMedia: Record<"magazine" | "activityBook" | "teachersGuide", MaterialMedia> = {
+  magazine: {
+    audios: [
+      {
+        seq: 1,
+        items: [
+          { id: "mag-carta", name: "00 Carta", duration: "1:06", url: drive("1KtoELCMpNoJf9c1DgYcGPF_c-4HV8zRC") },
+          { id: "mag-1.1", name: "EF1_Audio1.1", duration: "0:55", url: drive("1JuXVw6HCeU3yzJQ0aWb4fUtDR_QArvIF") },
+          { id: "mag-1.2", name: "EF1_Audio1.2", duration: "0:55", url: drive("1e0F7qOXyyao-aiedegYnbCLDTD8kKnYn") },
+          { id: "mag-1.3", name: "EF1_Audio1.3", duration: "0:14", url: drive("1BvDphSdCYMVd3bgNWof4Ta0oBWVdWKbL") },
+          { id: "mag-1.4", name: "EF1_Audio1.4", duration: "1:11", url: drive("1LnYSlCnC613Pgob3tGBMsUzJojlg-Zkj") },
+          { id: "mag-1.6", name: "EF1_Audio1.6", duration: "2:05", url: drive("1NFbWcQiiEyIz7tc7osqww8NztP2Ikr53") },
+          { id: "mag-1.7", name: "EF1_Audio1.7", duration: "0:36", url: drive("1WJfefD8DwXJ3ajnuMpFxXhAMiwtf9516") },
+          { id: "mag-1.8", name: "EF1_Audio1.8", duration: "0:26", url: drive("1U7J66Xu5VuLOm8UJrMArcKI-JPDqhFtH") },
+        ],
+      },
+      {
+        seq: 2,
+        items: [
+          { id: "mag-2.1", name: "EF1_Audio2.1", duration: "0:38", url: drive("1MUIN2SEvZGiJ-CKx-Khj6pygNQqPPVIt") },
+          { id: "mag-2.2", name: "EF1_Audio2.2", duration: "1:02", url: drive("1M5yEIRqU3otRf5Mp82i3Ay2Qy84gALBm") },
+          { id: "mag-2.3", name: "EF1_Audio2.3", duration: "0:42", url: drive("1ApT2uFBaLKap7Uo0OuPuR2PBaaR8I6lx") },
+          { id: "mag-2.4", name: "EF1_Audio2.4", duration: "1:44", url: drive("1_NOeA7MF81FMFQzO56nCX9JejYZANFuO") },
+          { id: "mag-2.5", name: "EF1_Audio2.5", duration: "0:54", url: drive("1n3sSzIadb87IdlOwALV8kKjcoOI_p-5K") },
+          { id: "mag-2.6", name: "EF1_Audio2.6", duration: "1:02", url: drive("1f53QI2_CRzEcPdpAZriPrqOsfKT9S5WQ") },
+          { id: "mag-2.7", name: "EF1_Audio2.7", duration: "0:25", url: drive("1aMxILTGp1Jx3fkHcn_pxP0BbVwYvPSYO") },
+          { id: "mag-2.8", name: "EF1_Audio2.8", duration: "0:57", url: drive("199Kr3e11ehgfME-kWSwfRKkyuwnE_Ag7") },
+        ],
+      },
+      {
+        seq: 3,
+        items: [
+          { id: "mag-3.1", name: "EF1_Audio3.1", duration: "1:44", url: drive("1xLhN-a419qqUlwmwdCXMXR4X1rLMIofb") },
+          { id: "mag-3.2", name: "EF1_Audio3.2", duration: "1:24", url: drive("1UYq8RF5helw623TOK2kxjO1FlHpg-Rk9") },
+          { id: "mag-3.3", name: "EF1_Audio3.3", duration: "0:52", url: drive("1uthp52rdTA3cgKSaKJGyDtuGtZVTTwVb") },
+          { id: "mag-3.4", name: "EF1_Audio3.4", duration: "0:54", url: drive("1GeauF_q7SS0HW22_mvH9VWFN7huRFgty") },
+        ],
+      },
+    ],
+    videos: [
+      { id: "mag-v01", name: "Video 01 - Hello, everyone!", duration: "1:53", url: "https://youtu.be/9ECTWSZEoPw", thumbnail: ytThumb("9ECTWSZEoPw") },
+      { id: "mag-v05", name: "Video 05 - Recap - Hello, everyone!", duration: "0:57", url: drive("1XlS4Uc6V8z43mGq08tPOpd5yY7j_dK4p"), thumbnail: "" },
+      { id: "mag-v06", name: "Video 06 - Make a Fanzine", duration: "1:44", url: "https://youtu.be/nvbYsV_CdG4", thumbnail: ytThumb("nvbYsV_CdG4") },
+      { id: "mag-v07", name: "Video 07 - Make a Collage", duration: "1:47", url: "https://youtu.be/5d8GVryIKfQ", thumbnail: ytThumb("5d8GVryIKfQ") },
+      { id: "mag-v08", name: "Video 08 - Fairy Tale Families", duration: "1:57", url: "https://youtu.be/S8RXpcbH4_g", thumbnail: ytThumb("S8RXpcbH4_g") },
+    ],
+  },
+  activityBook: {
+    audios: [
+      {
+        seq: 1,
+        items: [
+          { id: "ab-1.1", name: "AB1_Audio1.1", duration: "0:42", url: drive("10cJZ7B2prL3qDc0I90s5AnXQep4DRi98") },
+          { id: "ab-1.2", name: "AB1_Audio1.2", duration: "0:33", url: drive("17xOt5-wPrs5goqEkh5d0oITAKXPW3znY") },
+          { id: "ab-1.3", name: "AB1_Audio1.3", duration: "0:27", url: drive("17NKn-X0gY1DcVIsS7kzoUtgnEupkLsud") },
+          { id: "ab-1.4", name: "AB1_Audio1.4", duration: "2:14", url: drive("1o0TeXENcEiyFsdgxlk_qrSFPNt7TqAX3") },
+          { id: "ab-1.5", name: "AB1_Audio1.5", duration: "0:55", url: drive("1qlCkTQtYFZ7T4p-6hDJ7xWLnmjHHGXiC") },
+          { id: "ab-1.6", name: "AB1_Audio1.6", duration: "0:31", url: drive("1HPQgm6ZsYU0uj0C6DfEw266vA-Fo00We") },
+          { id: "ab-1.7", name: "AB1_Audio1.7", duration: "0:52", url: drive("1noJbyMEV_qQ-bmyJ7hNsFVtnUQEfwzCv") },
+          { id: "ab-1.8", name: "AB1_Audio1.8", duration: "0:33", url: drive("14Ot5lnEnxQwTYQPKBPNYiqJ91OmwpdcK") },
+          { id: "ab-1.9", name: "AB1_Audio1.9", duration: "0:53", url: drive("1sd10bGUgoD2QDf2WN64QnoAzuqskWeX7") },
+          { id: "ab-1.10", name: "AB1_Audio1.10", duration: "0:39", url: drive("1YSJU_94skWBF-5N8odG6eaI4eUaH0FXL") },
+          { id: "ab-1.11", name: "AB1_Audio1.11", duration: "0:50", url: drive("1-f0m-mTm-Lsyycd67IKHhRvATUxWHBJA") },
+          { id: "ab-1.12", name: "AB1_Audio1.12", duration: "0:35", url: drive("12bOG3BmmDJYt3eCCaCkZjPxwSzJkw_PU") },
+        ],
+      },
+      {
+        seq: 2,
+        items: [
+          { id: "ab-2.1", name: "AB1_Audio2.1", duration: "0:42", url: drive("1yCFfniQVbVMq_xsrQCM0vpGh-cFnSsd5") },
+          { id: "ab-2.2", name: "AB1_Audio2.2", duration: "1:54", url: drive("1gpAjnUcG498rhLNkYWgFLomHULCsCmcV") },
+        ],
+      },
+      {
+        seq: 3,
+        items: [
+          { id: "ab-3.1", name: "AB1_Audio3.1", duration: "0:57", url: drive("1b1YoNkC42EibcLwLfszVvcIQLA2eKk7-") },
+          { id: "ab-3.2", name: "AB1_Audio3.2", duration: "0:59", url: drive("1n9fCnmpobhpgZWeF0fPf9eVU5x5SM-Fx") },
+          { id: "ab-3.3", name: "AB1_Audio3.3", duration: "0:41", url: drive("1ivY8Vs-oNX3F1ij4fhBxvKXeYV1h2UXL") },
+          { id: "ab-3.4", name: "AB1_Audio3.4", duration: "0:55", url: drive("1U1WoVz21rQhSLMBY8vAEaUj7uNiAnlAU") },
+          { id: "ab-3.5", name: "AB1_Audio3.5", duration: "0:53", url: drive("1957SDOJ-jgMH2rvMGplBNR3oRhCCJRiK") },
+          { id: "ab-3.6", name: "AB1_Audio3.6", duration: "0:40", url: drive("10wlt_lPkIWlBBOWeUa9AWX_BC9u1niYD") },
+          { id: "ab-4.1", name: "AB1_Audio4.1", duration: "1:22", url: drive("1VMSWIxiVaUmF8ZQy-Gm6u6-OhKt9vaej") },
+        ],
+      },
+    ],
+    videos: [
+      { id: "ab-v02", name: "Video 02 - Hello Song", duration: "2:17", url: "https://youtu.be/9ECTWSZEoPw", thumbnail: ytThumb("9ECTWSZEoPw") },
+      { id: "ab-v03", name: "Video 03 - Name Chant", duration: "1:20", url: "https://youtu.be/cclzNLWuMXk", thumbnail: ytThumb("cclzNLWuMXk") },
+    ],
+  },
+  teachersGuide: {
+    audios: [
+      {
+        seq: 1,
+        items: [
+          { id: "tg-1.5", name: "EF1_Audio1.5", duration: "0:50", url: drive("1Fi6RDL0qNSsWIOfPfTlbZ_o7jFh6Sfs5") },
+        ],
+      },
+    ],
+    videos: [
+      { id: "tg-v04", name: "Video 04 - Hello in LSA", duration: "1:12", url: "https://youtu.be/7GIZGvh7Q90", thumbnail: ytThumb("7GIZGvh7Q90") },
+      { id: "tg-v05", name: "Video 05 - Recap - Hello, everyone!", duration: "0:57", url: "https://youtu.be/j6gGcJ6WX1s", thumbnail: ytThumb("j6gGcJ6WX1s") },
+    ],
+  },
 };
 
 export default function InglesMaterilesPage() {
@@ -395,6 +502,7 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     title="Magazine"
                     pdfUrl={pdfUrls.magazine}
+                    media={funzineMedia.magazine}
                   />
                 </div>
 
@@ -403,6 +511,7 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     title="Activity Book"
                     pdfUrl={pdfUrls.activityBook}
+                    media={funzineMedia.activityBook}
                   />
                 </div>
 
@@ -411,6 +520,7 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     title="Teacher's Guide"
                     pdfUrl={pdfUrls.teachersGuide}
+                    media={funzineMedia.teachersGuide}
                   />
                 </div>
               </div>
@@ -439,13 +549,25 @@ export default function InglesMaterilesPage() {
 function MaterialCard({ 
   title, 
   pdfUrl,
+  media,
 }: { 
   title: string; 
   pdfUrl: string;
+  media: MaterialMedia;
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
   const [playingAudioId, setPlayingAudioId] = useState<string | number | null>(null);
+  const [openSeqs, setOpenSeqs] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const allAudios = media.audios.flatMap((s) => s.items);
+  const allVideos = media.videos;
+
+  const toggleSeq = (seq: number) => {
+    setOpenSeqs((prev) =>
+      prev.includes(seq) ? prev.filter((s) => s !== seq) : [...prev, seq]
+    );
+  };
 
   const handleTogglePlay = (id: string | number, url: string) => {
     // Si ya hay un audio sonando, lo detenemos
@@ -461,14 +583,14 @@ function MaterialCard({
     // Reproducir el nuevo audio
     const audio = new Audio(url);
     audioRef.current = audio;
-    audio.play();
+    audio.play().catch(() => {});
     audio.onended = () => setPlayingAudioId(null);
     setPlayingAudioId(id);
   };
 
   const handleDownloadAudios = () => {
     // Descargar todos los audios en un paquete separado
-    mediaData.audios.forEach((item) => {
+    allAudios.forEach((item) => {
       const link = document.createElement("a");
       link.href = item.url;
       link.download = item.name;
@@ -478,19 +600,12 @@ function MaterialCard({
 
   const handleDownloadVideos = () => {
     // Descargar todos los videos en un paquete separado
-    mediaData.videos.forEach((item) => {
+    allVideos.forEach((item) => {
       const link = document.createElement("a");
       link.href = item.url;
       link.download = item.name;
       link.click();
     });
-  };
-
-  const handleDownloadSingle = (url: string, name: string) => {
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = name;
-    link.click();
   };
 
   return (
@@ -629,74 +744,123 @@ function MaterialCard({
           </div>
         </div>
 
-        {/* Media list */}
-        <div className="space-y-0">
-          {activeTab === "audios" ? (
-            mediaData.audios.map((audio) => (
-              <div 
-                key={audio.id}
-                className="flex items-center gap-3 py-3.5 border-b border-[#494963]/5"
-              >
-                <button
-                  type="button"
-                  onClick={() => handleTogglePlay(audio.id, audio.url)}
-                  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
-                  style={{ color: playingAudioId === audio.id ? AREA_COLOR : "rgba(73,73,99,0.4)" }}
-                  aria-label={playingAudioId === audio.id ? "Pausar" : "Reproducir"}
+        {/* AUDIOS: agrupados por secuencia (acordeón minimalista) */}
+        {activeTab === "audios" && (
+          <div className="space-y-3">
+            {media.audios.length === 0 && (
+              <p className="text-sm text-[#494963]/40 py-6 text-center">No hay audios disponibles.</p>
+            )}
+            {media.audios.map((sequence) => {
+              const isOpen = openSeqs.includes(sequence.seq);
+              return (
+                <div
+                  key={sequence.seq}
+                  className="border border-[#494963]/10 rounded-xl overflow-hidden"
                 >
-                  {playingAudioId === audio.id ? (
-                    <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
-                  ) : (
-                    <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
+                  {/* Cabecera de secuencia */}
+                  <button
+                    type="button"
+                    onClick={() => toggleSeq(sequence.seq)}
+                    className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left hover:bg-[#494963]/[0.03] transition-colors"
+                    aria-expanded={isOpen}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="text-sm sm:text-base font-semibold text-[#494963]">
+                        Secuencia {sequence.seq}
+                      </span>
+                      <span className="text-xs text-[#494963]/40 flex-shrink-0">
+                        {sequence.items.length} {sequence.items.length === 1 ? "audio" : "audios"}
+                      </span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-[#494963]/40 flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+
+                  {/* Lista de audios de la secuencia */}
+                  {isOpen && (
+                    <div className="px-4 pb-2 border-t border-[#494963]/5">
+                      {sequence.items.map((audio) => {
+                        const isPlaying = playingAudioId === audio.id;
+                        return (
+                          <div
+                            key={audio.id}
+                            className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-b-0"
+                          >
+                            <button
+                              type="button"
+                              onClick={() => handleTogglePlay(audio.id, audio.url)}
+                              className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                              style={{ color: isPlaying ? AREA_COLOR : "rgba(73,73,99,0.4)" }}
+                              aria-label={isPlaying ? "Pausar" : "Reproducir"}
+                            >
+                              {isPlaying ? (
+                                <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
+                              ) : (
+                                <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
+                              )}
+                            </button>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm sm:text-base text-[#494963] leading-tight truncate">{audio.name}</p>
+                              <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{audio.duration}</p>
+                            </div>
+                            <a
+                              href={audio.url}
+                              download
+                              className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                              aria-label={`Descargar ${audio.name}`}
+                            >
+                              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
+                            </a>
+                          </div>
+                        );
+                      })}
+                    </div>
                   )}
-                </button>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm sm:text-base text-[#494963] leading-tight">{audio.name}</p>
-                  <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{audio.duration}</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleDownloadSingle(audio.url, audio.name)}
-                  className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
-                >
-                  <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
-                </button>
-              </div>
-            ))
-          ) : (
-            mediaData.videos.map((video) => (
-              <div 
+              );
+            })}
+          </div>
+        )}
+
+        {/* VIDEOS: grilla responsiva */}
+        {activeTab === "videos" && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            {media.videos.length === 0 && (
+              <p className="text-sm text-[#494963]/40 py-6 text-center col-span-full">No hay videos disponibles.</p>
+            )}
+            {media.videos.map((video) => (
+              <a
                 key={video.id}
-                className="flex items-center gap-3 py-3.5 border-b border-[#494963]/5"
+                href={video.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col rounded-xl overflow-hidden border border-[#494963]/10 hover:border-[#494963]/20 transition-colors"
               >
-                <div className="relative w-20 sm:w-24 aspect-video rounded overflow-hidden flex-shrink-0 bg-[#494963]/10">
-                  <Image
-                    src={video.thumbnail}
-                    alt={video.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">
-                      <Play className="w-3 h-3 text-[#494963] ml-0.5" />
+                <div className="relative aspect-video bg-[#494963]/10 overflow-hidden">
+                  {video.thumbnail ? (
+                    <Image src={video.thumbnail} alt={video.name} fill className="object-cover transition-transform group-hover:scale-105" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Play className="w-8 h-8 text-[#494963]/30" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/20 transition-colors">
+                    <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
+                      <Play className="w-5 h-5 text-[#494963] ml-0.5" />
                     </div>
                   </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm sm:text-base text-[#494963] leading-tight">{video.name}</p>
-                  <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{video.duration}</p>
+                <div className="flex items-center justify-between gap-2 p-3">
+                  <div className="min-w-0">
+                    <p className="text-sm sm:text-base text-[#494963] leading-tight truncate">{video.name}</p>
+                    <p className="text-xs text-[#494963]/40 mt-0.5">{video.duration}</p>
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleDownloadSingle(video.url, video.name)}
-                  className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
-                >
-                  <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
-                </button>
-              </div>
-            ))
-          )}
-        </div>
+              </a>
+            ))}
+          </div>
+        )}
         
         {/* Descargar paquete - separado por audios/videos según pestaña activa */}
         <div className="mt-5 flex flex-col items-center">
@@ -710,8 +874,8 @@ function MaterialCard({
           </button>
           <p className="text-xs sm:text-sm text-[#494963]/40 text-center mt-2">
             {activeTab === "audios"
-              ? `Paquete con ${mediaData.audios.length} audios`
-              : `Paquete con ${mediaData.videos.length} videos`}
+              ? `Paquete con ${allAudios.length} audios`
+              : `Paquete con ${allVideos.length} videos`}
           </p>
         </div>
     </div>
