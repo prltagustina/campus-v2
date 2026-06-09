@@ -515,6 +515,7 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     title="Magazine"
                     pdfUrl={pdfUrls.magazine}
+                    media={funzineMedia.magazine}
                   />
                 </div>
 
@@ -523,6 +524,7 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     title="Activity Book"
                     pdfUrl={pdfUrls.activityBook}
+                    media={funzineMedia.activityBook}
                   />
                 </div>
 
@@ -531,6 +533,7 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     title="Teacher's Guide"
                     pdfUrl={pdfUrls.teachersGuide}
+                    media={funzineMedia.teachersGuide}
                   />
                 </div>
               </div>
@@ -616,13 +619,6 @@ function MaterialCard({
       link.download = item.name;
       link.click();
     });
-  };
-
-  const handleDownloadSingle = (url: string, name: string) => {
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = name;
-    link.click();
   };
 
   return (
@@ -761,101 +757,132 @@ function MaterialCard({
           </div>
         </div>
 
-        {/* Media list agrupada por unidades */}
-        <div className="space-y-3">
-          {mediaUnits.map((unit) => {
-            const items = activeTab === "audios" ? unit.audios : unit.videos;
-            if (items.length === 0) return null;
-            const isOpen = openUnits.includes(unit.id);
-            return (
-              <div key={unit.id} className="border border-[#494963]/10 rounded-xl overflow-hidden">
-                {/* Cabecera de unidad */}
-                <button
-                  type="button"
-                  onClick={() => toggleUnit(unit.id)}
-                  className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left hover:bg-[#494963]/[0.03] transition-colors"
-                  aria-expanded={isOpen}
+        {/* AUDIOS: agrupados por secuencia con escala de celeste */}
+        {activeTab === "audios" && (
+          <div className="space-y-3">
+            {media.audios.length === 0 && (
+              <p className="text-sm text-[#494963]/40 py-6 text-center">No hay audios disponibles.</p>
+            )}
+            {media.audios.map((sequence) => {
+              const style = SEQUENCE_STYLES[sequence.seq];
+              const isOpen = openSeqs.includes(sequence.seq);
+              return (
+                <div
+                  key={sequence.seq}
+                  className="rounded-xl overflow-hidden border border-black/5"
+                  style={{ backgroundColor: style.tint }}
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-sm sm:text-base font-semibold text-[#494963] truncate">{unit.title}</span>
-                    <span className="text-xs text-[#494963]/40 flex-shrink-0">
-                      {items.length} {activeTab === "audios" ? (items.length === 1 ? "audio" : "audios") : (items.length === 1 ? "video" : "videos")}
-                    </span>
-                  </div>
-                  <ChevronDown
-                    className={`w-5 h-5 text-[#494963]/40 flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
-                  />
-                </button>
+                  {/* Cabecera de secuencia */}
+                  <button
+                    type="button"
+                    onClick={() => toggleSeq(sequence.seq)}
+                    className="w-full flex items-center justify-between gap-3 px-3 sm:px-4 py-3 text-left"
+                    aria-expanded={isOpen}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span
+                        className="text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: style.badgeBg, color: style.badgeText }}
+                      >
+                        {style.label}
+                      </span>
+                      <span className="text-xs sm:text-sm font-medium text-[#1B4654]/70 flex-shrink-0">
+                        {sequence.items.length} {sequence.items.length === 1 ? "audio" : "audios"}
+                      </span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                      style={{ color: style.bar }}
+                    />
+                  </button>
 
-                {/* Contenido de la unidad */}
-                {isOpen && (
-                  <div className="px-4 pb-2 border-t border-[#494963]/5">
-                    {activeTab === "audios"
-                      ? unit.audios.map((audio) => (
+                  {/* Lista de audios de la secuencia */}
+                  {isOpen && (
+                    <div className="px-2 sm:px-3 pb-2">
+                      {sequence.items.map((audio) => {
+                        const isPlaying = playingAudioId === audio.id;
+                        return (
                           <div
                             key={audio.id}
-                            className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-b-0"
+                            className="flex items-center gap-2 sm:gap-3 py-2.5 px-1.5 sm:px-2 rounded-lg bg-white/55"
                           >
                             <button
                               type="button"
                               onClick={() => handleTogglePlay(audio.id, audio.url)}
-                              className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
-                              style={{ color: playingAudioId === audio.id ? AREA_COLOR : "rgba(73,73,99,0.4)" }}
-                              aria-label={playingAudioId === audio.id ? "Pausar" : "Reproducir"}
+                              className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full transition-colors"
+                              style={{
+                                backgroundColor: isPlaying ? style.bar : "transparent",
+                                color: isPlaying ? "#FFFFFF" : style.bar,
+                              }}
+                              aria-label={isPlaying ? "Pausar" : "Reproducir"}
                             >
-                              {playingAudioId === audio.id ? (
+                              {isPlaying ? (
                                 <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
                               ) : (
                                 <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
                               )}
                             </button>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm sm:text-base text-[#494963] leading-tight">{audio.name}</p>
-                              <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{audio.duration}</p>
+                              <p className="text-sm sm:text-base text-[#1B4654] leading-tight truncate">{audio.name}</p>
+                              <p className="text-xs text-[#1B4654]/45 mt-0.5">{audio.duration}</p>
                             </div>
-                            <button
-                              type="button"
-                              onClick={() => handleDownloadSingle(audio.url, audio.name)}
-                              className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                            <a
+                              href={audio.url}
+                              download
+                              className="w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-black/5 transition-colors"
                               aria-label={`Descargar ${audio.name}`}
                             >
-                              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
-                            </button>
+                              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#1B4654]/45" />
+                            </a>
                           </div>
-                        ))
-                      : unit.videos.map((video) => (
-                          <div
-                            key={video.id}
-                            className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-b-0"
-                          >
-                            <div className="relative w-20 sm:w-24 aspect-video rounded overflow-hidden flex-shrink-0 bg-[#494963]/10">
-                              <Image src={video.thumbnail} alt={video.name} fill className="object-cover" />
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">
-                                  <Play className="w-3 h-3 text-[#494963] ml-0.5" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm sm:text-base text-[#494963] leading-tight">{video.name}</p>
-                              <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{video.duration}</p>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={() => handleDownloadSingle(video.url, video.name)}
-                              className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
-                              aria-label={`Descargar ${video.name}`}
-                            >
-                              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
-                            </button>
-                          </div>
-                        ))}
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* VIDEOS: grilla responsiva */}
+        {activeTab === "videos" && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            {media.videos.length === 0 && (
+              <p className="text-sm text-[#494963]/40 py-6 text-center col-span-full">No hay videos disponibles.</p>
+            )}
+            {media.videos.map((video) => (
+              <a
+                key={video.id}
+                href={video.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col rounded-xl overflow-hidden border border-[#494963]/10 hover:border-[#494963]/20 transition-colors"
+              >
+                <div className="relative aspect-video bg-[#494963]/10 overflow-hidden">
+                  {video.thumbnail ? (
+                    <Image src={video.thumbnail} alt={video.name} fill className="object-cover transition-transform group-hover:scale-105" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Play className="w-8 h-8 text-[#494963]/30" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/20 transition-colors">
+                    <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
+                      <Play className="w-5 h-5 text-[#494963] ml-0.5" />
+                    </div>
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                </div>
+                <div className="flex items-center justify-between gap-2 p-3">
+                  <div className="min-w-0">
+                    <p className="text-sm sm:text-base text-[#494963] leading-tight truncate">{video.name}</p>
+                    <p className="text-xs text-[#494963]/40 mt-0.5">{video.duration}</p>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
         
         {/* Descargar paquete - separado por audios/videos según pestaña activa */}
         <div className="mt-5 flex flex-col items-center">
