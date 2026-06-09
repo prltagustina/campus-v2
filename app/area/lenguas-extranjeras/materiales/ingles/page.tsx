@@ -8,6 +8,7 @@ import {
   ArrowUp,
   BookOpen, 
   ChevronRight,
+  ChevronDown,
   Play,
   Pause,
   Download,
@@ -58,21 +59,36 @@ const pdfUrls = {
   teachersGuide: "https://blobs.vusercontent.net/blob/Teacher%27s%20Guide%2010.04-%20U%CC%81ltima%20versio%CC%81n%20%28con%20correcciones%29_compressed-uoUpZxcEDQ5wMwaWnaUIUy6A2hXmr9.pdf",
 };
 
-/* Audio/Video data */
-const mediaData = {
-  audios: [
-    { id: "t1", name: "Track 01 - Welcome Song", duration: "2:34", url: "#" },
-    { id: "t2", name: "Track 02 - Hello Chant", duration: "1:45", url: "#" },
-    { id: "t3", name: "Track 03 - My Name Is...", duration: "2:12", url: "#" },
-    { id: "t4", name: "Track 04 - Numbers Song", duration: "2:58", url: "#" },
-    { id: "t5", name: "Track 05 - Colors Rhyme", duration: "1:55", url: "#" },
-  ],
-  videos: [
-    { id: "v1", name: "Video 01 - Introduction", duration: "3:20", url: "#", thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=300&h=200&fit=crop" },
-    { id: "v2", name: "Video 02 - Hello Song", duration: "2:45", url: "#", thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=300&h=200&fit=crop" },
-    { id: "v3", name: "Video 03 - My Family", duration: "4:10", url: "#", thumbnail: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=300&h=200&fit=crop" },
-  ],
-};
+/* Audio/Video data agrupado por unidades */
+const mediaUnits = [
+  {
+    id: "u1",
+    title: "Unit 1 - Hello!",
+    audios: [
+      { id: "t1", name: "Track 01 - Welcome Song", duration: "2:34", url: "#" },
+      { id: "t2", name: "Track 02 - Hello Chant", duration: "1:45", url: "#" },
+      { id: "t3", name: "Track 03 - My Name Is...", duration: "2:12", url: "#" },
+    ],
+    videos: [
+      { id: "v1", name: "Video 01 - Introduction", duration: "3:20", url: "#", thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=300&h=200&fit=crop" },
+      { id: "v2", name: "Video 02 - Hello Song", duration: "2:45", url: "#", thumbnail: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=300&h=200&fit=crop" },
+    ],
+  },
+  {
+    id: "u2",
+    title: "Unit 2 - Numbers & Colors",
+    audios: [
+      { id: "t4", name: "Track 04 - Numbers Song", duration: "2:58", url: "#" },
+      { id: "t5", name: "Track 05 - Colors Rhyme", duration: "1:55", url: "#" },
+    ],
+    videos: [
+      { id: "v3", name: "Video 03 - My Family", duration: "4:10", url: "#", thumbnail: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=300&h=200&fit=crop" },
+    ],
+  },
+];
+
+const allAudios = mediaUnits.flatMap((u) => u.audios);
+const allVideos = mediaUnits.flatMap((u) => u.videos);
 
 export default function InglesMaterilesPage() {
   const [activeSection, setActiveSection] = useState("presentacion");
@@ -445,7 +461,14 @@ function MaterialCard({
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
   const [playingAudioId, setPlayingAudioId] = useState<string | number | null>(null);
+  const [openUnits, setOpenUnits] = useState<string[]>(() => mediaUnits.map((u) => u.id));
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const toggleUnit = (id: string) => {
+    setOpenUnits((prev) =>
+      prev.includes(id) ? prev.filter((u) => u !== id) : [...prev, id]
+    );
+  };
 
   const handleTogglePlay = (id: string | number, url: string) => {
     // Si ya hay un audio sonando, lo detenemos
@@ -468,7 +491,7 @@ function MaterialCard({
 
   const handleDownloadAudios = () => {
     // Descargar todos los audios en un paquete separado
-    mediaData.audios.forEach((item) => {
+    allAudios.forEach((item) => {
       const link = document.createElement("a");
       link.href = item.url;
       link.download = item.name;
@@ -478,7 +501,7 @@ function MaterialCard({
 
   const handleDownloadVideos = () => {
     // Descargar todos los videos en un paquete separado
-    mediaData.videos.forEach((item) => {
+    allVideos.forEach((item) => {
       const link = document.createElement("a");
       link.href = item.url;
       link.download = item.name;
@@ -629,73 +652,100 @@ function MaterialCard({
           </div>
         </div>
 
-        {/* Media list */}
-        <div className="space-y-0">
-          {activeTab === "audios" ? (
-            mediaData.audios.map((audio) => (
-              <div 
-                key={audio.id}
-                className="flex items-center gap-3 py-3.5 border-b border-[#494963]/5"
-              >
+        {/* Media list agrupada por unidades */}
+        <div className="space-y-3">
+          {mediaUnits.map((unit) => {
+            const items = activeTab === "audios" ? unit.audios : unit.videos;
+            if (items.length === 0) return null;
+            const isOpen = openUnits.includes(unit.id);
+            return (
+              <div key={unit.id} className="border border-[#494963]/10 rounded-xl overflow-hidden">
+                {/* Cabecera de unidad */}
                 <button
                   type="button"
-                  onClick={() => handleTogglePlay(audio.id, audio.url)}
-                  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
-                  style={{ color: playingAudioId === audio.id ? AREA_COLOR : "rgba(73,73,99,0.4)" }}
-                  aria-label={playingAudioId === audio.id ? "Pausar" : "Reproducir"}
+                  onClick={() => toggleUnit(unit.id)}
+                  className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left hover:bg-[#494963]/[0.03] transition-colors"
+                  aria-expanded={isOpen}
                 >
-                  {playingAudioId === audio.id ? (
-                    <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
-                  ) : (
-                    <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
-                  )}
-                </button>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm sm:text-base text-[#494963] leading-tight">{audio.name}</p>
-                  <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{audio.duration}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => handleDownloadSingle(audio.url, audio.name)}
-                  className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
-                >
-                  <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
-                </button>
-              </div>
-            ))
-          ) : (
-            mediaData.videos.map((video) => (
-              <div 
-                key={video.id}
-                className="flex items-center gap-3 py-3.5 border-b border-[#494963]/5"
-              >
-                <div className="relative w-20 sm:w-24 aspect-video rounded overflow-hidden flex-shrink-0 bg-[#494963]/10">
-                  <Image
-                    src={video.thumbnail}
-                    alt={video.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">
-                      <Play className="w-3 h-3 text-[#494963] ml-0.5" />
-                    </div>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="text-sm sm:text-base font-semibold text-[#494963] truncate">{unit.title}</span>
+                    <span className="text-xs text-[#494963]/40 flex-shrink-0">
+                      {items.length} {activeTab === "audios" ? (items.length === 1 ? "audio" : "audios") : (items.length === 1 ? "video" : "videos")}
+                    </span>
                   </div>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm sm:text-base text-[#494963] leading-tight">{video.name}</p>
-                  <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{video.duration}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => handleDownloadSingle(video.url, video.name)}
-                  className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
-                >
-                  <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
+                  <ChevronDown
+                    className={`w-5 h-5 text-[#494963]/40 flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  />
                 </button>
+
+                {/* Contenido de la unidad */}
+                {isOpen && (
+                  <div className="px-4 pb-2 border-t border-[#494963]/5">
+                    {activeTab === "audios"
+                      ? unit.audios.map((audio) => (
+                          <div
+                            key={audio.id}
+                            className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-b-0"
+                          >
+                            <button
+                              type="button"
+                              onClick={() => handleTogglePlay(audio.id, audio.url)}
+                              className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                              style={{ color: playingAudioId === audio.id ? AREA_COLOR : "rgba(73,73,99,0.4)" }}
+                              aria-label={playingAudioId === audio.id ? "Pausar" : "Reproducir"}
+                            >
+                              {playingAudioId === audio.id ? (
+                                <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
+                              ) : (
+                                <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
+                              )}
+                            </button>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm sm:text-base text-[#494963] leading-tight">{audio.name}</p>
+                              <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{audio.duration}</p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleDownloadSingle(audio.url, audio.name)}
+                              className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                              aria-label={`Descargar ${audio.name}`}
+                            >
+                              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
+                            </button>
+                          </div>
+                        ))
+                      : unit.videos.map((video) => (
+                          <div
+                            key={video.id}
+                            className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-b-0"
+                          >
+                            <div className="relative w-20 sm:w-24 aspect-video rounded overflow-hidden flex-shrink-0 bg-[#494963]/10">
+                              <Image src={video.thumbnail} alt={video.name} fill className="object-cover" />
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">
+                                  <Play className="w-3 h-3 text-[#494963] ml-0.5" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm sm:text-base text-[#494963] leading-tight">{video.name}</p>
+                              <p className="text-xs sm:text-sm text-[#494963]/40 mt-0.5">{video.duration}</p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleDownloadSingle(video.url, video.name)}
+                              className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                              aria-label={`Descargar ${video.name}`}
+                            >
+                              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
+                            </button>
+                          </div>
+                        ))}
+                  </div>
+                )}
               </div>
-            ))
-          )}
+            );
+          })}
         </div>
         
         {/* Descargar paquete - separado por audios/videos según pestaña activa */}
@@ -710,8 +760,8 @@ function MaterialCard({
           </button>
           <p className="text-xs sm:text-sm text-[#494963]/40 text-center mt-2">
             {activeTab === "audios"
-              ? `Paquete con ${mediaData.audios.length} audios`
-              : `Paquete con ${mediaData.videos.length} videos`}
+              ? `Paquete con ${allAudios.length} audios`
+              : `Paquete con ${allVideos.length} videos`}
           </p>
         </div>
     </div>
