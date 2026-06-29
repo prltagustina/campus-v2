@@ -14,8 +14,8 @@ const EjesIcon = ({ className }: { className?: string }) => (
 );
 
 const secciones = [
-  { id: "materiales", name: "Itinerarios", icon: FileText },
   { id: "descarga", name: "Descarga", icon: Download },
+  { id: "materiales", name: "Itinerarios", icon: FileText },
   { id: "ejes", name: "Ejes", icon: EjesIcon },
   { id: "video", name: "Video", icon: Video },
   { id: "formacion", name: "Formaciones", icon: Bookmark },
