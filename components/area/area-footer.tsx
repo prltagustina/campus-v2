@@ -12,10 +12,10 @@ interface AreaFooterProps {
 }
 
 const SECTIONS = [
-  { id: "ejes", label: "EJES" },
+  { id: "materiales", label: "ITINERARIOS" },
   { id: "video", label: "VIDEO" },
-  { id: "materiales", label: "MATERIALES" },
   { id: "formacion", label: "FORMACIONES DOCENTES" },
+  { id: "ejes", label: "EJES" },
 ];
 
 export function AreaFooter({

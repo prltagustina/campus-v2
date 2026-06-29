@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { FileText, ChevronDown, BookOpen, Download, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
-import { getItinerario, type ItinerarioGrado } from "@/lib/itinerarios-data";
+import { getItinerario, type ItinerarioGrado, type ItinerarioFile } from "@/lib/itinerarios-data";
 
 interface MaterialesSectionProps {
   area: Area;
@@ -118,9 +118,66 @@ function GrupoHeader({ label }: { label: string }) {
   );
 }
 
-/* Tarjeta de grado: portada real del PDF + acción, o estado vacío "Próximamente".
-   Definida a nivel de módulo para que PdfThumbnail no se remonte en cada render. */
-function GradoCard({
+/* Fila de un material descargable: miniatura de portada + datos + acción de
+   descarga SIEMPRE visible. Toda la fila es un enlace de descarga. */
+function MaterialRow({
+  file,
+  color,
+  textOnColor,
+}: {
+  file: ItinerarioFile;
+  color: string;
+  textOnColor: string;
+}) {
+  const meta = [file.formato ?? "PDF", file.paginas ? `${file.paginas} páginas` : null]
+    .filter(Boolean)
+    .join(" · ");
+  return (
+    <a
+      href={file.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      download
+      aria-label={`Descargar ${file.nombre}`}
+      className="group/item flex items-center gap-3 sm:gap-4 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 hover:bg-gray-50 transition-colors"
+      style={{ ["--area" as string]: color, ["--area-fg" as string]: textOnColor }}
+    >
+      {/* Miniatura de portada (primera página del PDF) */}
+      <div className="relative w-11 h-[58px] sm:w-12 sm:h-16 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50">
+        {file.portada ? (
+          <img
+            src={file.portada || "/placeholder.svg"}
+            alt=""
+            loading="lazy"
+            className="w-full h-full object-cover object-top"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <FileText className="w-4 h-4 text-[#494963]/30" />
+          </div>
+        )}
+      </div>
+
+      {/* Datos del material */}
+      <div className="min-w-0 flex-1">
+        <span className="block text-sm sm:text-base font-medium text-[#494963] leading-snug line-clamp-2">
+          {file.nombre}
+        </span>
+        <span className="text-xs text-[#494963]/45">{meta}</span>
+      </div>
+
+      {/* Acción de descarga -- siempre visible, se rellena al hover */}
+      <span className="inline-flex items-center gap-1.5 flex-shrink-0 rounded-full border px-3 py-2 text-xs sm:text-sm font-semibold border-[var(--area)] text-[var(--area)] group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] transition-colors">
+        <Download className="w-4 h-4" />
+        <span>Descargar</span>
+      </span>
+    </a>
+  );
+}
+
+/* Bloque de un grado dentro de un ciclo: etiqueta + filas de materiales,
+   o estado "Próximamente" si todavía no hay material cargado. */
+function GradoBlock({
   grado,
   color,
   textOnColor,
@@ -129,69 +186,53 @@ function GradoCard({
   color: string;
   textOnColor: string;
 }) {
-  if (grado.files.length === 0) {
-    return (
-      <div className="flex flex-col">
-        <div className="relative aspect-[3/4] rounded-xl lg:rounded-2xl overflow-hidden border border-dashed border-gray-200 bg-gray-50/70 flex flex-col items-center justify-center gap-2">
-          <FileText className="w-7 h-7 lg:w-8 lg:h-8 text-[#494963]/15" />
-          <span className="text-[10px] lg:text-[11px] font-medium uppercase tracking-wide text-[#494963]/30">
+  const hasFiles = grado.files.length > 0;
+  return (
+    <div className="py-4 first:pt-0 last:pb-0">
+      <div className="flex items-baseline gap-2 mb-2 px-2 sm:px-3">
+        <h6 className="text-sm sm:text-base font-bold text-[#494963]">{grado.name}</h6>
+        {hasFiles ? (
+          grado.files.length > 1 && (
+            <span className="text-xs text-[#494963]/35">{grado.files.length} materiales</span>
+          )
+        ) : (
+          <span className="text-xs font-medium uppercase tracking-wide text-[#494963]/30">
             Próximamente
           </span>
-        </div>
-        <div className="mt-3">
-          <span className="text-sm lg:text-base font-semibold text-[#494963]/50">{grado.name}</span>
-        </div>
-      </div>
-    );
-  }
-
-  const file = grado.files[0];
-  const meta = [file.formato ?? "PDF", file.paginas ? `${file.paginas} pág.` : null, file.size]
-    .filter(Boolean)
-    .join(" · ");
-
-  return (
-    <a
-      href={file.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group/card flex flex-col focus:outline-none"
-      aria-label={`Descargar ${file.nombre}`}
-    >
-      <div className="relative aspect-[3/4] rounded-xl lg:rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm transition-all duration-300 group-hover/card:shadow-xl group-hover/card:-translate-y-1 group-focus-visible/card:ring-2 group-focus-visible/card:ring-offset-2">
-        {file.portada ? (
-          <img
-            src={file.portada || "/placeholder.svg"}
-            alt={`Portada de ${file.nombre}`}
-            loading="lazy"
-            className="w-full h-full object-cover object-top"
-          />
-        ) : (
-          <div
-            className="w-full h-full flex items-center justify-center"
-            style={{ backgroundColor: `${color}12` }}
-          >
-            <FileText className="w-9 h-9" style={{ color: `${color}99` }} />
-          </div>
         )}
-        {/* Overlay de acción al hover/focus */}
-        <div className="absolute inset-0 flex items-end justify-center p-3 bg-gradient-to-t from-[#494963]/55 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 group-focus-visible/card:opacity-100 transition-opacity duration-300">
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs lg:text-sm font-semibold shadow-lg translate-y-2 group-hover/card:translate-y-0 group-focus-visible/card:translate-y-0 transition-transform duration-300"
-            style={{ backgroundColor: color, color: textOnColor }}
-          >
-            <Download className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
-            Descargar
-          </span>
+      </div>
+      {hasFiles && (
+        <div className="space-y-0.5">
+          {grado.files.map((file, idx) => (
+            <MaterialRow key={idx} file={file} color={color} textOnColor={textOnColor} />
+          ))}
         </div>
+      )}
+    </div>
+  );
+}
+
+/* Tarjeta-contenedor de un grupo (ciclo) con título y bloques de grado. */
+function CicloCard({
+  title,
+  grados,
+  color,
+  textOnColor,
+}: {
+  title: string;
+  grados: ItinerarioGrado[];
+  color: string;
+  textOnColor: string;
+}) {
+  return (
+    <div className="rounded-2xl lg:rounded-3xl border border-gray-100 bg-white p-4 sm:p-6 lg:p-8 shadow-sm">
+      <GrupoHeader label={title} />
+      <div className="divide-y divide-gray-100">
+        {grados.map((grado) => (
+          <GradoBlock key={grado.id} grado={grado} color={color} textOnColor={textOnColor} />
+        ))}
       </div>
-      <div className="mt-3 flex items-center justify-between gap-2">
-        <span className="text-sm lg:text-base font-semibold text-[#494963]">{grado.name}</span>
-        <span className="text-[10px] lg:text-[11px] font-medium uppercase tracking-wide text-[#494963]/35">
-          {meta}
-        </span>
-      </div>
-    </a>
+    </div>
   );
 }
 
@@ -768,40 +809,27 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         )}
       </div>
 
-      {/* Grilla editorial de portadas */}
-      <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
+      {/* Repositorio editorial: tarjetas por ciclo con filas de materiales */}
+      <div className="max-w-3xl mx-auto space-y-5 md:space-y-6">
         {/* Ciclos */}
         {itinerario.ciclos.map((ciclo) => (
-          <div key={ciclo.id}>
-            <GrupoHeader label={ciclo.name} />
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-5 gap-y-7 md:gap-x-6 md:gap-y-8">
-              {ciclo.grados.map((grado) => (
-                <GradoCard
-                  key={grado.id}
-                  grado={grado}
-                  color={area.color}
-                  textOnColor={area.textOnColor}
-                />
-              ))}
-            </div>
-          </div>
+          <CicloCard
+            key={ciclo.id}
+            title={ciclo.name}
+            grados={ciclo.grados}
+            color={area.color}
+            textOnColor={area.textOnColor}
+          />
         ))}
 
         {/* Grados sueltos (Séptimo grado) */}
         {itinerario.gradosSueltos && itinerario.gradosSueltos.length > 0 && (
-          <div>
-            <GrupoHeader label="Séptimo grado" />
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-5 gap-y-7 md:gap-x-6 md:gap-y-8">
-              {itinerario.gradosSueltos.map((grado) => (
-                <GradoCard
-                  key={grado.id}
-                  grado={grado}
-                  color={area.color}
-                  textOnColor={area.textOnColor}
-                />
-              ))}
-            </div>
-          </div>
+          <CicloCard
+            title="Séptimo grado"
+            grados={itinerario.gradosSueltos}
+            color={area.color}
+            textOnColor={area.textOnColor}
+          />
         )}
 
         {/* Articulación entre Primaria y Secundaria */}
