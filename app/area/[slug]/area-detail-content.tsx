@@ -238,17 +238,17 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
 
           {/* 3. Átomo y media rueda (Ejes) -- light gray bg */}
           <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-[#EDEDF0]">
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-              {/* Media rueda -- now sits with the átomo, no longer a hero */}
-              <div className="mb-12 md:mb-16">
-                <AreaHeader
-                  area={area}
-                  activeAxis={activeAxis}
-                  onAxisClick={(idx) =>
-                    setActiveAxis(activeAxis === idx ? null : idx)
-                  }
-                />
-              </div>
+            {/* Media rueda -- flush to the top of the gray section, no gray strip above */}
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16">
+              <AreaHeader
+                area={area}
+                activeAxis={activeAxis}
+                onAxisClick={(idx) =>
+                  setActiveAxis(activeAxis === idx ? null : idx)
+                }
+              />
+            </div>
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-12 md:pt-16 pb-24 md:pb-36 lg:pb-44">
               <SubareasPills
                 area={area}
                 subAreas={subAreas}

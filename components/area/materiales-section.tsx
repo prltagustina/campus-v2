@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FileText, ChevronDown, BookOpen, Download, ArrowRight, ArrowUpRight, GraduationCap } from "lucide-react";
+import { FileText, ChevronDown, BookOpen, Download, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import { getItinerario } from "@/lib/itinerarios-data";
 
@@ -677,7 +677,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
               className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: `${area.color}15` }}
             >
-              <GraduationCap className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
+              <FileText className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
             </div>
             <div className="min-w-0">
               <span className="text-sm lg:text-base font-semibold text-[#494963] block">
@@ -765,10 +765,9 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 href={itinerario.recursoGeneral.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all hover:shadow-md"
-                style={{ backgroundColor: `${area.color}15`, color: area.color }}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-[#494963]/50 hover:text-[#494963] transition-colors"
               >
-                <span>Ver planilla</span>
+                <span>Ver planilla completa</span>
                 <ArrowUpRight className="w-4 h-4" />
               </a>
             )}
