@@ -740,6 +740,12 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
     );
   };
 
+  /* Todos los grados aplanados para la vista mobile (con su ciclo) */
+  const todosLosGrados = [
+    ...itinerario.ciclos.flatMap((c) => c.grados.map((g) => ({ ...g, ciclo: c.name }))),
+    ...(itinerario.gradosSueltos ?? []).map((g) => ({ ...g, ciclo: null as string | null })),
+  ];
+
   return (
     <section id="materiales" className="scroll-mt-32">
       {/* Section header */}
@@ -747,12 +753,140 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display">
           Itinerarios didácticos
         </h3>
-        <p className="text-sm sm:text-base text-[#494963]/50 mt-3 max-w-md">
+        <p className="text-sm sm:text-base text-[#494963]/50 mt-3 max-w-md text-left sm:text-center">
           Secuencias didácticas organizadas por ciclo y grado.
         </p>
       </div>
 
-      <div className="max-w-3xl mx-auto space-y-6">
+      {/* MOBILE: lista minimalista full-width */}
+      <div className="sm:hidden -mx-4 px-3">
+        {/* Enlace a planilla completa */}
+        {itinerario.recursoGeneral && (
+          <a
+            href={itinerario.recursoGeneral.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between px-4 py-4 mb-3 rounded-xl active:bg-gray-50 transition-colors"
+            style={{ backgroundColor: `${area.color}12` }}
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <FileText className="w-5 h-5 flex-shrink-0" style={{ color: area.color }} />
+              <span className="text-sm font-semibold text-[#494963] truncate">
+                Ver planilla completa
+              </span>
+            </div>
+            <ArrowUpRight className="w-5 h-5 flex-shrink-0 text-[#494963]/40" />
+          </a>
+        )}
+
+        {/* Grados agrupados por ciclo */}
+        {todosLosGrados.map((grado, idx) => {
+          const isOpen = gradoAbierto === grado.id;
+          const tieneArchivos = grado.files.length > 0;
+          const mostrarCiclo =
+            grado.ciclo && grado.ciclo !== todosLosGrados[idx - 1]?.ciclo;
+          return (
+            <React.Fragment key={grado.id}>
+              {mostrarCiclo && (
+                <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#494963]/40 px-1 mt-5 mb-2 first:mt-0">
+                  {grado.ciclo}
+                </p>
+              )}
+              <div className={`overflow-hidden mb-2 ${isOpen ? "rounded-t-xl" : "rounded-xl"}`}>
+                <button
+                  type="button"
+                  onClick={() => tieneArchivos && toggleGrado(grado.id)}
+                  disabled={!tieneArchivos}
+                  className={`w-full flex items-center justify-between px-4 py-4 text-left transition-colors ${tieneArchivos ? "" : "opacity-60 cursor-default"} ${isOpen ? "rounded-t-xl" : "rounded-xl"}`}
+                  style={{ backgroundColor: isOpen ? area.color : "rgba(0,0,0,0.03)" }}
+                  aria-expanded={isOpen}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <FileText className="w-5 h-5 flex-shrink-0" style={{ color: area.color }} />
+                    <div className="min-w-0">
+                      <span className="block text-base font-semibold text-[#494963]">
+                        {grado.name}
+                      </span>
+                      <span className="text-xs text-[#494963]/50">
+                        {tieneArchivos
+                          ? `${grado.files.length} ${grado.files.length === 1 ? "archivo" : "archivos"}`
+                          : "Próximamente"}
+                      </span>
+                    </div>
+                  </div>
+                  {tieneArchivos && (
+                    <ChevronDown
+                      className={`w-5 h-5 flex-shrink-0 text-[#494963]/40 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  )}
+                </button>
+
+                {tieneArchivos && isOpen && (
+                  <div className="bg-gray-50/80 animate-in fade-in slide-in-from-top-2 duration-200 rounded-b-xl">
+                    {grado.files.map((file, i) => (
+                      <a
+                        key={i}
+                        href={file.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between px-4 py-4 border-t border-gray-100/80 first:border-t-0 active:bg-gray-100 transition-colors"
+                      >
+                        <div className="flex items-center gap-3 min-w-0 flex-1 pr-3">
+                          <FileText className="w-5 h-5 flex-shrink-0 text-[#494963]/40" />
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium text-[#494963] truncate">{file.nombre}</p>
+                            {(file.formato || file.paginas || file.size) && (
+                              <p className="text-xs text-[#494963]/40 mt-0.5">
+                                {[file.formato, file.paginas ? `${file.paginas} pág.` : null, file.size]
+                                  .filter(Boolean)
+                                  .join(" · ")}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                          <Download className="w-4 h-4 text-[#494963]/40" />
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </React.Fragment>
+          );
+        })}
+
+        {/* Articulación - mobile */}
+        {itinerario.articulacion && (
+          <div className="mt-6">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#494963]/40 px-1 mb-2">
+              Articulación Primaria - Secundaria
+            </p>
+            {itinerario.articulacion.map((link, idx) => (
+              <a
+                key={idx}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between px-4 py-4 mb-2 rounded-xl active:bg-gray-50 transition-colors"
+                style={{ backgroundColor: "rgba(0,0,0,0.03)" }}
+              >
+                <div className="flex items-center gap-3 min-w-0 flex-1 pr-3">
+                  <BookOpen className="w-5 h-5 flex-shrink-0" style={{ color: area.color }} />
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-[#494963]">{link.nombre}</p>
+                    <p className="text-xs text-[#494963]/40 mt-0.5">{link.descripcion}</p>
+                  </div>
+                </div>
+                <ArrowUpRight className="w-5 h-5 flex-shrink-0 text-[#494963]/40" />
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* DESKTOP: tarjetas */}
+      <div className="hidden sm:block max-w-3xl mx-auto space-y-6">
         {/* Card: Secuencias didácticas */}
         <div className="bg-white rounded-2xl lg:rounded-3xl border border-gray-100 p-6 lg:p-8 shadow-sm">
           {/* Card header */}
