@@ -17,8 +17,8 @@ const secciones = [
   { id: "descarga", name: "Descarga", icon: Download },
   { id: "materiales", name: "Itinerarios", icon: FileText },
   { id: "video", name: "Video", icon: Video },
-  { id: "formacion", name: "Formaciones", icon: Bookmark },
   { id: "ejes", name: "Ejes", icon: EjesIcon },
+  { id: "formacion", name: "Formaciones", icon: Bookmark },
 ];
 
 /* Original wheel SVG icon */

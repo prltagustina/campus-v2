@@ -152,7 +152,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
   }, [selectedSubarea]);
 
   useEffect(() => {
-    const ids = ["descarga", "materiales", "video", "formacion", "ejes"];
+    const ids = ["descarga", "materiales", "video", "ejes", "formacion"];
     const onScroll = () => {
       let cur = "descarga";
       for (const id of ids) {
@@ -245,22 +245,9 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
             </ParallaxLayer>
           </RevealSection>
 
-          {/* 4. Formaciones Docentes -- white bg */}
-          <RevealSection delay={0.06} style="slide-up" className="scroll-mt-24 bg-white">
-            <ParallaxLayer speed={0.05}>
-              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-                <FormacionesSection
-                  area={area}
-                  prevArea={prevArea}
-                  nextArea={nextArea}
-                />
-              </div>
-            </ParallaxLayer>
-          </RevealSection>
-
-          {/* 5. Átomo y media rueda (Ejes) -- light gray bg, última sección */}
-          <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-[#EDEDF0]">
-            {/* Media rueda -- flush to the top of the gray section, no gray strip above */}
+          {/* 4. Átomo y media rueda (Ejes) -- white bg */}
+          <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-white">
+            {/* Media rueda -- flush to the top of the section, no strip above */}
             <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16">
               <AreaHeader
                 area={area}
@@ -289,6 +276,19 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
                 selectedSubarea={selectedSubarea}
               />
             </div>
+          </RevealSection>
+
+          {/* 5. Formaciones Docentes -- light gray bg, última sección */}
+          <RevealSection delay={0.06} style="slide-up" className="scroll-mt-24 bg-[#EDEDF0]">
+            <ParallaxLayer speed={0.05}>
+              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
+                <FormacionesSection
+                  area={area}
+                  prevArea={prevArea}
+                  nextArea={nextArea}
+                />
+              </div>
+            </ParallaxLayer>
           </RevealSection>
         </div>
       </main>
