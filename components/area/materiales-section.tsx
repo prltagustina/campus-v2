@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { FileText, ChevronDown, BookOpen, Download, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
-import { getItinerario } from "@/lib/itinerarios-data";
+import { getItinerario, type ItinerarioGrado } from "@/lib/itinerarios-data";
+import { PdfThumbnail } from "@/components/area/pdf-thumbnail";
 
 interface MaterialesSectionProps {
   area: Area;
@@ -112,8 +113,6 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
   // Inglés siempre activo por defecto
   const [idiomaSeleccionado, setIdiomaSeleccionado] = useState<string>("ingles");
   const [categoriaRecursoAbierta, setCategoriaRecursoAbierta] = useState<CategoriaRecurso | null>(null);
-  // Grado abierto en el acordeón de itinerarios (áreas no-lenguas)
-  const [gradoAbierto, setGradoAbierto] = useState<string | null>(null);
 
   const toggleCategoriaRecurso = (cat: CategoriaRecurso) => {
     setCategoriaRecursoAbierta(categoriaRecursoAbierta === cat ? null : cat);
@@ -654,303 +653,95 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
     );
   }
 
-  /* Para otras áreas: Itinerarios didácticos organizados por ciclo y grado */
+  /* Para otras áreas: Itinerarios didácticos -- grilla editorial de portadas */
   const itinerario = getItinerario(area.slug);
-  const toggleGrado = (gradoId: string) =>
-    setGradoAbierto(gradoAbierto === gradoId ? null : gradoId);
-
-  /* Fila de grado con acordeón -- mismo patrón visual que Lenguas Extranjeras */
-  const GradoRow = ({ grado }: { grado: { id: string; name: string; files: typeof itinerario.ciclos[number]["grados"][number]["files"] } }) => {
-    const isOpen = gradoAbierto === grado.id;
-    const tieneArchivos = grado.files.length > 0;
-    return (
-      <div className="border-b border-gray-100 last:border-0">
-        <button
-          type="button"
-          onClick={() => tieneArchivos && toggleGrado(grado.id)}
-          disabled={!tieneArchivos}
-          className={`w-full flex items-center justify-between py-4 lg:py-5 text-left group ${tieneArchivos ? "" : "cursor-default"}`}
-          aria-expanded={isOpen}
-        >
-          <div className="flex items-center gap-4 min-w-0">
-            <div
-              className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: `${area.color}15` }}
-            >
-              <FileText className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
-            </div>
-            <div className="min-w-0">
-              <span className="text-sm lg:text-base font-semibold text-[#494963] block">
-                {grado.name}
-              </span>
-              <span className="text-xs lg:text-sm text-[#494963]/40">
-                {tieneArchivos
-                  ? `${grado.files.length} ${grado.files.length === 1 ? "archivo disponible" : "archivos disponibles"}`
-                  : "Próximamente"}
-              </span>
-            </div>
-          </div>
-          {tieneArchivos && (
-            <ChevronDown
-              className={`w-5 h-5 lg:w-6 lg:h-6 text-[#494963]/30 transition-transform flex-shrink-0 ${isOpen ? "rotate-180" : ""}`}
-            />
-          )}
-        </button>
-
-        {tieneArchivos && isOpen && (
-          <div className="pb-4 lg:pb-6 space-y-2">
-            {grado.files.map((file, idx) => (
-              <a
-                key={idx}
-                href={file.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between py-4 px-4 lg:px-5 rounded-xl hover:bg-gray-50 group/item transition-colors"
-              >
-                <div className="flex items-center gap-4 min-w-0 flex-1">
-                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/50" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="text-sm lg:text-base text-[#494963] font-medium block truncate">
-                      {file.nombre}
-                    </span>
-                    {(file.formato || file.paginas) && (
-                      <span className="text-xs lg:text-sm text-[#494963]/40">
-                        {[file.formato, file.paginas ? `${file.paginas} páginas` : null]
-                          .filter(Boolean)
-                          .join(" · ")}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 flex-shrink-0">
-                  {file.size && (
-                    <span className="text-xs lg:text-sm text-[#494963]/30 hidden sm:inline">{file.size}</span>
-                  )}
-                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg bg-gray-50 group-hover/item:bg-gray-100 flex items-center justify-center transition-colors">
-                    <Download className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/50" />
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  /* Todos los grados aplanados para la vista mobile (con su ciclo) */
-  const todosLosGrados = [
-    ...itinerario.ciclos.flatMap((c) => c.grados.map((g) => ({ ...g, ciclo: c.name }))),
-    ...(itinerario.gradosSueltos ?? []).map((g) => ({ ...g, ciclo: null as string | null })),
-  ];
 
   return (
     <section id="materiales" className="scroll-mt-32">
       {/* Section header */}
       <div className="flex flex-col items-center text-center mb-10 md:mb-14">
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display">
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display text-balance">
           Itinerarios didácticos
         </h3>
-        <p className="text-sm sm:text-base text-[#494963]/50 mt-3 max-w-md text-left sm:text-center">
+        <p className="text-sm sm:text-base text-[#494963]/50 mt-3 max-w-md text-pretty">
           Secuencias didácticas organizadas por ciclo y grado.
         </p>
-      </div>
-
-      {/* MOBILE: lista minimalista full-width (mismo patrón que Lenguas) */}
-      <div className="sm:hidden -mx-4 px-3 space-y-2 py-2">
-        {/* Grados agrupados por ciclo */}
-        {todosLosGrados.map((grado, idx) => {
-          const isOpen = gradoAbierto === grado.id;
-          const tieneArchivos = grado.files.length > 0;
-          const mostrarCiclo =
-            grado.ciclo && grado.ciclo !== todosLosGrados[idx - 1]?.ciclo;
-          return (
-            <React.Fragment key={grado.id}>
-              {mostrarCiclo && (
-                <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#494963]/40 px-1 pt-4 pb-1">
-                  {grado.ciclo}
-                </p>
-              )}
-              <div className={`overflow-hidden ${isOpen ? "rounded-t-xl" : "rounded-xl"}`}>
-                <button
-                  type="button"
-                  onClick={() => tieneArchivos && toggleGrado(grado.id)}
-                  disabled={!tieneArchivos}
-                  className={`w-full flex items-center justify-between px-4 py-4 text-left transition-colors ${tieneArchivos ? "" : "cursor-default"} ${isOpen ? "rounded-t-xl" : "rounded-xl"}`}
-                  style={{ backgroundColor: isOpen ? area.color : "rgba(0,0,0,0.03)" }}
-                  aria-expanded={isOpen}
-                >
-                  <span className="text-base font-semibold text-[#494963]">
-                    {grado.name}
-                  </span>
-                  {tieneArchivos ? (
-                    <ChevronDown
-                      className={`w-5 h-5 flex-shrink-0 text-[#494963]/40 transition-transform ${isOpen ? "rotate-180" : ""}`}
-                    />
-                  ) : (
-                    <span className="text-xs text-[#494963]/40">Próximamente</span>
-                  )}
-                </button>
-
-                {tieneArchivos && isOpen && (
-                  <div className="bg-gray-50/80 animate-in fade-in slide-in-from-top-2 duration-200 rounded-b-xl">
-                    {grado.files.map((file, i) => (
-                      <a
-                        key={i}
-                        href={file.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between px-4 py-4 border-t border-gray-100/80 first:border-t-0 active:bg-gray-100 transition-colors"
-                      >
-                        <div className="flex items-center gap-3 min-w-0 flex-1 pr-4">
-                          <FileText className="w-5 h-5 flex-shrink-0" style={{ color: area.color }} />
-                          <div className="min-w-0">
-                            <p className="text-sm font-medium text-[#494963] truncate">{file.nombre}</p>
-                            {(file.formato || file.paginas || file.size) && (
-                              <p className="text-xs text-[#494963]/40 mt-0.5">
-                                {[file.formato, file.paginas ? `${file.paginas} pág.` : null, file.size]
-                                  .filter(Boolean)
-                                  .join(" · ")}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        <div className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center flex-shrink-0">
-                          <Download className="w-4 h-4 text-[#494963]/40" />
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </React.Fragment>
-          );
-        })}
-
-        {/* Enlace a planilla completa */}
         {itinerario.recursoGeneral && (
           <a
             href={itinerario.recursoGeneral.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1.5 px-4 py-3 text-sm font-medium text-[#494963]/50 active:text-[#494963] transition-colors"
+            className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-70"
+            style={{ color: area.color }}
           >
-            <span>Ver planilla completa</span>
+            <span>Ver planilla de secuencias</span>
             <ArrowUpRight className="w-4 h-4" />
           </a>
         )}
-
-        {/* Articulación - mobile */}
-        {itinerario.articulacion && (
-          <div className="pt-4">
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#494963]/40 px-1 pb-1">
-              Articulación Primaria - Secundaria
-            </p>
-            {itinerario.articulacion.map((link, idx) => (
-              <a
-                key={idx}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between px-4 py-4 mb-2 rounded-xl active:bg-gray-50 transition-colors"
-                style={{ backgroundColor: "rgba(0,0,0,0.03)" }}
-              >
-                <div className="flex items-center gap-3 min-w-0 flex-1 pr-4">
-                  <BookOpen className="w-5 h-5 flex-shrink-0" style={{ color: area.color }} />
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-[#494963]">{link.nombre}</p>
-                    <p className="text-xs text-[#494963]/40 mt-0.5">{link.descripcion}</p>
-                  </div>
-                </div>
-                <ArrowUpRight className="w-5 h-5 flex-shrink-0 text-[#494963]/40" />
-              </a>
-            ))}
-          </div>
-        )}
       </div>
 
-      {/* DESKTOP: tarjetas */}
-      <div className="hidden sm:block max-w-3xl mx-auto space-y-6">
-        {/* Card: Secuencias didácticas */}
-        <div className="bg-white rounded-2xl lg:rounded-3xl border border-gray-100 p-6 lg:p-8 shadow-sm">
-          {/* Card header */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6 lg:mb-8">
-            <h5 className="text-base lg:text-lg font-bold text-[#494963] font-display">
-              Secuencias didácticas
-            </h5>
-            {itinerario.recursoGeneral && (
-              <a
-                href={itinerario.recursoGeneral.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-[#494963]/50 hover:text-[#494963] transition-colors"
-              >
-                <span>Ver planilla completa</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </a>
-            )}
+      {/* Grilla editorial de portadas */}
+      <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
+        {/* Ciclos */}
+        {itinerario.ciclos.map((ciclo) => (
+          <div key={ciclo.id}>
+            <GrupoHeader label={ciclo.name} />
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-5 gap-y-7 md:gap-x-6 md:gap-y-8">
+              {ciclo.grados.map((grado) => (
+                <GradoCard
+                  key={grado.id}
+                  grado={grado}
+                  color={area.color}
+                  textOnColor={area.textOnColor}
+                />
+              ))}
+            </div>
           </div>
+        ))}
 
-          {/* Ciclos con grados */}
-          <div className="space-y-8">
-            {itinerario.ciclos.map((ciclo) => (
-              <div key={ciclo.id}>
-                <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#494963]/40 mb-1">
-                  {ciclo.name}
-                </p>
-                <div>
-                  {ciclo.grados.map((grado) => (
-                    <GradoRow key={grado.id} grado={grado} />
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            {/* Grados sueltos (Séptimo grado) */}
-            {itinerario.gradosSueltos && itinerario.gradosSueltos.length > 0 && (
-              <div>
-                {itinerario.gradosSueltos.map((grado) => (
-                  <GradoRow key={grado.id} grado={grado} />
-                ))}
-              </div>
-            )}
+        {/* Grados sueltos (Séptimo grado) */}
+        {itinerario.gradosSueltos && itinerario.gradosSueltos.length > 0 && (
+          <div>
+            <GrupoHeader label="Séptimo grado" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-5 gap-y-7 md:gap-x-6 md:gap-y-8">
+              {itinerario.gradosSueltos.map((grado) => (
+                <GradoCard
+                  key={grado.id}
+                  grado={grado}
+                  color={area.color}
+                  textOnColor={area.textOnColor}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Card: Articulación entre Primaria y Secundaria */}
+        {/* Articulación entre Primaria y Secundaria */}
         {itinerario.articulacion && (
-          <div className="bg-white rounded-2xl lg:rounded-3xl border border-gray-100 p-6 lg:p-8 shadow-sm">
-            <h5 className="text-base lg:text-lg font-bold text-[#494963] mb-6 lg:mb-8 font-display">
-              Articulación entre Primaria y Secundaria
-            </h5>
-            <div className="space-y-2">
+          <div className="pt-2">
+            <GrupoHeader label="Articulación Primaria – Secundaria" />
+            <div className="grid sm:grid-cols-2 gap-4">
               {itinerario.articulacion.map((link, idx) => (
                 <a
                   key={idx}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between py-4 px-4 lg:px-5 rounded-xl hover:bg-gray-50 group/item transition-colors"
+                  className="flex items-center gap-4 rounded-2xl border border-gray-200/80 bg-white px-5 py-4 hover:shadow-md hover:-translate-y-0.5 transition-all group/item"
                 >
-                  <div className="flex items-center gap-4 min-w-0 flex-1">
-                    <div
-                      className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ backgroundColor: `${area.color}15` }}
-                    >
-                      <BookOpen className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="block text-sm lg:text-base text-[#494963] font-semibold">
-                        {link.nombre}
-                      </span>
-                      <span className="text-xs lg:text-sm text-[#494963]/40">{link.descripcion}</span>
-                    </div>
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ backgroundColor: `${area.color}15` }}
+                  >
+                    <BookOpen className="w-5 h-5" style={{ color: area.color }} />
                   </div>
-                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg bg-gray-50 group-hover/item:bg-gray-100 flex items-center justify-center flex-shrink-0 transition-colors">
-                    <ArrowUpRight className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/50" />
+                  <div className="min-w-0 flex-1">
+                    <span className="block text-sm lg:text-base font-semibold text-[#494963]">
+                      {link.nombre}
+                    </span>
+                    <span className="text-xs lg:text-sm text-[#494963]/40">{link.descripcion}</span>
                   </div>
+                  <ArrowUpRight className="w-5 h-5 text-[#494963]/30 group-hover/item:text-[#494963]/60 transition-colors flex-shrink-0" />
                 </a>
               ))}
             </div>
