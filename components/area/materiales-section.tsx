@@ -10,6 +10,7 @@ import {
   type ItinerarioFile,
   type ItinerarioCiclo,
   type ItinerarioCategoria,
+  type ItinerarioSubgrupo,
 } from "@/lib/itinerarios-data";
 
 interface MaterialesSectionProps {
@@ -192,7 +193,7 @@ function MaterialRow({
         className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1"
       >
         {/* Miniatura de portada (primera página del PDF) */}
-        <div className="relative w-11 h-[58px] sm:w-12 sm:h-16 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50">
+        <div className="relative w-14 h-[74px] sm:w-[72px] sm:h-24 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50">
           {file.portada ? (
             <img
               src={file.portada || "/placeholder.svg"}
@@ -202,7 +203,7 @@ function MaterialRow({
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <FileText className="w-4 h-4 text-[#494963]/30" />
+              <FileText className="w-5 h-5 text-[#494963]/30" />
             </div>
           )}
         </div>
@@ -353,8 +354,65 @@ function EmptyCard({ mensaje }: { mensaje?: string }) {
   );
 }
 
+/* Subgrupo desplegable de lista plana (p. ej. Estudiantes / Docencia dentro de
+   Articulación). Se abre por defecto si tiene materiales. */
+function SubgrupoCollapsible({
+  subgrupo,
+  color,
+  textOnColor,
+}: {
+  subgrupo: ItinerarioSubgrupo;
+  color: string;
+  textOnColor: string;
+}) {
+  const totalFiles = subgrupo.files.length;
+  const hasFiles = totalFiles > 0;
+  const [open, setOpen] = useState(hasFiles);
+
+  return (
+    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="w-full flex items-center justify-between gap-3 px-4 sm:px-6 py-4 sm:py-5 text-left hover:bg-gray-50/70 transition-colors"
+      >
+        <span className="flex items-baseline gap-2 min-w-0">
+          <span className="text-sm sm:text-base font-bold text-[#494963]">{subgrupo.nombre}</span>
+          {hasFiles ? (
+            <span className="text-xs text-[#494963]/40">
+              {totalFiles} {totalFiles === 1 ? "material" : "materiales"}
+            </span>
+          ) : (
+            <span className="text-xs font-medium uppercase tracking-wide text-[#494963]/30">
+              Próximamente
+            </span>
+          )}
+        </span>
+        <ChevronDown
+          className={`w-5 h-5 flex-shrink-0 text-[#494963]/30 transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open &&
+        (hasFiles ? (
+          <div className="border-t border-gray-100 px-3 sm:px-5 pt-3 sm:pt-4 pb-3 sm:pb-5 space-y-0.5">
+            {subgrupo.files.map((file, idx) => (
+              <MaterialRow key={idx} file={file} color={color} textOnColor={textOnColor} />
+            ))}
+          </div>
+        ) : (
+          <div className="border-t border-gray-100 px-4 sm:px-6 py-8 text-center">
+            <p className="text-sm text-[#494963]/40 text-pretty">
+              Estamos preparando estos materiales.
+            </p>
+          </div>
+        ))}
+    </div>
+  );
+}
+
 /* Bloque de una categoría del repositorio (secuencias, guías, articulación,
-   anexos). Renderiza ciclos desplegables o una lista plana de materiales. */
+   anexos). Renderiza ciclos desplegables, subgrupos o una lista plana. */
 function CategoriaBlock({
   categoria,
   color,
@@ -408,6 +466,17 @@ function CategoriaBlock({
               textOnColor={textOnColor}
             />
           )}
+        </div>
+      ) : categoria.subgrupos ? (
+        <div className="space-y-3">
+          {categoria.subgrupos.map((subgrupo: ItinerarioSubgrupo) => (
+            <SubgrupoCollapsible
+              key={subgrupo.id}
+              subgrupo={subgrupo}
+              color={color}
+              textOnColor={textOnColor}
+            />
+          ))}
         </div>
       ) : categoria.files && categoria.files.length > 0 ? (
         <div className="rounded-2xl border border-gray-100 bg-white p-3 sm:p-5 shadow-sm space-y-0.5">

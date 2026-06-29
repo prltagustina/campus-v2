@@ -28,12 +28,14 @@ export interface ItinerarioCiclo {
   grados: ItinerarioGrado[];
 }
 
-export type CategoriaId =
-  | "secuencias"
-  | "guias"
-  | "articulacion-estudiantes"
-  | "articulacion-docencia"
-  | "anexos";
+export type CategoriaId = "secuencias" | "guias" | "articulacion" | "anexos";
+
+/** Subgrupo desplegable dentro de una categoría (p. ej. Estudiantes / Docencia). */
+export interface ItinerarioSubgrupo {
+  id: string;
+  nombre: string;
+  files: ItinerarioFile[];
+}
 
 export interface ItinerarioCategoria {
   id: CategoriaId;
@@ -44,7 +46,9 @@ export interface ItinerarioCategoria {
   /** Categorías organizadas por ciclo/grado (secuencias, guías). */
   ciclos?: ItinerarioCiclo[];
   gradosSueltos?: ItinerarioGrado[];
-  /** Categorías de lista plana (articulación, anexos). */
+  /** Categorías con subgrupos desplegables (articulación: estudiantes/docencia). */
+  subgrupos?: ItinerarioSubgrupo[];
+  /** Categorías de lista plana (anexos). */
   files?: ItinerarioFile[];
 }
 
@@ -246,16 +250,21 @@ export function getItinerario(slug: string): AreaItinerario {
       gradosSueltos: septimoVacio(),
     },
     {
-      id: "articulacion-estudiantes",
-      nombre: "Articulación primaria – secundaria · Estudiantes",
-      descripcion: "Materiales para acompañar a estudiantes en la articulación.",
-      files: articulacion?.estudiantes ?? [],
-    },
-    {
-      id: "articulacion-docencia",
-      nombre: "Articulación primaria – secundaria · Docencia",
-      descripcion: "Materiales para orientar la tarea docente en la articulación.",
-      files: articulacion?.docencia ?? [],
+      id: "articulacion",
+      nombre: "Articulación primaria – secundaria",
+      descripcion: "Materiales para estudiantes y para la docencia.",
+      subgrupos: [
+        {
+          id: "estudiantes",
+          nombre: "Estudiantes",
+          files: articulacion?.estudiantes ?? [],
+        },
+        {
+          id: "docencia",
+          nombre: "Docencia",
+          files: articulacion?.docencia ?? [],
+        },
+      ],
     },
     {
       id: "anexos",
