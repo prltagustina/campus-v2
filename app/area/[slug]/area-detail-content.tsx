@@ -125,7 +125,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
   const [expandedGrados, setExpandedGrados] = useState<string[]>([
     "presentacion",
   ]);
-  const [activeSection, setActiveSection] = useState<string>("descarga");
+  const [activeSection, setActiveSection] = useState<string>("materiales");
   const [showAreasNav, setShowAreasNav] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeAxis, setActiveAxis] = useState<number | null>(null);
@@ -152,9 +152,9 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
   }, [selectedSubarea]);
 
   useEffect(() => {
-    const ids = ["descarga", "materiales", "ejes", "video", "formacion"];
+    const ids = ["materiales", "descarga", "ejes", "video", "formacion"];
     const onScroll = () => {
-      let cur = "descarga";
+      let cur = "materiales";
       for (const id of ids) {
         const el = document.getElementById(id);
         if (el && el.getBoundingClientRect().top <= 200) cur = id;
@@ -214,24 +214,24 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
       <main>
         {/* CONTENT SECTIONS -- no divider lines, generous spacing */}
         <div className="relative">
-          {/* 1. Descarga Documento -- light gray bg */}
-          <RevealSection delay={0.05} style="scale" className="scroll-mt-24 bg-[#EDEDF0]">
-            <ParallaxLayer speed={0.1}>
+          {/* 1. Itinerarios didácticos -- light gray bg */}
+          <RevealSection
+            delay={0.05}
+            style="slide-left"
+            className="scroll-mt-24 bg-[#EDEDF0]"
+          >
+            <ParallaxLayer speed={0.08}>
               <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-16 md:pt-24 pb-24 md:pb-36 lg:pb-44">
-                <DescargaDocumentoSection area={area} selectedSubarea={selectedSubarea} />
+                <MaterialesSection area={area} />
               </div>
             </ParallaxLayer>
           </RevealSection>
 
-          {/* 2. Itinerarios didácticos -- white bg */}
-          <RevealSection
-            delay={0.06}
-            style="slide-left"
-            className="scroll-mt-24 bg-white"
-          >
-            <ParallaxLayer speed={0.08}>
+          {/* 2. Descarga Documento -- white bg */}
+          <RevealSection delay={0.06} style="scale" className="scroll-mt-24 bg-white">
+            <ParallaxLayer speed={0.1}>
               <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-                <MaterialesSection area={area} />
+                <DescargaDocumentoSection area={area} selectedSubarea={selectedSubarea} />
               </div>
             </ParallaxLayer>
           </RevealSection>
