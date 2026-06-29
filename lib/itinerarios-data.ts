@@ -28,7 +28,12 @@ export interface ItinerarioCiclo {
   grados: ItinerarioGrado[];
 }
 
-export type CategoriaId = "secuencias" | "guias" | "articulacion" | "anexos";
+export type CategoriaId =
+  | "secuencias"
+  | "guias"
+  | "articulacion-estudiantes"
+  | "articulacion-docencia"
+  | "anexos";
 
 export interface ItinerarioCategoria {
   id: CategoriaId;
@@ -152,50 +157,67 @@ const secuenciasPorArea: Record<string, SecuenciasArea> = {
   },
 };
 
-/* ── Articulación primaria-secundaria (estudiantes + docencia), por área ── */
-const articulacionPorArea: Record<string, ItinerarioFile[]> = {
-  "ciencias-sociales": [
-    {
-      nombre: "Aprender a estudiar con autonomía – Para estudiantes",
-      formato: "PDF",
-      url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf`,
-      portada: "/portadas/ciencias-sociales-articulacion-estudiantes.jpg",
-    },
-    {
-      nombre: "Aprender a estudiar con autonomía – Para la docencia",
-      formato: "PDF",
-      url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf`,
-      portada: "/portadas/ciencias-sociales-articulacion-docentes.jpg",
-    },
-  ],
-  "lengua-y-literatura": [
-    {
-      nombre: "Aprender a estudiar con autonomía – Para estudiantes",
-      formato: "PDF",
-      url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf`,
-      portada: "/portadas/lengua-articulacion-estudiantes.jpg",
-    },
-    {
-      nombre: "Aprender a estudiar con autonomía – Para la docencia",
-      formato: "PDF",
-      url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf`,
-      portada: "/portadas/lengua-articulacion-docentes.jpg",
-    },
-  ],
-  "ciencias-naturales": [
-    {
-      nombre: "Aprender a estudiar con autonomía – Para estudiantes",
-      formato: "PDF",
-      url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf`,
-      portada: "/portadas/ciencias-naturales-articulacion-estudiantes.jpg",
-    },
-    {
-      nombre: "Aprender a estudiar con autonomía – Para la docencia",
-      formato: "PDF",
-      url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf`,
-      portada: "/portadas/ciencias-naturales-articulacion-docentes.jpg",
-    },
-  ],
+/* ── Articulación primaria-secundaria, separada en estudiantes y docencia ── */
+interface ArticulacionArea {
+  estudiantes: ItinerarioFile[];
+  docencia: ItinerarioFile[];
+}
+
+const articulacionPorArea: Record<string, ArticulacionArea> = {
+  "ciencias-sociales": {
+    estudiantes: [
+      {
+        nombre: "Aprender a estudiar con autonomía",
+        formato: "PDF",
+        url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf`,
+        portada: "/portadas/ciencias-sociales-articulacion-estudiantes.jpg",
+      },
+    ],
+    docencia: [
+      {
+        nombre: "Aprender a estudiar con autonomía",
+        formato: "PDF",
+        url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf`,
+        portada: "/portadas/ciencias-sociales-articulacion-docentes.jpg",
+      },
+    ],
+  },
+  "lengua-y-literatura": {
+    estudiantes: [
+      {
+        nombre: "Aprender a estudiar con autonomía",
+        formato: "PDF",
+        url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf`,
+        portada: "/portadas/lengua-articulacion-estudiantes.jpg",
+      },
+    ],
+    docencia: [
+      {
+        nombre: "Aprender a estudiar con autonomía",
+        formato: "PDF",
+        url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf`,
+        portada: "/portadas/lengua-articulacion-docentes.jpg",
+      },
+    ],
+  },
+  "ciencias-naturales": {
+    estudiantes: [
+      {
+        nombre: "Aprender a estudiar con autonomía",
+        formato: "PDF",
+        url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf`,
+        portada: "/portadas/ciencias-naturales-articulacion-estudiantes.jpg",
+      },
+    ],
+    docencia: [
+      {
+        nombre: "Aprender a estudiar con autonomía",
+        formato: "PDF",
+        url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf`,
+        portada: "/portadas/ciencias-naturales-articulacion-docentes.jpg",
+      },
+    ],
+  },
 };
 
 /**
@@ -205,7 +227,7 @@ const articulacionPorArea: Record<string, ItinerarioFile[]> = {
  */
 export function getItinerario(slug: string): AreaItinerario {
   const secuencias = secuenciasPorArea[slug];
-  const articulacion = articulacionPorArea[slug] ?? [];
+  const articulacion = articulacionPorArea[slug];
 
   const categorias: ItinerarioCategoria[] = [
     {
@@ -224,10 +246,16 @@ export function getItinerario(slug: string): AreaItinerario {
       gradosSueltos: septimoVacio(),
     },
     {
-      id: "articulacion",
-      nombre: "Articulación primaria – secundaria",
-      descripcion: "Materiales para estudiantes y para la docencia.",
-      files: articulacion,
+      id: "articulacion-estudiantes",
+      nombre: "Articulación primaria – secundaria · Estudiantes",
+      descripcion: "Materiales para acompañar a estudiantes en la articulación.",
+      files: articulacion?.estudiantes ?? [],
+    },
+    {
+      id: "articulacion-docencia",
+      nombre: "Articulación primaria – secundaria · Docencia",
+      descripcion: "Materiales para orientar la tarea docente en la articulación.",
+      files: articulacion?.docencia ?? [],
     },
     {
       id: "anexos",

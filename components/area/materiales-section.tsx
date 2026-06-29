@@ -245,8 +245,8 @@ function MaterialRow({
   );
 }
 
-/* Bloque de un grado dentro de un ciclo: etiqueta + filas de materiales,
-   o estado "Próximamente" si todavía no hay material cargado. */
+/* Bloque de un grado dentro de un ciclo con material: etiqueta + filas.
+   Si el grado todavía no tiene material, muestra solo el nombre apagado. */
 function GradoBlock({
   grado,
   color,
@@ -260,15 +260,13 @@ function GradoBlock({
   return (
     <div className="py-4 first:pt-0 last:pb-0">
       <div className="flex items-baseline gap-2 mb-2 px-2 sm:px-3">
-        <h6 className="text-sm sm:text-base font-bold text-[#494963]">{grado.name}</h6>
-        {hasFiles ? (
-          grado.files.length > 1 && (
-            <span className="text-xs text-[#494963]/35">{grado.files.length} materiales</span>
-          )
-        ) : (
-          <span className="text-xs font-medium uppercase tracking-wide text-[#494963]/30">
-            Próximamente
-          </span>
+        <h6
+          className={`text-sm sm:text-base font-bold ${hasFiles ? "text-[#494963]" : "text-[#494963]/30"}`}
+        >
+          {grado.name}
+        </h6>
+        {hasFiles && grado.files.length > 1 && (
+          <span className="text-xs text-[#494963]/35">{grado.files.length} materiales</span>
         )}
       </div>
       {hasFiles && (
@@ -323,26 +321,33 @@ function CicloCollapsible({
           className={`w-5 h-5 flex-shrink-0 text-[#494963]/30 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
-      {open && (
-        <div className="px-3 sm:px-5 pb-3 sm:pb-5">
-          <div className="divide-y divide-gray-100">
-            {grados.map((grado) => (
-              <GradoBlock key={grado.id} grado={grado} color={color} textOnColor={textOnColor} />
-            ))}
+      {open &&
+        (hasFiles ? (
+          <div className="border-t border-gray-100 px-3 sm:px-5 pt-3 sm:pt-4 pb-3 sm:pb-5">
+            <div className="divide-y divide-gray-100">
+              {grados.map((grado) => (
+                <GradoBlock key={grado.id} grado={grado} color={color} textOnColor={textOnColor} />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="border-t border-gray-100 px-4 sm:px-6 py-8 text-center">
+            <p className="text-sm text-[#494963]/40 text-pretty">
+              Estamos preparando los materiales de este ciclo.
+            </p>
+          </div>
+        ))}
     </div>
   );
 }
 
 /* Estado vacío para categorías de lista plana sin material todavía. */
-function EmptyCard() {
+function EmptyCard({ mensaje }: { mensaje?: string }) {
   return (
-    <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50/60 px-5 py-10 flex flex-col items-center justify-center gap-2 text-center">
+    <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50/60 px-5 py-10 flex flex-col items-center justify-center gap-2.5 text-center">
       <FileText className="w-6 h-6 text-[#494963]/20" />
-      <span className="text-xs font-medium uppercase tracking-wide text-[#494963]/30">
-        Próximamente
+      <span className="text-sm text-[#494963]/40 text-pretty">
+        {mensaje ?? "Estamos preparando estos materiales."}
       </span>
     </div>
   );
