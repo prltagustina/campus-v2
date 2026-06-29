@@ -99,11 +99,6 @@ interface SecuenciasArea {
 
 const secuenciasPorArea: Record<string, SecuenciasArea> = {
   matematica: {
-    recursoGeneral: {
-      nombre: "Planilla de secuencias",
-      descripcion: "Planilla general de secuencias",
-      url: "https://docs.google.com/spreadsheets/d/1wzZBRgu58-_jMvlkIjNguKpQc9nKVIJJhdGnDEcYTFQ/edit?usp=sharing",
-    },
     ciclos: [
       {
         id: "primer-ciclo",
