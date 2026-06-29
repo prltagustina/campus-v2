@@ -187,7 +187,7 @@ export function MobileNav({
               className="text-[10px]"
               style={{ color: activeSection === "materiales" ? area.color : "rgba(255,255,255,0.5)" }}
             >
-              Descargas
+              Itinerarios
             </span>
           </button>
 

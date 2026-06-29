@@ -2,14 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FileText, Clock, ArrowDownToLine, ChevronRight, ChevronDown, BookOpen, Download, ArrowRight } from "lucide-react";
+import { FileText, ChevronDown, BookOpen, Download, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
+import { getItinerario, type ItinerarioGrado, type ItinerarioFile } from "@/lib/itinerarios-data";
 
 interface MaterialesSectionProps {
   area: Area;
 }
 
-type Categoria = "descargas" | "jornada-ampliada";
 type CategoriaRecurso = "secuencias" | "audiovisuales" | "guias";
 
 /* Idiomas disponibles para Lenguas Extranjeras - orden alfabético, pero Inglés se abre por defecto */
@@ -106,40 +106,142 @@ const secuenciasPorIdioma: Record<
   ],
 };
 
+/* Encabezado de grupo (ciclo) con línea divisoria editorial */
+function GrupoHeader({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-5">
+      <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#494963]/45 whitespace-nowrap">
+        {label}
+      </span>
+      <span className="h-px flex-1 bg-gray-200/70" />
+    </div>
+  );
+}
+
+/* Fila de un material descargable: miniatura de portada + datos + acción de
+   descarga SIEMPRE visible. Toda la fila es un enlace de descarga. */
+function MaterialRow({
+  file,
+  color,
+  textOnColor,
+}: {
+  file: ItinerarioFile;
+  color: string;
+  textOnColor: string;
+}) {
+  const meta = [file.formato ?? "PDF", file.paginas ? `${file.paginas} páginas` : null]
+    .filter(Boolean)
+    .join(" · ");
+  return (
+    <a
+      href={file.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      download
+      aria-label={`Descargar ${file.nombre}`}
+      className="group/item flex items-center gap-3 sm:gap-4 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 hover:bg-gray-50 transition-colors"
+      style={{ ["--area" as string]: color, ["--area-fg" as string]: textOnColor }}
+    >
+      {/* Miniatura de portada (primera página del PDF) */}
+      <div className="relative w-11 h-[58px] sm:w-12 sm:h-16 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50">
+        {file.portada ? (
+          <img
+            src={file.portada || "/placeholder.svg"}
+            alt=""
+            loading="lazy"
+            className="w-full h-full object-cover object-top"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <FileText className="w-4 h-4 text-[#494963]/30" />
+          </div>
+        )}
+      </div>
+
+      {/* Datos del material */}
+      <div className="min-w-0 flex-1">
+        <span className="block text-sm sm:text-base font-medium text-[#494963] leading-snug line-clamp-2">
+          {file.nombre}
+        </span>
+        <span className="text-xs text-[#494963]/45">{meta}</span>
+      </div>
+
+      {/* Acción de descarga -- siempre visible, se rellena al hover */}
+      <span className="inline-flex items-center gap-1.5 flex-shrink-0 rounded-full border px-3 py-2 text-xs sm:text-sm font-semibold border-[var(--area)] text-[var(--area)] group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] transition-colors">
+        <Download className="w-4 h-4" />
+        <span>Descargar</span>
+      </span>
+    </a>
+  );
+}
+
+/* Bloque de un grado dentro de un ciclo: etiqueta + filas de materiales,
+   o estado "Próximamente" si todavía no hay material cargado. */
+function GradoBlock({
+  grado,
+  color,
+  textOnColor,
+}: {
+  grado: ItinerarioGrado;
+  color: string;
+  textOnColor: string;
+}) {
+  const hasFiles = grado.files.length > 0;
+  return (
+    <div className="py-4 first:pt-0 last:pb-0">
+      <div className="flex items-baseline gap-2 mb-2 px-2 sm:px-3">
+        <h6 className="text-sm sm:text-base font-bold text-[#494963]">{grado.name}</h6>
+        {hasFiles ? (
+          grado.files.length > 1 && (
+            <span className="text-xs text-[#494963]/35">{grado.files.length} materiales</span>
+          )
+        ) : (
+          <span className="text-xs font-medium uppercase tracking-wide text-[#494963]/30">
+            Próximamente
+          </span>
+        )}
+      </div>
+      {hasFiles && (
+        <div className="space-y-0.5">
+          {grado.files.map((file, idx) => (
+            <MaterialRow key={idx} file={file} color={color} textOnColor={textOnColor} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* Tarjeta-contenedor de un grupo (ciclo) con título y bloques de grado. */
+function CicloCard({
+  title,
+  grados,
+  color,
+  textOnColor,
+}: {
+  title: string;
+  grados: ItinerarioGrado[];
+  color: string;
+  textOnColor: string;
+}) {
+  return (
+    <div className="rounded-2xl lg:rounded-3xl border border-gray-100 bg-white p-4 sm:p-6 lg:p-8 shadow-sm">
+      <GrupoHeader label={title} />
+      <div className="divide-y divide-gray-100">
+        {grados.map((grado) => (
+          <GradoBlock key={grado.id} grado={grado} color={color} textOnColor={textOnColor} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function MaterialesSection({ area }: MaterialesSectionProps) {
   const isLenguasExtranjeras = area.slug === "lenguas-extranjeras";
 
-  const [categoriaActiva, setCategoriaActiva] =
-    useState<Categoria>("descargas");
   // Inglés siempre activo por defecto
   const [idiomaSeleccionado, setIdiomaSeleccionado] = useState<string>("ingles");
   const [categoriaRecursoAbierta, setCategoriaRecursoAbierta] = useState<CategoriaRecurso | null>(null);
-
-  const categorias: { id: Categoria; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: "descargas", label: "Descargas", icon: ArrowDownToLine },
-    { id: "jornada-ampliada", label: "Jornada Ampliada", icon: Clock },
-  ];
-
-  const jornadaFiles = [
-    {
-      nombre: `Cuadernillo Jornada Ampliada - ${area.name} - Primer Ciclo`,
-      formato: "PDF",
-      size: "2.4 MB",
-    },
-    {
-      nombre: `Cuadernillo Jornada Ampliada - ${area.name} - Segundo Ciclo`,
-      formato: "PDF",
-      size: "3.1 MB",
-    },
-  ];
-
-  const docFiles = [
-    { nombre: `Programa de estudio - ${area.name}`, formato: "PDF", size: "1.8 MB" },
-    { nombre: `Guía didáctica - ${area.name}`, formato: "PDF", size: "2.2 MB" },
-    { nombre: `Planificación anual - ${area.name}`, formato: "PDF", size: "1.5 MB" },
-  ];
-
-  const files = categoriaActiva === "descargas" ? docFiles : jornadaFiles;
 
   const toggleCategoriaRecurso = (cat: CategoriaRecurso) => {
     setCategoriaRecursoAbierta(categoriaRecursoAbierta === cat ? null : cat);
@@ -680,78 +782,87 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
     );
   }
 
-  /* Para otras áreas: mostrar tabs y archivos normales */
+  /* Para otras áreas: Itinerarios didácticos -- grilla editorial de portadas */
+  const itinerario = getItinerario(area.slug);
+
   return (
     <section id="materiales" className="scroll-mt-32">
       {/* Section header */}
-      <div className="flex flex-col items-center text-center mb-14 md:mb-20">
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display">
-          Descarga de materiales
+      <div className="flex flex-col items-center text-center mb-10 md:mb-14">
+        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display text-balance">
+          Itinerarios didácticos
         </h3>
-      </div>
-
-      {/* Category tabs */}
-      <div className="flex flex-wrap justify-center gap-3 mb-10 md:mb-12">
-        {categorias.map((cat) => {
-          const isActive = categoriaActiva === cat.id;
-          const Icon = cat.icon;
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setCategoriaActiva(cat.id)}
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-semibold transition-all border"
-              style={{
-                backgroundColor: isActive ? area.color : "transparent",
-                borderColor: isActive ? area.color : "#e5e5e5",
-                color: isActive ? area.textOnColor : "#494963",
-                opacity: isActive ? 1 : 0.6,
-              }}
-            >
-              <Icon className="w-4 h-4" />
-              {cat.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Files list */}
-      <div className="max-w-3xl mx-auto flex flex-col gap-4">
-        {files.map((file) => (
-          <div
-            key={file.nombre}
-            className="group flex items-center gap-5 rounded-2xl border border-gray-100 bg-white px-6 py-5 transition-all hover:border-gray-200 hover:shadow-md"
+        <p className="text-sm sm:text-base text-[#494963]/50 mt-3 max-w-md text-pretty">
+          Secuencias didácticas organizadas por ciclo y grado.
+        </p>
+        {itinerario.recursoGeneral && (
+          <a
+            href={itinerario.recursoGeneral.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-70"
+            style={{ color: area.color }}
           >
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: `${area.color}0D` }}
-            >
-              <FileText className="w-5 h-5" style={{ color: area.color }} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm md:text-base text-[#494963] font-medium truncate leading-snug">
-                {file.nombre}
-              </p>
-              <p className="text-xs text-[#494963]/35 mt-1">
-                {file.formato} &middot; {file.size}
-              </p>
-            </div>
-            <button
-              type="button"
-              className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all text-[#494963]/30 hover:text-white group-hover:opacity-100 opacity-60"
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = area.color;
-                (e.currentTarget as HTMLElement).style.color = "white";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = "";
-                (e.currentTarget as HTMLElement).style.color = "";
-              }}
-            >
-              <ArrowDownToLine className="w-4 h-4" />
-            </button>
-          </div>
+            <span>Ver planilla de secuencias</span>
+            <ArrowUpRight className="w-4 h-4" />
+          </a>
+        )}
+      </div>
+
+      {/* Repositorio editorial: tarjetas por ciclo con filas de materiales */}
+      <div className="max-w-3xl mx-auto space-y-5 md:space-y-6">
+        {/* Ciclos */}
+        {itinerario.ciclos.map((ciclo) => (
+          <CicloCard
+            key={ciclo.id}
+            title={ciclo.name}
+            grados={ciclo.grados}
+            color={area.color}
+            textOnColor={area.textOnColor}
+          />
         ))}
+
+        {/* Grados sueltos (Séptimo grado) */}
+        {itinerario.gradosSueltos && itinerario.gradosSueltos.length > 0 && (
+          <CicloCard
+            title="Séptimo grado"
+            grados={itinerario.gradosSueltos}
+            color={area.color}
+            textOnColor={area.textOnColor}
+          />
+        )}
+
+        {/* Articulación entre Primaria y Secundaria */}
+        {itinerario.articulacion && (
+          <div className="pt-2">
+            <GrupoHeader label="Articulación Primaria – Secundaria" />
+            <div className="grid sm:grid-cols-2 gap-4">
+              {itinerario.articulacion.map((link, idx) => (
+                <a
+                  key={idx}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 rounded-2xl border border-gray-200/80 bg-white px-5 py-4 hover:shadow-md hover:-translate-y-0.5 transition-all group/item"
+                >
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ backgroundColor: `${area.color}15` }}
+                  >
+                    <BookOpen className="w-5 h-5" style={{ color: area.color }} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className="block text-sm lg:text-base font-semibold text-[#494963]">
+                      {link.nombre}
+                    </span>
+                    <span className="text-xs lg:text-sm text-[#494963]/40">{link.descripcion}</span>
+                  </div>
+                  <ArrowUpRight className="w-5 h-5 text-[#494963]/30 group-hover/item:text-[#494963]/60 transition-colors flex-shrink-0" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
