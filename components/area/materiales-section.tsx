@@ -212,16 +212,6 @@ function MaterialRow({
 
       {/* Acciones -- siempre visibles */}
       <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-        {/* Compartir */}
-        <button
-          type="button"
-          onClick={handleShare}
-          aria-label={copied ? "Enlace copiado" : `Compartir ${file.nombre}`}
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-gray-200 text-[#494963]/60 hover:border-[var(--area)] hover:text-[var(--area)] transition-colors"
-        >
-          {copied ? <Check className="w-4 h-4 text-[var(--area)]" /> : <Share2 className="w-4 h-4" />}
-        </button>
-
         {/* Descargar */}
         <a
           href={file.url}
@@ -234,6 +224,16 @@ function MaterialRow({
           <Download className="w-4 h-4" />
           <span className="hidden sm:inline">Descargar</span>
         </a>
+
+        {/* Compartir -- a la derecha de Descargar */}
+        <button
+          type="button"
+          onClick={handleShare}
+          aria-label={copied ? "Enlace copiado" : `Compartir ${file.nombre}`}
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-gray-200 text-[#494963]/60 hover:border-[var(--area)] hover:text-[var(--area)] transition-colors"
+        >
+          {copied ? <Check className="w-4 h-4 text-[var(--area)]" /> : <Share2 className="w-4 h-4" />}
+        </button>
       </div>
     </div>
   );
