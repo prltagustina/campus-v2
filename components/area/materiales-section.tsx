@@ -193,7 +193,7 @@ function MaterialRow({
         className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1"
       >
         {/* Miniatura de portada (primera página del PDF) */}
-        <div className="relative w-14 h-[74px] sm:w-[72px] sm:h-24 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50">
+        <div className="relative w-12 h-16 sm:w-[72px] sm:h-24 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50">
           {file.portada ? (
             <img
               src={file.portada || "/placeholder.svg"}
@@ -210,7 +210,7 @@ function MaterialRow({
 
         {/* Datos del material */}
         <div className="min-w-0 flex-1">
-          <span className="block text-sm sm:text-base font-medium text-[#494963] leading-snug line-clamp-2">
+          <span className="block text-sm sm:text-base font-medium text-[#494963] leading-snug text-pretty line-clamp-2">
             {file.nombre}
           </span>
           <span className="text-xs text-[#494963]/45">{meta}</span>
@@ -306,14 +306,14 @@ function CicloCollapsible({
         aria-expanded={open}
         className="w-full flex items-center justify-between gap-3 px-4 sm:px-6 py-4 sm:py-5 text-left hover:bg-gray-50/70 transition-colors"
       >
-        <span className="flex items-baseline gap-2 min-w-0">
-          <span className="text-sm sm:text-base font-bold text-[#494963]">{title}</span>
+        <span className="flex flex-col gap-0.5 min-w-0">
+          <span className="text-sm sm:text-base font-bold text-[#494963] leading-snug">{title}</span>
           {hasFiles ? (
             <span className="text-xs text-[#494963]/40">
               {totalFiles} {totalFiles === 1 ? "material" : "materiales"}
             </span>
           ) : (
-            <span className="text-xs font-medium uppercase tracking-wide text-[#494963]/30">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-[#494963]/30">
               Próximamente
             </span>
           )}
@@ -377,14 +377,14 @@ function SubgrupoCollapsible({
         aria-expanded={open}
         className="w-full flex items-center justify-between gap-3 px-4 sm:px-6 py-4 sm:py-5 text-left hover:bg-gray-50/70 transition-colors"
       >
-        <span className="flex items-baseline gap-2 min-w-0">
-          <span className="text-sm sm:text-base font-bold text-[#494963]">{subgrupo.nombre}</span>
+        <span className="flex flex-col gap-0.5 min-w-0">
+          <span className="text-sm sm:text-base font-bold text-[#494963] leading-snug">{subgrupo.nombre}</span>
           {hasFiles ? (
             <span className="text-xs text-[#494963]/40">
               {totalFiles} {totalFiles === 1 ? "material" : "materiales"}
             </span>
           ) : (
-            <span className="text-xs font-medium uppercase tracking-wide text-[#494963]/30">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-[#494963]/30">
               Próximamente
             </span>
           )}
