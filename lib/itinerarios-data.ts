@@ -85,7 +85,7 @@ function ciclosVacios(): ItinerarioCiclo[] {
 }
 
 function septimoVacio(): ItinerarioGrado[] {
-  return [{ id: "7mo", name: "Séptimo grado", files: [] }];
+  return [{ id: "7mo", name: "7mo grado", files: [] }];
 }
 
 /* Áreas que incluyen el bloque de Articulación Primaria-Secundaria */
