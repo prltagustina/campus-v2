@@ -180,7 +180,7 @@ function MaterialRow({
 
   return (
     <div
-      className="group/item flex items-center gap-3 sm:gap-4 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 hover:bg-gray-50 transition-colors"
+      className="group/item flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 rounded-xl px-2 py-3 sm:px-3 sm:py-2.5 hover:bg-gray-50 transition-colors"
       style={{ ["--area" as string]: color, ["--area-fg" as string]: textOnColor }}
     >
       {/* Enlace de descarga -- miniatura + datos (zona principal clickeable) */}
@@ -210,15 +210,15 @@ function MaterialRow({
 
         {/* Datos del material */}
         <div className="min-w-0 flex-1">
-          <span className="block text-sm sm:text-base font-medium text-[#494963] leading-snug text-pretty line-clamp-2">
+          <span className="block text-sm sm:text-base font-medium text-[#494963] leading-snug text-pretty">
             {file.nombre}
           </span>
           <span className="text-xs text-[#494963]/45">{meta}</span>
         </div>
       </a>
 
-      {/* Acciones -- siempre visibles */}
-      <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+      {/* Acciones -- siempre visibles. En mobile van debajo alineadas con el texto. */}
+      <div className="flex items-center gap-2 flex-shrink-0 pl-[60px] sm:pl-0">
         {/* Descargar */}
         <a
           href={file.url}
@@ -226,10 +226,10 @@ function MaterialRow({
           rel="noopener noreferrer"
           download
           aria-label={`Descargar ${file.nombre}`}
-          className="inline-flex items-center justify-center gap-1.5 rounded-full border w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-2 text-xs sm:text-sm font-semibold border-[var(--area)] text-[var(--area)] group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] transition-colors"
+          className="inline-flex items-center justify-center gap-1.5 rounded-full border px-3 py-2 text-xs sm:text-sm font-semibold border-[var(--area)] text-[var(--area)] group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] transition-colors"
         >
           <Download className="w-4 h-4" />
-          <span className="hidden sm:inline">Descargar</span>
+          <span>Descargar</span>
         </a>
 
         {/* Compartir -- a la derecha de Descargar */}
