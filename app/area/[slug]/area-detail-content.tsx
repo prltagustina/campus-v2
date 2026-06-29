@@ -114,45 +114,6 @@ function ParallaxLayer({
   );
 }
 
-/* ─────────────────────────────────────────────
- * FadingHeader -- the media-rueda fades + shrinks
- * as the user scrolls past it.
- * ───────────────────────────────────────────── */
-function FadingHeader({
-  area,
-  activeAxis,
-  setActiveAxis,
-}: {
-  area: Area;
-  activeAxis: number | null;
-  setActiveAxis: (v: number | null) => void;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.55], [1, 0.92]);
-  const translateY = useTransform(scrollYProgress, [0, 0.55], [0, -30]);
-
-  return (
-    <div ref={ref} className="relative" style={{ position: "relative" }}>
-      <motion.div
-        style={{ opacity, scale, y: translateY, transformOrigin: "top center" }}
-      >
-        <AreaHeader
-          area={area}
-          activeAxis={activeAxis}
-          onAxisClick={(idx) =>
-            setActiveAxis(activeAxis === idx ? null : idx)
-          }
-        />
-      </motion.div>
-    </div>
-  );
-}
-
 /* ───────────── Main Component ───────────── */
 interface AreaDetailContentProps {
   area: Area;
@@ -251,13 +212,6 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
       />
 
       <main>
-        {/* HERO: media rueda with parallax fade */}
-        <FadingHeader
-          area={area}
-          activeAxis={activeAxis}
-          setActiveAxis={setActiveAxis}
-        />
-
         {/* CONTENT SECTIONS -- no divider lines, generous spacing */}
         <div className="relative">
           {/* 1. Descarga Documento -- light gray bg */}
@@ -285,6 +239,16 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
           {/* 3. Átomo y media rueda (Ejes) -- light gray bg */}
           <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-[#EDEDF0]">
             <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
+              {/* Media rueda -- now sits with the átomo, no longer a hero */}
+              <div className="mb-12 md:mb-16">
+                <AreaHeader
+                  area={area}
+                  activeAxis={activeAxis}
+                  onAxisClick={(idx) =>
+                    setActiveAxis(activeAxis === idx ? null : idx)
+                  }
+                />
+              </div>
               <SubareasPills
                 area={area}
                 subAreas={subAreas}

@@ -659,91 +659,81 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
   const toggleGrado = (gradoId: string) =>
     setGradoAbierto(gradoAbierto === gradoId ? null : gradoId);
 
-  /* Fila de grado con acordeón -- muestra archivos o estado "Próximamente" */
+  /* Fila de grado con acordeón -- mismo patrón visual que Lenguas Extranjeras */
   const GradoRow = ({ grado }: { grado: { id: string; name: string; files: typeof itinerario.ciclos[number]["grados"][number]["files"] } }) => {
     const isOpen = gradoAbierto === grado.id;
     const tieneArchivos = grado.files.length > 0;
     return (
-      <div
-        className="rounded-xl border border-gray-100 overflow-hidden bg-white transition-colors"
-        style={isOpen ? { borderColor: `${area.color}55` } : undefined}
-      >
+      <div className="border-b border-gray-100 last:border-0">
         <button
           type="button"
-          onClick={() => toggleGrado(grado.id)}
-          className="w-full flex items-center justify-between px-4 sm:px-5 py-4 text-left group"
+          onClick={() => tieneArchivos && toggleGrado(grado.id)}
+          disabled={!tieneArchivos}
+          className={`w-full flex items-center justify-between py-4 lg:py-5 text-left group ${tieneArchivos ? "" : "cursor-default"}`}
           aria-expanded={isOpen}
         >
-          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="flex items-center gap-4 min-w-0">
             <div
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+              className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: `${area.color}15` }}
             >
-              <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: area.color }} />
+              <GraduationCap className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
             </div>
-            <span className="text-sm sm:text-base font-semibold text-[#494963] truncate">
-              {grado.name}
-            </span>
+            <div className="min-w-0">
+              <span className="text-sm lg:text-base font-semibold text-[#494963] block">
+                {grado.name}
+              </span>
+              <span className="text-xs lg:text-sm text-[#494963]/40">
+                {tieneArchivos
+                  ? `${grado.files.length} ${grado.files.length === 1 ? "archivo disponible" : "archivos disponibles"}`
+                  : "Próximamente"}
+              </span>
+            </div>
           </div>
-          <div className="flex items-center gap-3 flex-shrink-0">
-            {tieneArchivos ? (
-              <span className="text-xs text-[#494963]/40">
-                {grado.files.length} {grado.files.length === 1 ? "archivo" : "archivos"}
-              </span>
-            ) : (
-              <span className="text-[11px] font-medium uppercase tracking-wide text-[#494963]/30 hidden sm:inline">
-                Próximamente
-              </span>
-            )}
+          {tieneArchivos && (
             <ChevronDown
-              className={`w-5 h-5 text-[#494963]/30 transition-transform ${isOpen ? "rotate-180" : ""}`}
+              className={`w-5 h-5 lg:w-6 lg:h-6 text-[#494963]/30 transition-transform flex-shrink-0 ${isOpen ? "rotate-180" : ""}`}
             />
-          </div>
+          )}
         </button>
 
-        {isOpen && (
-          <div className="border-t border-gray-100 bg-gray-50/60 animate-in fade-in slide-in-from-top-1 duration-200">
-            {tieneArchivos ? (
-              <div className="p-2 sm:p-3 space-y-1.5">
-                {grado.files.map((file, idx) => (
-                  <a
-                    key={idx}
-                    href={file.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between gap-4 px-3 sm:px-4 py-3.5 rounded-lg bg-white hover:shadow-sm transition-all group/item"
-                  >
-                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
-                      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                        <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/50" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <span className="block text-sm sm:text-base text-[#494963] font-medium truncate">
-                          {file.nombre}
-                        </span>
-                        {(file.formato || file.size || file.paginas) && (
-                          <span className="text-xs text-[#494963]/40">
-                            {[file.formato, file.paginas ? `${file.paginas} pág.` : null, file.size]
-                              .filter(Boolean)
-                              .join(" · ")}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div
-                      className="w-10 h-10 rounded-lg bg-gray-50 group-hover/item:bg-gray-100 flex items-center justify-center flex-shrink-0 transition-colors"
-                      style={{ color: area.color }}
-                    >
-                      <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </div>
-                  </a>
-                ))}
-              </div>
-            ) : (
-              <p className="px-4 sm:px-5 py-5 text-sm text-[#494963]/40">
-                Los materiales de este grado estarán disponibles próximamente.
-              </p>
-            )}
+        {tieneArchivos && isOpen && (
+          <div className="pb-4 lg:pb-6 space-y-2">
+            {grado.files.map((file, idx) => (
+              <a
+                key={idx}
+                href={file.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between py-4 px-4 lg:px-5 rounded-xl hover:bg-gray-50 group/item transition-colors"
+              >
+                <div className="flex items-center gap-4 min-w-0 flex-1">
+                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <FileText className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/50" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className="text-sm lg:text-base text-[#494963] font-medium block truncate">
+                      {file.nombre}
+                    </span>
+                    {(file.formato || file.paginas) && (
+                      <span className="text-xs lg:text-sm text-[#494963]/40">
+                        {[file.formato, file.paginas ? `${file.paginas} páginas` : null]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  {file.size && (
+                    <span className="text-xs lg:text-sm text-[#494963]/30 hidden sm:inline">{file.size}</span>
+                  )}
+                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg bg-gray-50 group-hover/item:bg-gray-100 flex items-center justify-center transition-colors">
+                    <Download className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/50" />
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
         )}
       </div>
@@ -764,20 +754,12 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
 
       <div className="max-w-3xl mx-auto space-y-6">
         {/* Card: Secuencias didácticas */}
-        <div className="bg-white rounded-2xl lg:rounded-3xl border border-gray-100 p-5 sm:p-6 lg:p-8 shadow-sm">
+        <div className="bg-white rounded-2xl lg:rounded-3xl border border-gray-100 p-6 lg:p-8 shadow-sm">
           {/* Card header */}
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6 lg:mb-8">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center"
-                style={{ backgroundColor: `${area.color}15` }}
-              >
-                <FileText className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
-              </div>
-              <h4 className="text-base lg:text-lg font-bold text-[#494963] font-display">
-                Secuencias didácticas
-              </h4>
-            </div>
+            <h5 className="text-base lg:text-lg font-bold text-[#494963] font-display">
+              Secuencias didácticas
+            </h5>
             {itinerario.recursoGeneral && (
               <a
                 href={itinerario.recursoGeneral.url}
@@ -793,13 +775,13 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </div>
 
           {/* Ciclos con grados */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             {itinerario.ciclos.map((ciclo) => (
               <div key={ciclo.id}>
-                <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#494963]/40 mb-2.5 pl-1">
+                <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#494963]/40 mb-1">
                   {ciclo.name}
                 </p>
-                <div className="space-y-2">
+                <div>
                   {ciclo.grados.map((grado) => (
                     <GradoRow key={grado.id} grado={grado} />
                   ))}
@@ -809,7 +791,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
 
             {/* Grados sueltos (Séptimo grado) */}
             {itinerario.gradosSueltos && itinerario.gradosSueltos.length > 0 && (
-              <div className="space-y-2">
+              <div>
                 {itinerario.gradosSueltos.map((grado) => (
                   <GradoRow key={grado.id} grado={grado} />
                 ))}
@@ -820,18 +802,10 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
 
         {/* Card: Articulación entre Primaria y Secundaria */}
         {itinerario.articulacion && (
-          <div className="bg-white rounded-2xl lg:rounded-3xl border border-gray-100 p-5 sm:p-6 lg:p-8 shadow-sm">
-            <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center"
-                style={{ backgroundColor: `${area.color}15` }}
-              >
-                <BookOpen className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
-              </div>
-              <h4 className="text-base lg:text-lg font-bold text-[#494963] font-display">
-                Articulación entre Primaria y Secundaria
-              </h4>
-            </div>
+          <div className="bg-white rounded-2xl lg:rounded-3xl border border-gray-100 p-6 lg:p-8 shadow-sm">
+            <h5 className="text-base lg:text-lg font-bold text-[#494963] mb-6 lg:mb-8 font-display">
+              Articulación entre Primaria y Secundaria
+            </h5>
             <div className="space-y-2">
               {itinerario.articulacion.map((link, idx) => (
                 <a
@@ -839,19 +813,24 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between gap-4 px-4 sm:px-5 py-4 rounded-xl border border-gray-100 hover:shadow-sm transition-all group/item"
+                  className="flex items-center justify-between py-4 px-4 lg:px-5 rounded-xl hover:bg-gray-50 group/item transition-colors"
                 >
-                  <div className="min-w-0 flex-1">
-                    <span className="block text-sm sm:text-base text-[#494963] font-semibold">
-                      {link.nombre}
-                    </span>
-                    <span className="text-xs text-[#494963]/40">{link.descripcion}</span>
+                  <div className="flex items-center gap-4 min-w-0 flex-1">
+                    <div
+                      className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ backgroundColor: `${area.color}15` }}
+                    >
+                      <BookOpen className="w-5 h-5 lg:w-6 lg:h-6" style={{ color: area.color }} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="block text-sm lg:text-base text-[#494963] font-semibold">
+                        {link.nombre}
+                      </span>
+                      <span className="text-xs lg:text-sm text-[#494963]/40">{link.descripcion}</span>
+                    </div>
                   </div>
-                  <div
-                    className="w-10 h-10 rounded-lg bg-gray-50 group-hover/item:bg-gray-100 flex items-center justify-center flex-shrink-0 transition-colors"
-                    style={{ color: area.color }}
-                  >
-                    <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-lg bg-gray-50 group-hover/item:bg-gray-100 flex items-center justify-center flex-shrink-0 transition-colors">
+                    <ArrowUpRight className="w-4 h-4 lg:w-5 lg:h-5 text-[#494963]/50" />
                   </div>
                 </a>
               ))}
