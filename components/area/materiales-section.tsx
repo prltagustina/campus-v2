@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { FileText, ChevronDown, BookOpen, Download, ArrowRight, ArrowUpRight } from "lucide-react";
+import { FileText, ChevronDown, BookOpen, Download, ArrowRight, ArrowUpRight, Share2, Check } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import { getItinerario, type ItinerarioGrado, type ItinerarioFile } from "@/lib/itinerarios-data";
 
@@ -118,8 +118,8 @@ function GrupoHeader({ label }: { label: string }) {
   );
 }
 
-/* Fila de un material descargable: miniatura de portada + datos + acción de
-   descarga SIEMPRE visible. Toda la fila es un enlace de descarga. */
+/* Fila de un material descargable: miniatura de portada + datos + acciones
+   (compartir y descargar) SIEMPRE visibles. */
 function MaterialRow({
   file,
   color,
@@ -129,49 +129,113 @@ function MaterialRow({
   color: string;
   textOnColor: string;
 }) {
+  const [copied, setCopied] = useState(false);
   const meta = [file.formato ?? "PDF", file.paginas ? `${file.paginas} páginas` : null]
     .filter(Boolean)
     .join(" · ");
+
+  const handleShare = async () => {
+    const shareData = {
+      title: file.nombre,
+      text: `${file.nombre} - Campus Educativo Santa Fe`,
+      url: file.url,
+    };
+    const showCopied = () => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    };
+    try {
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(file.url);
+        showCopied();
+      } else {
+        const input = document.createElement("input");
+        input.value = file.url;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        showCopied();
+      }
+    } catch (err) {
+      if ((err as Error).name !== "AbortError") {
+        try {
+          await navigator.clipboard.writeText(file.url);
+          showCopied();
+        } catch {
+          /* Silenciar si todo falla */
+        }
+      }
+    }
+  };
+
   return (
-    <a
-      href={file.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      download
-      aria-label={`Descargar ${file.nombre}`}
+    <div
       className="group/item flex items-center gap-3 sm:gap-4 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 hover:bg-gray-50 transition-colors"
       style={{ ["--area" as string]: color, ["--area-fg" as string]: textOnColor }}
     >
-      {/* Miniatura de portada (primera página del PDF) */}
-      <div className="relative w-11 h-[58px] sm:w-12 sm:h-16 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50">
-        {file.portada ? (
-          <img
-            src={file.portada || "/placeholder.svg"}
-            alt=""
-            loading="lazy"
-            className="w-full h-full object-cover object-top"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <FileText className="w-4 h-4 text-[#494963]/30" />
-          </div>
-        )}
-      </div>
+      {/* Enlace de descarga -- miniatura + datos (zona principal clickeable) */}
+      <a
+        href={file.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        download
+        aria-label={`Descargar ${file.nombre}`}
+        className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1"
+      >
+        {/* Miniatura de portada (primera página del PDF) */}
+        <div className="relative w-11 h-[58px] sm:w-12 sm:h-16 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50">
+          {file.portada ? (
+            <img
+              src={file.portada || "/placeholder.svg"}
+              alt=""
+              loading="lazy"
+              className="w-full h-full object-cover object-top"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <FileText className="w-4 h-4 text-[#494963]/30" />
+            </div>
+          )}
+        </div>
 
-      {/* Datos del material */}
-      <div className="min-w-0 flex-1">
-        <span className="block text-sm sm:text-base font-medium text-[#494963] leading-snug line-clamp-2">
-          {file.nombre}
-        </span>
-        <span className="text-xs text-[#494963]/45">{meta}</span>
-      </div>
+        {/* Datos del material */}
+        <div className="min-w-0 flex-1">
+          <span className="block text-sm sm:text-base font-medium text-[#494963] leading-snug line-clamp-2">
+            {file.nombre}
+          </span>
+          <span className="text-xs text-[#494963]/45">{meta}</span>
+        </div>
+      </a>
 
-      {/* Acción de descarga -- siempre visible, se rellena al hover */}
-      <span className="inline-flex items-center gap-1.5 flex-shrink-0 rounded-full border px-3 py-2 text-xs sm:text-sm font-semibold border-[var(--area)] text-[var(--area)] group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] transition-colors">
-        <Download className="w-4 h-4" />
-        <span>Descargar</span>
-      </span>
-    </a>
+      {/* Acciones -- siempre visibles */}
+      <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+        {/* Compartir */}
+        <button
+          type="button"
+          onClick={handleShare}
+          aria-label={copied ? "Enlace copiado" : `Compartir ${file.nombre}`}
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-gray-200 text-[#494963]/60 hover:border-[var(--area)] hover:text-[var(--area)] transition-colors"
+        >
+          {copied ? <Check className="w-4 h-4 text-[var(--area)]" /> : <Share2 className="w-4 h-4" />}
+        </button>
+
+        {/* Descargar */}
+        <a
+          href={file.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          download
+          aria-label={`Descargar ${file.nombre}`}
+          className="inline-flex items-center justify-center gap-1.5 rounded-full border w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-2 text-xs sm:text-sm font-semibold border-[var(--area)] text-[var(--area)] group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] transition-colors"
+        >
+          <Download className="w-4 h-4" />
+          <span className="hidden sm:inline">Descargar</span>
+        </a>
+      </div>
+    </div>
   );
 }
 
