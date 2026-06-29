@@ -25,10 +25,18 @@ const OUT_DIR = path.join(process.cwd(), "public", "portadas");
 const TARGET_WIDTH = 600; // ancho del render (px)
 
 // Lista de PDFs a procesar: { id, url }
+const ART_BASE = "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2025/08";
 const PDFS = [
   { id: "matematica-1ro", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06/matematica_1er_-grado_2026.pdf" },
   { id: "matematica-2do", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06/matematica_2do_grado_2026.pdf" },
   { id: "matematica-3ro", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06/matematica_3er_grado_2026.pdf" },
+  // Articulación primaria – secundaria (estudiantes + docentes)
+  { id: "ciencias-sociales-articulacion-estudiantes", url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf` },
+  { id: "ciencias-sociales-articulacion-docentes", url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf` },
+  { id: "lengua-articulacion-estudiantes", url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf` },
+  { id: "lengua-articulacion-docentes", url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf` },
+  { id: "ciencias-naturales-articulacion-estudiantes", url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf` },
+  { id: "ciencias-naturales-articulacion-docentes", url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf` },
 ];
 
 /** Factory de canvas (API por clase) para pdf.js usando @napi-rs/canvas. */
