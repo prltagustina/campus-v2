@@ -10,6 +10,8 @@ export interface ItinerarioFile {
   size?: string;
   paginas?: number;
   url: string;
+  /** Imagen de portada (primera página del PDF) pre-generada en /public/portadas. */
+  portada?: string;
 }
 
 export interface ItinerarioGrado {
@@ -116,6 +118,7 @@ const itinerariosCargados: Record<string, AreaItinerario> = {
                 nombre: "Matemática - 1er Grado",
                 formato: "PDF",
                 url: `${PDF_BASE}/matematica_1er_-grado_2026.pdf`,
+                portada: "/portadas/matematica-1ro.jpg",
               },
             ],
           },
@@ -127,6 +130,7 @@ const itinerariosCargados: Record<string, AreaItinerario> = {
                 nombre: "Matemática - 2do Grado",
                 formato: "PDF",
                 url: `${PDF_BASE}/matematica_2do_grado_2026.pdf`,
+                portada: "/portadas/matematica-2do.jpg",
               },
             ],
           },
@@ -138,6 +142,7 @@ const itinerariosCargados: Record<string, AreaItinerario> = {
                 nombre: "Matemática - 3er Grado",
                 formato: "PDF",
                 url: `${PDF_BASE}/matematica_3er_grado_2026.pdf`,
+                portada: "/portadas/matematica-3ro.jpg",
               },
             ],
           },

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { FileText, ChevronDown, BookOpen, Download, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import { getItinerario, type ItinerarioGrado } from "@/lib/itinerarios-data";
-import { PdfThumbnail } from "@/components/area/pdf-thumbnail";
 
 interface MaterialesSectionProps {
   area: Area;
@@ -106,6 +105,95 @@ const secuenciasPorIdioma: Record<
     },
   ],
 };
+
+/* Encabezado de grupo (ciclo) con línea divisoria editorial */
+function GrupoHeader({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-5">
+      <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#494963]/45 whitespace-nowrap">
+        {label}
+      </span>
+      <span className="h-px flex-1 bg-gray-200/70" />
+    </div>
+  );
+}
+
+/* Tarjeta de grado: portada real del PDF + acción, o estado vacío "Próximamente".
+   Definida a nivel de módulo para que PdfThumbnail no se remonte en cada render. */
+function GradoCard({
+  grado,
+  color,
+  textOnColor,
+}: {
+  grado: ItinerarioGrado;
+  color: string;
+  textOnColor: string;
+}) {
+  if (grado.files.length === 0) {
+    return (
+      <div className="flex flex-col">
+        <div className="relative aspect-[3/4] rounded-xl lg:rounded-2xl overflow-hidden border border-dashed border-gray-200 bg-gray-50/70 flex flex-col items-center justify-center gap-2">
+          <FileText className="w-7 h-7 lg:w-8 lg:h-8 text-[#494963]/15" />
+          <span className="text-[10px] lg:text-[11px] font-medium uppercase tracking-wide text-[#494963]/30">
+            Próximamente
+          </span>
+        </div>
+        <div className="mt-3">
+          <span className="text-sm lg:text-base font-semibold text-[#494963]/50">{grado.name}</span>
+        </div>
+      </div>
+    );
+  }
+
+  const file = grado.files[0];
+  const meta = [file.formato ?? "PDF", file.paginas ? `${file.paginas} pág.` : null, file.size]
+    .filter(Boolean)
+    .join(" · ");
+
+  return (
+    <a
+      href={file.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group/card flex flex-col focus:outline-none"
+      aria-label={`Descargar ${file.nombre}`}
+    >
+      <div className="relative aspect-[3/4] rounded-xl lg:rounded-2xl overflow-hidden border border-gray-200/80 shadow-sm transition-all duration-300 group-hover/card:shadow-xl group-hover/card:-translate-y-1 group-focus-visible/card:ring-2 group-focus-visible/card:ring-offset-2">
+        {file.portada ? (
+          <img
+            src={file.portada || "/placeholder.svg"}
+            alt={`Portada de ${file.nombre}`}
+            loading="lazy"
+            className="w-full h-full object-cover object-top"
+          />
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ backgroundColor: `${color}12` }}
+          >
+            <FileText className="w-9 h-9" style={{ color: `${color}99` }} />
+          </div>
+        )}
+        {/* Overlay de acción al hover/focus */}
+        <div className="absolute inset-0 flex items-end justify-center p-3 bg-gradient-to-t from-[#494963]/55 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 group-focus-visible/card:opacity-100 transition-opacity duration-300">
+          <span
+            className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs lg:text-sm font-semibold shadow-lg translate-y-2 group-hover/card:translate-y-0 group-focus-visible/card:translate-y-0 transition-transform duration-300"
+            style={{ backgroundColor: color, color: textOnColor }}
+          >
+            <Download className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
+            Descargar
+          </span>
+        </div>
+      </div>
+      <div className="mt-3 flex items-center justify-between gap-2">
+        <span className="text-sm lg:text-base font-semibold text-[#494963]">{grado.name}</span>
+        <span className="text-[10px] lg:text-[11px] font-medium uppercase tracking-wide text-[#494963]/35">
+          {meta}
+        </span>
+      </div>
+    </a>
+  );
+}
 
 export function MaterialesSection({ area }: MaterialesSectionProps) {
   const isLenguasExtranjeras = area.slug === "lenguas-extranjeras";
