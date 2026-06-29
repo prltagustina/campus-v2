@@ -166,7 +166,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
   "ciencias-sociales": {
     estudiantes: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "Aprender a estudiar con autonomía. Ciencias Sociales. Para estudiantes",
         formato: "PDF",
         url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf`,
         portada: "/portadas/ciencias-sociales-articulacion-estudiantes.jpg",
@@ -174,7 +174,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     ],
     docencia: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "Aprender a estudiar con autonomía. Ciencias Sociales. Material para docentes",
         formato: "PDF",
         url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf`,
         portada: "/portadas/ciencias-sociales-articulacion-docentes.jpg",
@@ -184,7 +184,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
   "lengua-y-literatura": {
     estudiantes: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "Aprender a estudiar con autonomía. Lengua y Literatura. Para estudiantes",
         formato: "PDF",
         url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf`,
         portada: "/portadas/lengua-articulacion-estudiantes.jpg",
@@ -192,7 +192,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     ],
     docencia: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "Aprender a estudiar con autonomía. Lengua y Literatura. Material para docentes",
         formato: "PDF",
         url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf`,
         portada: "/portadas/lengua-articulacion-docentes.jpg",
@@ -202,7 +202,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
   "ciencias-naturales": {
     estudiantes: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "Aprender a estudiar con autonomía. Ciencias Naturales. Para estudiantes",
         formato: "PDF",
         url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf`,
         portada: "/portadas/ciencias-naturales-articulacion-estudiantes.jpg",
@@ -210,7 +210,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     ],
     docencia: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "Aprender a estudiar con autonomía. Ciencias Naturales. Material para docentes",
         formato: "PDF",
         url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf`,
         portada: "/portadas/ciencias-naturales-articulacion-docentes.jpg",
