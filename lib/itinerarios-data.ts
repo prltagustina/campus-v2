@@ -67,25 +67,25 @@ function ciclosVacios(): ItinerarioCiclo[] {
       id: "primer-ciclo",
       name: "Primer ciclo",
       grados: [
-        { id: "1ro", name: "1er grado", files: [] },
-        { id: "2do", name: "2do grado", files: [] },
-        { id: "3ro", name: "3er grado", files: [] },
+        { id: "1ro", name: "1er Grado", files: [] },
+        { id: "2do", name: "2do Grado", files: [] },
+        { id: "3ro", name: "3er Grado", files: [] },
       ],
     },
     {
       id: "segundo-ciclo",
       name: "Segundo ciclo",
       grados: [
-        { id: "4to", name: "4to grado", files: [] },
-        { id: "5to", name: "5to grado", files: [] },
-        { id: "6to", name: "6to grado", files: [] },
+        { id: "4to", name: "4to Grado", files: [] },
+        { id: "5to", name: "5to Grado", files: [] },
+        { id: "6to", name: "6to Grado", files: [] },
       ],
     },
   ];
 }
 
 function septimoVacio(): ItinerarioGrado[] {
-  return [{ id: "7mo", name: "7mo grado", files: [] }];
+  return [{ id: "7mo", name: "7mo Grado", files: [] }];
 }
 
 /* Áreas que incluyen el bloque de Articulación Primaria-Secundaria */
@@ -110,10 +110,10 @@ const itinerariosCargados: Record<string, AreaItinerario> = {
         grados: [
           {
             id: "1ro",
-            name: "1er grado",
+            name: "1er Grado",
             files: [
               {
-                nombre: "Matemática - 1er grado",
+                nombre: "Matemática - 1er Grado",
                 formato: "PDF",
                 url: `${PDF_BASE}/matematica_1er_-grado_2026.pdf`,
               },
@@ -121,10 +121,10 @@ const itinerariosCargados: Record<string, AreaItinerario> = {
           },
           {
             id: "2do",
-            name: "2do grado",
+            name: "2do Grado",
             files: [
               {
-                nombre: "Matemática - 2do grado",
+                nombre: "Matemática - 2do Grado",
                 formato: "PDF",
                 url: `${PDF_BASE}/matematica_2do_grado_2026.pdf`,
               },
@@ -132,10 +132,10 @@ const itinerariosCargados: Record<string, AreaItinerario> = {
           },
           {
             id: "3ro",
-            name: "3er grado",
+            name: "3er Grado",
             files: [
               {
-                nombre: "Matemática - 3er grado",
+                nombre: "Matemática - 3er Grado",
                 formato: "PDF",
                 url: `${PDF_BASE}/matematica_3er_grado_2026.pdf`,
               },
@@ -147,9 +147,9 @@ const itinerariosCargados: Record<string, AreaItinerario> = {
         id: "segundo-ciclo",
         name: "Segundo ciclo",
         grados: [
-          { id: "4to", name: "4to grado", files: [] },
-          { id: "5to", name: "5to grado", files: [] },
-          { id: "6to", name: "6to grado", files: [] },
+          { id: "4to", name: "4to Grado", files: [] },
+          { id: "5to", name: "5to Grado", files: [] },
+          { id: "6to", name: "6to Grado", files: [] },
         ],
       },
     ],
