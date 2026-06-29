@@ -4,7 +4,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { FileText, ChevronDown, BookOpen, Download, ArrowRight, ArrowUpRight, Share2, Check } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
-import { getItinerario, type ItinerarioGrado, type ItinerarioFile } from "@/lib/itinerarios-data";
+import {
+  getItinerario,
+  type ItinerarioGrado,
+  type ItinerarioFile,
+  type ItinerarioCiclo,
+  type ItinerarioCategoria,
+} from "@/lib/itinerarios-data";
 
 interface MaterialesSectionProps {
   area: Area;
@@ -276,8 +282,9 @@ function GradoBlock({
   );
 }
 
-/* Tarjeta-contenedor de un grupo (ciclo) con título y bloques de grado. */
-function CicloCard({
+/* Tarjeta de ciclo desplegable. Por defecto se abre si tiene materiales y se
+   colapsa si todavía no hay material cargado ("Próximamente"). */
+function CicloCollapsible({
   title,
   grados,
   color,
@@ -288,14 +295,124 @@ function CicloCard({
   color: string;
   textOnColor: string;
 }) {
+  const totalFiles = grados.reduce((n, g) => n + g.files.length, 0);
+  const hasFiles = totalFiles > 0;
+  const [open, setOpen] = useState(hasFiles);
+
   return (
-    <div className="rounded-2xl lg:rounded-3xl border border-gray-100 bg-white p-4 sm:p-6 lg:p-8 shadow-sm">
-      <GrupoHeader label={title} />
-      <div className="divide-y divide-gray-100">
-        {grados.map((grado) => (
-          <GradoBlock key={grado.id} grado={grado} color={color} textOnColor={textOnColor} />
-        ))}
-      </div>
+    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="w-full flex items-center justify-between gap-3 px-4 sm:px-6 py-4 sm:py-5 text-left hover:bg-gray-50/70 transition-colors"
+      >
+        <span className="flex items-baseline gap-2 min-w-0">
+          <span className="text-sm sm:text-base font-bold text-[#494963]">{title}</span>
+          {hasFiles ? (
+            <span className="text-xs text-[#494963]/40">
+              {totalFiles} {totalFiles === 1 ? "material" : "materiales"}
+            </span>
+          ) : (
+            <span className="text-xs font-medium uppercase tracking-wide text-[#494963]/30">
+              Próximamente
+            </span>
+          )}
+        </span>
+        <ChevronDown
+          className={`w-5 h-5 flex-shrink-0 text-[#494963]/30 transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <div className="px-3 sm:px-5 pb-3 sm:pb-5">
+          <div className="divide-y divide-gray-100">
+            {grados.map((grado) => (
+              <GradoBlock key={grado.id} grado={grado} color={color} textOnColor={textOnColor} />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* Estado vacío para categorías de lista plana sin material todavía. */
+function EmptyCard() {
+  return (
+    <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50/60 px-5 py-10 flex flex-col items-center justify-center gap-2 text-center">
+      <FileText className="w-6 h-6 text-[#494963]/20" />
+      <span className="text-xs font-medium uppercase tracking-wide text-[#494963]/30">
+        Próximamente
+      </span>
+    </div>
+  );
+}
+
+/* Bloque de una categoría del repositorio (secuencias, guías, articulación,
+   anexos). Renderiza ciclos desplegables o una lista plana de materiales. */
+function CategoriaBlock({
+  categoria,
+  color,
+  textOnColor,
+}: {
+  categoria: ItinerarioCategoria;
+  color: string;
+  textOnColor: string;
+}) {
+  const esPorCiclo = !!categoria.ciclos;
+
+  return (
+    <div>
+      <GrupoHeader label={categoria.nombre} />
+      {(categoria.descripcion || categoria.recursoGeneral) && (
+        <div className="-mt-2 mb-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+          {categoria.descripcion && (
+            <p className="text-sm text-[#494963]/50 text-pretty">{categoria.descripcion}</p>
+          )}
+          {categoria.recursoGeneral && (
+            <a
+              href={categoria.recursoGeneral.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-70 flex-shrink-0"
+              style={{ color }}
+            >
+              <span>{categoria.recursoGeneral.nombre}</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
+          )}
+        </div>
+      )}
+
+      {esPorCiclo ? (
+        <div className="space-y-3">
+          {categoria.ciclos!.map((ciclo: ItinerarioCiclo) => (
+            <CicloCollapsible
+              key={ciclo.id}
+              title={ciclo.name}
+              grados={ciclo.grados}
+              color={color}
+              textOnColor={textOnColor}
+            />
+          ))}
+          {categoria.gradosSueltos && categoria.gradosSueltos.length > 0 && (
+            <CicloCollapsible
+              title="Séptimo grado"
+              grados={categoria.gradosSueltos}
+              color={color}
+              textOnColor={textOnColor}
+            />
+          )}
+        </div>
+      ) : categoria.files && categoria.files.length > 0 ? (
+        <div className="rounded-2xl border border-gray-100 bg-white p-3 sm:p-5 shadow-sm space-y-0.5">
+          {categoria.files.map((file, idx) => (
+            <MaterialRow key={idx} file={file} color={color} textOnColor={textOnColor} />
+          ))}
+        </div>
+      ) : (
+        <EmptyCard />
+      )}
     </div>
   );
 }
@@ -846,7 +963,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
     );
   }
 
-  /* Para otras áreas: Itinerarios didácticos -- grilla editorial de portadas */
+  /* Para otras áreas: Itinerarios didácticos -- repositorio por categorías */
   const itinerario = getItinerario(area.slug);
 
   return (
@@ -857,76 +974,20 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           Itinerarios didácticos
         </h3>
         <p className="text-sm sm:text-base text-[#494963]/50 mt-3 max-w-md text-pretty">
-          Secuencias didácticas organizadas por ciclo y grado.
+          Recursos organizados por tipo de material, ciclo y grado.
         </p>
-        {itinerario.recursoGeneral && (
-          <a
-            href={itinerario.recursoGeneral.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-70"
-            style={{ color: area.color }}
-          >
-            <span>Ver planilla de secuencias</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </a>
-        )}
       </div>
 
-      {/* Repositorio editorial: tarjetas por ciclo con filas de materiales */}
-      <div className="max-w-3xl mx-auto space-y-5 md:space-y-6">
-        {/* Ciclos */}
-        {itinerario.ciclos.map((ciclo) => (
-          <CicloCard
-            key={ciclo.id}
-            title={ciclo.name}
-            grados={ciclo.grados}
+      {/* Repositorio por categorías */}
+      <div className="max-w-3xl mx-auto space-y-12 md:space-y-16">
+        {itinerario.categorias.map((categoria) => (
+          <CategoriaBlock
+            key={categoria.id}
+            categoria={categoria}
             color={area.color}
             textOnColor={area.textOnColor}
           />
         ))}
-
-        {/* Grados sueltos (Séptimo grado) */}
-        {itinerario.gradosSueltos && itinerario.gradosSueltos.length > 0 && (
-          <CicloCard
-            title="Séptimo grado"
-            grados={itinerario.gradosSueltos}
-            color={area.color}
-            textOnColor={area.textOnColor}
-          />
-        )}
-
-        {/* Articulación entre Primaria y Secundaria */}
-        {itinerario.articulacion && (
-          <div className="pt-2">
-            <GrupoHeader label="Articulación Primaria – Secundaria" />
-            <div className="grid sm:grid-cols-2 gap-4">
-              {itinerario.articulacion.map((link, idx) => (
-                <a
-                  key={idx}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 rounded-2xl border border-gray-200/80 bg-white px-5 py-4 hover:shadow-md hover:-translate-y-0.5 transition-all group/item"
-                >
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: `${area.color}15` }}
-                  >
-                    <BookOpen className="w-5 h-5" style={{ color: area.color }} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="block text-sm lg:text-base font-semibold text-[#494963]">
-                      {link.nombre}
-                    </span>
-                    <span className="text-xs lg:text-sm text-[#494963]/40">{link.descripcion}</span>
-                  </div>
-                  <ArrowUpRight className="w-5 h-5 text-[#494963]/30 group-hover/item:text-[#494963]/60 transition-colors flex-shrink-0" />
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </section>
   );

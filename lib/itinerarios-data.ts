@@ -1,7 +1,9 @@
 /* ─────────────────────────────────────────────
  * Itinerarios didácticos por área
- * Estructura por ciclo y grado para todas las áreas
- * (excepto Lenguas Extranjeras, que se organiza por idioma).
+ * Organizados en 4 categorías: secuencias didácticas, guías para la
+ * docencia, articulación primaria-secundaria y anexos.
+ * Las categorías por ciclo se estructuran por ciclo y grado.
+ * (Lenguas Extranjeras se organiza por idioma, aparte.)
  * ───────────────────────────────────────────── */
 
 export interface ItinerarioFile {
@@ -26,43 +28,32 @@ export interface ItinerarioCiclo {
   grados: ItinerarioGrado[];
 }
 
-export interface ArticulacionLink {
+export type CategoriaId = "secuencias" | "guias" | "articulacion" | "anexos";
+
+export interface ItinerarioCategoria {
+  id: CategoriaId;
   nombre: string;
-  descripcion: string;
-  url: string;
+  descripcion?: string;
+  /** Recurso general opcional (p. ej. planilla de secuencias). */
+  recursoGeneral?: { nombre: string; descripcion: string; url: string };
+  /** Categorías organizadas por ciclo/grado (secuencias, guías). */
+  ciclos?: ItinerarioCiclo[];
+  gradosSueltos?: ItinerarioGrado[];
+  /** Categorías de lista plana (articulación, anexos). */
+  files?: ItinerarioFile[];
 }
 
 export interface AreaItinerario {
-  /** Recurso general (p. ej. planilla de secuencias didácticas) */
-  recursoGeneral?: { nombre: string; descripcion: string; url: string };
-  /** Ciclos con sus grados */
-  ciclos: ItinerarioCiclo[];
-  /** Grados que no se agrupan en un ciclo (p. ej. Séptimo grado) */
-  gradosSueltos?: ItinerarioGrado[];
-  /** Bloque "Articulación entre Primaria y Secundaria" (solo algunas áreas) */
-  articulacion?: ArticulacionLink[];
+  categorias: ItinerarioCategoria[];
 }
 
 const PDF_BASE =
   "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06";
 
-const ARTICULACION_URL =
-  "https://campuseducativo.santafe.edu.ar/programas/modo-secundaria/articulacion-entre-primaria-y-secundaria/";
+const ART_BASE =
+  "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2025/08";
 
-const articulacionLinks: ArticulacionLink[] = [
-  {
-    nombre: "Para estudiantes",
-    descripcion: "Recursos de articulación dirigidos a estudiantes",
-    url: ARTICULACION_URL,
-  },
-  {
-    nombre: "Para docentes",
-    descripcion: "Recursos de articulación dirigidos a la docencia",
-    url: ARTICULACION_URL,
-  },
-];
-
-/* Estructura base de ciclos/grados vacía (sin material aún) */
+/* ── Estructura base de ciclos/grados vacía (sin material aún) ── */
 function ciclosVacios(): ItinerarioCiclo[] {
   return [
     {
@@ -90,18 +81,17 @@ function septimoVacio(): ItinerarioGrado[] {
   return [{ id: "7mo", name: "7mo Grado", files: [] }];
 }
 
-/* Áreas que incluyen el bloque de Articulación Primaria-Secundaria */
-const areasConArticulacion = [
-  "ciencias-sociales",
-  "ciencias-naturales",
-  "lenguas-extranjeras",
-];
+/* ── Secuencias didácticas con material cargado, por área ── */
+interface SecuenciasArea {
+  recursoGeneral?: { nombre: string; descripcion: string; url: string };
+  ciclos: ItinerarioCiclo[];
+  gradosSueltos?: ItinerarioGrado[];
+}
 
-/* Itinerarios con material cargado */
-const itinerariosCargados: Record<string, AreaItinerario> = {
+const secuenciasPorArea: Record<string, SecuenciasArea> = {
   matematica: {
     recursoGeneral: {
-      nombre: "Secuencias didácticas",
+      nombre: "Planilla de secuencias",
       descripcion: "Planilla general de secuencias",
       url: "https://docs.google.com/spreadsheets/d/1wzZBRgu58-_jMvlkIjNguKpQc9nKVIJJhdGnDEcYTFQ/edit?usp=sharing",
     },
@@ -162,21 +152,90 @@ const itinerariosCargados: Record<string, AreaItinerario> = {
   },
 };
 
+/* ── Articulación primaria-secundaria (estudiantes + docencia), por área ── */
+const articulacionPorArea: Record<string, ItinerarioFile[]> = {
+  "ciencias-sociales": [
+    {
+      nombre: "Aprender a estudiar con autonomía – Para estudiantes",
+      formato: "PDF",
+      url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf`,
+      portada: "/portadas/ciencias-sociales-articulacion-estudiantes.jpg",
+    },
+    {
+      nombre: "Aprender a estudiar con autonomía – Para la docencia",
+      formato: "PDF",
+      url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf`,
+      portada: "/portadas/ciencias-sociales-articulacion-docentes.jpg",
+    },
+  ],
+  "lengua-y-literatura": [
+    {
+      nombre: "Aprender a estudiar con autonomía – Para estudiantes",
+      formato: "PDF",
+      url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf`,
+      portada: "/portadas/lengua-articulacion-estudiantes.jpg",
+    },
+    {
+      nombre: "Aprender a estudiar con autonomía – Para la docencia",
+      formato: "PDF",
+      url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf`,
+      portada: "/portadas/lengua-articulacion-docentes.jpg",
+    },
+  ],
+  "ciencias-naturales": [
+    {
+      nombre: "Aprender a estudiar con autonomía – Para estudiantes",
+      formato: "PDF",
+      url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf`,
+      portada: "/portadas/ciencias-naturales-articulacion-estudiantes.jpg",
+    },
+    {
+      nombre: "Aprender a estudiar con autonomía – Para la docencia",
+      formato: "PDF",
+      url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf`,
+      portada: "/portadas/ciencias-naturales-articulacion-docentes.jpg",
+    },
+  ],
+};
+
 /**
- * Devuelve el itinerario de un área. Si no hay material cargado,
- * devuelve la estructura base vacía (ciclos/grados "Próximamente").
- * Agrega el bloque de articulación a las áreas que corresponda.
+ * Devuelve el itinerario de un área dividido en sus 4 categorías.
+ * Las categorías sin material todavía se muestran con su estructura
+ * (ciclos "Próximamente" o estado vacío) para mantener la consistencia.
  */
 export function getItinerario(slug: string): AreaItinerario {
-  const base: AreaItinerario =
-    itinerariosCargados[slug] ?? {
+  const secuencias = secuenciasPorArea[slug];
+  const articulacion = articulacionPorArea[slug] ?? [];
+
+  const categorias: ItinerarioCategoria[] = [
+    {
+      id: "secuencias",
+      nombre: "Secuencias didácticas",
+      descripcion: "Propuestas de enseñanza organizadas por ciclo y grado.",
+      recursoGeneral: secuencias?.recursoGeneral,
+      ciclos: secuencias?.ciclos ?? ciclosVacios(),
+      gradosSueltos: secuencias?.gradosSueltos ?? septimoVacio(),
+    },
+    {
+      id: "guias",
+      nombre: "Guías para la docencia",
+      descripcion: "Orientaciones y recursos para acompañar la enseñanza.",
       ciclos: ciclosVacios(),
       gradosSueltos: septimoVacio(),
-    };
+    },
+    {
+      id: "articulacion",
+      nombre: "Articulación primaria – secundaria",
+      descripcion: "Materiales para estudiantes y para la docencia.",
+      files: articulacion,
+    },
+    {
+      id: "anexos",
+      nombre: "Anexos",
+      descripcion: "Material complementario y de apoyo.",
+      files: [],
+    },
+  ];
 
-  if (areasConArticulacion.includes(slug)) {
-    return { ...base, articulacion: articulacionLinks };
-  }
-
-  return base;
+  return { categorias };
 }
