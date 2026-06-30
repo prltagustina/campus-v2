@@ -8,21 +8,12 @@ interface AreaFooterProps {
   area: Area;
   prevArea: Area | null;
   nextArea: Area | null;
-  scrollToSection: (sectionId: string) => void;
 }
-
-const SECTIONS = [
-  { id: "materiales", label: "ITINERARIOS" },
-  { id: "formacion", label: "FORMACIONES DOCENTES" },
-  { id: "video", label: "VIDEO" },
-  { id: "ejes", label: "EJES" },
-];
 
 export function AreaFooter({
   area,
   prevArea,
   nextArea,
-  scrollToSection,
 }: AreaFooterProps) {
   return (
     <footer id="area-footer" className="w-full bg-[#494963]">

@@ -295,7 +295,6 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
           area={area}
           prevArea={prevArea}
           nextArea={nextArea}
-          scrollToSection={scrollToSection}
         />
       </div>
     </div>
