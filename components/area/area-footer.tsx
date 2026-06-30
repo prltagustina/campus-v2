@@ -8,40 +8,18 @@ interface AreaFooterProps {
   area: Area;
   prevArea: Area | null;
   nextArea: Area | null;
-  scrollToSection: (sectionId: string) => void;
 }
-
-const SECTIONS = [
-  { id: "materiales", label: "ITINERARIOS" },
-  { id: "formacion", label: "FORMACIONES DOCENTES" },
-  { id: "video", label: "VIDEO" },
-  { id: "ejes", label: "EJES" },
-];
 
 export function AreaFooter({
   area,
   prevArea,
   nextArea,
-  scrollToSection,
 }: AreaFooterProps) {
   return (
     <footer id="area-footer" className="w-full bg-[#494963]">
-      {/* Top bar: section quick links */}
-      <div className="w-full py-4 flex items-center justify-center gap-8 sm:gap-12">
-        {SECTIONS.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            onClick={() => scrollToSection(s.id)}
-            className="text-[11px] font-bold tracking-[0.15em] text-white/60 transition-all hover:text-white"
-          >
-            {s.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Bottom bar: prev / home / scroll-to-top / next -- same bg, no separator */}
-      <div className="relative py-5 px-6 sm:px-10 flex items-center justify-between bg-[#3d3d54]">
+      {/* Bottom bar: prev / home / next -- same bg, no separator.
+          Extra bottom padding on mobile clears the fixed bottom tab bar. */}
+      <div className="relative pt-5 pb-28 lg:pb-5 px-6 sm:px-10 flex items-center justify-between bg-[#3d3d54]">
         {/* Prev area */}
         <div className="flex-1 flex justify-start">
           {prevArea ? (
