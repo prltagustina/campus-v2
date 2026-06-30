@@ -27,7 +27,7 @@ export function AreaFooter({
   return (
     <footer id="area-footer" className="w-full bg-[#494963]">
       {/* Top bar: section quick links */}
-      <div className="w-full py-4 flex items-center justify-center gap-8 sm:gap-12">
+      <div className="w-full py-4 px-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 sm:gap-x-12">
         {SECTIONS.map((s) => (
           <button
             key={s.id}
@@ -40,8 +40,9 @@ export function AreaFooter({
         ))}
       </div>
 
-      {/* Bottom bar: prev / home / scroll-to-top / next -- same bg, no separator */}
-      <div className="relative py-5 px-6 sm:px-10 flex items-center justify-between bg-[#3d3d54]">
+      {/* Bottom bar: prev / home / scroll-to-top / next -- same bg, no separator.
+          Extra bottom padding on mobile clears the fixed bottom tab bar. */}
+      <div className="relative pt-5 pb-28 lg:pb-5 px-6 sm:px-10 flex items-center justify-between bg-[#3d3d54]">
         {/* Prev area */}
         <div className="flex-1 flex justify-start">
           {prevArea ? (

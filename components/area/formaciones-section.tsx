@@ -1,22 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import { Home, Bookmark, Monitor, Clock, Users, MapPin } from "lucide-react";
+import { Bookmark, Monitor, Clock, Users, MapPin } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 
 interface FormacionesSectionProps {
   area: Area;
-  prevArea: Area | null;
-  nextArea: Area | null;
 }
 
-export function FormacionesSection({
-  area,
-  prevArea,
-  nextArea,
-}: FormacionesSectionProps) {
+export function FormacionesSection({ area }: FormacionesSectionProps) {
   return (
-    <section id="formacion" className="pb-24 lg:pb-0 scroll-mt-32">
+    <section id="formacion" className="scroll-mt-32">
       {/* Section header -- centered, stronger hierarchy */}
       <div className="flex flex-col items-center text-center mb-14 md:mb-20">
         <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display">
@@ -78,61 +71,6 @@ export function FormacionesSection({
         ))}
       </div>
 
-      {/* Mobile area navigation -- improved spacing */}
-      <div className="lg:hidden mt-16 flex items-center justify-between border-t border-gray-100 pt-8">
-        {prevArea ? (
-          <Link
-            href={`/area/${prevArea.slug}`}
-            className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-700 transition-colors"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            <span className="truncate max-w-[120px]">{prevArea.name}</span>
-          </Link>
-        ) : (
-          <div />
-        )}
-        <Link
-          href="/"
-          className="w-11 h-11 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors"
-        >
-          <Home className="w-4 h-4" />
-        </Link>
-        {nextArea ? (
-          <Link
-            href={`/area/${nextArea.slug}`}
-            className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-700 transition-colors"
-          >
-            <span className="truncate max-w-[120px]">{nextArea.name}</span>
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
-        ) : (
-          <div />
-        )}
-      </div>
     </section>
   );
 }
