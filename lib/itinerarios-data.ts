@@ -59,8 +59,7 @@ export interface AreaItinerario {
 const PDF_BASE =
   "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06";
 
-const ART_BASE =
-  "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2025/08";
+const ART_BASE = "/documentos/articulacion";
 
 /* ── Estructura base de ciclos/grados vacía (sin material aún) ── */
 function ciclosVacios(): ItinerarioCiclo[] {

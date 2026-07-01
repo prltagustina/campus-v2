@@ -11,7 +11,7 @@ import {
   Path2D,
   ImageData,
 } from "@napi-rs/canvas";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 // pdf.js espera estos globals del DOM para renderizar correctamente.
@@ -25,18 +25,18 @@ const OUT_DIR = path.join(process.cwd(), "public", "portadas");
 const TARGET_WIDTH = 600; // ancho del render (px)
 
 // Lista de PDFs a procesar: { id, url }
-const ART_BASE = "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2025/08";
+const ART_BASE = path.join(process.cwd(), "public", "documentos", "articulacion");
 const PDFS = [
   { id: "matematica-1ro", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06/matematica_1er_-grado_2026.pdf" },
   { id: "matematica-2do", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06/matematica_2do_grado_2026.pdf" },
   { id: "matematica-3ro", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06/matematica_3er_grado_2026.pdf" },
   // Articulación primaria – secundaria (estudiantes + docentes)
-  { id: "ciencias-sociales-articulacion-estudiantes", url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf` },
-  { id: "ciencias-sociales-articulacion-docentes", url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf` },
-  { id: "lengua-articulacion-estudiantes", url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf` },
-  { id: "lengua-articulacion-docentes", url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf` },
-  { id: "ciencias-naturales-articulacion-estudiantes", url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf` },
-  { id: "ciencias-naturales-articulacion-docentes", url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf` },
+  { id: "ciencias-sociales-articulacion-estudiantes", url: path.join(ART_BASE, "CienciasSociales-Estudiantes.pdf") },
+  { id: "ciencias-sociales-articulacion-docentes", url: path.join(ART_BASE, "Ciencias-Sociales-Docentes.pdf") },
+  { id: "lengua-articulacion-estudiantes", url: path.join(ART_BASE, "Lengua-y-Literatura-Estudiantes.pdf") },
+  { id: "lengua-articulacion-docentes", url: path.join(ART_BASE, "Lengua-y-Literatura-Docentes.pdf") },
+  { id: "ciencias-naturales-articulacion-estudiantes", url: path.join(ART_BASE, "Ciencias-Naturales-Estudiantes.pdf") },
+  { id: "ciencias-naturales-articulacion-docentes", url: path.join(ART_BASE, "Ciencias-Naturales-Docentes.pdf") },
 ];
 
 /** Factory de canvas (API por clase) para pdf.js usando @napi-rs/canvas. */
@@ -56,10 +56,15 @@ class NapiCanvasFactory {
 }
 
 async function renderFirstPage(url, id) {
-  console.log(`[portadas] Descargando ${id}...`);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status} para ${url}`);
-  const data = new Uint8Array(await res.arrayBuffer());
+  console.log(`[portadas] Procesando ${id}...`);
+  let data;
+  if (url.startsWith("http")) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status} para ${url}`);
+    data = new Uint8Array(await res.arrayBuffer());
+  } else {
+    data = new Uint8Array(await readFile(url));
+  }
 
   const pdf = await getDocument({
     data,
@@ -82,6 +87,7 @@ async function renderFirstPage(url, id) {
   const jpg = await canvas.encode("jpeg", 82);
   const outPath = path.join(OUT_DIR, `${id}.jpg`);
   await writeFile(outPath, jpg);
+  await pdf.destroy();
   console.log(`[portadas] ✓ ${id}.jpg (${canvas.width}x${canvas.height}, ${(jpg.length / 1024).toFixed(0)}KB)`);
 }
 
