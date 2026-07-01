@@ -1,8 +1,8 @@
 /* ─────────────────────────────────────────────
  * Itinerarios didácticos por área
- * Organizados en 4 categorías: secuencias didácticas, guías para la
- * docencia, articulación primaria-secundaria y anexos.
- * Las categorías por ciclo se estructuran por ciclo y grado.
+ * Organizados en 3 categorías: recursos para la docencia, recursos para
+ * los estudiantes (ambos por ciclo y grado) y articulación
+ * primaria-secundaria (con subgrupos estudiantes/docencia).
  * (Lenguas Extranjeras se organiza por idioma, aparte.)
  * ───────────────────────────────────────────── */
 
@@ -28,7 +28,7 @@ export interface ItinerarioCiclo {
   grados: ItinerarioGrado[];
 }
 
-export type CategoriaId = "secuencias" | "guias" | "articulacion" | "anexos";
+export type CategoriaId = "docencia" | "estudiantes" | "articulacion";
 
 /** Subgrupo desplegable dentro de una categoría (p. ej. Estudiantes / Docencia). */
 export interface ItinerarioSubgrupo {
@@ -90,14 +90,14 @@ function septimoVacio(): ItinerarioGrado[] {
   return [{ id: "7mo", name: "7mo Grado", files: [] }];
 }
 
-/* ── Secuencias didácticas con material cargado, por área ── */
-interface SecuenciasArea {
+/* ── Recursos para la docencia con material cargado, por área ── */
+interface RecursosDocenciaArea {
   recursoGeneral?: { nombre: string; descripcion: string; url: string };
   ciclos: ItinerarioCiclo[];
   gradosSueltos?: ItinerarioGrado[];
 }
 
-const secuenciasPorArea: Record<string, SecuenciasArea> = {
+const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
   matematica: {
     ciclos: [
       {
@@ -225,22 +225,24 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
  * (ciclos "Próximamente" o estado vacío) para mantener la consistencia.
  */
 export function getItinerario(slug: string): AreaItinerario {
-  const secuencias = secuenciasPorArea[slug];
+  const docencia = recursosDocenciaPorArea[slug];
   const articulacion = articulacionPorArea[slug];
 
   const categorias: ItinerarioCategoria[] = [
     {
-      id: "secuencias",
-      nombre: "Secuencias didácticas",
-      descripcion: "Propuestas de enseñanza organizadas por ciclo y grado.",
-      recursoGeneral: secuencias?.recursoGeneral,
-      ciclos: secuencias?.ciclos ?? ciclosVacios(),
-      gradosSueltos: secuencias?.gradosSueltos ?? septimoVacio(),
+      id: "docencia",
+      nombre: "Recursos para la docencia",
+      descripcion:
+        "Secuencias, guías y propuestas de enseñanza organizadas por ciclo y grado.",
+      recursoGeneral: docencia?.recursoGeneral,
+      ciclos: docencia?.ciclos ?? ciclosVacios(),
+      gradosSueltos: docencia?.gradosSueltos ?? septimoVacio(),
     },
     {
-      id: "guias",
-      nombre: "Guías para la docencia",
-      descripcion: "Orientaciones y recursos para acompañar la enseñanza.",
+      id: "estudiantes",
+      nombre: "Recursos para los estudiantes",
+      descripcion:
+        "Materiales para entregar a los estudiantes (cartones de lotería, fichas y más).",
       ciclos: ciclosVacios(),
       gradosSueltos: septimoVacio(),
     },
@@ -260,12 +262,6 @@ export function getItinerario(slug: string): AreaItinerario {
           files: articulacion?.docencia ?? [],
         },
       ],
-    },
-    {
-      id: "anexos",
-      nombre: "Anexos",
-      descripcion: "Material complementario y de apoyo.",
-      files: [],
     },
   ];
 
