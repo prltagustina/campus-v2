@@ -241,8 +241,7 @@ export function getItinerario(slug: string): AreaItinerario {
     {
       id: "estudiantes",
       nombre: "Recursos para los estudiantes",
-      descripcion:
-        "Materiales para entregar a los estudiantes (cartones de lotería, fichas y más).",
+      descripcion: "Materiales para entregar a los estudiantes.",
       ciclos: ciclosVacios(),
       gradosSueltos: septimoVacio(),
     },
