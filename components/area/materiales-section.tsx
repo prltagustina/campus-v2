@@ -180,7 +180,7 @@ function MaterialRow({
 
   return (
     <div
-      className="group/item flex items-center gap-3 sm:gap-4 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 hover:bg-gray-50 transition-colors"
+      className="group/item flex items-center gap-3 sm:gap-5 lg:gap-6 rounded-xl px-2 py-2 sm:px-4 sm:py-4 lg:px-5 hover:bg-gray-50 transition-colors"
       style={{ ["--area" as string]: color, ["--area-fg" as string]: textOnColor }}
     >
       {/* Enlace de descarga -- miniatura + datos (zona principal clickeable) */}
@@ -190,10 +190,10 @@ function MaterialRow({
         rel="noopener noreferrer"
         download
         aria-label={`Descargar ${file.nombre}`}
-        className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1"
+        className="flex items-center gap-3 sm:gap-5 lg:gap-6 min-w-0 flex-1"
       >
         {/* Miniatura de portada (primera página del PDF) */}
-        <div className="relative w-12 h-16 sm:w-[72px] sm:h-24 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50">
+        <div className="relative w-16 h-[86px] sm:w-32 sm:h-[170px] lg:w-36 lg:h-48 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50 shadow-sm">
           {file.portada ? (
             <img
               src={file.portada || "/placeholder.svg"}
@@ -210,10 +210,10 @@ function MaterialRow({
 
         {/* Datos del material */}
         <div className="min-w-0 flex-1">
-          <span className="block text-sm sm:text-base font-medium text-[#494963] leading-snug text-pretty line-clamp-2">
+          <span className="block text-sm sm:text-base lg:text-lg font-medium text-[#494963] leading-snug text-pretty line-clamp-3">
             {file.nombre}
           </span>
-          <span className="text-xs text-[#494963]/45">{meta}</span>
+          <span className="text-xs sm:text-sm text-[#494963]/45">{meta}</span>
         </div>
       </a>
 
@@ -304,7 +304,7 @@ function CicloCollapsible({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="w-full flex items-center justify-between gap-3 px-4 sm:px-6 py-4 sm:py-5 text-left hover:bg-gray-50/70 transition-colors"
+        className="w-full flex items-center justify-between gap-3 px-4 sm:px-7 lg:px-8 py-4 sm:py-5 text-left hover:bg-gray-50/70 transition-colors"
       >
         <span className="flex flex-col gap-0.5 min-w-0">
           <span className="text-sm sm:text-base font-bold text-[#494963] leading-snug">{title}</span>
@@ -324,7 +324,7 @@ function CicloCollapsible({
       </button>
       {open &&
         (hasFiles ? (
-          <div className="border-t border-gray-100 px-3 sm:px-5 pt-3 sm:pt-4 pb-3 sm:pb-5">
+          <div className="border-t border-gray-100 px-3 sm:px-5 lg:px-6 pt-3 sm:pt-4 pb-3 sm:pb-5">
             <div className="divide-y divide-gray-100">
               {grados.map((grado) => (
                 <GradoBlock key={grado.id} grado={grado} color={color} textOnColor={textOnColor} />
@@ -375,7 +375,7 @@ function SubgrupoCollapsible({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="w-full flex items-center justify-between gap-3 px-4 sm:px-6 py-4 sm:py-5 text-left hover:bg-gray-50/70 transition-colors"
+        className="w-full flex items-center justify-between gap-3 px-4 sm:px-7 lg:px-8 py-4 sm:py-5 text-left hover:bg-gray-50/70 transition-colors"
       >
         <span className="flex flex-col gap-0.5 min-w-0">
           <span className="text-sm sm:text-base font-bold text-[#494963] leading-snug">{subgrupo.nombre}</span>
@@ -395,7 +395,7 @@ function SubgrupoCollapsible({
       </button>
       {open &&
         (hasFiles ? (
-          <div className="border-t border-gray-100 px-3 sm:px-5 pt-3 sm:pt-4 pb-3 sm:pb-5 space-y-0.5">
+          <div className="border-t border-gray-100 px-3 sm:px-5 lg:px-6 pt-3 sm:pt-4 pb-3 sm:pb-5 space-y-0.5">
             {subgrupo.files.map((file, idx) => (
               <MaterialRow key={idx} file={file} color={color} textOnColor={textOnColor} />
             ))}
@@ -479,7 +479,7 @@ function CategoriaBlock({
           ))}
         </div>
       ) : categoria.files && categoria.files.length > 0 ? (
-        <div className="rounded-2xl border border-gray-100 bg-white p-3 sm:p-5 shadow-sm space-y-0.5">
+        <div className="rounded-2xl border border-gray-100 bg-white p-3 sm:p-5 lg:p-6 shadow-sm space-y-0.5">
           {categoria.files.map((file, idx) => (
             <MaterialRow key={idx} file={file} color={color} textOnColor={textOnColor} />
           ))}
@@ -1053,7 +1053,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
       </div>
 
       {/* Repositorio por categorías */}
-      <div className="max-w-3xl mx-auto space-y-12 md:space-y-16">
+      <div className="max-w-4xl mx-auto space-y-12 md:space-y-16">
         {itinerario.categorias.map((categoria) => (
           <CategoriaBlock
             key={categoria.id}
