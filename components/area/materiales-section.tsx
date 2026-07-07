@@ -317,8 +317,8 @@ function CicloCollapsible({
         <span className="flex flex-col gap-0.5 min-w-0">
           <span className="text-base sm:text-lg font-bold text-[#494963] leading-snug">{title}</span>
           {hasFiles ? (
-            <span className="text-sm text-[#494963]/40">
-              {totalFiles} {totalFiles === 1 ? "material" : "materiales"}
+            <span className="text-sm sm:text-base font-semibold" style={{ color }}>
+              {totalFiles} {totalFiles === 1 ? "material disponible" : "materiales disponibles"}
             </span>
           ) : (
             <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#494963]/30">
@@ -388,8 +388,8 @@ function SubgrupoCollapsible({
         <span className="flex flex-col gap-0.5 min-w-0">
           <span className="text-sm sm:text-base font-bold text-[#494963] leading-snug">{subgrupo.nombre}</span>
           {hasFiles ? (
-            <span className="text-xs text-[#494963]/40">
-              {totalFiles} {totalFiles === 1 ? "material" : "materiales"}
+            <span className="text-sm sm:text-base font-semibold" style={{ color }}>
+              {totalFiles} {totalFiles === 1 ? "material disponible" : "materiales disponibles"}
             </span>
           ) : (
             <span className="text-[11px] font-semibold uppercase tracking-wide text-[#494963]/30">
