@@ -117,7 +117,7 @@ const secuenciasPorIdioma: Record<
 function GrupoHeader({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 mb-5">
-      <span className="text-base sm:text-lg font-bold uppercase tracking-[0.12em] text-[#494963] whitespace-nowrap">
+      <span className="text-base sm:text-lg font-extrabold uppercase tracking-[0.12em] text-[#494963] whitespace-nowrap">
         {label}
       </span>
       <span className="h-px flex-1 bg-gray-200/70" />
@@ -1055,7 +1055,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display text-balance">
           Itinerarios didácticos
         </h3>
-        <p className="text-sm sm:text-base text-[#494963]/50 mt-3 max-w-md text-pretty">
+        <p className="text-sm sm:text-base lg:text-lg text-[#494963]/50 mt-3 max-w-xl text-pretty">
           Recursos organizados por ciclo y grado.
         </p>
       </div>
