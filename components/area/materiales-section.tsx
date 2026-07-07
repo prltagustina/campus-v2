@@ -180,7 +180,7 @@ function MaterialRow({
 
   return (
     <div
-      className="group/item flex items-center gap-3 sm:gap-5 lg:gap-6 rounded-xl px-2 py-2 sm:px-4 sm:py-4 lg:px-5 hover:bg-gray-50 transition-colors"
+      className="group/item flex flex-col gap-3 rounded-xl px-2 py-2 sm:flex-row sm:items-center sm:gap-5 sm:px-4 sm:py-4 lg:gap-6 lg:px-5 hover:bg-gray-50 transition-colors"
       style={{ ["--area" as string]: color, ["--area-fg" as string]: textOnColor }}
     >
       {/* Enlace de descarga -- miniatura + datos (zona principal clickeable) */}
@@ -190,10 +190,10 @@ function MaterialRow({
         rel="noopener noreferrer"
         download
         aria-label={`Descargar ${file.nombre}`}
-        className="flex items-center gap-3 sm:gap-5 lg:gap-6 min-w-0 flex-1"
+        className="flex w-full min-w-0 flex-1 items-start gap-3 sm:items-center sm:gap-5 lg:gap-6"
       >
         {/* Miniatura de portada (primera página del PDF) */}
-        <div className="relative w-16 h-[86px] sm:w-32 sm:h-[170px] lg:w-36 lg:h-48 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50 shadow-sm">
+        <div className="relative w-16 h-[86px] sm:w-28 sm:h-[150px] lg:w-36 lg:h-48 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50 shadow-sm">
           {file.portada ? (
             <img
               src={file.portada || "/placeholder.svg"}
@@ -209,8 +209,8 @@ function MaterialRow({
         </div>
 
         {/* Datos del material */}
-        <div className="min-w-0 flex-1">
-          <span className="block text-base sm:text-lg lg:text-xl font-medium text-[#494963] leading-snug text-pretty line-clamp-3">
+        <div className="min-w-0 flex-1 pt-0.5 sm:pt-0">
+          <span className="block text-[15px] sm:text-lg lg:text-xl font-medium text-[#494963] leading-snug text-pretty">
             {file.nombre}
           </span>
           {file.descripcion && (
@@ -218,12 +218,12 @@ function MaterialRow({
               {file.descripcion}
             </span>
           )}
-          <span className="text-sm sm:text-base text-[#494963]/45">{meta}</span>
+          <span className="mt-1 block text-sm sm:text-base text-[#494963]/45">{meta}</span>
         </div>
       </a>
 
       {/* Acciones -- siempre visibles */}
-      <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+      <div className="flex w-full items-center justify-end gap-1.5 pl-[76px] sm:w-auto sm:justify-start sm:gap-2 sm:pl-0 sm:flex-shrink-0">
         {/* Descargar */}
         <a
           href={file.url}
@@ -231,10 +231,10 @@ function MaterialRow({
           rel="noopener noreferrer"
           download
           aria-label={`Descargar ${file.nombre}`}
-          className="inline-flex items-center justify-center gap-1.5 rounded-full border w-9 h-9 sm:w-auto sm:h-auto sm:px-4 sm:py-2.5 text-sm sm:text-base font-semibold border-[var(--area)] text-[var(--area)] group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] transition-colors"
+          className="inline-flex h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full border px-3 text-sm font-semibold border-[var(--area)] text-[var(--area)] transition-colors group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] sm:h-auto sm:w-auto sm:flex-none sm:px-4 sm:py-2.5 sm:text-base"
         >
           <Download className="w-4 h-4" />
-          <span className="hidden sm:inline">Descargar</span>
+          <span>Descargar</span>
         </a>
 
         {/* Compartir -- a la derecha de Descargar */}
@@ -242,7 +242,7 @@ function MaterialRow({
           type="button"
           onClick={handleShare}
           aria-label={copied ? "Enlace copiado" : `Compartir ${file.nombre}`}
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border border-gray-200 text-[#494963]/60 hover:border-[var(--area)] hover:text-[var(--area)] transition-colors"
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex flex-shrink-0 items-center justify-center border border-gray-200 text-[#494963]/60 hover:border-[var(--area)] hover:text-[var(--area)] transition-colors"
         >
           {copied ? <Check className="w-4 h-4 text-[var(--area)]" /> : <Share2 className="w-4 h-4" />}
         </button>

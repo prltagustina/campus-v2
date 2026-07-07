@@ -108,7 +108,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
             name: "1er Grado",
             files: [
               {
-                nombre: "Matemática - 1er Grado",
+                nombre: "\"La enseñanza del número y del sistema de numeración\"",
                 formato: "PDF",
                 url: `${PDF_BASE}/matematica_1er_-grado_2026.pdf`,
                 portada: "/portadas/matematica-1ro.jpg",
@@ -120,7 +120,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
             name: "2do Grado",
             files: [
               {
-                nombre: "Matemática - 2do Grado",
+                nombre: "\"La enseñanza de las operaciones\"",
                 formato: "PDF",
                 url: `${PDF_BASE}/matematica_2do_grado_2026.pdf`,
                 portada: "/portadas/matematica-2do.jpg",
@@ -132,7 +132,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
             name: "3er Grado",
             files: [
               {
-                nombre: "Matemática - 3er Grado",
+                nombre: "\"La enseñanza de la geometría\"",
                 formato: "PDF",
                 url: `${PDF_BASE}/matematica_3er_grado_2026.pdf`,
                 portada: "/portadas/matematica-3ro.jpg",
