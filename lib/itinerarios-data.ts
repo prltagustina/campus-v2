@@ -1,13 +1,13 @@
 /* ─────────────────────────────────────────────
  * Itinerarios didácticos por área
- * Organizados en 3 categorías: recursos para la docencia, recursos para
- * los estudiantes (ambos por ciclo y grado) y articulación
- * primaria-secundaria (con subgrupos estudiantes/docencia).
+ * Organizados en categorías por ciclo y grado: recursos para la docencia
+ * y recursos para estudiantes.
  * (Lenguas Extranjeras se organiza por idioma, aparte.)
  * ───────────────────────────────────────────── */
 
 export interface ItinerarioFile {
   nombre: string;
+  descripcion?: string;
   formato?: string;
   size?: string;
   paginas?: number;
@@ -85,8 +85,8 @@ function ciclosVacios(): ItinerarioCiclo[] {
   ];
 }
 
-function septimoVacio(): ItinerarioGrado[] {
-  return [{ id: "7mo", name: "7mo Grado", files: [] }];
+function septimo(files: ItinerarioFile[] = []): ItinerarioGrado[] {
+  return [{ id: "7mo", name: "7mo Grado", files }];
 }
 
 /* ── Recursos para la docencia con material cargado, por área ── */
@@ -151,7 +151,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
         ],
       },
     ],
-    gradosSueltos: septimoVacio(),
+    gradosSueltos: septimo(),
   },
 };
 
@@ -166,6 +166,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     estudiantes: [
       {
         nombre: "Aprender a estudiar con autonomía",
+        descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf`,
         portada: "/portadas/ciencias-sociales-articulacion-estudiantes.jpg",
@@ -174,6 +175,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     docencia: [
       {
         nombre: "Aprender a estudiar con autonomía",
+        descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf`,
         portada: "/portadas/ciencias-sociales-articulacion-docentes.jpg",
@@ -184,6 +186,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     estudiantes: [
       {
         nombre: "Aprender a estudiar con autonomía",
+        descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf`,
         portada: "/portadas/lengua-articulacion-estudiantes.jpg",
@@ -192,6 +195,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     docencia: [
       {
         nombre: "Aprender a estudiar con autonomía",
+        descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf`,
         portada: "/portadas/lengua-articulacion-docentes.jpg",
@@ -202,6 +206,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     estudiantes: [
       {
         nombre: "Aprender a estudiar con autonomía",
+        descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf`,
         portada: "/portadas/ciencias-naturales-articulacion-estudiantes.jpg",
@@ -210,6 +215,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     docencia: [
       {
         nombre: "Aprender a estudiar con autonomía",
+        descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf`,
         portada: "/portadas/ciencias-naturales-articulacion-docentes.jpg",
@@ -219,47 +225,31 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
 };
 
 /**
- * Devuelve el itinerario de un área dividido en sus 4 categorías.
+ * Devuelve el itinerario de un área dividido por categorías.
  * Las categorías sin material todavía se muestran con su estructura
  * (ciclos "Próximamente" o estado vacío) para mantener la consistencia.
  */
 export function getItinerario(slug: string): AreaItinerario {
   const docencia = recursosDocenciaPorArea[slug];
   const articulacion = articulacionPorArea[slug];
+  const articulacionDocencia = articulacion?.docencia ?? [];
+  const articulacionEstudiantes = articulacion?.estudiantes ?? [];
 
   const categorias: ItinerarioCategoria[] = [
     {
       id: "docencia",
       nombre: "Recursos para la docencia",
-      descripcion:
-        "Secuencias, guías y propuestas de enseñanza organizadas por ciclo y grado.",
+      descripcion: "Secuencias, guías y propuestas de enseñanza.",
       recursoGeneral: docencia?.recursoGeneral,
       ciclos: docencia?.ciclos ?? ciclosVacios(),
-      gradosSueltos: docencia?.gradosSueltos ?? septimoVacio(),
+      gradosSueltos: docencia?.gradosSueltos ?? septimo(articulacionDocencia),
     },
     {
       id: "estudiantes",
-      nombre: "Recursos para los estudiantes",
-      descripcion: "Materiales para entregar a los estudiantes.",
+      nombre: "Recursos para estudiantes",
+      descripcion: "Materiales para aprender.",
       ciclos: ciclosVacios(),
-      gradosSueltos: septimoVacio(),
-    },
-    {
-      id: "articulacion",
-      nombre: "Articulación primaria – secundaria",
-      descripcion: "Materiales para estudiantes y para la docencia.",
-      subgrupos: [
-        {
-          id: "estudiantes",
-          nombre: "Estudiantes",
-          files: articulacion?.estudiantes ?? [],
-        },
-        {
-          id: "docencia",
-          nombre: "Docencia",
-          files: articulacion?.docencia ?? [],
-        },
-      ],
+      gradosSueltos: septimo(articulacionEstudiantes),
     },
   ];
 

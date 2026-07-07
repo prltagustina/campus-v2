@@ -117,7 +117,7 @@ const secuenciasPorIdioma: Record<
 function GrupoHeader({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 mb-5">
-      <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#494963]/45 whitespace-nowrap">
+      <span className="text-base sm:text-lg font-bold uppercase tracking-[0.12em] text-[#494963] whitespace-nowrap">
         {label}
       </span>
       <span className="h-px flex-1 bg-gray-200/70" />
@@ -210,10 +210,15 @@ function MaterialRow({
 
         {/* Datos del material */}
         <div className="min-w-0 flex-1">
-          <span className="block text-sm sm:text-base lg:text-lg font-medium text-[#494963] leading-snug text-pretty line-clamp-3">
+          <span className="block text-base sm:text-lg lg:text-xl font-medium text-[#494963] leading-snug text-pretty line-clamp-3">
             {file.nombre}
           </span>
-          <span className="text-xs sm:text-sm text-[#494963]/45">{meta}</span>
+          {file.descripcion && (
+            <span className="mt-1 block text-sm sm:text-base font-medium text-[#494963]/65 text-pretty">
+              {file.descripcion}
+            </span>
+          )}
+          <span className="text-sm sm:text-base text-[#494963]/45">{meta}</span>
         </div>
       </a>
 
@@ -226,7 +231,7 @@ function MaterialRow({
           rel="noopener noreferrer"
           download
           aria-label={`Descargar ${file.nombre}`}
-          className="inline-flex items-center justify-center gap-1.5 rounded-full border w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-2 text-xs sm:text-sm font-semibold border-[var(--area)] text-[var(--area)] group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] transition-colors"
+          className="inline-flex items-center justify-center gap-1.5 rounded-full border w-9 h-9 sm:w-auto sm:h-auto sm:px-4 sm:py-2.5 text-sm sm:text-base font-semibold border-[var(--area)] text-[var(--area)] group-hover/item:bg-[var(--area)] group-hover/item:text-[var(--area-fg)] transition-colors"
         >
           <Download className="w-4 h-4" />
           <span className="hidden sm:inline">Descargar</span>
@@ -258,18 +263,21 @@ function GradoBlock({
   textOnColor: string;
 }) {
   const hasFiles = grado.files.length > 0;
+  const showGradeTitle = grado.id !== "7mo";
   return (
     <div className="py-4 first:pt-0 last:pb-0">
-      <div className="flex items-baseline gap-2 mb-2 px-2 sm:px-3">
-        <h6
-          className={`text-sm sm:text-base font-bold ${hasFiles ? "text-[#494963]" : "text-[#494963]/30"}`}
-        >
-          {grado.name}
-        </h6>
-        {hasFiles && grado.files.length > 1 && (
-          <span className="text-xs text-[#494963]/35">{grado.files.length} materiales</span>
-        )}
-      </div>
+      {showGradeTitle && (
+        <div className="flex items-baseline gap-2 mb-3 px-2 sm:px-3">
+          <h6
+            className={`text-base sm:text-lg font-bold ${hasFiles ? "text-[#494963]" : "text-[#494963]/30"}`}
+          >
+            {grado.name}
+          </h6>
+          {hasFiles && grado.files.length > 1 && (
+            <span className="text-sm text-[#494963]/35">{grado.files.length} materiales</span>
+          )}
+        </div>
+      )}
       {hasFiles && (
         <div className="space-y-0.5">
           {grado.files.map((file, idx) => (
@@ -307,13 +315,13 @@ function CicloCollapsible({
         className="w-full flex items-center justify-between gap-3 px-4 sm:px-7 lg:px-8 py-4 sm:py-5 text-left hover:bg-gray-50/70 transition-colors"
       >
         <span className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-sm sm:text-base font-bold text-[#494963] leading-snug">{title}</span>
+          <span className="text-base sm:text-lg font-bold text-[#494963] leading-snug">{title}</span>
           {hasFiles ? (
-            <span className="text-xs text-[#494963]/40">
+            <span className="text-sm text-[#494963]/40">
               {totalFiles} {totalFiles === 1 ? "material" : "materiales"}
             </span>
           ) : (
-            <span className="text-[11px] font-semibold uppercase tracking-wide text-[#494963]/30">
+            <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#494963]/30">
               Próximamente
             </span>
           )}
@@ -333,7 +341,7 @@ function CicloCollapsible({
           </div>
         ) : (
           <div className="border-t border-gray-100 px-4 sm:px-6 py-8 text-center">
-            <p className="text-sm text-[#494963]/40 text-pretty">
+            <p className="text-base text-[#494963]/40 text-pretty">
               Estamos preparando los materiales de este ciclo.
             </p>
           </div>
@@ -347,7 +355,7 @@ function EmptyCard({ mensaje }: { mensaje?: string }) {
   return (
     <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50/60 px-5 py-10 flex flex-col items-center justify-center gap-2.5 text-center">
       <FileText className="w-6 h-6 text-[#494963]/20" />
-      <span className="text-sm text-[#494963]/40 text-pretty">
+      <span className="text-base text-[#494963]/40 text-pretty">
         {mensaje ?? "Estamos preparando estos materiales."}
       </span>
     </div>
@@ -430,14 +438,14 @@ function CategoriaBlock({
       {(categoria.descripcion || categoria.recursoGeneral) && (
         <div className="-mt-2 mb-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
           {categoria.descripcion && (
-            <p className="text-sm text-[#494963]/50 text-pretty">{categoria.descripcion}</p>
+            <p className="text-base sm:text-lg text-[#494963]/55 text-pretty">{categoria.descripcion}</p>
           )}
           {categoria.recursoGeneral && (
             <a
               href={categoria.recursoGeneral.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-70 flex-shrink-0"
+              className="inline-flex items-center gap-1.5 text-base font-semibold transition-opacity hover:opacity-70 flex-shrink-0"
               style={{ color }}
             >
               <span>{categoria.recursoGeneral.nombre}</span>
@@ -1048,7 +1056,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           Itinerarios didácticos
         </h3>
         <p className="text-sm sm:text-base text-[#494963]/50 mt-3 max-w-md text-pretty">
-          Recursos organizados por tipo de material, ciclo y grado.
+          Recursos organizados por ciclo y grado.
         </p>
       </div>
 
