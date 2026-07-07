@@ -165,7 +165,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
   "ciencias-sociales": {
     estudiantes: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf`,
@@ -174,7 +174,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     ],
     docencia: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf`,
@@ -185,7 +185,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
   "lengua-y-literatura": {
     estudiantes: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf`,
@@ -194,7 +194,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     ],
     docencia: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf`,
@@ -205,7 +205,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
   "ciencias-naturales": {
     estudiantes: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf`,
@@ -214,7 +214,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     ],
     docencia: [
       {
-        nombre: "Aprender a estudiar con autonomía",
+        nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf`,
