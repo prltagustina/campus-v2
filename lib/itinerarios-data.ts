@@ -238,7 +238,7 @@ export function getItinerario(slug: string): AreaItinerario {
   const categorias: ItinerarioCategoria[] = [
     {
       id: "docencia",
-      nombre: "Recursos para la docencia",
+      nombre: "Recursos para docentes",
       descripcion: "Secuencias, guías y propuestas de enseñanza.",
       recursoGeneral: docencia?.recursoGeneral,
       ciclos: docencia?.ciclos ?? ciclosVacios(),
