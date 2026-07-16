@@ -50,7 +50,7 @@ const PETALS_5 = [
 function getLabel5(i: number, c: { x: number; y: number }) {
   const dx = i === 4 ? 20 : i === 0 ? 22 : i === 3 ? 22 : -20;
   const dy = i === 4 ? 0 : i === 1 ? 5 : i === 2 ? 10 : i === 3 ? 15 : -7;
-  const anchor = i === 1 || i === 2 ? "end" : "start";
+  const anchor: "end" | "start" = i === 1 || i === 2 ? "end" : "start";
   return { x: c.x + dx, y: c.y + dy, anchor };
 }
 

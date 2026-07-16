@@ -39,8 +39,9 @@ export function VideoSection({ area }: VideoSectionProps) {
           }}
         >
           <iframe
-            src={`https://www.youtube.com/embed/${videoId}`}
+            src={`https://www.youtube-nocookie.com/embed/${videoId}`}
             title={`Presentacion ${area.name}`}
+            loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             className="absolute inset-0 w-full h-full"

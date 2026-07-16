@@ -1,11 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { 
-  ArrowLeft, 
-  ArrowUp,
   BookOpen, 
   ChevronRight,
   ChevronDown,
@@ -17,10 +14,11 @@ import {
   FileText,
   Share2,
 } from "lucide-react";
-import { Header } from "@/components/header";
+import { StickySectionNav, type StickySectionNavItem } from "@/components/v3/sticky-section-nav";
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
+const PRESENTATION_VIDEO_ID = "rAAkotC7txU";
 
 /* Issues de English Funzine */
 const funzineIssues = [
@@ -45,11 +43,11 @@ const funzineIssues = [
 ];
 
 /* Sidebar navigation items with icons and labels */
-const sidebarItems = [
-  { id: "presentacion", icon: Play, label: "Presentación" },
-  { id: "magazine", icon: BookOpen, label: "Magazine" },
-  { id: "activity-book", icon: Pencil, label: "Activity Book" },
-  { id: "teachers-guide", icon: Compass, label: "Teacher's Guide" },
+const sidebarItems: StickySectionNavItem[] = [
+  { id: "presentacion", icon: Play, label: "Presentación", mobileLabel: "Inicio" },
+  { id: "magazine", icon: BookOpen, label: "Magazine", mobileLabel: "Magazine" },
+  { id: "activity-book", icon: Pencil, label: "Activity Book", mobileLabel: "Activity" },
+  { id: "teachers-guide", icon: Compass, label: "Teacher's Guide", mobileLabel: "Guía" },
 ];
 
 /* PDF URLs */
@@ -182,15 +180,12 @@ const funzineMedia: Record<"magazine" | "activityBook" | "teachersGuide", Materi
 };
 
 export default function InglesMaterilesPage() {
-  const [activeSection, setActiveSection] = useState("presentacion");
-  const [showScrollTop, setShowScrollTop] = useState(false);
   const presentacionRef = useRef<HTMLDivElement>(null);
   const magazineRef = useRef<HTMLDivElement>(null);
   const activityBookRef = useRef<HTMLDivElement>(null);
   const teachersGuideRef = useRef<HTMLDivElement>(null);
 
   const scrollToSection = (sectionId: string) => {
-    setActiveSection(sectionId);
     const refs: { [key: string]: React.RefObject<HTMLDivElement | null> } = {
       presentacion: presentacionRef,
       magazine: magazineRef,
@@ -203,165 +198,17 @@ export default function InglesMaterilesPage() {
     }
   };
 
-  // Scroll spy - detectar sección visible automáticamente
-  useEffect(() => {
-    const sectionRefs = [
-      { id: "presentacion", ref: presentacionRef },
-      { id: "magazine", ref: magazineRef },
-      { id: "activity-book", ref: activityBookRef },
-      { id: "teachers-guide", ref: teachersGuideRef },
-    ];
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "-20% 0px -60% 0px",
-      threshold: 0,
-    };
-
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.getAttribute("id");
-          if (sectionId) {
-            setActiveSection(sectionId);
-          }
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    sectionRefs.forEach(({ ref }) => {
-      if (ref.current) {
-        observer.observe(ref.current);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  // Mostrar botón de scroll to top solo cuando se llega abajo
-  useEffect(() => {
-    const toggleVisibility = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight;
-      const clientHeight = document.documentElement.clientHeight;
-      
-      // Mostrar cuando faltan menos de 200px para llegar al final
-      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 200;
-      
-      setShowScrollTop(isNearBottom);
-    };
-
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
-    <div className="min-h-screen flex flex-col bg-[#FDFBF7] overflow-x-hidden">
-      {/* Header Institucional Simulado */}
-      <header className="w-full bg-white fixed top-0 z-50 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
-          {/* Logo Campus Educativo */}
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <Image
-              src="/images/recurso-3.png"
-              alt="Campus Educativo"
-              width={32}
-              height={32}
-              className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
-            />
-            <span className="text-sm sm:text-base font-medium text-[#494963] hidden sm:inline">
-              <span className="font-bold">Campus</span> Educativo
-            </span>
-          </Link>
+    <div className="flex min-h-full min-w-0 flex-col bg-[#FDFBF7]">
+      <StickySectionNav
+        title="English Funzine"
+        items={sidebarItems}
+        backHref="/area/lenguas-extranjeras"
+        backLabel="Lenguas Extranjeras"
+      />
 
-          {/* Navegación central - solo desktop */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors">
-              Formación Continua
-            </span>
-            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors flex items-center gap-1">
-              Programas
-              <ChevronRight className="w-3 h-3 rotate-90" />
-            </span>
-            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors">
-              Recursos
-            </span>
-            <span className="text-sm text-[#494963]/70 hover:text-[#494963] cursor-pointer transition-colors">
-              Blog
-            </span>
-          </nav>
-
-          {/* Logo Santa Fe */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <img
-              src="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2024/08/sf_provincia.png"
-              alt="Santa Fe Provincia"
-              className="h-6 sm:h-8 w-auto object-contain"
-            />
-          </div>
-        </div>
-      </header>
-
-      {/* Header de navegación que aparece al hacer scroll */}
-      <Header />
-      
-      {/* SIDEBAR GLOBAL FIJO - visible en toda la página, posicionado arriba */}
-      <aside className="hidden lg:block fixed left-0 top-24 z-50 p-3">
-        {/* Volver */}
-        <Link 
-          href="/area/lenguas-extranjeras" 
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-sm transition-colors mb-6 mx-auto"
-          title="Volver a Lenguas Extranjeras"
-        >
-          <ArrowLeft className="w-4 h-4 text-[#494963]/70" />
-        </Link>
-
-        <nav className="flex flex-col items-center gap-2">
-          {sidebarItems.map((item) => {
-            const isActive = activeSection === item.id;
-            const IconComponent = item.icon;
-            return (
-              <div key={item.id} className="relative group">
-                <button
-                  type="button"
-                  onClick={() => scrollToSection(item.id)}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-sm ${
-                    isActive 
-                      ? "bg-white" 
-                      : "bg-white/80 hover:bg-white"
-                  }`}
-                >
-                  <IconComponent 
-                    className={`w-4 h-4 transition-colors ${
-                      isActive ? "text-[#494963]" : "text-[#494963]/40"
-                    }`}
-                  />
-                </button>
-                {/* Tooltip */}
-                <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-                  <span className="text-xs font-medium text-[#494963] whitespace-nowrap bg-white px-3 py-1.5 rounded-lg shadow-md">
-                    {item.label}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </nav>
-      </aside>
-      
       {/* MAIN LAYOUT */}
-      <main className="relative mt-16 flex-1 overflow-x-hidden">
+      <main className="relative flex-1 overflow-x-hidden">
         {/* HERO SECTION con Background amarillo con alto contraste */}
         <section className="relative">
           {/* Background amarillo saturado */}
@@ -376,24 +223,16 @@ export default function InglesMaterilesPage() {
           {/* Contenido del Hero */}
           <div className="relative flex justify-center" style={{ zIndex: 2 }}>
             <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-0">
-                  {/* Mobile back button */}
-                  <div className="lg:hidden pt-4 mb-4">
-                    <Link 
-                      href="/area/lenguas-extranjeras" 
-                      className="inline-flex items-center gap-1.5 text-sm text-[#494963]/70 hover:text-[#494963] transition-colors font-medium"
-                    >
-                      <ArrowLeft className="w-4 h-4" />
-                      Volver a Lenguas Extranjeras
-                    </Link>
-                  </div>
+                  <h1 className="sr-only">English Funzine</h1>
 
                   {/* Logo - más grande en mobile */}
-                  <div className="pt-6 sm:pt-8 lg:pt-10 mb-5 sm:mb-6">
+                  <div className="pt-9 sm:pt-11 mb-5 sm:mb-6">
                     <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-funzine-LQEjEmOFKR3zDMZCkWPx4Q1ircXGEX.svg"
                       alt="English Funzine"
                       width={550}
                       height={150}
+                      unoptimized
                       className="w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px] h-auto"
                       priority
                     />
@@ -410,18 +249,21 @@ export default function InglesMaterilesPage() {
                     />
                   </div>
 
-                  {/* Video de presentación - mockup minimalista */}
-                  <div ref={presentacionRef} id="presentacion" className="scroll-mt-20 mb-10 sm:mb-12">
+                  {/* Video oficial de presentación */}
+                  <div ref={presentacionRef} id="presentacion" className="scroll-mt-28 mb-10 sm:mb-12 lg:scroll-mt-20">
                     <p className="text-xs sm:text-sm font-medium text-[#494963]/50 uppercase tracking-wider mb-3">
                       Video de presentación
                     </p>
-                    <div className="relative rounded-xl overflow-hidden bg-[#494963]/5 aspect-video max-w-md cursor-pointer group">
-                      {/* Placeholder para embed de YouTube */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#494963]/10 group-hover:bg-[#494963]/20 flex items-center justify-center transition-colors">
-                          <Play className="w-6 h-6 sm:w-7 sm:h-7 text-[#494963]/60 ml-0.5" />
-                        </div>
-                      </div>
+                    <div className="relative aspect-video max-w-md overflow-hidden rounded-xl bg-[#494963]/5">
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${PRESENTATION_VIDEO_ID}?rel=0`}
+                        title="Presentación de English Funzine 1"
+                        className="absolute inset-0 h-full w-full"
+                        loading="lazy"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
                     </div>
                   </div>
 
@@ -463,9 +305,12 @@ export default function InglesMaterilesPage() {
 
                   {/* Magazine covers - Banner con personajes - MÁS GRANDE */}
                   <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-10 sm:pb-14 lg:pb-20 -mx-6 sm:-mx-10 lg:-mx-28 xl:-mx-40">
-                    <img
+                    <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/imagen_web_ingles_mockupypersonajes-HLAuGaOy5Pa7aaMDJAJLLqqWWi8L0g.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher's Guide con personajes"
+                      width={3752}
+                      height={2212}
+                      sizes="(max-width: 639px) calc(100vw + 3rem), (max-width: 1023px) calc(100vw + 5rem), (max-width: 1279px) 56rem, 62rem"
                       className="w-full h-auto"
                     />
                     {/* Learn English banner overlay */}
@@ -498,7 +343,7 @@ export default function InglesMaterilesPage() {
               {/* Materials */}
               <div className="space-y-8 sm:space-y-12 lg:space-y-16">
                 {/* 01. Magazine */}
-                <div ref={magazineRef} id="magazine" className="scroll-mt-20">
+                <div ref={magazineRef} id="magazine" className="scroll-mt-28 lg:scroll-mt-20">
                   <MaterialCard
                     title="Magazine"
                     pdfUrl={pdfUrls.magazine}
@@ -507,7 +352,7 @@ export default function InglesMaterilesPage() {
                 </div>
 
                 {/* Activity Book */}
-                <div ref={activityBookRef} id="activity-book" className="scroll-mt-20">
+                <div ref={activityBookRef} id="activity-book" className="scroll-mt-28 lg:scroll-mt-20">
                   <MaterialCard
                     title="Activity Book"
                     pdfUrl={pdfUrls.activityBook}
@@ -516,7 +361,7 @@ export default function InglesMaterilesPage() {
                 </div>
 
                 {/* Teacher's Guide */}
-                <div ref={teachersGuideRef} id="teachers-guide" className="scroll-mt-20">
+                <div ref={teachersGuideRef} id="teachers-guide" className="scroll-mt-28 lg:scroll-mt-20">
                   <MaterialCard
                     title="Teacher's Guide"
                     pdfUrl={pdfUrls.teachersGuide}
@@ -529,18 +374,6 @@ export default function InglesMaterilesPage() {
         </section>
       </main>
 
-      {/* Botón scroll to top */}
-      {showScrollTop && (
-        <button
-          type="button"
-          onClick={scrollToTop}
-          className="fixed bottom-24 lg:bottom-10 right-4 lg:right-8 flex items-center justify-center transition-all hover:scale-110 z-50"
-          style={{ color: AREA_COLOR }}
-          aria-label="Volver arriba"
-        >
-          <ArrowUp className="w-8 h-8 lg:w-9 lg:h-9" strokeWidth={2.5} />
-        </button>
-      )}
     </div>
   );
 }
@@ -618,12 +451,12 @@ function MaterialCard({
       {/* PDF viewer - centrado y responsive */}
       <div className="relative w-full mb-4 sm:mb-5 flex justify-center">
         <div 
-          className="relative w-full max-w-md bg-gray-50 rounded-lg overflow-hidden mx-auto"
+          className="relative mx-auto w-full max-w-md overflow-hidden rounded-lg bg-gray-50"
           style={{ aspectRatio: "3/4", minHeight: "400px" }}
         >
           <iframe
             src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
-            className="w-full h-full absolute inset-0"
+            className="absolute inset-0 h-full w-full"
             title={`${title} Preview`}
             style={{ border: "none" }}
             allowFullScreen
@@ -839,7 +672,13 @@ function MaterialCard({
               >
                 <div className="relative aspect-video bg-[#494963]/10 overflow-hidden">
                   {video.thumbnail ? (
-                    <Image src={video.thumbnail} alt={video.name} fill className="object-cover transition-transform group-hover:scale-105" />
+                    <Image
+                      src={video.thumbnail}
+                      alt={video.name}
+                      fill
+                      sizes="(max-width: 639px) calc(100vw - 3.5rem), 20rem"
+                      className="object-cover transition-transform group-hover:scale-105"
+                    />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Play className="w-8 h-8 text-[#494963]/30" />

@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowLeft, FileText, ExternalLink, Download, ArrowRight, Scale, FolderOpen, Calendar } from "lucide-react";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/landing/landing-footer";
+import type { ReactNode } from "react";
+import { Calendar, Download, ExternalLink, FileText, FolderOpen, Scale } from "lucide-react";
+import { SectionTabs } from "@/components/v3/section-rail";
 
 /* Legislación, normativa y documentos curriculares */
 const legislacion = {
@@ -147,289 +146,155 @@ const celebraciones = [
   },
 ];
 
+const celebracionesCalendario = celebraciones.filter((_, index) => [0, 1, 2, 3, 4, 8, 9, 10, 11, 12].includes(index));
+const celebracionesMemoria = celebraciones.filter((_, index) => [5, 6, 7, 13, 14].includes(index));
+
+function EditorialHeader({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
+  return (
+    <header className="mb-6 max-w-2xl">
+      <p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#494963]/40">{eyebrow}</p>
+      <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl">{title}</h2>
+      <p className="mt-3 text-sm leading-relaxed text-[#494963]/50 sm:text-base">{description}</p>
+    </header>
+  );
+}
+
+function RepositoryPanel({ title, detail, icon, children }: { title: string; detail: string; icon: ReactNode; children: ReactNode }) {
+  return (
+    <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+      <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
+        <div className="min-w-0"><h3 className="font-display text-lg font-semibold leading-snug text-[#494963]">{title}</h3><p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p></div>
+      </div>
+      <div className="divide-y divide-[#494963]/[.07]">{children}</div>
+    </div>
+  );
+}
+
+function ResourceRow({ title, description, href, download = false }: { title: string; description?: string; href: string; download?: boolean }) {
+  return (
+    <a href={href} download={download || undefined} target={download ? undefined : "_blank"} rel={download ? undefined : "noopener noreferrer"} className="group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-[#F8F8FA] sm:gap-4 sm:px-6 sm:py-5">
+      <FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" />
+      <span className="min-w-0 flex-1">
+        <b className="block text-sm font-semibold leading-snug text-[#494963] sm:text-base">{title}</b>
+        {description && <small className="mt-1 block text-xs leading-relaxed text-[#494963]/42 sm:text-sm">{description}</small>}
+      </span>
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
+        {download ? <Download className="h-4 w-4" /> : <ExternalLink className="h-4 w-4" />}
+      </span>
+      <span className="sr-only">{download ? "Descargar" : "Abrir"} {title}</span>
+    </a>
+  );
+}
+
+function ProjectGroup({ title, index, items }: { title: string; index: string; items: { nombre: string; url: string }[] }) {
+  return (
+    <section className="grid min-w-0 gap-4 px-5 py-5 sm:px-6 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-7 md:py-6">
+      <header>
+        <p className="font-display text-[11px] font-semibold tabular-nums text-[#494963]/28">{index}</p>
+        <h3 className="mt-1 font-display text-base font-semibold leading-tight text-[#494963] sm:text-lg">{title}</h3>
+        <p className="mt-1 text-xs text-[#494963]/38">{items.length} {items.length === 1 ? "experiencia" : "experiencias"}</p>
+      </header>
+
+      <div className="min-w-0 divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] md:border-t-0">
+        {items.map((item) => (
+          <a
+            key={item.url}
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex min-w-0 items-center gap-3 py-3.5 first:pt-3.5 transition-colors md:first:pt-0"
+          >
+            <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[#494963] sm:text-[15px]">{item.nombre}</span>
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#494963]/[.045] text-[#494963]/35 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
+              <ExternalLink className="h-3.5 w-3.5" />
+            </span>
+            <span className="sr-only">Abrir {item.nombre}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ArchiveGroup({ title, detail, icon, items }: { title: string; detail: string; icon: ReactNode; items: { nombre: string; url: string }[] }) {
+  return (
+    <section className="overflow-hidden rounded-[1.35rem] bg-white shadow-[0_5px_24px_rgba(73,73,99,.055)]">
+      <header className="flex items-center gap-3 px-5 py-4 sm:px-6">
+        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#494963]/[.05] text-[#494963]">{icon}</span>
+        <div className="min-w-0">
+          <h3 className="font-display text-base font-semibold leading-snug text-[#494963] sm:text-lg">{title}</h3>
+          <p className="mt-0.5 text-[11px] text-[#494963]/38 sm:text-xs">{detail}</p>
+        </div>
+      </header>
+
+      <div className="grid border-t border-[#494963]/[.065] sm:grid-cols-2">
+        {items.map((item, index) => (
+          <a
+            key={item.url}
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)_1.75rem] items-start gap-2.5 border-b border-[#494963]/[.065] px-4 py-4 transition-colors last:border-b-0 hover:bg-[#F8F8FA] sm:px-5 sm:odd:border-r"
+          >
+            <span className="pt-0.5 font-display text-[10px] font-semibold tabular-nums text-[#494963]/25">{String(index + 1).padStart(2, "0")}</span>
+            <span className="min-w-0 text-[13px] font-medium leading-[1.4] text-[#494963] sm:text-sm">{item.nombre}</span>
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[#494963]/30 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
+              <ExternalLink className="h-3.5 w-3.5" />
+            </span>
+            <span className="sr-only">Abrir {item.nombre}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function EIBPage() {
   return (
-    <main className="min-h-screen bg-white flex flex-col">
-      <Header />
-
-      {/* Hero sutil - sin imagen de fondo */}
-      <section className="relative pt-24 sm:pt-28 pb-10 sm:pb-12 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl mx-auto">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-6 sm:mb-8"
-            >
-              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              Volver al inicio
-            </Link>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight font-display">
-              Educación Intercultural Bilingüe
-            </h1>
-          </div>
+    <main className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
+      <header className="flex min-h-[98px] shrink-0 items-center bg-[#494963] px-5 py-3 text-white md:min-h-[110px] md:px-10 md:py-3.5">
+        <div className="mx-auto w-full max-w-4xl">
+          <p className="text-[8px] font-bold uppercase tracking-[.18em] text-white/45 sm:text-[9px]">Modalidad educativa</p>
+          <h1 className="mt-0.5 font-display text-[1.35rem] font-semibold leading-[1.08] tracking-[-.03em] sm:text-2xl md:text-[1.75rem]">Educación Intercultural Bilingüe</h1>
+          <p className="mt-1 max-w-2xl text-[11px] leading-4 text-white/62 sm:text-xs md:text-[13px]">Normativa, experiencias pedagógicas y efemérides para acompañar una educación situada, intercultural y plurilingüe.</p>
         </div>
-      </section>
+      </header>
 
-      {/* Sección 1: Legislación, normativa y documentos curriculares */}
-      <section className="py-10 sm:py-12 md:py-16 bg-[#EDEDF0]">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl mx-auto">
-            {/* Título con icono estilo docentes */}
-            <div className="flex items-start gap-3 mb-6 sm:mb-8">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/5 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Scale className="w-5 h-5 sm:w-6 sm:h-6 text-[#494963]" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] font-display leading-tight">
-                  Legislación, normativa y documentos curriculares
-                </h2>
-                <p className="text-sm text-[#494963]/50 mt-1">
-                  Marco legal y resoluciones de la modalidad EIB
-                </p>
-              </div>
-            </div>
+      <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
+        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+          <div className="mx-auto max-w-4xl">
+            <EditorialHeader eyebrow="Marco institucional" title="Normativa y documentos" description="Resoluciones y referencias jurídicas que enmarcan el trabajo de la modalidad EIB." />
+            <RepositoryPanel title="Marco normativo" detail="Resoluciones y documentos de referencia" icon={<Scale className="h-4 w-4" />}>
+              <ResourceRow title={legislacion.resolucion.titulo} description={`${legislacion.resolucion.archivo} · PDF`} href={legislacion.resolucion.url} download />
+              {legislacion.elementosJuridicos.documentos.map((documento) => <ResourceRow key={documento.url} title={documento.nombre} description="Elementos jurídicos relacionados con la Educación Intercultural Bilingüe" href={documento.url} />)}
+              <ResourceRow title="Marco legal de la Modalidad de Educación Intercultural Bilingüe" description={`${legislacion.marcoLegal.descripcion} ${legislacion.marcoLegal.descripcion2}`} href={legislacion.marcoLegal.url} />
+            </RepositoryPanel>
+          </div>
+        </section>
 
-            {/* Resolución */}
-            <div className="mb-6 sm:mb-8">
-              <h3 className="text-xs sm:text-sm font-bold text-[#494963] uppercase tracking-wide mb-3 sm:mb-4">
-                Resolución
-              </h3>
-              <a
-                href={legislacion.resolucion.url}
-                download
-                className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all group"
-              >
-                <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-[#E42153] flex-shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <span className="text-sm sm:text-base font-medium text-[#494963] block">
-                    {legislacion.resolucion.titulo}
-                  </span>
-                  <span className="text-xs sm:text-sm text-[#494963]/50">
-                    {legislacion.resolucion.archivo}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                  <span className="text-[10px] sm:text-xs text-[#494963]/40 uppercase tracking-wide hidden sm:block">PDF</span>
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-50 group-hover:bg-gray-100 transition-colors">
-                    <Download className="w-4 h-4 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors" />
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            {/* Elementos Jurídicos */}
-            <div className="mb-6 sm:mb-8">
-              <h3 className="text-xs sm:text-sm font-bold text-[#494963] uppercase tracking-wide mb-3 sm:mb-4 leading-snug">
-                {legislacion.elementosJuridicos.titulo}
-                <br />
-                {legislacion.elementosJuridicos.subtitulo}
-              </h3>
-              <div className="space-y-2">
-                {legislacion.elementosJuridicos.documentos.map((doc, idx) => (
-                  <a
-                    key={idx}
-                    href={doc.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl hover:bg-gray-50 transition-all group"
-                  >
-                    <FileText className="w-4 h-4 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors flex-shrink-0" />
-                    <span className="text-sm text-[#494963] flex-1">{doc.nombre}</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Marco Legal */}
-            <div>
-              <h3 className="text-xs sm:text-sm font-bold text-[#494963] uppercase tracking-wide mb-2 sm:mb-3 leading-snug">
-                {legislacion.marcoLegal.titulo}
-                <br />
-                {legislacion.marcoLegal.subtitulo}
-              </h3>
-              <p className="text-sm sm:text-base text-[#494963]/60 mb-3 sm:mb-4 leading-relaxed">
-                {legislacion.marcoLegal.descripcion}
-                <br />
-                {legislacion.marcoLegal.descripcion2}
-              </p>
-              <a
-                href={legislacion.marcoLegal.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-white rounded-xl hover:bg-gray-50 transition-all text-sm font-medium text-[#494963] group"
-              >
-                <span>Ver documento</span>
-                <ExternalLink className="w-3.5 h-3.5 text-[#494963]/40 group-hover:text-[#494963]/70 transition-colors" />
-              </a>
+        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+          <div className="mx-auto max-w-4xl">
+            <EditorialHeader eyebrow="Experiencias pedagógicas" title="Proyectos, secuencias e itinerarios" description="Producciones de escuelas de Modalidad EIB de la provincia, organizadas por nivel educativo." />
+            <div className="divide-y divide-[#494963]/[.07] overflow-hidden rounded-[1.35rem] bg-white shadow-[0_5px_24px_rgba(73,73,99,.055)]">
+              <ProjectGroup index="01" title="Nivel Inicial" items={proyectos.inicial} />
+              <ProjectGroup index="02" title="Nivel Primario" items={proyectos.primario} />
+              <ProjectGroup index="03" title="Nivel Secundario" items={proyectos.secundario} />
+              <ProjectGroup index="04" title="Nivel Terciario" items={proyectos.terciario} />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Sección 2: Proyectos, secuencias e itinerarios */}
-      <section className="py-10 sm:py-12 md:py-16">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl mx-auto">
-            {/* Título con icono estilo docentes */}
-            <div className="flex items-center gap-3 mb-6 sm:mb-8">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/5 flex items-center justify-center flex-shrink-0">
-                <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6 text-[#494963]" />
-              </div>
-              <div>
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] font-display leading-snug">
-                  Proyectos, secuencias e itinerarios
-                </h2>
-                <p className="text-sm text-[#494963]/50 mt-0.5">
-                  Escuelas de Modalidad EIB de la provincia de Santa Fe
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-8 sm:space-y-10">
-              {/* Nivel Inicial */}
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-[#3d3d5c]" />
-                  <h3 className="text-sm sm:text-base font-bold text-[#494963]">
-                    Proyectos Nivel Inicial
-                  </h3>
-                </div>
-                <div className="space-y-2">
-                  {proyectos.inicial.map((proyecto, idx) => (
-                    <a
-                      key={idx}
-                      href={proyecto.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
-                    >
-                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3d3d5c] group-hover:translate-x-0.5 transition-transform" />
-                      <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Nivel Primario */}
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-[#3d3d5c]" />
-                  <h3 className="text-sm sm:text-base font-bold text-[#494963]">
-                    Proyectos Nivel Primario
-                  </h3>
-                </div>
-                <div className="space-y-2">
-                  {proyectos.primario.map((proyecto, idx) => (
-                    <a
-                      key={idx}
-                      href={proyecto.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
-                    >
-                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3d3d5c] group-hover:translate-x-0.5 transition-transform" />
-                      <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Nivel Secundario */}
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-[#3d3d5c]" />
-                  <h3 className="text-sm sm:text-base font-bold text-[#494963]">
-                    Proyectos Nivel Secundario
-                  </h3>
-                </div>
-                <div className="space-y-2">
-                  {proyectos.secundario.map((proyecto, idx) => (
-                    <a
-                      key={idx}
-                      href={proyecto.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
-                    >
-                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3d3d5c] group-hover:translate-x-0.5 transition-transform" />
-                      <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Nivel Terciario */}
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-[#3d3d5c]" />
-                  <h3 className="text-sm sm:text-base font-bold text-[#494963]">
-                    Proyectos Nivel Terciario
-                  </h3>
-                </div>
-                <div className="space-y-2">
-                  {proyectos.terciario.map((proyecto, idx) => (
-                    <a
-                      key={idx}
-                      href={proyecto.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-4 py-3 bg-[#F5F5F7] rounded-xl hover:bg-[#EDEDF0] transition-all group"
-                    >
-                      <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#3d3d5c] group-hover:translate-x-0.5 transition-transform" />
-                      <span className="text-sm text-[#494963] flex-1">{proyecto.nombre}</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-[#494963]/30 group-hover:text-[#494963]/60 transition-colors flex-shrink-0" />
-                    </a>
-                  ))}
-                </div>
-              </div>
+        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+          <div className="mx-auto max-w-4xl">
+            <EditorialHeader eyebrow="Memoria y comunidad" title="Celebraciones y efemérides" description="Fechas, historias y materiales para reconocer a las comunidades y pueblos originarios." />
+            <div className="space-y-4">
+              <ArchiveGroup title="Calendario intercultural" detail={`${celebracionesCalendario.length} fechas y conmemoraciones`} icon={<Calendar className="h-4 w-4" />} items={celebracionesCalendario} />
+              <ArchiveGroup title="Memorias y recursos" detail={`${celebracionesMemoria.length} historias y materiales`} icon={<FolderOpen className="h-4 w-4" />} items={celebracionesMemoria} />
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Sección 3: Celebraciones y efemérides */}
-      <section className="py-10 sm:py-12 md:py-16 bg-[#EDEDF0]">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl mx-auto">
-            {/* Título con icono estilo docentes */}
-            <div className="flex items-center gap-3 mb-6 sm:mb-8">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#494963]/5 flex items-center justify-center flex-shrink-0">
-                <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-[#494963]" />
-              </div>
-              <div>
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] font-display">
-                  Celebraciones y efemérides
-                </h2>
-                <p className="text-sm text-[#494963]/50 mt-0.5">
-                  Fechas importantes de las comunidades originarias
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
-              {celebraciones.map((item, idx) => (
-                <a
-                  key={idx}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50/50 transition-colors group"
-                >
-                  <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#494963]/30 group-hover:text-[#494963]/60 group-hover:translate-x-0.5 transition-all" />
-                  <span className="text-sm text-[#494963] flex-1">{item.nombre}</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-[#494963]/20 group-hover:text-[#494963]/50 transition-colors flex-shrink-0" />
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
+        </section>
+      </SectionTabs>
     </main>
   );
 }

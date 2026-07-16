@@ -1,130 +1,84 @@
-"use client";
-
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowLeft, Download, FileText } from "lucide-react";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/landing/landing-footer";
+import { Download, FileText } from "lucide-react";
+import { SectionTabs } from "@/components/v3/section-rail";
+import { SlideDeckEmbed } from "@/components/v3/content-blocks";
 
 const materiales = [
-  {
-    nombre: "Familias_cartilla_familias.pdf",
-    titulo: "Cartilla para familias",
-    formato: "PDF",
-    url: "/docs/Familias_cartilla_familias.pdf",
-  },
-  {
-    nombre: "PTT DISENO CURRICULAR para FAMILIAS.pptx.pdf",
-    titulo: "Presentación del Diseño Curricular para Familias",
-    formato: "PDF",
-    url: "/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf",
-  },
-  {
-    area: "Lengua y Literatura",
-    color: "#FF7402",
-    nombre: "Familias_objetivos_contenido_LenguayLiteratura.pdf",
-    titulo: "Objetivos y contenidos - Lengua y Literatura",
-    formato: "PDF",
-    url: "/docs/Familias_objetivos_contenido_LenguayLiteratura.pdf",
-  },
-  {
-    area: "Matemática",
-    color: "#E42153",
-    nombre: "Familias_objetivos_contenido_Matematica.pdf",
-    titulo: "Objetivos y contenidos - Matemática",
-    formato: "PDF",
-    url: "/docs/Familias_objetivos_contenido_Matematica.pdf",
-  },
-];
+  { titulo: "Cartilla para familias", descripcion: "Guía para acompañar el nuevo Diseño Curricular desde el hogar.", url: "/docs/Familias_cartilla_familias.pdf" },
+  { titulo: "Presentación del Diseño Curricular para familias", descripcion: "Síntesis visual de los fundamentos y la organización de la propuesta.", url: "/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf" },
+  { titulo: "Objetivos y contenidos — Lengua y Literatura", descripcion: "Contenidos y aprendizajes centrales del área.", url: "/docs/Familias_objetivos_contenido_LenguayLiteratura.pdf" },
+  { titulo: "Objetivos y contenidos — Matemática", descripcion: "Contenidos y aprendizajes centrales del área.", url: "/docs/Familias_objetivos_contenido_Matematica.pdf" },
+] as const;
 
 export default function FamiliasPage() {
   return (
-    <main className="min-h-screen bg-white flex flex-col">
-      <Header />
-
-      {/* Hero */}
-      <section className="relative py-16 md:py-20 mt-16 overflow-hidden">
-        <Image
-          src="/images/cabecera-familias.png"
-          alt=""
-          fill
-          className="object-cover object-right"
-          priority
-        />
-        <div className="relative z-10 container mx-auto px-4">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" />
-            Volver al inicio
-          </Link>
-          <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-4 font-display">
-              Materiales para Familias
-            </h1>
-          </div>
+    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
+      <header className="flex min-h-[98px] shrink-0 items-center bg-[#494963] px-5 py-3 text-white md:min-h-[110px] md:px-10 md:py-3.5">
+        <div className="mx-auto w-full max-w-4xl">
+          <p className="text-[8px] font-bold uppercase tracking-[.18em] text-white/45 sm:text-[9px]">Comunidad educativa</p>
+          <h1 className="mt-0.5 font-display text-[1.35rem] font-semibold leading-[1.08] tracking-[-.03em] sm:text-2xl md:text-[1.75rem]">Familias</h1>
+          <p className="mt-1 max-w-2xl text-[11px] leading-4 text-white/62 sm:text-xs md:text-[13px]">
+            Recursos claros para conocer la propuesta curricular y acompañar las trayectorias escolares.
+          </p>
         </div>
-      </section>
+      </header>
 
-      {/* PDF Preview Section */}
-      <section className="py-12 md:py-16 bg-[#EDEDF0]">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-6 font-display">
-              Presentación del Diseño Curricular
-            </h2>
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg">
-              <iframe
-                src="https://docs.google.com/presentation/d/1iE4BFRuhcT7yXhRfCoDpeEEx8ZSYyqWH/embed?start=false&loop=false&delayms=3000"
-                className="w-full h-[350px] md:h-[450px] lg:h-[500px]"
-                title="Presentación del Diseño Curricular para Familias"
-                allowFullScreen
-              />
+      <SectionTabs title="Recursos para familias" items={[{ id: "presentacion", label: "Presentación" }, { id: "materiales", label: "Materiales" }]} keepVisitedPanels>
+        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+          <div className="mx-auto max-w-4xl">
+            <header className="mb-6 max-w-2xl">
+              <p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Para empezar</p>
+              <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl">El diseño curricular, en pocas palabras</h2>
+              <p className="mt-3 text-sm leading-relaxed text-[#494963]/50 sm:text-base">Una introducción visual preparada especialmente para las familias.</p>
+            </header>
+            <SlideDeckEmbed
+              src="https://docs.google.com/presentation/d/1iE4BFRuhcT7yXhRfCoDpeEEx8ZSYyqWH/embed?start=false&loop=false&delayms=3000"
+              title="Presentación del Diseño Curricular para Familias"
+              label="Presentación para familias"
+              posterSrc="/images/cabecera-familias.png"
+            />
+          </div>
+        </section>
+
+        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+          <div className="mx-auto max-w-4xl">
+            <header className="mb-6 max-w-2xl">
+              <p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Biblioteca familiar</p>
+              <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl">Materiales para acompañar</h2>
+              <p className="mt-3 text-sm leading-relaxed text-[#494963]/50 sm:text-base">Documentos breves para consultar, compartir o descargar.</p>
+            </header>
+
+            <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+              <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
+                <div>
+                  <h3 className="font-display text-lg font-semibold text-[#494963]">Documentos disponibles</h3>
+                  <p className="mt-0.5 text-xs text-[#494963]/40">{materiales.length} archivos en formato PDF</p>
+                </div>
+                <span className="rounded-full bg-[#494963]/[.06] px-3 py-1 text-xs font-bold text-[#494963]/55">{materiales.length}</span>
+              </div>
+
+              <div className="divide-y divide-[#494963]/[.07]">
+                {materiales.map((material) => (
+                  <a key={material.url} href={material.url} download className="group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-[#F8F8FA] sm:gap-4 sm:px-6 sm:py-5">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]/55">
+                      <FileText className="h-4.5 w-4.5" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <b className="block text-sm font-semibold leading-snug text-[#494963] sm:text-base">{material.titulo}</b>
+                      <small className="mt-1 block text-xs leading-relaxed text-[#494963]/42 sm:text-sm">{material.descripcion} · PDF</small>
+                    </span>
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
+                      <Download className="h-4 w-4" />
+                    </span>
+                    <span className="sr-only">Descargar {material.titulo}</span>
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Materiales para descargar */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-8 font-display">
-              Materiales para descargar
-            </h2>
-            <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
-            {materiales.map((mat) => (
-              <a
-                key={mat.nombre}
-                href={mat.url}
-                download
-                className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 transition-colors group"
-              >
-                {"area" in mat && mat.area ? (
-                  <>
-                    <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: mat.color }} />
-                    <FileText className="w-5 h-5 flex-shrink-0" style={{ color: mat.color }} />
-                  </>
-                ) : (
-                  <FileText className="w-5 h-5 flex-shrink-0 text-[#E42153]" />
-                )}
-                <div className="flex-1 min-w-0">
-                  <span className="text-sm text-[#494963] font-medium block truncate">{mat.titulo}</span>
-                  <span className="text-xs text-[#494963]/40 block mt-0.5">{mat.nombre}</span>
-                </div>
-                <span className="text-[10px] uppercase tracking-wider text-[#494963]/30 font-semibold flex-shrink-0">{mat.formato}</span>
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors text-[#494963]/30 group-hover:text-[#494963]/60 group-hover:bg-gray-100">
-                  <Download className="w-3.5 h-3.5" />
-                </div>
-              </a>
-            ))}
+            <p className="mt-4 text-xs leading-relaxed text-[#494963]/38">La biblioteca se ampliará a medida que se publiquen materiales para nuevas áreas.</p>
           </div>
-            <p className="text-xs text-[#494963]/30 mt-4">
-              Se irán sumando materiales para más áreas a medida que estén disponibles.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
+        </section>
+      </SectionTabs>
+    </div>
   );
 }
