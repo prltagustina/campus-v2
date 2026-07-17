@@ -85,6 +85,16 @@ function ciclosVacios(): ItinerarioCiclo[] {
   ];
 }
 
+function ciclosConRecursos(filesPorGrado: Record<string, ItinerarioFile[]>): ItinerarioCiclo[] {
+  return ciclosVacios().map((ciclo) => ({
+    ...ciclo,
+    grados: ciclo.grados.map((grado) => ({
+      ...grado,
+      files: filesPorGrado[grado.id] ?? [],
+    })),
+  }));
+}
+
 function septimo(files: ItinerarioFile[] = []): ItinerarioGrado[] {
   return [{ id: "7mo", name: "7mo Grado", files }];
 }
@@ -151,6 +161,52 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
         ],
       },
     ],
+    gradosSueltos: septimo(),
+  },
+  "ciencias-naturales": {
+    ciclos: ciclosConRecursos({
+      "5to": [
+        {
+          nombre: "“Alimentos en escena: ciencia y salud en nuestra mesa”",
+          formato: "PDF",
+          size: "26 MB",
+          paginas: 22,
+          url: "/documentos/secuencias/secuencia-ciencias-naturales-5to-grado.pdf",
+          portada: "/portadas/ciencias-naturales-5to.jpg",
+        },
+      ],
+    }),
+    gradosSueltos: septimo(),
+  },
+  "educacion-fisica": {
+    ciclos: ciclosConRecursos({
+      "1ro": [
+        {
+          nombre: "“Misión misteriosa: actividades lúdicas para sentir, pensar, hacer y compartir”",
+          formato: "PDF",
+          size: "1.7 MB",
+          paginas: 25,
+          url: "/documentos/secuencias/secuencia-educacion-fisica-1er-grado.pdf",
+          portada: "/portadas/educacion-fisica-1ro.jpg",
+        },
+      ],
+    }),
+    gradosSueltos: septimo(),
+  },
+  "educacion-artistica": {
+    ciclos: ciclosConRecursos({
+      "1ro": [
+        {
+          nombre: "“Arte en todas partes: exploración de las formas y espacios \"con ojos de artista\"”",
+          descripcion: "Artes Visuales",
+          formato: "PDF",
+          size: "39 MB",
+          paginas: 27,
+          url: "/documentos/secuencias/secuencia-artes-visuales-1er-grado.pdf",
+          portada: "/portadas/artes-visuales-1ro.jpg",
+        },
+      ],
+    }),
     gradosSueltos: septimo(),
   },
 };

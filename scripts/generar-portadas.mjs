@@ -26,6 +26,7 @@ const TARGET_WIDTH = 600; // ancho del render (px)
 
 // Lista de PDFs a procesar: { id, url }
 const ART_BASE = path.join(process.cwd(), "public", "documentos", "articulacion");
+const SECUENCIAS_BASE = path.join(process.cwd(), "public", "documentos", "secuencias");
 const PDFS = [
   { id: "matematica-1ro", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06/matematica_1er_-grado_2026.pdf" },
   { id: "matematica-2do", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/06/matematica_2do_grado_2026.pdf" },
@@ -37,6 +38,10 @@ const PDFS = [
   { id: "lengua-articulacion-docentes", url: path.join(ART_BASE, "Lengua-y-Literatura-Docentes.pdf") },
   { id: "ciencias-naturales-articulacion-estudiantes", url: path.join(ART_BASE, "Ciencias-Naturales-Estudiantes.pdf") },
   { id: "ciencias-naturales-articulacion-docentes", url: path.join(ART_BASE, "Ciencias-Naturales-Docentes.pdf") },
+  // Secuencias didácticas por área y grado
+  { id: "educacion-fisica-1ro", url: path.join(SECUENCIAS_BASE, "secuencia-educacion-fisica-1er-grado.pdf") },
+  { id: "ciencias-naturales-5to", url: path.join(SECUENCIAS_BASE, "secuencia-ciencias-naturales-5to-grado.pdf") },
+  { id: "artes-visuales-1ro", url: path.join(SECUENCIAS_BASE, "secuencia-artes-visuales-1er-grado.pdf") },
 ];
 
 /** Factory de canvas (API por clase) para pdf.js usando @napi-rs/canvas. */

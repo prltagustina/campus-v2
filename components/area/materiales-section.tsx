@@ -180,7 +180,7 @@ function MaterialRow({
 
   return (
     <div
-      className="group/item flex flex-col gap-3 rounded-xl px-2 py-2 sm:flex-row sm:items-center sm:gap-5 sm:px-4 sm:py-4 lg:gap-6 lg:px-5 hover:bg-gray-50 transition-colors"
+      className="group/item flex w-full min-w-0 max-w-full flex-col gap-3 overflow-hidden rounded-xl px-2 py-2 transition-colors hover:bg-gray-50 sm:flex-row sm:items-center sm:gap-5 sm:px-4 sm:py-4 lg:gap-6 lg:px-5"
       style={{ ["--area" as string]: color, ["--area-fg" as string]: textOnColor }}
     >
       {/* Enlace de descarga -- miniatura + datos (zona principal clickeable) */}
@@ -190,7 +190,7 @@ function MaterialRow({
         rel="noopener noreferrer"
         download
         aria-label={`Descargar ${file.nombre}`}
-        className="flex w-full min-w-0 flex-1 items-start gap-3 sm:items-center sm:gap-5 lg:gap-6"
+        className="flex w-full min-w-0 max-w-full flex-1 items-start gap-3 sm:items-center sm:gap-5 lg:gap-6"
       >
         {/* Miniatura de portada (primera página del PDF) */}
         <div className="relative w-16 h-[86px] sm:w-28 sm:h-[150px] lg:w-36 lg:h-48 rounded-md overflow-hidden border border-gray-200/80 flex-shrink-0 bg-gray-50 shadow-sm">
@@ -210,7 +210,7 @@ function MaterialRow({
 
         {/* Datos del material */}
         <div className="min-w-0 flex-1 pt-0.5 sm:pt-0">
-          <span className="block text-[15px] sm:text-lg lg:text-xl font-medium text-[#494963] leading-snug text-pretty">
+          <span className="block max-w-full text-pretty text-[15px] font-medium leading-snug text-[#494963] [overflow-wrap:anywhere] sm:text-lg lg:text-xl">
             {file.nombre}
           </span>
           {file.descripcion && (
@@ -223,7 +223,7 @@ function MaterialRow({
       </a>
 
       {/* Acciones -- siempre visibles */}
-      <div className="flex w-full items-center justify-end gap-1.5 pl-[76px] sm:w-auto sm:justify-start sm:gap-2 sm:pl-0 sm:flex-shrink-0">
+      <div className="flex w-full min-w-0 max-w-full items-center justify-end gap-1.5 pl-[76px] sm:w-auto sm:flex-shrink-0 sm:justify-start sm:gap-2 sm:pl-0">
         {/* Descargar */}
         <a
           href={file.url}
@@ -307,7 +307,7 @@ function CicloCollapsible({
   const [open, setOpen] = useState(hasFiles);
 
   return (
-    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+    <div className="w-full min-w-0 max-w-full overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -1049,7 +1049,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
   const itinerario = getItinerario(area.slug);
 
   return (
-    <section id="materiales" className="scroll-mt-32">
+    <section id="materiales" className="min-w-0 max-w-full scroll-mt-32">
       {/* Section header */}
       <div className="flex flex-col items-center text-center mb-10 md:mb-14">
         <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display text-balance">
@@ -1061,7 +1061,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
       </div>
 
       {/* Repositorio por categorías */}
-      <div className="max-w-4xl mx-auto space-y-12 md:space-y-16">
+      <div className="mx-auto w-full min-w-0 max-w-4xl space-y-12 md:space-y-16">
         {itinerario.categorias.map((categoria) => (
           <CategoriaBlock
             key={categoria.id}
