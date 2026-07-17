@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ChevronRight, ArrowUpRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { orderedAreas, pendingCopy } from "@/lib/v3-config";
+import { AreaNavLink } from "@/components/v3/area-nav-link";
 
 const accordionItems = [
   ["transversales", "Enfoques transversales", pendingCopy.wheel.transversales],
@@ -94,17 +94,13 @@ export function CurricularWheel() {
           </div>
         </div>
 
-        <nav aria-label="Explorar áreas desde la rueda" className="mt-9 grid grid-cols-2 gap-2 border-t border-[#494963]/10 pt-7 sm:grid-cols-3 xl:grid-cols-5">
+        <nav aria-label="Explorar áreas desde la rueda" className="mt-9 grid grid-cols-2 gap-1.5 border-t border-[#494963]/10 pt-7 sm:grid-cols-3 xl:grid-cols-5">
           {orderedAreas.map((area) => (
-            <Link
+            <AreaNavLink
               key={area.slug}
-              href={`/area/${area.slug}`}
-              className="group flex min-h-14 items-center justify-between gap-2 rounded-xl border border-[#494963]/[.08] border-l-2 bg-white px-3 py-2 text-sm font-semibold text-[#494963] transition-colors hover:bg-[#FAFAFB]"
-              style={{ borderLeftColor: `${area.color}80` }}
-            >
-              <span>{area.name}</span>
-              <ArrowUpRight className="h-3.5 w-3.5 opacity-35 transition-opacity group-hover:opacity-100" />
-            </Link>
+              area={area}
+              variant="wheel"
+            />
           ))}
         </nav>
       </div>

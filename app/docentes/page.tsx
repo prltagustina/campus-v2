@@ -1,6 +1,7 @@
 import { BookOpen, Download, ExternalLink, FileText, GraduationCap } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { SlideDeckEmbed } from "@/components/v3/content-blocks";
+import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
 
 const documentos = [
   ["Documento de acompañamiento N° 1", "Implementación del Diseño Curricular", "/docs/Documento_Acompanamiento.pdf"],
@@ -18,15 +19,11 @@ const formaciones = [
 export default function DocentesPage() {
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
-      <header className="flex min-h-[98px] shrink-0 items-center bg-[#494963] px-5 py-3 text-white md:min-h-[110px] md:px-10 md:py-3.5">
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-[8px] font-bold uppercase tracking-[.18em] text-white/45 sm:text-[9px]">Acompañamiento institucional</p>
-          <h1 className="mt-0.5 font-display text-[1.35rem] font-semibold leading-[1.08] tracking-[-.03em] sm:text-2xl md:text-[1.75rem]">Directivos y equipos docentes</h1>
-          <p className="mt-1 max-w-2xl text-[11px] leading-4 text-white/62 sm:text-xs md:text-[13px]">
-            Documentos, normativa y formaciones para acompañar la implementación del Diseño Curricular en cada institución.
-          </p>
-        </div>
-      </header>
+      <EditorialPageHeading
+        eyebrow="Acompañamiento institucional"
+        title="Directivos y equipos docentes"
+        description="Documentos, normativa y formaciones para acompañar la implementación del Diseño Curricular en cada institución."
+      />
 
       <SectionTabs title="Recursos institucionales" items={[{ id: "presentacion", label: "Presentación" }, { id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels>
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">

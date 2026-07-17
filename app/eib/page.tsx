@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { Calendar, Download, ExternalLink, FileText, FolderOpen, Scale } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
+import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
 
 /* Legislación, normativa y documentos curriculares */
 const legislacion = {
@@ -253,13 +254,11 @@ function ArchiveGroup({ title, detail, icon, items }: { title: string; detail: s
 export default function EIBPage() {
   return (
     <main className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
-      <header className="flex min-h-[98px] shrink-0 items-center bg-[#494963] px-5 py-3 text-white md:min-h-[110px] md:px-10 md:py-3.5">
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-[8px] font-bold uppercase tracking-[.18em] text-white/45 sm:text-[9px]">Modalidad educativa</p>
-          <h1 className="mt-0.5 font-display text-[1.35rem] font-semibold leading-[1.08] tracking-[-.03em] sm:text-2xl md:text-[1.75rem]">Educación Intercultural Bilingüe</h1>
-          <p className="mt-1 max-w-2xl text-[11px] leading-4 text-white/62 sm:text-xs md:text-[13px]">Normativa, experiencias pedagógicas y efemérides para acompañar una educación situada, intercultural y plurilingüe.</p>
-        </div>
-      </header>
+      <EditorialPageHeading
+        eyebrow="Modalidad educativa"
+        title="Educación Intercultural Bilingüe"
+        description="Normativa, experiencias pedagógicas y efemérides para acompañar una educación situada, intercultural y plurilingüe."
+      />
 
       <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">

@@ -16,6 +16,7 @@ import {
 import { orderedAreas, cycles } from "@/lib/v3-config";
 import { MARCO_GENERAL_COLOR } from "@/lib/constants";
 import { AreasMaterialsIcon, CycleMaterialsIcon } from "@/components/v3/navigation-icons";
+import { AreaNavLink, areaNavForeground, SolidAreaArrow } from "@/components/v3/area-nav-link";
 
 const primaryItems = [
   { href: "/", label: "Inicio", desktopLines: ["Inicio"], mobileLabel: "Inicio", icon: Home, match: (p: string) => p === "/" },
@@ -98,21 +99,6 @@ function SantaFeBrand() {
       priority
       unoptimized
       className="h-auto w-[104px] shrink-0 object-contain sm:w-[126px] lg:w-[164px]"
-    />
-  );
-}
-
-function areaNavForeground(area: (typeof orderedAreas)[number]) {
-  if (area.slug === "ciencias-sociales") return "#F7FAFF";
-  if (area.slug === "lenguas-extranjeras") return "#494963";
-  return area.textOnColor;
-}
-
-function SolidAreaArrow({ compact = false }: { compact?: boolean }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`${compact ? "ml-2 h-[10px] w-[7px]" : "ml-3 h-[14px] w-[9px]"} block shrink-0 bg-current [clip-path:polygon(0_0,100%_50%,0_100%)]`}
     />
   );
 }
@@ -220,22 +206,12 @@ function AreaSubnav({ pathname }: { pathname: string }) {
     <nav aria-label="Áreas curriculares" className="grid h-full min-h-full auto-rows-[minmax(48px,1fr)] gap-1.5 pr-1">
       {orderedAreas.map((area) => {
         const active = pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`);
-        const activeForeground = areaNavForeground(area);
         return (
-          <Link
+          <AreaNavLink
             key={area.slug}
-            href={`/area/${area.slug}`}
-            aria-current={active ? "page" : undefined}
-            className={`group flex h-full min-h-0 w-full items-center justify-between rounded-[9px] border px-[15px] py-2 text-[clamp(17px,1.35vw,20px)] font-normal leading-none tracking-[-0.035em] transition-colors duration-150 hover:bg-[var(--area)] hover:text-[var(--area-active-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${active ? "bg-[var(--area)] text-[var(--area-active-fg)]" : "bg-white text-[var(--area)]"}`}
-            style={{
-              borderColor: area.color,
-              ["--area" as string]: area.color,
-              ["--area-active-fg" as string]: activeForeground,
-            }}
-          >
-            <span className="whitespace-nowrap">{area.name}</span>
-            <SolidAreaArrow />
-          </Link>
+            area={area}
+            active={active}
+          />
         );
       })}
       <Link

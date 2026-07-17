@@ -1,6 +1,7 @@
 import { Download, FileText } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { SlideDeckEmbed } from "@/components/v3/content-blocks";
+import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
 
 const materiales = [
   { titulo: "Cartilla para familias", descripcion: "Guía para acompañar el nuevo Diseño Curricular desde el hogar.", url: "/docs/Familias_cartilla_familias.pdf" },
@@ -12,15 +13,11 @@ const materiales = [
 export default function FamiliasPage() {
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
-      <header className="flex min-h-[98px] shrink-0 items-center bg-[#494963] px-5 py-3 text-white md:min-h-[110px] md:px-10 md:py-3.5">
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-[8px] font-bold uppercase tracking-[.18em] text-white/45 sm:text-[9px]">Comunidad educativa</p>
-          <h1 className="mt-0.5 font-display text-[1.35rem] font-semibold leading-[1.08] tracking-[-.03em] sm:text-2xl md:text-[1.75rem]">Familias</h1>
-          <p className="mt-1 max-w-2xl text-[11px] leading-4 text-white/62 sm:text-xs md:text-[13px]">
-            Recursos claros para conocer la propuesta curricular y acompañar las trayectorias escolares.
-          </p>
-        </div>
-      </header>
+      <EditorialPageHeading
+        eyebrow="Comunidad educativa"
+        title="Familias"
+        description="Recursos claros para conocer la propuesta curricular y acompañar las trayectorias escolares."
+      />
 
       <SectionTabs title="Recursos para familias" items={[{ id: "presentacion", label: "Presentación" }, { id: "materiales", label: "Materiales" }]} keepVisitedPanels>
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
