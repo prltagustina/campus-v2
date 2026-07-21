@@ -163,6 +163,15 @@ function MobileAreaMenu({ pathname }: { pathname: string }) {
             aria-label="Elegir área curricular"
             className="absolute inset-x-0 top-[calc(100%+.4rem)] z-[60] max-h-[min(410px,55dvh)] overflow-y-auto overscroll-contain rounded-xl border border-[#494963]/10 bg-white p-1 shadow-[0_10px_28px_rgba(35,35,55,.14)]"
           >
+            <Link
+              href="/area/marco-general"
+              aria-current={marcoActive ? "page" : undefined}
+              onClick={() => setOpen(false)}
+              className={`flex min-h-10 w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left transition-colors hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-transparent text-[#494963]"}`}
+            >
+              <span className="min-w-0 flex-1 truncate text-sm font-medium leading-tight">Marco General</span>
+              {marcoActive ? <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> : <SolidAreaArrow compact />}
+            </Link>
             {orderedAreas.map((area) => {
               const active = pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`);
               const activeForeground = areaNavForeground(area);
@@ -183,15 +192,6 @@ function MobileAreaMenu({ pathname }: { pathname: string }) {
                 </Link>
               );
             })}
-            <Link
-              href="/area/marco-general"
-              aria-current={marcoActive ? "page" : undefined}
-              onClick={() => setOpen(false)}
-              className={`flex min-h-10 w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left transition-colors hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-transparent text-[#494963]"}`}
-            >
-              <span className="min-w-0 flex-1 truncate text-sm font-medium leading-tight">Marco General</span>
-              {marcoActive ? <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> : <SolidAreaArrow compact />}
-            </Link>
           </nav>
         ) : null}
       </div>
@@ -204,6 +204,14 @@ function AreaSubnav({ pathname }: { pathname: string }) {
 
   return (
     <nav aria-label="Áreas curriculares" className="grid h-full min-h-full auto-rows-[minmax(48px,1fr)] gap-1.5 pr-1">
+      <Link
+        href="/area/marco-general"
+        aria-current={marcoActive ? "page" : undefined}
+        className={`flex h-full min-h-0 w-full items-center justify-between rounded-[9px] border border-[#494963] px-[15px] py-2 text-[clamp(17px,1.35vw,20px)] font-normal leading-none tracking-[-0.035em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
+      >
+        <span className="whitespace-nowrap">Marco General</span>
+        <SolidAreaArrow />
+      </Link>
       {orderedAreas.map((area) => {
         const active = pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`);
         return (
@@ -214,14 +222,6 @@ function AreaSubnav({ pathname }: { pathname: string }) {
           />
         );
       })}
-      <Link
-        href="/area/marco-general"
-        aria-current={marcoActive ? "page" : undefined}
-        className={`flex h-full min-h-0 w-full items-center justify-between rounded-[9px] border border-[#494963] px-[15px] py-2 text-[clamp(17px,1.35vw,20px)] font-normal leading-none tracking-[-0.035em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
-      >
-        <span className="whitespace-nowrap">Marco General</span>
-        <SolidAreaArrow />
-      </Link>
     </nav>
   );
 }
@@ -353,6 +353,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <MobileAreaMenu pathname={pathname} />
               </div>
               <div className="hidden gap-1.5 bg-[#F8F8FA] p-2.5 md:grid md:grid-cols-3 xl:hidden">
+                <Link
+                  href="/area/marco-general"
+                  aria-current={pathname === "/area/marco-general" || pathname === "/marco-general" ? "page" : undefined}
+                  className={`flex min-h-10 items-center justify-between rounded-[8px] border border-[#494963] px-2.5 py-1.5 text-[11px] font-medium tracking-[-0.025em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] ${pathname === "/area/marco-general" || pathname === "/marco-general" ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
+                >
+                  Marco General
+                  <SolidAreaArrow compact />
+                </Link>
                 {orderedAreas.map((area) => {
                   const active = pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`);
                   const activeForeground = areaNavForeground(area);
@@ -369,14 +377,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     </Link>
                   );
                 })}
-                <Link
-                  href="/area/marco-general"
-                  aria-current={pathname === "/area/marco-general" || pathname === "/marco-general" ? "page" : undefined}
-                  className={`flex min-h-10 items-center justify-between rounded-[8px] border border-[#494963] px-2.5 py-1.5 text-[11px] font-medium tracking-[-0.025em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] ${pathname === "/area/marco-general" || pathname === "/marco-general" ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
-                >
-                  Marco General
-                  <SolidAreaArrow compact />
-                </Link>
               </div>
             </>
           ) : hasSecondary ? (

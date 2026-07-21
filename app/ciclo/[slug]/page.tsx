@@ -27,14 +27,7 @@ export default async function CycleDetailPage({ params }: { params: Promise<{ sl
     const files = filesForCycle(area.slug, cycle.slug, cycle.gradeIds);
     return { slug: area.slug, name: area.name, color: area.color, textOnColor: area.textOnColor, grades: cycle.gradeIds.map((gradeId) => ({ id: gradeId, name: ({ "1ro": "1er grado", "2do": "2do grado", "3ro": "3er grado", "4to": "4to grado", "5to": "5to grado", "6to": "6to grado", "7mo": "7mo grado" } as Record<string, string>)[gradeId], files: files.filter((item) => item.gradeId === gradeId).map(({ category, file }) => ({ category, file })) })) };
   });
-  const orderedGroups = cycle.slug === "septimo-grado"
-    ? [...groups].sort((left, right) => {
-        const leftCount = left.grades.reduce((sum, grade) => sum + grade.files.length, 0);
-        const rightCount = right.grades.reduce((sum, grade) => sum + grade.files.length, 0);
-        return Number(rightCount > 0) - Number(leftCount > 0);
-      })
-    : groups;
-  return <CycleRepository key={cycle.slug} title={cycle.name} detail={cycle.detail} groups={orderedGroups} />;
+  return <CycleRepository key={cycle.slug} title={cycle.name} detail={cycle.detail} groups={groups} />;
 }
 
 export function generateStaticParams() {

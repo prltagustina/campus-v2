@@ -17,8 +17,7 @@ export function FormacionesSection({ area }: { area: Area }) {
 
   return <section id="formacion" className="scroll-mt-14 lg:scroll-mt-20">
     <header className="mb-8 max-w-2xl pr-24">
-      <p className="text-xs font-bold uppercase tracking-[.16em]" style={{ color: area.color }}>Campus Educativo</p>
-      <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Formaciones docentes</h2>
+      <h2 className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Formaciones docentes</h2>
       <p className="mt-2 text-[#494963]/50">Cursos y trayectos de formación vinculados con {area.name}.</p>
     </header>
 

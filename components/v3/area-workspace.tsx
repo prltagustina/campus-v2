@@ -70,9 +70,9 @@ const artisticSubareaOrder = ["artes-visuales", "musica", "artes-audiovisuales",
 
 const areaSectionItems: StickySectionNavItem[] = [
   { id: "documento", label: "Documento", icon: FileText },
-  { id: "video", label: "Video", icon: PlayCircle },
   { id: "materiales", label: "Itinerarios", icon: BookOpen },
   { id: "formacion", label: "Formaciones", mobileLabel: "Formación", icon: GraduationCap },
+  { id: "video", label: "Video", icon: PlayCircle },
 ];
 
 function orderedArtisticSubareas(area: Area) {
@@ -96,10 +96,9 @@ function ArtisticLanguageTabs({
   return (
     <section className="rounded-3xl bg-white px-1 py-6 md:px-5 md:py-8" aria-labelledby="lenguajes-title">
       <div className="max-w-3xl">
-        <p className="text-xs font-bold uppercase tracking-[.16em]" style={{ color: area.color }}>Área curricular</p>
-        <h2 id="lenguajes-title" className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Un área, cinco lenguajes</h2>
+        <h2 id="lenguajes-title" className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Un área, cinco lenguajes</h2>
         <p className="mt-3 max-w-2xl leading-relaxed text-[#494963]/60">
-          Elegí un lenguaje para actualizar la presentación audiovisual anterior y consultar, a continuación, su documento curricular específico.
+          Elegí un lenguaje para consultar su documento curricular y su video de presentación.
         </p>
       </div>
 
@@ -134,13 +133,12 @@ function ArtisticLanguageTabs({
   );
 }
 
-function AreaVideoPresentation({ videoId, title, context }: { videoId: string; title: string; context: string }) {
+function AreaVideoPresentation({ videoId, title }: { videoId: string; title: string }) {
   return (
     <section aria-labelledby={`video-${videoId}-title`}>
       <div className="px-[14px] pb-1 pt-5 md:pt-7">
-        <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Presentación audiovisual</p>
-        <h2 id={`video-${videoId}-title`} aria-live="polite" className="mt-2 min-h-[2.35em] font-display text-2xl font-semibold tracking-[-.025em] text-[#494963] md:text-3xl">
-          {context}
+        <h2 id={`video-${videoId}-title`} className="font-display text-2xl font-semibold tracking-[-.025em] text-[#494963] md:text-3xl">
+          Presentación audiovisual
         </h2>
       </div>
       <VideoEmbed videoId={videoId} title={title} />
@@ -158,15 +156,17 @@ export function AreaWorkspace({ area }: { area: Area }) {
   const selectArtisticLanguage = (id: string) => {
     if (id === selectedArtisticId) return;
     setSelectedArtisticId(id);
-    // El video está antes de la botonera por decisión editorial. Al cambiar de
-    // lenguaje lo volvemos a poner en contexto para no actualizarlo fuera de vista.
-    window.requestAnimationFrame(() => {
-      document.getElementById("video")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
   };
 
   return <div className="min-h-full bg-white">
-    <StickySectionNav title={area.name} items={areaSectionItems} tabsOnlyBelowDesktop />
+    <StickySectionNav
+      title={area.name}
+      items={areaSectionItems}
+      tabsOnlyBelowDesktop
+      variant="area"
+      accent={area.color}
+      accentText={area.textOnColor}
+    />
 
     <div className="space-y-5 p-4 md:p-6">
       {isArtistic ? (
@@ -174,17 +174,6 @@ export function AreaWorkspace({ area }: { area: Area }) {
           <div id="documento" className="scroll-mt-14 lg:scroll-mt-20">
             <DocumentoHero titulo={area.name} eyebrow="Documento curricular" descripcion="Accedé al documento oficial del área, con la organización común de sus cinco lenguajes artísticos." portadaSrc={covers[area.slug]} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText="#494963" />
           </div>
-
-          {selectedArtistic && selectedArtisticMedia ? (
-            <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
-              <AreaVideoPresentation
-                key={selectedArtisticMedia.videoId}
-                videoId={selectedArtisticMedia.videoId}
-                title={`Diseño Curricular Educación Primaria: ${selectedArtistic.name}`}
-                context={selectedArtistic.name}
-              />
-            </div>
-          ) : null}
 
           {selectedArtistic ? <ArtisticLanguageTabs area={area} selectedId={selectedArtistic.id} onSelect={selectArtisticLanguage} /> : null}
 
@@ -208,16 +197,25 @@ export function AreaWorkspace({ area }: { area: Area }) {
           <div id="documento" className="scroll-mt-14 lg:scroll-mt-20">
             <DocumentoHero titulo={area.name} eyebrow="Documento curricular" descripcion="Accedé al documento oficial del área, con sus contenidos, orientaciones y organización por ciclos y grados." portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
           </div>
-          {videos[area.slug] ? (
-            <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
-              <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} context={area.name} />
-            </div>
-          ) : null}
         </>
       )}
 
       <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} /></section>
       <section className="rounded-3xl bg-[#F3F3F5] px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} /></section>
+
+      {isArtistic && selectedArtistic && selectedArtisticMedia ? (
+        <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
+          <AreaVideoPresentation
+            key={selectedArtisticMedia.videoId}
+            videoId={selectedArtisticMedia.videoId}
+            title={`Diseño Curricular Educación Primaria: ${selectedArtistic.name}`}
+          />
+        </div>
+      ) : videos[area.slug] ? (
+        <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
+          <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />
+        </div>
+      ) : null}
     </div>
   </div>;
 }

@@ -68,7 +68,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
         tabIndex={selected ? 0 : -1}
         onClick={() => activateTab(index)}
         onKeyDown={(event) => handleKeyDown(event, index)}
-        className={`relative min-h-8 min-w-0 flex-1 whitespace-nowrap rounded-full px-2.5 py-1 text-center text-[10px] font-semibold leading-tight transition-[background-color,color,box-shadow] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] sm:min-h-8 sm:px-4 sm:text-[11px] md:min-h-9 md:flex-none md:px-5 md:text-xs ${selected ? "bg-[#494963] text-white shadow-[0_3px_10px_rgba(73,73,99,.12)]" : "text-[#494963]/55 hover:bg-[#494963]/[.045] hover:text-[#494963]"}`}
+        className={`relative min-h-10 min-w-0 flex-1 whitespace-nowrap rounded-full px-3 py-1.5 text-center text-[11px] font-semibold leading-tight transition-[background-color,color,box-shadow] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] sm:px-5 sm:text-xs md:min-h-11 md:flex-none md:px-6 md:text-[13px] ${selected ? "bg-[#494963] text-white shadow-[0_4px_14px_rgba(73,73,99,.16)]" : "text-[#494963]/65 hover:bg-white/70 hover:text-[#494963]"}`}
       >
         {item.label}
       </button>
@@ -82,13 +82,13 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
       id={`${instanceId}-switcher`}
       className="flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-[#F7F7F9]"
     >
-      <div className="z-30 shrink-0 border-b border-[#494963]/[.06] bg-[#F7F7F9] px-4 py-2 sm:px-6 md:py-2.5">
+      <div className="z-30 shrink-0 border-b border-[#494963]/[.06] bg-[#F7F7F9] px-4 py-2.5 sm:px-6 md:py-3">
         <div className="mx-auto max-w-4xl">
           <span className="sr-only">{title}</span>
           <div
             role="tablist"
             aria-label={title}
-            className="flex w-full min-w-0 gap-1 rounded-full bg-[#E8E8ED] p-1 md:w-fit"
+            className="flex w-full min-w-0 gap-1.5 rounded-full bg-[#E6E6EB] p-1.5 md:w-fit"
           >
             {tabs}
           </div>

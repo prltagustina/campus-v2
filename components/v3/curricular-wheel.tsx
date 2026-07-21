@@ -3,8 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ChevronRight } from "lucide-react";
-import { orderedAreas, pendingCopy } from "@/lib/v3-config";
-import { AreaNavLink } from "@/components/v3/area-nav-link";
+import { pendingCopy } from "@/lib/v3-config";
 
 const accordionItems = [
   ["transversales", "Enfoques transversales", pendingCopy.wheel.transversales],
@@ -94,15 +93,6 @@ export function CurricularWheel() {
           </div>
         </div>
 
-        <nav aria-label="Explorar áreas desde la rueda" className="mt-9 grid grid-cols-2 gap-1.5 border-t border-[#494963]/10 pt-7 sm:grid-cols-3 xl:grid-cols-5">
-          {orderedAreas.map((area) => (
-            <AreaNavLink
-              key={area.slug}
-              area={area}
-              variant="wheel"
-            />
-          ))}
-        </nav>
       </div>
     </section>
   );

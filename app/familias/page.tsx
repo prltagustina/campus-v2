@@ -14,19 +14,12 @@ export default function FamiliasPage() {
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
       <EditorialPageHeading
-        eyebrow="Comunidad educativa"
-        title="Familias"
-        description="Recursos claros para conocer la propuesta curricular y acompañar las trayectorias escolares."
+        title="Materiales para familias"
       />
 
       <SectionTabs title="Recursos para familias" items={[{ id: "presentacion", label: "Presentación" }, { id: "materiales", label: "Materiales" }]} keepVisitedPanels>
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
           <div className="mx-auto max-w-4xl">
-            <header className="mb-6 max-w-2xl">
-              <p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Para empezar</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl">El diseño curricular, en pocas palabras</h2>
-              <p className="mt-3 text-sm leading-relaxed text-[#494963]/50 sm:text-base">Una introducción visual preparada especialmente para las familias.</p>
-            </header>
             <SlideDeckEmbed
               src="https://docs.google.com/presentation/d/1iE4BFRuhcT7yXhRfCoDpeEEx8ZSYyqWH/embed?start=false&loop=false&delayms=3000"
               title="Presentación del Diseño Curricular para Familias"
@@ -38,12 +31,6 @@ export default function FamiliasPage() {
 
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
           <div className="mx-auto max-w-4xl">
-            <header className="mb-6 max-w-2xl">
-              <p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Biblioteca familiar</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl">Materiales para acompañar</h2>
-              <p className="mt-3 text-sm leading-relaxed text-[#494963]/50 sm:text-base">Documentos breves para consultar, compartir o descargar.</p>
-            </header>
-
             <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
               <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
                 <div>
@@ -72,7 +59,6 @@ export default function FamiliasPage() {
               </div>
             </div>
 
-            <p className="mt-4 text-xs leading-relaxed text-[#494963]/38">La biblioteca se ampliará a medida que se publiquen materiales para nuevas áreas.</p>
           </div>
         </section>
       </SectionTabs>

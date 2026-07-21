@@ -150,16 +150,6 @@ const celebraciones = [
 const celebracionesCalendario = celebraciones.filter((_, index) => [0, 1, 2, 3, 4, 8, 9, 10, 11, 12].includes(index));
 const celebracionesMemoria = celebraciones.filter((_, index) => [5, 6, 7, 13, 14].includes(index));
 
-function EditorialHeader({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
-  return (
-    <header className="mb-6 max-w-2xl">
-      <p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#494963]/40">{eyebrow}</p>
-      <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl">{title}</h2>
-      <p className="mt-3 text-sm leading-relaxed text-[#494963]/50 sm:text-base">{description}</p>
-    </header>
-  );
-}
-
 function RepositoryPanel({ title, detail, icon, children }: { title: string; detail: string; icon: ReactNode; children: ReactNode }) {
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
@@ -255,15 +245,12 @@ export default function EIBPage() {
   return (
     <main className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
       <EditorialPageHeading
-        eyebrow="Modalidad educativa"
         title="Educación Intercultural Bilingüe"
-        description="Normativa, experiencias pedagógicas y efemérides para acompañar una educación situada, intercultural y plurilingüe."
       />
 
       <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
           <div className="mx-auto max-w-4xl">
-            <EditorialHeader eyebrow="Marco institucional" title="Normativa y documentos" description="Resoluciones y referencias jurídicas que enmarcan el trabajo de la modalidad EIB." />
             <RepositoryPanel title="Marco normativo" detail="Resoluciones y documentos de referencia" icon={<Scale className="h-4 w-4" />}>
               <ResourceRow title={legislacion.resolucion.titulo} description={`${legislacion.resolucion.archivo} · PDF`} href={legislacion.resolucion.url} download />
               {legislacion.elementosJuridicos.documentos.map((documento) => <ResourceRow key={documento.url} title={documento.nombre} description="Elementos jurídicos relacionados con la Educación Intercultural Bilingüe" href={documento.url} />)}
@@ -274,7 +261,6 @@ export default function EIBPage() {
 
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
           <div className="mx-auto max-w-4xl">
-            <EditorialHeader eyebrow="Experiencias pedagógicas" title="Proyectos, secuencias e itinerarios" description="Producciones de escuelas de Modalidad EIB de la provincia, organizadas por nivel educativo." />
             <div className="divide-y divide-[#494963]/[.07] overflow-hidden rounded-[1.35rem] bg-white shadow-[0_5px_24px_rgba(73,73,99,.055)]">
               <ProjectGroup index="01" title="Nivel Inicial" items={proyectos.inicial} />
               <ProjectGroup index="02" title="Nivel Primario" items={proyectos.primario} />
@@ -286,7 +272,6 @@ export default function EIBPage() {
 
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
           <div className="mx-auto max-w-4xl">
-            <EditorialHeader eyebrow="Memoria y comunidad" title="Celebraciones y efemérides" description="Fechas, historias y materiales para reconocer a las comunidades y pueblos originarios." />
             <div className="space-y-4">
               <ArchiveGroup title="Calendario intercultural" detail={`${celebracionesCalendario.length} fechas y conmemoraciones`} icon={<Calendar className="h-4 w-4" />} items={celebracionesCalendario} />
               <ArchiveGroup title="Memorias y recursos" detail={`${celebracionesMemoria.length} historias y materiales`} icon={<FolderOpen className="h-4 w-4" />} items={celebracionesMemoria} />

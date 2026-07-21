@@ -20,19 +20,12 @@ export default function DocentesPage() {
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
       <EditorialPageHeading
-        eyebrow="Acompañamiento institucional"
-        title="Directivos y equipos docentes"
-        description="Documentos, normativa y formaciones para acompañar la implementación del Diseño Curricular en cada institución."
+        title="Docentes y directivos"
       />
 
       <SectionTabs title="Recursos institucionales" items={[{ id: "presentacion", label: "Presentación" }, { id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels>
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
           <div className="mx-auto max-w-4xl">
-            <header className="mb-6 max-w-2xl">
-              <p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Para equipos de gestión</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl">Presentación institucional</h2>
-              <p className="mt-3 text-sm leading-relaxed text-[#494963]/50 sm:text-base">Una mirada general para orientar el trabajo de supervisores, directivos y docentes.</p>
-            </header>
             <SlideDeckEmbed
               src="https://docs.google.com/presentation/d/1BKzPQiSzHd73OvYHmVLTDccV-qt8g-tg/embed?start=false&loop=false&delayms=3000"
               title="Presentación para Directivos y Docentes"
@@ -44,12 +37,6 @@ export default function DocentesPage() {
 
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
           <div className="mx-auto max-w-4xl">
-            <header className="mb-6 max-w-2xl">
-              <p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Biblioteca institucional</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl">Documentos y normativa</h2>
-              <p className="mt-3 text-sm leading-relaxed text-[#494963]/50 sm:text-base">Material oficial para consultar y compartir con los equipos.</p>
-            </header>
-
             <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
               <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
                 <div className="flex min-w-0 items-center gap-3">
@@ -78,12 +65,6 @@ export default function DocentesPage() {
 
         <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
           <div className="mx-auto max-w-4xl">
-            <header className="mb-6 max-w-2xl">
-              <p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Campus Educativo</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl">Formaciones docentes</h2>
-              <p className="mt-3 text-sm leading-relaxed text-[#494963]/50 sm:text-base">Propuestas de formación que acompañan la implementación curricular.</p>
-            </header>
-
             <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
               <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
                 <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><GraduationCap className="h-4.5 w-4.5" /></span>
