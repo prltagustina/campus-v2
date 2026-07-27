@@ -263,16 +263,22 @@ export const areasData: Area[] = [
     ],
     teacherTrainings: [
       {
-        id: "ea-form-1",
-        name: "Educación Artística",
+        id: "ea-form-artes-visuales",
+        name: "Artes Visuales",
         items: [
           {
-            id: "ea-1",
+            id: "ea-artes-visuales-1",
             name: "Del diseño al aula. Planificar la enseñanza en Artes Visuales",
             url: "https://campuseducativo.santafe.edu.ar/del-diseno-al-aula-planificar-la-ensenanza-en-artes-visuales/",
           },
+        ],
+      },
+      {
+        id: "ea-form-musica",
+        name: "Música",
+        items: [
           {
-            id: "ea-2",
+            id: "ea-musica-1",
             name: "Del diseño al aula. Planificar la enseñanza en Música",
             url: "https://campuseducativo.santafe.edu.ar/del-diseno-al-aula-planificar-la-ensenanza-en-musica/",
           },

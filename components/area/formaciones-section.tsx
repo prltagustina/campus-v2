@@ -12,7 +12,9 @@ export function FormacionesSection({ area, artisticLanguage }: FormacionesSectio
   const normalizedLanguage = artisticLanguage?.toLocaleLowerCase("es");
   const items = (area.teacherTrainings ?? []).flatMap((group) =>
     (group.items ?? [])
-      .filter((item) => !normalizedLanguage || item.name.toLocaleLowerCase("es").includes(normalizedLanguage))
+      .filter((item) => !normalizedLanguage
+        || group.name.toLocaleLowerCase("es") === normalizedLanguage
+        || item.name.toLocaleLowerCase("es").includes(normalizedLanguage))
       .map((item) => ({ ...item, group: group.name })),
   );
   const contextName = artisticLanguage ?? area.name;

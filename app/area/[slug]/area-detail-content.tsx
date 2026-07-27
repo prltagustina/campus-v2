@@ -187,7 +187,9 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
   const isArtistic = area.slug === "educacion-artistica";
   const hasSelectedArtisticTrainings = (area.teacherTrainings ?? []).some((group) =>
     (group.items ?? []).some((item) =>
-      !selectedArtisticName || item.name.toLocaleLowerCase("es").includes(selectedArtisticName.toLocaleLowerCase("es")),
+      !selectedArtisticName
+        || group.name.toLocaleLowerCase("es") === selectedArtisticName.toLocaleLowerCase("es")
+        || item.name.toLocaleLowerCase("es").includes(selectedArtisticName.toLocaleLowerCase("es")),
     ),
   );
   const currentIdx = areasOrder.indexOf(area.id);
@@ -261,7 +263,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
           </RevealSection> : null}
 
           {/* 3. Formaciones Docentes -- light gray bg */}
-          {!isArtistic || hasSelectedArtisticTrainings ? <RevealSection delay={0.06} style="slide-up" className={`scroll-mt-24 ${isArtistic ? "bg-white" : "bg-[#EDEDF0]"}`}>
+          {!isArtistic || hasSelectedArtisticTrainings ? <RevealSection delay={0.06} style="slide-up" className={`scroll-mt-24 ${isArtistic && !selectedSubarea ? "bg-white" : "bg-[#EDEDF0]"}`}>
             <ParallaxLayer speed={0.05}>
               <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
                 <FormacionesSection area={area} artisticLanguage={selectedArtisticName} />
