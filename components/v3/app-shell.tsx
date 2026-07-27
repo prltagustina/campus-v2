@@ -262,17 +262,28 @@ function CycleSubnav({ pathname }: { pathname: string }) {
 }
 
 function TerritorySubnav({ pathname }: { pathname: string }) {
-  const active = pathname.startsWith("/territorio/acciones");
+  const actionsActive = pathname.startsWith("/territorio/acciones");
+  const proximasActive = pathname.startsWith("/territorio/proximas");
 
   return (
-    <nav aria-label="Territorio" className="h-full p-0.5 pr-1">
+    <nav aria-label="Territorio" className="grid h-full auto-rows-[minmax(0,1fr)] gap-1.5 p-0.5 pr-1">
       <Link
         href="/territorio/acciones"
-        aria-current={active ? "page" : undefined}
-        className={`group flex h-full min-h-[180px] w-full flex-col justify-end rounded-[10px] border border-[#494963] p-5 text-[#494963] transition-[background-color,box-shadow] duration-150 hover:bg-[#F0F0F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${active ? "bg-[#E5E5EA] shadow-[inset_0_0_0_1px_rgba(73,73,99,.06)]" : "bg-white"}`}
+        aria-current={actionsActive ? "page" : undefined}
+        className={`group flex h-full min-h-[85px] w-full flex-col justify-start rounded-[10px] border border-[#494963] p-5 text-[#494963] transition-[background-color,box-shadow] duration-150 hover:bg-[#F0F0F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${actionsActive ? "bg-[#E5E5EA] shadow-[inset_0_0_0_1px_rgba(73,73,99,.06)]" : "bg-white"}`}
       >
         <span className="flex w-full items-center justify-between gap-3 text-2xl font-semibold tracking-[-0.04em]">
           <span>Ver acciones</span>
+          <SolidAreaArrow compact />
+        </span>
+      </Link>
+      <Link
+        href="/territorio/proximas"
+        aria-current={proximasActive ? "page" : undefined}
+        className={`group flex h-full min-h-[85px] w-full flex-col justify-start rounded-[10px] border border-[#494963] p-5 text-[#494963] transition-[background-color,box-shadow] duration-150 hover:bg-[#F0F0F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${proximasActive ? "bg-[#E5E5EA] shadow-[inset_0_0_0_1px_rgba(73,73,99,.06)]" : "bg-white"}`}
+      >
+        <span className="flex w-full items-center justify-between gap-3 text-2xl font-semibold tracking-[-0.04em]">
+          <span>Próximas</span>
           <SolidAreaArrow compact />
         </span>
       </Link>
@@ -286,6 +297,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const cyclesOpen = pathname === "/materiales-por-ciclo" || pathname.startsWith("/ciclo/");
   const territoryOpen = pathname.startsWith("/territorio");
   const territoryActions = pathname.startsWith("/territorio/acciones");
+  const territoryProximas = pathname.startsWith("/territorio/proximas");
   const hasSecondary = areasOpen || cyclesOpen || territoryOpen;
   const hasInstitutionalSwitcher = pathname.startsWith("/directivos")
     || pathname.startsWith("/docentes")
@@ -294,13 +306,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const currentArea = orderedAreas.find((area) => pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`));
   const currentCycle = cycles.find((cycle) => pathname === `/ciclo/${cycle.slug}`);
   const activePrimary = primaryItems.find((item) => item.match(pathname));
-  const currentLabel = (territoryActions ? "Acciones" : undefined)
+  const currentLabel = (territoryActions ? "Acciones" : territoryProximas ? "Próximas" : undefined)
     ?? currentArea?.name
     ?? (pathname === "/area/marco-general" || pathname === "/marco-general" ? "Marco General" : undefined)
     ?? currentCycle?.name
     ?? activePrimary?.label
     ?? "Diseño Curricular";
-  const parentLabel = territoryActions ? "Territorio" : currentArea || pathname.includes("marco-general") ? "Áreas" : currentCycle ? "Ciclos" : null;
+  const parentLabel = (territoryActions || territoryProximas) ? "Territorio" : currentArea || pathname.includes("marco-general") ? "Áreas" : currentCycle ? "Ciclos" : null;
 
   return (
     <div
@@ -431,13 +443,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               })}
             </div>
           ) : territoryOpen ? (
-            <div className="sticky top-0 z-30 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">
+            <div className="sticky top-0 z-30 grid grid-cols-2 gap-1.5 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">
               <Link
                 href="/territorio/acciones"
                 aria-current={territoryActions ? "page" : undefined}
                 className={`group flex min-h-14 w-full items-center justify-between rounded-lg border border-[#494963] px-4 text-sm font-semibold text-[#494963] transition-colors hover:bg-[#F0F0F3] ${territoryActions ? "bg-[#E5E5EA]" : "bg-white"}`}
               >
                 Ver acciones
+                <SolidAreaArrow compact />
+              </Link>
+              <Link
+                href="/territorio/proximas"
+                aria-current={territoryProximas ? "page" : undefined}
+                className={`group flex min-h-14 w-full items-center justify-between rounded-lg border border-[#494963] px-4 text-sm font-semibold text-[#494963] transition-colors hover:bg-[#F0F0F3] ${territoryProximas ? "bg-[#E5E5EA]" : "bg-white"}`}
+              >
+                Próximas
                 <SolidAreaArrow compact />
               </Link>
             </div>

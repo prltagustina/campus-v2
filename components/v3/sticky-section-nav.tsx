@@ -36,7 +36,7 @@ const homeSectionItems: StickySectionNavItem[] = [
 
 /** Evita serializar componentes de íconos desde la página server de Inicio. */
 export function HomeSectionNav() {
-  return <StickySectionNav title="Inicio" items={homeSectionItems} />;
+  return <StickySectionNav title="Inicio" items={homeSectionItems} variant="area" />;
 }
 
 /**
@@ -150,33 +150,35 @@ export function StickySectionNav({
   return (
     <header
       className={`sticky top-0 z-40 w-full ${isAreaVariant
-        ? "border-b border-black/[.06] shadow-[0_8px_24px_-20px_rgba(25,25,42,.45)]"
+        ? "border-b border-black/[.06] bg-white shadow-[0_8px_24px_-20px_rgba(25,25,42,.45)]"
         : "bg-[#494963] text-white shadow-[0_8px_24px_-20px_rgba(25,25,42,.9)]"
       }`}
-      style={isAreaVariant ? { backgroundColor: accent, color: accentText } : undefined}
+      style={isAreaVariant ? { color: accent } : undefined}
     >
-      <div className={`${tabsOnlyBelowDesktop ? "hidden lg:flex" : "flex"} min-h-14 min-w-0 items-center gap-2.5 px-3 sm:px-4 lg:px-5`}>
+      <div className={`relative ${tabsOnlyBelowDesktop ? "hidden lg:flex" : "flex"} min-h-14 min-w-0 items-center gap-2.5 px-3 sm:px-4 lg:px-5`}>
         {backHref ? (
           <Link
             href={backHref}
-            className={`inline-flex min-h-10 min-w-0 flex-shrink items-center gap-2 rounded-full px-2 text-xs font-bold transition-colors sm:px-3 sm:text-sm ${isAreaVariant ? "text-current hover:bg-white/20" : "text-white hover:bg-white/10"}`}
+            className={`inline-flex min-h-10 min-w-0 flex-shrink items-center gap-2 rounded-full px-2 text-xs font-bold transition-colors sm:px-3 sm:text-sm ${isAreaVariant ? "text-current hover:bg-black/[.05]" : "text-white hover:bg-white/10"}`}
           >
             <ArrowLeft className="h-4 w-4 shrink-0" />
             <span className="truncate">{backLabel}</span>
           </Link>
         ) : null}
 
-        {backHref ? <span className={`hidden h-5 w-px shrink-0 sm:block ${isAreaVariant ? "bg-current opacity-20" : "bg-white/20"}`} aria-hidden="true" /> : null}
-        <span
-          className={`min-w-0 truncate text-sm font-semibold sm:text-[15px] ${isAreaVariant ? "text-current" : "text-white/80"}`}
-        >
-          {title}
-        </span>
+        {backHref && !isAreaVariant ? <span className="hidden h-5 w-px shrink-0 bg-white/20 sm:block" aria-hidden="true" /> : null}
+        {!isAreaVariant ? (
+          <span className="min-w-0 truncate text-sm font-semibold text-white/80 sm:text-[15px]">
+            {title}
+          </span>
+        ) : null}
 
-        <nav className="ml-auto hidden shrink-0 items-center gap-1 lg:flex" aria-label={`Secciones de ${title}`}>
+        <nav
+          className={`hidden shrink-0 items-center gap-1.5 lg:flex ${isAreaVariant ? "lg:absolute lg:left-1/2 lg:-translate-x-1/2" : "ml-auto"}`}
+          aria-label={`Secciones de ${title}`}
+        >
           {items.map((item) => {
             const active = activeSection === item.id;
-            const Icon = item.icon;
             return (
               <button
                 key={item.id}
@@ -186,14 +188,13 @@ export function StickySectionNav({
                 className={`inline-flex min-h-9 items-center gap-1.5 rounded-full px-2.5 text-[11px] font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 xl:px-3 xl:text-xs ${isAreaVariant
                   ? active
                     ? "shadow-[0_3px_12px_rgba(25,25,42,.12)] focus-visible:outline-current"
-                    : "text-current opacity-65 hover:bg-white/20 hover:opacity-100 focus-visible:outline-current"
+                    : "border bg-white hover:bg-black/[.03] focus-visible:outline-current"
                   : active
                     ? "bg-white text-[#494963] focus-visible:outline-white"
                     : "text-white/60 hover:bg-white/10 hover:text-white focus-visible:outline-white"
                 }`}
-                style={isAreaVariant && active ? { backgroundColor: accentText, color: accent } : undefined}
+                style={isAreaVariant ? (active ? { backgroundColor: accent, color: accentText } : { borderColor: accent, color: accent }) : undefined}
               >
-                <Icon className="h-3.5 w-3.5 shrink-0" />
                 {item.label}
               </button>
             );
@@ -210,24 +211,22 @@ export function StickySectionNav({
       <nav className={`grid lg:hidden ${tabsOnlyBelowDesktop ? "" : isAreaVariant ? "border-t border-black/[.06]" : "border-t border-white/10"} ${items.length === 3 ? "grid-cols-3" : "grid-cols-4"}`} aria-label={`Secciones de ${title}`}>
         {items.map((item) => {
           const active = activeSection === item.id;
-          const Icon = item.icon;
           return (
             <button
               key={item.id}
               type="button"
               onClick={() => navigateTo(item.id)}
               aria-current={active ? "location" : undefined}
-              className={`flex min-h-12 min-w-0 flex-col items-center justify-center gap-0.5 px-1 text-[9px] font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] sm:flex-row sm:gap-1.5 sm:text-[11px] ${isAreaVariant
+              className={`flex min-h-12 min-w-0 items-center justify-center px-1 text-[9px] font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] sm:text-[11px] ${isAreaVariant
                 ? active
                   ? "focus-visible:outline-current"
-                  : "text-current opacity-65 hover:bg-white/20 hover:opacity-100 focus-visible:outline-current"
+                  : "text-current opacity-65 hover:bg-black/[.03] hover:opacity-100 focus-visible:outline-current"
                 : active
                   ? "bg-white text-[#494963] focus-visible:outline-white"
                   : "text-white/55 hover:bg-white/10 hover:text-white focus-visible:outline-white"
               }`}
-              style={isAreaVariant && active ? { backgroundColor: accentText, color: accent } : undefined}
+              style={isAreaVariant && active ? { backgroundColor: accent, color: accentText } : undefined}
             >
-              <Icon className="h-3.5 w-3.5 shrink-0" />
               <span className="max-w-full truncate">{item.mobileLabel ?? item.label}</span>
             </button>
           );

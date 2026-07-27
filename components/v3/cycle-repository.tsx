@@ -208,10 +208,26 @@ export function CycleRepository({
 
   return (
     <div className="min-h-full bg-[#F7F7F9] [overflow-anchor:none]">
-      <header className="mx-auto max-w-5xl px-4 pb-5 pt-7 md:px-8 md:pb-7 md:pt-9">
+      <header className="mx-auto max-w-5xl px-4 pb-5 pt-10 md:px-8 md:pb-7 md:pt-14">
+        <div className="mb-10 flex h-[10px] w-full overflow-hidden" aria-hidden="true">
+          {groups.map((group) => {
+            const isActiveSegment = openAreas.size === 0 || openAreas.has(group.slug);
+            return (
+              <span
+                key={group.slug}
+                className="h-full flex-1 transition-[opacity,filter] duration-200"
+                style={{
+                  backgroundColor: group.color,
+                  opacity: isActiveSegment ? 1 : 0.35,
+                  filter: isActiveSegment ? "none" : "grayscale(1)",
+                }}
+              />
+            );
+          })}
+        </div>
         <div className="flex flex-col gap-3 border-b border-[#494963]/10 pb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8 md:pb-8">
           <div>
-            <h1 className="font-display text-[2rem] font-medium leading-none tracking-[-.04em] text-[#494963] md:text-[2.75rem]">
+            <h1 className="font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl lg:text-5xl">
               {title}
             </h1>
             <p className="mt-3 text-sm text-[#494963]/50 md:text-base">{detail}</p>

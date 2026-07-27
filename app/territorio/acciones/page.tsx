@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function TerritorioActionsPage() {
-  return <TerritorioExplorer />;
+  return <TerritorioExplorer mode="realizadas" />;
 }

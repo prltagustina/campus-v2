@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { BookOpen, FileText, GraduationCap, PlayCircle } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
-import { DocumentoHero, VideoEmbed } from "@/components/v3/content-blocks";
+import { VideoEmbed } from "@/components/v3/content-blocks";
+import { DocumentoExplainer } from "@/components/v3/documento-explainer";
 import { MaterialesSection } from "@/components/area/materiales-section";
 import { FormacionesSection } from "@/components/area/formaciones-section";
 import { StickySectionNav, type StickySectionNavItem } from "@/components/v3/sticky-section-nav";
@@ -179,18 +180,17 @@ export function AreaWorkspace({ area }: { area: Area }) {
           >
             <div id="documento" className="scroll-mt-14 lg:scroll-mt-20">
               {selectedArtistic && selectedArtisticMedia ? (
-              <DocumentoHero
+              <DocumentoExplainer
                 key={selectedArtistic.id}
                 titulo={selectedArtistic.name}
-                eyebrow="Documento curricular"
                 descripcion={`Accedé al documento curricular oficial desde la sección dedicada a ${selectedArtistic.name}.`}
                 portadaSrc={selectedArtisticMedia.cover}
                 pdfUrl={`${documentUrls[area.slug]}#page=${selectedArtisticMedia.pdfPage}`}
                 accent={area.color}
-                accentText="#494963"
+                accentText={area.textOnColor}
               />
               ) : (
-                <DocumentoHero titulo={area.name} eyebrow="Documento curricular" descripcion="Accedé al documento oficial del área, con la organización común de sus cinco lenguajes artísticos." portadaSrc={covers[area.slug]} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText="#494963" />
+                <DocumentoExplainer titulo={area.name} descripcion="Accedé al documento oficial del área, con la organización común de sus cinco lenguajes artísticos." portadaSrc={covers[area.slug]} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
               )}
             </div>
 
@@ -214,7 +214,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
       ) : (
         <>
           <div id="documento" className="scroll-mt-14 lg:scroll-mt-20">
-            <DocumentoHero titulo={area.name} eyebrow="Documento curricular" descripcion="Accedé al documento oficial del área, con sus contenidos, orientaciones y organización por ciclos y grados." portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
+            <DocumentoExplainer titulo={area.name} descripcion="Accedé al documento oficial del área, con sus contenidos, orientaciones y organización por ciclos y grados." portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
           </div>
           <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} /></section>
           <section className="rounded-3xl bg-[#F3F3F5] px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} /></section>

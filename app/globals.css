@@ -241,12 +241,12 @@
 .documento-hero__cover {
   position: relative;
   min-width: 0;
-  min-height: clamp(220px, 54cqw, 290px);
+  min-height: clamp(260px, 58cqw, 340px);
   overflow: hidden;
   isolation: isolate;
-  background: #e8e8ed;
+  background: transparent;
 }
-.documento-hero--compact .documento-hero__cover { min-height: clamp(220px, 52cqw, 280px); }
+.documento-hero--compact .documento-hero__cover { min-height: clamp(260px, 56cqw, 330px); }
 .documento-hero__image {
   max-width: 100%;
   max-height: 100%;
