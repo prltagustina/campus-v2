@@ -67,6 +67,7 @@ const artisticSubareaMedia: Record<string, { cover: string; videoId: string; pdf
 };
 
 const artisticSubareaOrder = ["artes-visuales", "musica", "artes-audiovisuales", "teatro", "danza"] as const;
+const artisticAreaId = "educacion-artistica";
 
 const areaSectionItems: StickySectionNavItem[] = [
   { id: "documento", label: "Documento", icon: FileText },
@@ -89,42 +90,27 @@ function ArtisticLanguageTabs({
   onSelect: (id: string) => void;
 }) {
   const subareas = orderedArtisticSubareas(area);
-  const selected = subareas.find((subarea) => subarea.id === selectedId) ?? subareas[0];
-
-  if (!selected) return null;
+  const options = [{ id: artisticAreaId, name: "Ed. Artística" }, ...subareas];
+  const selected = options.find((option) => option.id === selectedId) ?? options[0];
 
   return (
-    <section className="rounded-3xl bg-white px-1 py-6 md:px-5 md:py-8" aria-labelledby="lenguajes-title">
-      <div className="max-w-3xl">
-        <h2 id="lenguajes-title" className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Un área, cinco lenguajes</h2>
-        <p className="mt-3 max-w-2xl leading-relaxed text-[#494963]/60">
-          Elegí un lenguaje para consultar su documento curricular y su video de presentación.
-        </p>
-      </div>
-
-      <div className="mt-7 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5" role="tablist" aria-label="Lenguajes de Educación Artística">
-        {subareas.map((subarea, index) => {
-          const active = subarea.id === selected.id;
+    <section className="bg-white px-1 py-3 md:px-5 md:py-4">
+      <div className="flex flex-wrap gap-2.5 md:gap-5" role="tablist" aria-label="Educación Artística y sus lenguajes">
+        {options.map((option) => {
+          const active = option.id === selected.id;
           return (
             <button
-              key={subarea.id}
-              id={`lenguaje-tab-${subarea.id}`}
+              key={option.id}
+              id={`lenguaje-tab-${option.id}`}
               type="button"
               role="tab"
               aria-selected={active}
               aria-controls="lenguaje-documento"
-              onClick={() => onSelect(subarea.id)}
-              className={`group flex min-h-[82px] flex-col justify-between rounded-2xl p-3.5 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]/30 focus-visible:ring-offset-2 md:min-h-[86px] md:p-4 ${active ? "shadow-[0_10px_26px_-16px_rgba(73,73,99,.55)]" : "bg-[#F7F7F9] text-[#494963] hover:bg-[#EFEFF3]"}`}
-              style={active ? { backgroundColor: area.color, color: "#494963" } : undefined}
+              onClick={() => onSelect(option.id)}
+              className={`rounded-full border px-5 py-2.5 text-[14px] font-semibold leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]/30 focus-visible:ring-offset-2 ${active ? "border-transparent text-white" : "border-[#EBEDEC] bg-white text-[#7A7A7A] hover:bg-[#EBEDEC] hover:text-[#494963]"}`}
+              style={active ? { backgroundColor: area.color } : undefined}
             >
-              <span className={`flex items-center justify-between text-[11px] font-bold tracking-[.08em] ${active ? "text-[#494963]/65" : "text-[#494963]/35"}`}>
-                {String(index + 1).padStart(2, "0")}
-                <i
-                  className={`h-2 w-2 rounded-full transition-transform ${active ? "scale-100 bg-[#494963]" : "scale-75 opacity-30 group-hover:opacity-60"}`}
-                  style={active ? undefined : { backgroundColor: area.color }}
-                />
-              </span>
-              <span className="pr-2 text-sm font-semibold leading-tight md:text-[15px]">{subarea.name}</span>
+              {option.name}
             </button>
           );
         })}
@@ -149,9 +135,20 @@ function AreaVideoPresentation({ videoId, title }: { videoId: string; title: str
 export function AreaWorkspace({ area }: { area: Area }) {
   const isArtistic = area.slug === "educacion-artistica";
   const artisticSubareas = orderedArtisticSubareas(area);
-  const [selectedArtisticId, setSelectedArtisticId] = useState(artisticSubareas[0]?.id ?? "");
-  const selectedArtistic = artisticSubareas.find((subarea) => subarea.id === selectedArtisticId) ?? artisticSubareas[0];
+  const [selectedArtisticId, setSelectedArtisticId] = useState(artisticAreaId);
+  const selectedArtistic = artisticSubareas.find((subarea) => subarea.id === selectedArtisticId);
   const selectedArtisticMedia = selectedArtistic ? artisticSubareaMedia[selectedArtistic.id] : undefined;
+  const hasSelectedArtisticTrainings = (area.teacherTrainings ?? []).some((group) =>
+    (group.items ?? []).some((item) =>
+      !selectedArtistic || item.name.toLocaleLowerCase("es").includes(selectedArtistic.name.toLocaleLowerCase("es")),
+    ),
+  );
+  const visibleSectionItems = areaSectionItems.filter((item) => {
+    if (!isArtistic) return true;
+    if (!selectedArtistic && (item.id === "materiales" || item.id === "video")) return false;
+    if (!hasSelectedArtisticTrainings && item.id === "formacion") return false;
+    return true;
+  });
 
   const selectArtisticLanguage = (id: string) => {
     if (id === selectedArtisticId) return;
@@ -161,7 +158,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
   return <div className="min-h-full bg-white">
     <StickySectionNav
       title={area.name}
-      items={areaSectionItems}
+      items={visibleSectionItems}
       tabsOnlyBelowDesktop
       variant="area"
       accent={area.color}
@@ -171,14 +168,17 @@ export function AreaWorkspace({ area }: { area: Area }) {
     <div className="space-y-5 p-4 md:p-6">
       {isArtistic ? (
         <>
-          <div id="documento" className="scroll-mt-14 lg:scroll-mt-20">
-            <DocumentoHero titulo={area.name} eyebrow="Documento curricular" descripcion="Accedé al documento oficial del área, con la organización común de sus cinco lenguajes artísticos." portadaSrc={covers[area.slug]} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText="#494963" />
-          </div>
+          <ArtisticLanguageTabs area={area} selectedId={selectedArtisticId} onSelect={selectArtisticLanguage} />
 
-          {selectedArtistic ? <ArtisticLanguageTabs area={area} selectedId={selectedArtistic.id} onSelect={selectArtisticLanguage} /> : null}
-
-          {selectedArtistic && selectedArtisticMedia ? (
-            <div id="lenguaje-documento" role="tabpanel" aria-labelledby={`lenguaje-tab-${selectedArtistic.id}`}>
+          <div
+            id="lenguaje-documento"
+            key={selectedArtisticId}
+            role="tabpanel"
+            aria-labelledby={`lenguaje-tab-${selectedArtisticId}`}
+            className="space-y-5"
+          >
+            <div id="documento" className="scroll-mt-14 lg:scroll-mt-20">
+              {selectedArtistic && selectedArtisticMedia ? (
               <DocumentoHero
                 key={selectedArtistic.id}
                 titulo={selectedArtistic.name}
@@ -189,33 +189,42 @@ export function AreaWorkspace({ area }: { area: Area }) {
                 accent={area.color}
                 accentText="#494963"
               />
+              ) : (
+                <DocumentoHero titulo={area.name} eyebrow="Documento curricular" descripcion="Accedé al documento oficial del área, con la organización común de sus cinco lenguajes artísticos." portadaSrc={covers[area.slug]} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText="#494963" />
+              )}
             </div>
-          ) : null}
+
+            {selectedArtistic ? (
+              <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
+            ) : null}
+            {hasSelectedArtisticTrainings ? (
+              <section className="rounded-3xl bg-[#F3F3F5] px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
+            ) : null}
+
+            {selectedArtistic && selectedArtisticMedia ? (
+              <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
+                <AreaVideoPresentation
+                  videoId={selectedArtisticMedia.videoId}
+                  title={`Diseño Curricular Educación Primaria: ${selectedArtistic.name}`}
+                />
+              </div>
+            ) : null}
+          </div>
         </>
       ) : (
         <>
           <div id="documento" className="scroll-mt-14 lg:scroll-mt-20">
             <DocumentoHero titulo={area.name} eyebrow="Documento curricular" descripcion="Accedé al documento oficial del área, con sus contenidos, orientaciones y organización por ciclos y grados." portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
           </div>
+          <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} /></section>
+          <section className="rounded-3xl bg-[#F3F3F5] px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} /></section>
+          {videos[area.slug] ? (
+            <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
+              <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />
+            </div>
+          ) : null}
         </>
       )}
-
-      <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} /></section>
-      <section className="rounded-3xl bg-[#F3F3F5] px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} /></section>
-
-      {isArtistic && selectedArtistic && selectedArtisticMedia ? (
-        <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
-          <AreaVideoPresentation
-            key={selectedArtisticMedia.videoId}
-            videoId={selectedArtisticMedia.videoId}
-            title={`Diseño Curricular Educación Primaria: ${selectedArtistic.name}`}
-          />
-        </div>
-      ) : videos[area.slug] ? (
-        <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
-          <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />
-        </div>
-      ) : null}
     </div>
   </div>;
 }

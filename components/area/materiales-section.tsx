@@ -16,6 +16,7 @@ import {
 
 interface MaterialesSectionProps {
   area: Area;
+  artisticLanguage?: string;
 }
 
 type CategoriaRecurso = "secuencias" | "guias";
@@ -643,11 +644,11 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
       </div>
 
       <div
-        className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5"
+        className="flex flex-wrap gap-2.5 md:gap-5"
         role="tablist"
         aria-label="Idiomas de Lenguas Extranjeras"
       >
-        {idiomas.map((idioma, index) => {
+        {idiomas.map((idioma) => {
           const active = idioma.id === idiomaSeleccionado;
           return (
             <button
@@ -659,29 +660,14 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
               aria-controls="idioma-recursos-panel"
               onClick={() => selectLanguage(idioma.id)}
               className={
-                "group flex min-h-[82px] h-full flex-col justify-between rounded-2xl p-3.5 text-left transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]/30 focus-visible:ring-offset-2 sm:min-h-[86px] sm:p-4 " +
+                "rounded-full border px-5 py-2.5 text-[14px] font-semibold leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]/30 focus-visible:ring-offset-2 " +
                 (active
-                  ? "text-[#494963] shadow-[0_10px_26px_-16px_rgba(73,73,99,.55)]"
-                  : "bg-[#F7F7F9] text-[#494963] hover:bg-[#EFEFF3]")
+                  ? "border-transparent text-white"
+                  : "border-[#EBEDEC] bg-white text-[#7A7A7A] hover:bg-[#EBEDEC] hover:text-[#494963]")
               }
-              style={active ? { backgroundColor: area.color, color: "#494963" } : undefined}
+              style={active ? { backgroundColor: area.color } : undefined}
             >
-              <span
-                className={
-                  "flex w-full items-center justify-between text-[11px] font-bold tracking-[.08em] " +
-                  (active ? "text-[#494963]/60" : "text-[#494963]/35")
-                }
-              >
-                {String(index + 1).padStart(2, "0")}
-                <span
-                  className={
-                    "h-2 w-2 rounded-full " +
-                    (active ? "bg-[#494963]" : "scale-75 bg-[#494963] opacity-20 group-hover:opacity-40")
-                  }
-                  aria-hidden="true"
-                />
-              </span>
-              <span className="pr-1 text-sm font-semibold leading-tight sm:text-[15px]">{idioma.name}</span>
+              {idioma.name}
             </button>
           );
         })}
@@ -757,12 +743,45 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
   );
 }
 
-export function MaterialesSection({ area }: MaterialesSectionProps) {
+function filterItinerarioByLanguage(
+  itinerario: ReturnType<typeof getItinerario>,
+  artisticLanguage?: string,
+) {
+  if (!artisticLanguage) return itinerario;
+
+  const language = artisticLanguage.toLocaleLowerCase("es");
+  const matches = (file: ItinerarioFile) =>
+    file.descripcion?.toLocaleLowerCase("es").includes(language) ?? false;
+
+  return {
+    categorias: itinerario.categorias.map((categoria) => ({
+      ...categoria,
+      ciclos: categoria.ciclos?.map((ciclo) => ({
+        ...ciclo,
+        grados: ciclo.grados.map((grado) => ({
+          ...grado,
+          files: grado.files.filter(matches),
+        })),
+      })),
+      gradosSueltos: categoria.gradosSueltos?.map((grado) => ({
+        ...grado,
+        files: grado.files.filter(matches),
+      })),
+      subgrupos: categoria.subgrupos?.map((subgrupo) => ({
+        ...subgrupo,
+        files: subgrupo.files.filter(matches),
+      })),
+      files: categoria.files?.filter(matches),
+    })),
+  };
+}
+
+export function MaterialesSection({ area, artisticLanguage }: MaterialesSectionProps) {
   if (area.slug === "lenguas-extranjeras") {
     return <LenguasExtranjerasRepository area={area} />;
   }
 
-  const itinerario = getItinerario(area.slug);
+  const itinerario = filterItinerarioByLanguage(getItinerario(area.slug), artisticLanguage);
 
   return (
     <section id="materiales" className="min-w-0 max-w-full scroll-mt-14 lg:scroll-mt-20">
@@ -771,7 +790,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           Itinerarios didácticos
         </h3>
         <p className="text-sm sm:text-base lg:text-lg text-[#494963]/50 mt-3 max-w-xl text-pretty">
-          Recursos organizados por ciclo y grado.
+          Recursos de {artisticLanguage ?? area.name} organizados por ciclo y grado.
         </p>
       </div>
 

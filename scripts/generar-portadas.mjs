@@ -42,6 +42,7 @@ const PDFS = [
   { id: "educacion-fisica-1ro", url: path.join(SECUENCIAS_BASE, "secuencia-educacion-fisica-1er-grado.pdf") },
   { id: "ciencias-naturales-5to", url: path.join(SECUENCIAS_BASE, "secuencia-ciencias-naturales-5to-grado.pdf") },
   { id: "artes-visuales-1ro", url: path.join(SECUENCIAS_BASE, "secuencia-artes-visuales-1er-grado.pdf") },
+  { id: "musica-5to", url: path.join(SECUENCIAS_BASE, "secuencia-musica-5to-grado.pdf") },
 ];
 
 /** Factory de canvas (API por clase) para pdf.js usando @napi-rs/canvas. */

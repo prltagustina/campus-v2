@@ -227,6 +227,16 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
           portada: "/portadas/artes-visuales-1ro.jpg",
         },
       ],
+      "5to": [
+        {
+          nombre: "“Entre tierra, mate y chamamé: el Litoral argentino desde sus músicas”",
+          descripcion: "Música",
+          formato: "PDF",
+          paginas: 8,
+          url: "/documentos/secuencias/secuencia-musica-5to-grado.pdf",
+          portada: "/portadas/musica-5to.jpg",
+        },
+      ],
     }),
     gradosSueltos: septimo(),
   },

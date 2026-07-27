@@ -10,18 +10,28 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-export function FormacionesSection({ area }: { area: Area }) {
+export function FormacionesSection({
+  area,
+  artisticLanguage,
+}: {
+  area: Area;
+  artisticLanguage?: string;
+}) {
+  const normalizedLanguage = artisticLanguage?.toLocaleLowerCase("es");
   const items = (area.teacherTrainings ?? []).flatMap((group) =>
-    (group.items ?? []).map((item) => ({ ...item, group: group.name })),
+    (group.items ?? [])
+      .filter((item) => !normalizedLanguage || item.name.toLocaleLowerCase("es").includes(normalizedLanguage))
+      .map((item) => ({ ...item, group: group.name })),
   );
+  const contextName = artisticLanguage ?? area.name;
 
   return <section id="formacion" className="scroll-mt-14 lg:scroll-mt-20">
     <header className="mb-8 max-w-2xl pr-24">
       <h2 className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Formaciones docentes</h2>
-      <p className="mt-2 text-[#494963]/50">Cursos y trayectos de formación vinculados con {area.name}.</p>
+      <p className="mt-2 text-[#494963]/50">Cursos y trayectos de formación vinculados con {contextName}.</p>
     </header>
 
-    {items.length ? <Carousel opts={{ align: "start", containScroll: "trimSnaps" }} className="w-full" aria-label={`Formaciones docentes de ${area.name}`}>
+    {items.length ? <Carousel opts={{ align: "start", containScroll: "trimSnaps" }} className="w-full" aria-label={`Formaciones docentes de ${contextName}`}>
       <CarouselContent className="items-stretch">
         {items.map((item) => <CarouselItem key={item.id} className="basis-[88%] sm:basis-1/2 xl:basis-1/3">
           <article className="flex h-full min-h-[280px] flex-col overflow-hidden rounded-2xl bg-white shadow-[0_5px_20px_rgba(73,73,99,.07)]">
@@ -43,6 +53,6 @@ export function FormacionesSection({ area }: { area: Area }) {
       </CarouselContent>
       <CarouselPrevious className="!left-auto !right-11 !top-[-54px] !translate-y-0 border-0 bg-white text-[#494963] shadow-sm disabled:opacity-25" />
       <CarouselNext className="!right-0 !top-[-54px] !translate-y-0 border-0 bg-white text-[#494963] shadow-sm disabled:opacity-25" />
-    </Carousel> : <div className="rounded-2xl bg-white px-5 py-8 text-[#494963]/45">Las formaciones vinculadas con esta área se publicarán próximamente.</div>}
+    </Carousel> : null}
   </section>;
 }
