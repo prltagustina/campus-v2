@@ -241,12 +241,12 @@
 .documento-hero__cover {
   position: relative;
   min-width: 0;
-  min-height: clamp(220px, 54cqw, 290px);
+  min-height: clamp(260px, 58cqw, 340px);
   overflow: hidden;
   isolation: isolate;
-  background: #e8e8ed;
+  background: transparent;
 }
-.documento-hero--compact .documento-hero__cover { min-height: clamp(220px, 52cqw, 280px); }
+.documento-hero--compact .documento-hero__cover { min-height: clamp(260px, 56cqw, 330px); }
 .documento-hero__image {
   max-width: 100%;
   max-height: 100%;
@@ -366,6 +366,16 @@
 }
 .v3-section-cover--areas { --v3-cover-offset: 60px; }
 .v3-section-cover--cycles { --v3-cover-offset: 111px; }
+.v3-section-cover--territory { --v3-cover-offset: 0px; }
+.v3-section-cover__gradient {
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 auto;
+  height: 7px;
+  background-image: url('/images/territorio/barra-degrade-territorio.png');
+  background-size: 100% 100%;
+  pointer-events: none;
+}
 .v3-section-cover__inner {
   position: relative;
   z-index: 1;
@@ -461,11 +471,22 @@
 .v3-cover-icon--cycles::after {
   border: 1px dashed rgba(73,73,99,.34);
 }
+.v3-cover-icon--territory::after {
+  border: 1px dashed rgba(73,73,99,.28);
+}
 .v3-cover-icon > svg {
   position: relative;
   z-index: 1;
   width: 68%;
   height: 68%;
+  animation: v3-cover-glyph-enter 680ms 140ms cubic-bezier(.16,1,.3,1) both;
+}
+.v3-cover-icon__image {
+  position: relative;
+  z-index: 1;
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
   animation: v3-cover-glyph-enter 680ms 140ms cubic-bezier(.16,1,.3,1) both;
 }
 .v3-cover-icon--cycles > svg path {
@@ -571,6 +592,7 @@
   .v3-cover-icon::before,
   .v3-cover-icon::after,
   .v3-cover-icon > svg,
+  .v3-cover-icon__image,
   .v3-cover-icon--cycles > svg path,
   .v3-cover-icon--cycles > svg circle {
     animation: none !important;

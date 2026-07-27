@@ -61,9 +61,9 @@ function MarcoGeneralContent() {
   }, [selectedAxis]);
   return (
     <div className="bg-white">
-      <StickySectionNav title="Marco General" items={marcoSectionItems} />
+      <StickySectionNav title="Marco General" items={marcoSectionItems} variant="area" />
       <div id="documento" className="scroll-mt-[116px] p-4 md:p-6 lg:scroll-mt-20">
-        <DocumentoHero eyebrow="Documento curricular" titulo="Marco General" descripcion="Accedé al documento oficial del Marco General, con los fundamentos y criterios comunes del nuevo Diseño Curricular." portadaSrc="/images/marco-general-portada.jpg" pdfUrl="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/04/marco-general.pdf" accent="#EDEDF0" accentText="#494963" />
+        <DocumentoHero eyebrow="Marco General" titulo="Los fundamentos del nuevo Diseño Curricular" descripcion="El Marco General establece los principios político-pedagógicos, los ejes centrales y las orientaciones que organizan la propuesta curricular para la Educación Primaria de la Provincia de Santa Fe." portadaSrc="/images/marco-general-portada.jpg" pdfUrl="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/04/marco-general.pdf" accent="#EDEDF0" accentText="#494963" />
       </div>
       <section id="recursos" className="v3-section scroll-mt-[116px] lg:scroll-mt-20">
         <div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">

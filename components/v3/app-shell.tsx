@@ -9,6 +9,7 @@ import {
   Check,
   ChevronDown,
   Home,
+  MapPinned,
   MessageCircle,
   Search,
   Users,
@@ -35,6 +36,14 @@ const primaryItems = [
     mobileLabel: "Ciclos",
     icon: CycleMaterialsIcon,
     match: (p: string) => p === "/materiales-por-ciclo" || p.startsWith("/ciclo/"),
+  },
+  {
+    href: "/territorio",
+    label: "Territorio",
+    desktopLines: ["Territorio"],
+    mobileLabel: "Territorio",
+    icon: MapPinned,
+    match: (p: string) => p.startsWith("/territorio"),
   },
   {
     href: "/directivos",
@@ -252,11 +261,44 @@ function CycleSubnav({ pathname }: { pathname: string }) {
   );
 }
 
+function TerritorySubnav({ pathname }: { pathname: string }) {
+  const actionsActive = pathname.startsWith("/territorio/acciones");
+  const proximasActive = pathname.startsWith("/territorio/proximas");
+
+  return (
+    <nav aria-label="Territorio" className="grid h-full auto-rows-[minmax(0,1fr)] gap-1.5 p-0.5 pr-1">
+      <Link
+        href="/territorio/acciones"
+        aria-current={actionsActive ? "page" : undefined}
+        className={`group flex h-full min-h-[85px] w-full flex-col justify-start rounded-[10px] border border-[#494963] p-5 text-[#494963] transition-[background-color,box-shadow] duration-150 hover:bg-[#F0F0F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${actionsActive ? "bg-[#E5E5EA] shadow-[inset_0_0_0_1px_rgba(73,73,99,.06)]" : "bg-white"}`}
+      >
+        <span className="flex w-full items-center justify-between gap-3 text-2xl font-semibold tracking-[-0.04em]">
+          <span>Ver acciones</span>
+          <SolidAreaArrow compact />
+        </span>
+      </Link>
+      <Link
+        href="/territorio/proximas"
+        aria-current={proximasActive ? "page" : undefined}
+        className={`group flex h-full min-h-[85px] w-full flex-col justify-start rounded-[10px] border border-[#494963] p-5 text-[#494963] transition-[background-color,box-shadow] duration-150 hover:bg-[#F0F0F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${proximasActive ? "bg-[#E5E5EA] shadow-[inset_0_0_0_1px_rgba(73,73,99,.06)]" : "bg-white"}`}
+      >
+        <span className="flex w-full items-center justify-between gap-3 text-2xl font-semibold tracking-[-0.04em]">
+          <span>Próximas</span>
+          <SolidAreaArrow compact />
+        </span>
+      </Link>
+    </nav>
+  );
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const areasOpen = pathname === "/areas" || pathname.startsWith("/area/") || pathname === "/marco-general";
   const cyclesOpen = pathname === "/materiales-por-ciclo" || pathname.startsWith("/ciclo/");
-  const hasSecondary = areasOpen || cyclesOpen;
+  const territoryOpen = pathname.startsWith("/territorio");
+  const territoryActions = pathname.startsWith("/territorio/acciones");
+  const territoryProximas = pathname.startsWith("/territorio/proximas");
+  const hasSecondary = areasOpen || cyclesOpen || territoryOpen;
   const hasInstitutionalSwitcher = pathname.startsWith("/directivos")
     || pathname.startsWith("/docentes")
     || pathname.startsWith("/familias")
@@ -264,12 +306,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const currentArea = orderedAreas.find((area) => pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`));
   const currentCycle = cycles.find((cycle) => pathname === `/ciclo/${cycle.slug}`);
   const activePrimary = primaryItems.find((item) => item.match(pathname));
-  const currentLabel = currentArea?.name
+  const currentLabel = (territoryActions ? "Acciones" : territoryProximas ? "Próximas" : undefined)
+    ?? currentArea?.name
     ?? (pathname === "/area/marco-general" || pathname === "/marco-general" ? "Marco General" : undefined)
     ?? currentCycle?.name
     ?? activePrimary?.label
     ?? "Diseño Curricular";
-  const parentLabel = currentArea || pathname.includes("marco-general") ? "Áreas" : currentCycle ? "Ciclos" : null;
+  const parentLabel = (territoryActions || territoryProximas) ? "Territorio" : currentArea || pathname.includes("marco-general") ? "Áreas" : currentCycle ? "Ciclos" : null;
 
   return (
     <div
@@ -316,7 +359,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       <div className="flex h-[calc(100dvh-118px)] gap-3 overflow-hidden bg-white p-3 pb-[calc(4.75rem+env(safe-area-inset-bottom))] md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5">
-        <nav aria-label="Navegación principal" className="hidden w-[210px] shrink-0 grid-rows-[.75fr_1.45fr_1.45fr_.75fr_.75fr_.75fr] gap-1.5 md:grid xl:w-[230px]">
+        <nav aria-label="Navegación principal" className="hidden w-[210px] shrink-0 grid-rows-[.7fr_1.3fr_1.3fr_.8fr_.7fr_.7fr_.7fr] gap-1.5 md:grid xl:w-[230px]">
           {primaryItems.map((item) => {
             const active = item.match(pathname);
             const Icon = item.icon;
@@ -338,7 +381,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         {hasSecondary && (
           <aside className="v3-secondary hidden h-full min-h-0 w-[280px] shrink-0 overflow-y-auto bg-white xl:block xl:w-[300px]">
-            {areasOpen ? <AreaSubnav pathname={pathname} /> : <CycleSubnav pathname={pathname} />}
+            {areasOpen ? <AreaSubnav pathname={pathname} /> : cyclesOpen ? <CycleSubnav pathname={pathname} /> : <TerritorySubnav pathname={pathname} />}
           </aside>
         )}
 
@@ -379,7 +422,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 })}
               </div>
             </>
-          ) : hasSecondary ? (
+          ) : cyclesOpen ? (
             <div className="sticky top-0 z-30 grid grid-cols-3 gap-1.5 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">
               {cycles.map((cycle, index) => {
                 const active = pathname === `/ciclo/${cycle.slug}`;
@@ -399,19 +442,38 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 );
               })}
             </div>
+          ) : territoryOpen ? (
+            <div className="sticky top-0 z-30 grid grid-cols-2 gap-1.5 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">
+              <Link
+                href="/territorio/acciones"
+                aria-current={territoryActions ? "page" : undefined}
+                className={`group flex min-h-14 w-full items-center justify-between rounded-lg border border-[#494963] px-4 text-sm font-semibold text-[#494963] transition-colors hover:bg-[#F0F0F3] ${territoryActions ? "bg-[#E5E5EA]" : "bg-white"}`}
+              >
+                Ver acciones
+                <SolidAreaArrow compact />
+              </Link>
+              <Link
+                href="/territorio/proximas"
+                aria-current={territoryProximas ? "page" : undefined}
+                className={`group flex min-h-14 w-full items-center justify-between rounded-lg border border-[#494963] px-4 text-sm font-semibold text-[#494963] transition-colors hover:bg-[#F0F0F3] ${territoryProximas ? "bg-[#E5E5EA]" : "bg-white"}`}
+              >
+                Próximas
+                <SolidAreaArrow compact />
+              </Link>
+            </div>
           ) : null}
           {children}
         </main>
       </div>
 
-      <nav aria-label="Navegación móvil" className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 grid-cols-6 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden">
+      <nav aria-label="Navegación móvil" className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 grid-cols-7 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden">
         {primaryItems.map((item) => {
           const active = item.match(pathname);
           const Icon = item.icon;
           return (
-            <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} aria-label={item.label} className={`flex flex-col items-center justify-center gap-1 text-[9px] font-bold ${active ? "text-white" : "text-white/50"}`}>
-              <span className={`grid h-7 w-9 place-items-center rounded-lg ${active ? "bg-white text-[#494963]" : ""}`}><Icon className="h-4.5 w-4.5" aria-hidden="true" /></span>
-              <span>{item.mobileLabel}</span>
+            <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} aria-label={item.label} className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[8px] font-bold min-[390px]:text-[9px] ${active ? "text-white" : "text-white/50"}`}>
+              <span className={`grid h-7 w-8 place-items-center rounded-lg min-[390px]:w-9 ${active ? "bg-white text-[#494963]" : ""}`}><Icon className="h-4.5 w-4.5" aria-hidden="true" /></span>
+              <span className="max-w-full truncate px-0.5">{item.mobileLabel}</span>
             </Link>
           );
         })}
