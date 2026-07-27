@@ -198,7 +198,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
               <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
             ) : null}
             {hasSelectedArtisticTrainings ? (
-              <section className="rounded-3xl bg-[#F3F3F5] px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
+              <section className="rounded-3xl bg-white px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
             ) : null}
 
             {selectedArtistic && selectedArtisticMedia ? (
