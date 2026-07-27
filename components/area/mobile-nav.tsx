@@ -8,6 +8,8 @@ import { areasOrder, MARCO_GENERAL_COLOR } from "@/lib/constants";
 
 interface MobileNavProps {
   area: Area;
+  showItineraries?: boolean;
+  showVideo?: boolean;
   activeSection: string;
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
@@ -132,6 +134,8 @@ function StaggeredAreasMenu({
 
 export function MobileNav({
   area,
+  showItineraries = true,
+  showVideo = true,
   activeSection,
   mobileMenuOpen,
   setMobileMenuOpen,
@@ -157,7 +161,7 @@ export function MobileNav({
             <span className="text-[10px] text-white/50">Inicio</span>
           </Link>
 
-          <button
+          {showItineraries ? <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="flex flex-col items-center gap-1 p-2"
@@ -172,9 +176,9 @@ export function MobileNav({
             >
               {"Áreas"}
             </span>
-          </button>
+          </button> : null}
 
-          <button
+          {showVideo ? <button
             type="button"
             onClick={() => scrollToSection("materiales")}
             className="flex flex-col items-center gap-1 p-2"
@@ -189,7 +193,7 @@ export function MobileNav({
             >
               Itinerarios
             </span>
-          </button>
+          </button> : null}
 
           <button
             type="button"

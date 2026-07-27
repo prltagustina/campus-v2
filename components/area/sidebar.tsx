@@ -30,6 +30,9 @@ const AreasIcon = ({ className }: { className?: string }) => (
 
 interface SidebarProps {
   area: Area;
+  showItineraries?: boolean;
+  showFormations?: boolean;
+  showVideo?: boolean;
   activeSection: string;
   showAreasNav: boolean;
   setShowAreasNav: (show: boolean) => void;
@@ -38,6 +41,9 @@ interface SidebarProps {
 
 export function Sidebar({
   area,
+  showItineraries = true,
+  showFormations = true,
+  showVideo = true,
   activeSection,
   showAreasNav,
   setShowAreasNav,
@@ -130,7 +136,13 @@ export function Sidebar({
         <div className="w-5 h-px bg-white/15 my-1" />
 
         {/* Section navigation */}
-        {secciones.map((seccion) => {
+        {secciones.filter((seccion) => {
+          if (area.slug === "educacion-artistica" && seccion.id === "ejes") return false;
+          if (!showItineraries && seccion.id === "materiales") return false;
+          if (!showFormations && seccion.id === "formacion") return false;
+          if (!showVideo && seccion.id === "video") return false;
+          return true;
+        }).map((seccion) => {
           const isActive = activeSection === seccion.id;
           return (
             <div key={seccion.id} className="relative group flex items-center">

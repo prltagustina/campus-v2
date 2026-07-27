@@ -181,6 +181,15 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
   const areaContent =
     contenidosPorArea[area.slug] || contenidosPorArea["matematica"];
   const subAreas = subAreasPorArea[area.slug] || [];
+  const selectedArtisticName = selectedSubarea
+    ? area.subareas?.find((subarea) => subarea.id === selectedSubarea)?.name
+    : undefined;
+  const isArtistic = area.slug === "educacion-artistica";
+  const hasSelectedArtisticTrainings = (area.teacherTrainings ?? []).some((group) =>
+    (group.items ?? []).some((item) =>
+      !selectedArtisticName || item.name.toLocaleLowerCase("es").includes(selectedArtisticName.toLocaleLowerCase("es")),
+    ),
+  );
   const currentIdx = areasOrder.indexOf(area.id);
   const prevArea =
     currentIdx > 0
@@ -197,6 +206,8 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
 
       <MobileNav
         area={area}
+        showItineraries={!isArtistic || Boolean(selectedSubarea)}
+        showVideo={!isArtistic || Boolean(selectedSubarea)}
         activeSection={activeSection}
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
@@ -205,6 +216,9 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
 
       <Sidebar
         area={area}
+        showItineraries={!isArtistic || Boolean(selectedSubarea)}
+        showFormations={!isArtistic || hasSelectedArtisticTrainings}
+        showVideo={!isArtistic || Boolean(selectedSubarea)}
         activeSection={activeSection}
         showAreasNav={showAreasNav}
         setShowAreasNav={setShowAreasNav}
@@ -214,6 +228,16 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
       <main>
         {/* CONTENT SECTIONS -- no divider lines, generous spacing */}
         <div className="relative">
+          {isArtistic ? (
+            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-16 md:pt-24">
+              <SubareasPills
+                area={area}
+                subAreas={subAreas}
+                selectedSubarea={selectedSubarea}
+                setSelectedSubarea={setSelectedSubarea}
+              />
+            </div>
+          ) : null}
           {/* 1. Descarga Documento del área -- light gray bg */}
           <RevealSection delay={0.05} style="scale" className="scroll-mt-24 bg-[#EDEDF0]">
             <ParallaxLayer speed={0.1}>
@@ -224,38 +248,38 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
           </RevealSection>
 
           {/* 2. Itinerarios didácticos -- white bg */}
-          <RevealSection
+          {!isArtistic || selectedSubarea ? <RevealSection
             delay={0.06}
             style="slide-left"
             className="scroll-mt-24 bg-white"
           >
             <ParallaxLayer speed={0.08}>
               <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-                <MaterialesSection area={area} />
+                <MaterialesSection area={area} artisticLanguage={selectedArtisticName} />
               </div>
             </ParallaxLayer>
-          </RevealSection>
+          </RevealSection> : null}
 
           {/* 3. Formaciones Docentes -- light gray bg */}
-          <RevealSection delay={0.06} style="slide-up" className="scroll-mt-24 bg-[#EDEDF0]">
+          {!isArtistic || hasSelectedArtisticTrainings ? <RevealSection delay={0.06} style="slide-up" className="scroll-mt-24 bg-[#EDEDF0]">
             <ParallaxLayer speed={0.05}>
               <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-                <FormacionesSection area={area} />
+                <FormacionesSection area={area} artisticLanguage={selectedArtisticName} />
               </div>
             </ParallaxLayer>
-          </RevealSection>
+          </RevealSection> : null}
 
           {/* 4. Video de Presentación -- white bg */}
-          <RevealSection delay={0.06} style="clip" className="scroll-mt-24 bg-white">
+          {!isArtistic || selectedSubarea ? <RevealSection delay={0.06} style="clip" className="scroll-mt-24 bg-white">
             <ParallaxLayer speed={0.06}>
               <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-                <VideoSection area={area} />
+                <VideoSection area={area} selectedSubarea={selectedSubarea} />
               </div>
             </ParallaxLayer>
-          </RevealSection>
+          </RevealSection> : null}
 
           {/* 5. Átomo y media rueda (Ejes) -- light gray bg, última sección */}
-          <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-[#EDEDF0]">
+          {!isArtistic ? <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-[#EDEDF0]">
             {/* Media rueda -- flush to the top of the section, no strip above */}
             <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16">
               <AreaHeader
@@ -285,7 +309,7 @@ export function AreaDetailContent({ area }: AreaDetailContentProps) {
                 selectedSubarea={selectedSubarea}
               />
             </div>
-          </RevealSection>
+          </RevealSection> : null}
         </div>
       </main>
 

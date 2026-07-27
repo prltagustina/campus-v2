@@ -15,6 +15,7 @@ import {
 
 interface MaterialesSectionProps {
   area: Area;
+  artisticLanguage?: string;
 }
 
 type CategoriaRecurso = "secuencias" | "audiovisuales" | "guias";
@@ -499,7 +500,30 @@ function CategoriaBlock({
   );
 }
 
-export function MaterialesSection({ area }: MaterialesSectionProps) {
+function filterItinerarioByLanguage(
+  itinerario: ReturnType<typeof getItinerario>,
+  artisticLanguage?: string,
+) {
+  if (!artisticLanguage) return itinerario;
+  const language = artisticLanguage.toLocaleLowerCase("es");
+  const matches = (file: ItinerarioFile) =>
+    file.descripcion?.toLocaleLowerCase("es").includes(language) ?? false;
+
+  return {
+    categorias: itinerario.categorias.map((categoria) => ({
+      ...categoria,
+      ciclos: categoria.ciclos?.map((ciclo) => ({
+        ...ciclo,
+        grados: ciclo.grados.map((grado) => ({ ...grado, files: grado.files.filter(matches) })),
+      })),
+      gradosSueltos: categoria.gradosSueltos?.map((grado) => ({ ...grado, files: grado.files.filter(matches) })),
+      subgrupos: categoria.subgrupos?.map((subgrupo) => ({ ...subgrupo, files: subgrupo.files.filter(matches) })),
+      files: categoria.files?.filter(matches),
+    })),
+  };
+}
+
+export function MaterialesSection({ area, artisticLanguage }: MaterialesSectionProps) {
   const isLenguasExtranjeras = area.slug === "lenguas-extranjeras";
 
   // Inglés siempre activo por defecto
@@ -532,8 +556,8 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           </p>
         </div>
 
-        {/* MOBILE: Lista minimalista full-width */}
-        <div className="sm:hidden -mx-4 px-3 space-y-2 py-2">
+        {/* Vista móvil anterior, oculta durante la transición a la botonera común. */}
+        <div className="hidden">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
             const isIngles = idioma.id === "ingles";
@@ -745,7 +769,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
         </div>
 
         {/* DESKTOP: Botones horizontales */}
-        <div className="hidden sm:flex flex-wrap justify-center gap-2 sm:gap-3">
+        <div className="flex flex-wrap justify-center gap-2.5 md:gap-5">
           {idiomas.map((idioma) => {
             const isSelected = idiomaSeleccionado === idioma.id;
             return (
@@ -753,24 +777,19 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
                 key={idioma.id}
                 type="button"
                 onClick={() => handleIdiomaClick(idioma.id)}
-                className="group inline-flex items-center gap-2 rounded-full px-5 lg:px-6 py-2.5 lg:py-3 text-sm lg:text-base font-semibold transition-all hover:shadow-md"
+                className={`rounded-full border px-5 py-2.5 text-[14px] font-semibold leading-tight transition-colors ${isSelected ? "border-transparent text-white" : "border-[#EBEDEC] bg-white text-[#7A7A7A] hover:bg-[#EBEDEC] hover:text-[#494963]"}`}
                 style={{ 
-                  backgroundColor: isSelected ? area.color : `${area.color}20`,
-                  color: "#5c4a00",
-                  boxShadow: isSelected ? `0 4px 12px ${area.color}50` : "none",
+                  backgroundColor: isSelected ? area.color : undefined,
                 }}
               >
-                <span>{idioma.name}</span>
-                <ChevronDown 
-                  className={`w-4 h-4 opacity-50 group-hover:opacity-80 transition-all ${isSelected ? "rotate-180" : ""}`}
-                />
+                {idioma.name}
               </button>
             );
           })}
         </div>
 
         {/* DESKTOP: Sección de Materiales - siempre visible porque inglés está siempre activo */}
-        <div className="hidden sm:block mt-12 lg:mt-16 animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="mt-10 lg:mt-12 animate-in fade-in slide-in-from-top-4 duration-300">
           {/* Título del idioma seleccionado */}
           <div className="mb-10 lg:mb-12">
             <h4 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#494963] font-display text-left">
@@ -1046,7 +1065,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
   }
 
   /* Para otras áreas: Itinerarios didácticos -- repositorio por categorías */
-  const itinerario = getItinerario(area.slug);
+  const itinerario = filterItinerarioByLanguage(getItinerario(area.slug), artisticLanguage);
 
   return (
     <section id="materiales" className="min-w-0 max-w-full scroll-mt-32">
@@ -1056,7 +1075,7 @@ export function MaterialesSection({ area }: MaterialesSectionProps) {
           Itinerarios didácticos
         </h3>
         <p className="text-sm sm:text-base lg:text-lg text-[#494963]/50 mt-3 max-w-xl text-pretty">
-          Recursos organizados por ciclo y grado.
+          Recursos de {artisticLanguage ?? area.name} organizados por ciclo y grado.
         </p>
       </div>
 

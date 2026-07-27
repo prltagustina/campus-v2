@@ -26,6 +26,15 @@ const subareaCoverImages: Record<string, string> = {
   "teatro": "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/7-Educacio%CC%81n%20Arti%CC%81stica-web_Pa%CC%81gina_169-IXg17BVfUab7fjCSXYxXUYQZdj35ZJ.jpg",
 };
 
+const documentUrl = "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/04/educacion-artistica.pdf";
+const subareaPages: Record<string, number> = {
+  "artes-visuales": 11,
+  musica: 55,
+  "artes-audiovisuales": 103,
+  danza: 141,
+  teatro: 169,
+};
+
 /* Wheel badge icon */
 function WheelBadge({ color }: { color: string }) {
   return (
@@ -56,6 +65,9 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
   const displayName = selectedSubarea
     ? area.subareas?.find((s) => s.id === selectedSubarea)?.name || area.name
     : area.name;
+  const pdfUrl = area.slug === "educacion-artistica"
+    ? `${documentUrl}${selectedSubarea && subareaPages[selectedSubarea] ? `#page=${subareaPages[selectedSubarea]}` : ""}`
+    : "#";
 
   return (
     <section id="descarga" className="flex flex-col items-center">
@@ -100,7 +112,9 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
             {/* Download + Share buttons */}
             <div className="flex items-center gap-3">
               <a
-                href="#"
+                href={pdfUrl}
+                target={pdfUrl === "#" ? undefined : "_blank"}
+                rel={pdfUrl === "#" ? undefined : "noreferrer"}
                 className="inline-flex items-center gap-3 rounded-lg px-7 py-3.5 text-base font-semibold transition-all hover:opacity-90 hover:shadow-md"
                 style={{ backgroundColor: area.color, color: area.textOnColor }}
               >

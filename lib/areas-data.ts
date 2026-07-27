@@ -266,8 +266,16 @@ export const areasData: Area[] = [
         id: "ea-form-1",
         name: "Educación Artística",
         items: [
-          { id: "ea-1", name: "Artes en contexto" },
-          { id: "ea-2", name: "Producción artística" },
+          {
+            id: "ea-1",
+            name: "Del diseño al aula. Planificar la enseñanza en Artes Visuales",
+            url: "https://campuseducativo.santafe.edu.ar/del-diseno-al-aula-planificar-la-ensenanza-en-artes-visuales/",
+          },
+          {
+            id: "ea-2",
+            name: "Del diseño al aula. Planificar la enseñanza en Música",
+            url: "https://campuseducativo.santafe.edu.ar/del-diseno-al-aula-planificar-la-ensenanza-en-musica/",
+          },
         ],
       },
     ],

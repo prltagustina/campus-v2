@@ -22,25 +22,30 @@ export function SubareasPills({
 
   if (displaySubAreas.length === 0) return null;
 
+  const options = [{ id: area.slug, name: "Ed. Artística" }, ...displaySubAreas];
+  const selectedId = selectedSubarea ?? area.slug;
+
   return (
-    <div className="mb-12">
-      <div className="flex flex-wrap gap-3">
-        {displaySubAreas.map((subarea) => (
+    <section className="mb-12">
+      <div className="flex flex-wrap gap-2.5 md:gap-5" role="tablist" aria-label="Educación Artística y sus lenguajes">
+        {options.map((subarea) => (
           <button
             type="button"
             key={subarea.id}
-            onClick={() => setSelectedSubarea(subarea.id === selectedSubarea ? null : subarea.id)}
-            className={`px-5 py-2 rounded-full text-sm font-medium border transition-all ${
-              selectedSubarea === subarea.id
-                ? 'text-white border-transparent shadow-md'
-                : 'border-gray-200 text-gray-600 hover:border-gray-300 bg-white'
+            role="tab"
+            aria-selected={selectedId === subarea.id}
+            onClick={() => setSelectedSubarea(subarea.id === area.slug ? null : subarea.id)}
+            className={`rounded-full border px-5 py-2.5 text-[14px] font-semibold leading-tight transition-colors ${
+              selectedId === subarea.id
+                ? 'border-transparent text-white'
+                : 'border-[#EBEDEC] bg-white text-[#7A7A7A] hover:bg-[#EBEDEC] hover:text-[#494963]'
             }`}
-            style={selectedSubarea === subarea.id ? { backgroundColor: area.color } : undefined}
+            style={selectedId === subarea.id ? { backgroundColor: area.color } : undefined}
           >
             {subarea.name}
           </button>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
