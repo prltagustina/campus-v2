@@ -134,7 +134,12 @@ function SantaFeBrand() {
  * al sistema de desktop.
  */
 function AreaHorizontalNav({ pathname }: { pathname: string }) {
-  const shortNames: Record<string, string> = { "saberes-vidas-y-mundos": "S, V y M" };
+  const shortNames: Record<string, string> = {
+    "saberes-vidas-y-mundos": "S, V y M",
+    "educacion-fisica": "Ed. Física",
+    "educacion-artistica": "Ed. Artística",
+    "educacion-tecnologica": "Ed. Tecnológica",
+  };
   const items: { slug: string; href: string; name: string; shortName: string; color: string; textColor: string }[] = [
     { slug: "marco-general", href: "/area/marco-general", name: "Marco General", shortName: "Marco General", color: MARCO_GENERAL_COLOR, textColor: "#E9E9EE" },
     ...orderedAreas.map((area) => ({ slug: area.slug, href: `/area/${area.slug}`, name: area.name, shortName: shortNames[area.slug] ?? area.name, color: area.color, textColor: areaNavForeground(area) })),

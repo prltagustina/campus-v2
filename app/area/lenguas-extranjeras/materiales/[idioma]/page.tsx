@@ -51,7 +51,7 @@ export default function IdiomaMaterilesPage() {
         <div className="container mx-auto px-4">
           <Link 
             href="/area/lenguas-extranjeras#materiales" 
-            className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-6 sm:mb-8"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#494963]/75 hover:text-[#494963] transition-colors mb-6 sm:mb-8"
           >
             <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Volver a Lenguas Extranjeras
