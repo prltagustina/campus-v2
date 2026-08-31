@@ -8,8 +8,8 @@ import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/componen
 
 export function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
   return (
-    <section className="v3-section">
-      <div className="relative aspect-video overflow-hidden rounded-2xl bg-[#171729] shadow-[0_12px_40px_rgba(73,73,99,.10)]">
+    <section className="v3-section !px-0 sm:!px-[14px]">
+      <div className="relative aspect-video overflow-hidden rounded-none bg-[#171729] shadow-[0_12px_40px_rgba(73,73,99,.10)] sm:rounded-2xl">
         <iframe
           className="absolute inset-0 h-full w-full"
           src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0`}
@@ -79,7 +79,7 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
     else await navigator.clipboard?.writeText(url);
   };
   return (
-    <section className="documento-hero-shell v3-section">
+    <section className="documento-hero-shell v3-section !px-0 sm:!px-[14px]">
       <div className={`documento-hero ${compact ? "documento-hero--compact" : "documento-hero--standard"}`}>
         <div className="documento-hero__cover">
           <Image
@@ -109,7 +109,7 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
           </p>
           <div className="documento-hero__actions flex flex-wrap items-center gap-3">
             <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-12 items-center gap-2 rounded-full px-6 font-bold" style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}>
-              <Download className="h-4 w-4" /><span className="hidden sm:inline">Descargar PDF</span>
+              <Download className="h-4 w-4" /> Descargar PDF
             </a>
             <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-12 w-12 place-items-center rounded-full border border-white/30 hover:bg-white/10">
               <Share2 className="h-4 w-4" />

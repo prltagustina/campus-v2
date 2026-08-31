@@ -465,7 +465,7 @@ function MaterialCard({
           style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
         >
           <Download className="w-4 h-4" />
-          <span className="hidden sm:inline">Descargar PDF</span>
+          Descargar PDF
         </a>
         <button
           type="button"

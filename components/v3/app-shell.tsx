@@ -469,22 +469,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <nav aria-label="Áreas curriculares" className="divide-y divide-[#494963]/[.07] overflow-hidden rounded-2xl border border-[#494963]/[.08]">
               <Link
                 href="/area/marco-general"
-                className="flex min-h-14 items-center justify-between gap-3 border-l-4 border-[#494963] px-4 text-[15px] font-semibold tracking-[-0.02em] text-[#494963]"
+                className="flex min-h-14 items-center justify-between gap-3 border-l-4 border-[#494963] px-4 text-[15px] font-semibold tracking-[-0.02em] text-[#494963] transition-colors hover:bg-[#494963] hover:text-[#EDEDF0]"
               >
                 Marco General
                 <SolidAreaArrow compact />
               </Link>
-              {orderedAreas.map((area) => (
-                <Link
-                  key={area.slug}
-                  href={`/area/${area.slug}`}
-                  className="flex min-h-14 items-center justify-between gap-3 border-l-4 px-4 text-[15px] font-semibold tracking-[-0.02em]"
-                  style={{ borderColor: area.color, color: area.color }}
-                >
-                  {area.name}
-                  <SolidAreaArrow compact />
-                </Link>
-              ))}
+              {orderedAreas.map((area) => {
+                const activeForeground = areaNavForeground(area);
+                return (
+                  <Link
+                    key={area.slug}
+                    href={`/area/${area.slug}`}
+                    className="flex min-h-14 items-center justify-between gap-3 border-l-4 px-4 text-[15px] font-semibold tracking-[-0.02em] text-[var(--area)] transition-colors hover:bg-[var(--area)] hover:text-[var(--area-fg)]"
+                    style={{ borderColor: area.color, ["--area" as string]: area.color, ["--area-fg" as string]: activeForeground }}
+                  >
+                    {area.name}
+                    <SolidAreaArrow compact />
+                  </Link>
+                );
+              })}
             </nav>
           </div>
         </div>
