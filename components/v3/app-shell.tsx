@@ -402,7 +402,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </aside>
         )}
 
-        <div className="h-full min-h-0 min-w-0 flex-1 overflow-hidden rounded-none bg-white md:rounded-2xl">
+        <div className="h-full min-h-0 min-w-0 flex-1 overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:bg-white">
         <main
           id="contenido"
           className="h-full overflow-y-auto md:[scrollbar-gutter:stable]"
