@@ -17,7 +17,7 @@ export default function HomePage() {
       <div id="presentacion">
         <VideoEmbed videoId="eu8CYPbjehE" title="Presentación Diseño Curricular de la Provincia de Santa Fe" />
       </div>
-      <div id="documento">
+      <div id="documento" className="pt-10 md:pt-16">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
@@ -33,8 +33,8 @@ export default function HomePage() {
           compact
         />
       </div>
-      <div id="rueda"><CurricularWheel /></div>
-      <div id="historia" className="v3-section !p-0 md:!p-[14px]"><div className="bg-[#F3F3F5]"><TimelineSection /></div></div>
+      <div id="rueda" className="pt-10 md:pt-16"><CurricularWheel /></div>
+      <div id="historia" className="v3-section !px-0 !pb-0 !pt-10 md:!px-[14px] md:!pb-[14px] md:!pt-16"><div className="bg-[#F3F3F5]"><TimelineSection /></div></div>
     </div>
   );
 }

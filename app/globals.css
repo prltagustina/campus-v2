@@ -255,12 +255,13 @@
   background: transparent;
   order: 1;
 }
-.documento-hero--compact .documento-hero__cover { min-height: clamp(200px, 56cqw, 330px); }
+.documento-hero--compact .documento-hero__cover { min-height: clamp(280px, 74cqw, 330px); }
 .documento-hero__image {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
   padding: clamp(.75rem, 2.2cqw, 1.5rem);
+  border-radius: .75rem;
 }
 .documento-hero__image--tilted { transform: rotate(-3deg) scale(.92); }
 .documento-hero__content {

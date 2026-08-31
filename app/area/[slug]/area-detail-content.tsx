@@ -30,8 +30,8 @@ const marcoDocuments = [
   ["Documento de acompañamiento N° 1", "Material para la implementación institucional", "/docs/Documento_Acompanamiento.pdf"],
   ["Documento de acompañamiento N° 2", "Implementación de Saberes, Vidas y Mundos", "/docs/Documento_Acompanamiento_2.pdf"],
   ["Presentación para supervisores", "Síntesis institucional del nuevo diseño", "/docs/Presentacion_Supervisores.pdf"],
-  ["Jornada Ampliada o Completa", "Más tiempo para transformar los aprendizajes", "/documentos/jornada-ampliada-o-completa.pdf"],
   ["Resolución 1410/2026", "Programa Inglés para la Ruralidad", "/documentos/resolucion-1410-26-ingles.pdf"],
+  ["Jornada Ampliada o Completa", "Más tiempo para transformar los aprendizajes", "/documentos/jornada-ampliada-o-completa.pdf"],
 ] as const;
 
 const marcoTrainings = [
@@ -69,7 +69,7 @@ function MarcoGeneralContent() {
           singleSlide
         />
       </div>
-      <section id="recursos" className="v3-section !p-0 md:!p-[14px]">
+      <section id="recursos" className="v3-section !px-0 !pb-0 !pt-10 md:!px-[14px] md:!pb-[14px] md:!pt-16">
         <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
           <header className="mb-10 max-w-2xl md:mb-14"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Documentos y formaciones</h2><p className="mt-3 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           <div role="tablist" aria-label="Recursos del Marco General" className="flex w-full min-w-0 gap-1.5 rounded-full bg-[#E6E6EB] p-1.5 md:w-fit">
@@ -95,7 +95,7 @@ function MarcoGeneralContent() {
           </div>
         </div>
       </section>
-      <section id="ejes" className="v3-section !p-0 md:!p-[14px]"><div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
+      <section id="ejes" className="v3-section !px-0 !pb-0 !pt-10 md:!px-[14px] md:!pb-[14px] md:!pt-16"><div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
         <header className="mb-10 max-w-2xl md:mb-14">
           <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p>
           <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>

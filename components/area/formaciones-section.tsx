@@ -32,7 +32,7 @@ export function FormacionesSection({
     </header>
 
     {items.length ? <Carousel opts={{ align: "start", containScroll: "trimSnaps" }} className="w-full" aria-label={`Formaciones docentes de ${contextName}`}>
-      <CarouselContent className="items-stretch pr-4 md:pr-0">
+      <CarouselContent className="items-stretch pr-2 md:pr-0">
         {items.map((item) => <CarouselItem key={item.id} className="basis-[88%] sm:basis-1/2 xl:basis-1/3">
           <article className="flex h-full min-h-[280px] flex-col overflow-hidden rounded-2xl bg-white shadow-[0_5px_20px_rgba(73,73,99,.07)]">
             <div className="min-h-[116px] p-5" style={{ backgroundColor: area.color, color: area.textOnColor }}>
