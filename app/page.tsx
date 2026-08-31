@@ -1,6 +1,5 @@
 import { VideoEmbed, DocumentoHero } from "@/components/v3/content-blocks";
 import { CurricularWheel } from "@/components/v3/curricular-wheel";
-import { HomeSectionNav } from "@/components/v3/sticky-section-nav";
 import { TimelineSection } from "@/components/landing/timeline-section";
 
 const INTRO_COPY =
@@ -15,11 +14,10 @@ const INTRO_COPY_EDITORIAL = [
 export default function HomePage() {
   return (
     <div className="bg-white">
-      <HomeSectionNav />
-      <div id="presentacion" className="scroll-mt-[116px] lg:scroll-mt-20">
+      <div id="presentacion">
         <VideoEmbed videoId="eu8CYPbjehE" title="Presentación Diseño Curricular de la Provincia de Santa Fe" />
       </div>
-      <div id="documento" className="scroll-mt-[116px] lg:scroll-mt-20">
+      <div id="documento">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
@@ -35,8 +33,8 @@ export default function HomePage() {
           compact
         />
       </div>
-      <div id="rueda" className="scroll-mt-[116px] lg:scroll-mt-20"><CurricularWheel /></div>
-      <div id="historia" className="v3-section scroll-mt-[116px] lg:scroll-mt-20"><div className="bg-[#F3F3F5]"><TimelineSection /></div></div>
+      <div id="rueda"><CurricularWheel /></div>
+      <div id="historia" className="v3-section"><div className="bg-[#F3F3F5]"><TimelineSection /></div></div>
     </div>
   );
 }

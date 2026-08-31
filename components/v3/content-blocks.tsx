@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Download, ExternalLink, Presentation, Share2 } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/components/ui/carousel";
 
 export function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
   return (
@@ -30,7 +31,7 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
   return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(73,73,99,.08)]">
     <div className="flex min-h-14 items-center gap-3 border-b border-[#494963]/[.07] px-4 md:px-5">
       <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#494963]/[.06] text-[#494963]"><Presentation className="h-4 w-4" /></span>
-      <div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold text-[#494963]">{label}</p><p className="text-[10px] uppercase tracking-[.12em] text-[#494963]/35">Diapositivas</p></div>
+      <div className="min-w-0 flex-1"><p className="truncate font-display text-lg font-semibold text-[#494963]">{label}</p><p className="text-[10px] uppercase tracking-[.12em] text-[#494963]/35">Diapositivas</p></div>
       <a href={src} target="_blank" rel="noreferrer" className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#F1F1F4] px-3 text-xs font-semibold text-[#494963]" aria-label={`Abrir ${title} en una nueva pestaña`}>Abrir<ExternalLink className="h-3 w-3" /></a>
     </div>
     <div className="bg-[#E9E9EE] p-1.5 md:p-2">
@@ -146,35 +147,84 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
 export interface StepItem {
   eyebrow?: string;
   title: string;
-  description: string;
+  description: string | string[];
   content?: React.ReactNode;
 }
 
-export function DocumentoStepper({ title, steps }: { title: string; steps: StepItem[] }) {
-  const [current, setCurrent] = useState(0);
-  const step = steps[current];
+function StepperArrows() {
+  const { scrollPrev, scrollNext } = useCarousel();
+  return (
+    <div className="flex shrink-0 items-center gap-3">
+      <button type="button" onClick={scrollPrev} aria-label="Paso anterior" className="text-[#494963]/35 transition-opacity hover:opacity-70">
+        <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
+      </button>
+      <button type="button" onClick={scrollNext} aria-label="Paso siguiente" className="text-[#494963]/35 transition-opacity hover:opacity-70">
+        <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
+      </button>
+    </div>
+  );
+}
+
+function StepperDots({ count }: { count: number }) {
+  const { api } = useCarousel();
+  const [selected, setSelected] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setSelected(api.selectedScrollSnap());
+    onSelect();
+    api.on("select", onSelect);
+    api.on("reInit", onSelect);
+    return () => {
+      api.off("select", onSelect);
+      api.off("reInit", onSelect);
+    };
+  }, [api]);
+
+  return (
+    <div className="mt-6 flex gap-[6px]" aria-label={`Paso ${selected + 1} de ${count}`}>
+      {Array.from({ length: count }).map((_, index) => (
+        <button
+          key={index}
+          type="button"
+          onClick={() => api?.scrollTo(index)}
+          aria-label={`Ir al paso ${index + 1}`}
+          aria-current={index === selected ? "step" : undefined}
+          className={`h-[6px] w-[6px] rounded-full bg-[#494963] transition-opacity ${index === selected ? "opacity-100" : "opacity-20"}`}
+        />
+      ))}
+    </div>
+  );
+}
+
+export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
     <section className="v3-section">
-      <div className="rounded-3xl bg-white p-7 shadow-[0_8px_32px_rgba(73,73,99,.08)] md:p-12">
-        <h2 className="max-w-sm font-display text-4xl font-extrabold leading-[.9] tracking-[-0.05em]">{title}</h2>
-        <div className="mt-8 grid h-[390px] gap-8 overflow-y-auto overscroll-contain [scrollbar-gutter:stable] sm:h-[350px] md:h-[250px] md:grid-cols-[.55fr_1.45fr] md:items-center">
-          <span className="font-display text-8xl font-black text-[#EDEDF0] md:text-9xl">{String(current + 1).padStart(2, "0")}</span>
-          <div>
-            {step.eyebrow && <p className="v3-eyebrow">{step.eyebrow}</p>}
-            <h3 className="font-display text-3xl font-extrabold text-[#494963]">{step.title}</h3>
-            <p className="mt-4 max-w-xl leading-relaxed text-[#494963]/65">{step.description}</p>
-            <div className="mt-5 min-h-10">{step.content}</div>
-          </div>
+      <div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
+      <Carousel opts={{ loop: true }}>
+        <div className="flex items-end justify-between gap-4">
+          <h2 className="max-w-sm font-sans text-2xl font-bold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>
+          <StepperArrows />
         </div>
-        <div className="mt-8 flex items-center justify-between">
-          <div className="flex gap-2" aria-label={`Paso ${current + 1} de ${steps.length}`}>
-            {steps.map((_, index) => <button key={index} onClick={() => setCurrent(index)} aria-label={`Ir al paso ${index + 1}`} aria-current={index === current ? "step" : undefined} className="flex h-3 w-8 items-center"><span className={`block h-2.5 rounded-full transition-[width,background-color] ${index === current ? "w-8 bg-[#494963]" : "w-2.5 bg-[#494963]/20"}`} /></button>)}
-          </div>
-          <div className="flex gap-2">
-            <button onClick={() => setCurrent((current - 1 + steps.length) % steps.length)} className="grid h-10 w-10 place-items-center rounded-full border border-[#494963]/20" aria-label="Paso anterior"><ChevronLeft className="h-4 w-4" /></button>
-            <button onClick={() => setCurrent((current + 1) % steps.length)} className="grid h-10 w-10 place-items-center rounded-full bg-[#494963] text-white" aria-label="Paso siguiente"><ChevronRight className="h-4 w-4" /></button>
-          </div>
-        </div>
+        <CarouselContent className="mt-5 sm:mt-7">
+          {steps.map((step, index) => (
+            <CarouselItem key={index} className="basis-full">
+              <div className="grid gap-4 sm:gap-8 md:grid-cols-[.4fr_1.6fr] md:items-center">
+                <span className="font-sans text-6xl font-black leading-none text-[#E4E4E9] sm:text-7xl lg:text-8xl">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  {step.eyebrow && <p className="v3-eyebrow">{step.eyebrow}</p>}
+                  <h3 className="font-sans text-lg font-extrabold text-[#494963] sm:text-2xl">{step.title}</h3>
+                  {(Array.isArray(step.description) ? step.description : [step.description]).map((paragraph, i) => (
+                    <p key={i} className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-[#8B8B99] sm:text-base sm:leading-[1.5]">{paragraph}</p>
+                  ))}
+                  <div className="mt-5 min-h-10">{step.content}</div>
+                </div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <StepperDots count={steps.length} />
+      </Carousel>
       </div>
     </section>
   );

@@ -99,24 +99,6 @@ function septimo(files: ItinerarioFile[] = []): ItinerarioGrado[] {
   return [{ id: "7mo", name: "7mo Grado", files }];
 }
 
-function mergeSeptimoFiles(grades: ItinerarioGrado[] | undefined, extraFiles: ItinerarioFile[]) {
-  const baseGrades = grades?.length ? grades : septimo();
-  let foundSeventhGrade = false;
-
-  const mergedGrades = baseGrades.map((grade) => {
-    if (grade.id !== "7mo") return grade;
-    foundSeventhGrade = true;
-
-    const files = [...grade.files, ...extraFiles].filter(
-      (file, index, allFiles) => allFiles.findIndex((candidate) => candidate.url === file.url) === index,
-    );
-
-    return { ...grade, files };
-  });
-
-  return foundSeventhGrade ? mergedGrades : [...mergedGrades, ...septimo(extraFiles)];
-}
-
 /* ── Recursos para la docencia con material cargado, por área ── */
 interface RecursosDocenciaArea {
   recursoGeneral?: { nombre: string; descripcion: string; url: string };
@@ -321,12 +303,14 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
  * Devuelve el itinerario de un área dividido por categorías.
  * Las categorías sin material todavía se muestran con su estructura
  * (ciclos "Próximamente" o estado vacío) para mantener la consistencia.
+ *
+ * "Articulación Primaria-Secundaria" es una categoría propia (no se mezcla
+ * dentro del 7mo grado de docencia/estudiantes), con sus dos subgrupos
+ * de siempre: recursos para la docencia y recursos para los estudiantes.
  */
 export function getItinerario(slug: string): AreaItinerario {
   const docencia = recursosDocenciaPorArea[slug];
   const articulacion = articulacionPorArea[slug];
-  const articulacionDocencia = articulacion?.docencia ?? [];
-  const articulacionEstudiantes = articulacion?.estudiantes ?? [];
 
   const categorias: ItinerarioCategoria[] = [
     {
@@ -335,14 +319,23 @@ export function getItinerario(slug: string): AreaItinerario {
       descripcion: "Secuencias, guías y propuestas de enseñanza.",
       recursoGeneral: docencia?.recursoGeneral,
       ciclos: docencia?.ciclos ?? ciclosVacios(),
-      gradosSueltos: mergeSeptimoFiles(docencia?.gradosSueltos, articulacionDocencia),
+      gradosSueltos: docencia?.gradosSueltos ?? septimo(),
     },
     {
       id: "estudiantes",
       nombre: "Recursos para estudiantes",
       descripcion: "Materiales para aprender.",
       ciclos: ciclosVacios(),
-      gradosSueltos: septimo(articulacionEstudiantes),
+      gradosSueltos: septimo(),
+    },
+    {
+      id: "articulacion",
+      nombre: "Articulación Primaria-Secundaria",
+      descripcion: "Materiales para acompañar el pasaje a la escuela secundaria.",
+      subgrupos: [
+        { id: "docencia", nombre: "Recursos para la docencia", files: articulacion?.docencia ?? [] },
+        { id: "estudiantes", nombre: "Recursos para los estudiantes", files: articulacion?.estudiantes ?? [] },
+      ],
     },
   ];
 

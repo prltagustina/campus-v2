@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { TerritorioExplorer } from "@/components/v3/territorio-explorer";
+import { TERRITORIO_ENABLED } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Próximas acciones en territorio | Nuevo Diseño Curricular",
@@ -7,5 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function TerritorioProximasPage() {
+  if (!TERRITORIO_ENABLED) notFound();
+
   return <TerritorioExplorer mode="proximas" />;
 }

@@ -2,6 +2,12 @@
 // Matemática, Lengua y Lit, Cs Naturales, Cs Sociales, Saberes, Ed Artística, Ed Tecnológica, Ed Física, Lenguas Ext
 export const areasOrder = [0, 1, 2, 3, 8, 5, 7, 4, 6];
 
+// Secciones desarrolladas pero ocultas de la experiencia visible por decisión
+// del equipo (agosto 2026). El código, las rutas y los datos se conservan
+// intactos para poder retomarlas — no borrar nada, solo alternar estos flags.
+export const TERRITORIO_ENABLED = false;
+export const MATERIALES_POR_CICLO_ENABLED = false;
+
 // Color del Marco General
 export const MARCO_GENERAL_COLOR = "#494963";
 

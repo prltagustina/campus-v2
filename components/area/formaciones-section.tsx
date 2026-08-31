@@ -25,7 +25,7 @@ export function FormacionesSection({
   );
   const contextName = artisticLanguage ?? area.name;
 
-  return <section id="formacion" className="scroll-mt-14 lg:scroll-mt-20">
+  return <section id="formacion">
     <header className="mb-8 max-w-2xl pr-24">
       <h2 className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Formaciones docentes</h2>
       <p className="mt-2 text-[#494963]/50">Cursos y trayectos de formación vinculados con {contextName}.</p>

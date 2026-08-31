@@ -18,7 +18,6 @@ export function SectionLandingCover({
 }) {
   return (
     <section className={`v3-section-cover v3-section-cover--${variant}`}>
-      <span className="v3-section-cover__gradient" aria-hidden="true" />
       <div className="v3-section-cover__inner">
         <header className="v3-section-cover__copy">
           <h1>{title}</h1>

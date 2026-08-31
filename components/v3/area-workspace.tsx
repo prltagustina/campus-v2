@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen, FileText, GraduationCap, PlayCircle } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import { VideoEmbed } from "@/components/v3/content-blocks";
 import { DocumentoExplainer } from "@/components/v3/documento-explainer";
 import { MaterialesSection } from "@/components/area/materiales-section";
 import { FormacionesSection } from "@/components/area/formaciones-section";
-import { StickySectionNav, type StickySectionNavItem } from "@/components/v3/sticky-section-nav";
 
 const covers: Record<string, string> = {
   matematica: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2-Matematica-web_Pa%CC%81gina_01-MCFeyxLSelYTcVpIrKsUvmK6H7FF1J.jpg",
@@ -70,12 +68,15 @@ const artisticSubareaMedia: Record<string, { cover: string; videoId: string; pdf
 const artisticSubareaOrder = ["artes-visuales", "musica", "artes-audiovisuales", "teatro", "danza"] as const;
 const artisticAreaId = "educacion-artistica";
 
-const areaSectionItems: StickySectionNavItem[] = [
-  { id: "documento", label: "Documento", icon: FileText },
-  { id: "materiales", label: "Itinerarios", icon: BookOpen },
-  { id: "formacion", label: "Formaciones", mobileLabel: "Formación", icon: GraduationCap },
-  { id: "video", label: "Video", icon: PlayCircle },
-];
+/**
+ * Todas las áreas tienen un documento real en `documentUrls`, así que este
+ * patrón se puede generalizar sin excepciones por ahora. Si en el futuro
+ * alguna área queda sin documento, agregar acá la validación correspondiente
+ * en vez de mostrar el CTA con un link roto.
+ */
+function documentoCurricularDescripcion(area: Area) {
+  return `Accedé al Diseño Curricular de ${area.name} para conocer los objetivos, contenidos y recomendaciones didácticas del área.`;
+}
 
 function orderedArtisticSubareas(area: Area) {
   return [...(area.subareas ?? [])].sort((a, b) => artisticSubareaOrder.indexOf(a.id as (typeof artisticSubareaOrder)[number]) - artisticSubareaOrder.indexOf(b.id as (typeof artisticSubareaOrder)[number]));
@@ -144,28 +145,12 @@ export function AreaWorkspace({ area }: { area: Area }) {
       !selectedArtistic || item.name.toLocaleLowerCase("es").includes(selectedArtistic.name.toLocaleLowerCase("es")),
     ),
   );
-  const visibleSectionItems = areaSectionItems.filter((item) => {
-    if (!isArtistic) return true;
-    if (!selectedArtistic && (item.id === "materiales" || item.id === "video")) return false;
-    if (!hasSelectedArtisticTrainings && item.id === "formacion") return false;
-    return true;
-  });
-
   const selectArtisticLanguage = (id: string) => {
     if (id === selectedArtisticId) return;
     setSelectedArtisticId(id);
   };
 
   return <div className="min-h-full bg-white">
-    <StickySectionNav
-      title={area.name}
-      items={visibleSectionItems}
-      tabsOnlyBelowDesktop
-      variant="area"
-      accent={area.color}
-      accentText={area.textOnColor}
-    />
-
     <div className="space-y-5 p-4 md:p-6">
       {isArtistic ? (
         <>
@@ -178,7 +163,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
             aria-labelledby={`lenguaje-tab-${selectedArtisticId}`}
             className="space-y-5"
           >
-            <div id="documento" className="scroll-mt-14 lg:scroll-mt-20">
+            <div id="documento">
               {selectedArtistic && selectedArtisticMedia ? (
               <DocumentoExplainer
                 key={selectedArtistic.id}
@@ -190,7 +175,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
                 accentText={area.textOnColor}
               />
               ) : (
-                <DocumentoExplainer titulo={area.name} descripcion="Accedé al documento oficial del área, con la organización común de sus cinco lenguajes artísticos." portadaSrc={covers[area.slug]} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
+                <DocumentoExplainer titulo={area.name} descripcion={documentoCurricularDescripcion(area)} portadaSrc={covers[area.slug]} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
               )}
             </div>
 
@@ -202,7 +187,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
             ) : null}
 
             {selectedArtistic && selectedArtisticMedia ? (
-              <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
+              <div id="video">
                 <AreaVideoPresentation
                   videoId={selectedArtisticMedia.videoId}
                   title={`Diseño Curricular Educación Primaria: ${selectedArtistic.name}`}
@@ -213,13 +198,13 @@ export function AreaWorkspace({ area }: { area: Area }) {
         </>
       ) : (
         <>
-          <div id="documento" className="scroll-mt-14 lg:scroll-mt-20">
-            <DocumentoExplainer titulo={area.name} descripcion="Accedé al documento oficial del área, con sus contenidos, orientaciones y organización por ciclos y grados." portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
+          <div id="documento">
+            <DocumentoExplainer titulo={area.name} descripcion={documentoCurricularDescripcion(area)} portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
           </div>
           <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} /></section>
           <section className="rounded-3xl bg-[#F3F3F5] px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} /></section>
           {videos[area.slug] ? (
-            <div id="video" className="scroll-mt-14 lg:scroll-mt-20">
+            <div id="video">
               <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />
             </div>
           ) : null}

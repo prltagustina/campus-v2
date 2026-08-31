@@ -241,12 +241,16 @@
 .documento-hero__cover {
   position: relative;
   min-width: 0;
-  min-height: clamp(260px, 58cqw, 340px);
+  min-height: clamp(200px, 58cqw, 340px);
   overflow: hidden;
   isolation: isolate;
   background: transparent;
+  /* En una sola columna (mobile) la portada va después del texto, así el
+     título/descripción/acciones aparecen sin scroll. En 2 columnas (tablet+)
+     se resetea el orden para volver al layout original imagen-izq/texto-der. */
+  order: 2;
 }
-.documento-hero--compact .documento-hero__cover { min-height: clamp(260px, 56cqw, 330px); }
+.documento-hero--compact .documento-hero__cover { min-height: clamp(200px, 56cqw, 330px); }
 .documento-hero__image {
   max-width: 100%;
   max-height: 100%;
@@ -255,6 +259,7 @@
 }
 .documento-hero__image--tilted { transform: rotate(-3deg) scale(.92); }
 .documento-hero__content {
+  order: 1;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -285,8 +290,8 @@
     grid-template-columns: minmax(180px, .64fr) minmax(0, 1.36fr);
     min-height: 400px;
   }
-  .documento-hero--standard .documento-hero__cover { min-height: 400px; }
-  .documento-hero--standard .documento-hero__content { padding: clamp(2rem, 4.5cqw, 3rem); }
+  .documento-hero--standard .documento-hero__cover { min-height: 400px; order: 0; }
+  .documento-hero--standard .documento-hero__content { order: 0; padding: clamp(2rem, 4.5cqw, 3rem); }
   .documento-hero--standard .documento-hero__title { font-size: clamp(2rem, 4.5cqw, 2.65rem); }
   .documento-hero--standard .documento-hero__description { font-size: clamp(.95rem, 1.75cqw, 1.1rem); }
 }
@@ -296,8 +301,8 @@
     grid-template-columns: minmax(190px, .66fr) minmax(0, 1.34fr);
     min-height: 420px;
   }
-  .documento-hero--compact .documento-hero__cover { min-height: 420px; }
-  .documento-hero--compact .documento-hero__content { padding: clamp(2rem, 4.25cqw, 3rem); }
+  .documento-hero--compact .documento-hero__cover { min-height: 420px; order: 0; }
+  .documento-hero--compact .documento-hero__content { order: 0; padding: clamp(2rem, 4.25cqw, 3rem); }
   .documento-hero--compact .documento-hero__title { font-size: clamp(2rem, 4cqw, 2.45rem); }
   .documento-hero--compact .documento-hero__description { font-size: clamp(.9rem, 1.6cqw, 1rem); }
 }
@@ -331,6 +336,7 @@
     color: rgba(237,237,240,.88);
   }
 }
+
 .v3-heading { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 4rem); line-height: 1.04; font-weight: 700; letter-spacing: -0.025em; color: #494963; }
 .v3-eyebrow { margin-bottom: .75rem; font-size: .72rem; line-height: 1; font-weight: 800; text-transform: uppercase; letter-spacing: .18em; color: #e42153; }
 .wheel-segment { transition: filter 200ms ease, opacity 200ms ease, transform 200ms ease; transform-origin: center; }
@@ -367,15 +373,6 @@
 .v3-section-cover--areas { --v3-cover-offset: 60px; }
 .v3-section-cover--cycles { --v3-cover-offset: 111px; }
 .v3-section-cover--territory { --v3-cover-offset: 0px; }
-.v3-section-cover__gradient {
-  position: absolute;
-  z-index: 2;
-  inset: 0 0 auto;
-  height: 7px;
-  background-image: url('/images/territorio/barra-degrade-territorio.png');
-  background-size: 100% 100%;
-  pointer-events: none;
-}
 .v3-section-cover__inner {
   position: relative;
   z-index: 1;
@@ -399,6 +396,16 @@
   line-height: .98;
   letter-spacing: -.045em;
   color: #494963;
+}
+@media (min-width: 1280px) {
+  /* Título de portada de sección: más liviano solo en desktop real (xl, como
+     el resto del sitio), donde el tamaño grande hacía que el peso 650 se
+     sintiera pesado. En tablet/mobile se mantiene el peso original de arriba.
+     Es un media query de viewport, no de contenedor: el contenedor de esta
+     portada queda angosto por el sidebar del shell, así que un @container
+     nunca llegaba a dispararse. Debe ir después de la regla base de arriba:
+     misma especificidad, y en CSS gana la última declarada. */
+  .v3-section-cover__copy h1 { font-weight: 500; }
 }
 .v3-section-cover__rule {
   display: block;

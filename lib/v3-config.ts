@@ -3,18 +3,20 @@ import { areasData } from "@/lib/areas-data";
 // TODO(v3-contenido): estos textos introductorios deben validarse con el equipo editorial.
 export const pendingCopy = {
   areas:
-    "Explorá el diseño curricular por área y encontrá documentos de descarga, itinerarios didácticos y formaciones docentes para acompañar la enseñanza.",
+    "Explorá el diseño curricular por área y encontrá materiales y recursos didácticos, así como formaciones para acompañar tus prácticas de enseñanza.",
   cycles:
     "Accedé a los materiales de descarga organizados según el recorrido escolar de cada ciclo de la Educación Primaria.",
   wheel: {
+    // Sin uso en la pestaña de la trama curricular por ahora (ver curricular-wheel.tsx):
+    // se conserva el contenido porque puede cumplir otra función más adelante.
     transversales:
-      "Los enfoques transversales atraviesan las decisiones de enseñanza y conectan los aprendizajes con desafíos contemporáneos.",
+      "proponen posicionamientos que permiten resignificar los contenidos de todas las áreas.",
     relaciones:
-      "Las áreas dialogan entre sí para construir propuestas integradas y situadas.",
+      "A partir de principios pedagógico-didácticos comunes, las áreas dialogan entre sí y con los enfoques transversales.",
     ejes:
-      "Los ejes organizan los contenidos y muestran la progresión de los aprendizajes.",
+      "En las áreas, los ejes organizan los contenidos de manera interrelacionada.",
     marco:
-      "El Marco General reúne los fundamentos, propósitos y criterios comunes del diseño curricular.",
+      "El Marco General reúne las finalidades, los fundamentos y las recomendaciones generales del diseño curricular.",
   },
 } as const;
 

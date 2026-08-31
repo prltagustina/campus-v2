@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { SectionLandingCover } from "@/components/v3/section-landing-cover";
+import { TERRITORIO_ENABLED } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Territorio | Nuevo Diseño Curricular",
@@ -7,6 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function TerritorioPage() {
+  if (!TERRITORIO_ENABLED) notFound();
+
   return (
     <SectionLandingCover
       title={"El Diseño\nen el territorio"}

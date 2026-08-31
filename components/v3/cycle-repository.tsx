@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Download, FileText } from "lucide-react";
-import { SolidAreaArrow } from "@/components/v3/area-nav-link";
-import { ShareResourceButton } from "@/components/v3/share-resource-button";
 import type { ItinerarioFile } from "@/lib/itinerarios-data";
+import { RepositoryAccordionGroup, RepositoryFileGroup } from "@/components/v3/repository-accordion";
 
 export interface CycleAreaGroup {
   slug: string;
@@ -24,101 +22,6 @@ function categoryLabel(category: string) {
   return category;
 }
 
-function CycleMaterialRow({
-  category,
-  file,
-  color,
-}: {
-  category: string;
-  file: ItinerarioFile;
-  color: string;
-}) {
-  const meta = [
-    file.formato ?? "PDF",
-    file.paginas ? `${file.paginas} páginas` : null,
-    file.size,
-  ]
-    .filter(Boolean)
-    .join(" · ");
-
-  return (
-    <article
-      className="group/material grid min-w-0 gap-3 px-4 py-4 transition-colors hover:bg-[#494963]/[.025] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-5 sm:px-5 sm:py-5"
-      style={{ ["--area" as string]: color }}
-    >
-      <a
-        href={file.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        download
-        aria-label={`Descargar ${file.nombre}`}
-        className="flex min-w-0 items-start gap-3"
-      >
-        <FileText className="mt-0.5 h-4 w-4 shrink-0" style={{ color }} aria-hidden="true" />
-
-        <span className="min-w-0 flex-1">
-          <span
-            className="block text-[9px] font-bold uppercase leading-none tracking-[.15em] sm:text-[10px]"
-            style={{ color }}
-          >
-            {categoryLabel(category)}
-          </span>
-          <span className="mt-1.5 block text-[15px] font-medium leading-snug text-[#494963] text-pretty sm:text-[17px]">
-            {file.nombre}
-          </span>
-          {file.descripcion ? (
-            <span className="mt-1 block text-sm font-medium leading-relaxed text-[#494963]/60 text-pretty">
-              {file.descripcion}
-            </span>
-          ) : null}
-          <span className="mt-1 block text-xs text-[#494963]/42 sm:text-sm">{meta}</span>
-        </span>
-      </a>
-
-      <div className="flex items-center justify-end gap-1 sm:shrink-0">
-        <a
-          href={file.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          download
-          aria-label={`Descargar ${file.nombre}`}
-          className="inline-flex h-10 items-center justify-center gap-1.5 px-2 text-xs font-semibold text-[var(--area)] transition-colors hover:text-[#494963] sm:text-sm"
-        >
-          <Download className="h-4 w-4 shrink-0" />
-          <span>Descargar</span>
-        </a>
-        <ShareResourceButton title={file.nombre} url={file.url} />
-      </div>
-    </article>
-  );
-}
-
-function GradeRepository({
-  grade,
-  color,
-}: {
-  grade: CycleAreaGroup["grades"][number];
-  color: string;
-}) {
-  return (
-    <section className="grid border-b border-[#494963]/[.07] last:border-b-0 md:grid-cols-[9rem_minmax(0,1fr)]">
-      <header className="px-4 py-4 md:px-5 md:py-5">
-        <h3 className="font-display text-base font-semibold text-[#494963]">{grade.name}</h3>
-      </header>
-      <div className="divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] md:border-l md:border-t-0">
-        {grade.files.map(({ category, file }, index) => (
-          <CycleMaterialRow
-            key={`${file.url}-${index}`}
-            category={category}
-            file={file}
-            color={color}
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function AreaRepository({
   group,
   open,
@@ -130,58 +33,35 @@ function AreaRepository({
 }) {
   const total = materialCount(group);
   const publishedGrades = group.grades.filter((grade) => grade.files.length > 0);
-  const contentId = `repositorio-${group.slug}`;
   const activeForeground = group.slug === "ciencias-sociales" ? "#F7FAFF" : group.textOnColor;
 
   return (
-    <section className="[overflow-anchor:none]">
-      <button
-        type="button"
-        onClick={onToggle}
-        disabled={total === 0}
-        aria-disabled={total === 0}
-        aria-expanded={open}
-        aria-controls={contentId}
-        className={`group grid min-h-[78px] w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center gap-4 px-5 py-4 text-left transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] disabled:cursor-default disabled:hover:bg-transparent disabled:hover:text-[var(--area)] sm:min-h-[88px] sm:px-7 sm:py-5 ${open ? "bg-[var(--area)] text-[var(--area-active-fg)]" : "text-[var(--area)] hover:bg-[var(--area)] hover:text-[var(--area-active-fg)]"}`}
-        style={{ ["--area" as string]: group.color, ["--area-active-fg" as string]: activeForeground }}
-      >
-        <span className="min-w-0">
-          <span className="block font-display text-[1.4rem] font-medium leading-[1.05] tracking-[-.035em] text-current text-balance sm:text-[1.8rem]">
-            {group.name}
-          </span>
-          <span className={`mt-1.5 block text-xs font-medium sm:text-[13px] ${total ? "text-current" : "text-[#494963]/45"}`}>
-            {total ? `${total} ${total === 1 ? "material" : "materiales"}` : "Próximamente"}
-          </span>
-        </span>
-        {total ? (
-          <span className={`grid h-10 w-10 place-items-center text-current transition-transform duration-200 ${open ? "rotate-90" : ""}`} aria-hidden="true">
-            <span className="-ml-3"><SolidAreaArrow /></span>
-          </span>
-        ) : (
-          <span className="h-px w-4 justify-self-center bg-[#494963]/15" aria-hidden="true" />
-        )}
-      </button>
-
-      {open ? (
-        <div id={contentId} className="border-t border-[#494963]/[.07] [overflow-anchor:none]">
-          {publishedGrades.length ? (
-            <div>
-              {publishedGrades.map((grade) => (
-                <GradeRepository
-                  key={grade.id}
-                  grade={grade}
-                  color={group.color}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="px-6 py-6 text-sm leading-relaxed text-[#494963]/42">
-              Todavía no hay materiales publicados para esta área en este ciclo.
-            </p>
-          )}
+    <RepositoryAccordionGroup
+      id={group.slug}
+      title={group.name}
+      total={total}
+      color={group.color}
+      activeForeground={activeForeground}
+      open={open}
+      onToggle={onToggle}
+    >
+      {publishedGrades.length ? (
+        <div>
+          {publishedGrades.map((grade) => (
+            <RepositoryFileGroup
+              key={grade.id}
+              label={grade.name}
+              files={grade.files.map(({ category, file }) => ({ label: categoryLabel(category), file }))}
+              color={group.color}
+            />
+          ))}
         </div>
-      ) : null}
-    </section>
+      ) : (
+        <p className="px-6 py-6 text-sm leading-relaxed text-[#494963]/42">
+          Todavía no hay materiales publicados para esta área en este ciclo.
+        </p>
+      )}
+    </RepositoryAccordionGroup>
   );
 }
 

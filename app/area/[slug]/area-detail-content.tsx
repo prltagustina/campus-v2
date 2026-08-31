@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, BookOpen, ChevronRight, Download, FileText, ListChecks, Waypoints } from "lucide-react";
+import { ArrowUpRight, Download, FileText, BookOpen } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import { MARCO_GENERAL_COLOR } from "@/lib/constants";
-import { DocumentoHero, DocumentoStepper } from "@/components/v3/content-blocks";
+import { DocumentoStepper } from "@/components/v3/content-blocks";
+import { DocumentoExplainer } from "@/components/v3/documento-explainer";
 import { OrganizationCompact } from "@/components/v3/organization-compact";
 import { AreaWorkspace } from "@/components/v3/area-workspace";
-import { StickySectionNav, type StickySectionNavItem } from "@/components/v3/sticky-section-nav";
+import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 
 const centralAxes = [
   ["Aprendizajes comunes, fundantes y significativos", "Saberes que aseguran el avance hacia conocimientos más complejos y promueven la participación plena en la vida social."],
@@ -36,13 +37,6 @@ const marcoTrainings = [
   ["Planificar la enseñanza en el nuevo Diseño Curricular", "Formación para equipos docentes", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
 ] as const;
 
-const marcoSectionItems: StickySectionNavItem[] = [
-  { id: "documento", label: "Documento", icon: FileText },
-  { id: "recursos", label: "Recursos", icon: BookOpen },
-  { id: "ejes", label: "Ejes", icon: ListChecks },
-  { id: "organizacion", label: "Organización", mobileLabel: "Organización", icon: Waypoints },
-];
-
 function MarcoGeneralContent() {
   const [selectedAxis, setSelectedAxis] = useState(0);
   const [resourceView, setResourceView] = useState<"documentos" | "formaciones">("documentos");
@@ -61,11 +55,19 @@ function MarcoGeneralContent() {
   }, [selectedAxis]);
   return (
     <div className="bg-white">
-      <StickySectionNav title="Marco General" items={marcoSectionItems} variant="area" />
-      <div id="documento" className="scroll-mt-[116px] p-4 md:p-6 lg:scroll-mt-20">
-        <DocumentoHero eyebrow="Marco General" titulo="Los fundamentos del nuevo Diseño Curricular" descripcion="El Marco General establece los principios político-pedagógicos, los ejes centrales y las orientaciones que organizan la propuesta curricular para la Educación Primaria de la Provincia de Santa Fe." portadaSrc="/images/marco-general-portada.jpg" pdfUrl="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/04/marco-general.pdf" accent="#EDEDF0" accentText="#494963" />
+      <div id="documento" className="p-4 md:p-6">
+        <DocumentoExplainer
+          titulo="Marco General"
+          heading="Los ejes centrales del nuevo Diseño Curricular"
+          descripcion="El Marco General establece los lineamientos políticos y pedagógico-didácticos de la propuesta, y define la organización curricular para la Educación Primaria de la Provincia de Santa Fe"
+          portadaSrc="/images/marco-general-portada.jpg"
+          pdfUrl="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/04/marco-general.pdf"
+          accent={MARCO_GENERAL_COLOR}
+          accentText="#EDEDF0"
+          singleSlide
+        />
       </div>
-      <section id="recursos" className="v3-section scroll-mt-[116px] lg:scroll-mt-20">
+      <section id="recursos" className="v3-section">
         <div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
           <header className="mb-7 max-w-2xl"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Documentos y formación</h2><p className="mt-2 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           <div className="grid gap-4 lg:grid-cols-[210px_minmax(0,1fr)]">
@@ -76,15 +78,15 @@ function MarcoGeneralContent() {
               })}
             </div>
             <div className="h-[260px] overflow-y-auto rounded-2xl bg-white px-4 [scrollbar-gutter:stable] md:px-6" role="tabpanel">
-              {resourceView === "documentos" ? <div className="divide-y divide-[#494963]/[.08]">{marcoDocuments.map(([title, description, href]) => <a key={href} href={href} download className="group flex min-h-[78px] items-center gap-4 py-4"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#494963]/[.06] text-[#494963]"><FileText className="h-4 w-4" /></span><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><Download className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div> : <div className="divide-y divide-[#494963]/[.08]">{marcoTrainings.map(([title, description, href]) => <a key={href} href={href} target="_blank" rel="noreferrer" className="group flex min-h-[92px] items-center gap-4 py-4"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#494963]/[.06] text-[#494963]"><BookOpen className="h-4 w-4" /></span><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><ArrowUpRight className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div>}
+              {resourceView === "documentos" ? <div className="divide-y divide-[#494963]/[.08]">{marcoDocuments.map(([title, description, href]) => <a key={href} href={href} download className="group flex min-h-[78px] items-center gap-4 py-4"><FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" /><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><Download className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div> : <div className="divide-y divide-[#494963]/[.08]">{marcoTrainings.map(([title, description, href]) => <a key={href} href={href} target="_blank" rel="noreferrer" className="group flex min-h-[92px] items-center gap-4 py-4"><BookOpen className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" /><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><ArrowUpRight className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div>}
             </div>
           </div>
         </div>
       </section>
-      <section id="ejes" className="v3-section scroll-mt-[116px] lg:scroll-mt-20"><div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
-        <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Ejes centrales de la propuesta</h2>
+      <section id="ejes" className="v3-section"><div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
+        <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Aspectos distintivos del Diseño Curricular.</h2>
         <p className="mt-2 text-sm text-[#494963]/45">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
-        <div className="mt-7 overflow-hidden rounded-2xl bg-white" role="list" aria-label="Ejes centrales">
+        <div className="mt-7 overflow-hidden rounded-2xl bg-white" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
           {centralAxes.map(([title, description], index) => {
             const active = selectedAxis === index;
             const panelId = `eje-central-${index}-panel`;
@@ -110,7 +112,9 @@ function MarcoGeneralContent() {
                 >
                   <span className={`w-6 shrink-0 text-[10px] font-bold ${active ? "text-white/45" : "text-[#494963]/30"}`}>{String(index + 1).padStart(2, "0")}</span>
                   <span className="min-w-0 flex-1">{title}</span>
-                  <ChevronRight className={`h-4 w-4 shrink-0 opacity-40 transition-transform duration-300 ${active ? "rotate-90" : ""}`} />
+                  <span className={`grid h-8 w-8 shrink-0 place-items-center transition-transform duration-300 ${active ? "rotate-90" : ""}`} aria-hidden="true">
+                    <span className="-ml-3"><SolidAreaArrow /></span>
+                  </span>
                 </button>
                 <div
                   id={panelId}
@@ -127,13 +131,31 @@ function MarcoGeneralContent() {
         </div>
       </div>
       </section>
-      <div id="organizacion" className="scroll-mt-[116px] lg:scroll-mt-20">
-        <DocumentoStepper title="Qué enseñar, cómo hacerlo y con qué propósito" steps={[
-          { title: "Qué enseñar", description: "Saberes relevantes, comunes y progresivos para todas las infancias." },
-          { title: "Cómo hacerlo", description: "A través de propuestas situadas, inclusivas y con diversidad de estrategias." },
-          { title: "Con qué propósito", description: "Para garantizar el derecho a aprender y participar de una sociedad democrática." },
+      <div id="organizacion">
+        <DocumentoStepper title={<>Qué enseñar<br />cómo hacerlo<br />y con qué propósito</>} steps={[
+          {
+            title: "Qué enseñar",
+            description: [
+              "Define los contenidos fundamentales que todas las escuelas deben enseñar, organizados por áreas, ciclos y grados.",
+              "Los contenidos de cada área se presentan en cuadros que muestran su progresión y complejización, a fin de facilitar la planificación de propuestas integrales y articuladas.",
+            ],
+          },
+          {
+            title: "Cómo hacerlo",
+            description: [
+              "Propone articular contenidos, incorporar enfoques transversales y diversificar las estrategias de enseñanza para garantizar aprendizajes significativos en todas las aulas.",
+              "Mediante orientaciones didácticas, ejemplos y recomendaciones específicas para cada área y ciclo.",
+            ],
+          },
+          {
+            title: "Con qué propósito",
+            description: [
+              "Se articula en torno a principios político-pedagógicos sólidos para que las infancias accedan al conocimiento y se desarrollen plenamente como ciudadanas y ciudadanos críticos, creativos y solidarios.",
+              "En las escuelas, el Estado materializa su responsabilidad indelegable: garantizar el derecho a la Educación.",
+            ],
+          },
         ]} />
-        <div className="v3-section"><OrganizationCompact dark /></div>
+        <div className="v3-section"><OrganizationCompact /></div>
       </div>
     </div>
   );

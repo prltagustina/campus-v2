@@ -15,6 +15,7 @@ export default function FamiliasPage() {
     <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
       <EditorialPageHeading
         title="Materiales para familias"
+        imageSrc="/images/cabecera-familias.png"
       />
 
       <SectionTabs title="Recursos para familias" items={[{ id: "presentacion", label: "Presentación" }, { id: "materiales", label: "Materiales" }]} keepVisitedPanels>
@@ -43,9 +44,7 @@ export default function FamiliasPage() {
               <div className="divide-y divide-[#494963]/[.07]">
                 {materiales.map((material) => (
                   <a key={material.url} href={material.url} download className="group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-[#F8F8FA] sm:gap-4 sm:px-6 sm:py-5">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]/55">
-                      <FileText className="h-4.5 w-4.5" />
-                    </span>
+                    <FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" />
                     <span className="min-w-0 flex-1">
                       <b className="block text-sm font-semibold leading-snug text-[#494963] sm:text-base">{material.titulo}</b>
                       <small className="mt-1 block text-xs leading-relaxed text-[#494963]/42 sm:text-sm">{material.descripcion} · PDF</small>

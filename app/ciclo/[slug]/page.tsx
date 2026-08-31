@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { cycles, orderedAreas } from "@/lib/v3-config";
 import { getItinerario, type ItinerarioFile } from "@/lib/itinerarios-data";
 import { CycleRepository, type CycleAreaGroup } from "@/components/v3/cycle-repository";
+import { MATERIALES_POR_CICLO_ENABLED } from "@/lib/constants";
 
 function filesForCycle(areaSlug: string, cycleSlug: string, gradeIds: readonly string[]) {
   const result: { category: string; gradeId: string; grade: string; file: ItinerarioFile }[] = [];
@@ -20,6 +21,8 @@ function filesForCycle(areaSlug: string, cycleSlug: string, gradeIds: readonly s
 }
 
 export default async function CycleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  if (!MATERIALES_POR_CICLO_ENABLED) notFound();
+
   const { slug } = await params;
   const cycle = cycles.find((item) => item.slug === slug);
   if (!cycle) notFound();

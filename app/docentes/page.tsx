@@ -1,4 +1,4 @@
-import { BookOpen, Download, ExternalLink, FileText, GraduationCap } from "lucide-react";
+import { Bookmark, BookOpen, Download, ExternalLink, FileText, GraduationCap } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { SlideDeckEmbed } from "@/components/v3/content-blocks";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
@@ -7,6 +7,7 @@ const documentos = [
   ["Documento de acompañamiento N° 1", "Implementación del Diseño Curricular", "/docs/Documento_Acompanamiento.pdf"],
   ["Documento de acompañamiento N° 2", "Implementación del área Saberes, Vidas y Mundos", "/docs/Documento_Acompanamiento_2.pdf"],
   ["Presentación para supervisores, directivos y docentes", "Material institucional", "/docs/Presentacion_Supervisores.pdf"],
+  ["Jornada Ampliada o Completa", "Más tiempo para transformar los aprendizajes", "/documentos/jornada-ampliada-o-completa.pdf"],
   ["Resolución 43/2026", "Implementación del área de Lenguas Extranjeras", "/documentos/resolucion-43-26-lenguas-extranjeras.pdf"],
   ["Resolución 1410/2026", "Programa Inglés para la Ruralidad", "/documentos/resolucion-1410-26-ingles.pdf"],
 ] as const;
@@ -20,7 +21,8 @@ export default function DocentesPage() {
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
       <EditorialPageHeading
-        title="Docentes y directivos"
+        title="Docentes y equipos directivos"
+        imageSrc="/images/cabecera-docentes.png"
       />
 
       <SectionTabs title="Recursos institucionales" items={[{ id: "presentacion", label: "Presentación" }, { id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels>
@@ -28,7 +30,7 @@ export default function DocentesPage() {
           <div className="mx-auto max-w-4xl">
             <SlideDeckEmbed
               src="https://docs.google.com/presentation/d/1BKzPQiSzHd73OvYHmVLTDccV-qt8g-tg/embed?start=false&loop=false&delayms=3000"
-              title="Presentación para Directivos y Docentes"
+              title="Presentación para Equipos Directivos y Docentes"
               label="Presentación institucional"
               posterSrc="/images/cabecera-docentes.png"
             />
@@ -73,7 +75,7 @@ export default function DocentesPage() {
               <div className="divide-y divide-[#494963]/[.07]">
                 {formaciones.map(([title, description, url]) => (
                   <a key={url} href={url} target="_blank" rel="noreferrer" className="group flex items-center gap-3 px-4 py-5 transition-colors hover:bg-[#F8F8FA] sm:gap-4 sm:px-6 sm:py-6">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]/55"><GraduationCap className="h-4.5 w-4.5" /></span>
+                    <Bookmark className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" />
                     <span className="min-w-0 flex-1"><b className="block text-sm font-semibold leading-snug text-[#494963] sm:text-base">{title}</b><small className="mt-1 block text-xs leading-relaxed text-[#494963]/42 sm:text-sm">{description}</small></span>
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true"><ExternalLink className="h-4 w-4" /></span>
                     <span className="sr-only">Abrir {title}</span>

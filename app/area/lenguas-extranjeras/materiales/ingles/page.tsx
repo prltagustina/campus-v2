@@ -2,19 +2,17 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { 
-  BookOpen, 
+import Link from "next/link";
+import {
+  ArrowLeft,
   ChevronRight,
   ChevronDown,
   Play,
   Pause,
   Download,
-  Pencil,
-  Compass,
   FileText,
   Share2,
 } from "lucide-react";
-import { StickySectionNav, type StickySectionNavItem } from "@/components/v3/sticky-section-nav";
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
@@ -40,14 +38,6 @@ const funzineIssues = [
     title: "Próximamente", 
     available: false,
   },
-];
-
-/* Sidebar navigation items with icons and labels */
-const sidebarItems: StickySectionNavItem[] = [
-  { id: "presentacion", icon: Play, label: "Presentación", mobileLabel: "Inicio" },
-  { id: "magazine", icon: BookOpen, label: "Magazine", mobileLabel: "Magazine" },
-  { id: "activity-book", icon: Pencil, label: "Activity Book", mobileLabel: "Activity" },
-  { id: "teachers-guide", icon: Compass, label: "Teacher's Guide", mobileLabel: "Guía" },
 ];
 
 /* PDF URLs */
@@ -200,13 +190,6 @@ export default function InglesMaterilesPage() {
 
   return (
     <div className="flex min-h-full min-w-0 flex-col bg-[#FDFBF7]">
-      <StickySectionNav
-        title="English Funzine"
-        items={sidebarItems}
-        backHref="/area/lenguas-extranjeras"
-        backLabel="Lenguas Extranjeras"
-      />
-
       {/* MAIN LAYOUT */}
       <main className="relative flex-1 overflow-x-hidden">
         {/* HERO SECTION con Background amarillo con alto contraste */}
@@ -225,8 +208,16 @@ export default function InglesMaterilesPage() {
             <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-0">
                   <h1 className="sr-only">English Funzine</h1>
 
+                  <Link
+                    href="/area/lenguas-extranjeras"
+                    className="inline-flex items-center gap-2 pt-6 text-xs text-[#494963]/50 transition-colors hover:text-[#494963] sm:pt-8 sm:text-sm"
+                  >
+                    <ArrowLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    Volver a Lenguas Extranjeras
+                  </Link>
+
                   {/* Logo - más grande en mobile */}
-                  <div className="pt-9 sm:pt-11 mb-5 sm:mb-6">
+                  <div className="mt-5 mb-5 sm:mt-6 sm:mb-6">
                     <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-funzine-LQEjEmOFKR3zDMZCkWPx4Q1ircXGEX.svg"
                       alt="English Funzine"
@@ -250,7 +241,7 @@ export default function InglesMaterilesPage() {
                   </div>
 
                   {/* Video oficial de presentación */}
-                  <div ref={presentacionRef} id="presentacion" className="scroll-mt-28 mb-10 sm:mb-12 lg:scroll-mt-20">
+                  <div ref={presentacionRef} id="presentacion" className="mb-10 sm:mb-12">
                     <p className="text-xs sm:text-sm font-medium text-[#494963]/50 uppercase tracking-wider mb-3">
                       Video de presentación
                     </p>
@@ -343,7 +334,7 @@ export default function InglesMaterilesPage() {
               {/* Materials */}
               <div className="space-y-8 sm:space-y-12 lg:space-y-16">
                 {/* 01. Magazine */}
-                <div ref={magazineRef} id="magazine" className="scroll-mt-28 lg:scroll-mt-20">
+                <div ref={magazineRef} id="magazine">
                   <MaterialCard
                     title="Magazine"
                     pdfUrl={pdfUrls.magazine}
@@ -352,7 +343,7 @@ export default function InglesMaterilesPage() {
                 </div>
 
                 {/* Activity Book */}
-                <div ref={activityBookRef} id="activity-book" className="scroll-mt-28 lg:scroll-mt-20">
+                <div ref={activityBookRef} id="activity-book">
                   <MaterialCard
                     title="Activity Book"
                     pdfUrl={pdfUrls.activityBook}
@@ -361,7 +352,7 @@ export default function InglesMaterilesPage() {
                 </div>
 
                 {/* Teacher's Guide */}
-                <div ref={teachersGuideRef} id="teachers-guide" className="scroll-mt-28 lg:scroll-mt-20">
+                <div ref={teachersGuideRef} id="teachers-guide">
                   <MaterialCard
                     title="Teacher's Guide"
                     pdfUrl={pdfUrls.teachersGuide}

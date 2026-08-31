@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
   BriefcaseBusiness,
   Check,
@@ -15,47 +15,62 @@ import {
   Users,
 } from "lucide-react";
 import { orderedAreas, cycles } from "@/lib/v3-config";
-import { MARCO_GENERAL_COLOR } from "@/lib/constants";
+import { MARCO_GENERAL_COLOR, TERRITORIO_ENABLED, MATERIALES_POR_CICLO_ENABLED } from "@/lib/constants";
 import { AreasMaterialsIcon, CycleMaterialsIcon } from "@/components/v3/navigation-icons";
 import { AreaNavLink, areaNavForeground, SolidAreaArrow } from "@/components/v3/area-nav-link";
 
+// gridRow: peso relativo de cada item en el grid vertical de la nav desktop
+// (ver "gridTemplateRows" más abajo). Se recalcula solo con los items visibles,
+// así que alternar TERRITORIO_ENABLED / MATERIALES_POR_CICLO_ENABLED no rompe el layout.
 const primaryItems = [
-  { href: "/", label: "Inicio", desktopLines: ["Inicio"], mobileLabel: "Inicio", icon: Home, match: (p: string) => p === "/" },
+  { href: "/", label: "Inicio", desktopLines: ["Inicio"], desktopSubline: undefined, mobileLabel: "Inicio", icon: Home, match: (p: string) => p === "/", gridRow: ".7fr", enabled: true },
   {
     href: "/areas",
-    label: "Áreas y materiales",
-    desktopLines: ["Áreas y", "Materiales"],
+    label: "Áreas, materiales y formaciones",
+    desktopLines: ["Áreas"],
+    desktopSubline: "Materiales y formaciones",
     mobileLabel: "Áreas",
     icon: AreasMaterialsIcon,
     match: (p: string) => p === "/areas" || p.startsWith("/area/") || p === "/marco-general",
+    gridRow: "1.3fr",
+    enabled: true,
   },
   {
     href: "/materiales-por-ciclo",
     label: "Materiales por ciclo",
     desktopLines: ["Materiales", "por Ciclo"],
+    desktopSubline: undefined,
     mobileLabel: "Ciclos",
     icon: CycleMaterialsIcon,
     match: (p: string) => p === "/materiales-por-ciclo" || p.startsWith("/ciclo/"),
+    gridRow: "1.3fr",
+    enabled: MATERIALES_POR_CICLO_ENABLED,
   },
   {
     href: "/territorio",
     label: "Territorio",
     desktopLines: ["Territorio"],
+    desktopSubline: undefined,
     mobileLabel: "Territorio",
     icon: MapPinned,
     match: (p: string) => p.startsWith("/territorio"),
+    gridRow: ".8fr",
+    enabled: TERRITORIO_ENABLED,
   },
   {
     href: "/directivos",
-    label: "Directivos",
-    desktopLines: ["Directivos"],
-    mobileLabel: "Directivos",
+    label: "Equipos directivos",
+    desktopLines: ["Equipos directivos"],
+    desktopSubline: undefined,
+    mobileLabel: "Equipos",
     icon: BriefcaseBusiness,
     match: (p: string) => p.startsWith("/directivos") || p.startsWith("/docentes"),
+    gridRow: ".7fr",
+    enabled: true,
   },
-  { href: "/familias", label: "Familias", desktopLines: ["Familias"], mobileLabel: "Familias", icon: Users, match: (p: string) => p.startsWith("/familias") },
-  { href: "/eib", label: "EIB", desktopLines: ["EIB"], mobileLabel: "EIB", icon: MessageCircle, match: (p: string) => p.startsWith("/eib") },
-] as const;
+  { href: "/familias", label: "Familias", desktopLines: ["Familias"], desktopSubline: undefined, mobileLabel: "Familias", icon: Users, match: (p: string) => p.startsWith("/familias"), gridRow: ".7fr", enabled: true },
+  { href: "/eib", label: "EIB", desktopLines: ["EIB"], desktopSubline: undefined, mobileLabel: "EIB", icon: MessageCircle, match: (p: string) => p.startsWith("/eib"), gridRow: ".7fr", enabled: true },
+].filter((item) => item.enabled !== false);
 
 // Traducción horizontal de la guarda cromática vertical de las portadas.
 // Los valores se tomaron de la portada de Matemática, de arriba hacia abajo.
@@ -112,99 +127,53 @@ function SantaFeBrand() {
   );
 }
 
-function MobileAreaMenu({ pathname }: { pathname: string }) {
-  const [open, setOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const selectedArea = orderedAreas.find(
-    (area) => pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`),
-  );
+/**
+ * Nav horizontal scrolleable de áreas para tablet/mobile (<1280px): mismo
+ * criterio cromático y misma pastilla (borde/relleno por color de área,
+ * ícono de check/flecha) que ya usa `AreaNavLink` en el aside de escritorio,
+ * solo que en una fila horizontal con scroll táctil en vez de una columna.
+ * Reemplaza al dropdown anterior, que era menos accesible y menos parecido
+ * al sistema de desktop.
+ */
+function AreaHorizontalNav({ pathname }: { pathname: string }) {
   const marcoActive = pathname === "/area/marco-general" || pathname === "/marco-general";
-  const selectedLabel = selectedArea?.name ?? (marcoActive ? "Marco General" : "Elegir área");
-  const selectedColor = selectedArea?.color ?? (marcoActive ? "#494963" : "rgba(255,255,255,.1)");
-  const selectedForeground = selectedArea ? areaNavForeground(selectedArea) : "#E9E9EE";
-
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!open) return;
-
-    const closeOnOutside = (event: PointerEvent) => {
-      if (!menuRef.current?.contains(event.target as Node)) setOpen(false);
-    };
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-
-    document.addEventListener("pointerdown", closeOnOutside);
-    document.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.removeEventListener("pointerdown", closeOnOutside);
-      document.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [open]);
 
   return (
-    <div className="flex items-center justify-between gap-3 bg-[#494963] px-3 py-2.5 text-white">
-      <span className="shrink-0 text-sm font-semibold text-white/80 sm:text-[15px]">Área</span>
-      <div ref={menuRef} className="relative ml-auto w-[76%] min-w-0 max-w-[320px] flex-none">
-        <button
-          type="button"
-          onClick={() => setOpen((current) => !current)}
-          aria-expanded={open}
-          aria-controls="menu-areas-mobile"
-          aria-label={`Cambiar área. Área actual: ${selectedLabel}`}
-          className="flex min-h-10 w-full items-center justify-between gap-3 rounded-lg border px-3.5 py-2 text-left transition-[filter] hover:brightness-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#494963]"
-          style={{
-            backgroundColor: selectedColor,
-            borderColor: selectedArea || marcoActive ? selectedColor : "rgba(255,255,255,.2)",
-            color: selectedForeground,
-          }}
-        >
-          <span className="min-w-0 truncate text-sm font-semibold leading-tight">{selectedLabel}</span>
-          <ChevronDown className={`h-4 w-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
-        </button>
-
-        {open ? (
-          <nav
-            id="menu-areas-mobile"
-            aria-label="Elegir área curricular"
-            className="absolute inset-x-0 top-[calc(100%+.4rem)] z-[60] max-h-[min(410px,55dvh)] overflow-y-auto overscroll-contain rounded-xl border border-[#494963]/10 bg-white p-1 shadow-[0_10px_28px_rgba(35,35,55,.14)]"
+    <nav
+      aria-label="Áreas curriculares"
+      className="scrollbar-hide flex gap-2 overflow-x-auto bg-[#F8F8FA] px-3 py-2.5"
+    >
+      <Link
+        href="/area/marco-general"
+        aria-current={marcoActive ? "page" : undefined}
+        className={`flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-[#494963] px-4 text-sm font-medium tracking-[-0.02em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
+      >
+        Marco General
+        {marcoActive ? <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> : <SolidAreaArrow compact />}
+      </Link>
+      {orderedAreas.map((area) => {
+        const active = pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`);
+        const activeForeground = areaNavForeground(area);
+        return (
+          <Link
+            key={area.slug}
+            href={`/area/${area.slug}`}
+            aria-current={active ? "page" : undefined}
+            className="flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border px-4 text-sm font-medium tracking-[-0.02em] transition-colors duration-150 hover:bg-[var(--area)] hover:text-[var(--area-active-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]"
+            style={{
+              borderColor: area.color,
+              ["--area" as string]: area.color,
+              ["--area-active-fg" as string]: activeForeground,
+              backgroundColor: active ? area.color : "white",
+              color: active ? activeForeground : area.color,
+            }}
           >
-            <Link
-              href="/area/marco-general"
-              aria-current={marcoActive ? "page" : undefined}
-              onClick={() => setOpen(false)}
-              className={`flex min-h-10 w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left transition-colors hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-transparent text-[#494963]"}`}
-            >
-              <span className="min-w-0 flex-1 truncate text-sm font-medium leading-tight">Marco General</span>
-              {marcoActive ? <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> : <SolidAreaArrow compact />}
-            </Link>
-            {orderedAreas.map((area) => {
-              const active = pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`);
-              const activeForeground = areaNavForeground(area);
-              return (
-                <Link
-                  key={area.slug}
-                  href={`/area/${area.slug}`}
-                  aria-current={active ? "page" : undefined}
-                  onClick={() => setOpen(false)}
-                  className={`flex min-h-10 w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left transition-colors hover:bg-[var(--area)] hover:text-[var(--area-active-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${active ? "bg-[var(--area)] text-[var(--area-active-fg)]" : "bg-transparent text-[var(--area)]"}`}
-                  style={{
-                    ["--area" as string]: area.color,
-                    ["--area-active-fg" as string]: activeForeground,
-                  }}
-                >
-                  <span className="min-w-0 flex-1 truncate text-sm font-medium leading-tight">{area.name}</span>
-                  {active ? <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> : <SolidAreaArrow compact />}
-                </Link>
-              );
-            })}
-          </nav>
-        ) : null}
-      </div>
-    </div>
+            {area.name}
+            {active ? <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> : <SolidAreaArrow compact />}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
 
@@ -294,8 +263,8 @@ function TerritorySubnav({ pathname }: { pathname: string }) {
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const areasOpen = pathname === "/areas" || pathname.startsWith("/area/") || pathname === "/marco-general";
-  const cyclesOpen = pathname === "/materiales-por-ciclo" || pathname.startsWith("/ciclo/");
-  const territoryOpen = pathname.startsWith("/territorio");
+  const cyclesOpen = MATERIALES_POR_CICLO_ENABLED && (pathname === "/materiales-por-ciclo" || pathname.startsWith("/ciclo/"));
+  const territoryOpen = TERRITORIO_ENABLED && pathname.startsWith("/territorio");
   const territoryActions = pathname.startsWith("/territorio/acciones");
   const territoryProximas = pathname.startsWith("/territorio/proximas");
   const hasSecondary = areasOpen || cyclesOpen || territoryOpen;
@@ -346,20 +315,45 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
         <label className="ml-auto hidden h-9 items-center gap-2 border-b-2 border-[#3F3F59]/65 px-1 text-xs text-[#3F3F59] transition-[border-color] focus-within:border-[#34344B] md:flex">
           <Search className="h-4 w-4 shrink-0 text-[#3F3F59]" />
-          <span className="sr-only">Buscar materiales</span>
+          <span className="sr-only">Buscar</span>
           <input
             type="search"
             autoComplete="off"
             spellCheck={false}
             className="w-48 appearance-none border-0 bg-transparent p-0 font-semibold text-[#34344B] shadow-none outline-none ring-0 placeholder:text-[#3F3F59]/80 [&::-webkit-search-cancel-button]:hidden"
-            placeholder="Buscar materiales"
+            placeholder="Buscar"
           />
         </label>
         </div>
       </div>
 
       <div className="flex h-[calc(100dvh-118px)] gap-3 overflow-hidden bg-white p-3 pb-[calc(4.75rem+env(safe-area-inset-bottom))] md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5">
-        <nav aria-label="Navegación principal" className="hidden w-[210px] shrink-0 grid-rows-[.7fr_1.3fr_1.3fr_.8fr_.7fr_.7fr_.7fr] gap-1.5 md:grid xl:w-[230px]">
+        {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
+            de dos niveles que solo tiene sentido con el ancho de escritorio. */}
+        <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
+          {primaryItems.map((item) => {
+            const active = item.match(pathname);
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={`flex min-h-11 items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-semibold leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${active ? "bg-[#494963] text-white" : "bg-[#DADAE1] text-[#494963] hover:bg-[#d1d1d9]"}`}
+              >
+                <Icon className="h-4.5 w-4.5 shrink-0" strokeWidth={2} aria-hidden="true" />
+                <span className="truncate">{item.mobileLabel}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Desktop (≥1280px): rail completo, ícono arriba / texto abajo, con la bajada de Áreas. */}
+        <nav
+          aria-label="Navegación principal"
+          className="hidden w-[230px] shrink-0 gap-1.5 xl:grid"
+          style={{ gridTemplateRows: primaryItems.map((item) => item.gridRow).join(" ") }}
+        >
           {primaryItems.map((item) => {
             const active = item.match(pathname);
             const Icon = item.icon;
@@ -372,7 +366,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               >
                 <Icon className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
                 <span>
-                  {item.desktopLines.map((line) => <span key={line} className="block">{line}</span>)}
+                  {item.desktopLines.map((line) => (
+                    <span
+                      key={line}
+                      className={`block ${item.desktopSubline ? "text-[19px] font-semibold" : ""}`}
+                    >
+                      {line}
+                    </span>
+                  ))}
+                  {item.desktopSubline ? (
+                    <span className="mt-1 block text-xs font-medium" style={{ opacity: 0.72 }}>
+                      {item.desktopSubline}
+                    </span>
+                  ) : null}
                 </span>
               </Link>
             );
@@ -391,37 +397,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           tabIndex={-1}
         >
           {hasSecondary && areasOpen ? (
-            <>
-              <div className="md:hidden">
-                <MobileAreaMenu pathname={pathname} />
-              </div>
-              <div className="hidden gap-1.5 bg-[#F8F8FA] p-2.5 md:grid md:grid-cols-3 xl:hidden">
-                <Link
-                  href="/area/marco-general"
-                  aria-current={pathname === "/area/marco-general" || pathname === "/marco-general" ? "page" : undefined}
-                  className={`flex min-h-10 items-center justify-between rounded-[8px] border border-[#494963] px-2.5 py-1.5 text-[11px] font-medium tracking-[-0.025em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] ${pathname === "/area/marco-general" || pathname === "/marco-general" ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
-                >
-                  Marco General
-                  <SolidAreaArrow compact />
-                </Link>
-                {orderedAreas.map((area) => {
-                  const active = pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`);
-                  const activeForeground = areaNavForeground(area);
-                  return (
-                    <Link
-                      key={area.slug}
-                      href={`/area/${area.slug}`}
-                      aria-current={active ? "page" : undefined}
-                      className={`flex min-h-10 items-center justify-between rounded-[8px] border px-2.5 py-1.5 text-[11px] font-medium leading-tight tracking-[-0.025em] transition-colors duration-150 hover:bg-[var(--area)] hover:text-[var(--area-active-fg)] ${active ? "bg-[var(--area)] text-[var(--area-active-fg)]" : "bg-white text-[var(--area)]"}`}
-                      style={{ borderColor: area.color, ["--area" as string]: area.color, ["--area-active-fg" as string]: activeForeground }}
-                    >
-                      {area.name}
-                      <SolidAreaArrow compact />
-                    </Link>
-                  );
-                })}
-              </div>
-            </>
+            <div className="xl:hidden">
+              <AreaHorizontalNav pathname={pathname} />
+            </div>
           ) : cyclesOpen ? (
             <div className="sticky top-0 z-30 grid grid-cols-3 gap-1.5 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">
               {cycles.map((cycle, index) => {
@@ -466,7 +444,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </main>
       </div>
 
-      <nav aria-label="Navegación móvil" className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 grid-cols-7 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden">
+      <nav
+        aria-label="Navegación móvil"
+        className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
+        style={{ gridTemplateColumns: `repeat(${primaryItems.length}, minmax(0, 1fr))` }}
+      >
         {primaryItems.map((item) => {
           const active = item.match(pathname);
           const Icon = item.icon;

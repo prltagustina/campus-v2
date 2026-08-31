@@ -30,7 +30,7 @@ interface StickySectionNavProps {
 const homeSectionItems: StickySectionNavItem[] = [
   { id: "presentacion", label: "Presentación", icon: CirclePlay },
   { id: "documento", label: "Documento", icon: BookOpen },
-  { id: "rueda", label: "Rueda", icon: Orbit },
+  { id: "rueda", label: "Trama", icon: Orbit },
   { id: "historia", label: "Historia", icon: History },
 ];
 

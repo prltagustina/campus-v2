@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { TerritorioExplorer } from "@/components/v3/territorio-explorer";
+import { TERRITORIO_ENABLED } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Acciones en territorio | Nuevo Diseño Curricular",
@@ -7,5 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function TerritorioActionsPage() {
+  if (!TERRITORIO_ENABLED) notFound();
+
   return <TerritorioExplorer mode="realizadas" />;
 }
