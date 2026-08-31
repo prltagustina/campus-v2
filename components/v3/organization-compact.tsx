@@ -55,7 +55,7 @@ function Dots() {
   }, [api]);
 
   return (
-    <div className="mt-6 flex gap-[6px]">
+    <div className="mt-6 flex gap-[6px] pr-5 md:pr-0">
       {Array.from({ length: snapCount }).map((_, index) => (
         <button
           key={index}
@@ -73,9 +73,9 @@ function Dots() {
 export function OrganizationCompact() {
   return (
     <section className="v3-section !p-0 md:!p-[14px]">
-      <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
+      <div className="rounded-none bg-[#F5F5F7] py-5 pl-5 md:rounded-3xl md:p-8 lg:p-10">
         <Carousel opts={{ align: "start" }}>
-          <div className="flex items-end justify-between gap-4">
+          <div className="flex items-end justify-between gap-4 pr-5 md:pr-0">
             <div>
               <h2 className="font-sans text-2xl font-bold leading-[1.05] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">Cómo está<br />organizada cada área</h2>
               <p className="mt-2 max-w-md font-sans text-sm leading-normal text-[#494963]/50 sm:text-base sm:leading-[1.5]">Todas comparten una misma estructura de seis secciones.</p>
