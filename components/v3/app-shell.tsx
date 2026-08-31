@@ -401,11 +401,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           className="h-full min-h-0 min-w-0 flex-1 rounded-none bg-white overflow-y-auto md:rounded-2xl md:[scrollbar-gutter:stable]"
           tabIndex={-1}
         >
-          {hasSecondary && areasOpen ? (
-            <div className="xl:hidden">
-              <AreaHorizontalNav pathname={pathname} />
-            </div>
-          ) : cyclesOpen ? (
+          {cyclesOpen ? (
             <div className="sticky top-0 z-30 grid grid-cols-3 gap-1.5 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">
               {cycles.map((cycle, index) => {
                 const active = pathname === `/ciclo/${cycle.slug}`;
@@ -446,6 +442,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           ) : null}
           {children}
+          {hasSecondary && areasOpen ? (
+            <div className="xl:hidden">
+              <AreaHorizontalNav pathname={pathname} />
+            </div>
+          ) : null}
         </main>
       </div>
 

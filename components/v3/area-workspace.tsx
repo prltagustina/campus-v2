@@ -96,7 +96,7 @@ function ArtisticLanguageTabs({
   const selected = options.find((option) => option.id === selectedId) ?? options[0];
 
   return (
-    <section className="bg-white px-1 py-3 md:px-5 md:py-4">
+    <section className="bg-white px-4 py-6 md:px-5 md:py-8">
       <div className="flex flex-wrap gap-2.5 md:gap-5" role="tablist" aria-label="Educación Artística y sus lenguajes">
         {options.map((option) => {
           const active = option.id === selected.id;
@@ -151,7 +151,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
   };
 
   return <div className="min-h-full bg-white">
-    <div className="py-4 md:space-y-5 md:pb-6 md:pt-0">
+    <div className="pb-4 md:space-y-5 md:pb-6">
       {isArtistic ? (
         <>
           <ArtisticLanguageTabs area={area} selectedId={selectedArtisticId} onSelect={selectArtisticLanguage} />
