@@ -32,8 +32,9 @@ export function MarcoGeneralSection() {
           <div className="w-full max-w-4xl">
             <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-[#494963]/5 shadow-lg">
               <iframe
-                src="https://www.youtube.com/embed/eu8CYPbjehE"
+                src="https://www.youtube-nocookie.com/embed/eu8CYPbjehE"
                 title={"Presentaci\u00f3n Dise\u00f1o Curricular de la Provincia de Santa Fe"}
+                loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="absolute inset-0 w-full h-full"

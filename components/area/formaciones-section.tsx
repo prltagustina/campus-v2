@@ -2,57 +2,57 @@
 
 import { ArrowUpRight, BookOpen, Monitor } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
-interface FormacionesSectionProps {
+export function FormacionesSection({
+  area,
+  artisticLanguage,
+}: {
   area: Area;
   artisticLanguage?: string;
-}
-
-export function FormacionesSection({ area, artisticLanguage }: FormacionesSectionProps) {
+}) {
   const normalizedLanguage = artisticLanguage?.toLocaleLowerCase("es");
   const items = (area.teacherTrainings ?? []).flatMap((group) =>
     (group.items ?? [])
-      .filter((item) => !normalizedLanguage
-        || group.name.toLocaleLowerCase("es") === normalizedLanguage
-        || item.name.toLocaleLowerCase("es").includes(normalizedLanguage))
+      .filter((item) => !normalizedLanguage || item.name.toLocaleLowerCase("es").includes(normalizedLanguage))
       .map((item) => ({ ...item, group: group.name })),
   );
   const contextName = artisticLanguage ?? area.name;
 
-  return (
-    <section id="formacion" className="scroll-mt-32">
-      <div className="flex flex-col items-center text-center mb-14 md:mb-20">
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#494963] font-display">
-          Formaciones Docentes
-        </h3>
-        <p className="mt-3 text-[#494963]/50">Cursos y trayectos vinculados con {contextName}.</p>
-      </div>
+  return <section id="formacion">
+    <header className="mb-8 max-w-2xl pr-24">
+      <h2 className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Formaciones docentes</h2>
+      <p className="mt-2 text-[#494963]/50">Cursos y trayectos de formación vinculados con {contextName}.</p>
+    </header>
 
-      {items.length ? <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group bg-white"
-          >
-            <div
-              className="p-6 md:p-7"
-              style={{ backgroundColor: area.color, color: area.textOnColor }}
-            >
-              <h4 className="text-sm md:text-base font-bold leading-snug mb-3 pr-4">
-                {item.name}
-              </h4>
-              <p className="text-[11px] font-medium" style={{ opacity: 0.75 }}>
-                {item.group}
-              </p>
+    {items.length ? <Carousel opts={{ align: "start", containScroll: "trimSnaps" }} className="w-full" aria-label={`Formaciones docentes de ${contextName}`}>
+      <CarouselContent className="items-stretch">
+        {items.map((item) => <CarouselItem key={item.id} className="basis-[88%] sm:basis-1/2 xl:basis-1/3">
+          <article className="flex h-full min-h-[280px] flex-col overflow-hidden rounded-2xl bg-white shadow-[0_5px_20px_rgba(73,73,99,.07)]">
+            <div className="min-h-[116px] p-5" style={{ backgroundColor: area.color, color: area.textOnColor }}>
+              <p className="text-[10px] font-bold uppercase tracking-[.14em] opacity-60">Formación docente</p>
+              <h3 className="mt-3 font-display text-lg font-semibold leading-snug">{item.name}</h3>
             </div>
-            <div className="p-6 md:p-7 space-y-3 text-[13px] text-gray-600">
-              <p className="flex items-center gap-3"><Monitor className="w-4 h-4 text-gray-300" />Campus Educativo</p>
-              <p className="flex items-center gap-3"><BookOpen className="w-4 h-4 text-gray-300" />Formación docente</p>
-              {item.url ? <a href={item.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 pt-3 text-xs font-bold" style={{ color: area.color }}>+ Info <ArrowUpRight className="h-3.5 w-3.5" /></a> : <p className="pt-3 text-xs text-gray-400">Próximamente</p>}
+            <div className="flex flex-1 flex-col p-5">
+              <div className="space-y-3 text-sm text-[#494963]/60">
+                <p className="flex items-center gap-3"><Monitor className="h-4 w-4 shrink-0 text-[#494963]/30" />Campus Educativo</p>
+                <p className="flex items-center gap-3"><BookOpen className="h-4 w-4 shrink-0 text-[#494963]/30" />{item.group}</p>
+              </div>
+              <div className="mt-auto border-t border-[#494963]/[.07] pt-4">
+                {item.url ? <a href={item.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold" style={{ color: area.color }}>+ Info<ArrowUpRight className="h-3.5 w-3.5" /></a> : <span className="text-[11px] font-bold uppercase tracking-[.12em] text-[#494963]/30">Próximamente</span>}
+              </div>
             </div>
-          </div>
-        ))}
-      </div> : null}
-    </section>
-  );
+          </article>
+        </CarouselItem>)}
+      </CarouselContent>
+      <CarouselPrevious className="!left-auto !right-11 !top-[-54px] !translate-y-0 border-0 bg-white text-[#494963] shadow-sm disabled:opacity-25" />
+      <CarouselNext className="!right-0 !top-[-54px] !translate-y-0 border-0 bg-white text-[#494963] shadow-sm disabled:opacity-25" />
+    </Carousel> : null}
+  </section>;
 }

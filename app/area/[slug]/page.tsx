@@ -8,6 +8,9 @@ export default async function AreaDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (slug === "marco-general") {
+    return <AreaDetailContent isMarcoGeneral />;
+  }
   const area = areasData.find((a) => a.slug === slug);
 
   if (!area) {
@@ -18,7 +21,7 @@ export default async function AreaDetailPage({
 }
 
 export async function generateStaticParams() {
-  return areasData.map((area) => ({
+  return [...areasData.map((area) => ({
     slug: area.slug,
-  }));
+  })), { slug: "marco-general" }];
 }

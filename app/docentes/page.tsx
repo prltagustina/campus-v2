@@ -1,187 +1,91 @@
-"use client";
-
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowLeft, Download, FileText, ArrowRight, Bookmark } from "lucide-react";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/landing/landing-footer";
+import { Bookmark, BookOpen, Download, ExternalLink, FileText, GraduationCap } from "lucide-react";
+import { SectionTabs } from "@/components/v3/section-rail";
+import { SlideDeckEmbed } from "@/components/v3/content-blocks";
+import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
 
 const documentos = [
-  {
-    titulo: "Documento de acompañamiento N° 1 - Implementación del Diseño Curricular.",
-    url: "/docs/Documento_Acompanamiento.pdf",
-  },
-  {
-    titulo: "Documento de acompañamiento N° 2 - Implementación del área Saberes, Vidas y Mundos.",
-    url: "/docs/Documento_Acompanamiento_2.pdf",
-  },
-  {
-    titulo: "Presentación para supervisores, directivos y docentes",
-    url: "/docs/Presentacion_Supervisores.pdf",
-  },
-];
-
-const normativa = [
-  {
-    titulo: "Res. 43/2026 - Implementación del área de Lenguas Extranjeras",
-    url: "/documentos/resolucion-43-26-lenguas-extranjeras.pdf",
-  },
-  {
-    titulo: "Res. 1410/2026 - Programa Inglés para la Ruralidad",
-    url: "/documentos/resolucion-1410-26-ingles.pdf",
-  },
-];
+  ["Documento de acompañamiento N° 1", "Implementación del Diseño Curricular", "/docs/Documento_Acompanamiento.pdf"],
+  ["Documento de acompañamiento N° 2", "Implementación del área Saberes, Vidas y Mundos", "/docs/Documento_Acompanamiento_2.pdf"],
+  ["Presentación para supervisores, directivos y docentes", "Material institucional", "/docs/Presentacion_Supervisores.pdf"],
+  ["Jornada Ampliada o Completa", "Más tiempo para transformar los aprendizajes", "/documentos/jornada-ampliada-o-completa.pdf"],
+  ["Resolución 43/2026", "Implementación del área de Lenguas Extranjeras", "/documentos/resolucion-43-26-lenguas-extranjeras.pdf"],
+  ["Resolución 1410/2026", "Programa Inglés para la Ruralidad", "/documentos/resolucion-1410-26-ingles.pdf"],
+] as const;
 
 const formaciones = [
-  {
-    titulo: "Diversificación para la Enseñanza",
-    url: "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2",
-  },
-  {
-    titulo: "Planificar la enseñanza en el marco del nuevo Diseño Curricular",
-    url: "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/",
-  },
-];
-
-const PRIMARY_COLOR = "#494963";
+  ["Diversificación para la Enseñanza", "Estrategias para ampliar las oportunidades de aprendizaje.", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
+  ["Planificar la enseñanza en el marco del nuevo Diseño Curricular", "Orientaciones para la planificación institucional y del aula.", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
+] as const;
 
 export default function DocentesPage() {
   return (
-    <main className="min-h-screen bg-white flex flex-col">
-      <Header />
+    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
+      <EditorialPageHeading
+        title="Docentes y equipos directivos"
+        imageSrc="/images/cabecera-docentes.png"
+      />
 
-      {/* Hero */}
-      <section className="relative py-16 md:py-20 mt-16 overflow-hidden">
-        <Image
-          src="/images/cabecera-docentes.png"
-          alt=""
-          fill
-          className="object-cover object-right"
-          priority
-        />
-        <div className="relative z-10 container mx-auto px-4">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-[#494963]/50 hover:text-[#494963] transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" />
-            Volver al inicio
-          </Link>
-          <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-4 font-display">
-              Docentes y directivos
-            </h1>
+      <SectionTabs title="Recursos institucionales" items={[{ id: "presentacion", label: "Presentación" }, { id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels>
+        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+          <div className="mx-auto max-w-4xl">
+            <SlideDeckEmbed
+              src="https://docs.google.com/presentation/d/1BKzPQiSzHd73OvYHmVLTDccV-qt8g-tg/embed?start=false&loop=false&delayms=3000"
+              title="Presentación para Equipos Directivos y Docentes"
+              label="Presentación institucional"
+              posterSrc="/images/cabecera-docentes.png"
+            />
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* PDF Preview Section */}
-      <section className="py-12 md:py-16 bg-[#EDEDF0]">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold text-[#494963] mb-6 font-display">
-              Presentación del Diseño Curricular
-            </h2>
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg">
-              <iframe
-                src="https://docs.google.com/presentation/d/1BKzPQiSzHd73OvYHmVLTDccV-qt8g-tg/embed?start=false&loop=false&delayms=3000"
-                className="w-full h-[350px] md:h-[450px] lg:h-[500px]"
-                title="Presentación del Diseño Curricular para Docentes y Directivos"
-                allowFullScreen
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Documentos y Formaciones - Two columns */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12">
-            
-            {/* Documentos y descargas */}
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-[#494963]/5 flex items-center justify-center">
-                  <Download className="w-5 h-5 text-[#494963]" />
+        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+          <div className="mx-auto max-w-4xl">
+            <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+              <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><BookOpen className="h-4 w-4" /></span>
+                  <div><h3 className="font-display text-lg font-semibold text-[#494963]">Repositorio institucional</h3><p className="text-xs text-[#494963]/40">{documentos.length} documentos disponibles</p></div>
                 </div>
-                <div>
-                  <h2 className="text-lg md:text-xl font-bold text-[#494963] font-display">
-                    Documentos y descargas
-                  </h2>
-                  <p className="text-sm text-[#494963]/50">
-                    Material de apoyo para el trabajo institucional
-                  </p>
-                </div>
-              </div>
-              
-              <div className="mt-6 space-y-2">
-                {documentos.map((doc, i) => (
-                  <a
-                    key={i}
-                    href={doc.url}
-                    download
-                    className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#F5F5F7] hover:bg-[#EDEDF0] transition-colors group"
-                  >
-                    <FileText className="w-4 h-4 flex-shrink-0 text-[#494963]/40" />
-                    <span className="text-sm text-[#494963] flex-1">{doc.titulo}</span>
-                  </a>
-                ))}
+                <span className="rounded-full bg-[#494963]/[.06] px-3 py-1 text-xs font-bold text-[#494963]/55">{documentos.length}</span>
               </div>
 
-              {/* Normativa */}
-              <h3 className="mt-8 mb-3 text-xs font-bold uppercase tracking-wider text-[#494963]/50">
-                Normativa
-              </h3>
-              <div className="space-y-2">
-                {normativa.map((doc, i) => (
-                  <a
-                    key={i}
-                    href={doc.url}
-                    download
-                    className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#F5F5F7] hover:bg-[#EDEDF0] transition-colors group"
-                  >
-                    <FileText className="w-4 h-4 flex-shrink-0 text-[#494963]/40" />
-                    <span className="text-sm text-[#494963] flex-1">{doc.titulo}</span>
+              <div className="divide-y divide-[#494963]/[.07]">
+                {documentos.map(([title, description, url]) => (
+                  <a key={url} href={url} download className="group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-[#F8F8FA] sm:gap-4 sm:px-6 sm:py-5">
+                    <FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" />
+                    <span className="min-w-0 flex-1">
+                      <b className="block text-sm font-semibold leading-snug text-[#494963] sm:text-base">{title}</b>
+                      <small className="mt-1 block text-xs leading-relaxed text-[#494963]/42 sm:text-sm">{description} · PDF</small>
+                    </span>
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true"><Download className="h-4 w-4" /></span>
+                    <span className="sr-only">Descargar {title}</span>
                   </a>
                 ))}
               </div>
             </div>
+          </div>
+        </section>
 
-            {/* Formaciones docentes */}
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-[#494963]/5 flex items-center justify-center">
-                  <Bookmark className="w-5 h-5 text-[#494963]" />
-                </div>
-                <div>
-                  <h2 className="text-lg md:text-xl font-bold text-[#494963] font-display">
-                    Formaciones docentes
-                  </h2>
-                  <p className="text-sm text-[#494963]/50">
-                    Cursos y capacitaciones en Campus Educativo
-                  </p>
-                </div>
+        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+          <div className="mx-auto max-w-4xl">
+            <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+              <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
+                <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><GraduationCap className="h-4.5 w-4.5" /></span>
+                <div><h3 className="font-display text-lg font-semibold text-[#494963]">Propuestas disponibles</h3><p className="text-xs text-[#494963]/40">Acceso desde Campus Educativo</p></div>
               </div>
-              
-              <div className="mt-6 space-y-2">
-                {formaciones.map((formacion, i) => (
-                  <a
-                    key={i}
-                    href={formacion.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#F5F5F7] hover:bg-[#EDEDF0] transition-colors group"
-                  >
-                    <ArrowRight className="w-4 h-4 flex-shrink-0 text-[#494963]/40" />
-                    <span className="text-sm text-[#494963] flex-1">{formacion.titulo}</span>
+              <div className="divide-y divide-[#494963]/[.07]">
+                {formaciones.map(([title, description, url]) => (
+                  <a key={url} href={url} target="_blank" rel="noreferrer" className="group flex items-center gap-3 px-4 py-5 transition-colors hover:bg-[#F8F8FA] sm:gap-4 sm:px-6 sm:py-6">
+                    <Bookmark className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" />
+                    <span className="min-w-0 flex-1"><b className="block text-sm font-semibold leading-snug text-[#494963] sm:text-base">{title}</b><small className="mt-1 block text-xs leading-relaxed text-[#494963]/42 sm:text-sm">{description}</small></span>
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true"><ExternalLink className="h-4 w-4" /></span>
+                    <span className="sr-only">Abrir {title}</span>
                   </a>
                 ))}
               </div>
             </div>
-            
           </div>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
+        </section>
+      </SectionTabs>
+    </div>
   );
 }

@@ -247,38 +247,32 @@ export const areasData: Area[] = [
         ],
       },
       {
-        id: "danza",
-        name: "Danza",
-        description:
-          "El área propone que las infancias conozcan su cuerpo, exploren el movimiento poético y narren sus experiencias desde una sensibilidad que se construye en diálogo con los otros.\n\nLa enseñanza prioriza la exploración, el juego y el disfrute en un clima plural e inclusivo, que habilita expresiones genuinas y diversas en el movimiento.",
-        axes: ["Danza en contexto", "Apreciación", "Producción en danza"],
-      },
-      {
         id: "teatro",
         name: "Teatro",
         description:
           "Teatro se propone como experiencia expresiva y colectiva. Las infancias representan historias ante sus pares y la comunidad educativa, explorando múltiples personajes (animales, objetos, emociones, identidades y otros).\n\nEl teatro se construye con los otros, en tiempo presente, mediante la interacción y la acción conjunta. Favorece la expresión, la imaginación, la construcción de sentido y la participación.",
         axes: ["Teatro en contexto", "Apreciación", "Producción teatral"],
       },
+      {
+        id: "danza",
+        name: "Danza",
+        description:
+          "El área propone que las infancias conozcan su cuerpo, exploren el movimiento poético y narren sus experiencias desde una sensibilidad que se construye en diálogo con los otros.\n\nLa enseñanza prioriza la exploración, el juego y el disfrute en un clima plural e inclusivo, que habilita expresiones genuinas y diversas en el movimiento.",
+        axes: ["Danza en contexto", "Apreciación", "Producción en danza"],
+      },
     ],
     teacherTrainings: [
       {
-        id: "ea-form-artes-visuales",
-        name: "Artes Visuales",
+        id: "ea-form-1",
+        name: "Educación Artística",
         items: [
           {
-            id: "ea-artes-visuales-1",
+            id: "ea-1",
             name: "Del diseño al aula. Planificar la enseñanza en Artes Visuales",
             url: "https://campuseducativo.santafe.edu.ar/del-diseno-al-aula-planificar-la-ensenanza-en-artes-visuales/",
           },
-        ],
-      },
-      {
-        id: "ea-form-musica",
-        name: "Música",
-        items: [
           {
-            id: "ea-musica-1",
+            id: "ea-2",
             name: "Del diseño al aula. Planificar la enseñanza en Música",
             url: "https://campuseducativo.santafe.edu.ar/del-diseno-al-aula-planificar-la-ensenanza-en-musica/",
           },

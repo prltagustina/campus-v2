@@ -1,328 +1,166 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { areasData, type Area } from "@/lib/areas-data";
-import { contenidosPorArea } from "@/lib/area-content";
-import { areasOrder, subAreasPorArea } from "@/lib/constants";
-import { Header } from "@/components/header";
-import { MobileNav } from "@/components/area/mobile-nav";
-import { Sidebar } from "@/components/area/sidebar";
-import { AreaHeader } from "@/components/area/area-header";
-import { DescargaDocumentoSection } from "@/components/area/descarga-documento-section";
-import { SubareasPills } from "@/components/area/subareas-pills";
-import { EjesSection } from "@/components/area/ejes-section";
-import { VideoSection } from "@/components/area/video-section";
-import { MaterialesSection } from "@/components/area/materiales-section";
-import { FormacionesSection } from "@/components/area/formaciones-section";
-import { AreaFooter } from "@/components/area/area-footer";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Download, FileText, BookOpen } from "lucide-react";
+import type { Area } from "@/lib/areas-data";
+import { MARCO_GENERAL_COLOR } from "@/lib/constants";
+import { DocumentoStepper } from "@/components/v3/content-blocks";
+import { DocumentoExplainer } from "@/components/v3/documento-explainer";
+import { OrganizationCompact } from "@/components/v3/organization-compact";
+import { AreaWorkspace } from "@/components/v3/area-workspace";
+import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 
+const centralAxes = [
+  ["Aprendizajes comunes, fundantes y significativos", "Saberes que aseguran el avance hacia conocimientos más complejos y promueven la participación plena en la vida social."],
+  ["Relación dialógica entre la enseñanza y la evaluación", "La enseñanza como práctica intencional y situada en el marco de enfoques activos. La evaluación planificada de la mano de la enseñanza."],
+  ["Alfabetización desde el inicio", "Una alfabetización plena desde Primer Grado como base imprescindible para el desarrollo integral de las trayectorias escolares."],
+  ["Matemática en situaciones reales", "La resolución de problemas auténticos desde la evidencia, el razonamiento, la argumentación y la validación matemática en diálogo con la vida cotidiana."],
+  ["Más tiempo para pensar científicamente", "El pensamiento crítico, científico y ciudadano desde los primeros años a partir de la ampliación horaria para las ciencias."],
+  ["Saberes, Vidas y Mundos: un espacio flexible y por proyectos", "El abordaje de temáticas actuales mediante la participación activa de las infancias y la articulación de contenidos de las áreas y enfoques transversales."],
+  ["Educación Tecnológica actualizada", "La actualización incorpora pensamiento computacional, robótica, ciudadanía digital y una mirada crítica sobre los consumos tecnológicos."],
+  ["Lenguas Extranjeras a lo largo de toda la escolaridad", "La incorporación gradual garantiza el derecho a aprender otras lenguas y culturas desde una perspectiva plurilingüe e intercultural."],
+  ["Lenguajes artísticos con sentido territorial", "Los lenguajes artísticos se articulan por ejes comunes, con saberes situados y en diálogo con las producciones identitarias y el patrimonio cultural provincial."],
+  ["Prácticas corporales como diversidad cultural", "Las prácticas corporales y motrices se reconocen como manifestaciones culturales, priorizando el juego, la expresión y el respeto por las subjetividades."],
+  ["Enfoques transversales en todas las áreas", "Los enfoques transversales son parte integral de los espacios curriculares y cuentan con orientaciones explícitas para su articulación."],
+  ["La heterogeneidad como punto de partida", "La heterogeneidad inherente a los grupos escolares se reconoce como una riqueza y la diversidad como punto de partida de la enseñanza."],
+  ["Formación Ética y Ciudadana", "Sus contenidos se profundizan en Ciudadanía, Derechos Humanos y Participación, Saberes, Vidas y Mundos y Ciencias Sociales."],
+] as const;
 
-/* ─────────────────────────────────────────────
- * RevealSection -- each content section fades/slides
- * into view as the user scrolls down. Multiple styles.
- * ───────────────────────────────────────────── */
-type RevealStyle = "slide-up" | "slide-left" | "scale" | "clip" | "blur";
+const marcoDocuments = [
+  ["Documento de acompañamiento N° 1", "Material para la implementación institucional", "/docs/Documento_Acompanamiento.pdf"],
+  ["Documento de acompañamiento N° 2", "Implementación de Saberes, Vidas y Mundos", "/docs/Documento_Acompanamiento_2.pdf"],
+  ["Presentación para supervisores", "Síntesis institucional del nuevo diseño", "/docs/Presentacion_Supervisores.pdf"],
+] as const;
 
-function RevealSection({
-  children,
-  className = "",
-  delay = 0,
-  id,
-  style = "slide-up",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-  id?: string;
-  style?: RevealStyle;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+const marcoTrainings = [
+  ["Diversificación para la Enseñanza", "Curso en Campus Educativo", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
+  ["Planificar la enseñanza en el nuevo Diseño Curricular", "Formación para equipos docentes", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
+] as const;
 
-  const variants: Record<RevealStyle, { initial: object; animate: object }> = {
-    "slide-up": {
-      initial: { opacity: 0, y: 100 },
-      animate: { opacity: 1, y: 0 },
-    },
-    "slide-left": {
-      initial: { opacity: 0, x: 80 },
-      animate: { opacity: 1, x: 0 },
-    },
-    scale: {
-      initial: { opacity: 0, scale: 0.88 },
-      animate: { opacity: 1, scale: 1 },
-    },
-    clip: {
-      initial: { opacity: 0, clipPath: "inset(20% 0% 20% 0%)" },
-      animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)" },
-    },
-    blur: {
-      initial: { opacity: 0, filter: "blur(16px)", y: 60 },
-      animate: { opacity: 1, filter: "blur(0px)", y: 0 },
-    },
-  };
+function MarcoGeneralContent() {
+  const [selectedAxis, setSelectedAxis] = useState(0);
+  const [resourceView, setResourceView] = useState<"documentos" | "formaciones">("documentos");
+  const axisRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const hasAxisInteraction = useRef(false);
 
-  const v = variants[style];
+  useEffect(() => {
+    if (!hasAxisInteraction.current || !window.matchMedia("(max-width: 767px)").matches) return;
+    const selected = axisRefs.current[selectedAxis];
+    if (!selected) return;
 
+    const frame = window.requestAnimationFrame(() => {
+      selected.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [selectedAxis]);
   return (
-    <motion.section
-      id={id}
-      ref={ref}
-      initial={v.initial}
-      animate={isInView ? v.animate : v.initial}
-      transition={{
-        duration: 1.1,
-        ease: [0.16, 1, 0.3, 1],
-        delay,
-      }}
-      className={className}
-    >
-      {children}
-    </motion.section>
-  );
-}
-
-/* ─────────────────────────────────────────────
- * ParallaxLayer -- a container that moves at a different
- * scroll speed than the rest of the page content.
- * ───────────────────────────────────────────── */
-function ParallaxLayer({
-  children,
-  speed = 0.15,
-  className = "",
-}: {
-  children: React.ReactNode;
-  speed?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], [speed * -120, speed * 120]);
-
-  return (
-    <div
-      ref={ref}
-      className={`relative overflow-hidden ${className}`}
-      style={{ position: "relative" }}
-    >
-      <motion.div style={{ y }}>{children}</motion.div>
-    </div>
-  );
-}
-
-/* ───────────── Main Component ───────────── */
-interface AreaDetailContentProps {
-  area: Area;
-}
-
-export function AreaDetailContent({ area }: AreaDetailContentProps) {
-  const [selectedSubarea, setSelectedSubarea] = useState<string | null>(null);
-  const [selectedEje, setSelectedEje] = useState<number>(0);
-  const [expandedGrados, setExpandedGrados] = useState<string[]>([
-    "presentacion",
-  ]);
-  const [activeSection, setActiveSection] = useState<string>("descarga");
-  const [showAreasNav, setShowAreasNav] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeAxis, setActiveAxis] = useState<number | null>(null);
-  const hasAutoOpened = useRef(false);
-
-  useEffect(() => {
-    if (!hasAutoOpened.current) {
-      hasAutoOpened.current = true;
-      const t = setTimeout(() => setShowAreasNav(true), 900);
-      return () => clearTimeout(t);
-    }
-  }, []);
-
-  useEffect(() => {
-    setSelectedSubarea(null);
-    setSelectedEje(0);
-    setExpandedGrados(["presentacion"]);
-    setActiveAxis(null);
-  }, [area.slug]);
-
-  // Reset activeAxis when subarea changes
-  useEffect(() => {
-    setActiveAxis(null);
-  }, [selectedSubarea]);
-
-  useEffect(() => {
-    const ids = ["descarga", "materiales", "formacion", "video", "ejes"];
-    const onScroll = () => {
-      let cur = "descarga";
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= 200) cur = id;
-      }
-      setActiveSection(cur);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    setMobileMenuOpen(false);
-    const el = document.getElementById(sectionId);
-    if (el) {
-      const pos = el.getBoundingClientRect().top + window.pageYOffset - 40;
-      window.scrollTo({ top: pos, behavior: "smooth" });
-    }
-  };
-
-  const toggleGrado = (gradoId: string) =>
-    setExpandedGrados((p) => (p.includes(gradoId) ? [] : [gradoId]));
-
-  const areaContent =
-    contenidosPorArea[area.slug] || contenidosPorArea["matematica"];
-  const subAreas = subAreasPorArea[area.slug] || [];
-  const selectedArtisticName = selectedSubarea
-    ? area.subareas?.find((subarea) => subarea.id === selectedSubarea)?.name
-    : undefined;
-  const isArtistic = area.slug === "educacion-artistica";
-  const hasSelectedArtisticTrainings = (area.teacherTrainings ?? []).some((group) =>
-    (group.items ?? []).some((item) =>
-      !selectedArtisticName
-        || group.name.toLocaleLowerCase("es") === selectedArtisticName.toLocaleLowerCase("es")
-        || item.name.toLocaleLowerCase("es").includes(selectedArtisticName.toLocaleLowerCase("es")),
-    ),
-  );
-  const currentIdx = areasOrder.indexOf(area.id);
-  const prevArea =
-    currentIdx > 0
-      ? areasData.find((a) => a.id === areasOrder[currentIdx - 1]) || null
-      : null;
-  const nextArea =
-    currentIdx < areasOrder.length - 1
-      ? areasData.find((a) => a.id === areasOrder[currentIdx + 1]) || null
-      : null;
-
-  return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
-      <Header />
-
-      <MobileNav
-        area={area}
-        showItineraries={!isArtistic || Boolean(selectedSubarea)}
-        showVideo={!isArtistic || Boolean(selectedSubarea)}
-        activeSection={activeSection}
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-        scrollToSection={scrollToSection}
-      />
-
-      <Sidebar
-        area={area}
-        showItineraries={!isArtistic || Boolean(selectedSubarea)}
-        showFormations={!isArtistic || hasSelectedArtisticTrainings}
-        showVideo={!isArtistic || Boolean(selectedSubarea)}
-        activeSection={activeSection}
-        showAreasNav={showAreasNav}
-        setShowAreasNav={setShowAreasNav}
-        scrollToSection={scrollToSection}
-      />
-
-      <main>
-        {/* CONTENT SECTIONS -- no divider lines, generous spacing */}
-        <div className="relative">
-          {isArtistic ? (
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-16 md:pt-24">
-              <SubareasPills
-                area={area}
-                subAreas={subAreas}
-                selectedSubarea={selectedSubarea}
-                setSelectedSubarea={setSelectedSubarea}
-              />
-            </div>
-          ) : null}
-          {/* 1. Descarga Documento del área -- light gray bg */}
-          <RevealSection delay={0.05} style="scale" className="scroll-mt-24 bg-[#EDEDF0]">
-            <ParallaxLayer speed={0.1}>
-              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-16 md:pt-24 pb-24 md:pb-36 lg:pb-44">
-                <DescargaDocumentoSection area={area} selectedSubarea={selectedSubarea} />
-              </div>
-            </ParallaxLayer>
-          </RevealSection>
-
-          {/* 2. Itinerarios didácticos -- white bg */}
-          {!isArtistic || selectedSubarea ? <RevealSection
-            delay={0.06}
-            style="slide-left"
-            className="scroll-mt-24 bg-white"
-          >
-            <ParallaxLayer speed={0.08}>
-              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-                <MaterialesSection area={area} artisticLanguage={selectedArtisticName} />
-              </div>
-            </ParallaxLayer>
-          </RevealSection> : null}
-
-          {/* 3. Formaciones Docentes -- light gray bg */}
-          {!isArtistic || hasSelectedArtisticTrainings ? <RevealSection delay={0.06} style="slide-up" className={`scroll-mt-24 ${isArtistic && !selectedSubarea ? "bg-white" : "bg-[#EDEDF0]"}`}>
-            <ParallaxLayer speed={0.05}>
-              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-                <FormacionesSection area={area} artisticLanguage={selectedArtisticName} />
-              </div>
-            </ParallaxLayer>
-          </RevealSection> : null}
-
-          {/* 4. Video de Presentación -- white bg */}
-          {!isArtistic || selectedSubarea ? <RevealSection delay={0.06} style="clip" className="scroll-mt-24 bg-white">
-            <ParallaxLayer speed={0.06}>
-              <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
-                <VideoSection area={area} selectedSubarea={selectedSubarea} />
-              </div>
-            </ParallaxLayer>
-          </RevealSection> : null}
-
-          {/* 5. Átomo y media rueda (Ejes) -- light gray bg, última sección */}
-          {!isArtistic ? <RevealSection delay={0.05} style="blur" className="scroll-mt-24 bg-[#EDEDF0]">
-            {/* Media rueda -- flush to the top of the section, no strip above */}
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16">
-              <AreaHeader
-                area={area}
-                activeAxis={activeAxis}
-                onAxisClick={(idx) =>
-                  setActiveAxis(activeAxis === idx ? null : idx)
-                }
-              />
-            </div>
-            <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-12 md:pt-16 pb-24 md:pb-36 lg:pb-44">
-              <SubareasPills
-                area={area}
-                subAreas={subAreas}
-                selectedSubarea={selectedSubarea}
-                setSelectedSubarea={setSelectedSubarea}
-              />
-              <EjesSection
-                area={area}
-                areaContent={areaContent}
-                selectedEje={selectedEje}
-                setSelectedEje={setSelectedEje}
-                expandedGrados={expandedGrados}
-                toggleGrado={toggleGrado}
-                activeAxis={activeAxis}
-                setActiveAxis={setActiveAxis}
-                selectedSubarea={selectedSubarea}
-              />
-            </div>
-          </RevealSection> : null}
-        </div>
-      </main>
-
-      {/* Footer -- full-width, non-fixed, all viewports */}
-      <div className="w-full">
-        <AreaFooter
-          area={area}
-          prevArea={prevArea}
-          nextArea={nextArea}
+    <div className="bg-white">
+      <div id="documento" className="p-4 md:p-6">
+        <DocumentoExplainer
+          titulo="Marco General"
+          heading="Los ejes centrales del nuevo Diseño Curricular"
+          descripcion="El Marco General establece los lineamientos políticos y pedagógico-didácticos de la propuesta, y define la organización curricular para la Educación Primaria de la Provincia de Santa Fe"
+          portadaSrc="/images/marco-general-portada.jpg"
+          pdfUrl="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/04/marco-general.pdf"
+          accent={MARCO_GENERAL_COLOR}
+          accentText="#EDEDF0"
+          singleSlide
         />
+      </div>
+      <section id="recursos" className="v3-section">
+        <div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
+          <header className="mb-7 max-w-2xl"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Documentos y formación</h2><p className="mt-2 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
+          <div className="grid gap-4 lg:grid-cols-[210px_minmax(0,1fr)]">
+            <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-1 lg:self-start" role="tablist" aria-label="Recursos del Marco General">
+              {([['documentos', 'Documentos', FileText], ['formaciones', 'Formaciones', BookOpen]] as const).map(([id, label, Icon]) => {
+                const active = resourceView === id;
+                return <button key={id} type="button" role="tab" aria-selected={active} onClick={() => setResourceView(id)} className={`flex min-h-14 items-center gap-3 rounded-xl px-4 text-left text-sm font-semibold transition-colors ${active ? "bg-[#494963] text-white" : "bg-white text-[#494963]"}`}><Icon className="h-4 w-4 shrink-0 opacity-55" />{label}</button>;
+              })}
+            </div>
+            <div className="h-[260px] overflow-y-auto rounded-2xl bg-white px-4 [scrollbar-gutter:stable] md:px-6" role="tabpanel">
+              {resourceView === "documentos" ? <div className="divide-y divide-[#494963]/[.08]">{marcoDocuments.map(([title, description, href]) => <a key={href} href={href} download className="group flex min-h-[78px] items-center gap-4 py-4"><FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" /><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><Download className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div> : <div className="divide-y divide-[#494963]/[.08]">{marcoTrainings.map(([title, description, href]) => <a key={href} href={href} target="_blank" rel="noreferrer" className="group flex min-h-[92px] items-center gap-4 py-4"><BookOpen className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" /><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><ArrowUpRight className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div>}
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="ejes" className="v3-section"><div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
+        <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Aspectos distintivos del Diseño Curricular.</h2>
+        <p className="mt-2 text-sm text-[#494963]/45">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
+        <div className="mt-7 overflow-hidden rounded-2xl bg-white" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
+          {centralAxes.map(([title, description], index) => {
+            const active = selectedAxis === index;
+            const panelId = `eje-central-${index}-panel`;
+            const buttonId = `eje-central-${index}-button`;
+
+            return (
+              <div
+                key={title}
+                ref={(node) => { axisRefs.current[index] = node; }}
+                role="listitem"
+                className="border-b border-[#494963]/[.08] last:border-0"
+              >
+                <button
+                  id={buttonId}
+                  type="button"
+                  aria-expanded={active}
+                  aria-controls={panelId}
+                  onClick={() => {
+                    hasAxisInteraction.current = true;
+                    setSelectedAxis(index);
+                  }}
+                  className={`flex min-h-[64px] w-full items-center gap-3 px-4 py-3.5 text-left text-sm font-semibold leading-snug transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] sm:px-5 ${active ? "bg-[#494963] text-white" : "text-[#494963] hover:bg-[#494963]/[.035]"}`}
+                >
+                  <span className={`w-6 shrink-0 text-[10px] font-bold ${active ? "text-white/45" : "text-[#494963]/30"}`}>{String(index + 1).padStart(2, "0")}</span>
+                  <span className="min-w-0 flex-1">{title}</span>
+                  <span className={`grid h-8 w-8 shrink-0 place-items-center transition-transform duration-300 ${active ? "rotate-90" : ""}`} aria-hidden="true">
+                    <span className="-ml-3"><SolidAreaArrow /></span>
+                  </span>
+                </button>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  hidden={!active}
+                  className="border-t border-[#494963]/[.08] bg-white px-4 py-5 text-[#494963] sm:px-5 sm:py-6"
+                >
+                  <p className="max-w-3xl pl-9 text-sm leading-relaxed text-[#494963]/65 sm:text-base">{description}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      </section>
+      <div id="organizacion">
+        <DocumentoStepper title={<>Qué enseñar<br />cómo hacerlo<br />y con qué propósito</>} steps={[
+          {
+            title: "Qué enseñar",
+            description: [
+              "Define los contenidos fundamentales que todas las escuelas deben enseñar, organizados por áreas, ciclos y grados.",
+              "Los contenidos de cada área se presentan en cuadros que muestran su progresión y complejización, a fin de facilitar la planificación de propuestas integrales y articuladas.",
+            ],
+          },
+          {
+            title: "Cómo hacerlo",
+            description: [
+              "Propone articular contenidos, incorporar enfoques transversales y diversificar las estrategias de enseñanza para garantizar aprendizajes significativos en todas las aulas.",
+              "Mediante orientaciones didácticas, ejemplos y recomendaciones específicas para cada área y ciclo.",
+            ],
+          },
+          {
+            title: "Con qué propósito",
+            description: [
+              "Se articula en torno a principios político-pedagógicos sólidos para que las infancias accedan al conocimiento y se desarrollen plenamente como ciudadanas y ciudadanos críticos, creativos y solidarios.",
+              "En las escuelas, el Estado materializa su responsabilidad indelegable: garantizar el derecho a la Educación.",
+            ],
+          },
+        ]} />
+        <div className="v3-section"><OrganizationCompact /></div>
       </div>
     </div>
   );
+}
+export function AreaDetailContent({ area, isMarcoGeneral = false }: { area?: Area; isMarcoGeneral?: boolean }) {
+  if (isMarcoGeneral || !area) return <MarcoGeneralContent />;
+  return <AreaWorkspace area={area} />;
 }

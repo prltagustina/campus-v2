@@ -13,8 +13,9 @@ export function MarcoVideo() {
           </p>
           <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-[#494963]/5">
             <iframe
-              src="https://www.youtube.com/embed/eu8CYPbjehE"
+              src="https://www.youtube-nocookie.com/embed/eu8CYPbjehE"
               title="Presentación Diseño Curricular de la Provincia de Santa Fe"
+              loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               className="absolute inset-0 w-full h-full"
