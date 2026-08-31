@@ -19,7 +19,7 @@ const formaciones = [
 
 export default function DocentesPage() {
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
+    <div className="flex flex-col bg-[#F7F7F9] md:h-full md:min-h-0 md:overflow-hidden">
       <EditorialPageHeading
         title="Docentes y equipos directivos"
         imageSrc="/images/cabecera-docentes.png"
@@ -32,7 +32,6 @@ export default function DocentesPage() {
               src="https://docs.google.com/presentation/d/1BKzPQiSzHd73OvYHmVLTDccV-qt8g-tg/embed?start=false&loop=false&delayms=3000"
               title="Presentación para Equipos Directivos y Docentes"
               label="Presentación institucional"
-              posterSrc="/images/cabecera-docentes.png"
             />
           </div>
         </section>

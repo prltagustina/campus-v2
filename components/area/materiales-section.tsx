@@ -303,131 +303,6 @@ function CategoriaAccordion({
   );
 }
 
-interface LanguageResourceItem {
-  nombre: string;
-  descripcion?: string;
-  paginas?: number;
-  size?: string;
-  url: string;
-}
-
-function LanguageResourceRow({
-  item,
-  accent,
-}: {
-  item: LanguageResourceItem;
-  accent: string;
-}) {
-  const meta = [
-    item.paginas ? item.paginas + " páginas" : "PDF",
-    item.size,
-  ]
-    .filter(Boolean)
-    .join(" · ");
-
-  return (
-    <a
-      href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      download
-      className="group/resource grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-3 px-3 py-4 transition-colors hover:bg-[#F7F7F9] sm:grid-cols-[2.75rem_minmax(0,1fr)_auto_2.75rem] sm:gap-4 sm:px-5"
-    >
-      <span
-        className="flex h-10 w-10 items-center justify-center rounded-xl sm:h-11 sm:w-11"
-        style={{ backgroundColor: accent + "18" }}
-        aria-hidden="true"
-      >
-        <FileText className="h-4.5 w-4.5" style={{ color: accent }} />
-      </span>
-      <span className="min-w-0">
-        <span className="block text-sm font-semibold leading-snug text-[#494963] sm:text-[15px]">
-          {item.nombre}
-        </span>
-        {item.descripcion ? (
-          <span className="mt-0.5 block text-xs leading-relaxed text-[#494963]/48 sm:text-sm">
-            {item.descripcion}
-          </span>
-        ) : null}
-        <span className="mt-1 block text-xs text-[#494963]/38 sm:hidden">{meta}</span>
-      </span>
-      <span className="hidden whitespace-nowrap text-xs text-[#494963]/38 sm:block">{meta}</span>
-      <span
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-[#494963]/10 bg-white text-[#494963]/50 transition-colors group-hover/resource:border-[#494963]/20 group-hover/resource:text-[#494963] sm:h-11 sm:w-11"
-        aria-hidden="true"
-      >
-        <Download className="h-4 w-4" />
-      </span>
-    </a>
-  );
-}
-
-function LanguageResourceAccordion({
-  panelId,
-  kind,
-  title,
-  items,
-  accent,
-  open,
-  onToggle,
-}: {
-  panelId: string;
-  kind: CategoriaRecurso;
-  title: string;
-  items: LanguageResourceItem[];
-  accent: string;
-  open: boolean;
-  onToggle: () => void;
-}) {
-  const Icon = kind === "secuencias" ? FileText : BookOpen;
-  const contentId = "recursos-" + panelId + "-" + kind;
-  const countLabel =
-    items.length +
-    " " +
-    (items.length === 1 ? "documento disponible" : "documentos disponibles");
-
-  return (
-    <div className="bg-white">
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={open}
-        aria-controls={contentId}
-        className="flex min-h-[78px] w-full items-center justify-between gap-4 px-4 py-4 text-left transition-colors hover:bg-[#FAFAFB] sm:min-h-[84px] sm:px-6"
-      >
-        <span className="flex min-w-0 items-center gap-3.5">
-          <span
-            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl sm:h-11 sm:w-11"
-            style={{ backgroundColor: accent + "18" }}
-            aria-hidden="true"
-          >
-            <Icon className="h-4.5 w-4.5" style={{ color: accent }} />
-          </span>
-          <span className="min-w-0">
-            <span className="block text-sm font-semibold sm:text-base" style={{ color: accent }}>{title}</span>
-            <span className="mt-0.5 block text-xs text-[#494963]/42 sm:text-sm">{countLabel}</span>
-          </span>
-        </span>
-        <ChevronDown
-          className={
-            "h-5 w-5 flex-shrink-0 text-[#494963]/30 transition-transform duration-200 " +
-            (open ? "rotate-180" : "")
-          }
-          aria-hidden="true"
-        />
-      </button>
-
-      {open ? (
-        <div id={contentId} className="divide-y divide-[#494963]/[0.07] border-t border-[#494963]/[0.07]">
-          {items.map((item) => (
-            <LanguageResourceRow key={item.url} item={item} accent={accent} />
-          ))}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 function LenguasExtranjerasRepository({ area }: { area: Area }) {
   const [idiomaSeleccionado, setIdiomaSeleccionado] = useState("ingles");
   const [categoriaAbierta, setCategoriaAbierta] = useState<CategoriaRecurso | null>(null);
@@ -506,27 +381,29 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
           </p>
         </div>
 
-        <div className="mt-5 overflow-hidden rounded-2xl border border-[#494963]/[0.08] bg-white shadow-[0_12px_30px_-28px_rgba(73,73,99,.55)] sm:mt-6">
-          <div className="divide-y divide-[#494963]/[0.07]">
-            <LanguageResourceAccordion
-              panelId={idiomaSeleccionado}
-              kind="secuencias"
-              title="Secuencias didácticas"
-              items={secuencias}
-              accent={area.color}
-              open={categoriaAbierta === "secuencias"}
-              onToggle={() => toggleCategory("secuencias")}
-            />
-            <LanguageResourceAccordion
-              panelId={idiomaSeleccionado}
-              kind="guias"
-              title="Normativa"
-              items={normativa}
-              accent={area.color}
-              open={categoriaAbierta === "guias"}
-              onToggle={() => toggleCategory("guias")}
-            />
-          </div>
+        <div className="mt-5 divide-y divide-[#494963]/[.08] overflow-hidden rounded-[1.35rem] border border-[#494963]/[.08] bg-white sm:mt-6">
+          <RepositoryAccordionGroup
+            id={`${idiomaSeleccionado}-secuencias`}
+            title="Secuencias didácticas"
+            total={secuencias.length}
+            color={area.color}
+            activeForeground={areaNavForeground(area)}
+            open={categoriaAbierta === "secuencias"}
+            onToggle={() => toggleCategory("secuencias")}
+          >
+            <RepositoryFileGroup files={secuencias.map((item) => ({ file: item }))} color={area.color} />
+          </RepositoryAccordionGroup>
+          <RepositoryAccordionGroup
+            id={`${idiomaSeleccionado}-normativa`}
+            title="Normativa"
+            total={normativa.length}
+            color={area.color}
+            activeForeground={areaNavForeground(area)}
+            open={categoriaAbierta === "guias"}
+            onToggle={() => toggleCategory("guias")}
+          >
+            <RepositoryFileGroup files={normativa.map((item) => ({ file: item }))} color={area.color} />
+          </RepositoryAccordionGroup>
         </div>
 
       </div>

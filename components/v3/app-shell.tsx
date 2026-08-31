@@ -135,13 +135,13 @@ function SantaFeBrand() {
  * Reemplaza al dropdown anterior, que era menos accesible y menos parecido
  * al sistema de desktop.
  */
-function AreaHorizontalNav({ pathname }: { pathname: string }) {
+function AreaHorizontalNav({ pathname, expanded = false }: { pathname: string; expanded?: boolean }) {
   const marcoActive = pathname === "/area/marco-general" || pathname === "/marco-general";
 
   return (
     <nav
       aria-label="Áreas curriculares"
-      className="scrollbar-hide flex gap-2 overflow-x-auto bg-[#F8F8FA] px-3 py-2.5"
+      className={expanded ? "flex flex-wrap gap-2 bg-[#F8F8FA] px-3 py-2.5" : "scrollbar-hide flex gap-2 overflow-x-auto bg-[#F8F8FA] px-3 py-2.5"}
     >
       <Link
         href="/area/marco-general"
@@ -398,7 +398,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         >
           {hasSecondary && areasOpen ? (
             <div className="xl:hidden">
-              <AreaHorizontalNav pathname={pathname} />
+              <AreaHorizontalNav pathname={pathname} expanded={pathname === "/areas"} />
             </div>
           ) : cyclesOpen ? (
             <div className="sticky top-0 z-30 grid grid-cols-3 gap-1.5 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">
