@@ -66,7 +66,7 @@ export function CurricularWheel() {
   const wheelSrc = wheelImageByState[(open as WheelState) ?? "base"];
 
   return (
-    <section className="v3-section !px-0 md:!px-[14px]" aria-labelledby="rueda-title">
+    <section className="v3-section !p-0 md:!p-[14px]" aria-labelledby="rueda-title">
       <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-6 shadow-[0_12px_45px_rgba(73,73,99,.07)] md:rounded-3xl sm:px-8 sm:py-8 md:px-12 md:py-12">
         <div className="grid items-start gap-6 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
           <div className="relative mx-auto aspect-square w-full max-w-[280px] sm:max-w-[420px] md:max-w-[520px] xl:max-w-[670px]">

@@ -38,13 +38,13 @@ const marcoTrainings = [
 ] as const;
 
 function MarcoGeneralContent() {
-  const [selectedAxis, setSelectedAxis] = useState(0);
+  const [selectedAxis, setSelectedAxis] = useState<number | null>(0);
   const [resourceView, setResourceView] = useState<"documentos" | "formaciones">("documentos");
   const axisRefs = useRef<Array<HTMLDivElement | null>>([]);
   const hasAxisInteraction = useRef(false);
 
   useEffect(() => {
-    if (!hasAxisInteraction.current || !window.matchMedia("(max-width: 767px)").matches) return;
+    if (!hasAxisInteraction.current || selectedAxis === null || !window.matchMedia("(max-width: 767px)").matches) return;
     const selected = axisRefs.current[selectedAxis];
     if (!selected) return;
 
@@ -55,7 +55,7 @@ function MarcoGeneralContent() {
   }, [selectedAxis]);
   return (
     <div className="bg-white">
-      <div id="documento" className="p-4 md:p-6">
+      <div id="documento" className="py-4 md:p-6">
         <DocumentoExplainer
           titulo="Marco General"
           heading="Los ejes centrales del nuevo Diseño Curricular"
@@ -67,7 +67,7 @@ function MarcoGeneralContent() {
           singleSlide
         />
       </div>
-      <section id="recursos" className="v3-section !px-0 md:!px-[14px]">
+      <section id="recursos" className="v3-section !p-0 md:!p-[14px]">
         <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
           <header className="mb-7 max-w-2xl"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Documentos y formaciones</h2><p className="mt-2 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           <div className="grid gap-4 lg:grid-cols-[210px_minmax(0,1fr)]">
@@ -83,7 +83,7 @@ function MarcoGeneralContent() {
           </div>
         </div>
       </section>
-      <section id="ejes" className="v3-section !px-0 md:!px-[14px]"><div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
+      <section id="ejes" className="v3-section !p-0 md:!p-[14px]"><div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
         <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Aspectos distintivos del Diseño Curricular.</h2>
         <p className="mt-2 text-sm text-[#494963]/45">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
         <div className="mt-7 overflow-hidden rounded-2xl bg-white" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
@@ -106,7 +106,7 @@ function MarcoGeneralContent() {
                   aria-controls={panelId}
                   onClick={() => {
                     hasAxisInteraction.current = true;
-                    setSelectedAxis(index);
+                    setSelectedAxis((current) => (current === index ? null : index));
                   }}
                   className={`flex min-h-[64px] w-full items-center gap-3 px-4 py-3.5 text-left text-sm font-semibold leading-snug transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] sm:px-5 ${active ? "bg-[#494963] text-white" : "text-[#494963] hover:bg-[#494963]/[.035]"}`}
                 >
