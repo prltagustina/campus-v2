@@ -12,7 +12,7 @@ const materiales = [
 
 export default function FamiliasPage() {
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F7F7F9]">
+    <div className="flex flex-col bg-[#F7F7F9] md:h-full md:min-h-0 md:overflow-hidden">
       <EditorialPageHeading
         title="Materiales para familias"
         imageSrc="/images/cabecera-familias.png"
@@ -25,7 +25,6 @@ export default function FamiliasPage() {
               src="https://docs.google.com/presentation/d/1iE4BFRuhcT7yXhRfCoDpeEEx8ZSYyqWH/embed?start=false&loop=false&delayms=3000"
               title="Presentación del Diseño Curricular para Familias"
               label="Presentación para familias"
-              posterSrc="/images/cabecera-familias.png"
             />
           </div>
         </section>
