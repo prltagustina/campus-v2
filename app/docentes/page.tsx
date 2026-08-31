@@ -21,7 +21,7 @@ export default function DocentesPage() {
   return (
     <div className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:shadow-[0_0_0_1px_rgba(73,73,99,.06)]">
       <EditorialPageHeading
-        title="Docentes y equipos directivos"
+        title="Equipos directivos y docentes"
         imageSrc="/images/cabecera-docentes.png"
       />
 
