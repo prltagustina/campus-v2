@@ -55,7 +55,7 @@ function MarcoGeneralContent() {
   }, [selectedAxis]);
   return (
     <div className="bg-white">
-      <div id="documento" className="pb-4 md:pb-6">
+      <div id="documento" className="md:pb-6">
         <DocumentoExplainer
           titulo="Marco General"
           heading="Los ejes centrales del nuevo Diseño Curricular"

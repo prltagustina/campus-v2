@@ -8,8 +8,8 @@ import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/componen
 
 export function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
   return (
-    <section className="v3-section !p-0 md:!p-[14px]">
-      <div className="relative aspect-video overflow-hidden rounded-none bg-[#171729] shadow-[0_12px_40px_rgba(73,73,99,.10)] md:rounded-2xl">
+    <section className="v3-section !p-4 md:!p-[14px]">
+      <div className="relative aspect-video overflow-hidden rounded-2xl bg-[#171729] shadow-[0_12px_40px_rgba(73,73,99,.10)]">
         <iframe
           className="absolute inset-0 h-full w-full"
           src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0`}
