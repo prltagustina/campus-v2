@@ -296,7 +296,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="v3-scroll-theme h-dvh overflow-hidden bg-[#F5F5F7] text-[#494963]"
+      className="v3-scroll-theme h-svh overflow-hidden bg-[#F5F5F7] text-[#494963] md:h-dvh"
       style={{ ["--section-scrollbar" as string]: currentArea?.color ?? MARCO_GENERAL_COLOR }}
     >
       <header className="h-[72px] border-b border-[#494963]/[.07] bg-white px-4 lg:h-[100px] lg:px-8" role="banner">
@@ -338,7 +338,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className="flex h-[calc(100dvh-118px)] gap-0 overflow-hidden bg-white pb-[calc(4rem+env(safe-area-inset-bottom))] md:gap-3 md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5">
+      <div className="flex h-[calc(100svh-118px)] gap-0 overflow-hidden bg-white pb-[calc(4rem+env(safe-area-inset-bottom))] md:h-[calc(100dvh-118px)] md:gap-3 md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5">
         {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
             de dos niveles que solo tiene sentido con el ancho de escritorio. */}
         <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
