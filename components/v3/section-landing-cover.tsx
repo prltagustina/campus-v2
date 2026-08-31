@@ -3,6 +3,7 @@ import type { ComponentType, SVGProps } from "react";
 
 export function SectionLandingCover({
   title,
+  subtitle,
   description,
   icon: Icon,
   imageSrc,
@@ -10,6 +11,7 @@ export function SectionLandingCover({
   variant,
 }: {
   title: string;
+  subtitle?: string;
   description: string;
   icon?: ComponentType<SVGProps<SVGSVGElement>>;
   imageSrc?: string;
@@ -23,6 +25,7 @@ export function SectionLandingCover({
       <div className={`v3-section-cover__inner ${!hasIcon ? "v3-section-cover__inner--no-icon" : ""}`}>
         <header className="v3-section-cover__copy">
           <h1>{title}</h1>
+          {subtitle ? <p className="v3-section-cover__subtitle">{subtitle}</p> : null}
           <span className="v3-section-cover__rule" aria-hidden="true" />
           <p>{description}</p>
         </header>
