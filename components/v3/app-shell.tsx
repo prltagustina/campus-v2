@@ -406,7 +406,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className={`flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-none ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} md:rounded-2xl md:bg-white`}>
         <main
           id="contenido"
-          className="min-h-0 flex-1 overflow-y-auto md:[scrollbar-gutter:stable]"
+          className={`min-h-0 flex-1 overflow-y-auto md:[scrollbar-gutter:stable] ${graySectionOpen ? "bg-[#F7F7F9] md:bg-transparent" : ""}`}
           tabIndex={-1}
         >
           {cyclesOpen ? (
