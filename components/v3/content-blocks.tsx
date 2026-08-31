@@ -177,7 +177,7 @@ function StepperDots({ count }: { count: number }) {
 
 export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
-    <section className="v3-section !p-0 md:!p-[14px]">
+    <section className="v3-section !px-0 !pb-0 !pt-10 md:!px-[14px] md:!pb-[14px] md:!pt-16">
       <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
       <Carousel opts={{ loop: true }}>
         <div className="flex items-end justify-between gap-4">

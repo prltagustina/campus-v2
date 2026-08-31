@@ -72,7 +72,7 @@ function Dots() {
 
 export function OrganizationCompact() {
   return (
-    <section className="v3-section !p-0 md:!p-[14px]">
+    <section className="v3-section !px-0 !pb-0 !pt-10 md:!px-[14px] md:!pb-[14px] md:!pt-16">
       <div className="rounded-none bg-[#F5F5F7] py-5 pl-5 md:rounded-3xl md:p-8 lg:p-10">
         <Carousel opts={{ align: "start", containScroll: false }}>
           <div className="flex items-end justify-between gap-4 pr-5 md:pr-0">
@@ -82,7 +82,7 @@ export function OrganizationCompact() {
             </div>
             <Arrows />
           </div>
-          <CarouselContent className="mt-5 pr-5 sm:mt-7 md:pr-0">
+          <CarouselContent className="mt-5 pr-2 sm:mt-7 md:pr-0">
             {items.map(([number, title, description, iconSrc]) => (
               <CarouselItem key={number} className="basis-[70%] sm:basis-1/2 lg:basis-1/3">
                 <article className="flex h-full flex-col rounded-lg bg-white p-4 sm:p-5">
