@@ -410,7 +410,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
       {idiomaSeleccionado === "ingles" ? (
         <Link
           href="/area/lenguas-extranjeras/materiales/ingles"
-          className="group mx-4 mt-5 grid min-h-[112px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 overflow-hidden rounded-3xl px-5 py-5 text-[#494963] shadow-[0_14px_35px_-28px_rgba(73,73,99,.7)] transition-[box-shadow] hover:shadow-[0_18px_38px_-24px_rgba(73,73,99,.7)] sm:mt-6 sm:min-h-[124px] sm:px-7 sm:py-6 md:mx-0"
+          className="group mx-4 mt-8 grid min-h-[112px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 overflow-hidden rounded-3xl px-5 py-5 text-[#494963] shadow-[0_14px_35px_-28px_rgba(73,73,99,.7)] transition-[box-shadow] hover:shadow-[0_18px_38px_-24px_rgba(73,73,99,.7)] sm:mt-9 sm:min-h-[124px] sm:px-7 sm:py-6 md:mx-0"
           style={{ backgroundColor: area.color }}
           aria-label="Abrir English Funzine, recurso de Inglés"
         >

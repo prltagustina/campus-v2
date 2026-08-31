@@ -34,7 +34,7 @@ export default function HomePage() {
         />
       </div>
       <div id="rueda" className="bg-[#F1F1F4] pt-10 md:bg-transparent md:pt-16"><CurricularWheel /></div>
-      <div id="historia" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent"><div className="bg-[#F3F3F5]"><TimelineSection /></div></div>
+      <div id="historia" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent"><div className="overflow-hidden rounded-none bg-[#F3F3F5] md:rounded-3xl"><TimelineSection /></div></div>
     </div>
   );
 }
