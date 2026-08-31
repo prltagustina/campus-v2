@@ -155,7 +155,7 @@ function RepositoryPanel({ title, detail, icon, children }: { title: string; det
     <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
       <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
-        <div className="min-w-0"><h3 className="font-display text-lg font-semibold leading-snug text-[#494963]">{title}</h3><p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p></div>
+        <div className="min-w-0"><h3 className="font-display text-base font-semibold leading-snug text-[#494963] sm:text-lg">{title}</h3><p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p></div>
       </div>
       <div className="divide-y divide-[#494963]/[.07]">{children}</div>
     </div>
