@@ -26,9 +26,9 @@ export function FormacionesSection({
   const contextName = artisticLanguage ?? area.name;
 
   return <section id="formacion">
-    <header className="mb-8 max-w-2xl pr-24">
+    <header className="mb-10 max-w-2xl md:mb-14 md:pr-24">
       <h2 className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Formaciones docentes</h2>
-      <p className="mt-2 text-[#494963]/50">Cursos y trayectos de formación vinculados con {contextName}.</p>
+      <p className="mt-3 text-[#494963]/50">Cursos y trayectos de formación vinculados con {contextName}.</p>
     </header>
 
     {items.length ? <Carousel opts={{ align: "start", containScroll: "trimSnaps" }} className="w-full" aria-label={`Formaciones docentes de ${contextName}`}>
@@ -51,8 +51,8 @@ export function FormacionesSection({
           </article>
         </CarouselItem>)}
       </CarouselContent>
-      <CarouselPrevious className="!left-auto !right-11 !top-[-54px] !translate-y-0 border-0 bg-white text-[#494963] shadow-sm disabled:opacity-25" />
-      <CarouselNext className="!right-0 !top-[-54px] !translate-y-0 border-0 bg-white text-[#494963] shadow-sm disabled:opacity-25" />
+      <CarouselPrevious className="hidden !left-auto !right-11 !top-[-54px] !translate-y-0 border-0 bg-white text-[#494963] shadow-sm disabled:opacity-25 md:inline-flex" />
+      <CarouselNext className="hidden !right-0 !top-[-54px] !translate-y-0 border-0 bg-white text-[#494963] shadow-sm disabled:opacity-25 md:inline-flex" />
     </Carousel> : null}
   </section>;
 }

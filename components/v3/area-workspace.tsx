@@ -124,8 +124,8 @@ function ArtisticLanguageTabs({
 function AreaVideoPresentation({ videoId, title }: { videoId: string; title: string }) {
   return (
     <section aria-labelledby={`video-${videoId}-title`}>
-      <div className="px-[14px] pb-1 pt-5 md:pt-7">
-        <h2 id={`video-${videoId}-title`} className="font-display text-2xl font-semibold tracking-[-.025em] text-[#494963] md:text-3xl">
+      <div className="mb-10 px-[14px] pt-10 md:mb-14 md:pt-16">
+        <h2 id={`video-${videoId}-title`} className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">
           Presentación audiovisual
         </h2>
       </div>
@@ -151,7 +151,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
   };
 
   return <div className="min-h-full bg-white">
-    <div className="py-4 md:space-y-5 md:p-6">
+    <div className="py-4 md:space-y-5 md:pb-6 md:pt-0">
       {isArtistic ? (
         <>
           <ArtisticLanguageTabs area={area} selectedId={selectedArtisticId} onSelect={selectArtisticLanguage} />
@@ -180,10 +180,12 @@ export function AreaWorkspace({ area }: { area: Area }) {
             </div>
 
             {selectedArtistic ? (
-              <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
+              <section className="py-10 md:px-[14px] md:py-16"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
             ) : null}
             {hasSelectedArtisticTrainings ? (
-              <section className="rounded-none bg-[#F3F3F5] px-4 py-12 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
+              <section className="v3-section !p-0 md:!p-[14px]">
+                <div className="rounded-none bg-[#F3F3F5] px-4 py-10 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></div>
+              </section>
             ) : null}
 
             {selectedArtistic && selectedArtisticMedia ? (
@@ -201,8 +203,10 @@ export function AreaWorkspace({ area }: { area: Area }) {
           <div id="documento">
             <DocumentoExplainer titulo={area.name} descripcion={documentoCurricularDescripcion(area)} portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
           </div>
-          <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} /></section>
-          <section className="rounded-none bg-[#F3F3F5] px-4 py-12 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} /></section>
+          <section className="py-10 md:px-[14px] md:py-16"><MaterialesSection area={area} /></section>
+          <section className="v3-section !p-0 md:!p-[14px]">
+            <div className="rounded-none bg-[#F3F3F5] px-4 py-10 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} /></div>
+          </section>
           {videos[area.slug] ? (
             <div id="video">
               <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />

@@ -218,17 +218,16 @@ export function TerritorioExplorer({ mode }: { mode: "realizadas" | "proximas" }
 
   return (
     <div ref={explorerRef} className="min-h-full bg-[#FAFAFB]">
-      <section className="px-4 py-10 sm:px-6 md:py-14 lg:px-10" aria-labelledby="acciones-territorio-title">
+      <section className="px-4 py-10 sm:px-6 md:py-16 lg:px-10" aria-labelledby="acciones-territorio-title">
         <div className="mx-auto max-w-6xl">
-          <header>
+          <header className="mb-10 md:mb-14">
             <h2 id="acciones-territorio-title" className="font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] md:text-4xl lg:text-5xl">{title}</h2>
+            <p className="mt-3 text-sm text-[#494963]/55 lg:text-base" aria-live="polite">
+              {modeEvents.length} {modeEvents.length === 1 ? "registro" : "registros"}
+            </p>
           </header>
 
-          <p className="mt-7 text-sm text-[#494963]/55 lg:text-base" aria-live="polite">
-            {modeEvents.length} {modeEvents.length === 1 ? "registro" : "registros"}
-          </p>
-
-          <div className="mt-8 space-y-12">
+          <div className="space-y-12">
             {areaGroups.map((group) => {
               const groupStyle = categoryStyles[group.category];
               return (
