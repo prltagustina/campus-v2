@@ -425,7 +425,7 @@
 }
 .v3-section-cover__copy p {
   max-width: 32ch;
-  font-size: clamp(1.15rem, 2.55cqw, 1.8rem);
+  font-size: clamp(1rem, 2.3cqw, 1.65rem);
   font-weight: 400;
   line-height: 1.42;
   letter-spacing: -.025em;
