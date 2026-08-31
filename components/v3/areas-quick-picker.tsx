@@ -6,7 +6,7 @@ import { AreaNavLink, SolidAreaArrow } from "@/components/v3/area-nav-link";
  * escritorio (`AreaSubnav`) no está disponible. */
 export function AreasQuickPicker() {
   return (
-    <nav aria-label="Áreas curriculares" className="px-4 pb-10 xl:hidden">
+    <nav aria-label="Áreas curriculares" className="px-4 pb-10 pt-6 xl:hidden">
       <p className="mb-3 text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Elegí un área</p>
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
         <Link
