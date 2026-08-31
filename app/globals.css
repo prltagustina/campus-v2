@@ -241,10 +241,11 @@
   grid-template-columns: minmax(0, 1fr);
   min-height: 0;
   overflow: hidden;
-  border-radius: 1.5rem;
+  border-radius: 0;
   background: #494963;
   color: #fff;
 }
+@media (min-width: 640px) { .documento-hero { border-radius: 1.5rem; } }
 .documento-hero__cover {
   position: relative;
   min-width: 0;
@@ -252,10 +253,7 @@
   overflow: hidden;
   isolation: isolate;
   background: transparent;
-  /* En una sola columna (mobile) la portada va entre la intro de texto y
-     los botones de acción. En 2 columnas (tablet+) se resetea el orden y
-     pasa a ocupar su propia columna, alto completo. */
-  order: 2;
+  order: 1;
 }
 .documento-hero--compact .documento-hero__cover { min-height: clamp(200px, 56cqw, 330px); }
 .documento-hero__image {
@@ -265,15 +263,13 @@
   padding: clamp(.75rem, 2.2cqw, 1.5rem);
 }
 .documento-hero__image--tilted { transform: rotate(-3deg) scale(.92); }
-.documento-hero__title-block {
-  order: 1;
+.documento-hero__content {
+  order: 2;
+  display: flex;
   min-width: 0;
-  padding: clamp(1.5rem, 5.5cqw, 2.25rem) clamp(1.5rem, 5.5cqw, 2.25rem) 0;
-}
-.documento-hero__actions-block {
-  order: 3;
-  min-width: 0;
-  padding: 0 clamp(1.5rem, 5.5cqw, 2.25rem) clamp(1.5rem, 5.5cqw, 2.25rem);
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.5rem, 5.5cqw, 2.25rem);
 }
 .documento-hero__title {
   max-width: 20ch;
@@ -297,13 +293,10 @@
 @container documento-hero (min-width: 560px) {
   .documento-hero--standard {
     grid-template-columns: minmax(180px, .64fr) minmax(0, 1.36fr);
-    grid-template-rows: auto auto;
-    align-content: center;
     min-height: 400px;
   }
-  .documento-hero--standard .documento-hero__cover { min-height: 400px; order: 0; grid-column: 1; grid-row: 1 / span 2; }
-  .documento-hero--standard .documento-hero__title-block { order: 0; grid-column: 2; grid-row: 1; padding: clamp(2rem, 4.5cqw, 3rem) clamp(2rem, 4.5cqw, 3rem) 0; }
-  .documento-hero--standard .documento-hero__actions-block { order: 0; grid-column: 2; grid-row: 2; padding: 0 clamp(2rem, 4.5cqw, 3rem) clamp(2rem, 4.5cqw, 3rem); }
+  .documento-hero--standard .documento-hero__cover { min-height: 400px; order: 0; }
+  .documento-hero--standard .documento-hero__content { order: 0; padding: clamp(2rem, 4.5cqw, 3rem); }
   .documento-hero--standard .documento-hero__title { font-size: clamp(2rem, 4.5cqw, 2.65rem); }
   .documento-hero--standard .documento-hero__description { font-size: clamp(.95rem, 1.75cqw, 1.1rem); }
 }
@@ -311,13 +304,10 @@
 @container documento-hero (min-width: 620px) {
   .documento-hero--compact {
     grid-template-columns: minmax(190px, .66fr) minmax(0, 1.34fr);
-    grid-template-rows: auto auto;
-    align-content: center;
     min-height: 420px;
   }
-  .documento-hero--compact .documento-hero__cover { min-height: 420px; order: 0; grid-column: 1; grid-row: 1 / span 2; }
-  .documento-hero--compact .documento-hero__title-block { order: 0; grid-column: 2; grid-row: 1; padding: clamp(2rem, 4.25cqw, 3rem) clamp(2rem, 4.25cqw, 3rem) 0; }
-  .documento-hero--compact .documento-hero__actions-block { order: 0; grid-column: 2; grid-row: 2; padding: 0 clamp(2rem, 4.25cqw, 3rem) clamp(2rem, 4.25cqw, 3rem); }
+  .documento-hero--compact .documento-hero__cover { min-height: 420px; order: 0; }
+  .documento-hero--compact .documento-hero__content { order: 0; padding: clamp(2rem, 4.25cqw, 3rem); }
   .documento-hero--compact .documento-hero__title { font-size: clamp(2rem, 4cqw, 2.45rem); }
   .documento-hero--compact .documento-hero__description { font-size: clamp(.9rem, 1.6cqw, 1rem); }
 }
@@ -330,11 +320,9 @@
 
 @container documento-hero (min-width: 1080px) {
   .documento-hero--standard { grid-template-columns: minmax(320px, 1fr) minmax(0, 1fr); min-height: 470px; }
-  .documento-hero--standard .documento-hero__title-block { padding: 4rem 4rem 0; }
-  .documento-hero--standard .documento-hero__actions-block { padding: 0 4rem 4rem; }
+  .documento-hero--standard .documento-hero__content { padding: 4rem; }
   .documento-hero--compact { grid-template-columns: minmax(300px, .82fr) minmax(0, 1.18fr); }
-  .documento-hero--compact .documento-hero__title-block { padding: 5rem 5rem 0; }
-  .documento-hero--compact .documento-hero__actions-block { padding: 0 5rem 5rem; }
+  .documento-hero--compact .documento-hero__content { padding: 5rem; }
   .documento-hero--compact .documento-hero__title {
     max-width: 31rem;
     font-size: 3.5rem;

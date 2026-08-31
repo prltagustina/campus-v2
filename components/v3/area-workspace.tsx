@@ -151,7 +151,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
   };
 
   return <div className="min-h-full bg-white">
-    <div className="space-y-5 p-4 md:p-6">
+    <div className="space-y-5 px-0 py-4 md:p-6">
       {isArtistic ? (
         <>
           <ArtisticLanguageTabs area={area} selectedId={selectedArtisticId} onSelect={selectArtisticLanguage} />
@@ -183,7 +183,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
               <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
             ) : null}
             {hasSelectedArtisticTrainings ? (
-              <section className="rounded-3xl bg-[#F3F3F5] px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
+              <section className="rounded-none bg-[#F3F3F5] px-4 py-12 sm:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
             ) : null}
 
             {selectedArtistic && selectedArtisticMedia ? (
@@ -202,7 +202,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
             <DocumentoExplainer titulo={area.name} descripcion={documentoCurricularDescripcion(area)} portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
           </div>
           <section className="py-10 md:px-6 md:py-16"><MaterialesSection area={area} /></section>
-          <section className="rounded-3xl bg-[#F3F3F5] px-4 py-12 md:px-8 md:py-16"><FormacionesSection area={area} /></section>
+          <section className="rounded-none bg-[#F3F3F5] px-4 py-12 sm:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} /></section>
           {videos[area.slug] ? (
             <div id="video">
               <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />

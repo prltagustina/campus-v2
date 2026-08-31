@@ -118,8 +118,8 @@ export function CycleRepository({
         </div>
       </header>
 
-      <div className="mx-auto max-w-5xl px-4 pb-12 pt-2 [overflow-anchor:none] md:px-8 md:pb-16 md:pt-3">
-        <div className="divide-y divide-[#494963]/[.08] overflow-hidden rounded-[1.35rem] border border-[#494963]/[.08] bg-white" aria-label={`Repositorios de ${title}`}>
+      <div className="mx-auto max-w-5xl pb-12 pt-2 [overflow-anchor:none] md:px-8 md:pb-16 md:pt-3">
+        <div className="divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white sm:rounded-[1.35rem] sm:border-x" aria-label={`Repositorios de ${title}`}>
           {groups.map((group) => (
             <AreaRepository
               key={group.slug}

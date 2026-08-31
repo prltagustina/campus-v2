@@ -466,10 +466,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <nav aria-label="Áreas curriculares" className="flex flex-wrap gap-2">
+            <nav aria-label="Áreas curriculares" className="divide-y divide-[#494963]/[.07] overflow-hidden rounded-2xl border border-[#494963]/[.08]">
               <Link
                 href="/area/marco-general"
-                className="flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-[#494963] bg-white px-4 text-sm font-medium tracking-[-0.02em] text-[#494963]"
+                className="flex min-h-14 items-center justify-between gap-3 border-l-4 border-[#494963] px-4 text-[15px] font-semibold tracking-[-0.02em] text-[#494963]"
               >
                 Marco General
                 <SolidAreaArrow compact />
@@ -478,7 +478,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <Link
                   key={area.slug}
                   href={`/area/${area.slug}`}
-                  className="flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border bg-white px-4 text-sm font-medium tracking-[-0.02em]"
+                  className="flex min-h-14 items-center justify-between gap-3 border-l-4 px-4 text-[15px] font-semibold tracking-[-0.02em]"
                   style={{ borderColor: area.color, color: area.color }}
                 >
                   {area.name}

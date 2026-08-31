@@ -322,7 +322,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
 
   return (
     <section id="materiales">
-      <div className="mb-8 max-w-2xl md:mb-10">
+      <div className="mb-8 max-w-2xl px-4 md:mb-10 md:px-0">
         <h3 className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">
           Itinerarios didácticos
         </h3>
@@ -332,7 +332,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
       </div>
 
       <div
-        className="flex flex-wrap gap-2.5 md:gap-5"
+        className="flex flex-wrap gap-2.5 px-4 md:gap-5 md:px-0"
         role="tablist"
         aria-label="Idiomas de Lenguas Extranjeras"
       >
@@ -367,7 +367,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
         aria-labelledby={"idioma-tab-" + idiomaSeleccionado}
         className="mt-7 sm:mt-8"
       >
-        <div className="flex flex-col gap-2 pb-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:pb-6">
+        <div className="flex flex-col gap-2 px-4 pb-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-0 sm:pb-6">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[.15em] text-[#494963]/38">
               Lengua seleccionada
@@ -381,7 +381,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
           </p>
         </div>
 
-        <div className="divide-y divide-[#494963]/[.08] overflow-hidden rounded-[1.35rem] border border-[#494963]/[.08] bg-white">
+        <div className="divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white sm:rounded-[1.35rem] sm:border-x">
           <RepositoryAccordionGroup
             id={`${idiomaSeleccionado}-secuencias`}
             title="Secuencias didácticas"
@@ -500,7 +500,7 @@ function ItinerarioRepository({
   };
 
   return (
-    <div className="mx-auto w-full min-w-0 max-w-4xl divide-y divide-[#494963]/[.08] overflow-hidden rounded-[1.35rem] border border-[#494963]/[.08] bg-white">
+    <div className="mx-auto w-full min-w-0 max-w-4xl divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white sm:rounded-[1.35rem] sm:border-x">
       {itinerario.categorias.map((categoria) => (
         <CategoriaAccordion
           key={categoria.id}
@@ -526,7 +526,7 @@ export function MaterialesSection({ area, artisticLanguage }: MaterialesSectionP
 
   return (
     <section id="materiales" className="min-w-0 max-w-full">
-      <div className="mb-10 max-w-2xl md:mb-14">
+      <div className="mb-10 max-w-2xl px-4 md:mb-14 md:px-0">
         <h3 className="text-3xl font-semibold tracking-[-.03em] text-[#494963] font-display text-balance md:text-4xl">
           Itinerarios didácticos
         </h3>
