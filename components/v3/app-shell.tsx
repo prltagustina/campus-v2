@@ -134,9 +134,10 @@ function SantaFeBrand() {
  * al sistema de desktop.
  */
 function AreaHorizontalNav({ pathname }: { pathname: string }) {
-  const items: { slug: string; href: string; name: string; color: string; textColor: string }[] = [
-    { slug: "marco-general", href: "/area/marco-general", name: "Marco General", color: MARCO_GENERAL_COLOR, textColor: "#E9E9EE" },
-    ...orderedAreas.map((area) => ({ slug: area.slug, href: `/area/${area.slug}`, name: area.name, color: area.color, textColor: areaNavForeground(area) })),
+  const shortNames: Record<string, string> = { "saberes-vidas-y-mundos": "SVM" };
+  const items: { slug: string; href: string; name: string; shortName: string; color: string; textColor: string }[] = [
+    { slug: "marco-general", href: "/area/marco-general", name: "Marco General", shortName: "Marco General", color: MARCO_GENERAL_COLOR, textColor: "#E9E9EE" },
+    ...orderedAreas.map((area) => ({ slug: area.slug, href: `/area/${area.slug}`, name: area.name, shortName: shortNames[area.slug] ?? area.name, color: area.color, textColor: areaNavForeground(area) })),
   ];
   const currentIndex = items.findIndex((item) =>
     item.slug === "marco-general"
@@ -169,7 +170,7 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
             <span aria-hidden="true" className="mr-2 block h-[10px] w-[7px] shrink-0 bg-current [clip-path:polygon(100%_0,0_50%,100%_100%)]" />
             Anterior
           </span>
-          <span className="truncate text-sm font-bold tracking-[-.02em]">{previous.name}</span>
+          <span className="truncate text-sm font-bold tracking-[-.02em]">{previous.shortName}</span>
         </Link>
         <Link
           href={next.href}
@@ -179,7 +180,7 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
           <span className="flex items-center text-[10px] font-bold uppercase tracking-[.12em] opacity-70">
             Siguiente <SolidAreaArrow compact />
           </span>
-          <span className="truncate text-sm font-bold tracking-[-.02em]">{next.name}</span>
+          <span className="truncate text-sm font-bold tracking-[-.02em]">{next.shortName}</span>
         </Link>
       </div>
     </nav>
