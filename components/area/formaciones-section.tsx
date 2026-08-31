@@ -27,7 +27,7 @@ export function FormacionesSection({
 
   return <section id="formacion">
     <header className="mb-10 max-w-2xl md:mb-14 md:pr-24">
-      <h2 className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Formaciones docentes</h2>
+      <h2 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Formaciones docentes</h2>
       <p className="mt-3 text-[#494963]/50">Cursos y trayectos de formación vinculados con {contextName}.</p>
     </header>
 

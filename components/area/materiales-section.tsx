@@ -323,7 +323,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
   return (
     <section id="materiales">
       <div className="mb-8 max-w-2xl px-4 md:mb-10 md:px-0">
-        <h3 className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">
+        <h3 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">
           Itinerarios didácticos
         </h3>
         <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#494963]/50 sm:text-base">
@@ -527,7 +527,7 @@ export function MaterialesSection({ area, artisticLanguage }: MaterialesSectionP
   return (
     <section id="materiales" className="min-w-0 max-w-full">
       <div className="mb-10 max-w-2xl px-4 md:mb-14 md:px-0">
-        <h3 className="text-3xl font-semibold tracking-[-.03em] text-[#494963] font-display text-balance md:text-4xl">
+        <h3 className="text-2xl font-semibold tracking-[-.03em] text-[#494963] font-display text-balance sm:text-3xl lg:text-4xl">
           Itinerarios didácticos
         </h3>
         <p className="text-sm sm:text-base lg:text-lg text-[#494963]/50 mt-3 max-w-xl text-pretty">

@@ -125,7 +125,7 @@ function AreaVideoPresentation({ videoId, title }: { videoId: string; title: str
   return (
     <section aria-labelledby={`video-${videoId}-title`}>
       <div className="mb-10 px-[14px] pt-10 md:mb-14 md:pt-16">
-        <h2 id={`video-${videoId}-title`} className="font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">
+        <h2 id={`video-${videoId}-title`} className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">
           Presentación audiovisual
         </h2>
       </div>

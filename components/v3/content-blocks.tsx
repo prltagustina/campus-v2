@@ -195,7 +195,7 @@ export function DocumentoStepper({ title, steps }: { title: React.ReactNode; ste
                   {(Array.isArray(step.description) ? step.description : [step.description]).map((paragraph, i) => (
                     <p key={i} className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-[#8B8B99] sm:text-base sm:leading-[1.5]">{paragraph}</p>
                   ))}
-                  <div className="mt-5 min-h-10">{step.content}</div>
+                  {step.content ? <div className="mt-5 min-h-10">{step.content}</div> : null}
                 </div>
               </div>
             </CarouselItem>
