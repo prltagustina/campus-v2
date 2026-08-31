@@ -6,7 +6,8 @@ export default function AreasLandingPage() {
   return (
     <>
       <SectionLandingCover
-        title={"Áreas y\nMateriales"}
+        title="Áreas"
+        subtitle="Materiales y formaciones"
         description={pendingCopy.areas}
         variant="areas"
       />
