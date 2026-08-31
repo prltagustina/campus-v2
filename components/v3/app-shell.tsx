@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import {
   BriefcaseBusiness,
   Check,
@@ -13,7 +12,6 @@ import {
   MessageCircle,
   Search,
   Users,
-  X,
 } from "lucide-react";
 import { orderedAreas, cycles } from "@/lib/v3-config";
 import { MARCO_GENERAL_COLOR, TERRITORIO_ENABLED, MATERIALES_POR_CICLO_ENABLED } from "@/lib/constants";
@@ -263,12 +261,6 @@ function TerritorySubnav({ pathname }: { pathname: string }) {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [mobileAreasMenuOpen, setMobileAreasMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setMobileAreasMenuOpen(false);
-  }, [pathname]);
-
   const areasOpen = pathname === "/areas" || pathname.startsWith("/area/") || pathname === "/marco-general";
   const cyclesOpen = MATERIALES_POR_CICLO_ENABLED && (pathname === "/materiales-por-ciclo" || pathname.startsWith("/ciclo/"));
   const territoryOpen = TERRITORIO_ENABLED && pathname.startsWith("/territorio");
@@ -316,21 +308,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {parentLabel && <><span className="hidden text-[#3F3F59]/55 sm:inline">/</span><span className="hidden font-semibold text-[#3F3F59]/85 sm:inline">{parentLabel}</span></>}
           <span className="hidden text-[#3F3F59]/55 sm:inline">/</span><span className="truncate font-extrabold text-[#34344B]">{currentLabel}</span>
         </nav>
-        <label className="ml-auto hidden h-9 items-center gap-2 border-b-2 border-[#3F3F59]/65 px-1 text-xs text-[#3F3F59] transition-[border-color] focus-within:border-[#34344B] md:flex">
+        <label className="ml-auto flex h-9 shrink-0 items-center gap-2 border-b-2 border-[#3F3F59]/65 px-1 text-xs text-[#3F3F59] transition-[border-color] focus-within:border-[#34344B]">
           <Search className="h-4 w-4 shrink-0 text-[#3F3F59]" />
           <span className="sr-only">Buscar</span>
           <input
             type="search"
             autoComplete="off"
             spellCheck={false}
-            className="w-48 appearance-none border-0 bg-transparent p-0 font-semibold text-[#34344B] shadow-none outline-none ring-0 placeholder:text-[#3F3F59]/80 [&::-webkit-search-cancel-button]:hidden"
+            className="w-16 appearance-none border-0 bg-transparent p-0 font-semibold text-[#34344B] shadow-none outline-none ring-0 placeholder:text-[#3F3F59]/80 [&::-webkit-search-cancel-button]:hidden sm:w-32 md:w-48"
             placeholder="Buscar"
           />
         </label>
         </div>
       </div>
 
-      <div className="flex h-[calc(100dvh-118px)] gap-0 overflow-hidden bg-white pb-[calc(4.75rem+env(safe-area-inset-bottom))] md:gap-3 md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5">
+      <div className="flex h-[calc(100dvh-118px)] gap-0 overflow-hidden bg-white pb-[calc(4rem+env(safe-area-inset-bottom))] md:gap-3 md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5">
         {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
             de dos niveles que solo tiene sentido con el ancho de escritorio. */}
         <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
@@ -447,74 +439,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </main>
       </div>
 
-      {mobileAreasMenuOpen ? (
-        <div className="fixed inset-0 z-40 md:hidden">
-          <button
-            type="button"
-            aria-label="Cerrar menú de áreas"
-            onClick={() => setMobileAreasMenuOpen(false)}
-            className="absolute inset-0 bg-[#1A1A26]/40"
-          />
-          <div className="absolute inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] max-h-[70vh] overflow-y-auto rounded-t-3xl bg-white p-4 pb-6 shadow-[0_-16px_40px_rgba(20,20,35,.25)]">
-            <div className="mb-3 flex items-center justify-between">
-              <span className="font-display text-lg font-semibold text-[#494963]">Áreas</span>
-              <button type="button" onClick={() => setMobileAreasMenuOpen(false)} aria-label="Cerrar" className="grid h-9 w-9 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963]">
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-            <nav aria-label="Áreas curriculares" className="divide-y divide-[#494963]/[.07] overflow-hidden rounded-2xl border border-[#494963]/[.08]">
-              <Link
-                href="/area/marco-general"
-                className="flex min-h-14 items-center justify-between gap-3 border-l-4 border-[#494963] px-4 text-[15px] font-semibold tracking-[-0.02em] text-[#494963] transition-colors hover:bg-[#494963] hover:text-[#EDEDF0]"
-              >
-                Marco General
-                <SolidAreaArrow compact />
-              </Link>
-              {orderedAreas.map((area) => {
-                const activeForeground = areaNavForeground(area);
-                return (
-                  <Link
-                    key={area.slug}
-                    href={`/area/${area.slug}`}
-                    className="flex min-h-14 items-center justify-between gap-3 border-l-4 px-4 text-[15px] font-semibold tracking-[-0.02em] text-[var(--area)] transition-colors hover:bg-[var(--area)] hover:text-[var(--area-fg)]"
-                    style={{ borderColor: area.color, ["--area" as string]: area.color, ["--area-fg" as string]: activeForeground }}
-                  >
-                    {area.name}
-                    <SolidAreaArrow compact />
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-        </div>
-      ) : null}
-
       <nav
         aria-label="Navegación móvil"
         className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
         style={{ gridTemplateColumns: `repeat(${primaryItems.length}, minmax(0, 1fr))` }}
       >
         {primaryItems.map((item) => {
-          const active = item.match(pathname) || (item.href === "/areas" && mobileAreasMenuOpen);
+          const active = item.match(pathname);
           const Icon = item.icon;
-          if (item.href === "/areas") {
-            return (
-              <button
-                key={item.href}
-                type="button"
-                aria-expanded={mobileAreasMenuOpen}
-                aria-label={item.label}
-                onClick={() => setMobileAreasMenuOpen((current) => !current)}
-                className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[8px] font-bold min-[390px]:text-[9px] ${active ? "text-white" : "text-white/50"}`}
-              >
-                <span className={`grid h-7 w-8 place-items-center rounded-lg min-[390px]:w-9 ${active ? "bg-white text-[#494963]" : ""}`}><Icon className="h-4.5 w-4.5" aria-hidden="true" /></span>
-                <span className="max-w-full truncate px-0.5">{item.mobileLabel}</span>
-              </button>
-            );
-          }
           return (
-            <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} aria-label={item.label} className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[8px] font-bold min-[390px]:text-[9px] ${active ? "text-white" : "text-white/50"}`}>
-              <span className={`grid h-7 w-8 place-items-center rounded-lg min-[390px]:w-9 ${active ? "bg-white text-[#494963]" : ""}`}><Icon className="h-4.5 w-4.5" aria-hidden="true" /></span>
+            <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} aria-label={item.label} className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[9px] font-bold min-[390px]:text-[10px] ${active ? "text-white" : "text-white/50"}`}>
+              <span className={`grid h-8 w-9 place-items-center rounded-lg min-[390px]:w-10 ${active ? "bg-white text-[#494963]" : ""}`}><Icon className="h-5 w-5" aria-hidden="true" /></span>
               <span className="max-w-full truncate px-0.5">{item.mobileLabel}</span>
             </Link>
           );

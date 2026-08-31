@@ -8,7 +8,7 @@ import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/componen
 
 export function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
   return (
-    <section className="v3-section !px-0 md:!px-[14px]">
+    <section className="v3-section !p-0 md:!p-[14px]">
       <div className="relative aspect-video overflow-hidden rounded-none bg-[#171729] shadow-[0_12px_40px_rgba(73,73,99,.10)] md:rounded-2xl">
         <iframe
           className="absolute inset-0 h-full w-full"
@@ -79,7 +79,7 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
     else await navigator.clipboard?.writeText(url);
   };
   return (
-    <section className="documento-hero-shell v3-section !px-0 md:!px-[14px]">
+    <section className="documento-hero-shell v3-section !p-0 md:!p-[14px]">
       <div className={`documento-hero ${compact ? "documento-hero--compact" : "documento-hero--standard"}`}>
         <div className="documento-hero__cover">
           <Image
@@ -177,7 +177,7 @@ function StepperDots({ count }: { count: number }) {
 
 export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
-    <section className="v3-section !px-0 md:!px-[14px]">
+    <section className="v3-section !p-0 md:!p-[14px]">
       <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
       <Carousel opts={{ loop: true }}>
         <div className="flex items-end justify-between gap-4">

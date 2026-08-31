@@ -123,9 +123,9 @@ export function RepositoryFileGroup({
 const sizeClasses = {
   /** Nivel principal (áreas en Materiales por ciclo, categorías en Itinerarios). */
   lg: {
-    button: "min-h-[78px] gap-4 px-5 py-4 sm:min-h-[88px] sm:px-7 sm:py-5",
+    button: "min-h-[78px] gap-2 px-4 py-4 sm:min-h-[88px] sm:gap-4 sm:px-7 sm:py-5",
     idleBg: "",
-    title: "font-display text-[1.4rem] font-medium leading-[1.05] tracking-[-.035em] sm:text-[1.8rem]",
+    title: "font-display text-[1.4rem] font-medium leading-[1.05] tracking-[-.045em] sm:tracking-[-.035em] sm:text-[1.8rem]",
     meta: "mt-1.5 text-xs font-medium sm:text-[13px]",
     description: "mt-1 text-xs font-medium leading-relaxed sm:text-sm",
     arrow: "h-10 w-10",

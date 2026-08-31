@@ -155,7 +155,7 @@ function RepositoryPanel({ title, detail, icon, children }: { title: string; det
     <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
       <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
-        <div className="min-w-0"><h3 className="font-display text-lg font-semibold leading-snug text-[#494963]">{title}</h3><p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p></div>
+        <div className="min-w-0"><h3 className="font-display text-lg font-bold leading-snug text-[#494963]">{title}</h3><p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p></div>
       </div>
       <div className="divide-y divide-[#494963]/[.07]">{children}</div>
     </div>
@@ -167,7 +167,7 @@ function ResourceRow({ title, description, href, download = false }: { title: st
     <a href={href} download={download || undefined} target={download ? undefined : "_blank"} rel={download ? undefined : "noopener noreferrer"} className="group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-[#F8F8FA] sm:gap-4 sm:px-6 sm:py-5">
       <FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" />
       <span className="min-w-0 flex-1">
-        <b className="block text-sm font-semibold leading-snug text-[#494963] sm:text-base">{title}</b>
+        <b className="block text-sm font-semibold leading-snug text-[#494963]/75 sm:text-base">{title}</b>
         {description && <small className="mt-1 block text-xs leading-relaxed text-[#494963]/42 sm:text-sm">{description}</small>}
       </span>
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
@@ -183,7 +183,7 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
     <section className="grid min-w-0 gap-4 px-5 py-5 sm:px-6 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-7 md:py-6">
       <header>
         <p className="font-display text-[11px] font-semibold tabular-nums text-[#494963]/28">{index}</p>
-        <h3 className="mt-1 font-display text-base font-semibold leading-tight text-[#494963] sm:text-lg">{title}</h3>
+        <h3 className="mt-1 font-display text-base font-bold leading-tight text-[#494963] sm:text-lg">{title}</h3>
         <p className="mt-1 text-xs text-[#494963]/38">{items.length} {items.length === 1 ? "experiencia" : "experiencias"}</p>
       </header>
 
@@ -196,7 +196,7 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
             rel="noopener noreferrer"
             className="group flex min-w-0 items-center gap-3 py-3.5 first:pt-3.5 transition-colors md:first:pt-0"
           >
-            <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[#494963] sm:text-[15px]">{item.nombre}</span>
+            <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[#494963]/75 sm:text-[15px]">{item.nombre}</span>
             <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#494963]/[.045] text-[#494963]/35 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
               <ExternalLink className="h-3.5 w-3.5" />
             </span>
@@ -214,7 +214,7 @@ function ArchiveGroup({ title, detail, icon, items }: { title: string; detail: s
       <header className="flex items-center gap-3 px-5 py-4 sm:px-6">
         <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#494963]/[.05] text-[#494963]">{icon}</span>
         <div className="min-w-0">
-          <h3 className="font-display text-base font-semibold leading-snug text-[#494963] sm:text-lg">{title}</h3>
+          <h3 className="font-display text-base font-bold leading-snug text-[#494963] sm:text-lg">{title}</h3>
           <p className="mt-0.5 text-[11px] text-[#494963]/38 sm:text-xs">{detail}</p>
         </div>
       </header>
@@ -229,7 +229,7 @@ function ArchiveGroup({ title, detail, icon, items }: { title: string; detail: s
             className="group grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)_1.75rem] items-start gap-2.5 border-b border-[#494963]/[.065] px-4 py-4 transition-colors last:border-b-0 hover:bg-[#F8F8FA] sm:px-5 sm:odd:border-r"
           >
             <span className="pt-0.5 font-display text-[10px] font-semibold tabular-nums text-[#494963]/25">{String(index + 1).padStart(2, "0")}</span>
-            <span className="min-w-0 text-[13px] font-medium leading-[1.4] text-[#494963] sm:text-sm">{item.nombre}</span>
+            <span className="min-w-0 text-[13px] font-medium leading-[1.4] text-[#494963]/75 sm:text-sm">{item.nombre}</span>
             <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[#494963]/30 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
               <ExternalLink className="h-3.5 w-3.5" />
             </span>

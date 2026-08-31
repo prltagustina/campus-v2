@@ -151,7 +151,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
   };
 
   return <div className="min-h-full bg-white">
-    <div className="space-y-5 px-0 py-4 md:p-6">
+    <div className="py-4 md:space-y-5 md:p-6">
       {isArtistic ? (
         <>
           <ArtisticLanguageTabs area={area} selectedId={selectedArtisticId} onSelect={selectArtisticLanguage} />
@@ -161,7 +161,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
             key={selectedArtisticId}
             role="tabpanel"
             aria-labelledby={`lenguaje-tab-${selectedArtisticId}`}
-            className="space-y-5"
+            className="md:space-y-5"
           >
             <div id="documento">
               {selectedArtistic && selectedArtisticMedia ? (
