@@ -378,6 +378,10 @@
 .v3-section-cover--areas { --v3-cover-offset: 60px; }
 .v3-section-cover--cycles { --v3-cover-offset: 111px; }
 .v3-section-cover--territory { --v3-cover-offset: 0px; }
+.v3-section-cover--no-icon {
+  min-height: 0;
+  align-items: flex-start;
+}
 .v3-section-cover__inner {
   position: relative;
   z-index: 1;
@@ -544,6 +548,9 @@
 @container v3-section-cover (min-width: 560px) {
   .v3-section-cover__inner {
     grid-template-columns: minmax(0, 1.15fr) minmax(11rem, .85fr);
+  }
+  .v3-section-cover__inner--no-icon {
+    grid-template-columns: minmax(0, 1fr);
   }
   .v3-section-cover__copy {
     grid-column: 1;

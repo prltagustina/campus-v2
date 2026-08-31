@@ -41,7 +41,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
           </button>
         ) : null}
 
-        <div className="grid min-h-[700px] gap-6 px-6 py-8 sm:gap-8 sm:px-10 sm:py-12 md:min-h-[730px] md:grid-cols-[1fr_1.3fr] md:items-center md:px-20 md:py-16 xl:min-h-[640px]">
+        <div className="grid min-h-[700px] content-start gap-6 px-6 py-8 sm:gap-8 sm:px-10 sm:py-12 md:min-h-[730px] md:grid-cols-[1fr_1.3fr] md:content-center md:items-center md:px-20 md:py-16 xl:min-h-[640px]">
           {singleSlide ? (
             <>
               <div className="relative mx-auto aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-lg shadow-[0_20px_40px_rgba(20,20,35,.28)] sm:max-w-[280px] md:max-w-[320px]">
