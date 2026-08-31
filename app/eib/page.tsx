@@ -153,7 +153,7 @@ const celebracionesMemoria = celebraciones.filter((_, index) => [5, 6, 7, 13, 14
 function RepositoryPanel({ title, detail, icon, children }: { title: string; detail: string; icon: ReactNode; children: ReactNode }) {
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
-      <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
+      <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
         <div className="min-w-0"><h3 className="font-display text-base font-semibold leading-snug text-[#494963] sm:text-lg">{title}</h3><p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p></div>
       </div>
@@ -243,13 +243,13 @@ function ArchiveGroup({ title, detail, icon, items }: { title: string; detail: s
 
 export default function EIBPage() {
   return (
-    <main className="flex min-h-full flex-col bg-[#F7F7F9]">
+    <main className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:shadow-[0_0_0_1px_rgba(73,73,99,.06)]">
       <EditorialPageHeading
         title="Educación Intercultural Bilingüe"
       />
 
       <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
-        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
             <RepositoryPanel title="Marco normativo" detail="Resoluciones y documentos de referencia" icon={<Scale className="h-4 w-4" />}>
               <ResourceRow title={legislacion.resolucion.titulo} description={`${legislacion.resolucion.archivo} · PDF`} href={legislacion.resolucion.url} download />
@@ -259,7 +259,7 @@ export default function EIBPage() {
           </div>
         </section>
 
-        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
             <div className="divide-y divide-[#494963]/[.07] overflow-hidden rounded-[1.35rem] bg-white shadow-[0_5px_24px_rgba(73,73,99,.055)]">
               <ProjectGroup index="01" title="Nivel Inicial" items={proyectos.inicial} />
@@ -270,7 +270,7 @@ export default function EIBPage() {
           </div>
         </section>
 
-        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
             <div className="space-y-4">
               <ArchiveGroup title="Calendario intercultural" detail={`${celebracionesCalendario.length} fechas y conmemoraciones`} icon={<Calendar className="h-4 w-4" />} items={celebracionesCalendario} />

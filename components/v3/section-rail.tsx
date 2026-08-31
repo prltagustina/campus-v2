@@ -37,7 +37,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
       });
     }
     setActiveIndex(index);
-    panelViewportRef.current?.scrollTo({ top: 0, behavior: "instant" });
+    document.getElementById("contenido")?.scrollTo({ top: 0, behavior: "instant" });
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {

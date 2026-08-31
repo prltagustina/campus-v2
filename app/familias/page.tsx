@@ -12,14 +12,14 @@ const materiales = [
 
 export default function FamiliasPage() {
   return (
-    <div className="flex min-h-full flex-col bg-[#F7F7F9]">
+    <div className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:shadow-[0_0_0_1px_rgba(73,73,99,.06)]">
       <EditorialPageHeading
         title="Materiales para familias"
         imageSrc="/images/cabecera-familias.png"
       />
 
       <SectionTabs title="Recursos para familias" items={[{ id: "presentacion", label: "Presentación" }, { id: "materiales", label: "Materiales" }]} keepVisitedPanels>
-        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
             <SlideDeckEmbed
               src="https://docs.google.com/presentation/d/1iE4BFRuhcT7yXhRfCoDpeEEx8ZSYyqWH/embed?start=false&loop=false&delayms=3000"
@@ -29,10 +29,10 @@ export default function FamiliasPage() {
           </div>
         </section>
 
-        <section className="px-4 py-9 sm:px-6 sm:py-11 md:py-14">
+        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
             <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
-              <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-4 sm:px-6">
+              <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
                 <div>
                   <h3 className="font-display text-lg font-semibold text-[#494963]">Documentos disponibles</h3>
                   <p className="mt-0.5 text-xs text-[#494963]/40">{materiales.length} archivos en formato PDF</p>
