@@ -275,10 +275,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const territoryActions = pathname.startsWith("/territorio/acciones");
   const territoryProximas = pathname.startsWith("/territorio/proximas");
   const hasSecondary = areasOpen || cyclesOpen || territoryOpen;
-  const hasInstitutionalSwitcher = pathname.startsWith("/directivos")
-    || pathname.startsWith("/docentes")
-    || pathname.startsWith("/familias")
-    || pathname.startsWith("/eib");
   const currentArea = orderedAreas.find((area) => pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`));
   const currentCycle = cycles.find((cycle) => pathname === `/ciclo/${cycle.slug}`);
   const activePrimary = primaryItems.find((item) => item.match(pathname));
@@ -334,7 +330,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className="flex h-[calc(100dvh-118px)] gap-3 overflow-hidden bg-white p-3 pb-[calc(4.75rem+env(safe-area-inset-bottom))] md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5">
+      <div className="flex h-[calc(100dvh-118px)] gap-0 overflow-hidden bg-white pb-[calc(4.75rem+env(safe-area-inset-bottom))] md:gap-3 md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5">
         {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
             de dos niveles que solo tiene sentido con el ancho de escritorio. */}
         <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
@@ -400,7 +396,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         <main
           id="contenido"
-          className={`h-full min-h-0 min-w-0 flex-1 rounded-2xl bg-white ${hasInstitutionalSwitcher ? "overflow-hidden" : "overflow-y-auto [scrollbar-gutter:stable]"}`}
+          className="h-full min-h-0 min-w-0 flex-1 rounded-none bg-white overflow-y-auto [scrollbar-gutter:stable] md:rounded-2xl"
           tabIndex={-1}
         >
           {hasSecondary && areasOpen ? (
