@@ -9,9 +9,7 @@ interface EditorialPageHeadingProps {
 export function EditorialPageHeading({ title, imageSrc }: EditorialPageHeadingProps) {
   return (
     <header
-      className={`relative flex shrink-0 items-center overflow-hidden border-b border-[#494963]/[.08] bg-white px-5 py-3 text-[#494963] md:px-10 ${
-        imageSrc ? "min-h-[100px] md:min-h-[168px]" : "min-h-[72px] md:min-h-[76px]"
-      }`}
+      className="relative flex min-h-[100px] shrink-0 items-center overflow-hidden border-b border-[#494963]/[.08] bg-white px-5 py-3 text-[#494963] md:min-h-[168px] md:px-10"
     >
       {imageSrc ? (
         <>
