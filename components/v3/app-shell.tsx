@@ -283,6 +283,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const territoryActions = pathname.startsWith("/territorio/acciones");
   const territoryProximas = pathname.startsWith("/territorio/proximas");
   const hasSecondary = areasOpen || cyclesOpen || territoryOpen;
+  const graySectionOpen = pathname.startsWith("/familias") || pathname.startsWith("/docentes") || pathname.startsWith("/directivos") || pathname.startsWith("/eib");
   const currentArea = orderedAreas.find((area) => pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`));
   const currentCycle = cycles.find((cycle) => pathname === `/ciclo/${cycle.slug}`);
   const activePrimary = primaryItems.find((item) => item.match(pathname));
@@ -338,7 +339,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className="flex h-[calc(100svh-118px)] gap-0 overflow-hidden bg-[#F7F7F9] pb-[calc(4rem+env(safe-area-inset-bottom))] md:h-[calc(100dvh-118px)] md:gap-3 md:bg-white md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5">
+      <div className={`flex h-[calc(100svh-118px)] gap-0 overflow-hidden ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(4rem+env(safe-area-inset-bottom))] md:h-[calc(100dvh-118px)] md:gap-3 md:bg-white md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5`}>
         {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
             de dos niveles que solo tiene sentido con el ancho de escritorio. */}
         <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
@@ -402,7 +403,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </aside>
         )}
 
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:bg-white">
+        <div className={`flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-none ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} md:rounded-2xl md:bg-white`}>
         <main
           id="contenido"
           className="min-h-0 flex-1 overflow-y-auto md:[scrollbar-gutter:stable]"
