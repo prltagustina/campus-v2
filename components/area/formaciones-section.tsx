@@ -26,13 +26,13 @@ export function FormacionesSection({
   const contextName = artisticLanguage ?? area.name;
 
   return <section id="formacion">
-    <header className="mb-10 max-w-2xl md:mb-14 md:pr-24">
+    <header className="mb-10 max-w-2xl pr-4 md:mb-14 md:pr-24">
       <h2 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Formaciones docentes</h2>
       <p className="mt-3 text-[#494963]/50">Cursos y trayectos de formación vinculados con {contextName}.</p>
     </header>
 
     {items.length ? <Carousel opts={{ align: "start", containScroll: "trimSnaps" }} className="w-full" aria-label={`Formaciones docentes de ${contextName}`}>
-      <CarouselContent className="items-stretch">
+      <CarouselContent className="items-stretch pr-4 md:pr-0">
         {items.map((item) => <CarouselItem key={item.id} className="basis-[88%] sm:basis-1/2 xl:basis-1/3">
           <article className="flex h-full min-h-[280px] flex-col overflow-hidden rounded-2xl bg-white shadow-[0_5px_20px_rgba(73,73,99,.07)]">
             <div className="min-h-[116px] p-5" style={{ backgroundColor: area.color, color: area.textOnColor }}>
