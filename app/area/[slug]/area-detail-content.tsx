@@ -67,9 +67,9 @@ function MarcoGeneralContent() {
           singleSlide
         />
       </div>
-      <section id="recursos" className="v3-section">
-        <div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
-          <header className="mb-7 max-w-2xl"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Documentos y formación</h2><p className="mt-2 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
+      <section id="recursos" className="v3-section !px-0 sm:!px-[14px]">
+        <div className="rounded-none bg-[#F5F5F7] p-5 sm:rounded-3xl md:p-8 lg:p-10">
+          <header className="mb-7 max-w-2xl"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Documentos y formaciones</h2><p className="mt-2 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           <div className="grid gap-4 lg:grid-cols-[210px_minmax(0,1fr)]">
             <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-1 lg:self-start" role="tablist" aria-label="Recursos del Marco General">
               {([['documentos', 'Documentos', FileText], ['formaciones', 'Formaciones', BookOpen]] as const).map(([id, label, Icon]) => {
@@ -77,13 +77,13 @@ function MarcoGeneralContent() {
                 return <button key={id} type="button" role="tab" aria-selected={active} onClick={() => setResourceView(id)} className={`flex min-h-14 items-center gap-3 rounded-xl px-4 text-left text-sm font-semibold transition-colors ${active ? "bg-[#494963] text-white" : "bg-white text-[#494963]"}`}><Icon className="h-4 w-4 shrink-0 opacity-55" />{label}</button>;
               })}
             </div>
-            <div className="h-[260px] overflow-y-auto rounded-2xl bg-white px-4 [scrollbar-gutter:stable] md:px-6" role="tabpanel">
+            <div className="rounded-2xl bg-white px-4 md:px-6" role="tabpanel">
               {resourceView === "documentos" ? <div className="divide-y divide-[#494963]/[.08]">{marcoDocuments.map(([title, description, href]) => <a key={href} href={href} download className="group flex min-h-[78px] items-center gap-4 py-4"><FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" /><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><Download className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div> : <div className="divide-y divide-[#494963]/[.08]">{marcoTrainings.map(([title, description, href]) => <a key={href} href={href} target="_blank" rel="noreferrer" className="group flex min-h-[92px] items-center gap-4 py-4"><BookOpen className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" /><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><ArrowUpRight className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div>}
             </div>
           </div>
         </div>
       </section>
-      <section id="ejes" className="v3-section"><div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
+      <section id="ejes" className="v3-section !px-0 sm:!px-[14px]"><div className="rounded-none bg-[#F5F5F7] p-5 sm:rounded-3xl md:p-8 lg:p-10">
         <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Aspectos distintivos del Diseño Curricular.</h2>
         <p className="mt-2 text-sm text-[#494963]/45">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
         <div className="mt-7 overflow-hidden rounded-2xl bg-white" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
@@ -155,7 +155,7 @@ function MarcoGeneralContent() {
             ],
           },
         ]} />
-        <div className="v3-section"><OrganizationCompact /></div>
+        <OrganizationCompact />
       </div>
     </div>
   );

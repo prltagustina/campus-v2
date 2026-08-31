@@ -80,9 +80,9 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
   return (
     <div
       id={`${instanceId}-switcher`}
-      className="flex w-full flex-col bg-[#F7F7F9] md:min-h-0 md:flex-1 md:overflow-hidden"
+      className="flex w-full flex-col bg-[#F7F7F9]"
     >
-      <div className="shrink-0 border-b border-[#494963]/[.06] bg-[#F7F7F9] px-4 py-2.5 sm:px-6 md:z-30 md:py-3">
+      <div className="shrink-0 border-b border-[#494963]/[.06] bg-[#F7F7F9] px-4 py-2.5 sm:px-6 md:py-3">
         <div className="mx-auto max-w-4xl">
           <span className="sr-only">{title}</span>
           <div
@@ -97,7 +97,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
 
       <div
         ref={panelViewportRef}
-        className="min-w-0 overflow-x-hidden [scrollbar-gutter:stable] md:min-h-0 md:flex-1 md:overflow-y-auto md:overscroll-contain"
+        className="min-w-0 overflow-x-hidden [scrollbar-gutter:stable]"
       >
         {keepVisitedPanels ? panels.map((panel, index) => {
           if (!visitedIndices.has(index)) return null;
