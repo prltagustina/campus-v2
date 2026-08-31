@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import {
   BriefcaseBusiness,
   ChevronDown,
@@ -295,9 +296,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     ?? "Diseño Curricular";
   const parentLabel = (territoryActions || territoryProximas) ? "Territorio" : currentArea || pathname.includes("marco-general") ? "Áreas" : currentCycle ? "Ciclos" : null;
 
+  // iOS Safari a veces no repinta el fondo al ajustar dvh/svh cuando la
+  // barra de direcciones cambia de tamaño (bug conocido de WebKit). Medimos
+  // el alto real con JS para no depender de esas unidades en mobile.
+  useEffect(() => {
+    const setAppHeight = () => {
+      const height = window.visualViewport?.height ?? window.innerHeight;
+      document.documentElement.style.setProperty("--app-vh", `${height}px`);
+    };
+    setAppHeight();
+    window.addEventListener("resize", setAppHeight);
+    window.addEventListener("orientationchange", setAppHeight);
+    window.visualViewport?.addEventListener("resize", setAppHeight);
+    return () => {
+      window.removeEventListener("resize", setAppHeight);
+      window.removeEventListener("orientationchange", setAppHeight);
+      window.visualViewport?.removeEventListener("resize", setAppHeight);
+    };
+  }, []);
+
   return (
     <div
-      className="v3-scroll-theme h-svh overflow-hidden bg-[#F5F5F7] text-[#494963] md:h-dvh"
+      className="v3-scroll-theme h-[var(--app-vh,100svh)] overflow-hidden bg-[#F5F5F7] text-[#494963] md:h-dvh"
       style={{ ["--section-scrollbar" as string]: currentArea?.color ?? MARCO_GENERAL_COLOR }}
     >
       <header className="h-[72px] border-b border-[#494963]/[.07] bg-white px-4 lg:h-[100px] lg:px-8" role="banner">
@@ -339,7 +359,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className={`flex h-[calc(100svh-118px)] gap-0 overflow-hidden ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(4rem+env(safe-area-inset-bottom))] md:h-[calc(100dvh-118px)] md:gap-3 md:bg-white md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5`}>
+      <div className={`flex h-[calc(var(--app-vh,100svh)-118px)] gap-0 overflow-hidden ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(4rem+env(safe-area-inset-bottom))] md:h-[calc(100dvh-118px)] md:gap-3 md:bg-white md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5`}>
         {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
             de dos niveles que solo tiene sentido con el ancho de escritorio. */}
         <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
