@@ -97,7 +97,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
 
       <div
         ref={panelViewportRef}
-        className="min-w-0 overflow-x-hidden [scrollbar-gutter:stable]"
+        className="min-w-0 overflow-x-hidden"
       >
         {keepVisitedPanels ? panels.map((panel, index) => {
           if (!visitedIndices.has(index)) return null;

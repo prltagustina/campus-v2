@@ -5,7 +5,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   BriefcaseBusiness,
-  Check,
   ChevronDown,
   Home,
   MapPinned,
@@ -135,43 +134,54 @@ function SantaFeBrand() {
  * al sistema de desktop.
  */
 function AreaHorizontalNav({ pathname }: { pathname: string }) {
-  const marcoActive = pathname === "/area/marco-general" || pathname === "/marco-general";
+  const items: { slug: string; href: string; name: string; color: string; textColor: string }[] = [
+    { slug: "marco-general", href: "/area/marco-general", name: "Marco General", color: MARCO_GENERAL_COLOR, textColor: "#E9E9EE" },
+    ...orderedAreas.map((area) => ({ slug: area.slug, href: `/area/${area.slug}`, name: area.name, color: area.color, textColor: areaNavForeground(area) })),
+  ];
+  const currentIndex = items.findIndex((item) =>
+    item.slug === "marco-general"
+      ? pathname === "/area/marco-general" || pathname === "/marco-general"
+      : pathname === `/area/${item.slug}` || pathname.startsWith(`/area/${item.slug}/`),
+  );
+  if (currentIndex === -1) return null;
+  const current = items[currentIndex];
+  const previous = items[(currentIndex - 1 + items.length) % items.length];
+  const next = items[(currentIndex + 1) % items.length];
+  const chipClass = "flex min-w-0 flex-1 flex-col gap-0.5 rounded-2xl border px-4 py-2.5 text-[var(--chip)] transition-colors duration-150 hover:bg-[var(--chip)] hover:text-[var(--chip-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]";
 
   return (
-    <nav
-      aria-label="Áreas curriculares"
-      className="scrollbar-hide flex gap-2 overflow-x-auto bg-white px-3 py-2.5"
-    >
-      <Link
-        href="/area/marco-general"
-        aria-current={marcoActive ? "page" : undefined}
-        className={`flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-[#494963] px-4 text-sm font-medium tracking-[-0.02em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
+    <nav aria-label="Navegación entre áreas" className="flex flex-col gap-2 bg-white px-3 py-4">
+      <span
+        aria-current="page"
+        className="flex min-w-0 flex-col gap-0.5 rounded-2xl px-4 py-2.5"
+        style={{ backgroundColor: current.color, color: current.textColor }}
       >
-        Marco General
-        {marcoActive ? <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> : <SolidAreaArrow compact />}
-      </Link>
-      {orderedAreas.map((area) => {
-        const active = pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`);
-        const activeForeground = areaNavForeground(area);
-        return (
-          <Link
-            key={area.slug}
-            href={`/area/${area.slug}`}
-            aria-current={active ? "page" : undefined}
-            className="flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border px-4 text-sm font-medium tracking-[-0.02em] transition-colors duration-150 hover:bg-[var(--area)] hover:text-[var(--area-active-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]"
-            style={{
-              borderColor: area.color,
-              ["--area" as string]: area.color,
-              ["--area-active-fg" as string]: activeForeground,
-              backgroundColor: active ? area.color : "white",
-              color: active ? activeForeground : area.color,
-            }}
-          >
-            {area.name}
-            {active ? <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> : <SolidAreaArrow compact />}
-          </Link>
-        );
-      })}
+        <span className="text-[10px] font-bold uppercase tracking-[.12em] opacity-70">Estás en</span>
+        <span className="truncate text-sm font-bold tracking-[-.02em]">{current.name}</span>
+      </span>
+      <div className="flex items-stretch gap-2">
+        <Link
+          href={previous.href}
+          className={chipClass}
+          style={{ borderColor: previous.color, ["--chip" as string]: previous.color, ["--chip-fg" as string]: previous.textColor }}
+        >
+          <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-[.12em] opacity-70">
+            <span aria-hidden="true" className="block h-[10px] w-[7px] shrink-0 bg-current [clip-path:polygon(100%_0,0_50%,100%_100%)]" />
+            Anterior
+          </span>
+          <span className="truncate text-sm font-bold tracking-[-.02em]">{previous.name}</span>
+        </Link>
+        <Link
+          href={next.href}
+          className={chipClass}
+          style={{ borderColor: next.color, ["--chip" as string]: next.color, ["--chip-fg" as string]: next.textColor }}
+        >
+          <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-[.12em] opacity-70">
+            Siguiente <SolidAreaArrow compact />
+          </span>
+          <span className="truncate text-sm font-bold tracking-[-.02em]">{next.name}</span>
+        </Link>
+      </div>
     </nav>
   );
 }
@@ -388,7 +398,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         <main
           id="contenido"
-          className="h-full min-h-0 min-w-0 flex-1 rounded-none bg-white overflow-y-auto [scrollbar-gutter:stable] md:rounded-2xl"
+          className="h-full min-h-0 min-w-0 flex-1 rounded-none bg-white overflow-y-auto md:rounded-2xl md:[scrollbar-gutter:stable]"
           tabIndex={-1}
         >
           {hasSecondary && areasOpen ? (
