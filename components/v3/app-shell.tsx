@@ -402,9 +402,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </aside>
         )}
 
+        <div className="h-full min-h-0 min-w-0 flex-1 overflow-hidden rounded-none bg-white md:rounded-2xl">
         <main
           id="contenido"
-          className="h-full min-h-0 min-w-0 flex-1 rounded-none bg-white overflow-y-auto md:rounded-2xl md:[scrollbar-gutter:stable]"
+          className="h-full overflow-y-auto md:[scrollbar-gutter:stable]"
           tabIndex={-1}
         >
           {cyclesOpen ? (
@@ -454,6 +455,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           ) : null}
         </main>
+        </div>
       </div>
 
       <nav
