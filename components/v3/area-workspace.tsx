@@ -184,7 +184,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
             ) : null}
             {hasSelectedArtisticTrainings ? (
               <section className="v3-section !p-0 md:!p-[14px]">
-                <div className="rounded-none bg-[#F3F3F5] px-4 py-10 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></div>
+                <div className="rounded-none bg-[#F3F3F5] py-10 pl-4 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></div>
               </section>
             ) : null}
 
@@ -205,7 +205,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
           </div>
           <section className="py-10 md:px-[14px] md:py-16"><MaterialesSection area={area} /></section>
           <section className="v3-section !p-0 md:!p-[14px]">
-            <div className="rounded-none bg-[#F3F3F5] px-4 py-10 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} /></div>
+            <div className="rounded-none bg-[#F3F3F5] py-10 pl-4 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} /></div>
           </section>
           {videos[area.slug] ? (
             <div id="video">

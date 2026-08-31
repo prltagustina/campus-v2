@@ -30,6 +30,7 @@ const marcoDocuments = [
   ["Documento de acompañamiento N° 1", "Material para la implementación institucional", "/docs/Documento_Acompanamiento.pdf"],
   ["Documento de acompañamiento N° 2", "Implementación de Saberes, Vidas y Mundos", "/docs/Documento_Acompanamiento_2.pdf"],
   ["Presentación para supervisores", "Síntesis institucional del nuevo diseño", "/docs/Presentacion_Supervisores.pdf"],
+  ["Jornada Ampliada o Completa", "Más tiempo para transformar los aprendizajes", "/documentos/jornada-ampliada-o-completa.pdf"],
   ["Resolución 1410/2026", "Programa Inglés para la Ruralidad", "/documentos/resolucion-1410-26-ingles.pdf"],
 ] as const;
 
