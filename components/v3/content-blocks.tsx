@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Download, ExternalLink, Presentation, Share2 } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/components/ui/carousel";
 
-export function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
+export function VideoEmbed({ videoId, title, topClassName = "!pt-4 md:!pt-[14px]" }: { videoId: string; title: string; topClassName?: string }) {
   return (
-    <section className="v3-section !p-4 md:!p-[14px]">
+    <section className={`v3-section !px-4 !pb-4 md:!px-[14px] md:!pb-[14px] ${topClassName}`}>
       <div className="relative aspect-video overflow-hidden rounded-2xl bg-[#171729] shadow-[0_12px_40px_rgba(73,73,99,.10)]">
         <iframe
           className="absolute inset-0 h-full w-full"
@@ -28,7 +28,7 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
   const [loaded, setLoaded] = useState(false);
 
   return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(73,73,99,.08)]">
-    <div className="flex min-h-14 items-center gap-3 border-b border-[#494963]/[.07] px-4 md:px-5">
+    <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-4 py-4 md:px-5">
       <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#494963]/[.06] text-[#494963]"><Presentation className="h-4 w-4" /></span>
       <div className="min-w-0 flex-1"><p className="truncate font-display text-base font-semibold text-[#494963] sm:text-lg">{label}</p><p className="text-[10px] uppercase tracking-[.12em] text-[#494963]/35">Diapositivas</p></div>
       <a href={src} target="_blank" rel="noreferrer" className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#F1F1F4] px-2.5 text-xs font-semibold text-[#494963] sm:px-3" aria-label={`Abrir ${title} en una nueva pestaña`}><span className="hidden sm:inline">Abrir</span><ExternalLink className="h-3 w-3" /></a>
@@ -177,7 +177,7 @@ function StepperDots({ count }: { count: number }) {
 
 export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
-    <section className="v3-section !px-0 !pb-0 !pt-10 md:!px-[14px] md:!pb-[14px] md:!pt-16">
+    <section className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
       <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
       <Carousel opts={{ loop: true }}>
         <div className="flex items-end justify-between gap-4">

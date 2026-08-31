@@ -418,7 +418,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
               alt="English Funzine"
-              className="h-10 w-auto max-w-[170px] object-contain object-left sm:h-12 sm:max-w-[220px]"
+              className="h-10 w-auto max-w-[170px] object-contain object-left sm:h-12 sm:max-w-[220px] md:h-16 md:max-w-[300px]"
             />
           </span>
           <span className="flex items-center text-[#494963]">

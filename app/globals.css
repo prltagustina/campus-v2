@@ -263,7 +263,9 @@
   padding: clamp(.75rem, 2.2cqw, 1.5rem);
   border-radius: .75rem;
 }
-.documento-hero__image--tilted { transform: rotate(-3deg) scale(.92); }
+@media (min-width: 768px) {
+  .documento-hero__image--tilted { transform: rotate(-3deg) scale(.92); }
+}
 .documento-hero__content {
   order: 2;
   display: flex;
@@ -580,7 +582,6 @@
 @media (min-width: 1280px) {
   .v3-section-cover--areas,
   .v3-section-cover--cycles { --v3-cover-offset: 0px; }
-  .v3-section-cover__inner--no-icon .v3-section-cover__copy { justify-self: center; }
 }
 
 .cycle-card { border: 1px solid #494963; background-color: #fff; box-shadow: none; }

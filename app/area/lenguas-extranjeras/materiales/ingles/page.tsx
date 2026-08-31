@@ -210,7 +210,7 @@ export default function InglesMaterilesPage() {
 
                   <Link
                     href="/area/lenguas-extranjeras"
-                    className="inline-flex items-center gap-2 pt-6 text-xs text-[#494963]/50 transition-colors hover:text-[#494963] sm:pt-8 sm:text-sm"
+                    className="inline-flex items-center gap-2 pt-6 text-xs text-[#494963]/75 transition-colors hover:text-[#494963] sm:pt-8 sm:text-sm"
                   >
                     <ArrowLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     Volver a Lenguas Extranjeras
