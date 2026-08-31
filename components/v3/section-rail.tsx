@@ -82,7 +82,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
       id={`${instanceId}-switcher`}
       className="flex w-full flex-col bg-[#F7F7F9]"
     >
-      <div className="shrink-0 border-b border-[#494963]/[.06] bg-[#F7F7F9] px-4 py-2.5 sm:px-6 md:py-3">
+      <div className="shrink-0 bg-[#F7F7F9] px-4 py-2.5 sm:px-6 md:py-3">
         <div className="mx-auto max-w-4xl">
           <span className="sr-only">{title}</span>
           <div

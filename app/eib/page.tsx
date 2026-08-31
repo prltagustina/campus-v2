@@ -183,7 +183,7 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
     <section className="grid min-w-0 gap-4 px-5 py-5 sm:px-6 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-7 md:py-6">
       <header>
         <p className="font-display text-[11px] font-semibold tabular-nums text-[#494963]/28">{index}</p>
-        <h3 className="mt-1 font-display text-base font-semibold leading-tight text-[#494963] sm:text-lg">{title}</h3>
+        <h3 className="mt-1 font-display text-base font-bold leading-tight text-[#494963] sm:text-lg">{title}</h3>
         <p className="mt-1 text-xs text-[#494963]/38">{items.length} {items.length === 1 ? "experiencia" : "experiencias"}</p>
       </header>
 
