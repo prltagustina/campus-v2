@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BriefcaseBusiness,
   Check,
@@ -13,6 +13,7 @@ import {
   MessageCircle,
   Search,
   Users,
+  X,
 } from "lucide-react";
 import { orderedAreas, cycles } from "@/lib/v3-config";
 import { MARCO_GENERAL_COLOR, TERRITORIO_ENABLED, MATERIALES_POR_CICLO_ENABLED } from "@/lib/constants";
@@ -135,13 +136,13 @@ function SantaFeBrand() {
  * Reemplaza al dropdown anterior, que era menos accesible y menos parecido
  * al sistema de desktop.
  */
-function AreaHorizontalNav({ pathname, expanded = false }: { pathname: string; expanded?: boolean }) {
+function AreaHorizontalNav({ pathname }: { pathname: string }) {
   const marcoActive = pathname === "/area/marco-general" || pathname === "/marco-general";
 
   return (
     <nav
       aria-label="Áreas curriculares"
-      className={expanded ? "flex flex-wrap gap-2 bg-[#F8F8FA] px-3 py-2.5" : "scrollbar-hide flex gap-2 overflow-x-auto bg-[#F8F8FA] px-3 py-2.5"}
+      className="scrollbar-hide flex gap-2 overflow-x-auto bg-[#F8F8FA] px-3 py-2.5"
     >
       <Link
         href="/area/marco-general"
@@ -262,6 +263,12 @@ function TerritorySubnav({ pathname }: { pathname: string }) {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [mobileAreasMenuOpen, setMobileAreasMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMobileAreasMenuOpen(false);
+  }, [pathname]);
+
   const areasOpen = pathname === "/areas" || pathname.startsWith("/area/") || pathname === "/marco-general";
   const cyclesOpen = MATERIALES_POR_CICLO_ENABLED && (pathname === "/materiales-por-ciclo" || pathname.startsWith("/ciclo/"));
   const territoryOpen = TERRITORIO_ENABLED && pathname.startsWith("/territorio");
@@ -398,7 +405,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         >
           {hasSecondary && areasOpen ? (
             <div className="xl:hidden">
-              <AreaHorizontalNav pathname={pathname} expanded={pathname === "/areas"} />
+              <AreaHorizontalNav pathname={pathname} />
             </div>
           ) : cyclesOpen ? (
             <div className="sticky top-0 z-30 grid grid-cols-3 gap-1.5 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">
@@ -444,14 +451,68 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </main>
       </div>
 
+      {mobileAreasMenuOpen ? (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <button
+            type="button"
+            aria-label="Cerrar menú de áreas"
+            onClick={() => setMobileAreasMenuOpen(false)}
+            className="absolute inset-0 bg-[#1A1A26]/40"
+          />
+          <div className="absolute inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] max-h-[70vh] overflow-y-auto rounded-t-3xl bg-white p-4 pb-6 shadow-[0_-16px_40px_rgba(20,20,35,.25)]">
+            <div className="mb-3 flex items-center justify-between">
+              <span className="font-display text-lg font-semibold text-[#494963]">Áreas</span>
+              <button type="button" onClick={() => setMobileAreasMenuOpen(false)} aria-label="Cerrar" className="grid h-9 w-9 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963]">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <nav aria-label="Áreas curriculares" className="flex flex-wrap gap-2">
+              <Link
+                href="/area/marco-general"
+                className="flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-[#494963] bg-white px-4 text-sm font-medium tracking-[-0.02em] text-[#494963]"
+              >
+                Marco General
+                <SolidAreaArrow compact />
+              </Link>
+              {orderedAreas.map((area) => (
+                <Link
+                  key={area.slug}
+                  href={`/area/${area.slug}`}
+                  className="flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border bg-white px-4 text-sm font-medium tracking-[-0.02em]"
+                  style={{ borderColor: area.color, color: area.color }}
+                >
+                  {area.name}
+                  <SolidAreaArrow compact />
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+      ) : null}
+
       <nav
         aria-label="Navegación móvil"
         className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
         style={{ gridTemplateColumns: `repeat(${primaryItems.length}, minmax(0, 1fr))` }}
       >
         {primaryItems.map((item) => {
-          const active = item.match(pathname);
+          const active = item.match(pathname) || (item.href === "/areas" && mobileAreasMenuOpen);
           const Icon = item.icon;
+          if (item.href === "/areas") {
+            return (
+              <button
+                key={item.href}
+                type="button"
+                aria-expanded={mobileAreasMenuOpen}
+                aria-label={item.label}
+                onClick={() => setMobileAreasMenuOpen((current) => !current)}
+                className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[8px] font-bold min-[390px]:text-[9px] ${active ? "text-white" : "text-white/50"}`}
+              >
+                <span className={`grid h-7 w-8 place-items-center rounded-lg min-[390px]:w-9 ${active ? "bg-white text-[#494963]" : ""}`}><Icon className="h-4.5 w-4.5" aria-hidden="true" /></span>
+                <span className="max-w-full truncate px-0.5">{item.mobileLabel}</span>
+              </button>
+            );
+          }
           return (
             <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} aria-label={item.label} className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[8px] font-bold min-[390px]:text-[9px] ${active ? "text-white" : "text-white/50"}`}>
               <span className={`grid h-7 w-8 place-items-center rounded-lg min-[390px]:w-9 ${active ? "bg-white text-[#494963]" : ""}`}><Icon className="h-4.5 w-4.5" aria-hidden="true" /></span>

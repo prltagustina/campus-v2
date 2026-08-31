@@ -365,9 +365,9 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
         id="idioma-recursos-panel"
         role="tabpanel"
         aria-labelledby={"idioma-tab-" + idiomaSeleccionado}
-        className="mt-7 rounded-3xl bg-[#F7F7F9] p-4 sm:mt-8 sm:p-6 lg:p-8"
+        className="mt-7 sm:mt-8"
       >
-        <div className="flex flex-col gap-2 border-b border-[#494963]/10 pb-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:pb-6">
+        <div className="flex flex-col gap-2 pb-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:pb-6">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[.15em] text-[#494963]/38">
               Lengua seleccionada
@@ -381,13 +381,13 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
           </p>
         </div>
 
-        <div className="mt-5 divide-y divide-[#494963]/[.08] overflow-hidden rounded-[1.35rem] border border-[#494963]/[.08] bg-white sm:mt-6">
+        <div className="divide-y divide-[#494963]/[.08] overflow-hidden rounded-[1.35rem] border border-[#494963]/[.08] bg-white">
           <RepositoryAccordionGroup
             id={`${idiomaSeleccionado}-secuencias`}
             title="Secuencias didácticas"
             total={secuencias.length}
             color={area.color}
-            activeForeground={areaNavForeground(area)}
+            activeForeground="#fff"
             open={categoriaAbierta === "secuencias"}
             onToggle={() => toggleCategory("secuencias")}
           >
@@ -398,14 +398,13 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
             title="Normativa"
             total={normativa.length}
             color={area.color}
-            activeForeground={areaNavForeground(area)}
+            activeForeground="#fff"
             open={categoriaAbierta === "guias"}
             onToggle={() => toggleCategory("guias")}
           >
             <RepositoryFileGroup files={normativa.map((item) => ({ file: item }))} color={area.color} />
           </RepositoryAccordionGroup>
         </div>
-
       </div>
 
       {idiomaSeleccionado === "ingles" ? (

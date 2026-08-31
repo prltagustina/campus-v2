@@ -24,8 +24,7 @@ export function VideoEmbed({ videoId, title }: { videoId: string; title: string 
   );
 }
 
-export function SlideDeckEmbed({ src, title, label = "Presentación institucional", posterSrc }: { src: string; title: string; label?: string; posterSrc?: string }) {
-  const [requested, setRequested] = useState(false);
+export function SlideDeckEmbed({ src, title, label = "Presentación institucional" }: { src: string; title: string; label?: string }) {
   const [loaded, setLoaded] = useState(false);
 
   return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(73,73,99,.08)]">
@@ -36,44 +35,23 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
     </div>
     <div className="bg-[#E9E9EE] p-1.5 md:p-2">
       <div className="relative aspect-video overflow-hidden rounded-xl bg-[#DDDDE4]">
-        {!requested ? (
-          <button
-            type="button"
-            onClick={() => setRequested(true)}
-            className="group absolute inset-0 w-full overflow-hidden text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#494963]"
-            aria-label={`Cargar ${title}`}
-          >
-            {posterSrc ? <Image src={posterSrc} alt="" fill className="object-cover object-right" sizes="(max-width: 1023px) calc(100vw - 3rem), 896px" /> : null}
-            <span className={`absolute inset-0 ${posterSrc ? "bg-gradient-to-r from-[#494963]/95 via-[#494963]/70 to-[#494963]/15" : "bg-[#494963]"}`} aria-hidden="true" />
-            <span className="absolute inset-0 flex max-w-lg flex-col justify-end p-5 text-white sm:p-8">
-              <span className="text-[10px] font-extrabold uppercase tracking-[.17em] text-white/55 sm:text-xs">Presentación interactiva</span>
-              <strong className="mt-2 text-xl leading-tight sm:text-2xl">{title}</strong>
-              <span className="mt-4 inline-flex h-11 w-fit items-center gap-2 rounded-full bg-white px-5 text-sm font-bold text-[#494963] shadow-sm transition-transform group-hover:translate-x-1">
-                <Presentation className="h-4 w-4" /> Ver presentación
-              </span>
+        {!loaded ? (
+          <div className="absolute inset-0 z-10 grid place-items-center bg-[#F4F4F6]" role="status" aria-live="polite">
+            <span className="flex items-center gap-3 text-sm font-semibold text-[#494963]/65">
+              <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#494963]/15 border-t-[#494963]" aria-hidden="true" />
+              Cargando presentación…
             </span>
-          </button>
-        ) : (
-          <>
-            {!loaded ? (
-              <div className="absolute inset-0 z-10 grid place-items-center bg-[#F4F4F6]" role="status" aria-live="polite">
-                <span className="flex items-center gap-3 text-sm font-semibold text-[#494963]/65">
-                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#494963]/15 border-t-[#494963]" aria-hidden="true" />
-                  Cargando presentación…
-                </span>
-              </div>
-            ) : null}
-            <iframe
-              src={src}
-              className={`absolute inset-0 h-full w-full bg-white transition-opacity ${loaded ? "opacity-100" : "opacity-0"}`}
-              title={title}
-              loading="lazy"
-              referrerPolicy="strict-origin-when-cross-origin"
-              onLoad={() => setLoaded(true)}
-              allowFullScreen
-            />
-          </>
-        )}
+          </div>
+        ) : null}
+        <iframe
+          src={src}
+          className={`absolute inset-0 h-full w-full bg-white transition-opacity ${loaded ? "opacity-100" : "opacity-0"}`}
+          title={title}
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          onLoad={() => setLoaded(true)}
+          allowFullScreen
+        />
       </div>
     </div>
   </div>;
@@ -199,8 +177,8 @@ function StepperDots({ count }: { count: number }) {
 
 export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
-    <section className="v3-section">
-      <div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
+    <section className="v3-section !px-0 sm:!px-[14px]">
+      <div className="rounded-none bg-[#F5F5F7] p-5 sm:rounded-3xl md:p-8 lg:p-10">
       <Carousel opts={{ loop: true }}>
         <div className="flex items-end justify-between gap-4">
           <h2 className="max-w-sm font-sans text-2xl font-bold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>
