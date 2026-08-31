@@ -55,7 +55,7 @@ function Dots() {
   }, [api]);
 
   return (
-    <div className="mt-6 flex gap-[6px]">
+    <div className="mt-3 flex gap-[6px]">
       {Array.from({ length: snapCount }).map((_, index) => (
         <button
           key={index}
