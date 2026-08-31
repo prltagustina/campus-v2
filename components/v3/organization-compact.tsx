@@ -72,8 +72,8 @@ function Dots() {
 
 export function OrganizationCompact() {
   return (
-    <section className="v3-section">
-      <div className="rounded-3xl bg-[#F5F5F7] p-5 md:p-8 lg:p-10">
+    <section className="v3-section !px-0 sm:!px-[14px]">
+      <div className="rounded-none bg-[#F5F5F7] p-5 sm:rounded-3xl md:p-8 lg:p-10">
         <Carousel opts={{ align: "start" }}>
           <div className="flex items-end justify-between gap-4">
             <div>

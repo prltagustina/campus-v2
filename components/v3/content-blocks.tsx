@@ -30,8 +30,8 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
   return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(73,73,99,.08)]">
     <div className="flex min-h-14 items-center gap-3 border-b border-[#494963]/[.07] px-4 md:px-5">
       <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#494963]/[.06] text-[#494963]"><Presentation className="h-4 w-4" /></span>
-      <div className="min-w-0 flex-1"><p className="truncate font-display text-lg font-semibold text-[#494963]">{label}</p><p className="text-[10px] uppercase tracking-[.12em] text-[#494963]/35">Diapositivas</p></div>
-      <a href={src} target="_blank" rel="noreferrer" className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#F1F1F4] px-3 text-xs font-semibold text-[#494963]" aria-label={`Abrir ${title} en una nueva pestaña`}>Abrir<ExternalLink className="h-3 w-3" /></a>
+      <div className="min-w-0 flex-1"><p className="truncate font-display text-base font-semibold text-[#494963] sm:text-lg">{label}</p><p className="text-[10px] uppercase tracking-[.12em] text-[#494963]/35">Diapositivas</p></div>
+      <a href={src} target="_blank" rel="noreferrer" className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#F1F1F4] px-2.5 text-xs font-semibold text-[#494963] sm:px-3" aria-label={`Abrir ${title} en una nueva pestaña`}><span className="hidden sm:inline">Abrir</span><ExternalLink className="h-3 w-3" /></a>
     </div>
     <div className="bg-[#E9E9EE] p-1.5 md:p-2">
       <div className="relative aspect-video overflow-hidden rounded-xl bg-[#DDDDE4]">
@@ -81,7 +81,16 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
   return (
     <section className="documento-hero-shell v3-section">
       <div className={`documento-hero ${compact ? "documento-hero--compact" : "documento-hero--standard"}`}>
-        <div className="documento-hero__title-block">
+        <div className="documento-hero__cover">
+          <Image
+            src={portadaSrc}
+            alt={`Portada de ${titulo}`}
+            fill
+            className={`documento-hero__image drop-shadow-[0_20px_28px_rgba(73,73,99,.24)] ${tiltedCover ? "documento-hero__image--tilted" : ""}`}
+            sizes="(max-width: 559px) 78vw, (max-width: 1279px) 28vw, 24vw"
+          />
+        </div>
+        <div className="documento-hero__content">
           {eyebrow && <p className="mb-4 text-xs font-extrabold uppercase tracking-[0.2em]" style={{ color: compact ? "rgba(255,255,255,.5)" : accent }}>{eyebrow}</p>}
           <h2 className="documento-hero__title font-display font-medium leading-tight" aria-label={tituloEditorial ? titulo : undefined}>
             {tituloEditorial ? tituloEditorial.map((line, index) => <span className="documento-hero__title-line" key={line}>{line}{index < tituloEditorial.length - 1 ? " " : ""}</span>) : titulo}
@@ -98,24 +107,15 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
               </span>
             )) : descripcion}
           </p>
-        </div>
-        <div className="documento-hero__cover">
-          <Image
-            src={portadaSrc}
-            alt={`Portada de ${titulo}`}
-            fill
-            className={`documento-hero__image drop-shadow-[0_20px_28px_rgba(73,73,99,.24)] ${tiltedCover ? "documento-hero__image--tilted" : ""}`}
-            sizes="(max-width: 559px) 78vw, (max-width: 1279px) 28vw, 24vw"
-          />
-        </div>
-        <div className="documento-hero__actions-block documento-hero__actions flex flex-wrap items-center gap-3">
-          <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-12 items-center gap-2 rounded-full px-6 font-bold" style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}>
-            <Download className="h-4 w-4" /> Descargar PDF
-          </a>
-          <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-12 w-12 place-items-center rounded-full border border-white/30 hover:bg-white/10">
-            <Share2 className="h-4 w-4" />
-          </button>
-          {secondaryHref && <Link href={secondaryHref} className="basis-full"><span className="mt-1 inline-flex h-11 items-center rounded-full border border-white/40 px-6 font-semibold">Saber más</span></Link>}
+          <div className="documento-hero__actions flex flex-wrap items-center gap-3">
+            <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-12 items-center gap-2 rounded-full px-6 font-bold" style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}>
+              <Download className="h-4 w-4" /><span className="hidden sm:inline">Descargar PDF</span>
+            </a>
+            <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-12 w-12 place-items-center rounded-full border border-white/30 hover:bg-white/10">
+              <Share2 className="h-4 w-4" />
+            </button>
+            {secondaryHref && <Link href={secondaryHref} className="basis-full"><span className="mt-1 inline-flex h-11 items-center rounded-full border border-white/40 px-6 font-semibold">Saber más</span></Link>}
+          </div>
         </div>
       </div>
     </section>

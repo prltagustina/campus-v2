@@ -28,8 +28,8 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
   };
 
   return (
-    <section className="v3-section">
-      <div className="relative overflow-hidden rounded-3xl" style={{ backgroundColor: accent, color: accentText }}>
+    <section className="v3-section !px-0 sm:!px-[14px]">
+      <div className="relative overflow-hidden rounded-none sm:rounded-3xl" style={{ backgroundColor: accent, color: accentText }}>
         {!singleSlide && slide === 1 ? (
           <button type="button" onClick={() => setSlide(0)} aria-label="Slide anterior" className="absolute left-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-black/[.06] text-current transition-colors hover:bg-black/[.12] sm:left-6">
             <ChevronLeft className="h-5 w-5" />
@@ -52,7 +52,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
                 <p className="mt-3 max-w-md text-sm leading-relaxed opacity-80 sm:mt-4 sm:text-base">{descripcion}</p>
                 <div className="mt-5 flex flex-wrap items-center gap-3 sm:mt-7">
                   <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-11 items-center gap-2 rounded-full bg-[#494963] px-5 font-bold text-white sm:h-12 sm:px-6">
-                    <Download className="h-4 w-4" /> Descargar PDF
+                    <Download className="h-4 w-4" /><span className="hidden sm:inline">Descargar PDF</span>
                   </a>
                   <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-11 w-11 place-items-center rounded-full border-2 border-current text-current sm:h-12 sm:w-12">
                     <Share2 className="h-4 w-4" />
@@ -71,7 +71,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
                 <p className="mt-3 max-w-md text-sm leading-relaxed opacity-80 sm:mt-4 sm:text-base">{descripcion}</p>
                 <div className="mt-5 flex flex-wrap items-center gap-3 sm:mt-7">
                   <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-11 items-center gap-2 rounded-full bg-[#494963] px-5 font-bold text-white sm:h-12 sm:px-6">
-                    <Download className="h-4 w-4" /> Descargar PDF
+                    <Download className="h-4 w-4" /><span className="hidden sm:inline">Descargar PDF</span>
                   </a>
                   <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-11 w-11 place-items-center rounded-full border-2 border-current text-current sm:h-12 sm:w-12">
                     <Share2 className="h-4 w-4" />
