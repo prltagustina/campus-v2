@@ -28,8 +28,8 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
   };
 
   return (
-    <section className="v3-section !px-0 sm:!px-[14px]">
-      <div className="relative overflow-hidden rounded-none sm:rounded-3xl" style={{ backgroundColor: accent, color: accentText }}>
+    <section className="v3-section !px-0 md:!px-[14px]">
+      <div className="relative overflow-hidden rounded-none md:rounded-3xl" style={{ backgroundColor: accent, color: accentText }}>
         {!singleSlide && slide === 1 ? (
           <button type="button" onClick={() => setSlide(0)} aria-label="Slide anterior" className="absolute left-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-black/[.06] text-current transition-colors hover:bg-black/[.12] sm:left-6">
             <ChevronLeft className="h-5 w-5" />

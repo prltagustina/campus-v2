@@ -381,7 +381,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
           </p>
         </div>
 
-        <div className="divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white sm:rounded-[1.35rem] sm:border-x">
+        <div className="divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-[1.35rem] md:border-x">
           <RepositoryAccordionGroup
             id={`${idiomaSeleccionado}-secuencias`}
             title="Secuencias didácticas"
@@ -500,7 +500,7 @@ function ItinerarioRepository({
   };
 
   return (
-    <div className="mx-auto w-full min-w-0 max-w-4xl divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white sm:rounded-[1.35rem] sm:border-x">
+    <div className="mx-auto w-full min-w-0 max-w-4xl divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-[1.35rem] md:border-x">
       {itinerario.categorias.map((categoria) => (
         <CategoriaAccordion
           key={categoria.id}
