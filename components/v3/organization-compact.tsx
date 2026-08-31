@@ -25,7 +25,7 @@ const items = [
 function Arrows() {
   const { scrollPrev, scrollNext, canScrollPrev, canScrollNext } = useCarousel();
   return (
-    <div className="hidden shrink-0 items-center gap-3 sm:flex">
+    <div className="flex shrink-0 items-center gap-3">
       <button type="button" onClick={scrollPrev} disabled={!canScrollPrev} aria-label="Anterior" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
         <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
       </button>
@@ -85,7 +85,7 @@ export function OrganizationCompact() {
           <CarouselContent className="mt-5 sm:mt-7">
             {items.map(([number, title, description, iconSrc]) => (
               <CarouselItem key={number} className="basis-[70%] sm:basis-1/2 lg:basis-1/3">
-                <article className="flex h-full min-h-[190px] flex-col rounded-lg bg-white p-4 sm:p-5">
+                <article className="flex h-full flex-col rounded-lg bg-white p-4 sm:p-5">
                   <div className="flex items-center gap-2">
                     {iconSrc ? <Image src={iconSrc} alt="" width={16} height={16} className="h-4 w-4 object-contain" /> : <PresentacionIcon className="h-4 w-4 text-[#494963]" />}
                     <span className="font-sans text-xl font-bold text-[#CFCFCF] sm:text-2xl">{number}</span>
