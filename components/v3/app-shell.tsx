@@ -142,7 +142,7 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
   return (
     <nav
       aria-label="Áreas curriculares"
-      className="scrollbar-hide flex gap-2 overflow-x-auto bg-[#F8F8FA] px-3 py-2.5"
+      className="scrollbar-hide flex gap-2 overflow-x-auto bg-white px-3 py-2.5"
     >
       <Link
         href="/area/marco-general"

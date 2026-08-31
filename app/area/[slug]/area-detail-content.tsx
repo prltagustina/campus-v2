@@ -67,8 +67,8 @@ function MarcoGeneralContent() {
           singleSlide
         />
       </div>
-      <section id="recursos" className="v3-section !px-0 sm:!px-[14px]">
-        <div className="rounded-none bg-[#F5F5F7] p-5 sm:rounded-3xl md:p-8 lg:p-10">
+      <section id="recursos" className="v3-section !px-0 md:!px-[14px]">
+        <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
           <header className="mb-7 max-w-2xl"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Documentos y formaciones</h2><p className="mt-2 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           <div className="grid gap-4 lg:grid-cols-[210px_minmax(0,1fr)]">
             <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-1 lg:self-start" role="tablist" aria-label="Recursos del Marco General">
@@ -83,7 +83,7 @@ function MarcoGeneralContent() {
           </div>
         </div>
       </section>
-      <section id="ejes" className="v3-section !px-0 sm:!px-[14px]"><div className="rounded-none bg-[#F5F5F7] p-5 sm:rounded-3xl md:p-8 lg:p-10">
+      <section id="ejes" className="v3-section !px-0 md:!px-[14px]"><div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
         <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p><h2 className="mt-2 font-display text-3xl font-semibold tracking-[-.03em] text-[#494963] md:text-4xl">Aspectos distintivos del Diseño Curricular.</h2>
         <p className="mt-2 text-sm text-[#494963]/45">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
         <div className="mt-7 overflow-hidden rounded-2xl bg-white" role="list" aria-label="Aspectos distintivos del Diseño Curricular">

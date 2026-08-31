@@ -245,7 +245,7 @@
   background: #494963;
   color: #fff;
 }
-@media (min-width: 640px) { .documento-hero { border-radius: 1.5rem; } }
+@media (min-width: 768px) { .documento-hero { border-radius: 1.5rem; } }
 .documento-hero__cover {
   position: relative;
   min-width: 0;
