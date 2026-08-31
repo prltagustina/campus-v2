@@ -480,6 +480,9 @@
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
   mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
 }
+.v3-cover-icon--areas::before {
+  display: none;
+}
 .v3-cover-icon--cycles::after {
   border: 1px dashed rgba(73,73,99,.34);
 }
