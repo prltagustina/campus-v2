@@ -78,20 +78,20 @@ export function OrganizationCompact() {
           <div className="flex items-end justify-between gap-4 pr-5 md:pr-0">
             <div>
               <h2 className="font-sans text-2xl font-bold leading-[1.05] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">Cómo está<br />organizada cada área</h2>
-              <p className="mt-2 max-w-md font-sans text-[15px] leading-normal text-[#494963]/50 sm:text-base sm:leading-[1.5]">Todas comparten una misma estructura de seis secciones.</p>
+              <p className="mt-2 max-w-md font-sans text-base leading-normal text-[#494963]/50 sm:leading-[1.5]">Todas comparten una misma estructura de seis secciones.</p>
             </div>
             <Arrows />
           </div>
           <CarouselContent className="mt-5 pr-2 sm:mt-7 md:pr-0">
             {items.map(([number, title, description, iconSrc]) => (
-              <CarouselItem key={number} className="basis-[70%] sm:basis-1/2 lg:basis-1/3">
-                <article className="flex h-full flex-col rounded-lg bg-white p-4 sm:p-5">
+              <CarouselItem key={number} className="basis-[86%] sm:basis-1/2 lg:basis-1/3">
+                <article className="flex h-full flex-col rounded-lg bg-white p-[18px] sm:p-5">
                   <div className="flex items-center gap-2">
                     {iconSrc ? <Image src={iconSrc} alt="" width={16} height={16} className="h-4 w-4 object-contain" /> : <PresentacionIcon className="h-4 w-4 text-[#494963]" />}
                     <span className="font-sans text-xl font-bold text-[#CFCFCF] sm:text-2xl">{number}</span>
                   </div>
-                  <h3 className="mt-4 font-sans text-[15px] font-extrabold text-[#494963] sm:text-base">{title}</h3>
-                  <p className="mt-2 font-sans text-sm leading-relaxed text-[#494963]/50">{description}</p>
+                  <h3 className="mt-3.5 font-sans text-base font-extrabold text-[#494963]">{title}</h3>
+                  <p className="mt-2 font-sans text-[15px] leading-relaxed text-[#494963]/50 sm:text-sm">{description}</p>
                 </article>
               </CarouselItem>
             ))}
