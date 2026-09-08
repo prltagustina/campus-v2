@@ -39,7 +39,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               aria-label="Slide anterior"
               aria-hidden={slide === 0}
               tabIndex={slide === 0 ? -1 : undefined}
-              className={`absolute left-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-black/15 text-current shadow-sm transition-[background-color,opacity] hover:bg-black/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:left-6 ${slide === 0 ? "pointer-events-none opacity-0" : ""}`}
+              className={`absolute left-3 top-[143px] z-10 grid h-11 w-11 place-items-center rounded-full bg-black/15 text-current shadow-sm transition-[background-color,opacity] hover:bg-black/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:left-6 sm:top-[212px] md:top-1/2 md:-translate-y-1/2 ${slide === 0 ? "pointer-events-none opacity-0" : ""}`}
             >
               <ChevronLeft className="h-5 w-5" strokeWidth={2} />
             </button>
@@ -49,7 +49,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               aria-label="Slide siguiente"
               aria-hidden={slide === 1}
               tabIndex={slide === 1 ? -1 : undefined}
-              className={`absolute right-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-black/15 text-current shadow-sm transition-[background-color,opacity] hover:bg-black/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:right-6 ${slide === 1 ? "pointer-events-none opacity-0" : ""}`}
+              className={`absolute right-3 top-[143px] z-10 grid h-11 w-11 place-items-center rounded-full bg-black/15 text-current shadow-sm transition-[background-color,opacity] hover:bg-black/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:right-6 sm:top-[212px] md:top-1/2 md:-translate-y-1/2 ${slide === 1 ? "pointer-events-none opacity-0" : ""}`}
             >
               <ChevronRight className="h-5 w-5" strokeWidth={2} />
             </button>
