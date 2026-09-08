@@ -113,7 +113,7 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
               target="_blank"
               rel="noreferrer"
               aria-label={`Descargar PDF: ${titulo}`}
-              className="inline-flex h-[52px] items-center gap-2.5 rounded-full px-7 text-[15px] font-bold transition-[filter] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+              className="inline-flex h-[52px] items-center gap-2.5 rounded-[9px] px-7 text-[15px] font-bold transition-[filter] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
               style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}
             >
               <Download className="h-[18px] w-[18px]" strokeWidth={1.75} /> Descargar PDF
@@ -122,13 +122,13 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
               type="button"
               onClick={share}
               aria-label={`Compartir ${titulo}`}
-              className="grid h-[52px] w-[52px] place-items-center rounded-full border border-white/35 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+              className="grid h-[52px] w-[52px] place-items-center rounded-[9px] border border-white/35 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
             >
               <Share2 className="h-[18px] w-[18px]" strokeWidth={1.75} />
             </button>
             {secondaryHref && (
               <Link href={secondaryHref} className="mt-1 basis-full">
-                <span className="inline-flex h-12 w-fit items-center rounded-full border border-white/35 px-7 text-[15px] font-medium tracking-[.01em] transition-colors hover:bg-white/10">
+                <span className="inline-flex h-12 w-fit items-center rounded-[9px] border border-white/35 px-7 text-[15px] font-medium tracking-[.01em] transition-colors hover:bg-white/10">
                   Saber más
                 </span>
               </Link>

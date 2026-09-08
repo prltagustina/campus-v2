@@ -109,7 +109,7 @@ function ArtisticLanguageTabs({
               aria-selected={active}
               aria-controls="lenguaje-documento"
               onClick={() => onSelect(option.id)}
-              className={`rounded-full border px-5 py-2.5 text-[14px] font-semibold leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]/30 focus-visible:ring-offset-2 ${active ? "border-transparent text-white" : "border-[#EBEDEC] bg-white text-[#7A7A7A] hover:bg-[#EBEDEC] hover:text-[#494963]"}`}
+              className={`rounded-[9px] border px-5 py-2.5 text-[14px] font-semibold leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]/30 focus-visible:ring-offset-2 ${active ? "border-transparent text-white" : "border-[#EBEDEC] bg-white text-[#7A7A7A] hover:bg-[#EBEDEC] hover:text-[#494963]"}`}
               style={active ? { backgroundColor: area.color } : undefined}
             >
               {option.name}

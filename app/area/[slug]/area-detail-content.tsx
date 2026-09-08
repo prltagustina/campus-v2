@@ -72,7 +72,7 @@ function MarcoGeneralContent() {
       <section id="recursos" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
         <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
           <header className="mb-10 max-w-2xl md:mb-14"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Documentos y formaciones</h2><p className="mt-3 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
-          <div role="tablist" aria-label="Recursos del Marco General" className="flex w-full min-w-0 gap-1.5 rounded-full bg-[#E6E6EB] p-1.5 md:w-fit">
+          <div role="tablist" aria-label="Recursos del Marco General" className="flex w-full min-w-0 gap-1.5 rounded-[13px] bg-[#E6E6EB] p-1.5 md:w-fit">
             {(["documentos", "formaciones"] as const).map((id) => {
               const label = id === "documentos" ? "Documentos" : "Formaciones";
               const active = resourceView === id;
@@ -83,7 +83,7 @@ function MarcoGeneralContent() {
                   role="tab"
                   aria-selected={active}
                   onClick={() => setResourceView(id)}
-                  className={`relative min-h-10 min-w-0 flex-1 whitespace-nowrap rounded-full px-3 py-1.5 text-center text-[11px] font-semibold leading-tight transition-[background-color,color,box-shadow] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] sm:px-5 sm:text-xs md:min-h-11 md:flex-none md:px-6 md:text-[13px] ${active ? "bg-[#494963] text-white shadow-[0_4px_14px_rgba(73,73,99,.16)]" : "text-[#494963]/65 hover:bg-white/70 hover:text-[#494963]"}`}
+                  className={`relative min-h-10 min-w-0 flex-1 whitespace-nowrap rounded-[9px] px-3 py-1.5 text-center text-[11px] font-semibold leading-tight transition-[background-color,color,box-shadow] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] sm:px-5 sm:text-xs md:min-h-11 md:flex-none md:px-6 md:text-[13px] ${active ? "bg-[#494963] text-white shadow-[0_4px_14px_rgba(73,73,99,.16)]" : "text-[#494963]/65 hover:bg-white/70 hover:text-[#494963]"}`}
                 >
                   {label}
                 </button>
