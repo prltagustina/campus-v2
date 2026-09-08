@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type UIEvent } from "react";
+import { useEffect, useRef, useState, type UIEvent } from "react";
 import {
   BriefcaseBusiness,
   ChevronDown,
@@ -317,21 +317,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  // Al scrollear el contenido se oculta el header (queda solo la franja del
-  // degradé); reaparece cerca del inicio. Umbrales con histéresis (zona muerta
-  // 48–120px) para que no parpadee, y update funcional (React no re-renderiza
-  // si el valor no cambia).
+  // Header + franja del buscador NO fijos: al scrollear hacia abajo se esconden,
+  // y con cualquier scroll hacia arriba reaparecen (no hace falta volver al
+  // inicio). Se ignoran los micro-movimientos (<6px) y el update es funcional
+  // (React no re-renderiza si el valor no cambia) para que no parpadee.
   const [headerHidden, setHeaderHidden] = useState(false);
+  const lastScrollY = useRef(0);
   useEffect(() => {
     setHeaderHidden(false);
+    lastScrollY.current = 0;
   }, [pathname]);
   const onContentScroll = (event: UIEvent<HTMLElement>) => {
     const y = event.currentTarget.scrollTop;
-    setHeaderHidden((hidden) => {
-      if (!hidden && y > 120) return true;
-      if (hidden && y < 48) return false;
-      return hidden;
-    });
+    const dy = y - lastScrollY.current;
+    if (Math.abs(dy) < 6) return;
+    lastScrollY.current = y;
+    setHeaderHidden(y > 24 && dy > 0);
   };
 
   return (
@@ -353,7 +354,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <div
-        className="h-[46px] shrink-0 bg-[#EDEDF0] px-4 text-[#494963] lg:h-[54px]"
+        className={`shrink-0 overflow-hidden bg-[#EDEDF0] px-4 text-[#494963] transition-[height,opacity] duration-300 ease-out ${headerHidden ? "h-0 opacity-0" : "h-[46px] opacity-100 lg:h-[54px]"}`}
         style={{
           backgroundImage: documentSpineGradient,
         }}
