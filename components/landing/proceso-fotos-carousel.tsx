@@ -71,8 +71,8 @@ export function ProcesoFotosCarousel({ photos }: { photos: ProcesoFoto[] }) {
                     alt={photo.alt ?? `Registro de ${photo.title}`}
                     fill
                     className="object-cover"
-                    sizes="(min-width: 1024px) 46vw, (min-width: 640px) 65vw, 100vw"
-                    priority={index === 0}
+                    sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 72vw"
+                    loading={index === 0 ? "eager" : "lazy"}
                   />
                 </div>
                 <figcaption className="mt-2.5">

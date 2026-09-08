@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import {
   BriefcaseBusiness,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Home,
   MapPinned,
   MessageCircle,
@@ -173,7 +175,7 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
           style={{ borderColor: previous.color, ["--chip" as string]: previous.color, ["--chip-fg" as string]: previous.textColor }}
         >
           <span className="flex items-center text-[10px] font-bold uppercase tracking-[.12em] opacity-70">
-            <span aria-hidden="true" className="mr-2 block h-[10px] w-[7px] shrink-0 bg-current [clip-path:polygon(100%_0,0_50%,100%_100%)]" />
+            <ChevronLeft aria-hidden="true" className="-ml-0.5 mr-1 h-3.5 w-3.5 shrink-0" strokeWidth={2.75} />
             Anterior
           </span>
           <span className="truncate text-sm font-bold tracking-[-.02em]">{previous.shortName}</span>
@@ -184,7 +186,7 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
           style={{ borderColor: next.color, ["--chip" as string]: next.color, ["--chip-fg" as string]: next.textColor }}
         >
           <span className="flex items-center text-[10px] font-bold uppercase tracking-[.12em] opacity-70">
-            Siguiente <SolidAreaArrow compact />
+            Siguiente <ChevronRight aria-hidden="true" className="-mr-0.5 ml-1 h-3.5 w-3.5 shrink-0" strokeWidth={2.75} />
           </span>
           <span className="truncate text-sm font-bold tracking-[-.02em]">{next.shortName}</span>
         </Link>
