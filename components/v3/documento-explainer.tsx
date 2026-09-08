@@ -81,7 +81,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
              Mobile: solo se renderiza el slide activo (display:none al otro),
              así cada slide toma su alto natural sin huecos raros. */
           <div className="grid px-6 py-8 sm:px-10 sm:py-12 md:min-h-[520px] md:px-20 md:py-16 md:[&>*]:col-start-1 md:[&>*]:row-start-1">
-            <div aria-hidden={slide !== 0} className={`content-start gap-6 sm:gap-8 md:grid md:grid-cols-[1fr_1.3fr] md:items-center ${slide === 0 ? "grid" : "hidden md:invisible"}`}>
+            <div aria-hidden={slide !== 0} className={`content-start gap-6 sm:gap-8 md:grid md:grid-cols-[1fr_1.3fr] md:items-start ${slide === 0 ? "grid" : "hidden md:invisible"}`}>
               <span className="order-1 inline-flex h-9 w-fit items-center rounded-full border-2 border-current px-4 text-sm font-bold md:order-2 md:col-start-2 md:row-start-1">1 de 2</span>
               <div className="relative order-2 mx-auto aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-lg shadow-[0_20px_40px_rgba(20,20,35,.28)] sm:max-w-[280px] md:order-1 md:col-start-1 md:row-span-2 md:max-w-[320px]">
                 <Image src={portadaSrc} alt={`Portada de ${titulo}`} fill className="object-cover" sizes="(max-width: 767px) 50vw, 320px" />
@@ -100,7 +100,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               </div>
             </div>
 
-            <div aria-hidden={slide !== 1} className={`content-start gap-6 sm:gap-8 md:grid md:grid-cols-[1fr_1.3fr] md:items-center ${slide === 1 ? "grid" : "hidden md:invisible"}`}>
+            <div aria-hidden={slide !== 1} className={`content-start gap-6 sm:gap-8 md:grid md:grid-cols-[1fr_1.3fr] md:items-start ${slide === 1 ? "grid" : "hidden md:invisible"}`}>
               <NavigateTextHotspots
                 accent={accent}
                 badge={
