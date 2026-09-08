@@ -372,7 +372,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className={`flex min-h-0 gap-0 ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(4rem+env(safe-area-inset-bottom))] max-md:block max-md:overflow-visible md:flex-1 md:gap-3 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:gap-4 lg:p-5`}>
+      <div className={`flex min-h-0 gap-0 ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-3 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:gap-4 lg:p-5`}>
         {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
             de dos niveles que solo tiene sentido con el ancho de escritorio. */}
         <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
