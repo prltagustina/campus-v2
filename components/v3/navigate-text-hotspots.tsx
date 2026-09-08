@@ -108,7 +108,7 @@ export function NavigateTextHotspots({
   const active = activeIndex >= 0 ? hotspots[activeIndex] : null;
 
   return (
-    <div className="grid content-start gap-6 sm:gap-8 md:grid-cols-[1fr_1.3fr] md:content-center md:items-center">
+    <div className="grid content-start gap-6 sm:gap-8 md:grid-cols-[1fr_1.3fr] md:items-center">
       <div className="order-1 md:order-2 md:col-start-2 md:row-start-1">{badge}</div>
 
       <div className="order-2 md:order-1 md:col-start-1 md:row-span-2">
@@ -149,7 +149,8 @@ export function NavigateTextHotspots({
 
       <div className="order-3 md:order-3 md:col-start-2 md:row-start-2">
         {title}
-        <div className="mt-4 sm:mt-5">
+        {/* Alto reservado: al tocar 1/2/3 el contenido cambia sin mover el layout. */}
+        <div className="mt-4 min-h-[210px] sm:mt-5 sm:min-h-[196px]">
           {active ? (
             <ReferenceCard
               hotspot={active}

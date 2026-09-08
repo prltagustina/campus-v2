@@ -34,6 +34,9 @@ const idiomas = [
 const pautaLenguasExtranjeras = {
   nombre: "Res. 43/2026 - Pautas del área de Lenguas Extranjeras",
   descripcion: "Implementación del área de Lenguas Extranjeras",
+  formato: "PDF",
+  paginas: 9,
+  size: "0.2 MB",
   url: "/documentos/resolucion-43-26-lenguas-extranjeras.pdf",
 };
 
@@ -43,6 +46,8 @@ const normativaIngles = [
   {
     nombre: "Res. 1410/2026 - Programa Inglés para la Ruralidad",
     descripcion: "Programa Inglés para la Ruralidad",
+    formato: "PDF",
+    size: "16 KB",
     url: "/documentos/resolucion-1410-26-ingles.pdf",
   },
 ];
