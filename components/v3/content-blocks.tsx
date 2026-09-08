@@ -28,10 +28,10 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
   const [loaded, setLoaded] = useState(false);
 
   return <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
-    <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-4 py-3 md:px-5">
-      <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#494963]/[.06] text-[#494963]"><Presentation className="h-4 w-4" /></span>
-      <div className="min-w-0 flex-1"><p className="truncate font-display text-base font-semibold text-[#494963] sm:text-lg">{label}</p><p className="text-[10px] uppercase tracking-[.12em] text-[#494963]/35">Diapositivas</p></div>
-      <a href={src} target="_blank" rel="noreferrer" className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#F1F1F4] px-2.5 text-xs font-semibold text-[#494963] sm:px-3" aria-label={`Abrir ${title} en una nueva pestaña`}><span className="hidden sm:inline">Abrir</span><ExternalLink className="h-3 w-3" /></a>
+    <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Presentation className="h-4 w-4" /></span>
+      <div className="min-w-0 flex-1"><p className="truncate font-display text-lg font-semibold text-[#494963]">{label}</p><p className="text-xs text-[#494963]/40">Diapositivas</p></div>
+      <a href={src} target="_blank" rel="noreferrer" className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-[#F1F1F4] px-2.5 text-xs font-semibold text-[#494963] sm:px-3" aria-label={`Abrir ${title} en una nueva pestaña`}><span className="hidden sm:inline">Abrir</span><ExternalLink className="h-3 w-3" /></a>
     </div>
     <div className="bg-[#E9E9EE] p-1.5 md:p-2">
       <div className="relative aspect-video overflow-hidden rounded-xl bg-[#DDDDE4]">
