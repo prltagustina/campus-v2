@@ -641,9 +641,9 @@
     #e42153
   );
   opacity: .5;
-  /* Franja de color más gruesa (~10px), acorde al grosor de las portadas. */
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 11px), #000 calc(100% - 9px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 11px), #000 calc(100% - 9px));
+  /* Franja de color gruesa (~16px), acorde al grosor de las portadas. */
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 17px), #000 calc(100% - 14px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 17px), #000 calc(100% - 14px));
 }
 .v3-cover-icon--areas::before {
   display: none;
