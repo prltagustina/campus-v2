@@ -331,21 +331,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [pathname]);
   const onContentScroll = (event: UIEvent<HTMLElement>) => {
     const y = event.currentTarget.scrollTop;
-    const now = Date.now();
-    // Tras un toggle, ignorar el scroll durante 350ms: el reflow que provoca
-    // esconder/mostrar las barras dispara scroll events y sin este candado se
-    // realimenta y parpadea.
-    if (now < scrollLockUntil.current) {
-      lastScrollY.current = y;
-      return;
-    }
     const dy = y - lastScrollY.current;
-    if (Math.abs(dy) < 10) return;
+    if (Math.abs(dy) < 8) return; // jitter puro: ni actualizamos la referencia
     lastScrollY.current = y;
-    const next = y > 24 && dy > 0;
+    const now = Date.now();
+    // Tras un toggle, candado de 350ms: el reflow de esconder/mostrar las
+    // barras dispara scroll events; sin esto se realimenta y parpadea.
+    if (now < scrollLockUntil.current) return;
     setHeaderHidden((current) => {
-      if (current === next) return current;
-      scrollLockUntil.current = now + 350;
+      let next = current;
+      if (dy > 8 && y > 24) next = true; // scrolleando hacia abajo → esconder
+      else if (dy < -30) next = false; // scroll HACIA ARRIBA con intención → mostrar
+      // dy entre -30 y -8 (frenada / asentamiento del fling): no cambia nada.
+      if (next !== current) scrollLockUntil.current = now + 350;
       return next;
     });
   };
