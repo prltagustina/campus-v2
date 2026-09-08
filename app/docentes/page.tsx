@@ -38,7 +38,7 @@ export default function DocentesPage() {
 
         <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
-            <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+            <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
               <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
                 <div className="flex min-w-0 items-center gap-3">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><BookOpen className="h-4 w-4" /></span>
@@ -66,7 +66,7 @@ export default function DocentesPage() {
 
         <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
-            <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+            <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
               <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
                 <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><GraduationCap className="h-4.5 w-4.5" /></span>
                 <div><h3 className="font-display text-lg font-semibold text-[#494963]">Propuestas disponibles</h3><p className="text-xs text-[#494963]/40">Acceso desde Campus Educativo</p></div>

@@ -34,6 +34,9 @@ const idiomas = [
 const pautaLenguasExtranjeras = {
   nombre: "Res. 43/2026 - Pautas del área de Lenguas Extranjeras",
   descripcion: "Implementación del área de Lenguas Extranjeras",
+  formato: "PDF",
+  paginas: 9,
+  size: "0.2 MB",
   url: "/documentos/resolucion-43-26-lenguas-extranjeras.pdf",
 };
 
@@ -43,6 +46,8 @@ const normativaIngles = [
   {
     nombre: "Res. 1410/2026 - Programa Inglés para la Ruralidad",
     descripcion: "Programa Inglés para la Ruralidad",
+    formato: "PDF",
+    size: "16 KB",
     url: "/documentos/resolucion-1410-26-ingles.pdf",
   },
 ];
@@ -348,12 +353,10 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
               aria-controls="idioma-recursos-panel"
               onClick={() => selectLanguage(idioma.id)}
               className={
-                "rounded-full border px-5 py-2.5 text-[14px] font-semibold leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]/30 focus-visible:ring-offset-2 " +
-                (active
-                  ? "border-transparent text-white"
-                  : "border-[#EBEDEC] bg-white text-[#7A7A7A] hover:bg-[#EBEDEC] hover:text-[#494963]")
+                "rounded-[9px] border px-[15px] py-2.5 text-[15px] font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-white " +
+                (active ? "bg-[var(--tab)] text-white" : "bg-white text-[var(--tab)]")
               }
-              style={active ? { backgroundColor: area.color } : undefined}
+              style={{ borderColor: area.color, ["--tab" as string]: area.color }}
             >
               {idioma.name}
             </button>
@@ -381,7 +384,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
           </p>
         </div>
 
-        <div className="divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-[1.35rem] md:border-x">
+        <div className="divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-2xl md:border-x">
           <RepositoryAccordionGroup
             id={`${idiomaSeleccionado}-secuencias`}
             title="Secuencias didácticas"
@@ -410,7 +413,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
       {idiomaSeleccionado === "ingles" ? (
         <Link
           href="/area/lenguas-extranjeras/materiales/ingles"
-          className="group mx-4 mt-8 grid min-h-[112px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 overflow-hidden rounded-3xl px-5 py-5 text-[#494963] shadow-[0_14px_35px_-28px_rgba(73,73,99,.7)] transition-[box-shadow] hover:shadow-[0_18px_38px_-24px_rgba(73,73,99,.7)] sm:mt-9 sm:min-h-[124px] sm:px-7 sm:py-6 md:mx-0"
+          className="group mx-4 mt-8 grid min-h-[112px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 overflow-hidden rounded-2xl px-5 py-5 text-[#494963] shadow-[0_14px_35px_-28px_rgba(73,73,99,.7)] transition-[box-shadow] hover:shadow-[0_18px_38px_-24px_rgba(73,73,99,.7)] sm:mt-9 sm:min-h-[124px] sm:px-7 sm:py-6 md:mx-0"
           style={{ backgroundColor: area.color }}
           aria-label="Abrir English Funzine, recurso de Inglés"
         >
@@ -500,7 +503,7 @@ function ItinerarioRepository({
   };
 
   return (
-    <div className="mx-auto w-full min-w-0 max-w-4xl divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-[1.35rem] md:border-x">
+    <div className="mx-auto w-full min-w-0 max-w-4xl divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-2xl md:border-x">
       {itinerario.categorias.map((categoria) => (
         <CategoriaAccordion
           key={categoria.id}

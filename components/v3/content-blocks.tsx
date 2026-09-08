@@ -27,11 +27,11 @@ export function VideoEmbed({ videoId, title, topClassName = "!pt-4 md:!pt-[14px]
 export function SlideDeckEmbed({ src, title, label = "Presentación institucional" }: { src: string; title: string; label?: string }) {
   const [loaded, setLoaded] = useState(false);
 
-  return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(73,73,99,.08)]">
-    <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-4 py-3 md:px-5">
-      <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#494963]/[.06] text-[#494963]"><Presentation className="h-4 w-4" /></span>
-      <div className="min-w-0 flex-1"><p className="truncate font-display text-base font-semibold text-[#494963] sm:text-lg">{label}</p><p className="text-[10px] uppercase tracking-[.12em] text-[#494963]/35">Diapositivas</p></div>
-      <a href={src} target="_blank" rel="noreferrer" className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#F1F1F4] px-2.5 text-xs font-semibold text-[#494963] sm:px-3" aria-label={`Abrir ${title} en una nueva pestaña`}><span className="hidden sm:inline">Abrir</span><ExternalLink className="h-3 w-3" /></a>
+  return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+    <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Presentation className="h-4 w-4" /></span>
+      <div className="min-w-0 flex-1"><p className="truncate font-display text-lg font-semibold text-[#494963]">{label}</p><p className="text-xs text-[#494963]/40">Diapositivas</p></div>
+      <a href={src} target="_blank" rel="noreferrer" className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-[#F1F1F4] px-2.5 text-xs font-semibold text-[#494963] sm:px-3" aria-label={`Abrir ${title} en una nueva pestaña`}><span className="hidden sm:inline">Abrir</span><ExternalLink className="h-3 w-3" /></a>
     </div>
     <div className="bg-[#E9E9EE] p-1.5 md:p-2">
       <div className="relative aspect-video overflow-hidden rounded-xl bg-[#DDDDE4]">
@@ -107,14 +107,32 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
               </span>
             )) : descripcion}
           </p>
-          <div className="documento-hero__actions flex flex-wrap items-center gap-3">
-            <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-12 items-center gap-2 rounded-full px-6 font-bold" style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}>
-              <Download className="h-4 w-4" /> Descargar PDF
+          <div className="documento-hero__actions flex flex-wrap items-center gap-4">
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Descargar PDF: ${titulo}`}
+              className="inline-flex h-[52px] items-center gap-2.5 rounded-[9px] px-7 text-[15px] font-semibold tracking-[-0.035em] transition-[filter] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+              style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}
+            >
+              <Download className="h-[18px] w-[18px]" strokeWidth={1.75} /> Descargar PDF
             </a>
-            <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-12 w-12 place-items-center rounded-full border border-white/30 hover:bg-white/10">
-              <Share2 className="h-4 w-4" />
+            <button
+              type="button"
+              onClick={share}
+              aria-label={`Compartir ${titulo}`}
+              className="grid h-[52px] w-[52px] place-items-center rounded-full border border-white/55 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+            >
+              <Share2 className="h-[18px] w-[18px]" strokeWidth={1.75} />
             </button>
-            {secondaryHref && <Link href={secondaryHref} className="basis-full"><span className="mt-1 inline-flex h-11 items-center rounded-full border border-white/40 px-6 font-semibold">Saber más</span></Link>}
+            {secondaryHref && (
+              <Link href={secondaryHref} className="mt-1 basis-full">
+                <span className="inline-flex h-12 w-fit items-center rounded-[9px] border border-white/55 px-7 text-[15px] font-medium tracking-[-0.035em] transition-colors hover:bg-white/10">
+                  Saber más
+                </span>
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -178,7 +196,7 @@ function StepperDots({ count }: { count: number }) {
 export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
     <section className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
-      <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
+      <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
       <Carousel opts={{ loop: true }}>
         <div className="flex items-end justify-between gap-4">
           <h2 className="max-w-sm font-sans text-2xl font-bold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>
@@ -193,7 +211,7 @@ export function DocumentoStepper({ title, steps }: { title: React.ReactNode; ste
                   {step.eyebrow && <p className="v3-eyebrow">{step.eyebrow}</p>}
                   <h3 className="font-sans text-lg font-extrabold text-[#494963] sm:text-2xl">{step.title}</h3>
                   {(Array.isArray(step.description) ? step.description : [step.description]).map((paragraph, i) => (
-                    <p key={i} className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-[#8B8B99] sm:text-base sm:leading-[1.5]">{paragraph}</p>
+                    <p key={i} className="mt-3 max-w-xl font-sans text-base leading-relaxed text-[#8B8B99] sm:leading-[1.5]">{paragraph}</p>
                   ))}
                   {step.content ? <div className="mt-5 min-h-10">{step.content}</div> : null}
                 </div>

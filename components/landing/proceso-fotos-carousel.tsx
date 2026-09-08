@@ -2,14 +2,30 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+  useCarousel,
   type CarouselApi,
 } from "@/components/ui/carousel";
+
+/** Flechas anterior/siguiente con el mismo estilo y comportamiento que las de
+ *  "Qué enseñar…" y "Cómo está organizada cada área". */
+function CarouselArrows() {
+  const { scrollPrev, scrollNext, canScrollPrev, canScrollNext } = useCarousel();
+  return (
+    <div className="flex items-center gap-3">
+      <button type="button" onClick={scrollPrev} disabled={!canScrollPrev} aria-label="Foto anterior" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
+        <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
+      </button>
+      <button type="button" onClick={scrollNext} disabled={!canScrollNext} aria-label="Foto siguiente" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
+        <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
+      </button>
+    </div>
+  );
+}
 
 export interface ProcesoFoto {
   src: string;
@@ -55,7 +71,7 @@ export function ProcesoFotosCarousel({ photos }: { photos: ProcesoFoto[] }) {
   }, [api]);
 
   return (
-    <div className="mt-5">
+    <div className="mt-4">
       <Carousel
         setApi={setApi}
         opts={{ align: "start", duration: prefersReducedMotion ? 0 : 22 }}
@@ -63,37 +79,34 @@ export function ProcesoFotosCarousel({ photos }: { photos: ProcesoFoto[] }) {
       >
         <CarouselContent>
           {photos.map((photo, index) => (
-            <CarouselItem key={photo.src} className="basis-full sm:basis-[65%] lg:basis-[46%]">
+            <CarouselItem key={photo.src} className="basis-[70%] sm:basis-1/2 lg:basis-1/3">
               <figure>
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#DDDDE3]">
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#DDDDE3]">
                   <Image
                     src={photo.src}
                     alt={photo.alt ?? `Registro de ${photo.title}`}
                     fill
                     className="object-cover"
-                    sizes="(min-width: 1024px) 46vw, (min-width: 640px) 65vw, 100vw"
-                    priority={index === 0}
+                    sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 72vw"
+                    loading={index === 0 ? "eager" : "lazy"}
                   />
                 </div>
-                <figcaption className="mt-3">
+                <figcaption className="mt-2.5">
                   <span className="block text-[10px] font-bold uppercase tracking-[.14em] text-[#494963]/35">
                     {photo.date}
                   </span>
-                  <span className="mt-1 block text-sm font-bold leading-snug text-[#494963]">{photo.title}</span>
+                  <span className="mt-1 block text-xs font-bold leading-snug text-[#494963] sm:text-sm">{photo.title}</span>
                 </figcaption>
               </figure>
             </CarouselItem>
           ))}
         </CarouselContent>
 
-        <div className="mt-4 flex items-center justify-between">
-          <p className="text-sm font-semibold text-[#494963]/55" aria-live="polite">
+        <div className="mt-3 flex items-center justify-between">
+          <p className="text-xs font-semibold text-[#494963]/55" aria-live="polite">
             {current} / {photos.length}
           </p>
-          <div className="flex gap-2">
-            <CarouselPrevious aria-label="Foto anterior" className="static h-10 w-10 translate-y-0" />
-            <CarouselNext aria-label="Foto siguiente" className="static h-10 w-10 translate-y-0" />
-          </div>
+          <CarouselArrows />
         </div>
       </Carousel>
     </div>

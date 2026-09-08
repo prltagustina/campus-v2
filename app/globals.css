@@ -245,7 +245,7 @@
   background: #494963;
   color: #fff;
 }
-@media (min-width: 768px) { .documento-hero { border-radius: 1.5rem; } }
+@media (min-width: 768px) { .documento-hero { border-radius: 1rem; } }
 .documento-hero__cover {
   position: relative;
   min-width: 0;
@@ -264,7 +264,7 @@
   padding-top: clamp(1.75rem, 5cqw, 3rem);
   border-radius: .75rem;
 }
-.documento-hero__image--tilted { transform: rotate(-3deg) scale(.92); }
+.documento-hero__image--tilted { transform: rotate(2.6deg) scale(.92); }
 .documento-hero__content {
   order: 2;
   display: flex;
@@ -310,6 +310,8 @@
     min-height: 420px;
   }
   .documento-hero--compact .documento-hero__cover { min-height: 420px; order: 0; }
+  /* Aire a la izquierda: separa la portada del borde de la tarjeta (ref. boceto). */
+  .documento-hero--compact .documento-hero__image { padding-left: clamp(1.25rem, 5cqw, 3.25rem); }
   .documento-hero--compact .documento-hero__content { order: 0; padding: clamp(2rem, 4.25cqw, 3rem); }
   .documento-hero--compact .documento-hero__title { font-size: clamp(2rem, 4cqw, 2.45rem); }
   .documento-hero--compact .documento-hero__description { font-size: clamp(.9rem, 1.6cqw, 1rem); }
@@ -325,31 +327,119 @@
   .documento-hero--standard { grid-template-columns: minmax(320px, 1fr) minmax(0, 1fr); min-height: 470px; }
   .documento-hero--standard .documento-hero__content { padding: 4rem; }
   .documento-hero--compact { grid-template-columns: minmax(300px, .82fr) minmax(0, 1.18fr); }
-  .documento-hero--compact .documento-hero__content { padding: 5rem; }
+  .documento-hero--compact .documento-hero__content { padding: clamp(1.75rem, 3vw, 2.5rem); }
   .documento-hero--compact .documento-hero__title {
-    max-width: 31rem;
-    font-size: 3.5rem;
+    max-width: 26rem;
+    font-size: clamp(2rem, 2.4vw, 2.4rem);
     font-weight: 500;
-    line-height: 1.25;
+    line-height: 1.12;
     letter-spacing: -.025em;
     color: #ededf0;
   }
   .documento-hero--compact .documento-hero__description {
     max-width: 30.5rem;
-    margin-top: 3.5rem;
-    font-size: 1.625rem;
+    margin-top: 1.25rem;
+    font-size: clamp(.95rem, 1.2vw, 1.05rem);
     font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -.015em;
+    line-height: 1.35;
+    letter-spacing: -.01em;
     color: rgba(237,237,240,.88);
   }
+  .documento-hero--compact .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: .6em; }
+  .documento-hero--compact .documento-hero__actions { margin-top: 1.5rem; }
+}
+
+/* Cap de alto (decisión: llenar el alto visible, pero puede crecer si el
+   contenido no entra en pantallas muy bajas — no recorta).
+   El shell resta header + breadcrumb: 118px en md, 154px en lg. */
+@media (min-width: 768px) {
+  .documento-hero--compact { min-height: clamp(500px, calc(100svh - 214px), 640px); }
+}
+@media (min-width: 1024px) {
+  .documento-hero--compact { min-height: clamp(540px, calc(100svh - 250px), 680px); }
 }
 
 .v3-heading { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 4rem); line-height: 1.04; font-weight: 700; letter-spacing: -0.025em; color: #494963; }
 .v3-eyebrow { margin-bottom: .75rem; font-size: .72rem; line-height: 1; font-weight: 800; text-transform: uppercase; letter-spacing: .18em; color: #e42153; }
-.wheel-segment { transition: filter 200ms ease, opacity 200ms ease, transform 200ms ease; transform-origin: center; }
-.wheel-segment.is-dimmed { filter: grayscale(1); opacity: .35; }
-.wheel-segment:focus-visible { outline: 4px solid #494963; outline-offset: 3px; }
+/* --- Trama curricular ------------------------------------------------------ */
+/* Grisado interino sobre el PNG plano: cuando haya una imagen por estado en
+   /public/images/trama/ (ver wheelStates en curricular-wheel.tsx), el swap de
+   src ya resuelve el realce y este filtro se puede quitar. */
+/* margin:0 auto y no solo 0: además de resetear el margen del <figure>, centra
+   el gráfico cuando la trama es de una sola columna (tablet/mobile). */
+.wheel-figure { margin: 0 auto; }
+.wheel-figure__media { transition: filter 240ms ease; }
+.wheel-figure[data-focused] .wheel-figure__media { filter: grayscale(1) opacity(.5); }
+
+.wheel-accordion { margin-top: 1rem; border-top: 1px solid rgba(73, 73, 99, .16); }
+.wheel-accordion__item { border-bottom: 1px solid rgba(73, 73, 99, .16); }
+.wheel-accordion__trigger {
+  display: flex;
+  width: 100%;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem .25rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #494963;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+.wheel-accordion__trigger:hover { color: #22223a; }
+.wheel-accordion__trigger:focus-visible { outline: 2px solid #494963; outline-offset: 2px; border-radius: 4px; }
+.wheel-accordion__trigger[aria-expanded="true"] { color: #22223a; }
+.wheel-accordion__panel { padding: 0 .25rem 1.15rem; }
+.wheel-accordion__panel p { max-width: 34rem; font-size: .9375rem; line-height: 1.6; color: rgba(73, 73, 99, .65); }
+
+/* Variante compacta: mismo estilo, tamaño acorde a vistas con tipografía más
+   chica (p. ej. "Aspectos distintivos" en Marco General). */
+.wheel-accordion--compact .wheel-accordion__trigger {
+  min-height: 2.75rem;
+  padding: .85rem .25rem;
+  font-size: 1rem;
+}
+@media (min-width: 640px) {
+  .wheel-accordion--compact .wheel-accordion__trigger { font-size: 1.0625rem; }
+}
+.wheel-accordion--compact .wheel-accordion__panel { padding-bottom: 1rem; }
+/* El texto interno acompaña al de los párrafos de las secciones (text-sm →
+   sm:text-base), no más chico. */
+.wheel-accordion--compact .wheel-accordion__panel p { font-size: .875rem; line-height: 1.625; }
+@media (min-width: 640px) {
+  .wheel-accordion--compact .wheel-accordion__panel p { font-size: 1rem; line-height: 1.5; }
+}
+
+/* --- Hotspots "Cómo navegar el texto" (slide 2) -------------------------- */
+.nav-text-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  height: 2.75rem;   /* ~44px: tamaño de dedo en mobile */
+  width: 2.75rem;
+  border-radius: 999px;
+  background: var(--hotspot-accent, #e42153);
+  color: #fff;
+  opacity: .5;
+  cursor: pointer;
+  transition: opacity 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+@media (min-width: 640px) {
+  .nav-text-hotspot { height: 3rem; width: 3rem; }
+  .nav-text-hotspot__num { font-size: 1.05rem; }
+}
+.nav-text-hotspot:hover { opacity: .8; }
+.nav-text-hotspot:focus-visible { outline: 2px solid #494963; outline-offset: 2px; opacity: 1; }
+.nav-text-hotspot[data-active] {
+  opacity: 1;
+  box-shadow: 0 0 0 5px rgba(73, 73, 99, .14);
+}
+.nav-text-hotspot__num { font-size: .95rem; font-weight: 700; line-height: 1; }
 @keyframes v3-slide-in { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: translateX(0); } }
 
 /* Editorial covers for the two main repositories */
@@ -390,6 +480,68 @@
   .v3-section-cover--no-icon {
     min-height: 0;
     align-items: flex-start;
+  }
+}
+/* En desktop el título/subtítulo fluyen normal y el icono inline no se usa
+   (está el badge grande de .v3-cover-icon-stage). */
+.v3-cover-headline,
+.v3-cover-headline__text { display: contents; }
+.v3-cover-icon-inline { display: none; }
+
+/* Portada de Áreas en mobile: en vez del badge grande arriba, el icono va a la
+   izquierda del bloque título + subtítulo, ocupando el alto de las dos líneas,
+   con el texto alineado a la izquierda. */
+@media (max-width: 767px) {
+  .v3-section-cover--areas .v3-cover-icon-stage { display: none; }
+  .v3-section-cover--areas {
+    min-height: 0;
+    align-items: flex-start;
+  }
+  .v3-section-cover--areas .v3-section-cover__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .v3-section-cover--areas .v3-cover-headline {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.6rem;
+  }
+  .v3-section-cover--areas .v3-cover-headline__text { display: block; }
+  /* Mismo badge con franja de color que en desktop, adaptado al tamaño chico. */
+  .v3-section-cover--areas .v3-cover-icon-inline {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 3.4rem;
+    height: 3.4rem;
+    border: 1px solid rgba(73, 73, 99, .1);
+    border-radius: 999px;
+    background: radial-gradient(circle at 34% 28%, #fff 0%, #f5f5f7 46%, #e9e9ee 100%);
+    box-shadow: 0 10px 22px -16px rgba(73, 73, 99, .7);
+    color: #494963;
+  }
+  .v3-section-cover--areas .v3-cover-icon-inline::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: -6%;
+    border-radius: inherit;
+    background: conic-gradient(
+      #e42153, #ff7402, #78bb0b, #99ccff, #b159a7, #ff6d7e, #3c3ae5, #20baa1, #ffcb02, #e42153
+    );
+    opacity: .5;
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 2px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 2px));
+  }
+  .v3-section-cover--areas .v3-cover-icon-inline svg,
+  .v3-section-cover--areas .v3-cover-icon-inline img {
+    position: relative;
+    z-index: 1;
+    width: 62%;
+    height: 62%;
+    object-fit: contain;
   }
 }
 .v3-section-cover__inner {
@@ -498,9 +650,10 @@
     #ffcb02,
     #e42153
   );
-  opacity: .42;
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
+  opacity: .5;
+  /* Franja de color gruesa (~16px), acorde al grosor de las portadas. */
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 17px), #000 calc(100% - 14px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 17px), #000 calc(100% - 14px));
 }
 .v3-cover-icon--areas::before {
   display: none;

@@ -3,10 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState, type UIEvent } from "react";
 import {
   BriefcaseBusiness,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Home,
   MapPinned,
   MessageCircle,
@@ -157,7 +159,7 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
   const chipClass = "flex min-w-0 flex-1 flex-col gap-0.5 rounded-2xl border px-4 py-2.5 text-[var(--chip)] transition-colors duration-150 hover:bg-[var(--chip)] hover:text-[var(--chip-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]";
 
   return (
-    <nav aria-label="Navegación entre áreas" className="flex flex-col gap-2 bg-white px-3 py-4">
+    <nav aria-label="Navegación entre áreas" className="flex flex-col gap-2 bg-white px-3 pb-4 pt-10">
       <span
         aria-current="page"
         className="flex min-w-0 flex-col gap-0.5 rounded-2xl px-4 py-2.5"
@@ -173,7 +175,7 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
           style={{ borderColor: previous.color, ["--chip" as string]: previous.color, ["--chip-fg" as string]: previous.textColor }}
         >
           <span className="flex items-center text-[10px] font-bold uppercase tracking-[.12em] opacity-70">
-            <span aria-hidden="true" className="mr-2 block h-[10px] w-[7px] shrink-0 bg-current [clip-path:polygon(100%_0,0_50%,100%_100%)]" />
+            <ChevronLeft aria-hidden="true" className="-ml-0.5 mr-1 h-3.5 w-3.5 shrink-0" strokeWidth={2.75} />
             Anterior
           </span>
           <span className="truncate text-sm font-bold tracking-[-.02em]">{previous.shortName}</span>
@@ -184,7 +186,7 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
           style={{ borderColor: next.color, ["--chip" as string]: next.color, ["--chip-fg" as string]: next.textColor }}
         >
           <span className="flex items-center text-[10px] font-bold uppercase tracking-[.12em] opacity-70">
-            Siguiente <SolidAreaArrow compact />
+            Siguiente <ChevronRight aria-hidden="true" className="-mr-0.5 ml-1 h-3.5 w-3.5 shrink-0" strokeWidth={2.75} />
           </span>
           <span className="truncate text-sm font-bold tracking-[-.02em]">{next.shortName}</span>
         </Link>
@@ -315,12 +317,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // Al scrollear el contenido se oculta el header (queda solo la franja del
+  // degradé); reaparece cerca del inicio. Umbrales con histéresis (zona muerta
+  // 48–120px) para que no parpadee, y update funcional (React no re-renderiza
+  // si el valor no cambia).
+  const [headerHidden, setHeaderHidden] = useState(false);
+  useEffect(() => {
+    setHeaderHidden(false);
+  }, [pathname]);
+  const onContentScroll = (event: UIEvent<HTMLElement>) => {
+    const y = event.currentTarget.scrollTop;
+    setHeaderHidden((hidden) => {
+      if (!hidden && y > 120) return true;
+      if (hidden && y < 48) return false;
+      return hidden;
+    });
+  };
+
   return (
     <div
-      className="v3-scroll-theme h-[var(--app-vh,100svh)] overflow-hidden bg-[#F5F5F7] text-[#494963] md:h-dvh"
+      className="v3-scroll-theme flex h-[var(--app-vh,100svh)] flex-col overflow-hidden bg-[#F5F5F7] text-[#494963] md:h-dvh"
       style={{ ["--section-scrollbar" as string]: currentArea?.color ?? MARCO_GENERAL_COLOR }}
     >
-      <header className="h-[72px] border-b border-[#494963]/[.07] bg-white px-4 lg:h-[100px] lg:px-8" role="banner">
+      <header className={`shrink-0 overflow-hidden border-b border-[#494963]/[.07] bg-white px-4 transition-[height,opacity,transform] duration-300 ease-out lg:px-8 ${headerHidden ? "h-0 -translate-y-1 border-b-0 opacity-0" : "h-[72px] opacity-100 lg:h-[100px]"}`} role="banner">
         <div className="mx-auto flex h-full max-w-[1376px] items-center justify-between">
           <Link href="/" aria-label="Campus Educativo — Inicio"><CampusBrand /></Link>
           <nav className="mx-auto hidden items-center gap-8 text-[15px] font-medium text-[#66666B] lg:flex xl:gap-12 xl:text-base">
@@ -334,7 +353,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <div
-        className="h-[46px] bg-[#EDEDF0] px-4 text-[#494963] lg:h-[54px]"
+        className="h-[46px] shrink-0 bg-[#EDEDF0] px-4 text-[#494963] lg:h-[54px]"
         style={{
           backgroundImage: documentSpineGradient,
         }}
@@ -359,7 +378,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className={`flex h-[calc(var(--app-vh,100svh)-118px)] gap-0 overflow-hidden ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(4rem+env(safe-area-inset-bottom))] md:h-[calc(100dvh-118px)] md:gap-3 md:bg-white md:p-3 md:pb-3 lg:h-[calc(100dvh-154px)] lg:gap-4 lg:p-5`}>
+      <div className={`flex min-h-0 flex-1 gap-0 overflow-hidden ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(4rem+env(safe-area-inset-bottom))] md:gap-3 md:bg-white md:p-3 md:pb-3 lg:gap-4 lg:p-5`}>
         {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
             de dos niveles que solo tiene sentido con el ancho de escritorio. */}
         <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
@@ -428,6 +447,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           id="contenido"
           className="min-h-0 flex-1 overflow-y-auto md:[scrollbar-gutter:stable]"
           tabIndex={-1}
+          onScroll={onContentScroll}
         >
           {cyclesOpen ? (
             <div className="sticky top-0 z-30 grid grid-cols-3 gap-1.5 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">

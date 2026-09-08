@@ -121,6 +121,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
                 nombre: "\"La enseñanza del número y del sistema de numeración\"",
                 formato: "PDF",
                 paginas: 64,
+                size: "5.6 MB",
                 url: `${PDF_BASE}/matematica_1er_-grado_2026.pdf`,
                 portada: "/portadas/matematica-1ro.jpg",
               },
@@ -134,6 +135,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
                 nombre: "\"La enseñanza de las operaciones\"",
                 formato: "PDF",
                 paginas: 48,
+                size: "3.7 MB",
                 url: `${PDF_BASE}/matematica_2do_grado_2026.pdf`,
                 portada: "/portadas/matematica-2do.jpg",
               },
@@ -147,6 +149,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
                 nombre: "\"La enseñanza de la geometría\"",
                 formato: "PDF",
                 paginas: 56,
+                size: "4.5 MB",
                 url: `${PDF_BASE}/matematica_3er_grado_2026.pdf`,
                 portada: "/portadas/matematica-3ro.jpg",
               },
@@ -214,7 +217,8 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
           nombre: "“Entre tierra, mate y chamamé: el Litoral argentino desde sus músicas”",
           descripcion: "Música",
           formato: "PDF",
-          paginas: 8,
+          size: "0.8 MB",
+          paginas: 27,
           url: "/documentos/secuencias/secuencia-musica-5to-grado.pdf",
           portada: "/portadas/musica-5to.jpg",
         },
@@ -237,6 +241,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
+        size: "1.4 MB",
         paginas: 39,
         url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf`,
         portada: "/portadas/ciencias-sociales-articulacion-estudiantes.jpg",
@@ -247,6 +252,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
+        size: "0.7 MB",
         paginas: 12,
         url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf`,
         portada: "/portadas/ciencias-sociales-articulacion-docentes.jpg",
@@ -259,6 +265,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
+        size: "2.2 MB",
         paginas: 36,
         url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf`,
         portada: "/portadas/lengua-articulacion-estudiantes.jpg",
@@ -269,6 +276,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
+        size: "0.6 MB",
         paginas: 9,
         url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf`,
         portada: "/portadas/lengua-articulacion-docentes.jpg",
@@ -281,6 +289,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
+        size: "2.3 MB",
         paginas: 43,
         url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf`,
         portada: "/portadas/ciencias-naturales-articulacion-estudiantes.jpg",
@@ -291,6 +300,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         nombre: "\"Aprender a estudiar con autonomía\"",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
+        size: "0.7 MB",
         paginas: 10,
         url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf`,
         portada: "/portadas/ciencias-naturales-articulacion-docentes.jpg",
@@ -312,6 +322,11 @@ export function getItinerario(slug: string): AreaItinerario {
   const docencia = recursosDocenciaPorArea[slug];
   const articulacion = articulacionPorArea[slug];
 
+  // Articulación: si ya hay materiales, el conteo ("N materiales") no debe
+  // repetirse en la bajada; si todavía no hay, la bajada los nombra.
+  const articulacionTieneMateriales =
+    (articulacion?.docencia.length ?? 0) + (articulacion?.estudiantes.length ?? 0) > 0;
+
   const categorias: ItinerarioCategoria[] = [
     {
       id: "docencia",
@@ -331,7 +346,9 @@ export function getItinerario(slug: string): AreaItinerario {
     {
       id: "articulacion",
       nombre: "Articulación Primaria-Secundaria",
-      descripcion: "Materiales para acompañar el pasaje a la escuela secundaria.",
+      descripcion: articulacionTieneMateriales
+        ? "Para acompañar el pasaje a la escuela secundaria."
+        : "Materiales para acompañar el pasaje a la escuela secundaria.",
       subgrupos: [
         { id: "docencia", nombre: "Recursos para la docencia", files: articulacion?.docencia ?? [] },
         { id: "estudiantes", nombre: "Recursos para los estudiantes", files: articulacion?.estudiantes ?? [] },

@@ -5,97 +5,161 @@ import { useEffect, useRef, useState } from "react";
 import { pendingCopy } from "@/lib/v3-config";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 
-// "Enfoques transversales" se retiró de esta pestaña por decisión del equipo:
-// todavía no definieron el nuevo título que debería llevar. El contenido
-// (pendingCopy.wheel.transversales) se conserva sin borrar por si cumple otra
-// función más adelante.
-const accordionItems = [
-  ["relaciones", "Relación entre las áreas", pendingCopy.wheel.relaciones],
-  ["ejes", "Ejes de contenido", pendingCopy.wheel.ejes],
-  ["marco", "Marco General", pendingCopy.wheel.marco],
-] as const;
-
-type WheelState = "base" | (typeof accordionItems)[number][0];
-
 /**
- * Sistema de grisado interactivo preparado para PNG (no SVG), para que el
- * equipo de WordPress lo pueda portar sin depender de paths/SVG editables.
+ * Trama curricular con lógica de foco por estado.
  *
- * Lógica: cada estado del acordeón (más "base", sin nada seleccionado) tiene
- * su propia imagen completa de la trama. Al abrir un ítem, se reemplaza la
- * imagen entera por la versión que destaca ese sector y atenúa el resto —
- * el "grisado" queda resuelto adentro del PNG, no con CSS ni máscaras.
+ * Todo lo que cambia entre estados vive en `wheelStates`: para corregir qué se
+ * colorea/destaca en cada lectura, se edita ese objeto y nada más. El resto del
+ * componente (layout, acordeón, grisado) no depende de qué estado sea.
  *
- * Convención de archivos (agregar en public/images/trama/ cuando estén listos):
- *   trama-base.png        -> estado neutro, nada seleccionado (el que se ve hoy)
- *   trama-relaciones.png  -> "Relación entre las áreas" destacado, resto grisado
- *   trama-ejes.png        -> "Ejes de contenido" destacado, resto grisado
- *   trama-marco.png       -> "Marco General" destacado, resto grisado
- * (si en el futuro vuelve la pestaña de enfoques transversales, sumar
- * trama-transversales.png y una entrada "transversales" acá y en accordionItems)
- *
- * Hoy las 4 claves apuntan al mismo archivo existente como placeholder seguro:
- * no hay grisado real todavía, pero el mecanismo de intercambio ya funciona.
- * Para activarlo, alcanza con reemplazar cada valor por su PNG definitivo en
- * public/images/trama/ y actualizar la ruta acá — no hace falta tocar más
- * código ni el layout.
+ * Grisado: hoy la trama es un PNG plano (no tiene capas separables), así que el
+ * grisado real "por sector" no se puede hacer en el DOM. El mecanismo previsto
+ * es swap de imagen: cada estado apunta a su propio PNG en
+ * `/public/images/trama/` (versión que ya trae grisado + realce horneados).
+ * Mientras esos assets no existan, `image` de todos los estados apunta al mismo
+ * archivo y se aplica un grisado CSS interino sobre la imagen base + un cartel
+ * ("caption") que nombra el foco. Cuando lleguen los PNG definitivos:
+ *   1. sumar los archivos a /public/images/trama/
+ *   2. cambiar `image` de cada estado a su ruta
+ *   3. (opcional) quitar el filtro `.wheel-figure[data-focused]` de globals.css
  */
-const wheelImageByState: Record<WheelState, string> = {
-  base: "/images/rueda-actualizada.png",
-  relaciones: "/images/rueda-actualizada.png",
-  ejes: "/images/rueda-actualizada.png",
-  marco: "/images/rueda-actualizada.png",
+
+type WheelStateId = "base" | "intro" | "relacion" | "ejes" | "marco" | "enfoques";
+
+interface WheelStateConfig {
+  /** Rótulo del acordeón. */
+  label: string;
+  /** Texto del panel abierto. */
+  blurb: string;
+  /** PNG de la trama para este estado. Hoy todos = base (ver comentario arriba). */
+  image: string;
+  /**
+   * Qué partes de la trama quedan EN FOCO (a color) en este estado. Es la fuente
+   * única de verdad del grisado: cuando exista un asset con capas separables
+   * (PNG por estado o SVG), alcanza con leer esto para pintar/atenuar.
+   */
+  focus: {
+    /** Anillo exterior de enfoques transversales. */
+    ring: boolean;
+    /** Sectores de color de las nueve áreas. */
+    segments: boolean;
+    /** Circulitos/nodos que rodean el centro. */
+    nodes: boolean;
+    /** Núcleo "Marco General". */
+    center: boolean;
+  };
+  /** Pista corta mientras no haya imagen por estado. Vacío = no se muestra. */
+  caption: string;
+}
+
+const WHEEL_BASE_IMAGE = "/images/rueda-actualizada.png";
+
+export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
+  base: {
+    label: "Trama completa",
+    blurb: "",
+    image: WHEEL_BASE_IMAGE,
+    focus: { ring: true, segments: true, nodes: true, center: true },
+    caption: "",
+  },
+  // Primer ítem del acordeón: es el propio título "Trama curricular". Al abrirlo
+  // muestra una introducción y la rueda queda a color (no atenúa nada).
+  intro: {
+    label: "Trama curricular",
+    blurb:
+      "La trama articula las nueve áreas curriculares entre sí y con los cinco enfoques transversales, alrededor del Marco General.",
+    image: WHEEL_BASE_IMAGE,
+    focus: { ring: true, segments: true, nodes: true, center: true },
+    caption: "",
+  },
+  relacion: {
+    label: "Relación entre las áreas",
+    blurb: pendingCopy.wheel.relaciones,
+    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-relacion.png
+    focus: { ring: false, segments: true, nodes: false, center: false },
+    caption: "En foco: las nueve áreas y su diálogo entre sí.",
+  },
+  ejes: {
+    label: "Ejes de contenido",
+    blurb: pendingCopy.wheel.ejes,
+    // PNG definitivo: grisado + circulitos a color horneados en el propio PNG
+    // (no lleva el filtro CSS interino, ver `isFocused`).
+    image: "/images/trama/trama-ejes.png",
+    focus: { ring: false, segments: false, nodes: true, center: false },
+    caption: "En foco: los ejes que organizan los contenidos dentro de cada área.",
+  },
+  marco: {
+    label: "Marco General",
+    blurb: pendingCopy.wheel.marco,
+    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-marco.png
+    focus: { ring: false, segments: false, nodes: false, center: true },
+    caption: "En foco: el Marco General, en el centro de la trama.",
+  },
+  // Modelado pero NO renderizado: el equipo todavía no definió el título de esta
+  // lectura. Cuando lo tengan: fijar `label` y sumar "enfoques" a RENDERED_STATE_IDS.
+  enfoques: {
+    label: "Enfoques transversales",
+    blurb: pendingCopy.wheel.transversales,
+    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-enfoques.png
+    focus: { ring: true, segments: false, nodes: false, center: false },
+    caption: "En foco: el anillo de enfoques transversales.",
+  },
 };
 
+/** Ítems del acordeón, en orden. El primero ("intro") es el propio título. */
+const RENDERED_STATE_IDS = ["intro", "relacion", "ejes", "marco"] as const satisfies readonly WheelStateId[];
+
 export function CurricularWheel() {
-  const [open, setOpen] = useState<string | null>(null);
+  const [active, setActive] = useState<WheelStateId>("base");
   const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const hasInteracted = useRef(false);
 
   useEffect(() => {
-    if (!hasInteracted.current || !open || !window.matchMedia("(max-width: 767px)").matches) return;
-    const item = itemRefs.current[open];
+    if (!hasInteracted.current || active === "base" || active === "intro" || !window.matchMedia("(max-width: 767px)").matches) return;
+    const item = itemRefs.current[active];
     if (!item) return;
 
     const frame = window.requestAnimationFrame(() => {
       item.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [open]);
+  }, [active]);
 
-  const wheelSrc = wheelImageByState[(open as WheelState) ?? "base"];
+  const state = wheelStates[active];
+  // El grisado CSS interino solo se aplica a los estados que todavía usan el PNG
+  // base; los que ya tienen su PNG propio (grisado horneado) se muestran tal cual.
+  const isFocused = active !== "base" && active !== "intro" && state.image === WHEEL_BASE_IMAGE;
 
   return (
     <section className="v3-section !p-0 md:!p-[14px]" aria-labelledby="rueda-title">
-      <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-6 sm:px-8 sm:py-8 md:rounded-3xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
+      <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-6 sm:px-8 sm:py-8 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
+        {/* Mobile/tablet: [acordeón (con el título como primer ítem) · rueda].
+            xl: rueda a la izquierda, acordeón a la derecha. */}
         <div className="grid items-start gap-6 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
-          <div className="relative mx-auto aspect-square w-full max-w-[280px] sm:max-w-[420px] md:max-w-[520px] xl:max-w-[670px]">
-            <Image
-              src={wheelSrc}
-              alt="Trama curricular: nueve áreas articuladas con cinco enfoques transversales y el Marco General"
-              fill
-              className="object-contain"
-              sizes="(max-width: 1280px) 90vw, 52vw"
-              priority={false}
-            />
-          </div>
-
-          <div>
-            <div className="py-4 sm:py-5">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[.18em] text-[#494963]/40">Un marco común</p>
-              <h2 id="rueda-title" className="font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] sm:text-4xl md:text-5xl">
-                Trama curricular
-              </h2>
+          <figure className="wheel-figure order-2 mx-auto w-full max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:order-1 xl:max-w-[670px]" data-focused={isFocused || undefined}>
+            <div className="wheel-figure__media relative aspect-square w-full">
+              <Image
+                src={state.image}
+                alt="Trama curricular: nueve áreas articuladas con cinco enfoques transversales y el Marco General"
+                fill
+                className="object-contain"
+                sizes="(max-width: 1280px) 90vw, 52vw"
+                priority={false}
+              />
             </div>
+          </figure>
 
-            <div className="mt-3 overflow-hidden rounded-2xl bg-white/70" aria-label="Lecturas de la trama curricular">
-              {accordionItems.map(([id, label, description]) => {
-                const expanded = open === id;
+          <div className="order-1 min-w-0 xl:order-2">
+            <div className="wheel-accordion wheel-accordion--compact" aria-label="Lecturas de la trama curricular">
+              {RENDERED_STATE_IDS.map((id) => {
+                const item = wheelStates[id];
+                const expanded = active === id;
+                const isTitle = id === "intro";
                 return (
                   <div
                     key={id}
                     ref={(node) => { itemRefs.current[id] = node; }}
-                    className="border-b border-[#494963]/[.08] last:border-0"
+                    className="wheel-accordion__item"
                   >
                     <button
                       id={`wheel-${id}-button`}
@@ -104,13 +168,23 @@ export function CurricularWheel() {
                       aria-controls={`wheel-${id}-panel`}
                       onClick={() => {
                         hasInteracted.current = true;
-                        setOpen((current) => (current === id ? null : id));
+                        setActive((current) => (current === id ? "base" : id));
                       }}
-                      className={`flex min-h-12 w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] ${expanded ? "bg-[#494963]/[.16] text-[#494963]" : "text-[#494963] hover:bg-white"}`}
+                      className={`wheel-accordion__trigger ${isTitle ? "!py-4" : ""}`}
                     >
-                      <span>{label}</span>
-                      <span className={`grid h-5 w-5 shrink-0 place-items-center transition-transform duration-300 ${expanded ? "rotate-90" : ""}`} aria-hidden="true">
-                        <SolidAreaArrow compact />
+                      {isTitle ? (
+                        <span className="flex flex-col items-start gap-1">
+                          <span className="text-[10px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Un marco común</span>
+                          <span id="rueda-title" className="font-display text-2xl font-semibold tracking-[-.035em] text-[#494963] sm:text-3xl">{item.label}</span>
+                        </span>
+                      ) : (
+                        <span>{item.label}</span>
+                      )}
+                      <span
+                        className={`grid h-6 w-6 shrink-0 place-items-center transition-transform duration-300 ${expanded ? "rotate-90" : ""}`}
+                        aria-hidden="true"
+                      >
+                        <span className="-ml-3"><SolidAreaArrow /></span>
                       </span>
                     </button>
                     <div
@@ -118,9 +192,9 @@ export function CurricularWheel() {
                       role="region"
                       aria-labelledby={`wheel-${id}-button`}
                       hidden={!expanded}
-                      className="border-t border-[#494963]/[.08] bg-white px-4 py-5 text-[#494963]"
+                      className="wheel-accordion__panel"
                     >
-                      <p className="max-w-lg text-sm leading-relaxed text-[#494963]/65">{description}</p>
+                      <p>{item.blurb}</p>
                     </div>
                   </div>
                 );
@@ -128,7 +202,6 @@ export function CurricularWheel() {
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );

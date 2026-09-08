@@ -109,8 +109,8 @@ function ArtisticLanguageTabs({
               aria-selected={active}
               aria-controls="lenguaje-documento"
               onClick={() => onSelect(option.id)}
-              className={`rounded-full border px-5 py-2.5 text-[14px] font-semibold leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]/30 focus-visible:ring-offset-2 ${active ? "border-transparent text-white" : "border-[#EBEDEC] bg-white text-[#7A7A7A] hover:bg-[#EBEDEC] hover:text-[#494963]"}`}
-              style={active ? { backgroundColor: area.color } : undefined}
+              className={`rounded-[9px] border px-[15px] py-2.5 text-[15px] font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-white ${active ? "bg-[var(--tab)] text-white" : "bg-white text-[var(--tab)]"}`}
+              style={{ borderColor: area.color, ["--tab" as string]: area.color }}
             >
               {option.name}
             </button>
@@ -184,7 +184,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
             ) : null}
             {hasSelectedArtisticTrainings ? (
               <section className="v3-section !p-0 md:!p-[14px]">
-                <div className="rounded-none bg-[#F3F3F5] py-10 pl-4 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></div>
+                <div className="rounded-none bg-[#F3F3F5] py-10 pl-4 md:rounded-2xl md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></div>
               </section>
             ) : null}
 
@@ -205,7 +205,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
           </div>
           <section className="py-10 md:px-[14px] md:py-16"><MaterialesSection area={area} /></section>
           <section className="v3-section !p-0 md:!p-[14px]">
-            <div className="rounded-none bg-[#F3F3F5] py-10 pl-4 md:rounded-3xl md:px-8 md:py-16"><FormacionesSection area={area} /></div>
+            <div className="rounded-none bg-[#F3F3F5] py-10 pl-4 md:rounded-2xl md:px-8 md:py-16"><FormacionesSection area={area} /></div>
           </section>
           {videos[area.slug] ? (
             <div id="video">

@@ -1,4 +1,4 @@
-import { Download, FileText } from "lucide-react";
+import { BookOpen, Download, FileText } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { SlideDeckEmbed } from "@/components/v3/content-blocks";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
@@ -31,11 +31,14 @@ export default function FamiliasPage() {
 
         <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
-            <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+            <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
               <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
-                <div>
-                  <h3 className="font-display text-lg font-semibold text-[#494963]">Documentos disponibles</h3>
-                  <p className="mt-0.5 text-xs text-[#494963]/40">{materiales.length} archivos en formato PDF</p>
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><BookOpen className="h-4 w-4" /></span>
+                  <div>
+                    <h3 className="font-display text-lg font-semibold text-[#494963]">Documentos disponibles</h3>
+                    <p className="text-xs text-[#494963]/40">{materiales.length} archivos en formato PDF</p>
+                  </div>
                 </div>
                 <span className="rounded-full bg-[#494963]/[.06] px-3 py-1 text-xs font-bold text-[#494963]/55">{materiales.length}</span>
               </div>
