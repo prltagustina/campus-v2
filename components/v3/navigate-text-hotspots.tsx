@@ -58,12 +58,12 @@ function ReferenceCard({
 }) {
   return (
     <div className="rounded-xl bg-[#494963] p-5 text-white sm:p-6">
-      <span className="text-[11px] font-bold uppercase tracking-[.14em] opacity-60">
-        Referencia {index + 1} de {total}
-      </span>
-      <p className="mt-2 font-display text-lg font-bold leading-snug">{hotspot.titulo}</p>
+      <p className="font-display text-lg font-bold leading-snug">{hotspot.titulo}</p>
       <p className="mt-2 text-sm leading-relaxed opacity-80">{hotspot.detalle}</p>
       <div className="mt-4 flex items-center gap-3">
+        <span className="text-[11px] font-semibold tabular-nums opacity-45" aria-hidden="true">
+          {index + 1}/{total}
+        </span>
         <div className="flex gap-1.5" aria-hidden="true">
           {hotspots.map((item) => (
             <span
@@ -75,7 +75,7 @@ function ReferenceCard({
         <button
           type="button"
           onClick={onBack}
-          className="text-xs font-bold underline underline-offset-2 opacity-70 transition-opacity hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+          className="ml-auto text-xs font-bold underline underline-offset-2 opacity-70 transition-opacity hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
           Volver
         </button>

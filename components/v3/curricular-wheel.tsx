@@ -119,9 +119,17 @@ export function CurricularWheel() {
   return (
     <section className="v3-section !p-0 md:!p-[14px]" aria-labelledby="rueda-title">
       <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-6 sm:px-8 sm:py-8 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
-        <div className="grid items-start gap-6 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
-          {/* Debajo de xl la trama es una sola columna: el gráfico se centra con mx-auto. */}
-          <figure className="wheel-figure mx-auto w-full max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:max-w-[670px]" data-focused={isFocused || undefined}>
+        {/* Mobile/tablet: una sola columna en orden [título · rueda · acordeón].
+            xl: rueda a la izquierda, título + acordeón a la derecha. */}
+        <div className="grid items-start gap-5 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-x-14 xl:gap-y-0">
+          <div className="order-1 xl:order-none xl:col-start-2 xl:row-start-1 xl:py-4">
+            <p className="mb-2 text-xs font-bold uppercase tracking-[.18em] text-[#494963]/40">Un marco común</p>
+            <h2 id="rueda-title" className="font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] sm:text-4xl md:text-5xl">
+              Trama curricular
+            </h2>
+          </div>
+
+          <figure className="wheel-figure order-2 mx-auto w-full max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:order-none xl:col-start-1 xl:row-start-1 xl:row-span-2 xl:max-w-[670px]" data-focused={isFocused || undefined}>
             <div className="wheel-figure__media relative aspect-square w-full">
               <Image
                 src={state.image}
@@ -134,15 +142,8 @@ export function CurricularWheel() {
             </div>
           </figure>
 
-          <div className="min-w-0">
-            <div className="py-4 sm:py-5">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[.18em] text-[#494963]/40">Un marco común</p>
-              <h2 id="rueda-title" className="font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] sm:text-4xl md:text-5xl">
-                Trama curricular
-              </h2>
-            </div>
-
-            <div className="wheel-accordion" aria-label="Lecturas de la trama curricular">
+          <div className="order-3 min-w-0 xl:order-none xl:col-start-2 xl:row-start-2">
+            <div className="wheel-accordion wheel-accordion--compact" aria-label="Lecturas de la trama curricular">
               {RENDERED_STATE_IDS.map((id) => {
                 const item = wheelStates[id];
                 const expanded = active === id;

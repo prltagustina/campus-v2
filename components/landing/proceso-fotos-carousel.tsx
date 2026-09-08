@@ -2,14 +2,30 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+  useCarousel,
   type CarouselApi,
 } from "@/components/ui/carousel";
+
+/** Flechas anterior/siguiente con el mismo estilo y comportamiento que las de
+ *  "Qué enseñar…" y "Cómo está organizada cada área". */
+function CarouselArrows() {
+  const { scrollPrev, scrollNext, canScrollPrev, canScrollNext } = useCarousel();
+  return (
+    <div className="flex items-center gap-3">
+      <button type="button" onClick={scrollPrev} disabled={!canScrollPrev} aria-label="Foto anterior" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
+        <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
+      </button>
+      <button type="button" onClick={scrollNext} disabled={!canScrollNext} aria-label="Foto siguiente" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
+        <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
+      </button>
+    </div>
+  );
+}
 
 export interface ProcesoFoto {
   src: string;
@@ -90,10 +106,7 @@ export function ProcesoFotosCarousel({ photos }: { photos: ProcesoFoto[] }) {
           <p className="text-xs font-semibold text-[#494963]/55" aria-live="polite">
             {current} / {photos.length}
           </p>
-          <div className="flex gap-2">
-            <CarouselPrevious aria-label="Foto anterior" className="static h-9 w-9 translate-y-0" />
-            <CarouselNext aria-label="Foto siguiente" className="static h-9 w-9 translate-y-0" />
-          </div>
+          <CarouselArrows />
         </div>
       </Carousel>
     </div>

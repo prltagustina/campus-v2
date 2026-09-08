@@ -65,7 +65,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               <h3 className="font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl md:text-4xl">{heading ?? <>Descargá el<br />documento del área</>}</h3>
               <p className="mt-3 max-w-md text-sm leading-relaxed opacity-80 sm:mt-4 sm:text-base">{descripcion}</p>
               <div className="mt-5 flex flex-wrap items-center gap-3 sm:mt-7">
-                <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-11 items-center gap-2 rounded-[9px] bg-white px-5 font-bold text-[#494963] sm:h-12 sm:px-6">
+                <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-11 items-center gap-2 rounded-[9px] bg-white px-5 font-semibold tracking-[-0.035em] text-[#494963] sm:h-12 sm:px-6">
                   <Download className="h-4 w-4" /> Descargar PDF
                 </a>
                 <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-11 w-11 place-items-center rounded-full border border-current text-current sm:h-12 sm:w-12">
@@ -90,7 +90,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
                 <h3 className="font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl md:text-4xl">{heading ?? <>Descargá el<br />documento del área</>}</h3>
                 <p className="mt-3 max-w-md text-sm leading-relaxed opacity-80 sm:mt-4 sm:text-base">{descripcion}</p>
                 <div className="mt-5 flex flex-wrap items-center gap-3 sm:mt-7">
-                  <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-11 items-center gap-2 rounded-[9px] bg-white px-5 font-bold text-[#494963] sm:h-12 sm:px-6">
+                  <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-11 items-center gap-2 rounded-[9px] bg-white px-5 font-semibold tracking-[-0.035em] text-[#494963] sm:h-12 sm:px-6">
                     <Download className="h-4 w-4" /> Descargar PDF
                   </a>
                   <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-11 w-11 place-items-center rounded-full border border-current text-current sm:h-12 sm:w-12">
