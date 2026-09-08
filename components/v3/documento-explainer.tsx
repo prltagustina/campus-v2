@@ -104,7 +104,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               <NavigateTextHotspots
                 accent={accent}
                 badge={
-                  <span className="w-fit text-xs font-bold opacity-50 md:inline-flex md:h-9 md:items-center md:rounded-full md:border-2 md:border-current md:px-4 md:text-sm md:opacity-100">2 de 2</span>
+                  <span className="order-1 w-fit text-xs font-bold opacity-50 md:order-2 md:col-start-2 md:row-start-1 md:inline-flex md:h-9 md:items-center md:rounded-full md:border-2 md:border-current md:px-4 md:text-sm md:opacity-100">2 de 2</span>
                 }
                 title={
                   <h3 className="font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl md:text-4xl">Cómo navegar<br />el texto</h3>
