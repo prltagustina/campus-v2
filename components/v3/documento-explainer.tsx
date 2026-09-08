@@ -30,7 +30,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
 
   return (
     <section className="v3-section !p-0 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0">
-      <div className="relative overflow-hidden rounded-none md:rounded-3xl" style={{ backgroundColor: accent, color: accentText }}>
+      <div className="relative overflow-hidden rounded-none md:rounded-2xl" style={{ backgroundColor: accent, color: accentText }}>
         {!singleSlide ? (
           <>
             <button
@@ -68,7 +68,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
                 <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-11 items-center gap-2 rounded-[9px] bg-white px-5 font-bold text-[#494963] sm:h-12 sm:px-6">
                   <Download className="h-4 w-4" /> Descargar PDF
                 </a>
-                <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-11 w-11 place-items-center rounded-[9px] border-2 border-current text-current sm:h-12 sm:w-12">
+                <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-11 w-11 place-items-center rounded-full border-2 border-current text-current sm:h-12 sm:w-12">
                   <Share2 className="h-4 w-4" />
                 </button>
               </div>
@@ -93,7 +93,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
                   <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-11 items-center gap-2 rounded-[9px] bg-white px-5 font-bold text-[#494963] sm:h-12 sm:px-6">
                     <Download className="h-4 w-4" /> Descargar PDF
                   </a>
-                  <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-11 w-11 place-items-center rounded-[9px] border-2 border-current text-current sm:h-12 sm:w-12">
+                  <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-11 w-11 place-items-center rounded-full border-2 border-current text-current sm:h-12 sm:w-12">
                     <Share2 className="h-4 w-4" />
                   </button>
                 </div>

@@ -88,7 +88,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
           <div
             role="tablist"
             aria-label={title}
-            className="flex w-full min-w-0 gap-1.5 rounded-[13px] bg-[#E6E6EB] p-1.5 md:w-fit"
+            className="flex w-full min-w-0 gap-1.5 rounded-2xl bg-[#E6E6EB] p-1.5 md:w-fit"
           >
             {tabs}
           </div>

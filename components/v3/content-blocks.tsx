@@ -27,7 +27,7 @@ export function VideoEmbed({ videoId, title, topClassName = "!pt-4 md:!pt-[14px]
 export function SlideDeckEmbed({ src, title, label = "Presentación institucional" }: { src: string; title: string; label?: string }) {
   const [loaded, setLoaded] = useState(false);
 
-  return <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+  return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
     <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Presentation className="h-4 w-4" /></span>
       <div className="min-w-0 flex-1"><p className="truncate font-display text-lg font-semibold text-[#494963]">{label}</p><p className="text-xs text-[#494963]/40">Diapositivas</p></div>
@@ -122,7 +122,7 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
               type="button"
               onClick={share}
               aria-label={`Compartir ${titulo}`}
-              className="grid h-[52px] w-[52px] place-items-center rounded-[9px] border border-white/35 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+              className="grid h-[52px] w-[52px] place-items-center rounded-full border border-white/35 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
             >
               <Share2 className="h-[18px] w-[18px]" strokeWidth={1.75} />
             </button>
@@ -196,7 +196,7 @@ function StepperDots({ count }: { count: number }) {
 export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
     <section className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
-      <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
+      <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
       <Carousel opts={{ loop: true }}>
         <div className="flex items-end justify-between gap-4">
           <h2 className="max-w-sm font-sans text-2xl font-bold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>
