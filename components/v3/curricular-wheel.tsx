@@ -67,7 +67,7 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   intro: {
     label: "Trama curricular",
     blurb:
-      "La trama articula las nueve áreas curriculares entre sí y con los cinco enfoques transversales, alrededor del Marco General.",
+      "Las nueve áreas se articulan entre sí y con los cinco enfoques transversales, alrededor del Marco General.",
     image: WHEEL_BASE_IMAGE,
     focus: { ring: true, segments: true, nodes: true, center: true },
     caption: "",
@@ -132,13 +132,13 @@ export function CurricularWheel() {
 
   return (
     <section className="v3-section !p-0 md:!p-[14px]" aria-label="Trama curricular">
-      <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-6 sm:px-8 sm:py-8 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
+      <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-5 sm:px-8 sm:py-8 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
         {/* Mobile/tablet: acordeón (con "Trama curricular" como primer ítem,
             estilo boceto) y la rueda debajo. El acordeón tiene alto reservado
             (max-xl:min-h) para que al desplegar/plegar un ítem la rueda no se
             mueva. xl: rueda a la izquierda, acordeón a la derecha. */}
-        <div className="grid items-start gap-6 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
-          <figure className="wheel-figure order-2 mx-auto w-full max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:order-1 xl:max-w-[670px]" data-focused={isFocused || undefined}>
+        <div className="grid items-start gap-3 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
+          <figure className="wheel-figure order-2 mx-auto w-full max-w-[320px] min-[400px]:max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:order-1 xl:max-w-[670px]" data-focused={isFocused || undefined}>
             <div className="wheel-figure__media relative aspect-square w-full">
               <Image
                 src={state.image}
@@ -152,7 +152,7 @@ export function CurricularWheel() {
           </figure>
 
           <div className="order-1 min-w-0 xl:order-2">
-            <div className="wheel-accordion wheel-accordion--compact max-xl:min-h-[330px]" aria-label="Lecturas de la trama curricular">
+            <div className="wheel-accordion wheel-accordion--compact max-xl:min-h-[292px]" aria-label="Lecturas de la trama curricular">
               {RENDERED_STATE_IDS.map((id) => {
                 const item = wheelStates[id];
                 const expanded = active === id;
