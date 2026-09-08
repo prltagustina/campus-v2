@@ -106,8 +106,8 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
                 heading={
                   <>
                     <span className="inline-flex h-9 w-fit items-center rounded-full border-2 border-current px-4 text-sm font-bold">2 de 2</span>
-                    <h3 className="mt-4 font-display text-3xl font-semibold leading-[1.02] tracking-[-.035em] sm:text-4xl md:text-[2.75rem]">Cómo<br />navegar<br />el texto</h3>
-                    <p className="mt-4 max-w-[15rem] text-sm leading-relaxed opacity-80">Tocá cada punto de la página para ver en qué te ayuda a ubicarte.</p>
+                    <h3 className="mt-4 font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl lg:text-[2.5rem] lg:leading-[1.02]">Cómo<br />navegar<br />el texto</h3>
+                    <p className="mt-3 max-w-[16rem] text-sm leading-relaxed opacity-80 lg:mt-4">Tocá cada punto de la página para ver en qué te ayuda a ubicarte.</p>
                   </>
                 }
               />

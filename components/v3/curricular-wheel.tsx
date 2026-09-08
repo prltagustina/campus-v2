@@ -121,7 +121,7 @@ export function CurricularWheel() {
       <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-6 sm:px-8 sm:py-8 md:rounded-3xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
         <div className="grid items-start gap-6 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
           {/* Debajo de xl la trama es una sola columna: el gráfico se centra con mx-auto. */}
-          <figure className="wheel-figure mx-auto w-full max-w-[280px] sm:max-w-[420px] md:max-w-[520px] xl:max-w-[670px]" data-focused={isFocused || undefined}>
+          <figure className="wheel-figure mx-auto w-full max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:max-w-[670px]" data-focused={isFocused || undefined}>
             <div className="wheel-figure__media relative aspect-square w-full">
               <Image
                 src={state.image}
