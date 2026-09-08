@@ -107,14 +107,32 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
               </span>
             )) : descripcion}
           </p>
-          <div className="documento-hero__actions flex flex-wrap items-center gap-3">
-            <a href={pdfUrl} target="_blank" rel="noreferrer" aria-label={`Descargar PDF: ${titulo}`} className="inline-flex h-12 items-center gap-2 rounded-full px-6 font-bold" style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}>
-              <Download className="h-4 w-4" /> Descargar PDF
+          <div className="documento-hero__actions flex flex-wrap items-center gap-4">
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Descargar PDF: ${titulo}`}
+              className="inline-flex h-[52px] items-center gap-2.5 rounded-full px-7 text-[15px] font-bold transition-[filter] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+              style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}
+            >
+              <Download className="h-[18px] w-[18px]" strokeWidth={1.75} /> Descargar PDF
             </a>
-            <button type="button" onClick={share} aria-label={`Compartir ${titulo}`} className="grid h-12 w-12 place-items-center rounded-full border border-white/30 hover:bg-white/10">
-              <Share2 className="h-4 w-4" />
+            <button
+              type="button"
+              onClick={share}
+              aria-label={`Compartir ${titulo}`}
+              className="grid h-[52px] w-[52px] place-items-center rounded-full border border-white/35 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+            >
+              <Share2 className="h-[18px] w-[18px]" strokeWidth={1.75} />
             </button>
-            {secondaryHref && <Link href={secondaryHref} className="basis-full"><span className="mt-1 inline-flex h-11 items-center rounded-full border border-white/40 px-6 font-semibold">Saber más</span></Link>}
+            {secondaryHref && (
+              <Link href={secondaryHref} className="mt-1 basis-full">
+                <span className="inline-flex h-12 w-fit items-center rounded-full border border-white/35 px-7 text-[15px] font-medium tracking-[.01em] transition-colors hover:bg-white/10">
+                  Saber más
+                </span>
+              </Link>
+            )}
           </div>
         </div>
       </div>

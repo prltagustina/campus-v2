@@ -264,7 +264,7 @@
   padding-top: clamp(1.75rem, 5cqw, 3rem);
   border-radius: .75rem;
 }
-.documento-hero__image--tilted { transform: rotate(-3deg) scale(.92); }
+.documento-hero__image--tilted { transform: rotate(2.6deg) scale(.92); }
 .documento-hero__content {
   order: 2;
   display: flex;
@@ -310,6 +310,8 @@
     min-height: 420px;
   }
   .documento-hero--compact .documento-hero__cover { min-height: 420px; order: 0; }
+  /* Aire a la izquierda: separa la portada del borde de la tarjeta (ref. boceto). */
+  .documento-hero--compact .documento-hero__image { padding-left: clamp(1.25rem, 5cqw, 3.25rem); }
   .documento-hero--compact .documento-hero__content { order: 0; padding: clamp(2rem, 4.25cqw, 3rem); }
   .documento-hero--compact .documento-hero__title { font-size: clamp(2rem, 4cqw, 2.45rem); }
   .documento-hero--compact .documento-hero__description { font-size: clamp(.9rem, 1.6cqw, 1rem); }
@@ -325,31 +327,120 @@
   .documento-hero--standard { grid-template-columns: minmax(320px, 1fr) minmax(0, 1fr); min-height: 470px; }
   .documento-hero--standard .documento-hero__content { padding: 4rem; }
   .documento-hero--compact { grid-template-columns: minmax(300px, .82fr) minmax(0, 1.18fr); }
-  .documento-hero--compact .documento-hero__content { padding: 5rem; }
+  .documento-hero--compact .documento-hero__content { padding: clamp(1.75rem, 3vw, 2.5rem); }
   .documento-hero--compact .documento-hero__title {
-    max-width: 31rem;
-    font-size: 3.5rem;
+    max-width: 26rem;
+    font-size: clamp(2rem, 2.4vw, 2.4rem);
     font-weight: 500;
-    line-height: 1.25;
+    line-height: 1.12;
     letter-spacing: -.025em;
     color: #ededf0;
   }
   .documento-hero--compact .documento-hero__description {
     max-width: 30.5rem;
-    margin-top: 3.5rem;
-    font-size: 1.625rem;
+    margin-top: 1.25rem;
+    font-size: clamp(.95rem, 1.2vw, 1.05rem);
     font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -.015em;
+    line-height: 1.35;
+    letter-spacing: -.01em;
     color: rgba(237,237,240,.88);
   }
+  .documento-hero--compact .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: .6em; }
+  .documento-hero--compact .documento-hero__actions { margin-top: 1.5rem; }
+}
+
+/* Cap de alto (decisión: llenar el alto visible, pero puede crecer si el
+   contenido no entra en pantallas muy bajas — no recorta).
+   El shell resta header + breadcrumb: 118px en md, 154px en lg. */
+@media (min-width: 768px) {
+  .documento-hero--compact { min-height: clamp(500px, calc(100svh - 214px), 640px); }
+}
+@media (min-width: 1024px) {
+  .documento-hero--compact { min-height: clamp(540px, calc(100svh - 250px), 680px); }
 }
 
 .v3-heading { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 4rem); line-height: 1.04; font-weight: 700; letter-spacing: -0.025em; color: #494963; }
 .v3-eyebrow { margin-bottom: .75rem; font-size: .72rem; line-height: 1; font-weight: 800; text-transform: uppercase; letter-spacing: .18em; color: #e42153; }
-.wheel-segment { transition: filter 200ms ease, opacity 200ms ease, transform 200ms ease; transform-origin: center; }
-.wheel-segment.is-dimmed { filter: grayscale(1); opacity: .35; }
-.wheel-segment:focus-visible { outline: 4px solid #494963; outline-offset: 3px; }
+/* --- Trama curricular ------------------------------------------------------ */
+/* Grisado interino sobre el PNG plano: cuando haya una imagen por estado en
+   /public/images/trama/ (ver wheelStates en curricular-wheel.tsx), el swap de
+   src ya resuelve el realce y este filtro se puede quitar. */
+/* margin:0 auto y no solo 0: además de resetear el margen del <figure>, centra
+   el gráfico cuando la trama es de una sola columna (tablet/mobile). */
+.wheel-figure { margin: 0 auto; }
+.wheel-figure__media { transition: filter 240ms ease; }
+.wheel-figure[data-focused] .wheel-figure__media { filter: grayscale(1) opacity(.5); }
+/* Caption siempre en flujo normal (nunca absoluta): así no la recorta el
+   overflow-hidden de la tarjeta de la sección. */
+.wheel-figure__caption {
+  margin: .85rem auto 0;
+  max-width: 26rem;
+  text-align: center;
+  font-size: .82rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: .01em;
+  color: #494963;
+}
+@media (min-width: 768px) {
+  .wheel-figure__caption {
+    width: max-content;
+    max-width: min(26rem, 100%);
+    margin-top: 1rem;
+    padding: .5rem 1.1rem;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(73, 73, 99, .12);
+  }
+}
+
+.wheel-accordion { margin-top: 1rem; border-top: 1px solid rgba(73, 73, 99, .16); }
+.wheel-accordion__item { border-bottom: 1px solid rgba(73, 73, 99, .16); }
+.wheel-accordion__trigger {
+  display: flex;
+  width: 100%;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem .25rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #494963;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+.wheel-accordion__trigger:hover { color: #22223a; }
+.wheel-accordion__trigger:focus-visible { outline: 2px solid #494963; outline-offset: 2px; border-radius: 4px; }
+.wheel-accordion__trigger[aria-expanded="true"] { color: #22223a; }
+.wheel-accordion__panel { padding: 0 .25rem 1.15rem; }
+.wheel-accordion__panel p { max-width: 34rem; font-size: .9375rem; line-height: 1.6; color: rgba(73, 73, 99, .65); }
+
+/* --- Hotspots "Cómo navegar el texto" (slide 2) -------------------------- */
+.nav-text-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  height: 2.25rem;
+  width: 2.25rem;
+  border-radius: 999px;
+  background: var(--hotspot-accent, #e42153);
+  color: #fff;
+  opacity: .5;
+  cursor: pointer;
+  transition: opacity 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+.nav-text-hotspot:hover { opacity: .8; }
+.nav-text-hotspot:focus-visible { outline: 2px solid #494963; outline-offset: 2px; opacity: 1; }
+.nav-text-hotspot[data-active] {
+  opacity: 1;
+  box-shadow: 0 0 0 5px rgba(73, 73, 99, .14);
+}
+.nav-text-hotspot__num { font-size: .8rem; font-weight: 700; line-height: 1; }
 @keyframes v3-slide-in { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: translateX(0); } }
 
 /* Editorial covers for the two main repositories */
@@ -390,6 +481,19 @@
   .v3-section-cover--no-icon {
     min-height: 0;
     align-items: flex-start;
+  }
+}
+/* Portada de Áreas en mobile: el icono no se muestra (robaba espacio vertical);
+   el texto ocupa el ancho completo y la portada queda compacta. En desktop el
+   icono vuelve con su layout normal de dos columnas. */
+@media (max-width: 767px) {
+  .v3-section-cover--areas .v3-cover-icon-stage { display: none; }
+  .v3-section-cover--areas {
+    min-height: 0;
+    align-items: flex-start;
+  }
+  .v3-section-cover--areas .v3-section-cover__inner {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 .v3-section-cover__inner {

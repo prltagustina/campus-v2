@@ -17,7 +17,7 @@ export default function HomePage() {
       <div id="presentacion">
         <VideoEmbed videoId="eu8CYPbjehE" title="Presentación Diseño Curricular de la Provincia de Santa Fe" topClassName="!pt-10 md:!pt-0" />
       </div>
-      <div id="documento" className="pt-10 md:pt-16">
+      <div id="documento" className="pt-10 md:pt-6">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"

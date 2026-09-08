@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ReactNode, useState } from "react";
 import { ChevronLeft, ChevronRight, Download, Share2 } from "lucide-react";
+import { NavigateTextHotspots } from "@/components/v3/navigate-text-hotspots";
 
 export interface DocumentoExplainerProps {
   titulo: string;
@@ -31,13 +32,13 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
     <section className="v3-section !p-0 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0">
       <div className="relative overflow-hidden rounded-none md:rounded-3xl" style={{ backgroundColor: accent, color: accentText }}>
         {!singleSlide && slide === 1 ? (
-          <button type="button" onClick={() => setSlide(0)} aria-label="Slide anterior" className="absolute left-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-black/[.06] text-current transition-colors hover:bg-black/[.12] sm:left-6">
-            <ChevronLeft className="h-5 w-5" />
+          <button type="button" onClick={() => setSlide(0)} aria-label="Slide anterior" className="absolute left-3 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-black/[.04] text-current transition-colors hover:bg-black/[.1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:left-6">
+            <ChevronLeft className="h-[18px] w-[18px]" strokeWidth={1.75} />
           </button>
         ) : null}
         {!singleSlide && slide === 0 ? (
-          <button type="button" onClick={() => setSlide(1)} aria-label="Slide siguiente" className="absolute right-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-black/[.06] text-current transition-colors hover:bg-black/[.12] sm:right-6">
-            <ChevronRight className="h-5 w-5" />
+          <button type="button" onClick={() => setSlide(1)} aria-label="Slide siguiente" className="absolute right-3 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-black/[.04] text-current transition-colors hover:bg-black/[.1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:right-6">
+            <ChevronRight className="h-[18px] w-[18px]" strokeWidth={1.75} />
           </button>
         ) : null}
 
@@ -81,28 +82,13 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
             </>
           ) : (
             <>
-              <div>
+              <div className="md:col-span-2">
                 <span className="inline-flex h-9 items-center rounded-full border-2 border-current px-4 text-sm font-bold">2 de 2</span>
                 <h3 className="mt-4 font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:mt-5 sm:text-3xl md:text-4xl">Cómo navegar<br />el texto</h3>
+                <p className="mt-3 max-w-md text-sm leading-relaxed opacity-80">Tocá cada punto de la página para ver en qué te ayuda a ubicarte.</p>
               </div>
-              <div className="grid gap-4 sm:grid-cols-[1.2fr_1fr] sm:items-stretch">
-                <div className="relative overflow-hidden rounded-xl bg-white p-6 shadow-[0_16px_36px_rgba(20,20,35,.18)]" aria-hidden="true">
-                  <div className="space-y-2.5">
-                    <span className="block h-2 w-2/3 rounded-full bg-[#494963]/10" />
-                    <span className="block h-2 w-full rounded-full bg-[#494963]/10" />
-                    <span className="block h-2 w-full rounded-full bg-[#494963]/10" />
-                    <span className="block h-2 w-4/5 rounded-full bg-[#494963]/10" />
-                    <span className="block h-2 w-full rounded-full bg-[#494963]/10" />
-                    <span className="block h-2 w-3/5 rounded-full bg-[#494963]/10" />
-                  </div>
-                  <span className="absolute right-6 top-6 h-9 w-9 rounded-full border-2 border-dashed" style={{ borderColor: accent }} />
-                  <span className="absolute bottom-8 left-8 h-7 w-7 rounded-full border-2 border-dashed" style={{ borderColor: accent }} />
-                </div>
-                <div className="flex items-center rounded-xl bg-[#E42153] p-6 text-white">
-                  <p className="font-display text-lg font-bold italic leading-snug">
-                    Recorré el documento con las referencias visuales que acompañan cada sección.
-                  </p>
-                </div>
+              <div className="md:col-span-2">
+                <NavigateTextHotspots accent={accent} />
               </div>
             </>
           )}
@@ -117,8 +103,8 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
                 onClick={() => setSlide(index)}
                 aria-label={`Ir al slide ${index + 1}`}
                 aria-current={index === slide ? "step" : undefined}
-                className="h-2.5 w-2.5 rounded-full border-2 transition-opacity"
-                style={{ borderColor: accentText, backgroundColor: index === slide ? accentText : "transparent", opacity: index === slide ? 1 : 0.4 }}
+                className="h-2 w-2 rounded-full transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                style={{ backgroundColor: accentText, outlineColor: accentText, opacity: index === slide ? 1 : 0.3 }}
               />
             ))}
           </div>

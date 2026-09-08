@@ -150,6 +150,9 @@ const celebraciones = [
 const celebracionesCalendario = celebraciones.filter((_, index) => [0, 1, 2, 3, 4, 8, 9, 10, 11, 12].includes(index));
 const celebracionesMemoria = celebraciones.filter((_, index) => [5, 6, 7, 13, 14].includes(index));
 
+/** Títulos de proyectos y efemérides: van entre comillas latinas (si no las traen ya). */
+const asTitle = (nombre: string) => (nombre.trim().startsWith("«") ? nombre : `«${nombre}»`);
+
 function RepositoryPanel({ title, detail, icon, children }: { title: string; detail: string; icon: ReactNode; children: ReactNode }) {
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
@@ -196,7 +199,7 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
             rel="noopener noreferrer"
             className="group flex min-w-0 items-center gap-3 py-3.5 first:pt-3.5 transition-colors md:first:pt-0"
           >
-            <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[#494963] sm:text-[15px]">{item.nombre}</span>
+            <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[#494963] sm:text-[15px]">{asTitle(item.nombre)}</span>
             <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#494963]/[.045] text-[#494963]/35 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
               <ExternalLink className="h-3.5 w-3.5" />
             </span>
@@ -229,7 +232,7 @@ function ArchiveGroup({ title, detail, icon, items }: { title: string; detail: s
             className="group grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)_1.75rem] items-start gap-2.5 border-b border-[#494963]/[.065] px-4 py-4 transition-colors last:border-b-0 hover:bg-[#F8F8FA] sm:px-5 sm:odd:border-r"
           >
             <span className="pt-0.5 font-display text-[10px] font-semibold tabular-nums text-[#494963]/25">{String(index + 1).padStart(2, "0")}</span>
-            <span className="min-w-0 text-[13px] font-medium leading-[1.4] text-[#494963] sm:text-sm">{item.nombre}</span>
+            <span className="min-w-0 text-[13px] font-medium leading-[1.4] text-[#494963] sm:text-sm">{asTitle(item.nombre)}</span>
             <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[#494963]/30 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
               <ExternalLink className="h-3.5 w-3.5" />
             </span>
