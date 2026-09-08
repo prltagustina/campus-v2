@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, type CSSProperties } from "react";
 
 export interface TextHotspot {
@@ -10,8 +9,6 @@ export interface TextHotspot {
   y: number;
   titulo: string;
   detalle: string;
-  /** Icono opcional del panel (mismo set que "Cómo está organizada cada área"). */
-  icon?: string;
 }
 
 /**
@@ -27,7 +24,6 @@ export const defaultTextHotspots: TextHotspot[] = [
     y: 26,
     titulo: "Objetivos por ciclo",
     detalle: "Cada ciclo abre con los aprendizajes que se espera que el estudiantado alcance al finalizarlo.",
-    icon: "/images/organizacion/icono-02.png",
   },
   {
     id: "glosario",
@@ -111,11 +107,6 @@ export function NavigateTextHotspots({
       </div>
 
       <div className="flex min-w-0 flex-col justify-center rounded-xl bg-[#494963] p-6 text-white">
-        {active?.icon ? (
-          <span className="mb-3 grid h-9 w-9 place-items-center rounded-lg bg-white">
-            <Image src={active.icon} alt="" width={18} height={18} className="h-[18px] w-[18px] object-contain" />
-          </span>
-        ) : null}
         <span className="text-[11px] font-bold uppercase tracking-[.14em] text-white/60">
           Referencia {activeIndex + 1} de {hotspots.length}
         </span>

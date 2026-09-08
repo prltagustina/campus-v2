@@ -45,7 +45,7 @@ const proyectos = {
   ],
   primario: [
     {
-      nombre: '"Varias especies de remedios naturales" - "NATARIPI"',
+      nombre: 'Varias especies de remedios naturales - "NATARIPI"',
       url: "https://campuseducativo.santafe.edu.ar/varias-especies-de-remedios-naturales-nataripi/",
     },
     {
