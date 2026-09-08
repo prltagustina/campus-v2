@@ -370,41 +370,6 @@
 .wheel-figure { margin: 0 auto; }
 .wheel-figure__media { transition: filter 240ms ease; }
 .wheel-figure[data-focused] .wheel-figure__media { filter: grayscale(1) opacity(.5); }
-/* Caption siempre en flujo normal (nunca absoluta): así no la recorta el
-   overflow-hidden de la tarjeta de la sección. */
-/* Slot con alto reservado: el cartel de foco aparece/desaparece y cambia entre
-   estados sin mover el layout (sin CLS). */
-.wheel-figure__caption-slot {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  min-height: 3rem;
-  margin-top: .75rem;
-}
-.wheel-figure__caption {
-  max-width: 26rem;
-  text-align: center;
-  font-size: .82rem;
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: .01em;
-  color: #494963;
-}
-@media (min-width: 768px) {
-  .wheel-figure__caption-slot {
-    min-height: 2.75rem;
-    margin-top: 1rem;
-    align-items: center;
-  }
-  .wheel-figure__caption {
-    width: max-content;
-    max-width: min(26rem, 100%);
-    padding: .5rem 1.1rem;
-    border-radius: 999px;
-    background: #fff;
-    box-shadow: 0 8px 24px rgba(73, 73, 99, .12);
-  }
-}
 
 .wheel-accordion { margin-top: 1rem; border-top: 1px solid rgba(73, 73, 99, .16); }
 .wheel-accordion__item { border-bottom: 1px solid rgba(73, 73, 99, .16); }
@@ -430,6 +395,16 @@
 .wheel-accordion__trigger[aria-expanded="true"] { color: #22223a; }
 .wheel-accordion__panel { padding: 0 .25rem 1.15rem; }
 .wheel-accordion__panel p { max-width: 34rem; font-size: .9375rem; line-height: 1.6; color: rgba(73, 73, 99, .65); }
+
+/* Variante compacta: mismo estilo, tamaño acorde a vistas con tipografía más
+   chica (p. ej. "Aspectos distintivos" en Marco General). */
+.wheel-accordion--compact .wheel-accordion__trigger {
+  min-height: 2.75rem;
+  padding: .8rem .25rem;
+  font-size: .9375rem;
+}
+.wheel-accordion--compact .wheel-accordion__panel { padding-bottom: 1rem; }
+.wheel-accordion--compact .wheel-accordion__panel p { font-size: .875rem; line-height: 1.55; }
 
 /* --- Hotspots "Cómo navegar el texto" (slide 2) -------------------------- */
 .nav-text-hotspot {

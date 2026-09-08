@@ -132,12 +132,6 @@ export function CurricularWheel() {
                 priority={false}
               />
             </div>
-            {/* Slot con alto reservado: el cartel de foco aparece sin mover el layout. */}
-            <figcaption className="wheel-figure__caption-slot">
-              {isFocused && state.caption ? (
-                <span className="wheel-figure__caption">{state.caption}</span>
-              ) : null}
-            </figcaption>
           </figure>
 
           <div className="min-w-0">

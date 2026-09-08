@@ -101,7 +101,7 @@ function MarcoGeneralContent() {
           <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>
           <p className="mt-3 text-sm text-[#494963]/45">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
         </header>
-        <div className="wheel-accordion" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
+        <div className="wheel-accordion wheel-accordion--compact" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
           {centralAxes.map(([title, description], index) => {
             const active = selectedAxis === index;
             const panelId = `eje-central-${index}-panel`;
