@@ -400,8 +400,11 @@
    chica (p. ej. "Aspectos distintivos" en Marco General). */
 .wheel-accordion--compact .wheel-accordion__trigger {
   min-height: 2.75rem;
-  padding: .8rem .25rem;
-  font-size: .9375rem;
+  padding: .85rem .25rem;
+  font-size: 1rem;
+}
+@media (min-width: 640px) {
+  .wheel-accordion--compact .wheel-accordion__trigger { font-size: 1.0625rem; }
 }
 .wheel-accordion--compact .wheel-accordion__panel { padding-bottom: 1rem; }
 /* El texto interno acompaña al de los párrafos de las secciones (text-sm →
