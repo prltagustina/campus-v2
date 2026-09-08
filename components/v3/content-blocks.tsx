@@ -27,7 +27,7 @@ export function VideoEmbed({ videoId, title, topClassName = "!pt-4 md:!pt-[14px]
 export function SlideDeckEmbed({ src, title, label = "Presentación institucional" }: { src: string; title: string; label?: string }) {
   const [loaded, setLoaded] = useState(false);
 
-  return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_32px_rgba(73,73,99,.08)]">
+  return <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
     <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-4 py-3 md:px-5">
       <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#494963]/[.06] text-[#494963]"><Presentation className="h-4 w-4" /></span>
       <div className="min-w-0 flex-1"><p className="truncate font-display text-base font-semibold text-[#494963] sm:text-lg">{label}</p><p className="text-[10px] uppercase tracking-[.12em] text-[#494963]/35">Diapositivas</p></div>
