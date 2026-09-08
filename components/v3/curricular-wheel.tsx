@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { pendingCopy } from "@/lib/v3-config";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 
@@ -111,19 +111,6 @@ const RENDERED_STATE_IDS = ["intro", "relacion", "ejes", "marco"] as const satis
 
 export function CurricularWheel() {
   const [active, setActive] = useState<WheelStateId>("base");
-  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const hasInteracted = useRef(false);
-
-  useEffect(() => {
-    if (!hasInteracted.current || active === "base" || active === "intro" || !window.matchMedia("(max-width: 767px)").matches) return;
-    const item = itemRefs.current[active];
-    if (!item) return;
-
-    const frame = window.requestAnimationFrame(() => {
-      item.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [active]);
 
   const state = wheelStates[active];
   // El grisado CSS interino solo se aplica a los estados que todavía usan el PNG
@@ -134,11 +121,13 @@ export function CurricularWheel() {
     <section className="v3-section !p-0 md:!p-[14px]" aria-label="Trama curricular">
       <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-5 sm:px-8 sm:py-8 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
         {/* Mobile/tablet: acordeón (con "Trama curricular" como primer ítem,
-            estilo boceto) y la rueda debajo. El acordeón tiene alto reservado
-            (max-xl:min-h) para que al desplegar/plegar un ítem la rueda no se
-            mueva. xl: rueda a la izquierda, acordeón a la derecha. */}
+            estilo boceto) y la rueda debajo. El acordeón reserva alto fijo
+            (max-xl:min-h) y cada panel tiene un min-height parejo, así abrir o
+            cerrar cualquier ítem no cambia la altura total → la rueda no se
+            mueve. No hay scrollIntoView: todo entra en la vista sin scroll.
+            xl: rueda a la izquierda, acordeón a la derecha. */}
         <div className="grid items-start gap-3 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
-          <figure className="wheel-figure order-2 mx-auto w-full max-w-[320px] min-[400px]:max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:order-1 xl:max-w-[670px]" data-focused={isFocused || undefined}>
+          <figure className="wheel-figure order-2 mx-auto w-full max-w-[284px] min-[400px]:max-w-[320px] sm:max-w-[440px] md:max-w-[520px] xl:order-1 xl:max-w-[670px]" data-focused={isFocused || undefined}>
             <div className="wheel-figure__media relative aspect-square w-full">
               <Image
                 src={state.image}
@@ -152,26 +141,19 @@ export function CurricularWheel() {
           </figure>
 
           <div className="order-1 min-w-0 xl:order-2">
-            <div className="wheel-accordion wheel-accordion--compact max-xl:min-h-[292px]" aria-label="Lecturas de la trama curricular">
+            <div className="wheel-accordion wheel-accordion--compact wheel-accordion--reserve max-xl:min-h-[300px]" aria-label="Lecturas de la trama curricular">
               {RENDERED_STATE_IDS.map((id) => {
                 const item = wheelStates[id];
                 const expanded = active === id;
                 const isTitle = id === "intro";
                 return (
-                  <div
-                    key={id}
-                    ref={(node) => { itemRefs.current[id] = node; }}
-                    className="wheel-accordion__item"
-                  >
+                  <div key={id} className="wheel-accordion__item">
                     <button
                       id={`wheel-${id}-button`}
                       type="button"
                       aria-expanded={expanded}
                       aria-controls={`wheel-${id}-panel`}
-                      onClick={() => {
-                        hasInteracted.current = true;
-                        setActive((current) => (current === id ? "base" : id));
-                      }}
+                      onClick={() => setActive((current) => (current === id ? "base" : id))}
                       className={`wheel-accordion__trigger ${isTitle ? "!py-4" : ""}`}
                     >
                       {isTitle ? (
