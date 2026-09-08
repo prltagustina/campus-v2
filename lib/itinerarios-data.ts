@@ -322,6 +322,11 @@ export function getItinerario(slug: string): AreaItinerario {
   const docencia = recursosDocenciaPorArea[slug];
   const articulacion = articulacionPorArea[slug];
 
+  // Articulación: si ya hay materiales, el conteo ("N materiales") no debe
+  // repetirse en la bajada; si todavía no hay, la bajada los nombra.
+  const articulacionTieneMateriales =
+    (articulacion?.docencia.length ?? 0) + (articulacion?.estudiantes.length ?? 0) > 0;
+
   const categorias: ItinerarioCategoria[] = [
     {
       id: "docencia",
@@ -341,7 +346,9 @@ export function getItinerario(slug: string): AreaItinerario {
     {
       id: "articulacion",
       nombre: "Articulación Primaria-Secundaria",
-      descripcion: "Materiales para acompañar el pasaje a la escuela secundaria.",
+      descripcion: articulacionTieneMateriales
+        ? "Para acompañar el pasaje a la escuela secundaria."
+        : "Materiales para acompañar el pasaje a la escuela secundaria.",
       subgrupos: [
         { id: "docencia", nombre: "Recursos para la docencia", files: articulacion?.docencia ?? [] },
         { id: "estudiantes", nombre: "Recursos para los estudiantes", files: articulacion?.estudiantes ?? [] },
