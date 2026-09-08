@@ -495,12 +495,15 @@
     align-items: flex-start;
   }
 }
-/* Icono inline al lado del título — solo se usa en la portada de Áreas en mobile
-   (en desktop está el badge grande de .v3-cover-icon-stage). */
+/* En desktop el título/subtítulo fluyen normal y el icono inline no se usa
+   (está el badge grande de .v3-cover-icon-stage). */
+.v3-cover-headline,
+.v3-cover-headline__text { display: contents; }
 .v3-cover-icon-inline { display: none; }
 
-/* Portada de Áreas en mobile: en vez del badge grande arriba, el icono va
-   inline a la izquierda del título, a la altura del texto. */
+/* Portada de Áreas en mobile: en vez del badge grande arriba, el icono va a la
+   izquierda del bloque título + subtítulo, ocupando el alto de las dos líneas,
+   con el texto alineado a la izquierda. */
 @media (max-width: 767px) {
   .v3-section-cover--areas .v3-cover-icon-stage { display: none; }
   .v3-section-cover--areas {
@@ -510,12 +513,17 @@
   .v3-section-cover--areas .v3-section-cover__inner {
     grid-template-columns: minmax(0, 1fr);
   }
+  .v3-section-cover--areas .v3-cover-headline {
+    display: flex;
+    align-items: stretch;
+    gap: .6rem;
+  }
+  .v3-section-cover--areas .v3-cover-headline__text { display: block; }
   .v3-section-cover--areas .v3-cover-icon-inline {
-    display: inline-flex;
-    width: .92em;
-    height: .92em;
-    margin-right: .36em;
-    vertical-align: -0.08em;
+    display: flex;
+    flex-shrink: 0;
+    align-self: stretch;
+    width: 3.1rem;
     color: #494963;
   }
   .v3-section-cover--areas .v3-cover-icon-inline svg,

@@ -24,15 +24,17 @@ export function SectionLandingCover({
     <section className={`v3-section-cover v3-section-cover--${variant} ${!hasIcon ? "v3-section-cover--no-icon" : ""}`}>
       <div className={`v3-section-cover__inner ${!hasIcon ? "v3-section-cover__inner--no-icon" : ""}`}>
         <header className="v3-section-cover__copy">
-          <h1>
+          <div className="v3-cover-headline">
             {hasIcon ? (
               <span className="v3-cover-icon-inline" aria-hidden="true">
                 {imageSrc ? <Image src={imageSrc} alt="" width={64} height={64} /> : Icon ? <Icon focusable="false" /> : null}
               </span>
             ) : null}
-            {title}
-          </h1>
-          {subtitle ? <p className="v3-section-cover__subtitle">{subtitle}</p> : null}
+            <div className="v3-cover-headline__text">
+              <h1>{title}</h1>
+              {subtitle ? <p className="v3-section-cover__subtitle">{subtitle}</p> : null}
+            </div>
+          </div>
           <span className="v3-section-cover__rule" aria-hidden="true" />
           <p>{description}</p>
         </header>
