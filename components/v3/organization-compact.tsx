@@ -25,11 +25,11 @@ const items = [
 function Arrows() {
   const { scrollPrev, scrollNext, canScrollPrev, canScrollNext } = useCarousel();
   return (
-    <div className="flex shrink-0 items-center gap-3">
-      <button type="button" onClick={scrollPrev} disabled={!canScrollPrev} aria-label="Anterior" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
+    <div className="flex shrink-0 items-center gap-5">
+      <button type="button" onClick={scrollPrev} disabled={!canScrollPrev} aria-label="Anterior" className="p-1 text-[#494963]/40 transition-opacity disabled:opacity-30">
         <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
       </button>
-      <button type="button" onClick={scrollNext} disabled={!canScrollNext} aria-label="Siguiente" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
+      <button type="button" onClick={scrollNext} disabled={!canScrollNext} aria-label="Siguiente" className="p-1 text-[#494963]/40 transition-opacity disabled:opacity-30">
         <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
       </button>
     </div>
