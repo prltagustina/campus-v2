@@ -131,11 +131,19 @@ export function CurricularWheel() {
   const isFocused = active !== "base" && active !== "intro" && state.image === WHEEL_BASE_IMAGE;
 
   return (
-    <section className="v3-section !p-0 md:!p-[14px]" aria-labelledby="rueda-title">
+    <section className="v3-section !p-0 md:!p-[14px]" aria-label="Trama curricular">
       <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-6 sm:px-8 sm:py-8 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
-        {/* Mobile/tablet: [acordeón (con el título como primer ítem) · rueda].
-            xl: rueda a la izquierda, acordeón a la derecha. */}
+        {/* Mobile/tablet: [título + bajada] · rueda · acordeón de estados.
+            El acordeón de estados va DEBAJO de la rueda: al desplegar un ítem,
+            la rueda no se mueve.
+            xl: rueda a la izquierda; a la derecha el acordeón completo (con
+            "Trama curricular" como primer ítem, estilo boceto). */}
         <div className="grid items-start gap-6 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
+          <div className="order-1 xl:hidden">
+            <h2 className="font-display text-2xl font-semibold tracking-[-.035em] text-[#494963] sm:text-3xl lg:text-4xl">Trama curricular</h2>
+            <p className="mt-2 max-w-md text-sm leading-relaxed text-[#494963]/65 sm:text-base">{wheelStates.intro.blurb}</p>
+          </div>
+
           <figure className="wheel-figure order-2 mx-auto w-full max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:order-1 xl:max-w-[670px]" data-focused={isFocused || undefined}>
             <div className="wheel-figure__media relative aspect-square w-full">
               <Image
@@ -149,7 +157,7 @@ export function CurricularWheel() {
             </div>
           </figure>
 
-          <div className="order-1 min-w-0 xl:order-2">
+          <div className="order-3 min-w-0 xl:order-2">
             <div className="wheel-accordion wheel-accordion--compact" aria-label="Lecturas de la trama curricular">
               {RENDERED_STATE_IDS.map((id) => {
                 const item = wheelStates[id];
@@ -159,7 +167,7 @@ export function CurricularWheel() {
                   <div
                     key={id}
                     ref={(node) => { itemRefs.current[id] = node; }}
-                    className="wheel-accordion__item"
+                    className={`wheel-accordion__item ${isTitle ? "hidden xl:block" : ""}`}
                   >
                     <button
                       id={`wheel-${id}-button`}
@@ -173,10 +181,7 @@ export function CurricularWheel() {
                       className={`wheel-accordion__trigger ${isTitle ? "!py-4" : ""}`}
                     >
                       {isTitle ? (
-                        <span className="flex flex-col items-start gap-1">
-                          <span className="text-[10px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Un marco común</span>
-                          <span id="rueda-title" className="font-display text-2xl font-semibold tracking-[-.035em] text-[#494963] sm:text-3xl">{item.label}</span>
-                        </span>
+                        <span className="font-display text-2xl font-semibold tracking-[-.035em] text-[#494963] sm:text-3xl lg:text-4xl">{item.label}</span>
                       ) : (
                         <span>{item.label}</span>
                       )}
