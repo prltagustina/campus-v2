@@ -39,7 +39,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               aria-label="Slide anterior"
               aria-hidden={slide === 0}
               tabIndex={slide === 0 ? -1 : undefined}
-              className={`absolute left-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-black/15 text-current shadow-sm transition-[background-color,opacity] hover:bg-black/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:left-6 ${slide === 0 ? "pointer-events-none opacity-0" : ""}`}
+              className={`absolute left-3 top-[143px] z-10 grid h-11 w-11 place-items-center rounded-full bg-black/15 text-current shadow-sm transition-[background-color,opacity] hover:bg-black/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:left-6 sm:top-[212px] md:top-1/2 md:-translate-y-1/2 ${slide === 0 ? "pointer-events-none opacity-0" : ""}`}
             >
               <ChevronLeft className="h-5 w-5" strokeWidth={2} />
             </button>
@@ -49,7 +49,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               aria-label="Slide siguiente"
               aria-hidden={slide === 1}
               tabIndex={slide === 1 ? -1 : undefined}
-              className={`absolute right-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-black/15 text-current shadow-sm transition-[background-color,opacity] hover:bg-black/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:right-6 ${slide === 1 ? "pointer-events-none opacity-0" : ""}`}
+              className={`absolute right-3 top-[143px] z-10 grid h-11 w-11 place-items-center rounded-full bg-black/15 text-current shadow-sm transition-[background-color,opacity] hover:bg-black/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current sm:right-6 sm:top-[212px] md:top-1/2 md:-translate-y-1/2 ${slide === 1 ? "pointer-events-none opacity-0" : ""}`}
             >
               <ChevronRight className="h-5 w-5" strokeWidth={2} />
             </button>
@@ -82,7 +82,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
              así cada slide toma su alto natural sin huecos raros. */
           <div className="grid px-6 py-8 sm:px-10 sm:py-12 md:min-h-[520px] md:px-20 md:py-16 md:[&>*]:col-start-1 md:[&>*]:row-start-1">
             <div aria-hidden={slide !== 0} className={`content-start gap-6 sm:gap-8 md:grid md:grid-cols-[1fr_1.3fr] md:items-start ${slide === 0 ? "grid" : "hidden md:invisible"}`}>
-              <span className="order-1 inline-flex h-9 w-fit items-center rounded-full border-2 border-current px-4 text-sm font-bold md:order-2 md:col-start-2 md:row-start-1">1 de 2</span>
+              <span className="hidden w-fit md:order-2 md:col-start-2 md:row-start-1 md:inline-flex md:h-9 md:items-center md:rounded-full md:border-2 md:border-current md:px-4 md:text-sm md:font-bold">1 de 2</span>
               <div className="relative order-2 mx-auto aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-lg shadow-[0_20px_40px_rgba(20,20,35,.28)] sm:max-w-[280px] md:order-1 md:col-start-1 md:row-span-2 md:max-w-[320px]">
                 <Image src={portadaSrc} alt={`Portada de ${titulo}`} fill className="object-cover" sizes="(max-width: 767px) 50vw, 320px" />
               </div>
@@ -104,7 +104,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               <NavigateTextHotspots
                 accent={accent}
                 badge={
-                  <span className="inline-flex h-9 w-fit items-center rounded-full border-2 border-current px-4 text-sm font-bold">2 de 2</span>
+                  <span className="hidden w-fit md:order-2 md:col-start-2 md:row-start-1 md:inline-flex md:h-9 md:items-center md:rounded-full md:border-2 md:border-current md:px-4 md:text-sm md:font-bold">2 de 2</span>
                 }
                 title={
                   <h3 className="font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl md:text-4xl">Cómo navegar<br />el texto</h3>

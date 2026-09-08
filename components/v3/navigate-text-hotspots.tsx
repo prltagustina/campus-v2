@@ -109,14 +109,16 @@ export function NavigateTextHotspots({
   // altura del "1 de 2" y no parece que el layout se mueva al cambiar.
   return (
     <div className="contents">
-      <div className="order-1 md:order-2 md:col-start-2 md:row-start-1">{badge}</div>
+      {/* El badge (span) ya trae TODAS las clases (order + placement + estilo),
+          igual que el chip del slide 1, para que caiga en la misma celda y a la
+          misma altura sin capas de wrapper que cambien el alto de línea. */}
+      {badge}
 
-      <div className="order-2 md:order-1 md:col-start-1 md:row-span-2">
-        <div
-          className="relative mx-auto aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-lg bg-white p-4 shadow-[0_20px_40px_rgba(20,20,35,.28)] sm:max-w-[280px] md:max-w-[320px]"
-          role="group"
-          aria-label="Página del documento con referencias"
-        >
+      <div
+        className="relative order-2 mx-auto aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-lg bg-white p-4 shadow-[0_20px_40px_rgba(20,20,35,.28)] sm:max-w-[280px] md:order-1 md:col-start-1 md:row-span-2 md:max-w-[320px]"
+        role="group"
+        aria-label="Página del documento con referencias"
+      >
           <div className="space-y-2" aria-hidden="true">
             <span className="block h-1.5 w-1/3 rounded-full bg-[#494963]/20" />
             <span className="block h-1.5 w-2/3 rounded-full bg-[#494963]/10" />
@@ -144,7 +146,6 @@ export function NavigateTextHotspots({
               <span className="nav-text-hotspot__num">{index + 1}</span>
             </button>
           ))}
-        </div>
       </div>
 
       <div className="order-3 md:order-3 md:col-start-2 md:row-start-2">

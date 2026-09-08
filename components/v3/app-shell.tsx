@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type UIEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BriefcaseBusiness,
   ChevronDown,
@@ -317,29 +317,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  // Al scrollear el contenido se oculta el header (queda solo la franja del
-  // degradé); reaparece cerca del inicio. Umbrales con histéresis (zona muerta
-  // 48–120px) para que no parpadee, y update funcional (React no re-renderiza
-  // si el valor no cambia).
-  const [headerHidden, setHeaderHidden] = useState(false);
+  // Mobile: todo (header, franja del buscador y contenido) scrollea junto en un
+  // único scroll — el header y la franja se van hacia arriba al bajar y vuelven
+  // al llegar arriba, como un scroll normal de página. Desktop: header/franja
+  // fijos y el <main> scrollea por dentro (necesario para el sidebar).
+  const rootScrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    setHeaderHidden(false);
+    rootScrollRef.current?.scrollTo(0, 0);
+    document.getElementById("contenido")?.scrollTo(0, 0);
   }, [pathname]);
-  const onContentScroll = (event: UIEvent<HTMLElement>) => {
-    const y = event.currentTarget.scrollTop;
-    setHeaderHidden((hidden) => {
-      if (!hidden && y > 120) return true;
-      if (hidden && y < 48) return false;
-      return hidden;
-    });
-  };
 
   return (
     <div
-      className="v3-scroll-theme flex h-[var(--app-vh,100svh)] flex-col overflow-hidden bg-[#F5F5F7] text-[#494963] md:h-dvh"
+      ref={rootScrollRef}
+      className="v3-scroll-theme flex h-[var(--app-vh,100svh)] flex-col overflow-y-auto bg-[#F5F5F7] text-[#494963] md:h-dvh md:overflow-hidden"
       style={{ ["--section-scrollbar" as string]: currentArea?.color ?? MARCO_GENERAL_COLOR }}
     >
-      <header className={`shrink-0 overflow-hidden border-b border-[#494963]/[.07] bg-white px-4 transition-[height,opacity,transform] duration-300 ease-out lg:px-8 ${headerHidden ? "h-0 -translate-y-1 border-b-0 opacity-0" : "h-[72px] opacity-100 lg:h-[100px]"}`} role="banner">
+      <header className="h-[72px] shrink-0 border-b border-[#494963]/[.07] bg-white px-4 lg:h-[100px] lg:px-8" role="banner">
         <div className="mx-auto flex h-full max-w-[1376px] items-center justify-between">
           <Link href="/" aria-label="Campus Educativo — Inicio"><CampusBrand /></Link>
           <nav className="mx-auto hidden items-center gap-8 text-[15px] font-medium text-[#66666B] lg:flex xl:gap-12 xl:text-base">
@@ -353,7 +347,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <div
-        className="h-[46px] shrink-0 bg-[#EDEDF0] px-4 text-[#494963] lg:h-[54px]"
+        className="h-[46px] shrink-0 overflow-hidden bg-[#EDEDF0] px-4 text-[#494963] lg:h-[54px]"
         style={{
           backgroundImage: documentSpineGradient,
         }}
@@ -378,7 +372,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className={`flex min-h-0 flex-1 gap-0 overflow-hidden ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(4rem+env(safe-area-inset-bottom))] md:gap-3 md:bg-white md:p-3 md:pb-3 lg:gap-4 lg:p-5`}>
+      <div className={`flex min-h-0 gap-0 ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-3 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:gap-4 lg:p-5`}>
         {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
             de dos niveles que solo tiene sentido con el ancho de escritorio. */}
         <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
@@ -442,12 +436,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </aside>
         )}
 
-        <div className={`flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-none ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} md:rounded-2xl md:bg-white`}>
+        <div className={`flex min-h-0 min-w-0 flex-col rounded-none ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white`}>
         <main
           id="contenido"
-          className="min-h-0 flex-1 overflow-y-auto md:[scrollbar-gutter:stable]"
+          className="min-h-0 max-md:overflow-visible md:flex-1 md:overflow-y-auto md:[scrollbar-gutter:stable]"
           tabIndex={-1}
-          onScroll={onContentScroll}
         >
           {cyclesOpen ? (
             <div className="sticky top-0 z-30 grid grid-cols-3 gap-1.5 border-b border-[#494963]/10 bg-[#F8F8FA]/95 p-2.5 backdrop-blur-md xl:hidden">
