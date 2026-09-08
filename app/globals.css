@@ -414,6 +414,13 @@
   .wheel-accordion--compact .wheel-accordion__panel p { font-size: 1rem; line-height: 1.5; }
 }
 
+/* Trama curricular en mobile/tablet: todos los paneles abiertos ocupan el mismo
+   alto, así alternar entre ítems no cambia la altura del acordeón y la rueda de
+   abajo no se mueve. (Arriba de xl la rueda va al lado, no hace falta.) */
+@media (max-width: 1279px) {
+  .wheel-accordion--reserve .wheel-accordion__panel:not([hidden]) { min-height: 5rem; }
+}
+
 /* --- Hotspots "Cómo navegar el texto" (slide 2) -------------------------- */
 .nav-text-hotspot {
   position: absolute;
