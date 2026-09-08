@@ -404,7 +404,12 @@
   font-size: .9375rem;
 }
 .wheel-accordion--compact .wheel-accordion__panel { padding-bottom: 1rem; }
-.wheel-accordion--compact .wheel-accordion__panel p { font-size: .875rem; line-height: 1.55; }
+/* El texto interno acompaña al de los párrafos de las secciones (text-sm →
+   sm:text-base), no más chico. */
+.wheel-accordion--compact .wheel-accordion__panel p { font-size: .875rem; line-height: 1.625; }
+@media (min-width: 640px) {
+  .wheel-accordion--compact .wheel-accordion__panel p { font-size: 1rem; line-height: 1.5; }
+}
 
 /* --- Hotspots "Cómo navegar el texto" (slide 2) -------------------------- */
 .nav-text-hotspot {
