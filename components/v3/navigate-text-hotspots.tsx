@@ -149,8 +149,9 @@ export function NavigateTextHotspots({
 
       <div className="order-3 md:order-3 md:col-start-2 md:row-start-2">
         {title}
-        {/* Alto reservado: al tocar 1/2/3 el contenido cambia sin mover el layout. */}
-        <div className="mt-4 min-h-[210px] sm:mt-5 sm:min-h-[196px]">
+        {/* Alto reservado SOLO en desktop (col fija → el chip no se mueve al tocar
+           1/2/3). En mobile no se reserva para no dejar un hueco grande. */}
+        <div className="mt-4 sm:mt-5 md:min-h-[196px]">
           {active ? (
             <ReferenceCard
               hotspot={active}
