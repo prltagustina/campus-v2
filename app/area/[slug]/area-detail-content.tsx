@@ -98,7 +98,7 @@ function MarcoGeneralContent() {
       <section id="ejes" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-3xl md:p-8 lg:p-10">
         <header className="mb-10 max-w-2xl md:mb-14">
           <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>
+          <h2 className="mt-2 max-w-[20ch] text-balance font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>
           <p className="mt-3 text-sm text-[#494963]/45">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
         </header>
         <div className="wheel-accordion wheel-accordion--compact" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
