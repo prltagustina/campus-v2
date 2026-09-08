@@ -107,12 +107,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
                   <span className="inline-flex h-9 w-fit items-center rounded-full border-2 border-current px-4 text-sm font-bold">2 de 2</span>
                 }
                 title={
-                  <h3 className="font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl md:text-4xl">
-                    {/* 2 líneas en la adaptación (mobile/tablet), 3 en desktop */}
-                    <span className="md:block">Cómo</span>{" "}
-                    <span className="md:block">navegar</span>{" "}
-                    <span className="block">el texto</span>
-                  </h3>
+                  <h3 className="font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl md:text-4xl">Cómo navegar<br />el texto</h3>
                 }
               />
             </div>
