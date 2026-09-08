@@ -100,15 +100,14 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               </div>
             </div>
 
-            <div aria-hidden={slide !== 1} className={`content-start md:grid md:content-center ${slide === 1 ? "grid" : "hidden md:invisible"}`}>
+            <div aria-hidden={slide !== 1} className={`content-start md:content-center ${slide === 1 ? "grid" : "hidden md:grid md:invisible"}`}>
               <NavigateTextHotspots
                 accent={accent}
-                heading={
-                  <>
-                    <span className="inline-flex h-9 w-fit items-center rounded-full border-2 border-current px-4 text-sm font-bold">2 de 2</span>
-                    <h3 className="mt-4 font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl lg:text-[2.5rem] lg:leading-[1.02]">Cómo<br />navegar<br />el texto</h3>
-                    <p className="mt-3 max-w-[16rem] text-sm leading-relaxed opacity-80 lg:mt-4">Tocá cada punto de la página para ver en qué te ayuda a ubicarte.</p>
-                  </>
+                badge={
+                  <span className="inline-flex h-9 w-fit items-center rounded-full border-2 border-current px-4 text-sm font-bold">2 de 2</span>
+                }
+                title={
+                  <h3 className="font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl md:text-4xl">Cómo<br />navegar<br />el texto</h3>
                 }
               />
             </div>
