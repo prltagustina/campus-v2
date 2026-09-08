@@ -323,16 +323,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // (React no re-renderiza si el valor no cambia) para que no parpadee.
   const [headerHidden, setHeaderHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const scrollLockUntil = useRef(0);
   useEffect(() => {
     setHeaderHidden(false);
     lastScrollY.current = 0;
+    scrollLockUntil.current = 0;
   }, [pathname]);
   const onContentScroll = (event: UIEvent<HTMLElement>) => {
     const y = event.currentTarget.scrollTop;
+    const now = Date.now();
+    // Tras un toggle, ignorar el scroll durante 350ms: el reflow que provoca
+    // esconder/mostrar las barras dispara scroll events y sin este candado se
+    // realimenta y parpadea.
+    if (now < scrollLockUntil.current) {
+      lastScrollY.current = y;
+      return;
+    }
     const dy = y - lastScrollY.current;
-    if (Math.abs(dy) < 6) return;
+    if (Math.abs(dy) < 10) return;
     lastScrollY.current = y;
-    setHeaderHidden(y > 24 && dy > 0);
+    const next = y > 24 && dy > 0;
+    setHeaderHidden((current) => {
+      if (current === next) return current;
+      scrollLockUntil.current = now + 350;
+      return next;
+    });
   };
 
   return (
