@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, type UIEvent } from "react";
+import { useEffect, useState, type UIEvent } from "react";
 import {
   BriefcaseBusiness,
   ChevronDown,
@@ -317,28 +317,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  // Al hacer scroll hacia abajo se oculta el header (queda solo la franja del
-  // degradé); al subir o volver arriba reaparece. Movimiento sutil.
+  // Al scrollear el contenido se oculta el header (queda solo la franja del
+  // degradé); reaparece cerca del inicio. Umbrales con histéresis (zona muerta
+  // 48–120px) para que no parpadee, y update funcional (React no re-renderiza
+  // si el valor no cambia).
   const [headerHidden, setHeaderHidden] = useState(false);
-  const lastScrollY = useRef(0);
   useEffect(() => {
     setHeaderHidden(false);
-    lastScrollY.current = 0;
   }, [pathname]);
   const onContentScroll = (event: UIEvent<HTMLElement>) => {
     const y = event.currentTarget.scrollTop;
-    const prev = lastScrollY.current;
-    if (y > 80 && y > prev + 2) setHeaderHidden(true);
-    else if (y < prev - 2 || y < 40) setHeaderHidden(false);
-    lastScrollY.current = y;
+    setHeaderHidden((hidden) => {
+      if (!hidden && y > 120) return true;
+      if (hidden && y < 48) return false;
+      return hidden;
+    });
   };
 
   return (
     <div
-      className="v3-scroll-theme h-[var(--app-vh,100svh)] overflow-hidden bg-[#F5F5F7] text-[#494963] md:h-dvh"
+      className="v3-scroll-theme flex h-[var(--app-vh,100svh)] flex-col overflow-hidden bg-[#F5F5F7] text-[#494963] md:h-dvh"
       style={{ ["--section-scrollbar" as string]: currentArea?.color ?? MARCO_GENERAL_COLOR }}
     >
-      <header className={`overflow-hidden border-b border-[#494963]/[.07] bg-white px-4 transition-[height,opacity,transform] duration-300 ease-out lg:px-8 ${headerHidden ? "h-0 -translate-y-1 border-b-0 opacity-0" : "h-[72px] opacity-100 lg:h-[100px]"}`} role="banner">
+      <header className={`shrink-0 overflow-hidden border-b border-[#494963]/[.07] bg-white px-4 transition-[height,opacity,transform] duration-300 ease-out lg:px-8 ${headerHidden ? "h-0 -translate-y-1 border-b-0 opacity-0" : "h-[72px] opacity-100 lg:h-[100px]"}`} role="banner">
         <div className="mx-auto flex h-full max-w-[1376px] items-center justify-between">
           <Link href="/" aria-label="Campus Educativo — Inicio"><CampusBrand /></Link>
           <nav className="mx-auto hidden items-center gap-8 text-[15px] font-medium text-[#66666B] lg:flex xl:gap-12 xl:text-base">
@@ -352,7 +353,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <div
-        className="h-[46px] bg-[#EDEDF0] px-4 text-[#494963] lg:h-[54px]"
+        className="h-[46px] shrink-0 bg-[#EDEDF0] px-4 text-[#494963] lg:h-[54px]"
         style={{
           backgroundImage: documentSpineGradient,
         }}
@@ -377,7 +378,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className={`flex gap-0 overflow-hidden transition-[height] duration-300 ease-out ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(4rem+env(safe-area-inset-bottom))] md:gap-3 md:bg-white md:p-3 md:pb-3 lg:gap-4 lg:p-5 ${headerHidden ? "h-[calc(var(--app-vh,100svh)-46px)] md:h-[calc(100dvh-46px)] lg:h-[calc(100dvh-54px)]" : "h-[calc(var(--app-vh,100svh)-118px)] md:h-[calc(100dvh-118px)] lg:h-[calc(100dvh-154px)]"}`}>
+      <div className={`flex min-h-0 flex-1 gap-0 overflow-hidden ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(4rem+env(safe-area-inset-bottom))] md:gap-3 md:bg-white md:p-3 md:pb-3 lg:gap-4 lg:p-5`}>
         {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
             de dos niveles que solo tiene sentido con el ancho de escritorio. */}
         <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">

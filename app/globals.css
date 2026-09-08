@@ -420,8 +420,8 @@
   transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
-  height: 2.25rem;
-  width: 2.25rem;
+  height: 2.75rem;   /* ~44px: tamaño de dedo en mobile */
+  width: 2.75rem;
   border-radius: 999px;
   background: var(--hotspot-accent, #e42153);
   color: #fff;
@@ -429,13 +429,16 @@
   cursor: pointer;
   transition: opacity 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
+@media (min-width: 640px) {
+  .nav-text-hotspot { height: 2.5rem; width: 2.5rem; }
+}
 .nav-text-hotspot:hover { opacity: .8; }
 .nav-text-hotspot:focus-visible { outline: 2px solid #494963; outline-offset: 2px; opacity: 1; }
 .nav-text-hotspot[data-active] {
   opacity: 1;
   box-shadow: 0 0 0 5px rgba(73, 73, 99, .14);
 }
-.nav-text-hotspot__num { font-size: .8rem; font-weight: 700; line-height: 1; }
+.nav-text-hotspot__num { font-size: .95rem; font-weight: 700; line-height: 1; }
 @keyframes v3-slide-in { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: translateX(0); } }
 
 /* Editorial covers for the two main repositories */
@@ -500,7 +503,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.1rem;
+    gap: 1.6rem;
   }
   .v3-section-cover--areas .v3-cover-headline__text { display: block; }
   /* Mismo badge con franja de color que en desktop, adaptado al tamaño chico. */

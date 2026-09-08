@@ -24,7 +24,7 @@ import { SolidAreaArrow } from "@/components/v3/area-nav-link";
  *   3. (opcional) quitar el filtro `.wheel-figure[data-focused]` de globals.css
  */
 
-type WheelStateId = "base" | "relacion" | "ejes" | "marco" | "enfoques";
+type WheelStateId = "base" | "intro" | "relacion" | "ejes" | "marco" | "enfoques";
 
 interface WheelStateConfig {
   /** Rótulo del acordeón. */
@@ -62,6 +62,16 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
     focus: { ring: true, segments: true, nodes: true, center: true },
     caption: "",
   },
+  // Primer ítem del acordeón: es el propio título "Trama curricular". Al abrirlo
+  // muestra una introducción y la rueda queda a color (no atenúa nada).
+  intro: {
+    label: "Trama curricular",
+    blurb:
+      "La trama articula las nueve áreas curriculares entre sí y con los cinco enfoques transversales, alrededor del Marco General.",
+    image: WHEEL_BASE_IMAGE,
+    focus: { ring: true, segments: true, nodes: true, center: true },
+    caption: "",
+  },
   relacion: {
     label: "Relación entre las áreas",
     blurb: pendingCopy.wheel.relaciones,
@@ -94,8 +104,8 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   },
 };
 
-/** Estados que se muestran hoy como ítems del acordeón, en orden. */
-const RENDERED_STATE_IDS = ["relacion", "ejes", "marco"] as const satisfies readonly WheelStateId[];
+/** Ítems del acordeón, en orden. El primero ("intro") es el propio título. */
+const RENDERED_STATE_IDS = ["intro", "relacion", "ejes", "marco"] as const satisfies readonly WheelStateId[];
 
 export function CurricularWheel() {
   const [active, setActive] = useState<WheelStateId>("base");
@@ -103,7 +113,7 @@ export function CurricularWheel() {
   const hasInteracted = useRef(false);
 
   useEffect(() => {
-    if (!hasInteracted.current || active === "base" || !window.matchMedia("(max-width: 767px)").matches) return;
+    if (!hasInteracted.current || active === "base" || active === "intro" || !window.matchMedia("(max-width: 767px)").matches) return;
     const item = itemRefs.current[active];
     if (!item) return;
 
@@ -114,22 +124,15 @@ export function CurricularWheel() {
   }, [active]);
 
   const state = wheelStates[active];
-  const isFocused = active !== "base";
+  const isFocused = active !== "base" && active !== "intro";
 
   return (
     <section className="v3-section !p-0 md:!p-[14px]" aria-labelledby="rueda-title">
       <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 py-6 sm:px-8 sm:py-8 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
-        {/* Mobile/tablet: una sola columna en orden [título · rueda · acordeón].
-            xl: rueda a la izquierda, título + acordeón a la derecha. */}
-        <div className="grid items-start gap-5 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-x-14 xl:gap-y-0">
-          <div className="order-1 xl:order-none xl:col-start-2 xl:row-start-1 xl:py-4">
-            <p className="mb-2 text-xs font-bold uppercase tracking-[.18em] text-[#494963]/40">Un marco común</p>
-            <h2 id="rueda-title" className="font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] sm:text-4xl md:text-5xl">
-              Trama curricular
-            </h2>
-          </div>
-
-          <figure className="wheel-figure order-2 mx-auto w-full max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:order-none xl:col-start-1 xl:row-start-1 xl:row-span-2 xl:max-w-[670px]" data-focused={isFocused || undefined}>
+        {/* Mobile/tablet: [acordeón (con el título como primer ítem) · rueda].
+            xl: rueda a la izquierda, acordeón a la derecha. */}
+        <div className="grid items-start gap-6 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
+          <figure className="wheel-figure order-2 mx-auto w-full max-w-[360px] sm:max-w-[460px] md:max-w-[520px] xl:order-1 xl:max-w-[670px]" data-focused={isFocused || undefined}>
             <div className="wheel-figure__media relative aspect-square w-full">
               <Image
                 src={state.image}
@@ -142,11 +145,12 @@ export function CurricularWheel() {
             </div>
           </figure>
 
-          <div className="order-3 min-w-0 xl:order-none xl:col-start-2 xl:row-start-2">
+          <div className="order-1 min-w-0 xl:order-2">
             <div className="wheel-accordion wheel-accordion--compact" aria-label="Lecturas de la trama curricular">
               {RENDERED_STATE_IDS.map((id) => {
                 const item = wheelStates[id];
                 const expanded = active === id;
+                const isTitle = id === "intro";
                 return (
                   <div
                     key={id}
@@ -162,9 +166,16 @@ export function CurricularWheel() {
                         hasInteracted.current = true;
                         setActive((current) => (current === id ? "base" : id));
                       }}
-                      className="wheel-accordion__trigger"
+                      className={`wheel-accordion__trigger ${isTitle ? "!py-4" : ""}`}
                     >
-                      <span>{item.label}</span>
+                      {isTitle ? (
+                        <span className="flex flex-col items-start gap-1">
+                          <span className="text-[10px] font-bold uppercase tracking-[.18em] text-[#494963]/40">Un marco común</span>
+                          <span id="rueda-title" className="font-display text-2xl font-semibold tracking-[-.035em] text-[#494963] sm:text-3xl">{item.label}</span>
+                        </span>
+                      ) : (
+                        <span>{item.label}</span>
+                      )}
                       <span
                         className={`grid h-6 w-6 shrink-0 place-items-center transition-transform duration-300 ${expanded ? "rotate-90" : ""}`}
                         aria-hidden="true"

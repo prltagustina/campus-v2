@@ -61,10 +61,7 @@ function ReferenceCard({
       <p className="font-display text-lg font-bold leading-snug">{hotspot.titulo}</p>
       <p className="mt-2 text-sm leading-relaxed opacity-80">{hotspot.detalle}</p>
       <div className="mt-4 flex items-center gap-3">
-        <span className="text-[11px] font-semibold tabular-nums opacity-45" aria-hidden="true">
-          {index + 1}/{total}
-        </span>
-        <div className="flex gap-1.5" aria-hidden="true">
+        <div className="flex gap-1.5" aria-label={`Referencia ${index + 1} de ${total}`}>
           {hotspots.map((item) => (
             <span
               key={item.id}
