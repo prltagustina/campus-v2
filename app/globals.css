@@ -516,10 +516,12 @@
   .v3-section-cover--areas .v3-cover-headline {
     display: flex;
     align-items: stretch;
-    gap: .6rem;
+    justify-content: flex-start;
+    gap: .7rem;
   }
   .v3-section-cover--areas .v3-cover-headline__text { display: block; }
   .v3-section-cover--areas .v3-cover-icon-inline {
+    order: 2;
     display: flex;
     flex-shrink: 0;
     align-self: stretch;
