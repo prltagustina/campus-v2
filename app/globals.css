@@ -430,7 +430,8 @@
   transition: opacity 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 @media (min-width: 640px) {
-  .nav-text-hotspot { height: 2.5rem; width: 2.5rem; }
+  .nav-text-hotspot { height: 3rem; width: 3rem; }
+  .nav-text-hotspot__num { font-size: 1.05rem; }
 }
 .nav-text-hotspot:hover { opacity: .8; }
 .nav-text-hotspot:focus-visible { outline: 2px solid #494963; outline-offset: 2px; opacity: 1; }
