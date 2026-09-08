@@ -82,9 +82,10 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   ejes: {
     label: "Ejes de contenido",
     blurb: pendingCopy.wheel.ejes,
-    // PNG con el grisado + circulitos a color ya horneado. Requiere el archivo
-    // en public/images/trama/trama-ejes.png.
-    image: "/images/trama/trama-ejes.png",
+    // Cuando exista el archivo, cambiar a "/images/trama/trama-ejes.png"
+    // (PNG con el grisado + circulitos a color horneados). Mientras tanto usa
+    // el PNG base + el filtro CSS interino.
+    image: WHEEL_BASE_IMAGE,
     focus: { ring: false, segments: false, nodes: true, center: false },
     caption: "En foco: los ejes que organizan los contenidos dentro de cada área.",
   },
