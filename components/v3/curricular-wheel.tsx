@@ -82,7 +82,9 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   ejes: {
     label: "Ejes de contenido",
     blurb: pendingCopy.wheel.ejes,
-    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-ejes.png
+    // PNG con el grisado + circulitos a color ya horneado. Requiere el archivo
+    // en public/images/trama/trama-ejes.png.
+    image: "/images/trama/trama-ejes.png",
     focus: { ring: false, segments: false, nodes: true, center: false },
     caption: "En foco: los ejes que organizan los contenidos dentro de cada área.",
   },
@@ -124,7 +126,9 @@ export function CurricularWheel() {
   }, [active]);
 
   const state = wheelStates[active];
-  const isFocused = active !== "base" && active !== "intro";
+  // El grisado CSS interino solo se aplica a los estados que todavía usan el PNG
+  // base; los que ya tienen su PNG propio (grisado horneado) se muestran tal cual.
+  const isFocused = active !== "base" && active !== "intro" && state.image === WHEEL_BASE_IMAGE;
 
   return (
     <section className="v3-section !p-0 md:!p-[14px]" aria-labelledby="rueda-title">
