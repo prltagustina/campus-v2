@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Calendar, Download, ExternalLink, FileText, FolderOpen, Scale } from "lucide-react";
+import { Calendar, Download, ExternalLink, FileText, FolderOpen, Layers, Scale } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
 
@@ -150,6 +150,9 @@ const celebraciones = [
 const celebracionesCalendario = celebraciones.filter((_, index) => [0, 1, 2, 3, 4, 8, 9, 10, 11, 12].includes(index));
 const celebracionesMemoria = celebraciones.filter((_, index) => [5, 6, 7, 13, 14].includes(index));
 
+const nivelesProyectos = Object.values(proyectos).filter((lista) => lista.length > 0).length;
+const totalProyectos = Object.values(proyectos).reduce((suma, lista) => suma + lista.length, 0);
+
 /** Títulos de proyectos y efemérides: van entre comillas latinas (si no las traen ya). */
 const asTitle = (nombre: string) => (nombre.trim().startsWith("«") ? nombre : `«${nombre}»`);
 
@@ -158,7 +161,7 @@ function RepositoryPanel({ title, detail, icon, children }: { title: string; det
     <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
       <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
-        <div className="min-w-0"><h3 className="font-display text-base font-semibold leading-snug text-[#494963] sm:text-lg">{title}</h3><p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p></div>
+        <div className="min-w-0"><h3 className="font-display text-lg font-semibold text-[#494963]">{title}</h3><p className="text-xs text-[#494963]/40">{detail}</p></div>
       </div>
       <div className="divide-y divide-[#494963]/[.07]">{children}</div>
     </div>
@@ -213,16 +216,16 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
 
 function ArchiveGroup({ title, detail, icon, items }: { title: string; detail: string; icon: ReactNode; items: { nombre: string; url: string }[] }) {
   return (
-    <section className="overflow-hidden rounded-[1.35rem] bg-white shadow-[0_5px_24px_rgba(73,73,99,.055)]">
-      <header className="flex items-center gap-3 px-5 py-4 sm:px-6">
-        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#494963]/[.05] text-[#494963]">{icon}</span>
+    <section className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+      <header className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
         <div className="min-w-0">
-          <h3 className="font-display text-base font-semibold leading-snug text-[#494963] sm:text-lg">{title}</h3>
-          <p className="mt-0.5 text-[11px] text-[#494963]/38 sm:text-xs">{detail}</p>
+          <h3 className="font-display text-lg font-semibold text-[#494963]">{title}</h3>
+          <p className="text-xs text-[#494963]/40">{detail}</p>
         </div>
       </header>
 
-      <div className="grid border-t border-[#494963]/[.065] sm:grid-cols-2">
+      <div className="grid sm:grid-cols-2">
         {items.map((item, index) => (
           <a
             key={item.url}
@@ -264,11 +267,23 @@ export default function EIBPage() {
 
         <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
-            <div className="divide-y divide-[#494963]/[.07] overflow-hidden rounded-[1.35rem] bg-white shadow-[0_5px_24px_rgba(73,73,99,.055)]">
-              <ProjectGroup index="01" title="Nivel Inicial" items={proyectos.inicial} />
-              <ProjectGroup index="02" title="Nivel Primario" items={proyectos.primario} />
-              <ProjectGroup index="03" title="Nivel Secundario" items={proyectos.secundario} />
-              <ProjectGroup index="04" title="Nivel Terciario" items={proyectos.terciario} />
+            <div className="overflow-hidden rounded-3xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+              <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Layers className="h-4 w-4" /></span>
+                  <div>
+                    <h3 className="font-display text-lg font-semibold text-[#494963]">Proyectos por nivel</h3>
+                    <p className="text-xs text-[#494963]/40">{totalProyectos} experiencias en {nivelesProyectos} niveles</p>
+                  </div>
+                </div>
+                <span className="rounded-full bg-[#494963]/[.06] px-3 py-1 text-xs font-bold text-[#494963]/55">{totalProyectos}</span>
+              </div>
+              <div className="divide-y divide-[#494963]/[.07]">
+                <ProjectGroup index="01" title="Nivel Inicial" items={proyectos.inicial} />
+                <ProjectGroup index="02" title="Nivel Primario" items={proyectos.primario} />
+                <ProjectGroup index="03" title="Nivel Secundario" items={proyectos.secundario} />
+                <ProjectGroup index="04" title="Nivel Terciario" items={proyectos.terciario} />
+              </div>
             </div>
           </div>
         </section>
