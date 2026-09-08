@@ -101,7 +101,7 @@ function MarcoGeneralContent() {
           <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>
           <p className="mt-3 text-sm text-[#494963]/45">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
         </header>
-        <div className="overflow-hidden rounded-2xl bg-white" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
+        <div className="wheel-accordion" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
           {centralAxes.map(([title, description], index) => {
             const active = selectedAxis === index;
             const panelId = `eje-central-${index}-panel`;
@@ -112,7 +112,7 @@ function MarcoGeneralContent() {
                 key={title}
                 ref={(node) => { axisRefs.current[index] = node; }}
                 role="listitem"
-                className="border-b border-[#494963]/[.08] last:border-0"
+                className="wheel-accordion__item"
               >
                 <button
                   id={buttonId}
@@ -123,11 +123,10 @@ function MarcoGeneralContent() {
                     hasAxisInteraction.current = true;
                     setSelectedAxis((current) => (current === index ? null : index));
                   }}
-                  className={`flex min-h-[64px] w-full items-center gap-3 px-4 py-3.5 text-left text-sm font-semibold leading-snug transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] sm:px-5 ${active ? "bg-[#494963] text-white" : "text-[#494963] hover:bg-[#494963]/[.035]"}`}
+                  className="wheel-accordion__trigger"
                 >
-                  <span className={`w-6 shrink-0 text-[10px] font-bold ${active ? "text-white/45" : "text-[#494963]/30"}`}>{String(index + 1).padStart(2, "0")}</span>
-                  <span className="min-w-0 flex-1">{title}</span>
-                  <span className={`grid h-8 w-8 shrink-0 place-items-center transition-transform duration-300 ${active ? "rotate-90" : ""}`} aria-hidden="true">
+                  <span>{title}</span>
+                  <span className={`grid h-6 w-6 shrink-0 place-items-center transition-transform duration-300 ${active ? "rotate-90" : ""}`} aria-hidden="true">
                     <span className="-ml-3"><SolidAreaArrow /></span>
                   </span>
                 </button>
@@ -136,9 +135,9 @@ function MarcoGeneralContent() {
                   role="region"
                   aria-labelledby={buttonId}
                   hidden={!active}
-                  className="border-t border-[#494963]/[.08] bg-white px-4 py-5 text-[#494963] sm:px-5 sm:py-6"
+                  className="wheel-accordion__panel"
                 >
-                  <p className="max-w-3xl pl-9 text-sm leading-relaxed text-[#494963]/65 sm:text-base">{description}</p>
+                  <p>{description}</p>
                 </div>
               </div>
             );

@@ -372,8 +372,16 @@
 .wheel-figure[data-focused] .wheel-figure__media { filter: grayscale(1) opacity(.5); }
 /* Caption siempre en flujo normal (nunca absoluta): así no la recorta el
    overflow-hidden de la tarjeta de la sección. */
+/* Slot con alto reservado: el cartel de foco aparece/desaparece y cambia entre
+   estados sin mover el layout (sin CLS). */
+.wheel-figure__caption-slot {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 3rem;
+  margin-top: .75rem;
+}
 .wheel-figure__caption {
-  margin: .85rem auto 0;
   max-width: 26rem;
   text-align: center;
   font-size: .82rem;
@@ -383,10 +391,14 @@
   color: #494963;
 }
 @media (min-width: 768px) {
+  .wheel-figure__caption-slot {
+    min-height: 2.75rem;
+    margin-top: 1rem;
+    align-items: center;
+  }
   .wheel-figure__caption {
     width: max-content;
     max-width: min(26rem, 100%);
-    margin-top: 1rem;
     padding: .5rem 1.1rem;
     border-radius: 999px;
     background: #fff;
