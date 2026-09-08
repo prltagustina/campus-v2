@@ -157,7 +157,7 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
   const chipClass = "flex min-w-0 flex-1 flex-col gap-0.5 rounded-2xl border px-4 py-2.5 text-[var(--chip)] transition-colors duration-150 hover:bg-[var(--chip)] hover:text-[var(--chip-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]";
 
   return (
-    <nav aria-label="Navegación entre áreas" className="flex flex-col gap-2 bg-white px-3 py-4">
+    <nav aria-label="Navegación entre áreas" className="flex flex-col gap-2 bg-white px-3 pb-4 pt-10">
       <span
         aria-current="page"
         className="flex min-w-0 flex-col gap-0.5 rounded-2xl px-4 py-2.5"
