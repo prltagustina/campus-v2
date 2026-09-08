@@ -104,8 +104,11 @@ export function NavigateTextHotspots({
   const activeIndex = hotspots.findIndex((hotspot) => hotspot.id === activeId);
   const active = activeIndex >= 0 ? hotspots[activeIndex] : null;
 
+  // `contents`: los 3 bloques participan directamente del grid del slide, con la
+  // MISMA estructura que el slide 1 → el chip "2 de 2" queda exactamente a la
+  // altura del "1 de 2" y no parece que el layout se mueva al cambiar.
   return (
-    <div className="grid content-start gap-6 sm:gap-8 md:grid-cols-[1fr_1.3fr] md:items-center">
+    <div className="contents">
       <div className="order-1 md:order-2 md:col-start-2 md:row-start-1">{badge}</div>
 
       <div className="order-2 md:order-1 md:col-start-1 md:row-span-2">

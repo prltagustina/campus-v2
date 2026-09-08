@@ -100,7 +100,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
               </div>
             </div>
 
-            <div aria-hidden={slide !== 1} className={`content-start ${slide === 1 ? "grid" : "hidden md:grid md:invisible"}`}>
+            <div aria-hidden={slide !== 1} className={`content-start gap-6 sm:gap-8 md:grid md:grid-cols-[1fr_1.3fr] md:items-center ${slide === 1 ? "grid" : "hidden md:invisible"}`}>
               <NavigateTextHotspots
                 accent={accent}
                 badge={
