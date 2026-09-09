@@ -332,12 +332,12 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
           Itinerarios didácticos
         </h3>
         <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#494963]/50 sm:text-base">
-          Recursos organizados por idioma, sin división por ciclos.
+          Recursos organizados por idioma.
         </p>
       </div>
 
       <div
-        className="flex flex-wrap gap-2.5 px-4 md:gap-5 md:px-0"
+        className="flex flex-wrap gap-2.5 px-4 md:gap-3 md:px-0"
         role="tablist"
         aria-label="Idiomas de Lenguas Extranjeras"
       >
