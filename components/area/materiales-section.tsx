@@ -353,7 +353,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
               aria-controls="idioma-recursos-panel"
               onClick={() => selectLanguage(idioma.id)}
               className={
-                "rounded-[9px] border px-[15px] py-2.5 text-[15px] font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-[var(--tab-fg)] " +
+                "rounded-[9px] border px-5 py-3.5 text-[17px] font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-[var(--tab-fg)] " +
                 (active ? "bg-[var(--tab)] text-[var(--tab-fg)]" : "bg-white text-[var(--tab)]")
               }
               style={{ borderColor: area.color, ["--tab" as string]: area.color, ["--tab-fg" as string]: areaNavForeground(area) }}
