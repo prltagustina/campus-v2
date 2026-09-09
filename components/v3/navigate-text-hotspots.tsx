@@ -115,7 +115,7 @@ export function NavigateTextHotspots({
       {badge}
 
       <div
-        className="relative order-2 mx-auto aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-lg bg-white p-4 shadow-[0_20px_40px_rgba(20,20,35,.28)] sm:max-w-[280px] md:order-1 md:col-start-1 md:row-span-2 md:max-w-[320px]"
+        className="relative order-2 mx-auto aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-lg bg-white p-4 shadow-[0_20px_40px_rgba(20,20,35,.28)] sm:max-w-[280px] lg:order-1 lg:col-start-1 lg:row-span-2 lg:max-w-[320px]"
         role="group"
         aria-label="Página del documento con referencias"
       >
@@ -148,11 +148,11 @@ export function NavigateTextHotspots({
           ))}
       </div>
 
-      <div className="order-3 md:order-3 md:col-start-2 md:row-start-2">
+      <div className="order-3 lg:order-3 lg:col-start-2 lg:row-start-2">
         {title}
         {/* Alto reservado SOLO en desktop (col fija → el chip no se mueve al tocar
-           1/2/3). En mobile no se reserva para no dejar un hueco grande. */}
-        <div className="mt-4 sm:mt-5 md:min-h-[196px]">
+           1/2/3). En mobile/tablet no se reserva para no dejar un hueco grande. */}
+        <div className="mt-4 sm:mt-5 lg:min-h-[196px]">
           {active ? (
             <ReferenceCard
               hotspot={active}
