@@ -272,7 +272,9 @@
   flex-direction: column;
   justify-content: center;
   padding: clamp(1.5rem, 5.5cqw, 2.25rem);
-  padding-bottom: clamp(1.75rem, 5cqw, 3rem);
+  /* Más aire entre el último botón ("Saber más") y el borde inferior de la
+     tarjeta en la vista angosta / mobile. */
+  padding-bottom: clamp(2.75rem, 9cqw, 4.25rem);
 }
 .documento-hero__title {
   max-width: 20ch;
@@ -420,6 +422,11 @@
 @media (max-width: 1279px) {
   .wheel-accordion--reserve .wheel-accordion__panel:not([hidden]) { min-height: 5rem; }
 }
+
+/* La trama arranca con su propio título ("Trama curricular") como primer ítem:
+   sin la línea ni el margen superior del acordeón, para que el título quede
+   más arriba, pegado al borde de la sección (mobile y desktop). */
+.wheel-accordion--reserve { margin-top: 0; border-top: 0; }
 
 /* --- Hotspots "Cómo navegar el texto" (slide 2) -------------------------- */
 .nav-text-hotspot {
