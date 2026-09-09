@@ -658,9 +658,13 @@
     #e42153
   );
   opacity: .5;
-  /* Franja de color gruesa (~16px), acorde al grosor de las portadas. */
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 17px), #000 calc(100% - 14px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 17px), #000 calc(100% - 14px));
+  /* Franja de color gruesa (~13px) anclada al borde del icono con inset en px
+     (no en %): así queda siempre por fuera de la línea gris del icono, sea cual
+     sea su tamaño (en tablet el icono es más chico y con inset en % la franja
+     se montaba sobre ese borde). */
+  inset: -18px;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 16px), #000 calc(100% - 13px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 16px), #000 calc(100% - 13px));
 }
 .v3-cover-icon--areas::before {
   display: none;

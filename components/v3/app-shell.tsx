@@ -373,30 +373,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       <div className={`flex min-h-0 gap-0 ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-3 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:gap-4 lg:p-5`}>
-        {/* Tablet (768–1279px): rail compacto, ícono + texto en una línea, sin la jerarquía
-            de dos niveles que solo tiene sentido con el ancho de escritorio. */}
-        <nav aria-label="Navegación principal" className="hidden shrink-0 flex-col gap-1.5 md:flex md:w-[172px] xl:hidden">
-          {primaryItems.map((item) => {
-            const active = item.match(pathname);
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={`flex min-h-11 items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-semibold leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${active ? "bg-[#494963] text-white" : "bg-[#DADAE1] text-[#494963] hover:bg-[#d1d1d9]"}`}
-              >
-                <Icon className="h-4.5 w-4.5 shrink-0" strokeWidth={2} aria-hidden="true" />
-                <span className="truncate">{item.mobileLabel}</span>
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Desktop (≥1280px): rail completo, ícono arriba / texto abajo, con la bajada de Áreas. */}
+        {/* Tablet y desktop: rail apilado (ícono arriba / texto abajo), con la
+            bajada de Áreas. En tablet va un poco más angosto para no comerle
+            ancho al contenido. */}
         <nav
           aria-label="Navegación principal"
-          className="hidden w-[230px] shrink-0 gap-1.5 xl:grid"
+          className="hidden w-[196px] shrink-0 gap-1.5 md:grid xl:w-[230px]"
           style={{ gridTemplateRows: primaryItems.map((item) => item.gridRow).join(" ") }}
         >
           {primaryItems.map((item) => {
