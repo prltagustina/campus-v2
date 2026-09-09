@@ -424,9 +424,13 @@
 }
 
 /* La trama arranca con su propio título ("Trama curricular") como primer ítem:
-   sin la línea ni el margen superior del acordeón, para que el título quede
-   más arriba, pegado al borde de la sección (mobile y desktop). */
+   sin la línea superior del acordeón en todos los tamaños. En mobile además
+   sin margen superior (el título sube, pegado al borde); en desktop el margen
+   vuelve a como estaba. */
 .wheel-accordion--reserve { margin-top: 0; border-top: 0; }
+@media (min-width: 768px) {
+  .wheel-accordion--reserve { margin-top: 1rem; }
+}
 
 /* --- Hotspots "Cómo navegar el texto" (slide 2) -------------------------- */
 .nav-text-hotspot {

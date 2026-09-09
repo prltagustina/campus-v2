@@ -26,7 +26,7 @@ const years = [
 const proceso2025Fotos = events2025.map(([date, title, , src, alt]) => ({ src, date, title, alt }));
 
 export function TimelineSection() {
-  return <section id="proceso" className="w-full px-5 pb-8 pt-3 md:px-10 md:pb-14 md:pt-6">
+  return <section id="proceso" className="w-full px-5 pb-8 pt-3 md:px-10 md:py-14">
     <header className="mb-6 max-w-2xl sm:mb-9"><h2 className="font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] sm:text-4xl md:text-5xl">Proceso<br />de construcción colectiva</h2><p className="mt-3 text-[#494963]/55">Implementación del nuevo diseño curricular. Construcción de progresiones de aprendizaje, materiales didácticos para el aula y propuestas de formación docente.</p></header>
     <div className="border-b border-[#494963]/15">
       {years.map(([year, stage, description]) => (
