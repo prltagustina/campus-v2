@@ -119,15 +119,14 @@ export function CurricularWheel() {
 
   return (
     <section className="v3-section !p-0 md:!p-[14px]" aria-label="Trama curricular">
-      <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 pb-9 pt-2 sm:px-8 sm:pb-10 sm:pt-3 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
-        {/* Mobile/tablet: acordeón (con "Trama curricular" como primer ítem)
-            arriba y la rueda debajo. El acordeón reserva alto fijo
-            (max-xl:min-h) y cada panel tiene un min-height parejo, así abrir o
-            cerrar cualquier ítem no cambia la altura total → la rueda no se
-            mueve. No hay scrollIntoView: todo entra en la vista sin scroll.
+      <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 pb-8 pt-4 sm:px-8 sm:pb-10 sm:pt-6 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
+        {/* Mobile/tablet: la rueda arriba y el acordeón (con "Trama curricular"
+            como primer ítem) debajo. Al quedar el acordeón al final, desplegar
+            un ítem lo hace crecer hacia abajo y la rueda no se mueve (sin
+            reservar alto). No hay scrollIntoView: todo entra en la vista.
             xl: rueda a la izquierda, acordeón a la derecha. */}
         <div className="grid items-start gap-3 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
-          <figure className="wheel-figure order-2 mx-auto w-full max-w-[284px] min-[400px]:max-w-[320px] sm:max-w-[440px] md:max-w-[520px] xl:order-1 xl:max-w-[670px]" data-focused={isFocused || undefined}>
+          <figure className="wheel-figure order-1 mx-auto w-full max-w-[284px] min-[400px]:max-w-[320px] sm:max-w-[440px] md:max-w-[520px] xl:max-w-[670px]" data-focused={isFocused || undefined}>
             <div className="wheel-figure__media relative aspect-square w-full">
               <Image
                 src={state.image}
@@ -140,8 +139,8 @@ export function CurricularWheel() {
             </div>
           </figure>
 
-          <div className="order-1 min-w-0 xl:order-2">
-            <div className="wheel-accordion wheel-accordion--compact wheel-accordion--reserve max-xl:min-h-[300px]" aria-label="Lecturas de la trama curricular">
+          <div className="order-2 min-w-0">
+            <div className="wheel-accordion wheel-accordion--compact wheel-accordion--reserve" aria-label="Lecturas de la trama curricular">
               {RENDERED_STATE_IDS.map((id) => {
                 const item = wheelStates[id];
                 const expanded = active === id;
