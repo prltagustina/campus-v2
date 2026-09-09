@@ -125,7 +125,7 @@ export function CurricularWheel() {
             un ítem lo hace crecer hacia abajo y la rueda no se mueve (sin
             reservar alto). No hay scrollIntoView: todo entra en la vista.
             xl: rueda a la izquierda, acordeón a la derecha. */}
-        <div className="grid items-start gap-3 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
+        <div className="grid items-start gap-6 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
           <figure className="wheel-figure order-1 mx-auto w-full max-w-[284px] min-[400px]:max-w-[320px] sm:max-w-[440px] md:max-w-[520px] xl:max-w-[670px]" data-focused={isFocused || undefined}>
             <div className="wheel-figure__media relative aspect-square w-full">
               <Image
