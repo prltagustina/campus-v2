@@ -119,9 +119,9 @@ export function CurricularWheel() {
 
   return (
     <section className="v3-section !p-0 md:!p-[14px]" aria-label="Trama curricular">
-      <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 pb-9 pt-2 sm:px-8 sm:pb-10 sm:pt-3 md:rounded-2xl md:px-12 md:pb-12 md:pt-6 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
-        {/* Mobile/tablet: acordeón (con "Trama curricular" como primer ítem,
-            estilo boceto) y la rueda debajo. El acordeón reserva alto fijo
+      <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 pb-9 pt-2 sm:px-8 sm:pb-10 sm:pt-3 md:rounded-2xl md:px-12 md:py-12 md:shadow-[0_12px_45px_rgba(73,73,99,.07)]">
+        {/* Mobile/tablet: acordeón (con "Trama curricular" como primer ítem)
+            arriba y la rueda debajo. El acordeón reserva alto fijo
             (max-xl:min-h) y cada panel tiene un min-height parejo, así abrir o
             cerrar cualquier ítem no cambia la altura total → la rueda no se
             mueve. No hay scrollIntoView: todo entra en la vista sin scroll.
@@ -154,7 +154,7 @@ export function CurricularWheel() {
                       aria-expanded={expanded}
                       aria-controls={`wheel-${id}-panel`}
                       onClick={() => setActive((current) => (current === id ? "base" : id))}
-                      className={`wheel-accordion__trigger ${isTitle ? "!pt-0 !pb-4" : ""}`}
+                      className={`wheel-accordion__trigger ${isTitle ? "!pt-0 !pb-4 md:!pt-4" : ""}`}
                     >
                       {isTitle ? (
                         <span className="font-display text-2xl font-semibold tracking-[-.035em] text-[#494963] sm:text-3xl lg:text-4xl">{item.label}</span>
