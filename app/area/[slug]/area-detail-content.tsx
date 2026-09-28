@@ -9,6 +9,7 @@ import { DocumentoExplainer } from "@/components/v3/documento-explainer";
 import { OrganizationCompact } from "@/components/v3/organization-compact";
 import { AreaWorkspace } from "@/components/v3/area-workspace";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
+import { AreasQuickPicker } from "@/components/v3/areas-quick-picker";
 
 const centralAxes = [
   ["Aprendizajes comunes, fundantes y significativos", "Saberes que aseguran el avance hacia conocimientos más complejos y promueven la participación plena en la vida social."],
@@ -66,11 +67,16 @@ function MarcoGeneralContent() {
           pdfUrl="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/04/marco-general.pdf"
           accent={MARCO_GENERAL_COLOR}
           accentText="#EDEDF0"
-          singleSlide
         />
       </div>
+      {/* Desde tablet (md) elegir otra área ya está siempre visible en el
+         aside (AreaSubnav), igual que desktop. Esto es solo para mobile. */}
+      <AreasQuickPicker hideMarcoGeneral />
       <section id="recursos" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
-        <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
+        {/* px-4/sm:px-7 fijo (sin crecer en md/lg): mismo inset horizontal
+           que el botón de categoría de Itinerarios, para que el título quede
+           alineado con "Docencia". El padding vertical sigue creciendo. */}
+        <div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
           <header className="mb-10 max-w-2xl md:mb-14"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Documentos y formaciones</h2><p className="mt-3 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           <div role="tablist" aria-label="Recursos del Marco General" className="flex w-full min-w-0 gap-1.5 rounded-2xl bg-[#E6E6EB] p-1.5 md:w-fit">
             {(["documentos", "formaciones"] as const).map((id) => {
@@ -95,7 +101,7 @@ function MarcoGeneralContent() {
           </div>
         </div>
       </section>
-      <section id="ejes" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
+      <section id="ejes" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
         <header className="mb-10 max-w-2xl md:mb-14">
           <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p>
           <h2 className="mt-2 max-w-[20ch] text-balance font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>

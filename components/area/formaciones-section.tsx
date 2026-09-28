@@ -44,9 +44,11 @@ export function FormacionesSection({
                 <p className="flex items-center gap-3"><Monitor className="h-4 w-4 shrink-0 text-[#494963]/30" />Campus Educativo</p>
                 <p className="flex items-center gap-3"><BookOpen className="h-4 w-4 shrink-0 text-[#494963]/30" />{item.group}</p>
               </div>
-              <div className="mt-auto border-t border-[#494963]/[.07] pt-4">
-                {item.url ? <a href={item.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold" style={{ color: area.color }}>+ Info<ArrowUpRight className="h-3.5 w-3.5" /></a> : <span className="text-[11px] font-bold uppercase tracking-[.12em] text-[#494963]/30">Próximamente</span>}
-              </div>
+              {item.url ? (
+                <div className="mt-auto border-t border-[#494963]/[.07] pt-4">
+                  <a href={item.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold" style={{ color: area.color }}>+ Info<ArrowUpRight className="h-3.5 w-3.5" /></a>
+                </div>
+              ) : null}
             </div>
           </article>
         </CarouselItem>)}

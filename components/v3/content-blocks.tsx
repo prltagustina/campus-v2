@@ -6,10 +6,25 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Download, ExternalLink, Presentation, Share2 } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/components/ui/carousel";
 
-export function VideoEmbed({ videoId, title, topClassName = "!pt-4 md:!pt-[14px]" }: { videoId: string; title: string; topClassName?: string }) {
+export function VideoEmbed({
+  videoId,
+  title,
+  className = "!px-4 !pb-4 md:!px-[14px] md:!pb-[14px]",
+  topClassName = "!pt-4 md:!pt-[14px]",
+  mediaClassName = "rounded-2xl",
+}: {
+  videoId: string;
+  title: string;
+  /** Padding horizontal + inferior de la sección. */
+  className?: string;
+  topClassName?: string;
+  /** Esquinas del video. Si va a borde (sin padding horizontal), pasar
+   * "rounded-none md:rounded-2xl" para no recortar contra el borde. */
+  mediaClassName?: string;
+}) {
   return (
-    <section className={`v3-section !px-4 !pb-4 md:!px-[14px] md:!pb-[14px] ${topClassName}`}>
-      <div className="relative aspect-video overflow-hidden rounded-2xl bg-[#171729] shadow-[0_12px_40px_rgba(73,73,99,.10)]">
+    <section className={`v3-section ${className} ${topClassName}`}>
+      <div className={`relative aspect-video overflow-hidden bg-[#171729] shadow-[0_12px_40px_rgba(73,73,99,.10)] ${mediaClassName}`}>
         <iframe
           className="absolute inset-0 h-full w-full"
           src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0`}
@@ -199,7 +214,7 @@ export function DocumentoStepper({ title, steps }: { title: React.ReactNode; ste
       <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
       <Carousel opts={{ loop: true }}>
         <div className="flex items-end justify-between gap-4">
-          <h2 className="max-w-sm font-sans text-2xl font-bold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>
+          <h2 className="max-w-sm font-sans text-2xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>
           <StepperArrows />
         </div>
         <CarouselContent className="mt-5 sm:mt-7">
@@ -209,7 +224,7 @@ export function DocumentoStepper({ title, steps }: { title: React.ReactNode; ste
                 <span className="font-sans text-6xl font-black leading-none text-[#E4E4E9] sm:text-7xl lg:text-8xl">{String(index + 1).padStart(2, "0")}</span>
                 <div>
                   {step.eyebrow && <p className="v3-eyebrow">{step.eyebrow}</p>}
-                  <h3 className="font-sans text-lg font-extrabold text-[#494963] sm:text-2xl">{step.title}</h3>
+                  <h3 className="font-sans text-lg font-semibold text-[#494963] sm:text-2xl">{step.title}</h3>
                   {(Array.isArray(step.description) ? step.description : [step.description]).map((paragraph, i) => (
                     <p key={i} className="mt-3 max-w-xl font-sans text-base leading-relaxed text-[#8B8B99] sm:leading-[1.5]">{paragraph}</p>
                   ))}

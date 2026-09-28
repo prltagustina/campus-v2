@@ -26,7 +26,12 @@ import { AreaNavLink, areaNavForeground, SolidAreaArrow } from "@/components/v3/
 const primaryItems = [
   { href: "/", label: "Inicio", desktopLines: ["Inicio"], desktopSubline: undefined, mobileLabel: "Inicio", icon: Home, match: (p: string) => p === "/", gridRow: ".7fr", enabled: true },
   {
-    href: "/areas",
+    // Desktop/tablet (rail con aside siempre visible para elegir área): entra
+    // directo a Marco General, sin portada intermedia.
+    // Mobile (tab bar inferior, sin aside): va al picker de áreas en una sola
+    // columna (`/areas`, sin portada) para poder elegir antes de entrar.
+    href: "/area/marco-general",
+    mobileHref: "/areas",
     label: "Áreas, materiales y formaciones",
     desktopLines: ["Áreas"],
     desktopSubline: "Materiales y formaciones",
@@ -198,14 +203,17 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
 function AreaSubnav({ pathname }: { pathname: string }) {
   const marcoActive = pathname === "/area/marco-general" || pathname === "/marco-general";
 
+  // minmax(48px,1fr) para las 10 filas: la fila cuyo texto envuelve a 2
+  // líneas en tablet crece sola por su contenido (el grid no la recorta);
+  // forzar un piso más alto para todas infla el total y fuerza scroll.
   return (
-    <nav aria-label="Áreas curriculares" className="grid h-full min-h-full auto-rows-[minmax(48px,1fr)] gap-1.5 pr-1">
+    <nav aria-label="Áreas curriculares" className="grid h-full min-h-full auto-rows-[minmax(48px,1fr)] gap-2.5 pr-1">
       <Link
         href="/area/marco-general"
         aria-current={marcoActive ? "page" : undefined}
-        className={`flex h-full min-h-0 w-full items-center justify-between rounded-[9px] border border-[#494963] px-[15px] py-2 text-[clamp(17px,1.35vw,20px)] font-normal leading-none tracking-[-0.035em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
+        className={`flex h-full min-h-0 w-full min-w-0 items-center justify-between rounded-[9px] border border-[#494963] px-[15px] py-2 text-[clamp(15px,1.35vw,20px)] xl:text-[clamp(17px,1.35vw,20px)] font-normal leading-[1.15] tracking-[-0.035em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
       >
-        <span className="whitespace-nowrap">Marco General</span>
+        <span className="min-w-0 text-balance text-pretty break-words">Marco General</span>
         <SolidAreaArrow />
       </Link>
       {orderedAreas.map((area) => {
@@ -372,13 +380,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className={`flex min-h-0 gap-0 ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-3 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:gap-4 lg:p-5`}>
+      {/* Separación entre rail/aside/contenido fija en 16px desde tablet: antes
+         crecía de 12px (md) a 16px (lg+), quedaba distinto según el tamaño. */}
+      <div className={`flex min-h-0 gap-0 ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-4 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:p-5`}>
         {/* Tablet y desktop: rail apilado (ícono arriba / texto abajo), con la
-            bajada de Áreas. En tablet va un poco más angosto para no comerle
-            ancho al contenido. */}
+            bajada de Áreas. Ancho fluido (clamp) en vez de saltos por
+            breakpoint: escala parejo entre 168px (md, 768px) y 230px (1280px,
+            donde vuelve al ancho de siempre) — así el mínimo de desktop se ve
+            igual que el máximo de tablet, sin un salto brusco justo ahí. */}
         <nav
           aria-label="Navegación principal"
-          className="hidden w-[196px] shrink-0 gap-1.5 md:grid xl:w-[230px]"
+          className="hidden w-[168px] shrink-0 gap-1.5 md:grid md:w-[clamp(168px,12.1vw_+_75px,230px)]"
           style={{ gridTemplateRows: primaryItems.map((item) => item.gridRow).join(" ") }}
         >
           {primaryItems.map((item) => {
@@ -413,12 +425,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         {hasSecondary && (
-          <aside className="v3-secondary hidden h-full min-h-0 w-[280px] shrink-0 overflow-y-auto bg-white xl:block xl:w-[300px]">
+          // Áreas: el aside con la columna de áreas + Marco General ya se ve
+          // desde tablet (md), igual que desktop — no solo desde xl. Ancho
+          // fluido (clamp): escala parejo entre 164px (md, 768px) y 300px
+          // (1280px, ancho de siempre) en vez de saltar por breakpoint — así
+          // el mínimo de desktop se ve igual que el máximo de tablet.
+          // Ciclos y Territorio no cambian acá, siguen mostrándose recién en xl.
+          <aside className={`v3-secondary hidden h-full min-h-0 w-[280px] shrink-0 overflow-y-auto bg-white ${areasOpen ? "md:block md:w-[clamp(164px,26.6vw_-_40px,300px)]" : "xl:block xl:w-[300px]"}`}>
             {areasOpen ? <AreaSubnav pathname={pathname} /> : cyclesOpen ? <CycleSubnav pathname={pathname} /> : <TerritorySubnav pathname={pathname} />}
           </aside>
         )}
 
-        <div className={`flex min-h-0 min-w-0 flex-col rounded-none ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white`}>
+        {/* areasOpen: las tarjetas de color del contenido (portada, recursos,
+           etc.) ya traen su propio "marco" de 14px (v3-section) en el borde
+           izquierdo. Sumado al gap del flex de acá arriba, el espacio aside→
+           contenido quedaba más grande que el de rail→aside. -ml-[14px]
+           cancela ese marco solo acá, para que los dos gaps midan lo mismo. */}
+        <div className={`flex min-h-0 min-w-0 flex-col rounded-none ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen ? "md:-ml-[14px]" : ""}`}>
         <main
           id="contenido"
           className="min-h-0 max-md:overflow-visible md:flex-1 md:overflow-y-auto md:[scrollbar-gutter:stable]"
@@ -466,7 +489,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           ) : null}
           {children}
           {hasSecondary && areasOpen ? (
-            <div className="xl:hidden">
+            // Ya redundante desde tablet (md), donde ahora está el aside con
+            // Marco General + áreas, como en desktop. Queda solo para mobile.
+            <div className="md:hidden">
               <AreaHorizontalNav pathname={pathname} />
             </div>
           ) : null}
@@ -483,7 +508,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           const active = item.match(pathname);
           const Icon = item.icon;
           return (
-            <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} aria-label={item.label} className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[9px] font-bold min-[390px]:text-[10px] ${active ? "text-white" : "text-white/50"}`}>
+            <Link key={item.href} href={item.mobileHref ?? item.href} aria-current={active ? "page" : undefined} aria-label={item.label} className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[9px] font-bold min-[390px]:text-[10px] ${active ? "text-white" : "text-white/50"}`}>
               <span className={`grid h-8 w-9 place-items-center rounded-lg min-[390px]:w-10 ${active ? "bg-white text-[#494963]" : ""}`}><Icon className="h-5 w-5" aria-hidden="true" /></span>
               <span className="max-w-full truncate px-0.5">{item.mobileLabel}</span>
             </Link>

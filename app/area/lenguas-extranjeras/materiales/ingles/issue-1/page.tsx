@@ -85,7 +85,7 @@ export default function Issue1Page() {
             <p className="text-xs text-[#494963]/40 uppercase tracking-wider font-semibold mb-2">
               English Funzine · Issue {issueData.number}
             </p>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#494963] font-display">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#494963] font-display">
               {issueData.title}
             </h1>
           </div>

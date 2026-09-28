@@ -141,15 +141,11 @@ function CicloAccordion({
   ciclo,
   color,
   activeForeground,
-  open,
-  onToggle,
 }: {
   groupId: string;
   ciclo: ItinerarioCicloEntry;
   color: string;
   activeForeground: string;
-  open: boolean;
-  onToggle: () => void;
 }) {
   const total = totalFilesInGrados(ciclo.grados);
   const publishedGrados = ciclo.grados.filter((grado) => grado.files.length > 0);
@@ -162,9 +158,8 @@ function CicloAccordion({
       total={total}
       color={color}
       activeForeground={activeForeground}
-      open={open}
-      onToggle={onToggle}
       size="sm"
+      collapsible={false}
     >
       {singleGrado ? (
         <RepositoryFileGroup
@@ -188,15 +183,11 @@ function SubgrupoAccordion({
   subgrupo,
   color,
   activeForeground,
-  open,
-  onToggle,
 }: {
   groupId: string;
   subgrupo: ItinerarioSubgrupo;
   color: string;
   activeForeground: string;
-  open: boolean;
-  onToggle: () => void;
 }) {
   return (
     <RepositoryAccordionGroup
@@ -205,9 +196,8 @@ function SubgrupoAccordion({
       total={subgrupo.files.length}
       color={color}
       activeForeground={activeForeground}
-      open={open}
-      onToggle={onToggle}
       size="sm"
+      collapsible={false}
     >
       <RepositoryFileGroup files={subgrupo.files.map((file) => ({ file }))} color={color} />
     </RepositoryAccordionGroup>
@@ -235,16 +225,12 @@ function CategoriaAccordion({
   activeForeground,
   open,
   onToggle,
-  openGroupIds,
-  onToggleGroup,
 }: {
   categoria: ItinerarioCategoria;
   color: string;
   activeForeground: string;
   open: boolean;
   onToggle: () => void;
-  openGroupIds: Set<string>;
-  onToggleGroup: (id: string) => void;
 }) {
   const ciclos = categoria.ciclos || categoria.gradosSueltos ? ciclosDeCategoria(categoria) : null;
   const total = ciclos
@@ -277,30 +263,33 @@ function CategoriaAccordion({
         </a>
       ) : null}
 
+      {/* Al abrir la categoría ya se ve todo adentro: ciclos/subgrupos sin
+         materiales se omiten (ya no hay "Próximamente" que los explique, y
+         no tiene sentido un grupo siempre abierto mostrando nada). */}
       {ciclos ? (
-        ciclos.map((ciclo) => (
-          <CicloAccordion
-            key={ciclo.id}
-            groupId={`categoria-${categoria.id}-ciclo-${ciclo.id}`}
-            ciclo={ciclo}
-            color={color}
-            activeForeground={activeForeground}
-            open={openGroupIds.has(`categoria-${categoria.id}-ciclo-${ciclo.id}`)}
-            onToggle={() => onToggleGroup(`categoria-${categoria.id}-ciclo-${ciclo.id}`)}
-          />
-        ))
+        ciclos
+          .filter((ciclo) => totalFilesInGrados(ciclo.grados) > 0)
+          .map((ciclo) => (
+            <CicloAccordion
+              key={ciclo.id}
+              groupId={`categoria-${categoria.id}-ciclo-${ciclo.id}`}
+              ciclo={ciclo}
+              color={color}
+              activeForeground={activeForeground}
+            />
+          ))
       ) : categoria.subgrupos ? (
-        categoria.subgrupos.map((subgrupo) => (
-          <SubgrupoAccordion
-            key={subgrupo.id}
-            groupId={`categoria-${categoria.id}-subgrupo-${subgrupo.id}`}
-            subgrupo={subgrupo}
-            color={color}
-            activeForeground={activeForeground}
-            open={openGroupIds.has(`categoria-${categoria.id}-subgrupo-${subgrupo.id}`)}
-            onToggle={() => onToggleGroup(`categoria-${categoria.id}-subgrupo-${subgrupo.id}`)}
-          />
-        ))
+        categoria.subgrupos
+          .filter((subgrupo) => subgrupo.files.length > 0)
+          .map((subgrupo) => (
+            <SubgrupoAccordion
+              key={subgrupo.id}
+              groupId={`categoria-${categoria.id}-subgrupo-${subgrupo.id}`}
+              subgrupo={subgrupo}
+              color={color}
+              activeForeground={activeForeground}
+            />
+          ))
       ) : categoria.files && categoria.files.length > 0 ? (
         <RepositoryFileGroup files={categoria.files.map((file) => ({ file }))} color={color} />
       ) : null}
@@ -314,7 +303,6 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
   const idiomaInfo = idiomas.find((idioma) => idioma.id === idiomaSeleccionado) ?? idiomas[2];
   const secuencias = secuenciasPorIdioma[idiomaSeleccionado] ?? [];
   const normativa = idiomaSeleccionado === "ingles" ? normativaIngles : normativaOtrasLenguas;
-  const totalRecursos = secuencias.length + normativa.length;
 
   const selectLanguage = (id: string) => {
     setIdiomaSeleccionado(id);
@@ -327,7 +315,10 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
 
   return (
     <section id="materiales">
-      <div className="mb-8 max-w-2xl px-4 md:mb-10 md:px-0">
+      {/* sm:px-7 (no md:px-0): mismo inset que el botón de categoría
+         (RepositoryAccordionGroup, tamaño lg) para que el título quede
+         alineado con "Docencia"/"Estudiantes" de más abajo. */}
+      <div className="mb-8 max-w-2xl px-4 sm:px-7 md:mb-10">
         <h3 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">
           Itinerarios didácticos
         </h3>
@@ -337,7 +328,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
       </div>
 
       <div
-        className="flex flex-wrap gap-2.5 px-4 md:gap-3 md:px-0"
+        className="flex flex-wrap gap-2.5 px-4 sm:px-7 md:gap-3"
         role="tablist"
         aria-label="Idiomas de Lenguas Extranjeras"
       >
@@ -370,18 +361,13 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
         aria-labelledby={"idioma-tab-" + idiomaSeleccionado}
         className="mt-7 sm:mt-8"
       >
-        <div className="flex flex-col gap-2 px-4 pb-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-0 sm:pb-6">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[.15em] text-[#494963]/38">
-              Lengua seleccionada
-            </p>
-            <h4 className="mt-1.5 font-display text-2xl font-semibold tracking-[-.02em] text-[#494963] sm:text-3xl">
-              {idiomaInfo.name}
-            </h4>
-          </div>
-          <p className="text-sm font-medium text-[#494963]/48">
-            {totalRecursos} {totalRecursos === 1 ? "recurso disponible" : "recursos disponibles"}
+        <div className="px-4 pb-5 sm:px-7 sm:pb-6">
+          <p className="text-[11px] font-bold uppercase tracking-[.15em] text-[#494963]/38">
+            Lengua seleccionada
           </p>
+          <h4 className="mt-1.5 font-display text-2xl font-semibold tracking-[-.02em] text-[#494963] sm:text-3xl">
+            {idiomaInfo.name}
+          </h4>
         </div>
 
         <div className="divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-2xl md:border-x">
@@ -482,7 +468,6 @@ function ItinerarioRepository({
   activeForeground: string;
 }) {
   const [openCategorias, setOpenCategorias] = useState<Set<string>>(() => new Set());
-  const [openGrupos, setOpenGrupos] = useState<Set<string>>(() => new Set());
 
   const toggleCategoria = (id: string) => {
     setOpenCategorias((current) => {
@@ -493,17 +478,8 @@ function ItinerarioRepository({
     });
   };
 
-  const toggleGrupo = (id: string) => {
-    setOpenGrupos((current) => {
-      const next = new Set(current);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
   return (
-    <div className="mx-auto w-full min-w-0 max-w-4xl divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-2xl md:border-x">
+    <div className="w-full min-w-0 divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-2xl md:border-x">
       {itinerario.categorias.map((categoria) => (
         <CategoriaAccordion
           key={categoria.id}
@@ -512,8 +488,6 @@ function ItinerarioRepository({
           activeForeground={activeForeground}
           open={openCategorias.has(categoria.id)}
           onToggle={() => toggleCategoria(categoria.id)}
-          openGroupIds={openGrupos}
-          onToggleGroup={toggleGrupo}
         />
       ))}
     </div>
@@ -529,7 +503,10 @@ export function MaterialesSection({ area, artisticLanguage }: MaterialesSectionP
 
   return (
     <section id="materiales" className="min-w-0 max-w-full">
-      <div className="mb-10 max-w-2xl px-4 md:mb-14 md:px-0">
+      {/* sm:px-7 (no md:px-0): mismo inset que el botón de categoría de más
+         abajo (RepositoryAccordionGroup), para que el título quede alineado
+         con "Docencia"/"Estudiantes"/"Articulación". */}
+      <div className="mb-10 max-w-2xl px-4 sm:px-7 md:mb-14">
         <h3 className="text-2xl font-semibold tracking-[-.03em] text-[#494963] font-display text-balance sm:text-3xl lg:text-4xl">
           Itinerarios didácticos
         </h3>

@@ -2,8 +2,6 @@ import { areasData } from "@/lib/areas-data";
 
 // TODO(v3-contenido): estos textos introductorios deben validarse con el equipo editorial.
 export const pendingCopy = {
-  areas:
-    "Explorá el diseño curricular por área y encontrá materiales y recursos didácticos, así como formaciones para acompañar tus prácticas de enseñanza.",
   cycles:
     "Accedé a los materiales de descarga organizados según el recorrido escolar de cada ciclo de la Educación Primaria.",
   wheel: {

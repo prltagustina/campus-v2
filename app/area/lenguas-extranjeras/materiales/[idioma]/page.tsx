@@ -63,7 +63,7 @@ export default function IdiomaMaterilesPage() {
             >
               Lenguas Extranjeras
             </span>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#494963] leading-tight mb-3 sm:mb-4 font-display">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-[#494963] leading-tight mb-3 sm:mb-4 font-display">
               {info.name}
             </h1>
             <p className="text-base sm:text-lg text-[#494963]/60 max-w-2xl">
@@ -83,7 +83,7 @@ export default function IdiomaMaterilesPage() {
             >
               <Clock className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: AREA_COLOR }} />
             </div>
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#494963] mb-3 sm:mb-4 font-display">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#494963] mb-3 sm:mb-4 font-display">
               Próximamente
             </h2>
             <p className="text-sm sm:text-base text-[#494963]/50">

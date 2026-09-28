@@ -16,7 +16,7 @@ export function SectionLandingCover({
   icon?: ComponentType<SVGProps<SVGSVGElement>>;
   imageSrc?: string;
   imageAlt?: string;
-  variant: "areas" | "cycles" | "territory";
+  variant: "cycles" | "territory";
 }) {
   const hasIcon = Boolean(imageSrc || Icon);
 

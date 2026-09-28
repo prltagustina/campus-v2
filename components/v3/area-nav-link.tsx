@@ -9,6 +9,13 @@ export function areaNavForeground(area: AreaNavItem) {
   return area.textOnColor;
 }
 
+/** Único nombre que se abrevia en el aside angosto de TABLET: el resto entra
+ * en 2 líneas (ver boceto), pero "Saberes, Vidas y Mundos" no entra igual.
+ * En desktop (xl) vuelve a mostrarse completo, como siempre. */
+const shortAreaName: Partial<Record<string, string>> = {
+  "saberes-vidas-y-mundos": "S, V y M",
+};
+
 export function SolidAreaArrow({ compact = false }: { compact?: boolean }) {
   return (
     <span
@@ -19,7 +26,11 @@ export function SolidAreaArrow({ compact = false }: { compact?: boolean }) {
 }
 
 const variantClasses = {
-  sidebar: "h-full min-h-0 rounded-[9px] px-[15px] py-2 text-[clamp(17px,1.35vw,20px)] leading-none",
+  // leading-[1.15] (no leading-none): con el aside angosto el texto envuelve
+  // a 2 líneas y line-height:1 recortaba el descendente de letras como la
+  // "g" ("Lengua"). h-full lo da la fila del grid (ver auto-rows en el aside).
+  // El tamaño de texto vuelve al de siempre en xl (desktop real).
+  sidebar: "h-full min-h-0 rounded-[9px] px-[15px] py-2 text-[clamp(15px,1.35vw,20px)] xl:text-[clamp(17px,1.35vw,20px)] leading-[1.15]",
   wheel: "min-h-14 rounded-[9px] px-[15px] py-3 text-[clamp(14px,1.35vw,17px)] leading-[1.08]",
 } as const;
 
@@ -33,6 +44,7 @@ export function AreaNavLink({
   variant?: keyof typeof variantClasses;
 }) {
   const foreground = areaNavForeground(area);
+  const short = variant === "sidebar" ? shortAreaName[area.slug] : undefined;
 
   return (
     <Link
@@ -45,7 +57,22 @@ export function AreaNavLink({
         ["--area-active-fg" as string]: foreground,
       }}
     >
-      <span className={variant === "sidebar" ? "whitespace-nowrap" : "min-w-0 text-pretty"}>{area.name}</span>
+      {/* Tablet (md/lg): el aside angosto ya no fuerza una sola línea, el
+         nombre envuelve a 2 (text-balance reparte mejor el salto que el wrap
+         por defecto). Desktop (xl): vuelve a como estaba, una sola línea con
+         el nombre completo — por eso el swap de textos acá abajo.
+         break-words: si en algún ancho intermedio ni así entra, corta la
+         palabra en vez de desbordar el botón (evita que se rompa el layout). */}
+      <span className={`min-w-0 text-pretty break-words ${variant === "sidebar" ? "text-balance" : ""}`}>
+        {short ? (
+          <>
+            <span className="xl:hidden">{short}</span>
+            <span className="hidden xl:inline">{area.name}</span>
+          </>
+        ) : (
+          area.name
+        )}
+      </span>
       <SolidAreaArrow />
     </Link>
   );

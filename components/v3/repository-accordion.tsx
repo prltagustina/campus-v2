@@ -65,17 +65,21 @@ export function RepositoryMaterialRow({
         </span>
       </a>
 
-      <div className="flex items-center justify-end gap-1 sm:shrink-0">
+      {/* Mobile: fila de acciones alineada a la izquierda (antes quedaba a la
+         derecha cuando el layout es de una sola columna). El botón de
+         Descargar mantiene el ícono + fondo gris de mobile también en
+         tablet; recién en desktop (xl) pasa a texto sin fondo. */}
+      <div className="flex items-center justify-start gap-1 sm:shrink-0">
         <a
           href={file.url}
           target="_blank"
           rel="noopener noreferrer"
           download
           aria-label={`Descargar ${file.nombre}`}
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] sm:w-auto sm:rounded-none sm:bg-transparent sm:px-2 sm:hover:bg-transparent"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent"
         >
           <Download className="h-4 w-4 shrink-0" />
-          <span className="hidden text-xs font-semibold sm:inline sm:text-sm">Descargar</span>
+          <span className="hidden text-xs font-semibold xl:inline xl:text-sm">Descargar</span>
         </a>
         <ShareResourceButton title={file.nombre} url={file.url} />
       </div>
@@ -126,18 +130,19 @@ const sizeClasses = {
     button: "min-h-[78px] gap-2 px-4 py-4 sm:min-h-[88px] sm:gap-4 sm:px-7 sm:py-5",
     idleBg: "",
     title: "font-display text-[1.4rem] font-medium leading-[1.05] tracking-[-.045em] sm:tracking-[-.035em] sm:text-[1.8rem]",
-    meta: "mt-1.5 text-xs font-medium sm:text-[13px]",
     description: "mt-1 text-xs font-medium leading-relaxed sm:text-sm",
     arrow: "h-10 w-10",
     /** El título de primer nivel sí puede llevar el color del área. */
     titleTinted: true,
   },
-  /** Nivel anidado (ciclos/subgrupos dentro de una categoría de Itinerarios). */
+  /** Nivel anidado (ciclos/subgrupos dentro de una categoría de Itinerarios).
+   * Mismo padding horizontal que el nivel principal (px-4/sm:px-7) para que
+   * "Primer Ciclo", "Segundo Ciclo", etc. queden alineados con el título de
+   * arriba en vez de con un indent extra. */
   sm: {
-    button: "min-h-[60px] gap-3 py-3 pl-8 pr-5 sm:min-h-[68px] sm:py-3.5 sm:pl-10 sm:pr-6",
+    button: "min-h-[60px] gap-3 px-4 py-3 sm:min-h-[68px] sm:px-7 sm:py-3.5",
     idleBg: "bg-[#F7F7F9]",
     title: "font-display text-base font-semibold leading-tight sm:text-lg",
-    meta: "mt-1 text-[11px] font-medium sm:text-xs",
     description: "mt-0.5 text-[11px] font-medium leading-relaxed sm:text-xs",
     arrow: "h-8 w-8",
     /** Los niveles anidados quedan neutros: el color del área ya se ve en el nivel de arriba. */
@@ -155,6 +160,10 @@ export function RepositoryAccordionGroup({
   open,
   onToggle,
   size = "lg",
+  /** false: sin botón ni toggle propio — el contenido siempre se muestra (lo
+   * usan los niveles anidados de Itinerarios: al abrir el grupo grande ya se
+   * ve todo adentro, sin un clic extra por ciclo/subgrupo). */
+  collapsible = true,
   children,
 }: {
   id: string;
@@ -166,9 +175,10 @@ export function RepositoryAccordionGroup({
    * ese nivel va con relleno sólido del color del área, así que hace falta un
    * texto garantizado legible sobre ese fondo. */
   activeForeground?: string;
-  open: boolean;
-  onToggle: () => void;
+  open?: boolean;
+  onToggle?: () => void;
   size?: keyof typeof sizeClasses;
+  collapsible?: boolean;
   children: ReactNode;
 }) {
   const contentId = `repositorio-${id}`;
@@ -176,45 +186,52 @@ export function RepositoryAccordionGroup({
   /** Nivel principal con materiales: relleno sólido del color del área, no solo acento. */
   const filled = s.titleTinted && total > 0;
   const fg = activeForeground ?? "#fff";
+  const isOpen = collapsible ? open ?? false : true;
 
   return (
     <section className="[overflow-anchor:none]">
-      <button
-        type="button"
-        onClick={onToggle}
-        disabled={total === 0}
-        aria-disabled={total === 0}
-        aria-expanded={open}
-        aria-controls={contentId}
-        className={`group grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center border-l-4 text-left text-[#494963] transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] disabled:cursor-default disabled:hover:bg-transparent ${s.button} ${
-          filled ? "hover:brightness-95" : open ? "bg-[var(--area)]/[.06]" : `hover:bg-[var(--area)]/[.04] ${s.idleBg}`
-        }`}
-        style={{
-          ["--area" as string]: color,
-          borderLeftColor: total ? color : "transparent",
-          backgroundColor: filled ? color : undefined,
-          color: filled ? fg : undefined,
-        }}
-      >
-        <span className="min-w-0">
-          <span className={`block text-balance ${s.title}`} style={!filled && s.titleTinted && total ? { color } : undefined}>{title}</span>
-          <span className={`block ${s.meta}`} style={filled ? { color: fg, opacity: 0.75 } : total ? { color } : { color: "rgba(73,73,99,.45)" }}>
-            {total ? `${total} ${total === 1 ? "material" : "materiales"}` : "Próximamente"}
+      {collapsible ? (
+        <button
+          type="button"
+          onClick={onToggle}
+          disabled={total === 0}
+          aria-disabled={total === 0}
+          aria-expanded={isOpen}
+          aria-controls={contentId}
+          className={`group grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center border-l-4 text-left text-[#494963] transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] disabled:cursor-default disabled:hover:bg-transparent ${s.button} ${
+            filled ? "hover:brightness-95" : isOpen ? "bg-[var(--area)]/[.06]" : `hover:bg-[var(--area)]/[.04] ${s.idleBg}`
+          }`}
+          style={{
+            ["--area" as string]: color,
+            borderLeftColor: total ? color : "transparent",
+            backgroundColor: filled ? color : undefined,
+            color: filled ? fg : undefined,
+          }}
+        >
+          <span className="min-w-0">
+            <span className={`block text-balance ${s.title}`} style={!filled && s.titleTinted && total ? { color } : undefined}>{title}</span>
+            {description ? (
+              <span className={`block ${s.description} ${filled ? "" : "text-[#494963]/65"}`} style={filled ? { color: fg, opacity: 0.75 } : undefined}>
+                {description}
+              </span>
+            ) : null}
           </span>
-          {description ? (
-            <span className={`block ${s.description} ${filled ? "" : "text-[#494963]/65"}`} style={filled ? { color: fg, opacity: 0.75 } : undefined}>
-              {description}
+          {total ? (
+            <span className={`grid place-items-center transition-transform duration-200 ${s.arrow} ${isOpen ? "rotate-90" : ""}`} style={{ color: filled ? fg : color }} aria-hidden="true">
+              <span className="-ml-3"><SolidAreaArrow /></span>
             </span>
           ) : null}
-        </span>
-        {total ? (
-          <span className={`grid place-items-center transition-transform duration-200 ${s.arrow} ${open ? "rotate-90" : ""}`} style={{ color: filled ? fg : color }} aria-hidden="true">
-            <span className="-ml-3"><SolidAreaArrow /></span>
+        </button>
+      ) : (
+        <div className={`grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center border-l-4 text-left text-[#494963] ${s.button} ${s.idleBg}`} style={{ borderLeftColor: color }}>
+          <span className="min-w-0">
+            <span className={`block text-balance ${s.title}`}>{title}</span>
+            {description ? <span className={`block ${s.description} text-[#494963]/65`}>{description}</span> : null}
           </span>
-        ) : null}
-      </button>
+        </div>
+      )}
 
-      {open ? (
+      {isOpen ? (
         <div id={contentId} className="border-t border-[#494963]/[.07] [overflow-anchor:none]">
           {children}
         </div>

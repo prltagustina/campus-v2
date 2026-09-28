@@ -96,7 +96,7 @@ function ArtisticLanguageTabs({
   const selected = options.find((option) => option.id === selectedId) ?? options[0];
 
   return (
-    <section className="bg-white px-4 py-6 md:px-[14px] md:pb-8 md:pt-0">
+    <section className="sticky top-0 z-30 bg-white px-4 py-6 shadow-[0_8px_16px_-16px_rgba(25,25,42,.35)] md:px-[14px] md:pb-8 md:pt-0">
       <div className="flex flex-wrap gap-2.5 md:gap-3" role="tablist" aria-label="Educación Artística y sus lenguajes">
         {options.map((option) => {
           const active = option.id === selected.id;
@@ -124,7 +124,11 @@ function ArtisticLanguageTabs({
 function AreaVideoPresentation({ videoId, title }: { videoId: string; title: string }) {
   return (
     <section aria-labelledby={`video-${videoId}-title`}>
-      <div className="mb-10 px-[14px] pt-10 md:mb-14 md:pt-16">
+      {/* px-4/sm:px-7/md:px-[42px] (no px-[14px] fijo): mismo inset total que
+         "Itinerarios didácticos"/"Docencia" en cada tamaño — ahí son 14px de
+         marco exterior (del wrapper en AreaWorkspace) + 28px propios; acá,
+         como este título no tiene ese wrapper, van los 42px sumados directo. */}
+      <div className="mb-10 px-4 sm:px-7 md:px-[42px] pt-10 md:mb-14 md:pt-16">
         <h2 id={`video-${videoId}-title`} className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">
           Presentación audiovisual
         </h2>
