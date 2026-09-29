@@ -46,8 +46,11 @@ export function ProcesoFotosCarousel({ photos }: { photos: ProcesoFoto[] }) {
     // de arriba y, abajo, solo separado por el padding del propio <article>
     // (compartido con las filas sin foto), así que se sentía todo junto.
     <div className="mt-8 mb-4 sm:mt-10 sm:mb-6">
+      {/* Sin loop: al llegar a la última foto, "Siguiente" se deshabilita en
+         vez de volver a la primera — mismo criterio en todos los carruseles
+         del sitio. */}
       <Carousel
-        opts={{ align: "start", duration: prefersReducedMotion ? 0 : 22, loop: true }}
+        opts={{ align: "start", duration: prefersReducedMotion ? 0 : 22, loop: false }}
         aria-label="Fotos del Proceso de Construcción Colectiva"
       >
         {/* Anterior/Siguiente sobre la propia foto (no arriba): centradas

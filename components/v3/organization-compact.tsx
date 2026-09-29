@@ -26,11 +26,10 @@ export function OrganizationCompact() {
   return (
     <section className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
       <div className="rounded-none bg-[#F5F5F7] pb-9 pl-5 pt-5 md:rounded-2xl md:p-8 lg:p-10">
-        {/* loop:true, igual que DocumentoStepper: con CarouselArrows compartido,
-           las flechas tienen que reaccionar igual en los dos — si acá no
-           loopea, "Anterior" arranca deshabilitado (25% opacidad) y ahí no,
-           mismo componente con dos comportamientos distintos. */}
-        <Carousel opts={{ align: "start", containScroll: false, loop: true }}>
+        {/* Sin loop: al llegar a la última tarjeta, "Siguiente" se deshabilita
+           en vez de volver a la primera — mismo criterio en todos los
+           carruseles del sitio. */}
+        <Carousel opts={{ align: "start", containScroll: false, loop: false }}>
           <div className="pr-5 md:pr-0">
             <h2 className="font-sans text-2xl font-semibold leading-[1.05] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">Cómo está<br />organizada cada área</h2>
             <p className="mt-2 max-w-md font-sans text-base leading-normal text-[#494963]/50 sm:leading-[1.5]">Todas comparten una misma estructura de seis secciones.</p>
