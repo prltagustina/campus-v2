@@ -297,7 +297,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const territoryActions = pathname.startsWith("/territorio/acciones");
   const territoryProximas = pathname.startsWith("/territorio/proximas");
   const hasSecondary = areasOpen || cyclesOpen || territoryOpen;
-  const graySectionOpen = pathname.startsWith("/familias") || pathname.startsWith("/docentes") || pathname.startsWith("/directivos") || pathname.startsWith("/eib");
   // Inicio: su primer bloque (VideoEmbed) es un v3-section con 14px de
   // padding propio a la izquierda — sin compensar, el video quedaba 14px
   // más adentro que la botonera de Áreas (que no tiene ese padding extra).
@@ -390,8 +389,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Separación entre rail/aside/contenido fija en 16px desde tablet: antes
-         crecía de 12px (md) a 16px (lg+), quedaba distinto según el tamaño. */}
-      <div className={`flex min-h-0 gap-0 ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-4 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:p-5`}>
+         crecía de 12px (md) a 16px (lg+), quedaba distinto según el tamaño.
+         bg-white fijo (antes gris en Familias/Docentes/EIB): esa franja de
+         abajo es el hueco reservado para la tab bar fija de mobile
+         (pb-[5rem+safe-area]) — en gris quedaba como un zócalo visible al
+         hacer scroll hasta el final en páginas con poco contenido, cosa que
+         no pasaba en blanco porque se mezclaba con el fondo de la página. */}
+      <div className="flex min-h-0 gap-0 bg-white pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-4 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:p-5">
         {/* Tablet y desktop: rail apilado (ícono arriba / texto abajo), con la
             bajada de Áreas. Ancho fluido (clamp) en vez de saltos por
             breakpoint: escala parejo entre 168px (md, 768px) y 230px (1280px,
@@ -452,7 +456,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
            izquierdo. Sumado al gap del flex de acá arriba, el espacio aside→
            contenido quedaba más grande que el de rail→aside. -ml-[14px]
            cancela ese marco solo acá, para que los dos gaps midan lo mismo. */}
-        <div className={`flex min-h-0 min-w-0 flex-col rounded-none ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen || isHome ? "md:-ml-[14px]" : ""}`}>
+        <div className={`flex min-h-0 min-w-0 flex-col rounded-none bg-white max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen || isHome ? "md:-ml-[14px]" : ""}`}>
         <main
           id="contenido"
           className="min-h-0 max-md:overflow-visible md:flex-1 md:overflow-y-auto md:[scrollbar-gutter:stable]"

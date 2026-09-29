@@ -97,30 +97,40 @@ function MarcoGeneralContent() {
                ícono y botón de acción teñidos, no un ícono gris genérico.
                chip: tarjeta suelta por ítem, no una caja única con líneas
                divisorias. */}
-            <div className="space-y-2 px-4 pb-5 sm:px-6 md:pb-8 lg:pb-10">
-              {marcoDocuments.map(([title, href]) => (
-                // "Presentación para supervisores": ícono de play, no de
-                // documento — así la distingue el Campus (es un video, no
-                // un PDF), mismo criterio en Docentes.
-                <ResourceRow
-                  key={href}
-                  title={title}
-                  href={href}
-                  download
-                  color={MARCO_GENERAL_COLOR}
-                  showActionLabel
-                  chip
-                  icon={title.includes("Presentación para supervisores") ? <CirclePlay className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" /> : undefined}
-                />
-              ))}
+            {/* px-4/sm:px-6 afuera, mx-auto max-w-4xl adentro sin padding
+               propio (mismo orden que Familias/Docentes/EIB): si el tope de
+               ancho y el padding van en el mismo div, el padding le resta
+               ancho al tope y los chips quedan más angostos que en el resto
+               (848px en vez de 896px). Así, los chips llegan exactamente al
+               mismo ancho máximo en todos lados. */}
+            <div className="px-4 pb-5 sm:px-6 md:pb-8 lg:pb-10">
+              <div className="mx-auto max-w-4xl space-y-2">
+                {marcoDocuments.map(([title, href]) => (
+                  // "Presentación para supervisores": ícono de play, no de
+                  // documento — así la distingue el Campus (es un video, no
+                  // un PDF), mismo criterio en Docentes.
+                  <ResourceRow
+                    key={href}
+                    title={title}
+                    href={href}
+                    download
+                    color={MARCO_GENERAL_COLOR}
+                    showActionLabel
+                    chip
+                    icon={title.includes("Presentación para supervisores") ? <CirclePlay className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" /> : undefined}
+                  />
+                ))}
+              </div>
             </div>
-            <div className="space-y-2 px-4 pb-5 sm:px-6 md:pb-8 lg:pb-10">
-              {marcoTrainings.map(([title, description, href]) => (
-                // Bookmark: mismo ícono que distingue "formaciones" de un
-                // documento en Docentes, acá con el color propio de Marco
-                // General (mismo criterio que usan sus otras filas).
-                <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} showActionLabel chip icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
-              ))}
+            <div className="px-4 pb-5 sm:px-6 md:pb-8 lg:pb-10">
+              <div className="mx-auto max-w-4xl space-y-2">
+                {marcoTrainings.map(([title, description, href]) => (
+                  // Bookmark: mismo ícono que distingue "formaciones" de un
+                  // documento en Docentes, acá con el color propio de Marco
+                  // General (mismo criterio que usan sus otras filas).
+                  <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} showActionLabel chip icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
+                ))}
+              </div>
             </div>
           </SectionTabs>
         </div>
