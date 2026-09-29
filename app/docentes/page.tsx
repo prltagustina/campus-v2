@@ -51,7 +51,11 @@ export default function DocentesPage() {
           <div className="mx-auto max-w-4xl">
             <RepositoryPanel title="Propuestas disponibles" icon={<GraduationCap className="h-4 w-4" />}>
               {formaciones.map(([title, description, url]) => (
-                <ResourceRow key={url} title={title} description={description} href={url} icon={<Bookmark className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" />} />
+                // Bookmark, no FileText: distingue de un documento (mismo
+                // criterio en todo lugar donde aparecen formaciones). Color
+                // oscuro sólido (antes /35, se veía apagado al lado de los
+                // demás íconos de la fila).
+                <ResourceRow key={url} title={title} description={description} href={url} icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#494963" }} aria-hidden="true" />} />
               ))}
             </RepositoryPanel>
           </div>

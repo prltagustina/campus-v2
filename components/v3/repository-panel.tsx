@@ -62,6 +62,10 @@ export function ResourceRow({
    * omite queda neutro — así lo usan Familias/Docentes/EIB, que no tienen
    * un color propio. */
   color = "#494963",
+  /** Muestra "Abrir"/"Descargar" en texto desde xl (antes siempre, en todos
+   * lados). Solo Marco General lo usa — en Familias/Docentes/EIB el botón
+   * de acción queda solo ícono, igual en todos los anchos. */
+  showActionLabel = false,
 }: {
   title: string;
   description?: string;
@@ -69,6 +73,7 @@ export function ResourceRow({
   download?: boolean;
   icon?: ReactNode;
   color?: string;
+  showActionLabel?: boolean;
 }) {
   const actionLabel = download ? "Descargar" : "Abrir";
 
@@ -99,10 +104,10 @@ export function ResourceRow({
           target={download ? undefined : "_blank"}
           rel={download ? undefined : "noopener noreferrer"}
           aria-label={`${actionLabel} ${title}`}
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent"
+          className={`inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] ${showActionLabel ? "xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent" : ""}`}
         >
           {download ? <Download className="h-4 w-4 shrink-0" /> : <ExternalLink className="h-4 w-4 shrink-0" />}
-          <span className="hidden text-xs font-semibold xl:inline xl:text-sm">{actionLabel}</span>
+          {showActionLabel ? <span className="hidden text-xs font-semibold xl:inline xl:text-sm">{actionLabel}</span> : null}
         </a>
         <ShareResourceButton title={title} url={href} />
       </div>

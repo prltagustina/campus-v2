@@ -14,7 +14,6 @@ import { BackLink } from "@/components/v3/back-link";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
 
 const AREA_COLOR = "#FFCB02";
-const TEXT_ON_COLOR = "#5c4a00";
 const PRESENTATION_VIDEO_ID = "rAAkotC7txU";
 
 /* Issues de English Funzine */
@@ -275,9 +274,11 @@ export default function InglesMaterilesPage() {
                      columna (igual que VideoEmbed en "Presentación
                      audiovisual" de cada área), no topado como el resto. */}
                   <div ref={presentacionRef} id="presentacion" className="mb-10 sm:mb-12">
-                    <p className="mb-3 text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">
-                      Video de presentación
-                    </p>
+                    <div className="mx-auto max-w-2xl">
+                      <p className="mb-3 text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">
+                        Video de presentación
+                      </p>
+                    </div>
                     <div className="relative aspect-video overflow-hidden rounded-xl bg-[#494963]/5">
                       <iframe
                         src={`https://www.youtube-nocookie.com/embed/${PRESENTATION_VIDEO_ID}?rel=0`}
@@ -501,20 +502,19 @@ function MaterialCard({
         />
       </div>
 
-      {/* Download: fondo amarillo (color del área) sólido — es la acción
-         principal. Compartir: gris neutro (ShareResourceButton, compartido
-         con el resto del sitio). */}
-      <div className="flex items-center gap-2">
+      {/* Mismo tratamiento que las acciones de los repositorios del resto
+         del sitio: círculo neutro en mobile/tablet y acción de texto sin
+         fondo en desktop, junto al botón compartido de Compartir. */}
+      <div className="flex items-center gap-1" style={{ ["--area" as string]: AREA_COLOR }}>
         <a
           href={pdfUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Descargar ${title}`}
-          className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-[9px] px-4 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963]"
-          style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent"
         >
           <Download className="h-4 w-4 shrink-0" />
-          <span className="text-sm font-semibold">Descargar PDF</span>
+          <span className="hidden text-xs font-semibold xl:inline xl:text-sm">Descargar</span>
         </a>
         <ShareResourceButton title={`English Funzine - ${title}`} url={pdfUrl} />
       </div>

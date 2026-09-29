@@ -46,7 +46,7 @@ const proyectos = {
   ],
   primario: [
     {
-      nombre: 'Varias especies de remedios naturales - "NATARIPI"',
+      nombre: "Varias especies de remedios naturales - NATARIPI",
       url: "https://campuseducativo.santafe.edu.ar/varias-especies-de-remedios-naturales-nataripi/",
     },
     {
@@ -135,7 +135,7 @@ const celebraciones = [
     url: "https://campuseducativo.santafe.edu.ar/11-de-octubre-ultimo-dia-de-libertad-indigena/",
   },
   {
-    nombre: '11 de Octubre. "Último Día de Libertad de los Pueblos Originarios de América"',
+    nombre: "11 de Octubre. Último Día de Libertad de los Pueblos Originarios de América",
     url: "https://campuseducativo.santafe.edu.ar/11-de-octubre-ultimo-dia-de-libertad-de-los-pueblos-originarios-de-america-2/",
   },
   {
@@ -151,8 +151,8 @@ const celebraciones = [
 const celebracionesCalendario = celebraciones.filter((_, index) => [0, 1, 2, 3, 4, 8, 9, 10, 11, 12].includes(index));
 const celebracionesMemoria = celebraciones.filter((_, index) => [5, 6, 7, 13, 14].includes(index));
 
-/** Títulos de proyectos y efemérides: van entre comillas latinas (si no las traen ya). */
-const asTitle = (nombre: string) => (nombre.trim().startsWith("«") ? nombre : `«${nombre}»`);
+/** Títulos de proyectos y efemérides: van entre comillas normales (si no las traen ya). */
+const asTitle = (nombre: string) => (nombre.trim().startsWith('"') ? nombre : `"${nombre}"`);
 
 /**
  * Los niveles (Inicial/Primario/Secundario/Terciario) necesitan más presencia
@@ -178,8 +178,11 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
             className="group flex min-w-0 items-center gap-3 py-3.5 first:pt-3.5 transition-colors md:first:pt-0"
           >
             <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[#494963] sm:text-[15px]">{asTitle(item.nombre)}</span>
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#494963]/[.045] text-[#494963]/35 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
-              <ExternalLink className="h-3.5 w-3.5" />
+            {/* Mismo color y tamaño que el ícono de "Abrir" de ResourceRow
+               (Formaciones de Marco General, Documentos, etc.): bg-[.06] +
+               texto oscuro sólido, no el gris apagado (/35) que tenía antes. */}
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors group-hover:bg-[#494963]/[.12]" aria-hidden="true">
+              <ExternalLink className="h-4 w-4" />
             </span>
             <span className="sr-only">Abrir {item.nombre}</span>
           </a>
@@ -204,15 +207,15 @@ function ArchiveGroup({ title, icon, items }: { title: string; icon: ReactNode; 
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)_2rem] items-center gap-2.5 border-b border-[#494963]/[.065] px-4 py-4 transition-colors last:border-b-0 hover:bg-[#F8F8FA] sm:px-5 sm:odd:border-r"
+            className="group grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)_2.5rem] items-center gap-2.5 border-b border-[#494963]/[.065] px-4 py-4 transition-colors last:border-b-0 hover:bg-[#F8F8FA] sm:px-5 sm:odd:border-r"
           >
             <span className="pt-0.5 font-display text-[10px] font-semibold tabular-nums text-[#494963]/25">{String(index + 1).padStart(2, "0")}</span>
             <span className="min-w-0 text-[13px] font-medium leading-[1.4] text-[#494963] sm:text-sm">{asTitle(item.nombre)}</span>
-            {/* Mismo tamaño y fondo de reposo que el ícono equivalente de
-               ProjectGroup (h-8 w-8, bg-[#494963]/[.045]) — antes era h-7 sin
-               fondo, se veía más chico y "apagado" que el resto. */}
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#494963]/[.045] text-[#494963]/35 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
-              <ExternalLink className="h-3.5 w-3.5" />
+            {/* Mismo color y tamaño que el ícono de "Abrir" de ResourceRow
+               (Formaciones de Marco General, Documentos, etc.): bg-[.06] +
+               texto oscuro sólido, no el gris apagado (/35) que tenía antes. */}
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors group-hover:bg-[#494963]/[.12]" aria-hidden="true">
+              <ExternalLink className="h-4 w-4" />
             </span>
             <span className="sr-only">Abrir {item.nombre}</span>
           </a>
