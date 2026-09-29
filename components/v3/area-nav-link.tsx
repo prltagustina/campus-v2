@@ -34,7 +34,10 @@ const variantClasses = {
   // "g" ("Lengua"). h-full lo da la fila del grid (ver auto-rows en el aside).
   // El tamaño de texto vuelve al de siempre en xl (desktop real).
   sidebar: "h-full min-h-0 rounded-[9px] px-[15px] py-2 text-[clamp(15px,1.35vw,20px)] xl:text-[clamp(17px,1.35vw,20px)] leading-[1.15]",
-  wheel: "min-h-14 rounded-[9px] px-[15px] py-3 text-[clamp(14px,1.35vw,17px)] leading-[1.08]",
+  // clamp(17px...): antes 14px, se veía chico al lado de lo grandes que son
+  // los botones en la botonera de mobile (una sola columna, con mucho lugar
+  // de sobra a diferencia del aside angosto de tablet).
+  wheel: "min-h-14 rounded-[9px] px-[15px] py-3 text-[clamp(17px,1.35vw,20px)] leading-[1.08]",
 } as const;
 
 export function AreaNavLink({

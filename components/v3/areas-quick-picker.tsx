@@ -18,7 +18,7 @@ export function AreasQuickPicker({ hideMarcoGeneral = false, hideLabel = false }
         {!hideMarcoGeneral && (
           <Link
             href="/area/marco-general"
-            className="group flex min-h-14 w-full items-center justify-between rounded-[9px] border border-[#494963] px-[15px] py-3 text-[clamp(14px,1.35vw,17px)] font-normal leading-[1.08] tracking-[-0.035em] text-[#494963] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963]"
+            className="group flex min-h-14 w-full items-center justify-between rounded-[9px] border border-[#494963] px-[15px] py-3 text-[clamp(17px,1.35vw,20px)] font-normal leading-[1.08] tracking-[-0.035em] text-[#494963] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963]"
           >
             <span className="min-w-0 text-pretty">Marco General</span>
             <SolidAreaArrow />
