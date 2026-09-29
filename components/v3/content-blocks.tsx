@@ -48,9 +48,10 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
     <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Presentation className="h-4 w-4" /></span>
       <div className="min-w-0 flex-1"><p className="truncate font-display text-xl font-semibold text-[#494963]">{label}</p></div>
-      {/* Mismo criterio que el ícono de "Abrir" de ResourceRow: solo ícono,
-         círculo h-9 w-9 con fondo, sin texto (antes decía "Abrir" desde sm). */}
-      <a href={src} target="_blank" rel="noreferrer" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors hover:bg-[#494963] hover:text-white" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
+      {/* Mismo color y tamaño que el ícono de "Abrir" de ResourceRow: círculo
+         h-10 w-10, bg-[.06] y texto oscuro sólido (antes bg-[#F1F1F4] y
+         texto /45, quedaba más chico y apagado que el resto). */}
+      <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
     </div>
     <div className="bg-[#E9E9EE] p-1.5 md:p-2">
       <div className="relative aspect-video overflow-hidden rounded-xl bg-[#DDDDE4]">

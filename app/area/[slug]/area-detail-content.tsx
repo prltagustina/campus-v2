@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BookOpen } from "lucide-react";
+import { Bookmark } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import { MARCO_GENERAL_COLOR } from "@/lib/constants";
 import { DocumentoStepper } from "@/components/v3/content-blocks";
@@ -104,13 +104,16 @@ function MarcoGeneralContent() {
             {resourceView === "documentos" ? (
               <div className="divide-y divide-[#494963]/[.08]">
                 {marcoDocuments.map(([title, description, href]) => (
-                  <ResourceRow key={href} title={title} description={description} href={href} download color={MARCO_GENERAL_COLOR} />
+                  <ResourceRow key={href} title={title} description={description} href={href} download color={MARCO_GENERAL_COLOR} showActionLabel />
                 ))}
               </div>
             ) : (
               <div className="divide-y divide-[#494963]/[.08]">
                 {marcoTrainings.map(([title, description, href]) => (
-                  <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} icon={<BookOpen className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
+                  // Bookmark: mismo ícono que distingue "formaciones" de un
+                  // documento en Docentes, acá con el color propio de Marco
+                  // General (mismo criterio que usan sus otras filas).
+                  <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} showActionLabel icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
                 ))}
               </div>
             )}
