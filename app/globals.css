@@ -151,6 +151,20 @@
        franja blanca. */
     background-color: #494963;
   }
+  /* Desktop: el shell (AppShell) ya scrollea internamente (#contenido) y
+     se contiene a sí mismo en md:h-dvh — html/body no tenían ningún tope
+     de alto propio, así que si el shell se pasaba por lo que sea (páginas
+     largas, como Marco General) aparecía un scroll de la página entera
+     además del interno, dejando ver este fondo de acá arriba como una
+     franja extra debajo/al lado del panel. Bloqueado del todo: nunca debe
+     hacer falta scrollear la página en sí desde tablet, todo el scroll
+     pasa por #contenido. */
+  @media (min-width: 768px) {
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+  }
 }
 
 /* Subtle pulsing hint for ejes schema */
