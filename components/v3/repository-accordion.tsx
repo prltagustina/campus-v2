@@ -29,7 +29,7 @@ export function RepositoryMaterialRow({
 
   return (
     <article
-      className="group/material grid min-w-0 gap-3 px-4 py-4 transition-colors hover:bg-[#494963]/[.025] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-5 sm:px-5 sm:py-5"
+      className="group/material grid min-w-0 gap-3 px-4 py-4 transition-colors hover:bg-[#494963]/[.025] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-5 sm:px-7 sm:py-5"
       style={{ ["--area" as string]: color }}
     >
       <a
@@ -100,9 +100,14 @@ export function RepositoryFileGroup({
   files: { label?: string; file: ItinerarioFile }[];
   color: string;
 }) {
+  {/* border-l-4 border-transparent: los botones de categoría/ciclo de
+     arriba (RepositoryAccordionGroup) tienen un border-l-4 propio antes de
+     su padding — acá no había ningún borde, así que "1er grado" (y las
+     filas de material cuando no hay label, como en "Séptimo grado")
+     quedaban 4px más a la izquierda que "Docencia"/"Primer ciclo". */}
   if (!label) {
     return (
-      <div className="divide-y divide-[#494963]/[.07] border-b border-[#494963]/[.07] last:border-b-0">
+      <div className="divide-y divide-[#494963]/[.07] border-b border-l-4 border-transparent border-b-[#494963]/[.07] last:border-b-0">
         {files.map(({ label: rowLabel, file }, index) => (
           <RepositoryMaterialRow key={`${file.url}-${index}`} label={rowLabel} file={file} color={color} />
         ))}
@@ -111,7 +116,7 @@ export function RepositoryFileGroup({
   }
 
   return (
-    <section className="grid border-b border-[#494963]/[.07] last:border-b-0 md:grid-cols-[9rem_minmax(0,1fr)]">
+    <section className="grid border-b border-l-4 border-transparent border-b-[#494963]/[.07] last:border-b-0 md:grid-cols-[9rem_minmax(0,1fr)]">
       {/* px-4/sm:px-7 (no px-4/md:px-5): mismo inset horizontal que "Docencia"/
          "Primer Ciclo" arriba, para que "1er grado" quede alineado con ellos. */}
       <header className="px-4 py-4 sm:px-7 md:py-5">
