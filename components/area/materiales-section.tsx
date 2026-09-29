@@ -358,9 +358,11 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
         </p>
       </div>
 
-      {/* Barra de idiomas fija al scrollear, mismo criterio que la barra de
-         lenguajes de Educación Artística (PillTabs, compartido). */}
-      <div className="sticky top-0 z-30 bg-white px-4 py-3 shadow-[0_8px_16px_-16px_rgba(25,25,42,.35)] sm:px-7">
+      {/* Barra de idiomas fija al scrollear, mismo criterio y mismo padding
+         exacto que la barra de lenguajes de Educación Artística (antes
+         px-4/py-3/sm:px-7, distinto del md:px-[14px]/py-6/md:pb-8/md:pt-0
+         de ahí — quedaban con distinto tamaño). */}
+      <div className="sticky top-0 z-30 bg-white px-4 py-6 shadow-[0_8px_16px_-16px_rgba(25,25,42,.35)] md:px-[14px] md:pb-8 md:pt-0">
         <PillTabs
           options={idiomas}
           selectedId={idiomaSeleccionado}
