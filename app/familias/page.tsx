@@ -32,9 +32,9 @@ export default function FamiliasPage() {
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Documentos disponibles" icon={<BookOpen className="h-4 w-4" />}>
+            <RepositoryPanel title="Documentos disponibles" icon={<BookOpen className="h-4 w-4" />} chips>
               {materiales.map((material) => (
-                <ResourceRow key={material.url} title={material.titulo} description={`${material.descripcion} · PDF`} href={material.url} download />
+                <ResourceRow key={material.url} title={material.titulo} description={`${material.descripcion} · PDF`} href={material.url} download chip />
               ))}
             </RepositoryPanel>
           </div>

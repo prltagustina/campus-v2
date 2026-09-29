@@ -6,34 +6,19 @@ import { SectionTabs } from "@/components/v3/section-rail";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
 import { RepositoryPanel, ResourceRow } from "@/components/v3/repository-panel";
 
-/* Legislación, normativa y documentos curriculares */
+/* Legislación, normativa y documentos curriculares — mismos documentos y
+   PDFs que https://campuseducativo.santafe.edu.ar/diseno-curricular/educacion-intercultural-bilingue/ */
 const legislacion = {
-  resolucion: {
-    titulo: "\"Resolución 1023-26 EE\"",
-    archivo: "Resolución 1023-26 EE.pdf",
-    url: "/documentos/resolucion-1023-26-eib.pdf",
-  },
-  elementosJuridicos: {
-    titulo: "ELEMENTOS JURÍDICOS RELACIONADOS",
-    subtitulo: "CON LA EDUCACIÓN INTERCULTURAL BILINGÜE",
-    documentos: [
-      {
-        nombre: "\"Documento 1\"",
-        url: "https://campuseducativo.santafe.edu.ar/elementos-juridicos-relacionados-con-la-educacion-intercultural-bilingue/",
-      },
-      {
-        nombre: "\"Documento 2\"",
-        url: "https://www.amsafe.org.ar/normativa_2025/modalidades/modalidad_educaci%C3%B3n_intercultural_bilingue/elementos_juridicos_eI_bilingue.pdf",
-      },
-    ],
-  },
-  marcoLegal: {
-    titulo: "MARCO LEGAL QUE ENCUADRA EL TRABAJO DE LA",
-    subtitulo: "MODALIDAD DE EDUCACIÓN INTERCULTURAL BILINGÜE",
-    descripcion: "Referencias a legislación nacional, provincial e internacional vinculada",
-    descripcion2: "con la Modalidad de Educación Intercultural Bilingüe.",
-    url: "https://campuseducativo.santafe.edu.ar/marco-legal-que-encuadra-el-trabajo-de-la-modalidad-de-educacion-intercultural-bilingue/",
-  },
+  resoluciones: [
+    { nombre: "Resolución 1023 - 2026", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/05/Res-1023-26-EE.pdf" },
+    { nombre: "Resolución 1188 - 2017", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/05/Resolucion-1188-17.pdf" },
+  ],
+  decretosLey: [
+    { nombre: "Decreto 1719 - 2025", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/05/Decreto-1719.pdf" },
+    { nombre: "Decreto 2200 - 1998", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/05/Decreto-2200-1998.pdf" },
+    { nombre: "Decreto 3346 - 1990", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/05/Decreto-3346-1990.pdf" },
+    { nombre: "Ley 10701 - 1991", url: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/05/Ley-10701.pdf" },
+  ],
 };
 
 /* Proyectos por nivel */
@@ -68,7 +53,7 @@ const proyectos = {
   ],
   secundario: [
     {
-      nombre: "Guardianes de la Naturaleza. Vivir en un Mundo Sustentable.",
+      nombre: "Guardianes de la Naturaleza. Vivir en un Mundo Sustentable",
       url: "https://campuseducativo.santafe.edu.ar/guardianes-de-la-naturaleza-509-vivir-en-un-mundo-sustentable/",
     },
     {
@@ -131,7 +116,7 @@ const celebraciones = [
     url: "https://campuseducativo.santafe.edu.ar/9-de-agosto-dia-internacional-de-los-pueblos-indigenas/",
   },
   {
-    nombre: "11 de octubre: Último día de libertad indígena. Nada para celebrar. Mucho para reflexionar.",
+    nombre: "11 de octubre: Último día de libertad indígena. Nada para celebrar. Mucho para reflexionar",
     url: "https://campuseducativo.santafe.edu.ar/11-de-octubre-ultimo-dia-de-libertad-indigena/",
   },
   {
@@ -162,22 +147,31 @@ const asTitle = (nombre: string) => (nombre.trim().startsWith('"') ? nombre : `"
  */
 function ProjectGroup({ title, index, items }: { title: string; index: string; items: { nombre: string; url: string }[] }) {
   return (
-    <section className="grid min-w-0 gap-4 border-l-4 border-[#494963]/[.12] px-5 py-6 sm:px-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-7 md:py-8">
+    <section className="grid min-w-0 gap-4 border-l-4 border-[#494963]/[.12] pl-5 sm:pl-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-7">
       <header className="flex items-start gap-3 md:block">
         <p className="font-display text-4xl font-black leading-none tabular-nums text-[#494963]/[.14] sm:text-5xl">{index}</p>
-        <h3 className="font-display text-xl font-semibold leading-tight text-[#494963] sm:text-2xl">{title}</h3>
+        {/* text-xl fijo (antes sm:text-2xl): mismo tamaño que el título de
+           ArchiveGroup ("Calendario intercultural"/"Memorias y recursos"),
+           el otro encabezado de subgrupo dentro de EIB. */}
+        <h3 className="font-display text-xl font-semibold leading-tight text-[#494963]">{title}</h3>
       </header>
 
-      <div className="min-w-0 divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] md:border-t-0">
+      {/* Chips: cada proyecto es su propia tarjeta suelta (no una lista con
+         líneas divisorias dentro de una caja), como en la página de
+         referencia. */}
+      <div className="min-w-0 space-y-2">
         {items.map((item) => (
           <a
             key={item.url}
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex min-w-0 items-center gap-3 py-3.5 first:pt-3.5 transition-colors md:first:pt-0"
+            className="group flex min-w-0 items-center gap-3 rounded-2xl bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(73,73,99,.065)] transition-shadow hover:shadow-[0_4px_16px_rgba(73,73,99,.10)] sm:px-5"
           >
-            <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[#494963] sm:text-[15px]">{asTitle(item.nombre)}</span>
+            {/* text-[15px]/sm:text-[17px]: mismo tamaño que el título de
+               ResourceRow (Normativa, Familias, Docentes) — antes acá era
+               text-sm/sm:text-[15px], un punto más chico que el resto. */}
+            <span className="min-w-0 flex-1 text-[15px] font-medium leading-snug text-[#494963] sm:text-[17px]">{asTitle(item.nombre)}</span>
             {/* Mismo color y tamaño que el ícono de "Abrir" de ResourceRow
                (Formaciones de Marco General, Documentos, etc.): bg-[.06] +
                texto oscuro sólido, no el gris apagado (/35) que tenía antes. */}
@@ -194,23 +188,26 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
 
 function ArchiveGroup({ title, icon, items }: { title: string; icon: ReactNode; items: { nombre: string; url: string }[] }) {
   return (
-    <section className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
-      <header className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
+    <section>
+      <header className="flex items-center gap-3 px-1 pb-3">
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
         <h3 className="min-w-0 font-display text-xl font-semibold text-[#494963]">{title}</h3>
       </header>
 
-      <div className="grid sm:grid-cols-2">
-        {items.map((item, index) => (
+      {/* Chips: mismo tratamiento que ProjectGroup (flex, sin numerar cada
+         ítem, mismo tamaño de texto) — antes tenían un numeral propio
+         (text-[10px]) y el título en otro tamaño (text-[13px]/text-sm), y
+         los dos carruseles de chips no quedaban parejos entre sí. */}
+      <div className="grid gap-2 sm:grid-cols-2">
+        {items.map((item) => (
           <a
             key={item.url}
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)_2.5rem] items-center gap-2.5 border-b border-[#494963]/[.065] px-4 py-4 transition-colors last:border-b-0 hover:bg-[#F8F8FA] sm:px-5 sm:odd:border-r"
+            className="group flex min-w-0 items-center gap-3 rounded-2xl bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(73,73,99,.065)] transition-shadow hover:shadow-[0_4px_16px_rgba(73,73,99,.10)] sm:px-5"
           >
-            <span className="pt-0.5 font-display text-[10px] font-semibold tabular-nums text-[#494963]/25">{String(index + 1).padStart(2, "0")}</span>
-            <span className="min-w-0 text-[13px] font-medium leading-[1.4] text-[#494963] sm:text-sm">{asTitle(item.nombre)}</span>
+            <span className="min-w-0 flex-1 text-[15px] font-medium leading-snug text-[#494963] sm:text-[17px]">{asTitle(item.nombre)}</span>
             {/* Mismo color y tamaño que el ícono de "Abrir" de ResourceRow
                (Formaciones de Marco General, Documentos, etc.): bg-[.06] +
                texto oscuro sólido, no el gris apagado (/35) que tenía antes. */}
@@ -236,21 +233,38 @@ export default function EIBPage() {
       <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Marco normativo" icon={<Scale className="h-4 w-4" />}>
-              <ResourceRow title={legislacion.resolucion.titulo} description={`${legislacion.resolucion.archivo} · PDF`} href={legislacion.resolucion.url} download />
-              {legislacion.elementosJuridicos.documentos.map((documento) => <ResourceRow key={documento.url} title={documento.nombre} description="Elementos jurídicos relacionados con la Educación Intercultural Bilingüe" href={documento.url} />)}
-              <ResourceRow title={'"Marco legal de la Modalidad de Educación Intercultural Bilingüe"'} description={`${legislacion.marcoLegal.descripcion} ${legislacion.marcoLegal.descripcion2}`} href={legislacion.marcoLegal.url} />
+            <RepositoryPanel title="Marco normativo" icon={<Scale className="h-4 w-4" />} chips>
+              <div className="space-y-6">
+                <div>
+                  <p className="mb-2 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Resolución</p>
+                  <div className="space-y-2">
+                    {legislacion.resoluciones.map((documento) => (
+                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip />
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="mb-2 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Decretos / Ley</p>
+                  <div className="space-y-2">
+                    {legislacion.decretosLey.map((documento) => (
+                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </RepositoryPanel>
           </div>
         </section>
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Proyectos por nivel" icon={<Layers className="h-4 w-4" />}>
-              <ProjectGroup index="01" title="Inicial" items={proyectos.inicial} />
-              <ProjectGroup index="02" title="Primario" items={proyectos.primario} />
-              <ProjectGroup index="03" title="Secundario" items={proyectos.secundario} />
-              <ProjectGroup index="04" title="Terciario" items={proyectos.terciario} />
+            <RepositoryPanel title="Proyectos por nivel" icon={<Layers className="h-4 w-4" />} chips>
+              <div className="space-y-6">
+                <ProjectGroup index="01" title="Inicial" items={proyectos.inicial} />
+                <ProjectGroup index="02" title="Primario" items={proyectos.primario} />
+                <ProjectGroup index="03" title="Secundario" items={proyectos.secundario} />
+                <ProjectGroup index="04" title="Terciario" items={proyectos.terciario} />
+              </div>
             </RepositoryPanel>
           </div>
         </section>
