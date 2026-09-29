@@ -9,7 +9,6 @@ import { DocumentoExplainer } from "@/components/v3/documento-explainer";
 import { OrganizationCompact } from "@/components/v3/organization-compact";
 import { AreaWorkspace } from "@/components/v3/area-workspace";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
-import { AreasQuickPicker } from "@/components/v3/areas-quick-picker";
 import { ResourceRow } from "@/components/v3/repository-panel";
 
 const centralAxes = [
@@ -70,9 +69,6 @@ function MarcoGeneralContent() {
           accentText="#EDEDF0"
         />
       </div>
-      {/* Desde tablet (md) elegir otra área ya está siempre visible en el
-         aside (AreaSubnav), igual que desktop. Esto es solo para mobile. */}
-      <AreasQuickPicker hideMarcoGeneral />
       <section id="recursos" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
         {/* px-4/sm:px-7 fijo (sin crecer en md/lg): mismo inset horizontal
            que el botón de categoría de Itinerarios, para que el título quede
