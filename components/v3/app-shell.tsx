@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   BriefcaseBusiness,
   ChevronDown,
@@ -317,7 +317,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // iOS Safari a veces no repinta el fondo al ajustar dvh/svh cuando la
   // barra de direcciones cambia de tamaño (bug conocido de WebKit). Medimos
   // el alto real con JS para no depender de esas unidades en mobile.
-  useEffect(() => {
+  // useLayoutEffect: se fija antes del primer pintado, para no arrancar con
+  // el valor de respaldo (100svh) y saltar después al alto real.
+  useLayoutEffect(() => {
     const setAppHeight = () => {
       const height = window.visualViewport?.height ?? window.innerHeight;
       document.documentElement.style.setProperty("--app-vh", `${height}px`);
@@ -337,8 +339,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // único scroll — el header y la franja se van hacia arriba al bajar y vuelven
   // al llegar arriba, como un scroll normal de página. Desktop: header/franja
   // fijos y el <main> scrollea por dentro (necesario para el sidebar).
+  // useLayoutEffect (no useEffect): resetea el scroll ANTES de pintar la
+  // página nueva — si no, el primer frame se pintaba en la posición de
+  // scroll de la página anterior (p. ej. bajado en Inicio) y recién después
+  // saltaba al tope, mostrando un instante de fondo gris de más hasta que
+  // el layout terminaba de acomodarse — más notorio en Marco General por
+  // ser la vista con más contenido.
   const rootScrollRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     rootScrollRef.current?.scrollTo(0, 0);
     document.getElementById("contenido")?.scrollTo(0, 0);
   }, [pathname]);
