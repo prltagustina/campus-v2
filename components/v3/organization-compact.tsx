@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { CarouselArrows } from "@/components/v3/carousel-arrows";
+import { CarouselDots } from "@/components/v3/carousel-dots";
 
 function PresentacionIcon({ className }: { className?: string }) {
   return (
@@ -22,81 +22,43 @@ const items = [
   ["06", "Lecturas sugeridas y glosario", "Bibliografía complementaria y definiciones clave para profundizar en cada área.", "/images/organizacion/icono-06.png"],
 ] as const;
 
-function Arrows() {
-  const { scrollPrev, scrollNext, canScrollPrev, canScrollNext } = useCarousel();
-  return (
-    <div className="flex shrink-0 items-center gap-3">
-      <button type="button" onClick={scrollPrev} disabled={!canScrollPrev} aria-label="Anterior" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
-        <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
-      </button>
-      <button type="button" onClick={scrollNext} disabled={!canScrollNext} aria-label="Siguiente" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
-        <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
-      </button>
-    </div>
-  );
-}
-
-function Dots() {
-  const { api } = useCarousel();
-  const [selected, setSelected] = useState(0);
-  const [snapCount, setSnapCount] = useState(0);
-
-  useEffect(() => {
-    if (!api) return;
-    setSnapCount(api.scrollSnapList().length);
-    const onSelect = () => setSelected(api.selectedScrollSnap());
-    onSelect();
-    api.on("select", onSelect);
-    api.on("reInit", onSelect);
-    return () => {
-      api.off("select", onSelect);
-      api.off("reInit", onSelect);
-    };
-  }, [api]);
-
-  return (
-    <div className="mt-6 flex gap-[6px] pr-5 md:pr-0">
-      {Array.from({ length: snapCount }).map((_, index) => (
-        <button
-          key={index}
-          type="button"
-          onClick={() => api?.scrollTo(index)}
-          aria-label={`Ir a la página ${index + 1}`}
-          aria-current={index === selected ? "step" : undefined}
-          className={`h-[6px] w-[6px] rounded-full bg-[#494963] transition-opacity ${index === selected ? "opacity-100" : "opacity-20"}`}
-        />
-      ))}
-    </div>
-  );
-}
-
 export function OrganizationCompact() {
   return (
     <section className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
       <div className="rounded-none bg-[#F5F5F7] pb-9 pl-5 pt-5 md:rounded-2xl md:p-8 lg:p-10">
-        <Carousel opts={{ align: "start", containScroll: false }}>
-          <div className="flex items-end justify-between gap-4 pr-5 md:pr-0">
-            <div>
-              <h2 className="font-sans text-2xl font-bold leading-[1.05] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">Cómo está<br />organizada cada área</h2>
-              <p className="mt-2 max-w-md font-sans text-base leading-normal text-[#494963]/50 sm:leading-[1.5]">Todas comparten una misma estructura de seis secciones.</p>
-            </div>
-            <Arrows />
+        {/* loop:true, igual que DocumentoStepper: con CarouselArrows compartido,
+           las flechas tienen que reaccionar igual en los dos — si acá no
+           loopea, "Anterior" arranca deshabilitado (25% opacidad) y ahí no,
+           mismo componente con dos comportamientos distintos. */}
+        <Carousel opts={{ align: "start", containScroll: false, loop: true }}>
+          <div className="pr-5 md:pr-0">
+            <h2 className="font-sans text-2xl font-semibold leading-[1.05] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">Cómo está<br />organizada cada área</h2>
+            <p className="mt-2 max-w-md font-sans text-base leading-normal text-[#494963]/50 sm:leading-[1.5]">Todas comparten una misma estructura de seis secciones.</p>
           </div>
-          <CarouselContent className="mt-5 pr-2 sm:mt-7 md:pr-0">
-            {items.map(([number, title, description, iconSrc]) => (
-              <CarouselItem key={number} className="basis-[86%] sm:basis-1/2 lg:basis-1/3">
-                <article className="flex h-full flex-col rounded-lg bg-white p-[18px] sm:p-5">
-                  <div className="flex items-center gap-2">
-                    {iconSrc ? <Image src={iconSrc} alt="" width={16} height={16} className="h-4 w-4 object-contain" /> : <PresentacionIcon className="h-4 w-4 text-[#494963]" />}
-                    <span className="font-sans text-xl font-bold text-[#CFCFCF] sm:text-2xl">{number}</span>
-                  </div>
-                  <h3 className="mt-3.5 font-sans text-base font-extrabold text-[#494963]">{title}</h3>
-                  <p className="mt-2 font-sans text-[15px] leading-relaxed text-[#494963]/50 sm:text-sm">{description}</p>
-                </article>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <Dots />
+          {/* Anterior/Siguiente sobre las propias tarjetas (no arriba, junto
+             al título): "relative" acá adentro, no en el <Carousel>, para
+             que se centren contra la fila de tarjetas y no contra todo el
+             bloque (que de otro modo incluye los Dots de abajo). md:px-10:
+             margen propio para las flechas, afuera de las tarjetas (antes
+             se superponían al borde de la primera/última). */}
+          <div className="relative md:px-10">
+            <CarouselContent className="mt-5 pr-2 sm:mt-7 md:pr-0">
+              {items.map(([number, title, description, iconSrc]) => (
+                <CarouselItem key={number} className="basis-[86%] sm:basis-1/2 lg:basis-1/3">
+                  <article className="flex h-full flex-col rounded-lg bg-white p-[18px] sm:p-5">
+                    <div className="flex items-center gap-2">
+                      {iconSrc ? <Image src={iconSrc} alt="" width={16} height={16} className="h-4 w-4 object-contain" /> : <PresentacionIcon className="h-4 w-4 text-[#494963]" />}
+                      <span className="font-sans text-xl font-bold text-[#494963]/20 sm:text-2xl">{number}</span>
+                    </div>
+                    <h3 className="mt-3.5 font-sans text-base font-semibold text-[#494963]">{title}</h3>
+                    <p className="mt-2 font-sans text-[15px] leading-relaxed text-[#494963]/50 sm:text-sm">{description}</p>
+                  </article>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselArrows />
+          </div>
+          <CarouselDots className="mt-6 pr-5 md:pr-0" />
         </Carousel>
       </div>
     </section>

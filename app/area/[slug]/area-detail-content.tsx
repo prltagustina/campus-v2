@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Download, FileText, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import { MARCO_GENERAL_COLOR } from "@/lib/constants";
 import { DocumentoStepper } from "@/components/v3/content-blocks";
@@ -9,6 +9,7 @@ import { DocumentoExplainer } from "@/components/v3/documento-explainer";
 import { OrganizationCompact } from "@/components/v3/organization-compact";
 import { AreaWorkspace } from "@/components/v3/area-workspace";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
+import { ResourceRow } from "@/components/v3/repository-panel";
 
 const centralAxes = [
   ["Aprendizajes comunes, fundantes y significativos", "Saberes que aseguran el avance hacia conocimientos más complejos y promueven la participación plena en la vida social."],
@@ -27,16 +28,16 @@ const centralAxes = [
 ] as const;
 
 const marcoDocuments = [
-  ["Documento de acompañamiento N° 1", "Material para la implementación institucional", "/docs/Documento_Acompanamiento.pdf"],
-  ["Documento de acompañamiento N° 2", "Implementación de Saberes, Vidas y Mundos", "/docs/Documento_Acompanamiento_2.pdf"],
-  ["Presentación para supervisores", "Síntesis institucional del nuevo diseño", "/docs/Presentacion_Supervisores.pdf"],
-  ["Resolución 1410/2026", "Programa Inglés para la Ruralidad", "/documentos/resolucion-1410-26-ingles.pdf"],
-  ["Jornada Ampliada o Completa", "Más tiempo para transformar los aprendizajes", "/documentos/jornada-ampliada-o-completa.pdf"],
+  ["\"Documento de acompañamiento N° 1\"", "Material para la implementación institucional", "/docs/Documento_Acompanamiento.pdf"],
+  ["\"Documento de acompañamiento N° 2\"", "Implementación de Saberes, Vidas y Mundos", "/docs/Documento_Acompanamiento_2.pdf"],
+  ["\"Presentación para supervisores\"", "Síntesis institucional del nuevo diseño", "/docs/Presentacion_Supervisores.pdf"],
+  ["\"Resolución 1410/2026\"", "Programa Inglés para la Ruralidad", "/documentos/resolucion-1410-26-ingles.pdf"],
+  ["\"Jornada Ampliada o Completa\"", "Más tiempo para transformar los aprendizajes", "/documentos/jornada-ampliada-o-completa.pdf"],
 ] as const;
 
 const marcoTrainings = [
-  ["Diversificación para la Enseñanza", "Curso en Campus Educativo", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
-  ["Planificar la enseñanza en el nuevo Diseño Curricular", "Formación para equipos docentes", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
+  ["\"Diversificación para la Enseñanza\"", "Curso en Campus Educativo", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
+  ["\"Planificar la enseñanza en el nuevo Diseño Curricular\"", "Formación para equipos docentes", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
 ] as const;
 
 function MarcoGeneralContent() {
@@ -61,17 +62,19 @@ function MarcoGeneralContent() {
         <DocumentoExplainer
           titulo="Marco General"
           heading="Los ejes centrales del nuevo Diseño Curricular"
-          descripcion="El Marco General establece los lineamientos políticos y pedagógico-didácticos de la propuesta, y define la organización curricular para la Educación Primaria de la Provincia de Santa Fe"
+          descripcion="El Marco General establece los lineamientos políticos y pedagógico-didácticos de la propuesta, y define la organización curricular para la Educación Primaria de la Provincia de Santa Fe."
           portadaSrc="/images/marco-general-portada.jpg"
           pdfUrl="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/04/marco-general.pdf"
           accent={MARCO_GENERAL_COLOR}
           accentText="#EDEDF0"
-          singleSlide
         />
       </div>
       <section id="recursos" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
-        <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
-          <header className="mb-10 max-w-2xl md:mb-14"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Repositorio del Marco General</p><h2 className="mt-2 font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Documentos y formaciones</h2><p className="mt-3 text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
+        {/* px-4/sm:px-7 fijo (sin crecer en md/lg): mismo inset horizontal
+           que el botón de categoría de Itinerarios, para que el título quede
+           alineado con "Docencia". El padding vertical sigue creciendo. */}
+        <div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
+          <header className="mb-6 max-w-2xl md:mb-8"><h2 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Documentos y formaciones</h2><p className="mt-2 text-sm sm:text-base lg:text-lg text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           <div role="tablist" aria-label="Recursos del Marco General" className="flex w-full min-w-0 gap-1.5 rounded-2xl bg-[#E6E6EB] p-1.5 md:w-fit">
             {(["documentos", "formaciones"] as const).map((id) => {
               const label = id === "documentos" ? "Documentos" : "Formaciones";
@@ -90,16 +93,34 @@ function MarcoGeneralContent() {
               );
             })}
           </div>
-          <div className="mt-4 rounded-2xl bg-white px-4 md:px-6" role="tabpanel">
-            {resourceView === "documentos" ? <div className="divide-y divide-[#494963]/[.08]">{marcoDocuments.map(([title, description, href]) => <a key={href} href={href} download className="group flex min-h-[78px] items-center gap-4 py-4"><FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" /><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><Download className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div> : <div className="divide-y divide-[#494963]/[.08]">{marcoTrainings.map(([title, description, href]) => <a key={href} href={href} target="_blank" rel="noreferrer" className="group flex min-h-[92px] items-center gap-4 py-4"><BookOpen className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" /><span className="min-w-0 flex-1"><b className="block text-sm text-[#494963]">{title}</b><small className="mt-1 block text-[#494963]/45">{description}</small></span><ArrowUpRight className="h-4 w-4 shrink-0 text-[#494963]/25 transition-colors group-hover:text-[#494963]" /></a>)}</div>}
+          {/* ResourceRow (mismo componente que Familias/Docentes/EIB), con el
+             color del Marco General — mismo tratamiento que las filas de
+             Itinerarios/repositorios de área (RepositoryMaterialRow):
+             ícono y botón de acción teñidos, no un ícono gris genérico. */}
+          <div className="mt-4 overflow-hidden rounded-2xl bg-white" role="tabpanel">
+            {resourceView === "documentos" ? (
+              <div className="divide-y divide-[#494963]/[.08]">
+                {marcoDocuments.map(([title, description, href]) => (
+                  <ResourceRow key={href} title={title} description={description} href={href} download color={MARCO_GENERAL_COLOR} />
+                ))}
+              </div>
+            ) : (
+              <div className="divide-y divide-[#494963]/[.08]">
+                {marcoTrainings.map(([title, description, href]) => (
+                  <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} icon={<BookOpen className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
-      <section id="ejes" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
-        <header className="mb-10 max-w-2xl md:mb-14">
-          <p className="text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Marco conceptual</p>
-          <h2 className="mt-2 max-w-[20ch] text-balance font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>
-          <p className="mt-3 text-sm text-[#494963]/45">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
+      <section id="ejes" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
+        <header className="mb-6 max-w-2xl md:mb-8">
+          <h2 className="max-w-[20ch] text-balance font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>
+          {/* Antes text-sm/45: menos presencia que la intro equivalente de
+             "recursos" ("Materiales institucionales..."). Mismas clases ahí y
+             acá para que las dos introducciones lean igual. */}
+          <p className="mt-2 text-sm sm:text-base lg:text-lg text-[#494963]/50">Seleccioná un eje para conocer su alcance sin perder el recorrido general.</p>
         </header>
         <div className="wheel-accordion wheel-accordion--compact" role="list" aria-label="Aspectos distintivos del Diseño Curricular">
           {centralAxes.map(([title, description], index) => {

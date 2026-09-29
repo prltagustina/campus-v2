@@ -1,14 +1,15 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Calendar, Download, ExternalLink, FileText, FolderOpen, Layers, Scale } from "lucide-react";
+import { Calendar, ExternalLink, FolderOpen, Layers, Scale } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
+import { RepositoryPanel, ResourceRow } from "@/components/v3/repository-panel";
 
 /* Legislación, normativa y documentos curriculares */
 const legislacion = {
   resolucion: {
-    titulo: "Descargar Resolución",
+    titulo: "\"Resolución 1023-26 EE\"",
     archivo: "Resolución 1023-26 EE.pdf",
     url: "/documentos/resolucion-1023-26-eib.pdf",
   },
@@ -17,11 +18,11 @@ const legislacion = {
     subtitulo: "CON LA EDUCACIÓN INTERCULTURAL BILINGÜE",
     documentos: [
       {
-        nombre: "Documento 1",
+        nombre: "\"Documento 1\"",
         url: "https://campuseducativo.santafe.edu.ar/elementos-juridicos-relacionados-con-la-educacion-intercultural-bilingue/",
       },
       {
-        nombre: "Documento 2",
+        nombre: "\"Documento 2\"",
         url: "https://www.amsafe.org.ar/normativa_2025/modalidades/modalidad_educaci%C3%B3n_intercultural_bilingue/elementos_juridicos_eI_bilingue.pdf",
       },
     ],
@@ -150,47 +151,21 @@ const celebraciones = [
 const celebracionesCalendario = celebraciones.filter((_, index) => [0, 1, 2, 3, 4, 8, 9, 10, 11, 12].includes(index));
 const celebracionesMemoria = celebraciones.filter((_, index) => [5, 6, 7, 13, 14].includes(index));
 
-const nivelesProyectos = Object.values(proyectos).filter((lista) => lista.length > 0).length;
-const totalProyectos = Object.values(proyectos).reduce((suma, lista) => suma + lista.length, 0);
-
 /** Títulos de proyectos y efemérides: van entre comillas latinas (si no las traen ya). */
 const asTitle = (nombre: string) => (nombre.trim().startsWith("«") ? nombre : `«${nombre}»`);
 
-function RepositoryPanel({ title, detail, icon, children }: { title: string; detail: string; icon: ReactNode; children: ReactNode }) {
-  return (
-    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
-      <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
-        <div className="min-w-0"><h3 className="font-display text-lg font-semibold text-[#494963]">{title}</h3><p className="text-xs text-[#494963]/40">{detail}</p></div>
-      </div>
-      <div className="divide-y divide-[#494963]/[.07]">{children}</div>
-    </div>
-  );
-}
-
-function ResourceRow({ title, description, href, download = false }: { title: string; description?: string; href: string; download?: boolean }) {
-  return (
-    <a href={href} download={download || undefined} target={download ? undefined : "_blank"} rel={download ? undefined : "noopener noreferrer"} className="group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-[#F8F8FA] sm:gap-4 sm:px-6 sm:py-5">
-      <FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" />
-      <span className="min-w-0 flex-1">
-        <b className="block text-sm font-semibold leading-snug text-[#494963]/75 sm:text-base">{title}</b>
-        {description && <small className="mt-1 block text-xs leading-relaxed text-[#494963]/42 sm:text-sm">{description}</small>}
-      </span>
-      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
-        {download ? <Download className="h-4 w-4" /> : <ExternalLink className="h-4 w-4" />}
-      </span>
-      <span className="sr-only">{download ? "Descargar" : "Abrir"} {title}</span>
-    </a>
-  );
-}
-
+/**
+ * Los niveles (Inicial/Primario/Secundario/Terciario) necesitan más presencia
+ * que un simple label: número grande y pálido (mismo criterio que los pasos
+ * de DocumentoStepper) + título más grande, con el mismo borde de acento a
+ * la izquierda que ya usan las categorías de Itinerarios Didácticos.
+ */
 function ProjectGroup({ title, index, items }: { title: string; index: string; items: { nombre: string; url: string }[] }) {
   return (
-    <section className="grid min-w-0 gap-4 px-5 py-5 sm:px-6 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-7 md:py-6">
-      <header>
-        <p className="font-display text-[11px] font-semibold tabular-nums text-[#494963]/28">{index}</p>
-        <h3 className="mt-1 font-display text-base font-semibold leading-tight text-[#494963] sm:text-lg">{title}</h3>
-        <p className="mt-1 text-xs text-[#494963]/38">{items.length} {items.length === 1 ? "experiencia" : "experiencias"}</p>
+    <section className="grid min-w-0 gap-4 border-l-4 border-[#494963]/[.12] px-5 py-6 sm:px-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-7 md:py-8">
+      <header className="flex items-start gap-3 md:block">
+        <p className="font-display text-4xl font-black leading-none tabular-nums text-[#494963]/[.14] sm:text-5xl">{index}</p>
+        <h3 className="font-display text-xl font-semibold leading-tight text-[#494963] sm:text-2xl">{title}</h3>
       </header>
 
       <div className="min-w-0 divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] md:border-t-0">
@@ -214,15 +189,12 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
   );
 }
 
-function ArchiveGroup({ title, detail, icon, items }: { title: string; detail: string; icon: ReactNode; items: { nombre: string; url: string }[] }) {
+function ArchiveGroup({ title, icon, items }: { title: string; icon: ReactNode; items: { nombre: string; url: string }[] }) {
   return (
     <section className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
       <header className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
-        <div className="min-w-0">
-          <h3 className="font-display text-lg font-semibold text-[#494963]">{title}</h3>
-          <p className="text-xs text-[#494963]/40">{detail}</p>
-        </div>
+        <h3 className="min-w-0 font-display text-xl font-semibold text-[#494963]">{title}</h3>
       </header>
 
       <div className="grid sm:grid-cols-2">
@@ -232,11 +204,14 @@ function ArchiveGroup({ title, detail, icon, items }: { title: string; detail: s
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)_1.75rem] items-start gap-2.5 border-b border-[#494963]/[.065] px-4 py-4 transition-colors last:border-b-0 hover:bg-[#F8F8FA] sm:px-5 sm:odd:border-r"
+            className="group grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)_2rem] items-center gap-2.5 border-b border-[#494963]/[.065] px-4 py-4 transition-colors last:border-b-0 hover:bg-[#F8F8FA] sm:px-5 sm:odd:border-r"
           >
             <span className="pt-0.5 font-display text-[10px] font-semibold tabular-nums text-[#494963]/25">{String(index + 1).padStart(2, "0")}</span>
             <span className="min-w-0 text-[13px] font-medium leading-[1.4] text-[#494963] sm:text-sm">{asTitle(item.nombre)}</span>
-            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[#494963]/30 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
+            {/* Mismo tamaño y fondo de reposo que el ícono equivalente de
+               ProjectGroup (h-8 w-8, bg-[#494963]/[.045]) — antes era h-7 sin
+               fondo, se veía más chico y "apagado" que el resto. */}
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#494963]/[.045] text-[#494963]/35 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
               <ExternalLink className="h-3.5 w-3.5" />
             </span>
             <span className="sr-only">Abrir {item.nombre}</span>
@@ -252,47 +227,36 @@ export default function EIBPage() {
     <main className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:shadow-[0_0_0_1px_rgba(73,73,99,.06)]">
       <EditorialPageHeading
         title="Educación Intercultural Bilingüe"
+        imageSrc="/images/cabecera-eib.jpg"
       />
 
       <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
         <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Marco normativo" detail="Resoluciones y documentos de referencia" icon={<Scale className="h-4 w-4" />}>
+            <RepositoryPanel title="Marco normativo" icon={<Scale className="h-4 w-4" />}>
               <ResourceRow title={legislacion.resolucion.titulo} description={`${legislacion.resolucion.archivo} · PDF`} href={legislacion.resolucion.url} download />
               {legislacion.elementosJuridicos.documentos.map((documento) => <ResourceRow key={documento.url} title={documento.nombre} description="Elementos jurídicos relacionados con la Educación Intercultural Bilingüe" href={documento.url} />)}
-              <ResourceRow title="Marco legal de la Modalidad de Educación Intercultural Bilingüe" description={`${legislacion.marcoLegal.descripcion} ${legislacion.marcoLegal.descripcion2}`} href={legislacion.marcoLegal.url} />
+              <ResourceRow title={'"Marco legal de la Modalidad de Educación Intercultural Bilingüe"'} description={`${legislacion.marcoLegal.descripcion} ${legislacion.marcoLegal.descripcion2}`} href={legislacion.marcoLegal.url} />
             </RepositoryPanel>
           </div>
         </section>
 
         <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
-            <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
-              <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
-                <div className="flex min-w-0 items-center gap-3">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Layers className="h-4 w-4" /></span>
-                  <div>
-                    <h3 className="font-display text-lg font-semibold text-[#494963]">Proyectos por nivel</h3>
-                    <p className="text-xs text-[#494963]/40">{totalProyectos} experiencias en {nivelesProyectos} niveles</p>
-                  </div>
-                </div>
-                <span className="rounded-full bg-[#494963]/[.06] px-3 py-1 text-xs font-bold text-[#494963]/55">{totalProyectos}</span>
-              </div>
-              <div className="divide-y divide-[#494963]/[.07]">
-                <ProjectGroup index="01" title="Nivel Inicial" items={proyectos.inicial} />
-                <ProjectGroup index="02" title="Nivel Primario" items={proyectos.primario} />
-                <ProjectGroup index="03" title="Nivel Secundario" items={proyectos.secundario} />
-                <ProjectGroup index="04" title="Nivel Terciario" items={proyectos.terciario} />
-              </div>
-            </div>
+            <RepositoryPanel title="Proyectos por nivel" icon={<Layers className="h-4 w-4" />}>
+              <ProjectGroup index="01" title="Inicial" items={proyectos.inicial} />
+              <ProjectGroup index="02" title="Primario" items={proyectos.primario} />
+              <ProjectGroup index="03" title="Secundario" items={proyectos.secundario} />
+              <ProjectGroup index="04" title="Terciario" items={proyectos.terciario} />
+            </RepositoryPanel>
           </div>
         </section>
 
         <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
             <div className="space-y-4">
-              <ArchiveGroup title="Calendario intercultural" detail={`${celebracionesCalendario.length} fechas y conmemoraciones`} icon={<Calendar className="h-4 w-4" />} items={celebracionesCalendario} />
-              <ArchiveGroup title="Memorias y recursos" detail={`${celebracionesMemoria.length} historias y materiales`} icon={<FolderOpen className="h-4 w-4" />} items={celebracionesMemoria} />
+              <ArchiveGroup title="Calendario intercultural" icon={<Calendar className="h-4 w-4" />} items={celebracionesCalendario} />
+              <ArchiveGroup title="Memorias y recursos" icon={<FolderOpen className="h-4 w-4" />} items={celebracionesMemoria} />
             </div>
           </div>
         </section>

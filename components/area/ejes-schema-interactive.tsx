@@ -231,7 +231,7 @@ function SvgConfigRenderer({
             transform={`translate(${label.x} ${label.y})`}
             fill={isDimmed ? "#aaaaaa" : cfg.labelColor}
             fontSize={labelFontSize}
-            fontFamily="'Inter Tight', Inter, sans-serif"
+            fontFamily="Inter, sans-serif"
             fontWeight="400"
             className="pointer-events-none select-none"
             style={{ transition: "fill 0.4s, opacity 0.4s", opacity: isDimmed ? 0.4 : 1 }}
@@ -476,7 +476,7 @@ export function EjesSchemaInteractive({
             >
               {ejesInfo[activeAxis].titulo}
             </h2>
-            <p className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold" style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}>
+            <p className="text-sm md:text-base text-gray-700 leading-relaxed font-semibold" style={{ fontFamily: "Inter, sans-serif" }}>
               {ejesInfo[activeAxis].descripcion}
             </p>
             <p className="mt-4 text-sm text-gray-500">

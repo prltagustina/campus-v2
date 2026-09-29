@@ -2,17 +2,16 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
-  ArrowLeft,
   ChevronRight,
   ChevronDown,
   Play,
   Pause,
   Download,
   FileText,
-  Share2,
 } from "lucide-react";
+import { BackLink } from "@/components/v3/back-link";
+import { ShareResourceButton } from "@/components/v3/share-resource-button";
 
 const AREA_COLOR = "#FFCB02";
 const TEXT_ON_COLOR = "#5c4a00";
@@ -42,9 +41,31 @@ const funzineIssues = [
 
 /* PDF URLs */
 const pdfUrls = {
-  magazine: "https://blobs.vusercontent.net/blob/Funzine_Revista_10.04%20%28Con%20correcciones%29_compressed-p1OLrmR5WiVqkGLnCsSwdfWGcr146s.pdf",
-  activityBook: "https://blobs.vusercontent.net/blob/Funzine_ActivityBook%2008.04.2026%20%28Con%20correcciones%29_compressed-uzr1tIOQJRw8M8kvs1yL61iq4X2tt6.pdf",
-  teachersGuide: "https://blobs.vusercontent.net/blob/Teacher%27s%20Guide%2010.04-%20U%CC%81ltima%20versio%CC%81n%20%28con%20correcciones%29_compressed-uoUpZxcEDQ5wMwaWnaUIUy6A2hXmr9.pdf",
+  magazine: "https://drive.google.com/uc?export=download&id=10Lx9KCy2fJvlwSQNTLgqauG9DuPimu6H",
+  activityBook: "https://drive.google.com/uc?export=download&id=1iyZujvPywO3zIBTe6jAnZWDBpm0QmJ6y",
+  teachersGuide: "https://drive.google.com/uc?export=download&id=10iFhPHeI6d1mZGOTvYM0NoxCx0UwLxTl",
+};
+
+/* Portadas publicadas en la página oficial de English Funzine. */
+const coverImages = {
+  magazine: {
+    src: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/05/fun-zine-1.jpg",
+    width: 528,
+    height: 749,
+    alt: "Portada de English Funzine Magazine 1",
+  },
+  activityBook: {
+    src: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/05/02-activity.jpg",
+    width: 506,
+    height: 713,
+    alt: "Portada de English Funzine Activity Book 1",
+  },
+  teachersGuide: {
+    src: "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/05/03-guide.jpg",
+    width: 506,
+    height: 713,
+    alt: "Portada de English Funzine Teacher's Guide 1",
+  },
 };
 
 /* Helpers para construir URLs reales (Google Drive / YouTube) */
@@ -189,63 +210,75 @@ export default function InglesMaterilesPage() {
   };
 
   return (
-    <div className="flex min-h-full min-w-0 flex-col bg-[#FDFBF7]">
+    <div className="flex min-h-full min-w-0 flex-col bg-white">
       {/* MAIN LAYOUT */}
       <main className="relative flex-1 overflow-x-hidden">
-        {/* HERO SECTION con Background amarillo con alto contraste */}
-        <section className="relative">
+        {/* HERO como tarjeta, mismo patrón EXACTO que DocumentoExplainer en
+           cualquier área: v3-section con !pt-0 (sin padding arriba — la
+           tarjeta arranca pegada al margen superior del panel, como la
+           portada de cualquier área) y 14px a los costados/abajo. */}
+        <section className="v3-section !p-0 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0">
+          <div className="relative overflow-hidden rounded-none md:rounded-t-2xl">
           {/* Background amarillo saturado */}
-          <div 
-            className="absolute inset-x-0 top-0 w-full h-full pointer-events-none" 
-            style={{ 
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
               zIndex: 1,
               background: "linear-gradient(180deg, #FFCA28 0%, #FFD54F 30%, #FFE082 55%, #FFF8E1 75%, #F5F3EE 100%)",
             }}
           />
 
-          {/* Contenido del Hero */}
-          <div className="relative flex justify-center" style={{ zIndex: 2 }}>
-            <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-0">
+          {/* Contenido del Hero: alineado a la izquierda, sin centrar ni topar
+             el ancho del contenedor — igual que el texto de DocumentoExplainer
+             en cualquier área (que tampoco centra ni topa su columna; el
+             párrafo de bienvenida, más abajo, tiene su propio max-w para
+             no leerse ancho, como allá). Antes quedaba centrado con un
+             hueco vacío a la derecha, desconectado del resto del sitio. */}
+          <div className="relative" style={{ zIndex: 2 }}>
+            <div className="w-full px-4 sm:px-7">
                   <h1 className="sr-only">English Funzine</h1>
 
-                  <Link
-                    href="/area/lenguas-extranjeras"
-                    className="inline-flex items-center gap-2 pt-6 text-xs text-[#494963]/75 transition-colors hover:text-[#494963] sm:pt-8 sm:text-sm"
-                  >
-                    <ArrowLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    Volver a Lenguas Extranjeras
-                  </Link>
+                  {/* Todo lo que es texto/logo/botones va centrado con un
+                     máximo de ancho — a todo el ancho de la columna se veía
+                     desproporcionado en desktop. El video y la ilustración
+                     de personajes sí ocupan todo el ancho (son piezas
+                     visuales, no texto). */}
+                  <div className="mx-auto max-w-2xl">
+                    <BackLink href="/area/lenguas-extranjeras" label="Volver a Lenguas Extranjeras" className="mt-6 sm:mt-8" />
 
-                  {/* Logo - más grande en mobile */}
-                  <div className="mt-5 mb-5 sm:mt-6 sm:mb-6">
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-funzine-LQEjEmOFKR3zDMZCkWPx4Q1ircXGEX.svg"
-                      alt="English Funzine"
-                      width={550}
-                      height={150}
-                      unoptimized
-                      className="w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px] h-auto"
-                      priority
-                    />
-                  </div>
-                  
-                  {/* Tagline - más grande en mobile */}
-                  <div className="mb-10 sm:mb-12 lg:mb-14">
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
-                      alt="The magazine that makes English fun!"
-                      width={500}
-                      height={60}
-                      className="h-12 sm:h-12 lg:h-14 xl:h-16 w-auto"
-                    />
+                    {/* Logo - más grande en mobile */}
+                    <div className="mt-5 mb-5 sm:mt-6 sm:mb-6">
+                      <Image
+                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-funzine-LQEjEmOFKR3zDMZCkWPx4Q1ircXGEX.svg"
+                        alt="English Funzine"
+                        width={550}
+                        height={150}
+                        unoptimized
+                        className="w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px] h-auto"
+                        priority
+                      />
+                    </div>
+
+                    {/* Tagline - más grande en mobile */}
+                    <div className="mb-10 sm:mb-12 lg:mb-14">
+                      <Image
+                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/the-magazine-f811IynMCsQ7XvD0Q8zJl9pEbfUSCx.png"
+                        alt="The magazine that makes English fun!"
+                        width={500}
+                        height={60}
+                        className="h-12 sm:h-12 lg:h-14 xl:h-16 w-auto"
+                      />
+                    </div>
                   </div>
 
-                  {/* Video oficial de presentación */}
+                  {/* Video oficial de presentación: a todo el ancho de la
+                     columna (igual que VideoEmbed en "Presentación
+                     audiovisual" de cada área), no topado como el resto. */}
                   <div ref={presentacionRef} id="presentacion" className="mb-10 sm:mb-12">
-                    <p className="text-xs sm:text-sm font-medium text-[#494963]/50 uppercase tracking-wider mb-3">
+                    <p className="mb-3 text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">
                       Video de presentación
                     </p>
-                    <div className="relative aspect-video max-w-md overflow-hidden rounded-xl bg-[#494963]/5">
+                    <div className="relative aspect-video overflow-hidden rounded-xl bg-[#494963]/5">
                       <iframe
                         src={`https://www.youtube-nocookie.com/embed/${PRESENTATION_VIDEO_ID}?rel=0`}
                         title="Presentación de English Funzine 1"
@@ -258,50 +291,53 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
 
-                  {/* Intro text - más grande en mobile */}
-                  <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-[#494963]/80 leading-relaxed max-w-xl mb-8 sm:mb-10">
-                    Les damos la bienvenida a <strong className="text-[#494963]">English Funzine</strong>. 
-                    Esta serie de materiales está pensada para acompañar la implementación de Lenguas Extranjeras 
-                    en aquellas escuelas primarias de Santa Fe que elijan enseñar inglés.
-                  </p>
-
-                  {/* Issues section - integrado con el diseño */}
-                  <div className="mb-8 sm:mb-10 lg:mb-12">
-                    <p className="text-xs sm:text-sm lg:text-base font-medium text-[#494963]/50 uppercase tracking-wider mb-3 sm:mb-4">
-                      Ediciones disponibles
+                  <div className="mx-auto max-w-2xl">
+                    {/* Intro text - más grande en mobile */}
+                    <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-[#494963]/80 leading-relaxed mb-8 sm:mb-10">
+                      Les damos la bienvenida a <strong className="text-[#494963]">English Funzine</strong>.
+                      Esta serie de materiales está pensada para acompañar la implementación de Lenguas Extranjeras
+                      en aquellas escuelas primarias de Santa Fe que elijan enseñar inglés.
                     </p>
-                    
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      {funzineIssues.map((issue) => (
-                        issue.available ? (
-                          <button
-                            key={issue.slug}
-                            type="button"
-                            onClick={() => scrollToSection("magazine")}
-                            className="px-5 sm:px-5 lg:px-6 py-3 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-bold transition-all hover:scale-105 bg-[#494963] text-white shadow-lg"
-                          >
-                            Issue {issue.number}
-                          </button>
-                        ) : (
-                          <span
-                            key={issue.slug}
-                            className="px-5 sm:px-5 lg:px-6 py-3 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-normal bg-white/30 text-[#494963]/20"
-                          >
-                            Issue {issue.number}
-                          </span>
-                        )
-                      ))}
+
+                    {/* Issues section - integrado con el diseño */}
+                    <div className="mb-8 sm:mb-10 lg:mb-12">
+                      <p className="mb-3 text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40 sm:mb-4">
+                        Ediciones disponibles
+                      </p>
+
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        {funzineIssues.map((issue) => (
+                          issue.available ? (
+                            <button
+                              key={issue.slug}
+                              type="button"
+                              onClick={() => scrollToSection("magazine")}
+                              className="px-5 sm:px-5 lg:px-6 py-3 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-bold transition-all hover:scale-105 bg-[#494963] text-white shadow-lg"
+                            >
+                              Issue {issue.number}
+                            </button>
+                          ) : (
+                            <span
+                              key={issue.slug}
+                              className="px-5 sm:px-5 lg:px-6 py-3 sm:py-2.5 lg:py-3 rounded-full text-sm sm:text-base font-normal bg-white/30 text-[#494963]/20"
+                            >
+                              Issue {issue.number}
+                            </span>
+                          )
+                        ))}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Magazine covers - Banner con personajes - MÁS GRANDE */}
-                  <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-10 sm:pb-14 lg:pb-20 -mx-6 sm:-mx-10 lg:-mx-28 xl:-mx-40">
+                  {/* Magazine covers - Banner con personajes: a todo el
+                     ancho de la columna, como el video de arriba. */}
+                  <div className="relative mt-8 sm:mt-12 lg:mt-16 pb-10 sm:pb-14 lg:pb-20">
                     <Image
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/imagen_web_ingles_mockupypersonajes-HLAuGaOy5Pa7aaMDJAJLLqqWWi8L0g.png"
                       alt="English Funzine - Magazine, Activity Book y Teacher's Guide con personajes"
                       width={3752}
                       height={2212}
-                      sizes="(max-width: 639px) calc(100vw + 3rem), (max-width: 1023px) calc(100vw + 5rem), (max-width: 1279px) 56rem, 62rem"
+                      sizes="(max-width: 639px) 90vw, (max-width: 1023px) 40rem, 42rem"
                       className="w-full h-auto"
                     />
                     {/* Learn English banner overlay */}
@@ -317,15 +353,21 @@ export default function InglesMaterilesPage() {
                   </div>
                 </div>
             </div>
+          </div>
         </section>
 
-        {/* MATERIALS SECTION - fondo con contraste */}
-        <section className="relative bg-[#F5F3EE]" style={{ zIndex: 0, marginTop: "-40px", paddingTop: "60px" }}>
-          <div className="flex justify-center">
-            <div className="w-full max-w-3xl px-3 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+        {/* MATERIALS SECTION - mismo patrón EXACTO que el hero de arriba: el
+           v3-section externo solo da el inset de 14px (sin pintar nada), y
+           el color de fondo va en una tarjeta interior (rounded-b-2xl, ya
+           que arriba cierra con el hero en rounded-t-2xl). Antes el color
+           estaba pintado directo en el v3-section externo, que no tiene ese
+           inset — por eso el fondo se veía más ancho que el del hero. */}
+        <section className="v3-section !p-0 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0" style={{ marginTop: "-40px" }}>
+          <div className="relative overflow-hidden rounded-none bg-[#F5F3EE] md:rounded-b-2xl" style={{ zIndex: 0, paddingTop: "60px" }}>
+          <div className="mx-auto w-full max-w-2xl px-4 sm:px-7 py-8 sm:py-12 lg:py-16">
               {/* Issue 1 Title */}
               <div className="mb-8 sm:mb-10 lg:mb-12">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#494963] flex items-center gap-2 sm:gap-3">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold text-[#494963] flex items-center gap-2 sm:gap-3">
                   <span>It&apos;s great to be me!</span>
                   <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-[#494963]/30 flex-shrink-0" />
                 </h2>
@@ -338,6 +380,7 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     title="Magazine"
                     pdfUrl={pdfUrls.magazine}
+                    cover={coverImages.magazine}
                     media={funzineMedia.magazine}
                   />
                 </div>
@@ -347,6 +390,7 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     title="Activity Book"
                     pdfUrl={pdfUrls.activityBook}
+                    cover={coverImages.activityBook}
                     media={funzineMedia.activityBook}
                   />
                 </div>
@@ -356,6 +400,7 @@ export default function InglesMaterilesPage() {
                   <MaterialCard
                     title="Teacher's Guide"
                     pdfUrl={pdfUrls.teachersGuide}
+                    cover={coverImages.teachersGuide}
                     media={funzineMedia.teachersGuide}
                   />
                 </div>
@@ -369,14 +414,16 @@ export default function InglesMaterilesPage() {
   );
 }
 
-/* Material Card Component con visor tipo flipbook */
+/* Tarjeta de cada publicación de English Funzine. */
 function MaterialCard({ 
   title, 
   pdfUrl,
+  cover,
   media,
 }: { 
   title: string; 
   pdfUrl: string;
+  cover: { src: string; width: number; height: number; alt: string };
   media: MaterialMedia;
 }) {
   const [activeTab, setActiveTab] = useState<"audios" | "videos">("audios");
@@ -433,109 +480,43 @@ function MaterialCard({
   };
 
   return (
-    <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8">
+    <div className="rounded-[18px] border border-[#EBEDEC] bg-white p-4 sm:p-6 lg:p-8">
       {/* Título */}
-      <p className="text-lg sm:text-xl lg:text-2xl font-bold text-[#494963] mb-4 sm:mb-5">
+      <p className="mb-4 text-lg font-bold text-[#494963] sm:mb-5 sm:text-xl lg:text-2xl">
         {title}
       </p>
 
-      {/* PDF viewer - centrado y responsive */}
-      <div className="relative w-full mb-4 sm:mb-5 flex justify-center">
-        <div 
-          className="relative mx-auto w-full max-w-md overflow-hidden rounded-lg bg-gray-50"
-          style={{ aspectRatio: "3/4", minHeight: "400px" }}
-        >
-          <iframe
-            src={`https://docs.google.com/gview?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
-            className="absolute inset-0 h-full w-full"
-            title={`${title} Preview`}
-            style={{ border: "none" }}
-            allowFullScreen
-          />
-        </div>
+      {/* La página oficial presenta cada publicación mediante su portada y
+         deja la descarga como una acción explícita. Además de mantener el
+         mismo tratamiento visual, esto evita que el navegador cargue o
+         descargue tres PDFs completos apenas se visita FUNZINE. */}
+      <div className="mb-4 flex w-full justify-center sm:mb-5">
+        <Image
+          src={cover.src}
+          alt={cover.alt}
+          width={cover.width}
+          height={cover.height}
+          sizes="(max-width: 639px) calc(100vw - 4rem), 506px"
+          className="h-[436px] w-auto max-w-full border-[10px] border-[#EBEDEC] object-contain sm:h-[640px] lg:h-[800px]"
+        />
       </div>
 
-      {/* Download + Share buttons */}
-      <div className="flex items-center gap-3">
+      {/* Download: fondo amarillo (color del área) sólido — es la acción
+         principal. Compartir: gris neutro (ShareResourceButton, compartido
+         con el resto del sitio). */}
+      <div className="flex items-center gap-2">
         <a
           href={pdfUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 flex-1 sm:flex-initial px-5 py-3 text-sm sm:text-base font-semibold transition-all hover:opacity-90 rounded-lg sm:rounded-full"
+          aria-label={`Descargar ${title}`}
+          className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-[9px] px-4 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963]"
           style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
         >
-          <Download className="w-4 h-4" />
-          Descargar PDF
+          <Download className="h-4 w-4 shrink-0" />
+          <span className="text-sm font-semibold">Descargar PDF</span>
         </a>
-        <button
-          type="button"
-          onClick={async (e) => {
-            const btn = e.currentTarget;
-            const shareData = {
-              title: `English Funzine - ${title}`,
-              text: `English Funzine - ${title} - Campus Educativo Santa Fe`,
-              url: window.location.href,
-            };
-            
-            const showFeedback = () => {
-              btn.classList.add("scale-95");
-              setTimeout(() => btn.classList.remove("scale-95"), 150);
-              const originalHTML = btn.innerHTML;
-              btn.innerHTML = '<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-              setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
-            };
-            
-            try {
-              if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-                await navigator.share(shareData);
-              } else if (navigator.clipboard && navigator.clipboard.writeText) {
-                await navigator.clipboard.writeText(window.location.href);
-                showFeedback();
-              } else {
-                // Fallback: crear input temporal para copiar
-                const input = document.createElement('input');
-                input.value = window.location.href;
-                document.body.appendChild(input);
-                input.select();
-                document.execCommand('copy');
-                document.body.removeChild(input);
-                showFeedback();
-              }
-            } catch (err) {
-              // Si hay error, intentar fallback
-              if ((err as Error).name !== 'AbortError') {
-                try {
-                  const input = document.createElement('input');
-                  input.value = window.location.href;
-                  document.body.appendChild(input);
-                  input.select();
-                  document.execCommand('copy');
-                  document.body.removeChild(input);
-                  showFeedback();
-                } catch {
-                  // Silenciar error si todo falla
-                }
-              }
-            }
-          }}
-          className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all border-2 hover:scale-105"
-          style={{ 
-            backgroundColor: "transparent", 
-            borderColor: AREA_COLOR, 
-            color: AREA_COLOR,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = AREA_COLOR;
-            e.currentTarget.style.color = TEXT_ON_COLOR;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "transparent";
-            e.currentTarget.style.color = AREA_COLOR;
-          }}
-          aria-label="Compartir"
-        >
-          <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
-        </button>
+        <ShareResourceButton title={`English Funzine - ${title}`} url={pdfUrl} />
       </div>
 
         {/* Tabs */}
@@ -611,10 +592,13 @@ function MaterialCard({
                             key={audio.id}
                             className="flex items-center gap-3 py-3 border-b border-[#494963]/5 last:border-b-0"
                           >
+                            {/* Mismo criterio que el botón de Descargar al
+                               lado: superficie/fondo en reposo, no solo en
+                               hover. */}
                             <button
                               type="button"
                               onClick={() => handleTogglePlay(audio.id, audio.url)}
-                              className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                              className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-[#494963]/[.06] transition-colors hover:bg-[#494963]/[.12]"
                               style={{ color: isPlaying ? AREA_COLOR : "rgba(73,73,99,0.4)" }}
                               aria-label={isPlaying ? "Pausar" : "Reproducir"}
                             >
@@ -631,7 +615,7 @@ function MaterialCard({
                             <a
                               href={audio.url}
                               download
-                              className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full hover:bg-[#494963]/5 transition-colors"
+                              className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-[#494963]/[.06] transition-colors hover:bg-[#494963]/[.12]"
                               aria-label={`Descargar ${audio.name}`}
                             >
                               <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#494963]/40" />
@@ -702,11 +686,6 @@ function MaterialCard({
             <Download className="w-4 h-4 sm:w-5 sm:h-5" />
             {activeTab === "audios" ? "Descargar todos los audios" : "Descargar todos los videos"}
           </button>
-          <p className="text-xs sm:text-sm text-[#494963]/40 text-center mt-2">
-            {activeTab === "audios"
-              ? `Paquete con ${allAudios.length} audios`
-              : `Paquete con ${allVideos.length} videos`}
-          </p>
         </div>
     </div>
   );
