@@ -135,17 +135,23 @@ function ciclosDeCategoria(categoria: ItinerarioCategoria): ItinerarioCicloEntry
 
 /* Ciclo desplegable (Primer ciclo, Segundo ciclo, Séptimo grado) dentro de una
    categoría de Docencia/Estudiantes. Reutiliza el mismo acordeón de color por
-   grupo que ya resolvía Materiales por ciclo, en un tamaño anidado. */
+   grupo que ya resolvía Materiales por ciclo, en un tamaño anidado — ahora
+   colapsable también, igual que la categoría que lo contiene (antes siempre
+   quedaba abierto en cuanto se abría Docencia/Estudiantes). */
 function CicloAccordion({
   groupId,
   ciclo,
   color,
   activeForeground,
+  open,
+  onToggle,
 }: {
   groupId: string;
   ciclo: ItinerarioCicloEntry;
   color: string;
   activeForeground: string;
+  open: boolean;
+  onToggle: () => void;
 }) {
   const total = totalFilesInGrados(ciclo.grados);
   const publishedGrados = ciclo.grados.filter((grado) => grado.files.length > 0);
@@ -159,7 +165,8 @@ function CicloAccordion({
       color={color}
       activeForeground={activeForeground}
       size="sm"
-      collapsible={false}
+      open={open}
+      onToggle={onToggle}
     >
       {singleGrado ? (
         <RepositoryFileGroup
@@ -177,17 +184,22 @@ function CicloAccordion({
 
 /* Subgrupo desplegable (Docencia / Estudiantes) dentro de la categoría
    Articulación Primaria-Secundaria. Mismo patrón que CicloAccordion, sin
-   subdivisión por grado porque los archivos de articulación son una lista plana. */
+   subdivisión por grado porque los archivos de articulación son una lista
+   plana — también colapsable. */
 function SubgrupoAccordion({
   groupId,
   subgrupo,
   color,
   activeForeground,
+  open,
+  onToggle,
 }: {
   groupId: string;
   subgrupo: ItinerarioSubgrupo;
   color: string;
   activeForeground: string;
+  open: boolean;
+  onToggle: () => void;
 }) {
   return (
     <RepositoryAccordionGroup
@@ -197,7 +209,8 @@ function SubgrupoAccordion({
       color={color}
       activeForeground={activeForeground}
       size="sm"
-      collapsible={false}
+      open={open}
+      onToggle={onToggle}
     >
       <RepositoryFileGroup files={subgrupo.files.map((file) => ({ file }))} color={color} />
     </RepositoryAccordionGroup>
@@ -239,6 +252,19 @@ function CategoriaAccordion({
       ? categoria.subgrupos.reduce((sum, subgrupo) => sum + subgrupo.files.length, 0)
       : categoria.files?.length ?? 0;
 
+  // Ciclos/subgrupos anidados (Primer ciclo, Segundo ciclo, Séptimo grado,
+  // Docencia/Estudiantes de Articulación): colapsables por su cuenta, no
+  // todos abiertos apenas se abre la categoría.
+  const [openNested, setOpenNested] = useState<Set<string>>(() => new Set());
+  const toggleNested = (id: string) => {
+    setOpenNested((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
   return (
     <RepositoryAccordionGroup
       id={`categoria-${categoria.id}`}
@@ -276,6 +302,8 @@ function CategoriaAccordion({
               ciclo={ciclo}
               color={color}
               activeForeground={activeForeground}
+              open={openNested.has(ciclo.id)}
+              onToggle={() => toggleNested(ciclo.id)}
             />
           ))
       ) : categoria.subgrupos ? (
@@ -288,6 +316,8 @@ function CategoriaAccordion({
               subgrupo={subgrupo}
               color={color}
               activeForeground={activeForeground}
+              open={openNested.has(subgrupo.id)}
+              onToggle={() => toggleNested(subgrupo.id)}
             />
           ))
       ) : categoria.files && categoria.files.length > 0 ? (
