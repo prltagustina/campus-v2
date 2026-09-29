@@ -89,7 +89,7 @@ function MarcoGeneralContent() {
                   role="tab"
                   aria-selected={active}
                   onClick={() => setResourceView(id)}
-                  className={`relative min-h-10 min-w-0 flex-1 whitespace-nowrap rounded-[9px] px-3 py-1.5 text-center text-[11px] font-semibold leading-tight transition-[background-color,color,box-shadow] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] sm:px-5 sm:text-xs md:min-h-11 md:flex-none md:px-6 md:text-[13px] ${active ? "bg-[#494963] text-white shadow-[0_4px_14px_rgba(73,73,99,.16)]" : "text-[#494963]/65 hover:bg-white/70 hover:text-[#494963]"}`}
+                  className={`relative min-h-10 min-w-0 flex-1 whitespace-nowrap rounded-[9px] px-3 py-1.5 text-center text-sm font-semibold leading-tight transition-[background-color,color,box-shadow] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] sm:px-5 sm:text-base md:min-h-11 md:flex-none md:px-6 ${active ? "bg-[#494963] text-white shadow-[0_4px_14px_rgba(73,73,99,.16)]" : "text-[#494963]/65 hover:bg-white/70 hover:text-[#494963]"}`}
                 >
                   {label}
                 </button>
