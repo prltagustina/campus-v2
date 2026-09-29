@@ -11,7 +11,10 @@ export function AreasQuickPicker({ hideMarcoGeneral = false, hideLabel = false }
   return (
     <nav aria-label="Áreas curriculares" className="px-4 pb-10 pt-6 md:hidden">
       {!hideLabel && <p className="mb-3 text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">Elegí un área</p>}
-      <div className="grid grid-cols-1 gap-3">
+      {/* gap-2.5: misma separación que AreaSubnav (desktop/tablet) y que la
+         nav principal (Inicio/Áreas/Equipos/Familias/EIB), para que sea
+         consistente en todos los dispositivos. */}
+      <div className="grid grid-cols-1 gap-2.5">
         {!hideMarcoGeneral && (
           <Link
             href="/area/marco-general"

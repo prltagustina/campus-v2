@@ -295,6 +295,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const territoryProximas = pathname.startsWith("/territorio/proximas");
   const hasSecondary = areasOpen || cyclesOpen || territoryOpen;
   const graySectionOpen = pathname.startsWith("/familias") || pathname.startsWith("/docentes") || pathname.startsWith("/directivos") || pathname.startsWith("/eib");
+  // Inicio: su primer bloque (VideoEmbed) es un v3-section con 14px de
+  // padding propio a la izquierda — sin compensar, el video quedaba 14px
+  // más adentro que la botonera de Áreas (que no tiene ese padding extra).
+  // Familias/Docentes/EIB no la necesitan: su contenido no trae ese padding
+  // propio, ya arrancan al ras de la botonera tal cual.
+  const isHome = pathname === "/";
   const currentArea = orderedAreas.find((area) => pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`));
   const currentCycle = cycles.find((cycle) => pathname === `/ciclo/${cycle.slug}`);
   const activePrimary = primaryItems.find((item) => item.match(pathname));
@@ -387,10 +393,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             bajada de Áreas. Ancho fluido (clamp) en vez de saltos por
             breakpoint: escala parejo entre 168px (md, 768px) y 230px (1280px,
             donde vuelve al ancho de siempre) — así el mínimo de desktop se ve
-            igual que el máximo de tablet, sin un salto brusco justo ahí. */}
+            igual que el máximo de tablet, sin un salto brusco justo ahí.
+            gap-2.5: mismo separación que AreaSubnav de al lado (antes
+            gap-1.5, quedaban más juntos que los botones de área). */}
         <nav
           aria-label="Navegación principal"
-          className="hidden w-[168px] shrink-0 gap-1.5 md:grid md:w-[clamp(168px,12.1vw_+_75px,230px)]"
+          className="hidden w-[168px] shrink-0 gap-2.5 md:grid md:w-[clamp(168px,12.1vw_+_75px,230px)]"
           style={{ gridTemplateRows: primaryItems.map((item) => item.gridRow).join(" ") }}
         >
           {primaryItems.map((item) => {
@@ -441,7 +449,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
            izquierdo. Sumado al gap del flex de acá arriba, el espacio aside→
            contenido quedaba más grande que el de rail→aside. -ml-[14px]
            cancela ese marco solo acá, para que los dos gaps midan lo mismo. */}
-        <div className={`flex min-h-0 min-w-0 flex-col rounded-none ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen ? "md:-ml-[14px]" : ""}`}>
+        <div className={`flex min-h-0 min-w-0 flex-col rounded-none ${graySectionOpen ? "bg-[#F7F7F9]" : "bg-white"} max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen || isHome ? "md:-ml-[14px]" : ""}`}>
         <main
           id="contenido"
           className="min-h-0 max-md:overflow-visible md:flex-1 md:overflow-y-auto md:[scrollbar-gutter:stable]"

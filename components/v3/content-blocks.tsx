@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, Download, ExternalLink, Presentation, Share2 } from "lucide-react";
-import { Carousel, CarouselContent, CarouselItem, useCarousel } from "@/components/ui/carousel";
+import { useState } from "react";
+import { Download, ExternalLink, Presentation, Share2 } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { CarouselArrows } from "@/components/v3/carousel-arrows";
+import { CarouselDots } from "@/components/v3/carousel-dots";
 
 export function VideoEmbed({
   videoId,
@@ -45,8 +47,10 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
   return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
     <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Presentation className="h-4 w-4" /></span>
-      <div className="min-w-0 flex-1"><p className="truncate font-display text-lg font-semibold text-[#494963]">{label}</p><p className="text-xs text-[#494963]/40">Diapositivas</p></div>
-      <a href={src} target="_blank" rel="noreferrer" className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-[#F1F1F4] px-2.5 text-xs font-semibold text-[#494963] sm:px-3" aria-label={`Abrir ${title} en una nueva pestaña`}><span className="hidden sm:inline">Abrir</span><ExternalLink className="h-3 w-3" /></a>
+      <div className="min-w-0 flex-1"><p className="truncate font-display text-xl font-semibold text-[#494963]">{label}</p></div>
+      {/* Mismo criterio que el ícono de "Abrir" de ResourceRow: solo ícono,
+         círculo h-9 w-9 con fondo, sin texto (antes decía "Abrir" desde sm). */}
+      <a href={src} target="_blank" rel="noreferrer" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors hover:bg-[#494963] hover:text-white" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
     </div>
     <div className="bg-[#E9E9EE] p-1.5 md:p-2">
       <div className="relative aspect-video overflow-hidden rounded-xl bg-[#DDDDE4]">
@@ -162,79 +166,39 @@ export interface StepItem {
   content?: React.ReactNode;
 }
 
-function StepperArrows() {
-  const { scrollPrev, scrollNext } = useCarousel();
-  return (
-    <div className="flex shrink-0 items-center gap-3">
-      <button type="button" onClick={scrollPrev} aria-label="Paso anterior" className="text-[#494963]/35 transition-opacity hover:opacity-70">
-        <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
-      </button>
-      <button type="button" onClick={scrollNext} aria-label="Paso siguiente" className="text-[#494963]/35 transition-opacity hover:opacity-70">
-        <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
-      </button>
-    </div>
-  );
-}
-
-function StepperDots({ count }: { count: number }) {
-  const { api } = useCarousel();
-  const [selected, setSelected] = useState(0);
-
-  useEffect(() => {
-    if (!api) return;
-    const onSelect = () => setSelected(api.selectedScrollSnap());
-    onSelect();
-    api.on("select", onSelect);
-    api.on("reInit", onSelect);
-    return () => {
-      api.off("select", onSelect);
-      api.off("reInit", onSelect);
-    };
-  }, [api]);
-
-  return (
-    <div className="mt-6 flex gap-[6px]" aria-label={`Paso ${selected + 1} de ${count}`}>
-      {Array.from({ length: count }).map((_, index) => (
-        <button
-          key={index}
-          type="button"
-          onClick={() => api?.scrollTo(index)}
-          aria-label={`Ir al paso ${index + 1}`}
-          aria-current={index === selected ? "step" : undefined}
-          className={`h-[6px] w-[6px] rounded-full bg-[#494963] transition-opacity ${index === selected ? "opacity-100" : "opacity-20"}`}
-        />
-      ))}
-    </div>
-  );
-}
-
 export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
     <section className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
       <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
       <Carousel opts={{ loop: true }}>
-        <div className="flex items-end justify-between gap-4">
-          <h2 className="max-w-sm font-sans text-2xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>
-          <StepperArrows />
-        </div>
-        <CarouselContent className="mt-5 sm:mt-7">
-          {steps.map((step, index) => (
-            <CarouselItem key={index} className="basis-full">
-              <div className="grid gap-4 sm:gap-8 md:grid-cols-[.4fr_1.6fr] md:items-center">
-                <span className="font-sans text-6xl font-black leading-none text-[#E4E4E9] sm:text-7xl lg:text-8xl">{String(index + 1).padStart(2, "0")}</span>
-                <div>
-                  {step.eyebrow && <p className="v3-eyebrow">{step.eyebrow}</p>}
-                  <h3 className="font-sans text-lg font-semibold text-[#494963] sm:text-2xl">{step.title}</h3>
-                  {(Array.isArray(step.description) ? step.description : [step.description]).map((paragraph, i) => (
-                    <p key={i} className="mt-3 max-w-xl font-sans text-base leading-relaxed text-[#8B8B99] sm:leading-[1.5]">{paragraph}</p>
-                  ))}
-                  {step.content ? <div className="mt-5 min-h-10">{step.content}</div> : null}
+        <h2 className="max-w-sm font-sans text-2xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>
+        {/* Anterior/Siguiente sobre el propio paso (no arriba, junto al
+           título): "relative" acá adentro, no en el <Carousel>, para que se
+           centren contra el contenido del paso y no contra todo el bloque
+           (que de otro modo incluye los StepperDots de abajo). md:px-10:
+           margen propio para las flechas, afuera del contenido del paso
+           (antes se superponían al numeral/texto). */}
+        <div className="relative md:px-10">
+          <CarouselContent className="mt-5 sm:mt-7">
+            {steps.map((step, index) => (
+              <CarouselItem key={index} className="basis-full">
+                <div className="grid gap-4 sm:gap-8 md:grid-cols-[.4fr_1.6fr] md:items-center">
+                  <span className="font-sans text-6xl font-black leading-none text-[#E4E4E9] sm:text-7xl lg:text-8xl">{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    {step.eyebrow && <p className="v3-eyebrow">{step.eyebrow}</p>}
+                    <h3 className="font-sans text-lg font-semibold text-[#494963] sm:text-2xl">{step.title}</h3>
+                    {(Array.isArray(step.description) ? step.description : [step.description]).map((paragraph, i) => (
+                      <p key={i} className="mt-3 max-w-xl font-sans text-base leading-relaxed text-[#8B8B99] sm:leading-[1.5]">{paragraph}</p>
+                    ))}
+                    {step.content ? <div className="mt-5 min-h-10">{step.content}</div> : null}
+                  </div>
                 </div>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <StepperDots count={steps.length} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselArrows prevLabel="Paso anterior" nextLabel="Paso siguiente" />
+        </div>
+        <CarouselDots className="mt-6" />
       </Carousel>
       </div>
     </section>

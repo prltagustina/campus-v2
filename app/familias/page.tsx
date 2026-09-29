@@ -1,13 +1,14 @@
-import { BookOpen, Download, FileText } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { SlideDeckEmbed } from "@/components/v3/content-blocks";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
+import { RepositoryPanel, ResourceRow } from "@/components/v3/repository-panel";
 
 const materiales = [
-  { titulo: "Cartilla para familias", descripcion: "Guía para acompañar el nuevo Diseño Curricular desde el hogar.", url: "/docs/Familias_cartilla_familias.pdf" },
-  { titulo: "Presentación del Diseño Curricular para familias", descripcion: "Síntesis visual de los fundamentos y la organización de la propuesta.", url: "/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf" },
-  { titulo: "Objetivos y contenidos — Lengua y Literatura", descripcion: "Contenidos y aprendizajes centrales del área.", url: "/docs/Familias_objetivos_contenido_LenguayLiteratura.pdf" },
-  { titulo: "Objetivos y contenidos — Matemática", descripcion: "Contenidos y aprendizajes centrales del área.", url: "/docs/Familias_objetivos_contenido_Matematica.pdf" },
+  { titulo: "\"Cartilla para familias\"", descripcion: "Guía para acompañar el nuevo Diseño Curricular desde el hogar.", url: "/docs/Familias_cartilla_familias.pdf" },
+  { titulo: "\"Presentación del Diseño Curricular para familias\"", descripcion: "Síntesis visual de los fundamentos y la organización de la propuesta.", url: "/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf" },
+  { titulo: "\"Objetivos y contenidos — Lengua y Literatura\"", descripcion: "Contenidos y aprendizajes centrales del área.", url: "/docs/Familias_objetivos_contenido_LenguayLiteratura.pdf" },
+  { titulo: "\"Objetivos y contenidos — Matemática\"", descripcion: "Contenidos y aprendizajes centrales del área.", url: "/docs/Familias_objetivos_contenido_Matematica.pdf" },
 ] as const;
 
 export default function FamiliasPage() {
@@ -31,35 +32,11 @@ export default function FamiliasPage() {
 
         <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
           <div className="mx-auto max-w-4xl">
-            <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
-              <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
-                <div className="flex min-w-0 items-center gap-3">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><BookOpen className="h-4 w-4" /></span>
-                  <div>
-                    <h3 className="font-display text-lg font-semibold text-[#494963]">Documentos disponibles</h3>
-                    <p className="text-xs text-[#494963]/40">{materiales.length} archivos en formato PDF</p>
-                  </div>
-                </div>
-                <span className="rounded-full bg-[#494963]/[.06] px-3 py-1 text-xs font-bold text-[#494963]/55">{materiales.length}</span>
-              </div>
-
-              <div className="divide-y divide-[#494963]/[.07]">
-                {materiales.map((material) => (
-                  <a key={material.url} href={material.url} download className="group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-[#F8F8FA] sm:gap-4 sm:px-6 sm:py-5">
-                    <FileText className="h-4.5 w-4.5 shrink-0 text-[#494963]/35" />
-                    <span className="min-w-0 flex-1">
-                      <b className="block text-sm font-semibold leading-snug text-[#494963] sm:text-base">{material.titulo}</b>
-                      <small className="mt-1 block text-xs leading-relaxed text-[#494963]/42 sm:text-sm">{material.descripcion} · PDF</small>
-                    </span>
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F1F1F4] text-[#494963]/45 transition-colors group-hover:bg-[#494963] group-hover:text-white" aria-hidden="true">
-                      <Download className="h-4 w-4" />
-                    </span>
-                    <span className="sr-only">Descargar {material.titulo}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-
+            <RepositoryPanel title="Documentos disponibles" icon={<BookOpen className="h-4 w-4" />}>
+              {materiales.map((material) => (
+                <ResourceRow key={material.url} title={material.titulo} description={`${material.descripcion} · PDF`} href={material.url} download />
+              ))}
+            </RepositoryPanel>
           </div>
         </section>
       </SectionTabs>

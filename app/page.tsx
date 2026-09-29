@@ -15,15 +15,16 @@ export default function HomePage() {
   return (
     <div className="bg-white">
       <div id="presentacion">
-        {/* Sin padding lateral ni superior en ningún tamaño: el video arranca
-           a borde y alineado con el margen superior del panel (misma altura
-           en la que empieza el botón "Inicio" del rail de navegación). */}
+        {/* Arriba sin padding (el video arranca a la misma altura en la que
+           empieza el botón "Inicio" del rail). A los lados y abajo, el mismo
+           inset que la sección de descarga de acá abajo (DocumentoHero usa
+           v3-section !p-0 md:!p-[14px]), para que los dos midan igual. */}
         <VideoEmbed
           videoId="eu8CYPbjehE"
           title="Presentación Diseño Curricular de la Provincia de Santa Fe"
           topClassName="!pt-0"
-          className="!px-0 !pb-0"
-          mediaClassName="rounded-none"
+          className="!px-0 !pb-0 md:!px-[14px] md:!pb-[14px]"
+          mediaClassName="rounded-none md:rounded-2xl"
         />
       </div>
       <div id="documento" className="pt-10 md:pt-6">

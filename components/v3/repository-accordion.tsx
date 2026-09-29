@@ -112,7 +112,9 @@ export function RepositoryFileGroup({
 
   return (
     <section className="grid border-b border-[#494963]/[.07] last:border-b-0 md:grid-cols-[9rem_minmax(0,1fr)]">
-      <header className="px-4 py-4 md:px-5 md:py-5">
+      {/* px-4/sm:px-7 (no px-4/md:px-5): mismo inset horizontal que "Docencia"/
+         "Primer Ciclo" arriba, para que "1er grado" quede alineado con ellos. */}
+      <header className="px-4 py-4 sm:px-7 md:py-5">
         <h3 className="font-display text-base font-semibold text-[#494963]">{label}</h3>
       </header>
       <div className="divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] md:border-l md:border-t-0">
@@ -136,17 +138,24 @@ const sizeClasses = {
     titleTinted: true,
   },
   /** Nivel anidado (ciclos/subgrupos dentro de una categoría de Itinerarios).
-   * Mismo padding horizontal que el nivel principal (px-4/sm:px-7) para que
+   * Antes era un fondo gris casi blanco (#F7F7F9) con texto semibold —
+   * quedaba tan sutil que se perdía justo debajo de la barra sólida de la
+   * categoría. Ahora el fondo se tiñe con el color del área (mismo --area
+   * que ya usa el estado "abierto" del nivel principal) y el texto toma ese
+   * color — queda visualmente conectado a la categoría de arriba sin
+   * gritar. Padding vertical simétrico (py, no pt/pb distintos) para que el
+   * texto quede centrado dentro de la franja, no pegado abajo. Mismo
+   * padding horizontal (px-4/sm:px-7) que el nivel principal, para que
    * "Primer Ciclo", "Segundo Ciclo", etc. queden alineados con el título de
    * arriba en vez de con un indent extra. */
   sm: {
-    button: "min-h-[60px] gap-3 px-4 py-3 sm:min-h-[68px] sm:px-7 sm:py-3.5",
-    idleBg: "bg-[#F7F7F9]",
+    button: "min-h-[52px] gap-3 px-4 py-3 sm:px-7 sm:py-3.5",
+    idleBg: "bg-[var(--area)]/[.07]",
     title: "font-display text-base font-semibold leading-tight sm:text-lg",
     description: "mt-0.5 text-[11px] font-medium leading-relaxed sm:text-xs",
     arrow: "h-8 w-8",
-    /** Los niveles anidados quedan neutros: el color del área ya se ve en el nivel de arriba. */
-    titleTinted: false,
+    /** A diferencia de antes, el título sí lleva el color del área. */
+    titleTinted: true,
   },
 } as const;
 
@@ -223,9 +232,9 @@ export function RepositoryAccordionGroup({
           ) : null}
         </button>
       ) : (
-        <div className={`grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center border-l-4 text-left text-[#494963] ${s.button} ${s.idleBg}`} style={{ borderLeftColor: color }}>
+        <div className={`grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center border-l-4 text-left text-[#494963] ${s.button} ${s.idleBg}`} style={{ ["--area" as string]: color, borderLeftColor: color }}>
           <span className="min-w-0">
-            <span className={`block text-balance ${s.title}`}>{title}</span>
+            <span className={`block text-balance ${s.title}`} style={s.titleTinted ? { color } : undefined}>{title}</span>
             {description ? <span className={`block ${s.description} text-[#494963]/65`}>{description}</span> : null}
           </span>
         </div>

@@ -2,30 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  useCarousel,
-  type CarouselApi,
 } from "@/components/ui/carousel";
-
-/** Flechas anterior/siguiente con el mismo estilo y comportamiento que las de
- *  "Qué enseñar…" y "Cómo está organizada cada área". */
-function CarouselArrows() {
-  const { scrollPrev, scrollNext, canScrollPrev, canScrollNext } = useCarousel();
-  return (
-    <div className="flex items-center gap-3">
-      <button type="button" onClick={scrollPrev} disabled={!canScrollPrev} aria-label="Foto anterior" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
-        <ChevronLeft className="h-5 w-5" strokeWidth={1.75} />
-      </button>
-      <button type="button" onClick={scrollNext} disabled={!canScrollNext} aria-label="Foto siguiente" className="text-[#494963]/40 transition-opacity disabled:opacity-30">
-        <ChevronRight className="h-5 w-5" strokeWidth={1.75} />
-      </button>
-    </div>
-  );
-}
+import { CarouselArrows } from "@/components/v3/carousel-arrows";
+import { CarouselDots } from "@/components/v3/carousel-dots";
 
 export interface ProcesoFoto {
   src: string;
@@ -56,58 +39,51 @@ function usePrefersReducedMotion() {
  * dependencia del proyecto) en vez de escribir uno nuevo desde cero.
  */
 export function ProcesoFotosCarousel({ photos }: { photos: ProcesoFoto[] }) {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(1);
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (!api) return;
-    setCurrent(api.selectedScrollSnap() + 1);
-    const onSelect = () => setCurrent(api.selectedScrollSnap() + 1);
-    api.on("select", onSelect);
-    return () => {
-      api.off("select", onSelect);
-    };
-  }, [api]);
 
   return (
     <div className="mt-4">
       <Carousel
-        setApi={setApi}
-        opts={{ align: "start", duration: prefersReducedMotion ? 0 : 22 }}
+        opts={{ align: "start", duration: prefersReducedMotion ? 0 : 22, loop: true }}
         aria-label="Fotos del Proceso de Construcción Colectiva"
       >
-        <CarouselContent>
-          {photos.map((photo, index) => (
-            <CarouselItem key={photo.src} className="basis-[70%] sm:basis-1/2 lg:basis-1/3">
-              <figure>
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#DDDDE3]">
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt ?? `Registro de ${photo.title}`}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 72vw"
-                    loading={index === 0 ? "eager" : "lazy"}
-                  />
-                </div>
-                <figcaption className="mt-2.5">
-                  <span className="block text-[10px] font-bold uppercase tracking-[.14em] text-[#494963]/35">
-                    {photo.date}
-                  </span>
-                  <span className="mt-1 block text-xs font-bold leading-snug text-[#494963] sm:text-sm">{photo.title}</span>
-                </figcaption>
-              </figure>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-
-        <div className="mt-3 flex items-center justify-between">
-          <p className="text-xs font-semibold text-[#494963]/55" aria-live="polite">
-            {current} / {photos.length}
-          </p>
-          <CarouselArrows />
+        {/* Anterior/Siguiente sobre la propia foto (no arriba): centradas
+           contra la imagen, no contra imagen+pie de foto (topClassName más
+           arriba que el 50% real del bloque). md:px-10: margen propio para
+           las flechas, afuera de la foto (antes se superponían al borde de
+           la imagen). */}
+        <div className="relative md:px-10">
+          <CarouselContent>
+            {photos.map((photo, index) => (
+              <CarouselItem key={photo.src} className="basis-[70%] sm:basis-1/2 lg:basis-1/3">
+                <figure>
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#DDDDE3]">
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt ?? `Registro de ${photo.title}`}
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 72vw"
+                      loading={index === 0 ? "eager" : "lazy"}
+                    />
+                  </div>
+                  <figcaption className="mt-2.5">
+                    <span className="block text-[10px] font-bold uppercase tracking-[.14em] text-[#494963]/35">
+                      {photo.date}
+                    </span>
+                    <span className="mt-1 block text-xs font-bold leading-snug text-[#494963] sm:text-sm">{photo.title}</span>
+                  </figcaption>
+                </figure>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselArrows prevLabel="Foto anterior" nextLabel="Foto siguiente" topClassName="top-[40%]" />
         </div>
+        {/* Puntitos, no "N / M": mismo indicador que el resto de los
+           carruseles del sitio (DocumentoStepper, "Cómo está organizada
+           cada área"), alineado a la izquierda donde arranca la fila de
+           fotos. */}
+        <CarouselDots className="mt-3" />
       </Carousel>
     </div>
   );

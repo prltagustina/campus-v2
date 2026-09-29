@@ -124,11 +124,12 @@ function ArtisticLanguageTabs({
 function AreaVideoPresentation({ videoId, title }: { videoId: string; title: string }) {
   return (
     <section aria-labelledby={`video-${videoId}-title`}>
-      {/* px-4/sm:px-7/md:px-[42px] (no px-[14px] fijo): mismo inset total que
-         "Itinerarios didácticos"/"Docencia" en cada tamaño — ahí son 14px de
-         marco exterior (del wrapper en AreaWorkspace) + 28px propios; acá,
-         como este título no tiene ese wrapper, van los 42px sumados directo. */}
-      <div className="mb-10 px-4 sm:px-7 md:px-[42px] pt-10 md:mb-14 md:pt-16">
+      {/* px-4/md:px-[14px]: mismo inset que VideoEmbed de acá abajo (su propio
+         v3-section, con ese mismo padding) — el título tiene que quedar al
+         ras de su borde, no más adentro. pt-8/md:pt-10: mismo espacio que
+         separa a Materiales de Formaciones (ver más abajo), para que las
+         tres secciones queden parejas entre sí. */}
+      <div className="mb-6 px-4 md:px-[14px] pt-8 md:mb-8 md:pt-10">
         <h2 id={`video-${videoId}-title`} className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">
           Presentación audiovisual
         </h2>
@@ -184,12 +185,10 @@ export function AreaWorkspace({ area }: { area: Area }) {
             </div>
 
             {selectedArtistic ? (
-              <section className="py-10 md:px-[14px] md:py-16"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
+              <section className="pt-8 md:px-[14px] md:pt-10"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
             ) : null}
             {hasSelectedArtisticTrainings ? (
-              <section className="v3-section !p-0 md:!p-[14px]">
-                <div className="rounded-none bg-[#F3F3F5] py-10 pl-4 md:rounded-2xl md:px-8 md:py-16"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></div>
-              </section>
+              <section className="pt-8 md:px-[14px] md:pt-10"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
             ) : null}
 
             {selectedArtistic && selectedArtisticMedia ? (
@@ -207,10 +206,15 @@ export function AreaWorkspace({ area }: { area: Area }) {
           <div id="documento">
             <DocumentoExplainer titulo={area.name} descripcion={documentoCurricularDescripcion(area)} portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
           </div>
-          <section className="py-10 md:px-[14px] md:py-16"><MaterialesSection area={area} /></section>
-          <section className="v3-section !p-0 md:!p-[14px]">
-            <div className="rounded-none bg-[#F3F3F5] py-10 pl-4 md:rounded-2xl md:px-8 md:py-16"><FormacionesSection area={area} /></div>
-          </section>
+          {/* pt (no py): el espacio "de abajo" de cada sección lo pone el pt
+             de la siguiente, no las dos sumadas — si no, quedaba el doble de
+             aire entre Materiales/Formaciones/Presentación que entre
+             Documento y Materiales. Mismo valor en las tres (pt-8/md:pt-10,
+             ver AreaVideoPresentation) para que el ritmo sea parejo. */}
+          <section className="pt-8 md:px-[14px] md:pt-10"><MaterialesSection area={area} /></section>
+          {/* Sin contenedor gris propio: mismo wrapper que Itinerarios, para
+             que el título quede alineado con el resto de la vista. */}
+          <section className="pt-8 md:px-[14px] md:pt-10"><FormacionesSection area={area} /></section>
           {videos[area.slug] ? (
             <div id="video">
               <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />

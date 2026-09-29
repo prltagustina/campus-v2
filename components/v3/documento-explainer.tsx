@@ -41,7 +41,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
           </div>
           <div>
             <h3 className="font-display text-2xl font-semibold leading-[1.05] tracking-[-.035em] sm:text-3xl lg:text-4xl">{heading ?? <>Descargá el<br />documento del área</>}</h3>
-            <p className="mt-3 max-w-md text-sm leading-relaxed opacity-80 sm:mt-4 sm:text-base">{descripcion}</p>
+            <p className="mt-2 max-w-md text-sm leading-relaxed opacity-80 sm:text-base">{descripcion}</p>
             <div className="mt-5 flex flex-wrap items-center gap-3 sm:mt-7">
               {/* Mobile: solo el ícono, mismo tamaño circular que Compartir al
                  lado. Desde sm entra el texto y pasa a píldora. */}

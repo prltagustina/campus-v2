@@ -318,6 +318,39 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
  * dentro del 7mo grado de docencia/estudiantes), con sus dos subgrupos
  * de siempre: recursos para la docencia y recursos para los estudiantes.
  */
+/* ── SIMULACIÓN TEMPORAL (QA visual) ──────────────────────────────────
+ * Rellena con placeholders las categorías/grados que todavía no tienen
+ * material real, para ver el diseño con todo "pintado". Revertir después
+ * de la revisión visual — no es contenido real. */
+const SIMULATE_ALL_FILLED = true;
+
+function placeholderFile(label: string): ItinerarioFile {
+  return {
+    nombre: `"${label}"`,
+    formato: "PDF",
+    paginas: 32,
+    size: "4.2 MB",
+    url: "#",
+  };
+}
+
+function simularCiclos(ciclos: ItinerarioCiclo[]): ItinerarioCiclo[] {
+  return ciclos.map((ciclo) => ({
+    ...ciclo,
+    grados: ciclo.grados.map((grado) => ({
+      ...grado,
+      files: grado.files.length ? grado.files : [placeholderFile(`Propuesta de enseñanza — ${grado.name}`)],
+    })),
+  }));
+}
+
+function simularGradosSueltos(grados: ItinerarioGrado[]): ItinerarioGrado[] {
+  return grados.map((grado) => ({
+    ...grado,
+    files: grado.files.length ? grado.files : [placeholderFile(`Propuesta de enseñanza — ${grado.name}`)],
+  }));
+}
+
 export function getItinerario(slug: string): AreaItinerario {
   const docencia = recursosDocenciaPorArea[slug];
   const articulacion = articulacionPorArea[slug];
@@ -327,31 +360,47 @@ export function getItinerario(slug: string): AreaItinerario {
   const articulacionTieneMateriales =
     (articulacion?.docencia.length ?? 0) + (articulacion?.estudiantes.length ?? 0) > 0;
 
+  let docenciaCiclos = docencia?.ciclos ?? ciclosVacios();
+  let docenciaGradosSueltos = docencia?.gradosSueltos ?? septimo();
+  let estudiantesCiclos = ciclosVacios();
+  let estudiantesGradosSueltos = septimo();
+  let articulacionDocencia = articulacion?.docencia ?? [];
+  let articulacionEstudiantes = articulacion?.estudiantes ?? [];
+
+  if (SIMULATE_ALL_FILLED) {
+    docenciaCiclos = simularCiclos(docenciaCiclos);
+    docenciaGradosSueltos = simularGradosSueltos(docenciaGradosSueltos);
+    estudiantesCiclos = simularCiclos(estudiantesCiclos);
+    estudiantesGradosSueltos = simularGradosSueltos(estudiantesGradosSueltos);
+    if (!articulacionDocencia.length) articulacionDocencia = [placeholderFile("Aprender a estudiar con autonomía")];
+    if (!articulacionEstudiantes.length) articulacionEstudiantes = [placeholderFile("Aprender a estudiar con autonomía")];
+  }
+
   const categorias: ItinerarioCategoria[] = [
     {
       id: "docencia",
       nombre: "Recursos para docentes",
       descripcion: "Secuencias, guías y propuestas de enseñanza.",
       recursoGeneral: docencia?.recursoGeneral,
-      ciclos: docencia?.ciclos ?? ciclosVacios(),
-      gradosSueltos: docencia?.gradosSueltos ?? septimo(),
+      ciclos: docenciaCiclos,
+      gradosSueltos: docenciaGradosSueltos,
     },
     {
       id: "estudiantes",
       nombre: "Recursos para estudiantes",
       descripcion: "Materiales para aprender.",
-      ciclos: ciclosVacios(),
-      gradosSueltos: septimo(),
+      ciclos: estudiantesCiclos,
+      gradosSueltos: estudiantesGradosSueltos,
     },
     {
       id: "articulacion",
       nombre: "Articulación Primaria-Secundaria",
-      descripcion: articulacionTieneMateriales
+      descripcion: articulacionTieneMateriales || SIMULATE_ALL_FILLED
         ? "Para acompañar el pasaje a la escuela secundaria."
         : "Materiales para acompañar el pasaje a la escuela secundaria.",
       subgrupos: [
-        { id: "docencia", nombre: "Recursos para la docencia", files: articulacion?.docencia ?? [] },
-        { id: "estudiantes", nombre: "Recursos para los estudiantes", files: articulacion?.estudiantes ?? [] },
+        { id: "docencia", nombre: "Recursos para la docencia", files: articulacionDocencia },
+        { id: "estudiantes", nombre: "Recursos para los estudiantes", files: articulacionEstudiantes },
       ],
     },
   ];

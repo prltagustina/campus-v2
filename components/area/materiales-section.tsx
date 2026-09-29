@@ -62,7 +62,7 @@ const secuenciasPorIdioma: Record<
 > = {
   ingles: [
     {
-      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
+      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.9 MB",
@@ -71,7 +71,7 @@ const secuenciasPorIdioma: Record<
   ],
   aleman: [
     {
-      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
+      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.8 MB",
@@ -80,7 +80,7 @@ const secuenciasPorIdioma: Record<
   ],
   frances: [
     {
-      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
+      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.9 MB",
@@ -89,7 +89,7 @@ const secuenciasPorIdioma: Record<
   ],
   italiano: [
     {
-      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
+      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.9 MB",
@@ -98,7 +98,7 @@ const secuenciasPorIdioma: Record<
   ],
   portugues: [
     {
-      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
+      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.8 MB",
@@ -318,17 +318,19 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
       {/* sm:px-7 (no md:px-0): mismo inset que el botón de categoría
          (RepositoryAccordionGroup, tamaño lg) para que el título quede
          alineado con "Docencia"/"Estudiantes" de más abajo. */}
-      <div className="mb-8 max-w-2xl px-4 sm:px-7 md:mb-10">
+      <div className="mb-6 max-w-2xl px-4 sm:px-7 md:mb-8">
         <h3 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">
           Itinerarios didácticos
         </h3>
-        <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#494963]/50 sm:text-base">
+        <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#494963]/50 sm:text-base">
           Recursos organizados por idioma.
         </p>
       </div>
 
+      {/* Barra de idiomas fija al scrollear, mismo criterio que la barra de
+         lenguajes de Educación Artística (ver ArtisticLanguageTabs). */}
       <div
-        className="flex flex-wrap gap-2.5 px-4 sm:px-7 md:gap-3"
+        className="sticky top-0 z-30 flex flex-wrap gap-2.5 bg-white px-4 py-3 shadow-[0_8px_16px_-16px_rgba(25,25,42,.35)] sm:px-7 md:gap-3"
         role="tablist"
         aria-label="Idiomas de Lenguas Extranjeras"
       >
@@ -362,10 +364,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
         className="mt-7 sm:mt-8"
       >
         <div className="px-4 pb-5 sm:px-7 sm:pb-6">
-          <p className="text-[11px] font-bold uppercase tracking-[.15em] text-[#494963]/38">
-            Lengua seleccionada
-          </p>
-          <h4 className="mt-1.5 font-display text-2xl font-semibold tracking-[-.02em] text-[#494963] sm:text-3xl">
+          <h4 className="font-display text-2xl font-semibold tracking-[-.02em] text-[#494963] sm:text-3xl">
             {idiomaInfo.name}
           </h4>
         </div>
@@ -503,15 +502,17 @@ export function MaterialesSection({ area, artisticLanguage }: MaterialesSectionP
 
   return (
     <section id="materiales" className="min-w-0 max-w-full">
-      {/* sm:px-7 (no md:px-0): mismo inset que el botón de categoría de más
-         abajo (RepositoryAccordionGroup), para que el título quede alineado
-         con "Docencia"/"Estudiantes"/"Articulación". */}
-      <div className="mb-10 max-w-2xl px-4 sm:px-7 md:mb-14">
+      {/* px-4 md:px-0: el botón de categoría de más abajo (RepositoryAccordionGroup)
+         no tiene ningún padding propio, solo el inset de 14px que ya da la
+         section exterior — así que el título tiene que quedar igual (0 a
+         partir de md) para alinearse con el BORDE del botón, no con su
+         texto interno ("Docencia"), que va más adentro por su propio padding. */}
+      <div className="mb-6 max-w-2xl px-4 md:px-0 md:mb-8">
         <h3 className="text-2xl font-semibold tracking-[-.03em] text-[#494963] font-display text-balance sm:text-3xl lg:text-4xl">
           Itinerarios didácticos
         </h3>
-        <p className="text-sm sm:text-base lg:text-lg text-[#494963]/50 mt-3 max-w-xl text-pretty">
-          Materiales y recursos para docentes y estudiantes
+        <p className="text-sm sm:text-base lg:text-lg text-[#494963]/50 mt-2 max-w-xl text-pretty">
+          Materiales y recursos para docentes y estudiantes.
         </p>
       </div>
 
