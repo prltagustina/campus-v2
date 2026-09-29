@@ -57,8 +57,11 @@ function MarcoGeneralContent() {
     return () => window.cancelAnimationFrame(frame);
   }, [selectedAxis]);
   return (
-    <div className="bg-white">
-      <div id="documento" className="md:pb-6">
+    <div className="flex min-h-full flex-col bg-white">
+      {/* Sin pb propio: el espacio hasta "Recursos" lo da el !pt-8/md:!pt-10
+         de esa sección (mismo criterio que en las áreas) — un pb acá sumaba
+         un aire extra que no tenía ningún otro salto entre secciones. */}
+      <div id="documento">
         <DocumentoExplainer
           titulo="Marco General"
           heading="Los ejes centrales del nuevo Diseño Curricular"
@@ -69,7 +72,7 @@ function MarcoGeneralContent() {
           accentText="#EDEDF0"
         />
       </div>
-      <section id="recursos" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
+      <section id="recursos" className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
         {/* px-4/sm:px-7 fijo (sin crecer en md/lg): mismo inset horizontal
            que el botón de categoría de Itinerarios, para que el título quede
            alineado con "Docencia". El padding vertical sigue creciendo. */}
@@ -114,7 +117,7 @@ function MarcoGeneralContent() {
           </div>
         </div>
       </section>
-      <section id="ejes" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
+      <section id="ejes" className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
         <header className="mb-6 max-w-2xl md:mb-8">
           <h2 className="max-w-[20ch] text-balance font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>
           {/* Antes text-sm/45: menos presencia que la intro equivalente de
@@ -166,7 +169,11 @@ function MarcoGeneralContent() {
         </div>
       </div>
       </section>
-      <div id="organizacion">
+      {/* flex-1: mismo mecanismo que la "línea histórica" de Inicio — si el
+         contenido entra en la pantalla sin necesitar scroll, Organización
+         (el último bloque) se centra en el aire que sobra hasta el borde
+         real del panel, en vez de quedar corto contra el rail. */}
+      <div id="organizacion" className="flex flex-1 flex-col">
         <DocumentoStepper title={<>Qué enseñar<br />cómo hacerlo<br />y con qué propósito</>} steps={[
           {
             title: "Qué enseñar",
@@ -190,7 +197,9 @@ function MarcoGeneralContent() {
             ],
           },
         ]} />
-        <OrganizationCompact />
+        <div className="flex flex-1 flex-col">
+          <div className="m-auto w-full"><OrganizationCompact /></div>
+        </div>
       </div>
     </div>
   );

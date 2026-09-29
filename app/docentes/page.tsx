@@ -27,7 +27,7 @@ export default function DocentesPage() {
       />
 
       <SectionTabs title="Recursos institucionales" items={[{ id: "presentacion", label: "Presentación" }, { id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels>
-        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             <SlideDeckEmbed
               src="https://docs.google.com/presentation/d/1BKzPQiSzHd73OvYHmVLTDccV-qt8g-tg/embed?start=false&loop=false&delayms=3000"
@@ -37,7 +37,7 @@ export default function DocentesPage() {
           </div>
         </section>
 
-        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             <RepositoryPanel title="Repositorio institucional" icon={<BookOpen className="h-4 w-4" />}>
               {documentos.map(([title, description, url]) => (
@@ -47,7 +47,7 @@ export default function DocentesPage() {
           </div>
         </section>
 
-        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             <RepositoryPanel title="Propuestas disponibles" icon={<GraduationCap className="h-4 w-4" />}>
               {formaciones.map(([title, description, url]) => (

@@ -20,7 +20,7 @@ export default function FamiliasPage() {
       />
 
       <SectionTabs title="Recursos para familias" items={[{ id: "presentacion", label: "Presentación" }, { id: "materiales", label: "Materiales" }]} keepVisitedPanels>
-        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             <SlideDeckEmbed
               src="https://docs.google.com/presentation/d/1iE4BFRuhcT7yXhRfCoDpeEEx8ZSYyqWH/embed?start=false&loop=false&delayms=3000"
@@ -30,7 +30,7 @@ export default function FamiliasPage() {
           </div>
         </section>
 
-        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             <RepositoryPanel title="Documentos disponibles" icon={<BookOpen className="h-4 w-4" />}>
               {materiales.map((material) => (

@@ -97,8 +97,12 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
     if (navigator.share) await navigator.share({ title: titulo, url }).catch(() => undefined);
     else await navigator.clipboard?.writeText(url);
   };
+  // md:!pt-0 (no md:!p-[14px] en los 4 lados): el espacio "de arriba" ya lo
+  // da el pt del wrapper en Home ("documento") — si acá también suma 14px,
+  // el salto entre secciones queda más grande que entre las demás (mismo
+  // criterio que DocumentoExplainer en las áreas).
   return (
-    <section className="documento-hero-shell v3-section !p-0 md:!p-[14px]">
+    <section className="documento-hero-shell v3-section !p-0 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0">
       <div className={`documento-hero ${compact ? "documento-hero--compact" : "documento-hero--standard"}`}>
         <div className="documento-hero__cover">
           <Image
@@ -168,7 +172,7 @@ export interface StepItem {
 
 export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
-    <section className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
+    <section className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
       <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
       <Carousel opts={{ loop: true }}>
         <h2 className="max-w-sm font-sans text-2xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>

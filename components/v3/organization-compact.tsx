@@ -24,7 +24,7 @@ const items = [
 
 export function OrganizationCompact() {
   return (
-    <section className="v3-section !px-0 !pb-0 !pt-10 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent">
+    <section className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
       <div className="rounded-none bg-[#F5F5F7] pb-9 pl-5 pt-5 md:rounded-2xl md:p-8 lg:p-10">
         {/* loop:true, igual que DocumentoStepper: con CarouselArrows compartido,
            las flechas tienen que reaccionar igual en los dos — si acá no
@@ -44,7 +44,7 @@ export function OrganizationCompact() {
           <div className="relative md:px-10">
             <CarouselContent className="mt-5 pr-2 sm:mt-7 md:pr-0">
               {items.map(([number, title, description, iconSrc]) => (
-                <CarouselItem key={number} className="basis-[86%] sm:basis-1/2 lg:basis-1/3">
+                <CarouselItem key={number} className="basis-[86%] sm:basis-1/2">
                   <article className="flex h-full flex-col rounded-lg bg-white p-[18px] sm:p-5">
                     <div className="flex items-center gap-2">
                       {iconSrc ? <Image src={iconSrc} alt="" width={16} height={16} className="h-4 w-4 object-contain" /> : <PresentacionIcon className="h-4 w-4 text-[#494963]" />}
@@ -58,7 +58,7 @@ export function OrganizationCompact() {
             </CarouselContent>
             <CarouselArrows />
           </div>
-          <CarouselDots className="mt-6 pr-5 md:pr-0" />
+          <CarouselDots className="mt-6" />
         </Carousel>
       </div>
     </section>

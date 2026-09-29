@@ -82,7 +82,11 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
       id={`${instanceId}-switcher`}
       className="flex w-full flex-col bg-[#F7F7F9]"
     >
-      <div className="shrink-0 bg-[#F7F7F9] px-4 py-2.5 sm:px-6 md:py-3">
+      {/* py-4/md:py-5 (antes py-2.5/py-3, y sin equivalente abajo — el panel
+         sumaba su propio pt encima, así que el aire de arriba y de abajo de
+         los tabs no medían igual): mismo valor arriba y abajo, ya que cada
+         panel ahora solo trae su pb propio, no su pt. */}
+      <div className="shrink-0 bg-[#F7F7F9] px-4 py-4 sm:px-6 md:py-5">
         <div className="mx-auto max-w-4xl">
           <span className="sr-only">{title}</span>
           <div
