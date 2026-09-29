@@ -354,7 +354,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div
       ref={rootScrollRef}
-      className="v3-scroll-theme flex h-[var(--app-vh,100svh)] flex-col overflow-y-auto bg-[#F5F5F7] text-[#494963] md:h-dvh md:overflow-hidden"
+      className="v3-scroll-theme flex h-[var(--app-vh,100svh)] flex-col overflow-y-auto overscroll-none bg-[#F5F5F7] text-[#494963] md:h-dvh md:overflow-hidden"
       style={{ ["--section-scrollbar" as string]: currentArea?.color ?? MARCO_GENERAL_COLOR }}
     >
       <header className="h-[72px] shrink-0 border-b border-[#494963]/[.07] bg-white px-4 lg:h-[100px] lg:px-8" role="banner">
@@ -467,7 +467,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className={`flex min-h-0 min-w-0 flex-col rounded-none bg-white max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen || isHome ? "md:-ml-[14px]" : ""}`}>
         <main
           id="contenido"
-          className="min-h-0 max-md:overflow-visible md:flex-1 md:overflow-y-auto md:[scrollbar-gutter:stable]"
+          className="min-h-0 overscroll-none max-md:overflow-visible md:flex-1 md:overflow-y-auto md:[scrollbar-gutter:stable]"
           tabIndex={-1}
         >
           {cyclesOpen ? (
