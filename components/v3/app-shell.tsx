@@ -467,7 +467,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className={`flex min-h-0 min-w-0 flex-col rounded-none bg-white max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen || isHome ? "md:-ml-[14px]" : ""}`}>
         <main
           id="contenido"
-          className="min-h-0 overscroll-none max-md:overflow-visible md:flex-1 md:overflow-y-auto md:[scrollbar-gutter:stable]"
+          className="min-h-0 overscroll-none max-md:overflow-visible md:flex-1 md:overflow-y-auto"
           tabIndex={-1}
         >
           {cyclesOpen ? (
