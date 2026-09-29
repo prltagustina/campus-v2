@@ -1,21 +1,28 @@
-import { Bookmark, BookOpen, GraduationCap } from "lucide-react";
+import { Bookmark, BookOpen, GraduationCap, Scale } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { SlideDeckEmbed } from "@/components/v3/content-blocks";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
 import { RepositoryPanel, ResourceRow } from "@/components/v3/repository-panel";
 
-const documentos = [
-  ["\"Documento de acompañamiento N° 1\"", "Implementación del Diseño Curricular", "/docs/Documento_Acompanamiento.pdf"],
-  ["\"Documento de acompañamiento N° 2\"", "Implementación del área Saberes, Vidas y Mundos", "/docs/Documento_Acompanamiento_2.pdf"],
-  ["\"Presentación para supervisores, directivos y docentes\"", "Material institucional", "/docs/Presentacion_Supervisores.pdf"],
-  ["\"Resolución 43/2026\"", "Implementación del área de Lenguas Extranjeras", "/documentos/resolucion-43-26-lenguas-extranjeras.pdf"],
-  ["\"Resolución 1410/2026\"", "Programa Inglés para la Ruralidad", "/documentos/resolucion-1410-26-ingles.pdf"],
-  ["\"Jornada Ampliada o Completa\"", "Más tiempo para transformar los aprendizajes", "/documentos/jornada-ampliada-o-completa.pdf"],
+// Mismos materiales y misma clasificación que
+// https://campuseducativo.santafe.edu.ar/diseno-curricular/docentes-y-directivos/
+// ("Material de apoyo para el trabajo institucional" y "Normativa" son dos
+// grupos separados ahí, no uno solo).
+const materialApoyo = [
+  { nombre: "\"Documento de acompañamiento N° 1 - Implementación del Diseño Curricular\"", url: "https://drive.google.com/uc?export=download&id=1Cv30cZWqHd6eRjGZPn700FYSnOHTwS_e" },
+  { nombre: "\"Documento de acompañamiento N° 2 - Implementación del área Saberes, Vidas y Mundos\"", url: "https://drive.google.com/uc?export=download&id=1Cvo5D0_Y6SCh2E64xQBnPFX5TiKYR8OO" },
+  { nombre: "\"Presentación para supervisores, directivos y docentes\"", url: "https://drive.google.com/uc?export=download&id=1qZYlfBemNZLdpVV-VbvHuWMvEM7D_CHy" },
+  { nombre: "\"Jornada Ampliada o Completa - Más tiempo para transformar los aprendizajes\"", url: "https://drive.google.com/uc?export=download&id=1z0MgQRSc2tt-9u_Sayu4QHnUSBDgzt6c" },
+] as const;
+
+const normativa = [
+  { nombre: "\"Res. 43/2026 - Implementación del área de Lenguas Extranjeras\"", url: "https://drive.google.com/uc?export=download&id=1c0sFWyQ-nPSncOKgEDnASczNaG4orxBL" },
+  { nombre: "\"Res. 1410/2026 - Programa Inglés para la Ruralidad\"", url: "https://drive.google.com/uc?export=download&id=1u0HwB1R56w29xQnbJx4tDNA2qS_H-Rtf" },
 ] as const;
 
 const formaciones = [
-  ["\"Diversificación para la Enseñanza\"", "Estrategias para ampliar las oportunidades de aprendizaje.", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
-  ["\"Planificar la enseñanza en el marco del nuevo Diseño Curricular\"", "Orientaciones para la planificación institucional y del aula.", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
+  ["\"Diversificación para la Enseñanza\"", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
+  ["\"Planificar la enseñanza en el marco del nuevo Diseño Curricular\"", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
 ] as const;
 
 export default function DocentesPage() {
@@ -38,10 +45,15 @@ export default function DocentesPage() {
         </section>
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
-          <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Repositorio institucional" icon={<BookOpen className="h-4 w-4" />} chips>
-              {documentos.map(([title, description, url]) => (
-                <ResourceRow key={url} title={title} description={`${description} · PDF`} href={url} download chip />
+          <div className="mx-auto max-w-4xl space-y-6">
+            <RepositoryPanel title="Material de apoyo para el trabajo institucional" icon={<BookOpen className="h-4 w-4" />} chips>
+              {materialApoyo.map((documento) => (
+                <ResourceRow key={documento.url} title={documento.nombre} href={documento.url} download chip sideActions />
+              ))}
+            </RepositoryPanel>
+            <RepositoryPanel title="Normativa" icon={<Scale className="h-4 w-4" />} chips>
+              {normativa.map((documento) => (
+                <ResourceRow key={documento.url} title={documento.nombre} href={documento.url} download chip sideActions />
               ))}
             </RepositoryPanel>
           </div>
@@ -49,13 +61,13 @@ export default function DocentesPage() {
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Propuestas disponibles" icon={<GraduationCap className="h-4 w-4" />} chips>
-              {formaciones.map(([title, description, url]) => (
+            <RepositoryPanel title="Cursos y capacitaciones en Campus Educativo" icon={<GraduationCap className="h-4 w-4" />} chips>
+              {formaciones.map(([title, url]) => (
                 // Bookmark, no FileText: distingue de un documento (mismo
                 // criterio en todo lugar donde aparecen formaciones). Color
                 // oscuro sólido (antes /35, se veía apagado al lado de los
                 // demás íconos de la fila).
-                <ResourceRow key={url} title={title} description={description} href={url} icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#494963" }} aria-hidden="true" />} chip />
+                <ResourceRow key={url} title={title} href={url} icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#494963" }} aria-hidden="true" />} chip />
               ))}
             </RepositoryPanel>
           </div>
