@@ -10,6 +10,7 @@ import { OrganizationCompact } from "@/components/v3/organization-compact";
 import { AreaWorkspace } from "@/components/v3/area-workspace";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 import { ResourceRow } from "@/components/v3/repository-panel";
+import { SectionTabs } from "@/components/v3/section-rail";
 
 const centralAxes = [
   ["Aprendizajes comunes, fundantes y significativos", "Saberes que aseguran el avance hacia conocimientos más complejos y promueven la participación plena en la vida social."],
@@ -44,7 +45,6 @@ const marcoTrainings = [
 
 function MarcoGeneralContent() {
   const [selectedAxis, setSelectedAxis] = useState<number | null>(0);
-  const [resourceView, setResourceView] = useState<"documentos" | "formaciones">("documentos");
   const axisRefs = useRef<Array<HTMLDivElement | null>>([]);
   const hasAxisInteraction = useRef(false);
 
@@ -75,65 +75,54 @@ function MarcoGeneralContent() {
         />
       </div>
       <section id="recursos" className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
-        {/* px-4/sm:px-7 fijo (sin crecer en md/lg): mismo inset horizontal
-           que el botón de categoría de Itinerarios, para que el título quede
-           alineado con "Docencia". El padding vertical sigue creciendo. */}
-        <div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
-          <header className="mb-6 max-w-2xl md:mb-8"><h2 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Documentos y formaciones</h2><p className="mt-2 text-sm sm:text-base lg:text-lg text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
-          <div role="tablist" aria-label="Recursos del Marco General" className="flex w-full min-w-0 gap-1.5 rounded-2xl bg-[#E6E6EB] p-1.5 md:w-fit">
-            {(["documentos", "formaciones"] as const).map((id) => {
-              const label = id === "documentos" ? "Documentos" : "Formaciones";
-              const active = resourceView === id;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setResourceView(id)}
-                  className={`relative min-h-10 min-w-0 flex-1 whitespace-nowrap rounded-[9px] px-3 py-1.5 text-center text-sm font-semibold leading-tight transition-[background-color,color,box-shadow] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] sm:px-5 sm:text-base md:min-h-11 md:flex-none md:px-6 ${active ? "bg-[#494963] text-white shadow-[0_4px_14px_rgba(73,73,99,.16)]" : "text-[#494963]/65 hover:bg-white/70 hover:text-[#494963]"}`}
-                >
-                  {label}
-                </button>
-              );
-            })}
+        {/* SectionTabs (mismo componente que Familias/Docentes/EIB), no el
+           tablist manual de antes: separa Documentos y Formaciones en tabs
+           reales, con el mismo mecanismo en todos lados (scroll al tope al
+           cambiar de tab incluido). px-6, no px-7: mismo inset que trae el
+           propio SectionTabs en su tira de tabs — antes el header usaba
+           px-7 (para alinear con "Docencia" de Itinerarios, más abajo en la
+           página) y quedaba corrido respecto de los tabs de acá. */}
+        <div className="overflow-hidden rounded-none bg-[#F5F5F7] md:rounded-2xl">
+          {/* Sin mb propio: el aire hasta los tabs ya lo da el padding
+             superior de SectionTabs (mismo que separa la cabecera de
+             Familias/Docentes/EIB de sus tabs) — sumar los dos quedaba con
+             el doble de aire de la cuenta. */}
+          <div className="px-4 pt-5 sm:px-6 md:pt-8 lg:pt-10">
+            <header className="max-w-2xl"><h2 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Documentos y formaciones</h2><p className="mt-2 text-sm sm:text-base lg:text-lg text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           </div>
-          {/* ResourceRow (mismo componente que Familias/Docentes/EIB), con el
-             color del Marco General — mismo tratamiento que las filas de
-             Itinerarios/repositorios de área (RepositoryMaterialRow):
-             ícono y botón de acción teñidos, no un ícono gris genérico.
-             chip: tarjeta suelta por ítem, no una caja única con líneas
-             divisorias (antes era la única lista del sitio que no lo tenía). */}
-          <div className="mt-4" role="tabpanel">
-            {resourceView === "documentos" ? (
-              <div className="space-y-2">
-                {marcoDocuments.map(([title, href]) => (
-                  // "Presentación para supervisores": ícono de play, no de
-                  // documento — así la distingue el Campus (es un video, no
-                  // un PDF), mismo criterio en Docentes.
-                  <ResourceRow
-                    key={href}
-                    title={title}
-                    href={href}
-                    download
-                    color={MARCO_GENERAL_COLOR}
-                    showActionLabel
-                    chip
-                    icon={title.includes("Presentación para supervisores") ? <CirclePlay className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" /> : undefined}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {marcoTrainings.map(([title, description, href]) => (
-                  // Bookmark: mismo ícono que distingue "formaciones" de un
-                  // documento en Docentes, acá con el color propio de Marco
-                  // General (mismo criterio que usan sus otras filas).
-                  <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} showActionLabel chip icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
-                ))}
-              </div>
-            )}
-          </div>
+          <SectionTabs title="Recursos del Marco General" items={[{ id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels>
+            {/* ResourceRow (mismo componente que Familias/Docentes/EIB), con
+               el color del Marco General — mismo tratamiento que las filas
+               de Itinerarios/repositorios de área (RepositoryMaterialRow):
+               ícono y botón de acción teñidos, no un ícono gris genérico.
+               chip: tarjeta suelta por ítem, no una caja única con líneas
+               divisorias. */}
+            <div className="space-y-2 px-4 pb-5 sm:px-6 md:pb-8 lg:pb-10">
+              {marcoDocuments.map(([title, href]) => (
+                // "Presentación para supervisores": ícono de play, no de
+                // documento — así la distingue el Campus (es un video, no
+                // un PDF), mismo criterio en Docentes.
+                <ResourceRow
+                  key={href}
+                  title={title}
+                  href={href}
+                  download
+                  color={MARCO_GENERAL_COLOR}
+                  showActionLabel
+                  chip
+                  icon={title.includes("Presentación para supervisores") ? <CirclePlay className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" /> : undefined}
+                />
+              ))}
+            </div>
+            <div className="space-y-2 px-4 pb-5 sm:px-6 md:pb-8 lg:pb-10">
+              {marcoTrainings.map(([title, description, href]) => (
+                // Bookmark: mismo ícono que distingue "formaciones" de un
+                // documento en Docentes, acá con el color propio de Marco
+                // General (mismo criterio que usan sus otras filas).
+                <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} showActionLabel chip icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
+              ))}
+            </div>
+          </SectionTabs>
         </div>
       </section>
       <section id="ejes" className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
