@@ -13,7 +13,12 @@ const INTRO_COPY_EDITORIAL = [
 
 export default function HomePage() {
   return (
-    <div className="bg-white">
+    // flex flex-col + min-h-full: cuando el contenido entra en la pantalla
+    // sin necesitar scroll, la última sección (línea histórica) estira su
+    // "flex-1" hasta el borde inferior real del panel — la misma línea en la
+    // que termina el botón de EIB del rail — en vez de terminar más arriba
+    // y dejar un espacio en blanco desparejo contra el rail.
+    <div className="flex min-h-full flex-col bg-white">
       <div id="presentacion">
         {/* Arriba sin padding (el video arranca a la misma altura en la que
            empieza el botón "Inicio" del rail). A los lados y abajo, el mismo
@@ -23,11 +28,15 @@ export default function HomePage() {
           videoId="eu8CYPbjehE"
           title="Presentación Diseño Curricular de la Provincia de Santa Fe"
           topClassName="!pt-0"
-          className="!px-0 !pb-0 md:!px-[14px] md:!pb-[14px]"
+          className="!px-0 !pb-0 md:!px-[14px] md:!pb-0"
           mediaClassName="rounded-none md:rounded-2xl"
         />
       </div>
-      <div id="documento" className="pt-10 md:pt-6">
+      {/* pt-12/md:pt-16: más aire que el resto de los saltos de Inicio (que
+         usan pt-8/md:pt-10) porque acá son dos bloques oscuros y grandes uno
+         pegado al otro (el video y la tarjeta violeta de descarga) — con el
+         mismo valor que los demás se seguía sintiendo muy junto. */}
+      <div id="documento" className="pt-12 md:pt-16">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
@@ -43,8 +52,18 @@ export default function HomePage() {
           compact
         />
       </div>
-      <div id="rueda" className="bg-[#F1F1F4] pt-6 md:bg-transparent md:pt-16"><CurricularWheel /></div>
-      <div id="historia" className="v3-section !px-0 !pb-0 !pt-10 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-16 md:bg-transparent"><div className="overflow-hidden rounded-none bg-[#F3F3F5] md:rounded-2xl"><TimelineSection /></div></div>
+      {/* pt-8/md:pt-10: mismo espacio en estas dos transiciones (acá y antes
+         de la línea histórica) — la de arriba (video→documento) es la única
+         distinta, ver comentario de "documento". */}
+      <div id="rueda" className="bg-[#F1F1F4] pt-8 md:bg-transparent md:pt-10"><CurricularWheel /></div>
+      {/* flex + flex-1: el pt-8/md:pt-10 (mismo espacio que la transición de
+         acá arriba) y el md:!pb-[14px] quedan FUERA del contenido que se
+         centra — son el mismo margen fijo que ya tenían, no se estiran.
+         Lo que crece (si sobra alto) es el m-auto de adentro, repartiendo el
+         extra en partes iguales arriba y abajo del propio contenido. */}
+      <div id="historia" className="v3-section flex flex-1 flex-col !px-0 !pb-0 !pt-8 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
+        <div className="m-auto w-full overflow-hidden rounded-none bg-[#F3F3F5] md:rounded-2xl"><TimelineSection /></div>
+      </div>
     </div>
   );
 }

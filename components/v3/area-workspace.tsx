@@ -145,8 +145,17 @@ export function AreaWorkspace({ area }: { area: Area }) {
     setSelectedArtisticId(id);
   };
 
-  return <div className="min-h-full bg-white">
-    <div className="pb-4 md:space-y-5 md:pb-6">
+  return <div className="flex min-h-full flex-col bg-white">
+    {/* pb-4/md:pb-6: aire propio después del último bloque (Video u
+       Organización). Sin space-y acá: cada sección ya trae su propio
+       pt-8/md:pt-10 (o su pb, en el caso de los tabs) — un space-y sumaba
+       un segundo margen encima y duplicaba el salto entre secciones
+       respecto de Inicio y Marco General. flex flex-1 flex-col: mismo
+       mecanismo que la "línea histórica" de Inicio — si el contenido entra
+       en la pantalla sin necesitar scroll, el tramo final (Materiales,
+       Formaciones y Video, lo que haya) se centra en el aire que sobra
+       hasta el borde real del panel, en vez de quedar corto contra el rail. */}
+    <div className="flex flex-1 flex-col pb-4 md:pb-6">
       {isArtistic ? (
         <>
           <ArtisticLanguageTabs area={area} selectedId={selectedArtisticId} onSelect={selectArtisticLanguage} />
@@ -156,7 +165,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
             key={selectedArtisticId}
             role="tabpanel"
             aria-labelledby={`lenguaje-tab-${selectedArtisticId}`}
-            className="md:space-y-5"
+            className="flex flex-1 flex-col"
           >
             <div id="documento">
               {selectedArtistic && selectedArtisticMedia ? (
@@ -174,43 +183,54 @@ export function AreaWorkspace({ area }: { area: Area }) {
               )}
             </div>
 
-            {selectedArtistic ? (
-              <section className="pt-8 md:px-[14px] md:pt-10"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
-            ) : null}
-            {hasSelectedArtisticTrainings ? (
-              <section className="pt-8 md:px-[14px] md:pt-10"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
-            ) : null}
+            <div className="flex flex-1 flex-col">
+              <div className="m-auto w-full">
+                {selectedArtistic ? (
+                  <section className="pt-8 md:px-[14px] md:pt-10"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
+                ) : null}
+                {hasSelectedArtisticTrainings ? (
+                  <section className="pt-8 md:px-[14px] md:pt-10"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
+                ) : null}
 
-            {selectedArtistic && selectedArtisticMedia ? (
-              <div id="video">
-                <AreaVideoPresentation
-                  videoId={selectedArtisticMedia.videoId}
-                  title={`Diseño Curricular Educación Primaria: ${selectedArtistic.name}`}
-                />
+                {selectedArtistic && selectedArtisticMedia ? (
+                  <div id="video">
+                    <AreaVideoPresentation
+                      videoId={selectedArtisticMedia.videoId}
+                      title={`Diseño Curricular Educación Primaria: ${selectedArtistic.name}`}
+                    />
+                  </div>
+                ) : null}
               </div>
-            ) : null}
+            </div>
           </div>
         </>
       ) : (
-        <>
+        <div className="flex flex-1 flex-col">
           <div id="documento">
             <DocumentoExplainer titulo={area.name} descripcion={documentoCurricularDescripcion(area)} portadaSrc={covers[area.slug] ?? "/images/portada-diseno-curricular.png"} pdfUrl={documentUrls[area.slug]} accent={area.color} accentText={area.textOnColor} />
           </div>
-          {/* pt (no py): el espacio "de abajo" de cada sección lo pone el pt
-             de la siguiente, no las dos sumadas — si no, quedaba el doble de
-             aire entre Materiales/Formaciones/Presentación que entre
-             Documento y Materiales. Mismo valor en las tres (pt-8/md:pt-10,
-             ver AreaVideoPresentation) para que el ritmo sea parejo. */}
-          <section className="pt-8 md:px-[14px] md:pt-10"><MaterialesSection area={area} /></section>
-          {/* Sin contenedor gris propio: mismo wrapper que Itinerarios, para
-             que el título quede alineado con el resto de la vista. */}
-          <section className="pt-8 md:px-[14px] md:pt-10"><FormacionesSection area={area} /></section>
-          {videos[area.slug] ? (
-            <div id="video">
-              <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />
+          {/* flex-1 + m-auto: mismo criterio que arriba — Materiales,
+             Formaciones y Video (lo que haya) se tratan como un solo bloque
+             que se centra en el aire sobrante. Adentro, pt (no py): el
+             espacio "de abajo" de cada sección lo pone el pt de la
+             siguiente, no las dos sumadas — si no, quedaba el doble de aire
+             entre Materiales/Formaciones/Presentación que entre Documento y
+             Materiales. Mismo valor en las tres (pt-8/md:pt-10, ver
+             AreaVideoPresentation) para que el ritmo sea parejo. */}
+          <div className="flex flex-1 flex-col">
+            <div className="m-auto w-full">
+              <section className="pt-8 md:px-[14px] md:pt-10"><MaterialesSection area={area} /></section>
+              {/* Sin contenedor gris propio: mismo wrapper que Itinerarios, para
+                 que el título quede alineado con el resto de la vista. */}
+              <section className="pt-8 md:px-[14px] md:pt-10"><FormacionesSection area={area} /></section>
+              {videos[area.slug] ? (
+                <div id="video">
+                  <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />
+                </div>
+              ) : null}
             </div>
-          ) : null}
-        </>
+          </div>
+        </div>
       )}
     </div>
   </div>;

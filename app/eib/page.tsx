@@ -231,7 +231,7 @@ export default function EIBPage() {
       />
 
       <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
-        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             <RepositoryPanel title="Marco normativo" icon={<Scale className="h-4 w-4" />}>
               <ResourceRow title={legislacion.resolucion.titulo} description={`${legislacion.resolucion.archivo} · PDF`} href={legislacion.resolucion.url} download />
@@ -241,7 +241,7 @@ export default function EIBPage() {
           </div>
         </section>
 
-        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             <RepositoryPanel title="Proyectos por nivel" icon={<Layers className="h-4 w-4" />}>
               <ProjectGroup index="01" title="Inicial" items={proyectos.inicial} />
@@ -252,7 +252,7 @@ export default function EIBPage() {
           </div>
         </section>
 
-        <section className="px-4 py-3 sm:px-6 sm:py-4 md:py-4">
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             <div className="space-y-4">
               <ArchiveGroup title="Calendario intercultural" icon={<Calendar className="h-4 w-4" />} items={celebracionesCalendario} />

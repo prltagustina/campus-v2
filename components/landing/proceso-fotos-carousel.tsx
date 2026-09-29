@@ -86,7 +86,7 @@ export function ProcesoFotosCarousel({ photos }: { photos: ProcesoFoto[] }) {
            carruseles del sitio (DocumentoStepper, "Cómo está organizada
            cada área"), alineado a la izquierda donde arranca la fila de
            fotos. */}
-        <CarouselDots className="mt-3" />
+        <CarouselDots className="mt-6" />
       </Carousel>
     </div>
   );

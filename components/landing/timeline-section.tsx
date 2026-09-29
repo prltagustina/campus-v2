@@ -28,7 +28,7 @@ const proceso2025Fotos = events2025.map(([date, title, , src, alt]) => ({ src, d
 export function TimelineSection() {
   return <section id="proceso" className="w-full px-5 pb-8 pt-3 md:px-10 md:py-14">
     <header className="mb-6 max-w-2xl sm:mb-9"><h2 className="font-display text-3xl font-semibold tracking-[-.035em] text-[#494963] sm:text-4xl md:text-5xl">Proceso<br />de construcción colectiva</h2></header>
-    <div className="border-b border-[#494963]/15">
+    <div>
       {years.map(([year, stage, description]) => (
         <article key={year} className="grid min-w-0 gap-2 border-t border-[#494963]/10 py-5 first:border-t-0 sm:gap-3 sm:py-6 md:grid-cols-[170px_1fr] md:py-7">
           <div><span className="font-display text-3xl font-semibold tracking-[-.04em] text-[#494963]">{year}</span><span className="mt-1 block text-[10px] font-bold uppercase tracking-[.15em] text-[#494963]/35">{stage}</span></div>

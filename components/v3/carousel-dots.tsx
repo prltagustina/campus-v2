@@ -6,8 +6,9 @@ import { useCarousel } from "@/components/ui/carousel";
 /**
  * Indicador de posición por puntitos (no "N / M" en texto) — mismo criterio
  * en todos los carruseles que lo usan (antes DocumentoStepper y "Cómo está
- * organizada cada área" lo reimplementaban cada uno por su lado). Van
- * alineados a la izquierda, donde arranca la fila de tarjetas/fotos.
+ * organizada cada área" lo reimplementaban cada uno por su lado). Centrados
+ * (antes alineados a la izquierda) y con la misma distancia respecto del
+ * contenido de arriba en los tres lugares donde aparecen.
  */
 export function CarouselDots({ className = "" }: { className?: string }) {
   const { api } = useCarousel();
@@ -28,7 +29,7 @@ export function CarouselDots({ className = "" }: { className?: string }) {
   }, [api]);
 
   return (
-    <div className={`flex gap-[6px] ${className}`} aria-label={`Elemento ${selected + 1} de ${snapCount}`}>
+    <div className={`flex w-full justify-center gap-[6px] ${className}`} aria-label={`Elemento ${selected + 1} de ${snapCount}`}>
       {Array.from({ length: snapCount }).map((_, index) => (
         <button
           key={index}
