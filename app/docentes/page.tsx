@@ -1,4 +1,4 @@
-import { Bookmark, BookOpen, GraduationCap, Scale } from "lucide-react";
+import { Bookmark, BookOpen, CirclePlay, GraduationCap, Scale } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { SlideDeckEmbed } from "@/components/v3/content-blocks";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
@@ -48,7 +48,18 @@ export default function DocentesPage() {
           <div className="mx-auto max-w-4xl space-y-6">
             <RepositoryPanel title="Material de apoyo para el trabajo institucional" icon={<BookOpen className="h-4 w-4" />} chips>
               {materialApoyo.map((documento) => (
-                <ResourceRow key={documento.url} title={documento.nombre} href={documento.url} download chip sideActions />
+                // "Presentación para supervisores...": ícono de play, no de
+                // documento — así la distingue el Campus (es un video, no un
+                // PDF), mismo criterio en Marco General.
+                <ResourceRow
+                  key={documento.url}
+                  title={documento.nombre}
+                  href={documento.url}
+                  download
+                  chip
+                  sideActions
+                  icon={documento.nombre.includes("Presentación para supervisores") ? <CirclePlay className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#494963" }} aria-hidden="true" /> : undefined}
+                />
               ))}
             </RepositoryPanel>
             <RepositoryPanel title="Normativa" icon={<Scale className="h-4 w-4" />} chips>
