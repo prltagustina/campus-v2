@@ -239,7 +239,7 @@ export default function EIBPage() {
                   <p className="mb-2 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Resolución</p>
                   <div className="space-y-2">
                     {legislacion.resoluciones.map((documento) => (
-                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip />
+                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip sideActions />
                     ))}
                   </div>
                 </div>
@@ -247,7 +247,7 @@ export default function EIBPage() {
                   <p className="mb-2 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Decretos / Ley</p>
                   <div className="space-y-2">
                     {legislacion.decretosLey.map((documento) => (
-                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip />
+                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip sideActions />
                     ))}
                   </div>
                 </div>

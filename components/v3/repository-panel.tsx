@@ -81,6 +81,12 @@ export function ResourceRow({
    * fila plana dentro de una caja compartida — usar junto con
    * `RepositoryPanel chips`. */
   chip = false,
+  /** Acciones al costado del texto ya desde mobile (no recién desde sm) —
+   * por defecto en todos lados (antes había que pasarlo caso por caso y
+   * quedaban filas apiladas por olvido, con el chip más alto de lo
+   * necesario). Pasar `false` solo si un título+descripción puntual
+   * necesita el quiebre a dos líneas en mobile. */
+  sideActions = true,
 }: {
   title: string;
   description?: string;
@@ -90,12 +96,13 @@ export function ResourceRow({
   color?: string;
   showActionLabel?: boolean;
   chip?: boolean;
+  sideActions?: boolean;
 }) {
   const actionLabel = download ? "Descargar" : "Abrir";
 
   return (
     <article
-      className={`group/resource grid min-w-0 gap-3 px-4 py-4 transition-colors sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-5 sm:px-6 sm:py-5 ${chip ? "rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)] hover:shadow-[0_4px_16px_rgba(73,73,99,.10)]" : "hover:bg-[#494963]/[.025]"}`}
+      className={`group/resource grid min-w-0 gap-3 px-4 py-4 transition-colors sm:px-6 sm:py-5 ${sideActions ? "grid-cols-[minmax(0,1fr)_auto] items-center" : "sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"} sm:gap-5 ${chip ? "rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)] hover:shadow-[0_4px_16px_rgba(73,73,99,.10)]" : "hover:bg-[#494963]/[.025]"}`}
       style={{ ["--area" as string]: color }}
     >
       <a
