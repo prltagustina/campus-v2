@@ -161,13 +161,16 @@ function AreaHorizontalNav({ pathname }: { pathname: string }) {
   const current = items[currentIndex];
   const previous = items[(currentIndex - 1 + items.length) % items.length];
   const next = items[(currentIndex + 1) % items.length];
-  const chipClass = "flex min-w-0 flex-1 flex-col gap-0.5 rounded-2xl border px-4 py-2.5 text-[var(--chip)] transition-colors duration-150 hover:bg-[var(--chip)] hover:text-[var(--chip-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]";
+  // rounded-[9px]: mismo radio que los botones de área (AreaNavLink) y el
+  // resto de los botones del sitio — antes estos tres usaban rounded-2xl,
+  // más redondeado que todo lo demás.
+  const chipClass = "flex min-w-0 flex-1 flex-col gap-0.5 rounded-[9px] border px-4 py-2.5 text-[var(--chip)] transition-colors duration-150 hover:bg-[var(--chip)] hover:text-[var(--chip-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#494963]";
 
   return (
     <nav aria-label="Navegación entre áreas" className="flex flex-col gap-2 bg-white px-3 pb-4 pt-10">
       <span
         aria-current="page"
-        className="flex min-w-0 flex-col gap-0.5 rounded-2xl px-4 py-2.5"
+        className="flex min-w-0 flex-col gap-0.5 rounded-[9px] px-4 py-2.5"
         style={{ backgroundColor: current.color, color: current.textColor }}
       >
         <span className="text-[10px] font-bold uppercase tracking-[.12em] opacity-70">Estás en</span>

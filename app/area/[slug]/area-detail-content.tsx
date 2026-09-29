@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Bookmark } from "lucide-react";
+import { Bookmark, CirclePlay } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
 import { MARCO_GENERAL_COLOR } from "@/lib/constants";
 import { DocumentoStepper } from "@/components/v3/content-blocks";
@@ -27,12 +27,14 @@ const centralAxes = [
   ["Formación Ética y Ciudadana", "Sus contenidos se profundizan en Ciudadanía, Derechos Humanos y Participación, Saberes, Vidas y Mundos y Ciencias Sociales."],
 ] as const;
 
+// Mismos documentos, mismos nombres y mismos PDFs que "Documentos y
+// descargas" en https://campuseducativo.santafe.edu.ar/diseno-curricular/marco-general/
+// (antes había acá dos ítems más — Resolución 1410/2026 y Jornada Ampliada —
+// que en el Campus solo están en Docentes, no en Marco General).
 const marcoDocuments = [
-  ["\"Documento de acompañamiento N° 1\"", "Material para la implementación institucional", "/docs/Documento_Acompanamiento.pdf"],
-  ["\"Documento de acompañamiento N° 2\"", "Implementación de Saberes, Vidas y Mundos", "/docs/Documento_Acompanamiento_2.pdf"],
-  ["\"Presentación para supervisores\"", "Síntesis institucional del nuevo diseño", "/docs/Presentacion_Supervisores.pdf"],
-  ["\"Resolución 1410/2026\"", "Programa Inglés para la Ruralidad", "/documentos/resolucion-1410-26-ingles.pdf"],
-  ["\"Jornada Ampliada o Completa\"", "Más tiempo para transformar los aprendizajes", "/documentos/jornada-ampliada-o-completa.pdf"],
+  ["\"Documento de acompañamiento para docentes y directivos, N° 1\"", "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/02/Documento-de-acompanamiento-para-directivos-y-supervisores-N1.pdf"],
+  ["\"Documento de acompañamiento para docentes y directivos, N° 2\"", "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/02/Documento-de-acompanamiento-para-directivos-y-supervisores-N2.pdf"],
+  ["\"Presentación para supervisores, directivos y docentes\"", "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2025/12/Presentacion-para-supervisores-directivos-y-docentes.pdf"],
 ] as const;
 
 const marcoTrainings = [
@@ -99,21 +101,35 @@ function MarcoGeneralContent() {
           {/* ResourceRow (mismo componente que Familias/Docentes/EIB), con el
              color del Marco General — mismo tratamiento que las filas de
              Itinerarios/repositorios de área (RepositoryMaterialRow):
-             ícono y botón de acción teñidos, no un ícono gris genérico. */}
-          <div className="mt-4 overflow-hidden rounded-2xl bg-white" role="tabpanel">
+             ícono y botón de acción teñidos, no un ícono gris genérico.
+             chip: tarjeta suelta por ítem, no una caja única con líneas
+             divisorias (antes era la única lista del sitio que no lo tenía). */}
+          <div className="mt-4" role="tabpanel">
             {resourceView === "documentos" ? (
-              <div className="divide-y divide-[#494963]/[.08]">
-                {marcoDocuments.map(([title, description, href]) => (
-                  <ResourceRow key={href} title={title} description={description} href={href} download color={MARCO_GENERAL_COLOR} showActionLabel />
+              <div className="space-y-2">
+                {marcoDocuments.map(([title, href]) => (
+                  // "Presentación para supervisores": ícono de play, no de
+                  // documento — así la distingue el Campus (es un video, no
+                  // un PDF), mismo criterio en Docentes.
+                  <ResourceRow
+                    key={href}
+                    title={title}
+                    href={href}
+                    download
+                    color={MARCO_GENERAL_COLOR}
+                    showActionLabel
+                    chip
+                    icon={title.includes("Presentación para supervisores") ? <CirclePlay className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" /> : undefined}
+                  />
                 ))}
               </div>
             ) : (
-              <div className="divide-y divide-[#494963]/[.08]">
+              <div className="space-y-2">
                 {marcoTrainings.map(([title, description, href]) => (
                   // Bookmark: mismo ícono que distingue "formaciones" de un
                   // documento en Docentes, acá con el color propio de Marco
                   // General (mismo criterio que usan sus otras filas).
-                  <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} showActionLabel icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
+                  <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} showActionLabel chip icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
                 ))}
               </div>
             )}
