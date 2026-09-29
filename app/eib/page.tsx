@@ -148,7 +148,7 @@ const asTitle = (nombre: string) => (nombre.trim().startsWith('"') ? nombre : `"
 function ProjectGroup({ title, index, items }: { title: string; index: string; items: { nombre: string; url: string }[] }) {
   return (
     <section className="grid min-w-0 gap-4 border-l-4 border-[#494963]/[.12] pl-5 sm:pl-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-7">
-      <header className="flex items-start gap-3 md:block">
+      <header className="flex items-center gap-3 md:block">
         <p className="font-display text-4xl font-black leading-none tabular-nums text-[#494963]/[.14] sm:text-5xl">{index}</p>
         {/* text-xl fijo (antes sm:text-2xl): mismo tamaño que el título de
            ArchiveGroup ("Calendario intercultural"/"Memorias y recursos"),
