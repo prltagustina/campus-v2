@@ -39,8 +39,8 @@ const marcoDocuments = [
 ] as const;
 
 const marcoTrainings = [
-  ["\"Diversificación para la Enseñanza\"", "Curso en Campus Educativo", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
-  ["\"Planificar la enseñanza en el nuevo Diseño Curricular\"", "Formación para equipos docentes", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
+  ["\"Diversificación para la Enseñanza\"", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
+  ["\"Planificar la enseñanza en el nuevo Diseño Curricular\"", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
 ] as const;
 
 function MarcoGeneralContent() {
@@ -59,7 +59,7 @@ function MarcoGeneralContent() {
     return () => window.cancelAnimationFrame(frame);
   }, [selectedAxis]);
   return (
-    <div className="flex min-h-full flex-col bg-white">
+    <div className="bg-white">
       {/* Sin pb propio: el espacio hasta "Recursos" lo da el !pt-8/md:!pt-10
          de esa sección (mismo criterio que en las áreas) — un pb acá sumaba
          un aire extra que no tenía ningún otro salto entre secciones. */}
@@ -124,11 +124,11 @@ function MarcoGeneralContent() {
             </div>
             <div className="px-4 pb-5 sm:px-6 md:pb-8 lg:pb-10">
               <div className="mx-auto max-w-4xl space-y-2">
-                {marcoTrainings.map(([title, description, href]) => (
+                {marcoTrainings.map(([title, href]) => (
                   // Bookmark: mismo ícono que distingue "formaciones" de un
                   // documento en Docentes, acá con el color propio de Marco
                   // General (mismo criterio que usan sus otras filas).
-                  <ResourceRow key={href} title={title} description={description} href={href} color={MARCO_GENERAL_COLOR} showActionLabel chip icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
+                  <ResourceRow key={href} title={title} href={href} color={MARCO_GENERAL_COLOR} showActionLabel chip icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: MARCO_GENERAL_COLOR }} aria-hidden="true" />} />
                 ))}
               </div>
             </div>
@@ -187,11 +187,7 @@ function MarcoGeneralContent() {
         </div>
       </div>
       </section>
-      {/* flex-1: mismo mecanismo que la "línea histórica" de Inicio — si el
-         contenido entra en la pantalla sin necesitar scroll, Organización
-         (el último bloque) se centra en el aire que sobra hasta el borde
-         real del panel, en vez de quedar corto contra el rail. */}
-      <div id="organizacion" className="flex flex-1 flex-col">
+      <div id="organizacion">
         <DocumentoStepper title={<>Qué enseñar<br />cómo hacerlo<br />y con qué propósito</>} steps={[
           {
             title: "Qué enseñar",
@@ -215,9 +211,7 @@ function MarcoGeneralContent() {
             ],
           },
         ]} />
-        <div className="flex flex-1 flex-col">
-          <div className="m-auto w-full"><OrganizationCompact /></div>
-        </div>
+        <OrganizationCompact />
       </div>
     </div>
   );
