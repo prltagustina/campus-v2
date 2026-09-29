@@ -42,7 +42,10 @@ export function ProcesoFotosCarousel({ photos }: { photos: ProcesoFoto[] }) {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
-    <div className="mt-4">
+    // mt/mb: antes solo tenía mt-4 y nada abajo — quedaba pegado al párrafo
+    // de arriba y, abajo, solo separado por el padding del propio <article>
+    // (compartido con las filas sin foto), así que se sentía todo junto.
+    <div className="mt-8 mb-4 sm:mt-10 sm:mb-6">
       <Carousel
         opts={{ align: "start", duration: prefersReducedMotion ? 0 : 22, loop: true }}
         aria-label="Fotos del Proceso de Construcción Colectiva"

@@ -4,7 +4,10 @@ import { orderedAreas } from "@/lib/v3-config";
 type AreaNavItem = (typeof orderedAreas)[number];
 
 export function areaNavForeground(area: AreaNavItem) {
-  if (area.slug === "ciencias-sociales") return "#F7FAFF";
+  // Mismo oscuro que Lenguas Extranjeras: sobre el celeste clarito de
+  // Ciencias Sociales, el texto/ícono blanquecino de antes (#F7FAFF)
+  // contrastaba mal — este oscuro se lee mucho mejor ahí.
+  if (area.slug === "ciencias-sociales") return "#494963";
   if (area.slug === "lenguas-extranjeras") return "#494963";
   return area.textOnColor;
 }

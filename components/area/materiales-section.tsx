@@ -13,6 +13,7 @@ import {
 } from "@/lib/itinerarios-data";
 import { areaNavForeground } from "@/components/v3/area-nav-link";
 import { RepositoryAccordionGroup, RepositoryFileGroup } from "@/components/v3/repository-accordion";
+import { PillTabs } from "@/components/v3/pill-tabs";
 
 interface MaterialesSectionProps {
   area: Area;
@@ -358,33 +359,18 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
       </div>
 
       {/* Barra de idiomas fija al scrollear, mismo criterio que la barra de
-         lenguajes de Educación Artística (ver ArtisticLanguageTabs). */}
-      <div
-        className="sticky top-0 z-30 flex flex-wrap gap-2.5 bg-white px-4 py-3 shadow-[0_8px_16px_-16px_rgba(25,25,42,.35)] sm:px-7 md:gap-3"
-        role="tablist"
-        aria-label="Idiomas de Lenguas Extranjeras"
-      >
-        {idiomas.map((idioma) => {
-          const active = idioma.id === idiomaSeleccionado;
-          return (
-            <button
-              key={idioma.id}
-              id={"idioma-tab-" + idioma.id}
-              type="button"
-              role="tab"
-              aria-selected={active}
-              aria-controls="idioma-recursos-panel"
-              onClick={() => selectLanguage(idioma.id)}
-              className={
-                "rounded-[9px] border px-5 py-3.5 text-[17px] font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-[var(--tab-fg)] " +
-                (active ? "bg-[var(--tab)] text-[var(--tab-fg)]" : "bg-white text-[var(--tab)]")
-              }
-              style={{ borderColor: area.color, ["--tab" as string]: area.color, ["--tab-fg" as string]: areaNavForeground(area) }}
-            >
-              {idioma.name}
-            </button>
-          );
-        })}
+         lenguajes de Educación Artística (PillTabs, compartido). */}
+      <div className="sticky top-0 z-30 bg-white px-4 py-3 shadow-[0_8px_16px_-16px_rgba(25,25,42,.35)] sm:px-7">
+        <PillTabs
+          options={idiomas}
+          selectedId={idiomaSeleccionado}
+          onSelect={selectLanguage}
+          color={area.color}
+          activeForeground={areaNavForeground(area)}
+          ariaLabel="Idiomas de Lenguas Extranjeras"
+          panelId="idioma-recursos-panel"
+          idPrefix="idioma-tab"
+        />
       </div>
 
       <div

@@ -6,6 +6,7 @@ import { VideoEmbed } from "@/components/v3/content-blocks";
 import { DocumentoExplainer } from "@/components/v3/documento-explainer";
 import { MaterialesSection } from "@/components/area/materiales-section";
 import { FormacionesSection } from "@/components/area/formaciones-section";
+import { PillTabs } from "@/components/v3/pill-tabs";
 
 const covers: Record<string, string> = {
   matematica: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2-Matematica-web_Pa%CC%81gina_01-MCFeyxLSelYTcVpIrKsUvmK6H7FF1J.jpg",
@@ -93,30 +94,19 @@ function ArtisticLanguageTabs({
 }) {
   const subareas = orderedArtisticSubareas(area);
   const options = [{ id: artisticAreaId, name: "Ed. Artística" }, ...subareas];
-  const selected = options.find((option) => option.id === selectedId) ?? options[0];
 
   return (
     <section className="sticky top-0 z-30 bg-white px-4 py-6 shadow-[0_8px_16px_-16px_rgba(25,25,42,.35)] md:px-[14px] md:pb-8 md:pt-0">
-      <div className="flex flex-wrap gap-2.5 md:gap-3" role="tablist" aria-label="Educación Artística y sus lenguajes">
-        {options.map((option) => {
-          const active = option.id === selected.id;
-          return (
-            <button
-              key={option.id}
-              id={`lenguaje-tab-${option.id}`}
-              type="button"
-              role="tab"
-              aria-selected={active}
-              aria-controls="lenguaje-documento"
-              onClick={() => onSelect(option.id)}
-              className={`rounded-[9px] border px-5 py-3.5 text-[17px] font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-white ${active ? "bg-[var(--tab)] text-white" : "bg-white text-[var(--tab)]"}`}
-              style={{ borderColor: area.color, ["--tab" as string]: area.color }}
-            >
-              {option.name}
-            </button>
-          );
-        })}
-      </div>
+      <PillTabs
+        options={options}
+        selectedId={selectedId}
+        onSelect={onSelect}
+        color={area.color}
+        activeForeground={area.textOnColor}
+        ariaLabel="Educación Artística y sus lenguajes"
+        panelId="lenguaje-documento"
+        idPrefix="lenguaje-tab"
+      />
     </section>
   );
 }
