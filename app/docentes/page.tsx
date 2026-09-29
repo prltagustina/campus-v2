@@ -39,9 +39,9 @@ export default function DocentesPage() {
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Repositorio institucional" icon={<BookOpen className="h-4 w-4" />}>
+            <RepositoryPanel title="Repositorio institucional" icon={<BookOpen className="h-4 w-4" />} chips>
               {documentos.map(([title, description, url]) => (
-                <ResourceRow key={url} title={title} description={`${description} · PDF`} href={url} download />
+                <ResourceRow key={url} title={title} description={`${description} · PDF`} href={url} download chip />
               ))}
             </RepositoryPanel>
           </div>
@@ -49,13 +49,13 @@ export default function DocentesPage() {
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Propuestas disponibles" icon={<GraduationCap className="h-4 w-4" />}>
+            <RepositoryPanel title="Propuestas disponibles" icon={<GraduationCap className="h-4 w-4" />} chips>
               {formaciones.map(([title, description, url]) => (
                 // Bookmark, no FileText: distingue de un documento (mismo
                 // criterio en todo lugar donde aparecen formaciones). Color
                 // oscuro sólido (antes /35, se veía apagado al lado de los
                 // demás íconos de la fila).
-                <ResourceRow key={url} title={title} description={description} href={url} icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#494963" }} aria-hidden="true" />} />
+                <ResourceRow key={url} title={title} description={description} href={url} icon={<Bookmark className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#494963" }} aria-hidden="true" />} chip />
               ))}
             </RepositoryPanel>
           </div>

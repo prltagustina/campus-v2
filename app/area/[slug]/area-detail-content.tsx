@@ -64,7 +64,7 @@ function MarcoGeneralContent() {
       <div id="documento">
         <DocumentoExplainer
           titulo="Marco General"
-          heading="Los ejes centrales del nuevo Diseño Curricular"
+          heading={<>Los ejes centrales<br />del nuevo Diseño Curricular</>}
           descripcion="El Marco General establece los lineamientos políticos y pedagógico-didácticos de la propuesta, y define la organización curricular para la Educación Primaria de la Provincia de Santa Fe."
           portadaSrc="/images/marco-general-portada.jpg"
           pdfUrl="https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/04/marco-general.pdf"

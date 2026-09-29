@@ -44,34 +44,37 @@ export function VideoEmbed({
 export function SlideDeckEmbed({ src, title, label = "Presentación institucional" }: { src: string; title: string; label?: string }) {
   const [loaded, setLoaded] = useState(false);
 
-  return <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
-    <div className="flex items-center gap-3 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
+  return <div>
+    {/* Encabezado suelto, afuera de la tarjeta: mismo criterio "chips" que
+       RepositoryPanel (Marco normativo, Documentos disponibles, etc.) —
+       antes el título y el "Abrir" vivían dentro de la misma caja que el
+       video, como un contenedor todo-en-uno. */}
+    <div className="flex items-center gap-3 px-1 pb-3">
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Presentation className="h-4 w-4" /></span>
-      <div className="min-w-0 flex-1"><p className="truncate font-display text-xl font-semibold text-[#494963]">{label}</p></div>
-      {/* Mismo color y tamaño que el ícono de "Abrir" de ResourceRow: círculo
-         h-10 w-10, bg-[.06] y texto oscuro sólido (antes bg-[#F1F1F4] y
-         texto /45, quedaba más chico y apagado que el resto). */}
+      <div className="min-w-0 flex-1"><h3 className="truncate font-display text-xl font-semibold text-[#494963]">{label}</h3></div>
       <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
     </div>
-    <div className="bg-[#E9E9EE] p-1.5 md:p-2">
-      <div className="relative aspect-video overflow-hidden rounded-xl bg-[#DDDDE4]">
-        {!loaded ? (
-          <div className="absolute inset-0 z-10 grid place-items-center bg-[#F4F4F6]" role="status" aria-live="polite">
-            <span className="flex items-center gap-3 text-sm font-semibold text-[#494963]/65">
-              <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#494963]/15 border-t-[#494963]" aria-hidden="true" />
-              Cargando presentación…
-            </span>
-          </div>
-        ) : null}
-        <iframe
-          src={src}
-          className={`absolute inset-0 h-full w-full bg-white transition-opacity ${loaded ? "opacity-100" : "opacity-0"}`}
-          title={title}
-          loading="lazy"
-          referrerPolicy="strict-origin-when-cross-origin"
-          onLoad={() => setLoaded(true)}
-          allowFullScreen
-        />
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)]">
+      <div className="bg-[#E9E9EE] p-1.5 md:p-2">
+        <div className="relative aspect-video overflow-hidden rounded-xl bg-[#DDDDE4]">
+          {!loaded ? (
+            <div className="absolute inset-0 z-10 grid place-items-center bg-[#F4F4F6]" role="status" aria-live="polite">
+              <span className="flex items-center gap-3 text-sm font-semibold text-[#494963]/65">
+                <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#494963]/15 border-t-[#494963]" aria-hidden="true" />
+                Cargando presentación…
+              </span>
+            </div>
+          ) : null}
+          <iframe
+            src={src}
+            className={`absolute inset-0 h-full w-full bg-white transition-opacity ${loaded ? "opacity-100" : "opacity-0"}`}
+            title={title}
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            onLoad={() => setLoaded(true)}
+            allowFullScreen
+          />
+        </div>
       </div>
     </div>
   </div>;

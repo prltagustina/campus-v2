@@ -14,6 +14,10 @@ export function RepositoryPanel({
   icon,
   count,
   children,
+  /** "Chips" (EIB): encabezado suelto, sin caja blanca de fondo ni líneas
+   * divisorias — cada fila trae su propia tarjeta (ver `chip` en
+   * ResourceRow), separadas por aire, como en la página de referencia. */
+  chips = false,
 }: {
   title: string;
   /** Metadata secundaria (p. ej. "Resoluciones y documentos de referencia").
@@ -25,21 +29,28 @@ export function RepositoryPanel({
    * salvo que el conteo aporte algo que el título no dice ya. */
   count?: number;
   children: ReactNode;
+  chips?: boolean;
 }) {
+  const header = (
+    <div className={`flex items-center justify-between gap-4 ${chips ? "px-1 pb-3" : "border-b border-[#494963]/[.07] px-5 py-3 sm:px-6"}`}>
+      <div className="flex min-w-0 items-center gap-3">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
+        <div className="min-w-0">
+          <h3 className="font-display text-xl font-semibold text-[#494963]">{title}</h3>
+          {detail ? <p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p> : null}
+        </div>
+      </div>
+      {count !== undefined ? (
+        <span className="rounded-full bg-[#494963]/[.06] px-3 py-1 text-xs font-bold text-[#494963]/55">{count}</span>
+      ) : null}
+    </div>
+  );
+
+  if (chips) return <div>{header}<div className="space-y-2">{children}</div></div>;
+
   return (
     <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
-      <div className="flex items-center justify-between gap-4 border-b border-[#494963]/[.07] px-5 py-3 sm:px-6">
-        <div className="flex min-w-0 items-center gap-3">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
-          <div className="min-w-0">
-            <h3 className="font-display text-xl font-semibold text-[#494963]">{title}</h3>
-            {detail ? <p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p> : null}
-          </div>
-        </div>
-        {count !== undefined ? (
-          <span className="rounded-full bg-[#494963]/[.06] px-3 py-1 text-xs font-bold text-[#494963]/55">{count}</span>
-        ) : null}
-      </div>
+      {header}
       <div className="divide-y divide-[#494963]/[.07]">{children}</div>
     </div>
   );
@@ -66,6 +77,10 @@ export function ResourceRow({
    * lados). Solo Marco General lo usa — en Familias/Docentes/EIB el botón
    * de acción queda solo ícono, igual en todos los anchos. */
   showActionLabel = false,
+  /** "Chip" (EIB): tarjeta blanca individual con sombra propia, en vez de
+   * fila plana dentro de una caja compartida — usar junto con
+   * `RepositoryPanel chips`. */
+  chip = false,
 }: {
   title: string;
   description?: string;
@@ -74,12 +89,13 @@ export function ResourceRow({
   icon?: ReactNode;
   color?: string;
   showActionLabel?: boolean;
+  chip?: boolean;
 }) {
   const actionLabel = download ? "Descargar" : "Abrir";
 
   return (
     <article
-      className="group/resource grid min-w-0 gap-3 px-4 py-4 transition-colors hover:bg-[#494963]/[.025] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-5 sm:px-6 sm:py-5"
+      className={`group/resource grid min-w-0 gap-3 px-4 py-4 transition-colors sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-5 sm:px-6 sm:py-5 ${chip ? "rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)] hover:shadow-[0_4px_16px_rgba(73,73,99,.10)]" : "hover:bg-[#494963]/[.025]"}`}
       style={{ ["--area" as string]: color }}
     >
       <a
