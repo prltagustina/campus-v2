@@ -14,10 +14,16 @@ interface SectionTabsProps {
   children: ReactNode;
   /** Mantiene montados los paneles ya visitados para no recargar embeds remotos. */
   keepVisitedPanels?: boolean;
+  /** Al cambiar de tab, lleva el scroll de #contenido al tope — tiene sentido
+   * cuando el SectionTabs es casi toda la página (Familias/Docentes/EIB,
+   * arranca pegado al header). Cuando el SectionTabs vive a mitad de una
+   * página más larga (Marco General), saltar al tope aleja al usuario de
+   * donde estaba mirando — pasar `false` ahí. */
+  scrollToTopOnChange?: boolean;
 }
 
 /** Selector editorial estable para páginas con varias colecciones de contenido. */
-export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false }: SectionTabsProps) {
+export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false, scrollToTopOnChange = true }: SectionTabsProps) {
   const panels = Children.toArray(children);
   const [activeIndex, setActiveIndex] = useState(0);
   const [visitedIndices, setVisitedIndices] = useState<Set<number>>(() => new Set([0]));
@@ -37,7 +43,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
       });
     }
     setActiveIndex(index);
-    document.getElementById("contenido")?.scrollTo({ top: 0, behavior: "instant" });
+    if (scrollToTopOnChange) document.getElementById("contenido")?.scrollTo({ top: 0, behavior: "instant" });
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
