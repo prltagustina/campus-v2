@@ -136,6 +136,8 @@ const sizeClasses = {
     arrow: "h-10 w-10",
     /** El título de primer nivel sí puede llevar el color del área. */
     titleTinted: true,
+    /** Nivel principal con materiales: relleno sólido del color del área. */
+    solidFill: true,
   },
   /** Nivel anidado (ciclos/subgrupos dentro de una categoría de Itinerarios).
    * Antes era un fondo gris casi blanco (#F7F7F9) con texto semibold —
@@ -156,6 +158,10 @@ const sizeClasses = {
     arrow: "h-8 w-8",
     /** A diferencia de antes, el título sí lleva el color del área. */
     titleTinted: true,
+    /** Nunca relleno sólido (aunque ahora sea colapsable como el nivel
+     * principal): tiene que seguir leyéndose como un nivel anidado, no
+     * confundirse con Docencia/Estudiantes de arriba. */
+    solidFill: false,
   },
 } as const;
 
@@ -193,7 +199,7 @@ export function RepositoryAccordionGroup({
   const contentId = `repositorio-${id}`;
   const s = sizeClasses[size];
   /** Nivel principal con materiales: relleno sólido del color del área, no solo acento. */
-  const filled = s.titleTinted && total > 0;
+  const filled = s.solidFill && total > 0;
   const fg = activeForeground ?? "#fff";
   const isOpen = collapsible ? open ?? false : true;
 
