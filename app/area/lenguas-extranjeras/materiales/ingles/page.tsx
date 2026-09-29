@@ -14,6 +14,7 @@ import { BackLink } from "@/components/v3/back-link";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
 
 const AREA_COLOR = "#FFCB02";
+const TEXT_ON_COLOR = "#5c4a00";
 const PRESENTATION_VIDEO_ID = "rAAkotC7txU";
 
 /* Issues de English Funzine */
@@ -502,19 +503,19 @@ function MaterialCard({
         />
       </div>
 
-      {/* Mismo tratamiento que las acciones de los repositorios del resto
-         del sitio: círculo neutro en mobile/tablet y acción de texto sin
-         fondo en desktop, junto al botón compartido de Compartir. */}
-      <div className="flex items-center gap-1" style={{ ["--area" as string]: AREA_COLOR }}>
+      {/* Descarga principal en amarillo, con el radio corto del sistema (no
+         circular). Compartir conserva la acción secundaria compacta. */}
+      <div className="flex items-center gap-2">
         <a
           href={pdfUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Descargar ${title}`}
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent"
+          className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-[9px] px-4 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963]"
+          style={{ backgroundColor: AREA_COLOR, color: TEXT_ON_COLOR }}
         >
           <Download className="h-4 w-4 shrink-0" />
-          <span className="hidden text-xs font-semibold xl:inline xl:text-sm">Descargar</span>
+          <span className="text-sm font-semibold">Descargar PDF</span>
         </a>
         <ShareResourceButton title={`English Funzine - ${title}`} url={pdfUrl} />
       </div>
