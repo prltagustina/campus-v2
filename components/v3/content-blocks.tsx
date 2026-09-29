@@ -174,7 +174,10 @@ export function DocumentoStepper({ title, steps }: { title: React.ReactNode; ste
   return (
     <section className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
       <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
-      <Carousel opts={{ loop: true }}>
+      {/* Sin loop: al llegar al último paso, "Siguiente" se deshabilita en
+         vez de volver al primero — mismo criterio en todos los carruseles
+         del sitio. */}
+      <Carousel opts={{ loop: false }}>
         <h2 className="max-w-sm font-sans text-2xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">{title}</h2>
         {/* Anterior/Siguiente sobre el propio paso (no arriba, junto al
            título): "relative" acá adentro, no en el <Carousel>, para que se
