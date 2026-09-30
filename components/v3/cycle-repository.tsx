@@ -118,8 +118,11 @@ export function CycleRepository({
         </div>
       </header>
 
-      <div className="mx-auto max-w-5xl pb-12 pt-2 [overflow-anchor:none] md:px-8 md:pb-16 md:pt-3">
-        <div className="divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-2xl md:border-x" aria-label={`Repositorios de ${title}`}>
+      {/* px-4 (antes solo md:px-8): mismo motivo que en Itinerarios por área -
+         cada grupo ahora tiene su propio borde redondeado y quedaba a
+         sangrado en mobile. */}
+      <div className="mx-auto max-w-5xl px-4 pb-12 pt-2 [overflow-anchor:none] md:px-8 md:pb-16 md:pt-3">
+        <div className="flex flex-col gap-2.5" aria-label={`Repositorios de ${title}`}>
           {groups.map((group) => (
             <AreaRepository
               key={group.slug}

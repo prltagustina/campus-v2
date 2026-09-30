@@ -321,7 +321,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
 /* ── SIMULACIÓN TEMPORAL (QA visual) ──────────────────────────────────
  * Rellena con placeholders las categorías/grados que todavía no tienen
  * material real, para ver el diseño con todo "pintado". Revertir después
- * de la revisión visual — no es contenido real. */
+ * de la revisión visual - no es contenido real. */
 const SIMULATE_ALL_FILLED = true;
 
 function placeholderFile(label: string): ItinerarioFile {
@@ -334,12 +334,24 @@ function placeholderFile(label: string): ItinerarioFile {
   };
 }
 
+// SIMULACIÓN TEMPORAL #2: además de rellenar lo vacío, suma archivos extra
+// a cada grado (tenga o no material real), para decidir si conviene
+// expandir todo por default o dar la opción de colapsar con varios
+// documentos por nivel. Revertir junto con SIMULATE_ALL_FILLED.
+const SIMULATE_MULTIPLE_FILES_PER_LEVEL = true;
+
+function conVariosArchivos(files: ItinerarioFile[], gradoName: string): ItinerarioFile[] {
+  if (!SIMULATE_MULTIPLE_FILES_PER_LEVEL) return files;
+  const extras = ["Guía complementaria", "Secuencia didáctica adicional"];
+  return [...files, ...extras.map((extra) => placeholderFile(`${extra} - ${gradoName}`))];
+}
+
 function simularCiclos(ciclos: ItinerarioCiclo[]): ItinerarioCiclo[] {
   return ciclos.map((ciclo) => ({
     ...ciclo,
     grados: ciclo.grados.map((grado) => ({
       ...grado,
-      files: grado.files.length ? grado.files : [placeholderFile(`Propuesta de enseñanza — ${grado.name}`)],
+      files: conVariosArchivos(grado.files.length ? grado.files : [placeholderFile(`Propuesta de enseñanza - ${grado.name}`)], grado.name),
     })),
   }));
 }
@@ -347,7 +359,7 @@ function simularCiclos(ciclos: ItinerarioCiclo[]): ItinerarioCiclo[] {
 function simularGradosSueltos(grados: ItinerarioGrado[]): ItinerarioGrado[] {
   return grados.map((grado) => ({
     ...grado,
-    files: grado.files.length ? grado.files : [placeholderFile(`Propuesta de enseñanza — ${grado.name}`)],
+    files: conVariosArchivos(grado.files.length ? grado.files : [placeholderFile(`Propuesta de enseñanza - ${grado.name}`)], grado.name),
   }));
 }
 

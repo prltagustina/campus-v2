@@ -254,16 +254,12 @@ function CategoriaAccordion({
       : categoria.files?.length ?? 0;
 
   // Ciclos/subgrupos anidados (Primer ciclo, Segundo ciclo, Séptimo grado,
-  // Docencia/Estudiantes de Articulación): colapsables por su cuenta, no
-  // todos abiertos apenas se abre la categoría.
-  const [openNested, setOpenNested] = useState<Set<string>>(() => new Set());
+  // Docencia/Estudiantes de Articulación): uno solo abierto a la vez -
+  // expandir otro colapsa el que estaba abierto (antes un Set permitía
+  // varios abiertos juntos).
+  const [openNested, setOpenNested] = useState<string | null>(null);
   const toggleNested = (id: string) => {
-    setOpenNested((current) => {
-      const next = new Set(current);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+    setOpenNested((current) => (current === id ? null : id));
   };
 
   return (
@@ -303,7 +299,7 @@ function CategoriaAccordion({
               ciclo={ciclo}
               color={color}
               activeForeground={activeForeground}
-              open={openNested.has(ciclo.id)}
+              open={openNested === ciclo.id}
               onToggle={() => toggleNested(ciclo.id)}
             />
           ))
@@ -317,7 +313,7 @@ function CategoriaAccordion({
               subgrupo={subgrupo}
               color={color}
               activeForeground={activeForeground}
-              open={openNested.has(subgrupo.id)}
+              open={openNested === subgrupo.id}
               onToggle={() => toggleNested(subgrupo.id)}
             />
           ))
@@ -388,7 +384,11 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
           </h4>
         </div>
 
-        <div className="divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-2xl md:border-x">
+        {/* px-4 sm:px-7 (no solo md:px-0 como en las áreas): mismo inset que
+           el header de acá arriba - en mobile cada categoría ya tiene su
+           propio borde redondeado (ver RepositoryAccordionGroup) y quedaba
+           a sangrado, pegada a los bordes de la pantalla, sin margen. */}
+        <div className="flex flex-col gap-2.5 px-4 sm:px-7">
           <RepositoryAccordionGroup
             id={`${idiomaSeleccionado}-secuencias`}
             title="Secuencias didácticas"
@@ -501,7 +501,10 @@ function ItinerarioRepository({
   };
 
   return (
-    <div className="w-full min-w-0 divide-y divide-[#494963]/[.08] overflow-hidden border-y border-[#494963]/[.08] bg-white md:rounded-2xl md:border-x">
+    // px-4 md:px-0: mismo inset que el header de "Itinerarios didácticos" de
+    // arriba - en mobile cada categoría ya tiene su propio borde redondeado
+    // y quedaba a sangrado, pegada a los bordes de la pantalla.
+    <div className="w-full min-w-0 flex flex-col gap-2.5 px-4 md:px-0">
       {itinerario.categorias.map((categoria) => (
         <CategoriaAccordion
           key={categoria.id}

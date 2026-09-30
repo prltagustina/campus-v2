@@ -54,28 +54,38 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
       <div className="min-w-0 flex-1"><h3 className="truncate font-display text-xl font-semibold text-[#494963]">{label}</h3></div>
       <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
     </div>
-    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)]">
-      <div className="bg-[#E9E9EE] p-1.5 md:p-2">
-        <div className="relative aspect-video overflow-hidden rounded-xl bg-[#DDDDE4]">
-          {!loaded ? (
-            <div className="absolute inset-0 z-10 grid place-items-center bg-[#F4F4F6]" role="status" aria-live="polite">
-              <span className="flex items-center gap-3 text-sm font-semibold text-[#494963]/65">
-                <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#494963]/15 border-t-[#494963]" aria-hidden="true" />
-                Cargando presentación…
-              </span>
-            </div>
-          ) : null}
-          <iframe
-            src={src}
-            className={`absolute inset-0 h-full w-full bg-white transition-opacity ${loaded ? "opacity-100" : "opacity-0"}`}
-            title={title}
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            onLoad={() => setLoaded(true)}
-            allowFullScreen
-          />
+    {/* Sin el marco gris (bg-[#E9E9EE] p-1.5/p-2) que envolvía el iframe -
+       pedido explícito de sacar ese reborde. md:max-h (mobile no: ahí la
+       página scrollea entera sin problema, no hace falta achicar nada):
+       sin tope, el aspect-video (16/9) a lo ancho de la tarjeta (~880px) da
+       495px de alto, que sumado a la cabecera y los tabs de
+       Familias/Docentes hacía scroll dentro de #contenido en desktop. Con
+       calc(100svh - 562px) el tope se achica junto con la ventana (562px
+       = header del sitio + cabecera editorial + tabs + fila del título de
+       la presentación, todo fijo) - así no vuelve a aparecer el scroll en
+       ventanas más bajas (1366x768, etc.), no solo en las que probé. clamp
+       para no desaparecer en ventanas muy bajas ni crecer de más en las muy
+       altas. El iframe sigue ocupando todo el ancho; Slides letterboxea
+       (barras discretas arriba/abajo, mismo fondo #DDDDE4) en vez de forzar
+       scroll de página. */}
+    <div className="relative aspect-video overflow-hidden rounded-2xl bg-[#DDDDE4] shadow-[0_2px_10px_rgba(73,73,99,.065)] md:max-h-[clamp(180px,calc(100svh_-_562px),420px)]">
+      {!loaded ? (
+        <div className="absolute inset-0 z-10 grid place-items-center bg-[#F4F4F6]" role="status" aria-live="polite">
+          <span className="flex items-center gap-3 text-sm font-semibold text-[#494963]/65">
+            <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#494963]/15 border-t-[#494963]" aria-hidden="true" />
+            Cargando presentación…
+          </span>
         </div>
-      </div>
+      ) : null}
+      <iframe
+        src={src}
+        className={`absolute inset-0 h-full w-full bg-white transition-opacity ${loaded ? "opacity-100" : "opacity-0"}`}
+        title={title}
+        loading="lazy"
+        referrerPolicy="strict-origin-when-cross-origin"
+        onLoad={() => setLoaded(true)}
+        allowFullScreen
+      />
     </div>
   </div>;
 }

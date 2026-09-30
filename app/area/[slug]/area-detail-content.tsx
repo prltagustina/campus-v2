@@ -90,7 +90,7 @@ function MarcoGeneralContent() {
           <div className="px-4 pt-5 sm:px-6 md:pt-8 lg:pt-10">
             <header className="max-w-2xl"><h2 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Documentos y formaciones</h2><p className="mt-2 text-sm sm:text-base lg:text-lg text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           </div>
-          <SectionTabs title="Recursos del Marco General" items={[{ id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels scrollToTopOnChange={false} align="left">
+          <SectionTabs title="Recursos del Marco General" items={[{ id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels scrollToTopOnChange={false} align="left" color={MARCO_GENERAL_COLOR}>
             {/* ResourceRow (mismo componente que Familias/Docentes/EIB), con
                el color del Marco General — mismo tratamiento que las filas
                de Itinerarios/repositorios de área (RepositoryMaterialRow):
