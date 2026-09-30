@@ -154,20 +154,21 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
            otra clase de fuente y el color armado como opacidad en vez del
            mismo gris sólido — mismas clases exactas que ese numeral. */}
         <div className="shrink-0">
-          {/* "Nivel" arriba del numeral: al sacarle el título+ícono al panel
-             "Proyectos por nivel" (quedaba redundante con la tab
-             "Proyectos"), el numeral solo perdía ese contexto. Misma
-             familia/peso/color que el nombre del nivel (el h3 de al lado,
-             "Inicial"/"Primario"), no el label gris chico de "Resolución" -
-             más chico en tamaño (es un prefijo, no el valor) pero del mismo
-             "tipo". */}
-          <p className="font-display text-sm font-semibold text-[#494963] sm:text-base">Nivel</p>
           <p className="font-sans text-4xl font-black leading-none text-[#E4E4E9] sm:text-5xl">{index}</p>
         </div>
-        {/* text-xl fijo (antes sm:text-2xl): mismo tamaño que el título de
+        {/* "Nivel" junto al nombre (antes arriba del numeral, en su propia
+           línea): al sacarle el título+ícono al panel "Proyectos por nivel"
+           (quedaba redundante con la tab "Proyectos"), el numeral solo
+           perdía ese contexto - va en el mismo renglón que el nombre, como
+           prefijo más liviano (font-normal + opacidad), para que lea
+           "Nivel Inicial" de corrido en vez de quedar separado arriba.
+           text-xl fijo (antes sm:text-2xl): mismo tamaño que el título de
            ArchiveGroup ("Calendario intercultural"/"Memorias y recursos"),
            el otro encabezado de subgrupo dentro de EIB. */}
-        <h3 className="font-display text-xl font-semibold leading-tight text-[#494963]">{title}</h3>
+        <h3 className="font-display text-xl leading-tight text-[#494963]">
+          <span className="font-normal text-[#494963]/45">Nivel </span>
+          <span className="font-semibold">{title}</span>
+        </h3>
       </header>
 
       {/* Chips: cada proyecto es su propia tarjeta suelta (no una lista con

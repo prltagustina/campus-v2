@@ -360,7 +360,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
          md:pb-8): mismo espacio de abajo que la separación de la botonera
          de áreas (gap-2.5), en todos los anchos. pt-2.5 en mobile (antes
          pt-6): mismo valor que el pb. */}
-      <div className="sticky top-0 z-30 bg-white px-4 pt-2.5 pb-2.5 md:px-[14px] md:pt-0">
+      <div className="sticky top-0 z-30 bg-white px-4 pt-2.5 pb-2.5 md:px-0 md:pt-0">
         <PillTabs
           options={idiomas}
           selectedId={idiomaSeleccionado}
@@ -417,13 +417,15 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
       </div>
 
       {idiomaSeleccionado === "ingles" ? (
-        // Sin mx-4/rounded-2xl fijo en mobile (antes quedaba angosto, con
-        // margen a los costados): mismo ancho que la caja de "repos" de
-        // arriba (RepositoryAccordionGroup) — al ras del borde en mobile,
-        // redondeado recién desde md.
+        // mx-4 md:mx-0 (margen en mobile/tablet, vuelve a tener márgenes a
+        // los costados ahí; sin margen desde md): en desktop tiene que
+        // quedar del mismo ancho que el repo de arriba (Secuencias/
+        // Normativa, que también va a 0 desde md) - pedido explícito.
+        // lg:min-h-[144px] (un poco más alto que antes) para que ese ancho
+        // completo no quede tan achatado.
         <Link
           href="/area/lenguas-extranjeras/materiales/ingles"
-          className="group mt-8 grid min-h-[112px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 overflow-hidden rounded-none px-5 py-5 text-[#494963] shadow-[0_14px_35px_-28px_rgba(73,73,99,.7)] transition-[box-shadow] hover:shadow-[0_18px_38px_-24px_rgba(73,73,99,.7)] sm:mt-9 sm:min-h-[124px] sm:px-7 sm:py-6 md:rounded-2xl"
+          className="group mx-4 mt-8 grid min-h-[112px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 overflow-hidden rounded-2xl px-5 py-5 text-[#494963] shadow-[0_14px_35px_-28px_rgba(73,73,99,.7)] transition-[box-shadow] hover:shadow-[0_18px_38px_-24px_rgba(73,73,99,.7)] sm:mt-9 sm:min-h-[124px] sm:px-7 sm:py-6 md:mx-0 lg:min-h-[144px]"
           style={{ backgroundColor: area.color }}
           aria-label="Abrir English Funzine, recurso de Inglés"
         >
@@ -431,7 +433,7 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-english-funzine-JxN2InFZ5FUNsqS0lqWZVRrvPgnxBj.png"
               alt="English Funzine"
-              className="h-14 w-auto max-w-[240px] object-contain object-left sm:h-16 sm:max-w-[270px] md:h-20 md:max-w-[340px]"
+              className="h-14 w-auto max-w-[240px] object-contain object-left sm:h-16 sm:max-w-[270px] md:h-20 md:max-w-[340px] lg:h-24 lg:max-w-[400px]"
             />
           </span>
           <span className="flex items-center text-[#494963]">

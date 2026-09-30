@@ -51,26 +51,33 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
        video, como un contenedor todo-en-uno. Sin ícono y con label chico en
        mayúsculas (antes h3 + caja de ícono): mismo tratamiento "tipo
        resolución" que el resto de los encabezados de Familias/Directivos/
-       EIB. */}
-    <div className="flex items-center gap-3 px-1 pb-5">
+       EIB. mb-3 (antes pb-5): misma separación exacta que esos labels
+       ("Resolución", "Material de apoyo...") tienen con su contenido de
+       abajo. */}
+    <div className="flex items-center gap-3 px-1 mb-3">
       <p className="min-w-0 flex-1 truncate text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{label}</p>
       <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
     </div>
     {/* Sin el marco gris (bg-[#E9E9EE] p-1.5/p-2) que envolvía el iframe -
-       pedido explícito de sacar ese reborde. md:max-h (mobile no: ahí la
-       página scrollea entera sin problema, no hace falta achicar nada):
-       sin tope, el aspect-video (16/9) a lo ancho de la tarjeta (~880px) da
-       495px de alto, que sumado a la cabecera y los tabs de
-       Familias/Docentes hacía scroll dentro de #contenido en desktop. Con
-       calc(100svh - 562px) el tope se achica junto con la ventana (562px
+       pedido explícito de sacar ese reborde. xl:aspect-auto + xl:h (no
+       md:max-h combinado con aspect-video, como había quedado antes): con
+       aspect-video Y max-height en el mismo elemento, el navegador no
+       "letterboxea" - achica el ANCHO de la caja para mantener el 16:9
+       contra el alto tope, dejando un hueco vacío a la derecha (quedaba
+       angosta) - por eso "quedaron muy anchas" con respecto al resto:
+       en realidad habían quedado angostas y desalineadas, no anchas.
+       Separar en aspect-ratio (mobile/tablet, sin tope) y alto fijo por
+       clamp (desktop, sin aspect-ratio) evita ese bug: el ancho se mantiene
+       al 100% siempre, el iframe letterboxea adentro.
+       xl: (no md:), para no afectar tablets (el ancho de iPad incluso
+       apaisado, ~1024-1180px, queda excluido) - ahí no hace falta ningún
+       tope, por eso se habían achicado sin necesidad.
+       calc(100svh - 562px): el tope se achica junto con la ventana (562px
        = header del sitio + cabecera editorial + tabs + fila del título de
-       la presentación, todo fijo) - así no vuelve a aparecer el scroll en
-       ventanas más bajas (1366x768, etc.), no solo en las que probé. clamp
-       para no desaparecer en ventanas muy bajas ni crecer de más en las muy
-       altas. El iframe sigue ocupando todo el ancho; Slides letterboxea
-       (barras discretas arriba/abajo, mismo fondo #DDDDE4) en vez de forzar
-       scroll de página. */}
-    <div className="relative aspect-video overflow-hidden rounded-2xl bg-[#DDDDE4] shadow-[0_2px_10px_rgba(73,73,99,.065)] md:max-h-[clamp(180px,calc(100svh_-_562px),420px)]">
+       la presentación, todo fijo) - así no hace scroll en ventanas de
+       desktop más bajas (1366x768, etc.). clamp para no desaparecer en
+       ventanas muy bajas ni crecer de más en las muy altas. */}
+    <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-[#DDDDE4] shadow-[0_2px_10px_rgba(73,73,99,.065)] xl:aspect-auto xl:h-[clamp(180px,calc(100svh_-_562px),420px)]">
       {!loaded ? (
         <div className="absolute inset-0 z-10 grid place-items-center bg-[#F4F4F6]" role="status" aria-live="polite">
           <span className="flex items-center gap-3 text-sm font-semibold text-[#494963]/65">
