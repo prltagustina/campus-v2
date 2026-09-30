@@ -106,14 +106,9 @@ export function RepositoryFileGroup({
   files: { label?: string; file: ItinerarioFile }[];
   color: string;
 }) {
-  {/* border-l-4 border-transparent: los botones de categoría/ciclo de
-     arriba (RepositoryAccordionGroup) tienen un border-l-4 propio antes de
-     su padding — acá no había ningún borde, así que "1er grado" (y las
-     filas de material cuando no hay label, como en "Séptimo grado")
-     quedaban 4px más a la izquierda que "Docencia"/"Primer ciclo". */}
   if (!label) {
     return (
-      <div className="divide-y divide-[#494963]/[.07] border-b border-l-4 border-transparent border-b-[#494963]/[.07] last:border-b-0">
+      <div className="divide-y divide-[#494963]/[.07] border-b border-b-[#494963]/[.07] last:border-b-0">
         {files.map(({ label: rowLabel, file }, index) => (
           <RepositoryMaterialRow key={`${file.url}-${index}`} label={rowLabel} file={file} color={color} />
         ))}
@@ -126,7 +121,7 @@ export function RepositoryFileGroup({
     // ancho) la columna 9rem + 1fr dejaba apenas ~30px para el título del
     // archivo, partiéndolo en una palabra por línea. Apilado (label arriba,
     // contenido abajo, ancho completo) hasta que hay espacio real de sobra.
-    <section className="grid border-b border-l-4 border-transparent border-b-[#494963]/[.07] last:border-b-0 lg:grid-cols-[9rem_minmax(0,1fr)]">
+    <section className="grid border-b border-b-[#494963]/[.07] last:border-b-0 lg:grid-cols-[9rem_minmax(0,1fr)]">
       {/* px-4/sm:px-7 (no px-4/md:px-5): mismo inset horizontal que "Docencia"/
          "Primer Ciclo" arriba, para que "1er grado" quede alineado con ellos. */}
       <header className="px-4 py-4 sm:px-7 lg:py-5">
@@ -152,18 +147,17 @@ const sizeClasses = {
     idleBg: "bg-[var(--area)]/[.07]",
     title: "font-display text-[1.4rem] font-medium leading-[1.05] tracking-[-.045em] sm:tracking-[-.035em] sm:text-[1.8rem]",
     description: "mt-1 text-xs font-medium leading-relaxed sm:text-sm",
-    arrow: "h-10 w-10",
     /** El título de primer nivel sí puede llevar el color del área. */
     titleTinted: true,
     /** Nivel principal con materiales: relleno sólido del color del área. */
     solidFill: true,
   },
   /** Nivel anidado (ciclos/subgrupos dentro de una categoría de Itinerarios).
-   * Antes era un fondo gris casi blanco (#F7F7F9) con texto semibold —
+   * Antes era un fondo gris casi blanco (#F7F7F9) con texto semibold -
    * quedaba tan sutil que se perdía justo debajo de la barra sólida de la
    * categoría. Ahora el fondo se tiñe con el color del área (mismo --area
    * que ya usa el estado "abierto" del nivel principal) y el texto toma ese
-   * color — queda visualmente conectado a la categoría de arriba sin
+   * color, queda visualmente conectado a la categoría de arriba sin
    * gritar. Padding vertical simétrico (py, no pt/pb distintos) para que el
    * texto quede centrado dentro de la franja, no pegado abajo. Mismo
    * padding horizontal (px-4/sm:px-7) que el nivel principal, para que
@@ -174,7 +168,6 @@ const sizeClasses = {
     idleBg: "bg-[var(--area)]/[.07]",
     title: "font-display text-base font-semibold leading-tight sm:text-lg",
     description: "mt-0.5 text-[11px] font-medium leading-relaxed sm:text-xs",
-    arrow: "h-8 w-8",
     /** A diferencia de antes, el título sí lleva el color del área. */
     titleTinted: true,
     /** Nunca relleno sólido (aunque ahora sea colapsable como el nivel
@@ -194,7 +187,7 @@ export function RepositoryAccordionGroup({
   open,
   onToggle,
   size = "lg",
-  /** false: sin botón ni toggle propio — el contenido siempre se muestra (lo
+  /** false: sin botón ni toggle propio, el contenido siempre se muestra (lo
    * usan los niveles anidados de Itinerarios: al abrir el grupo grande ya se
    * ve todo adentro, sin un clic extra por ciclo/subgrupo). */
   collapsible = true,
@@ -217,13 +210,28 @@ export function RepositoryAccordionGroup({
 }) {
   const contentId = `repositorio-${id}`;
   const s = sizeClasses[size];
-  /** Nivel principal con materiales: relleno sólido del color del área, no solo acento. */
-  const filled = s.solidFill && total > 0;
   const fg = activeForeground ?? "#fff";
   const isOpen = collapsible ? open ?? false : true;
+  /** Nivel principal: relleno sólido del color del área solo mientras está
+   * expandido (antes: apenas tenía materiales, estuviera abierto o no).
+   * Cerrado, queda con el mismo tinte clarito que ya usan las categorías
+   * sin contenido - el color pleno pasa a marcar "esto está abierto ahora",
+   * no "esto tiene materiales". */
+  const filled = s.solidFill && isOpen;
 
   return (
-    <section className="[overflow-anchor:none]">
+    // Borde propio del color del área en el nivel principal (lg), como los
+    // botones de área del rail - antes vivían todos juntos dentro de una
+    // sola caja compartida con líneas grises entre uno y otro. El nivel
+    // anidado (sm, "Primer ciclo"/"Segundo ciclo"/etc) no lleva ese borde
+    // propio (ya vive adentro de esta misma caja), pero sí una línea
+    // abajo del color del área (antes gris parejo, no distinguía de qué
+    // área era) - sin ella, uno se pegaba directo con el siguiente sobre
+    // el mismo fondo, sin ninguna separación visible entre los dos.
+    <section
+      className={`[overflow-anchor:none] ${size === "lg" ? "overflow-hidden rounded-[9px] border" : "border-b border-[var(--area)]/[.3] last:border-b-0"}`}
+      style={{ ["--area" as string]: color, ...(size === "lg" ? { borderColor: color } : {}) }}
+    >
       {collapsible ? (
         <button
           type="button"
@@ -232,12 +240,15 @@ export function RepositoryAccordionGroup({
           aria-disabled={total === 0}
           aria-expanded={isOpen}
           aria-controls={contentId}
-          className={`group grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center border-l-4 text-left text-[#494963] transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] disabled:cursor-default disabled:hover:bg-transparent ${s.button} ${
+          // grid de 2 columnas, centrado contra TODA la tarjeta (título +
+          // descripción), no solo contra el título - la flecha, chica y
+          // sin caja (ver más abajo), queda centrada en el medio del
+          // bloque completo, como un acordeón normal.
+          className={`group grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-left text-[#494963] transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] disabled:cursor-default disabled:hover:bg-transparent ${s.button} ${
             filled ? "hover:brightness-95" : isOpen ? "bg-[var(--area)]/[.06]" : `hover:bg-[var(--area)]/[.04] ${s.idleBg}`
           }`}
           style={{
             ["--area" as string]: color,
-            borderLeftColor: total ? color : "transparent",
             backgroundColor: filled ? color : undefined,
             color: filled ? fg : undefined,
           }}
@@ -246,7 +257,7 @@ export function RepositoryAccordionGroup({
             {/* Antes exigía total>0 para teñir el título: sin materiales
                quedaba en el gris neutro de siempre, igual que cualquier
                bloque deshabilitado. Con el fondo ya teñido (arriba), un
-               título gris encima leía inconsistente — ahora el color se
+               título gris encima leía inconsistente, ahora el color se
                aplica siempre que no haya relleno sólido, con o sin
                contenido. */}
             <span className={`block text-balance ${s.title}`} style={!filled && s.titleTinted ? { color } : undefined}>{title}</span>
@@ -256,14 +267,18 @@ export function RepositoryAccordionGroup({
               </span>
             ) : null}
           </span>
+          {/* Flecha sola, sin la caja de 40x40/32x32 que tenía antes (le
+             robaba ancho al texto y no coincidía con el tamaño de la
+             flecha de los botones de área) - mismo tamaño que ahí, rotada
+             90° al abrir en vez de apuntar siempre a la derecha. */}
           {total ? (
-            <span className={`grid place-items-center transition-transform duration-200 ${s.arrow} ${isOpen ? "rotate-90" : ""}`} style={{ color: filled ? fg : color }} aria-hidden="true">
-              <span className="-ml-3"><SolidAreaArrow /></span>
+            <span className={`inline-flex shrink-0 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} style={{ color: filled ? fg : color }} aria-hidden="true">
+              <SolidAreaArrow />
             </span>
           ) : null}
         </button>
       ) : (
-        <div className={`grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center border-l-4 text-left text-[#494963] ${s.button} ${s.idleBg}`} style={{ ["--area" as string]: color, borderLeftColor: color }}>
+        <div className={`grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center text-left text-[#494963] ${s.button} ${s.idleBg}`} style={{ ["--area" as string]: color }}>
           <span className="min-w-0">
             <span className={`block text-balance ${s.title}`} style={s.titleTinted ? { color } : undefined}>{title}</span>
             {description ? <span className={`block ${s.description} text-[#494963]/65`}>{description}</span> : null}

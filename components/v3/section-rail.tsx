@@ -28,10 +28,14 @@ interface SectionTabsProps {
    * "center" los tabs quedaban corridos a la derecha del título en
    * pantallas anchas (la tarjeta supera los 896px del max-w-4xl). */
   align?: "left" | "center";
+  /** PRUEBA: color de borde/relleno de los tabs, mismo criterio que
+   * PillTabs (botonera de idiomas/lenguajes artísticos) - por default el
+   * neutro de siempre, para institucionales sin color propio. */
+  color?: string;
 }
 
 /** Selector editorial estable para páginas con varias colecciones de contenido. */
-export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false, scrollToTopOnChange = true, align = "center" }: SectionTabsProps) {
+export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false, scrollToTopOnChange = true, align = "center", color = "#494963" }: SectionTabsProps) {
   const panels = Children.toArray(children);
   const [activeIndex, setActiveIndex] = useState(0);
   const [visitedIndices, setVisitedIndices] = useState<Set<number>>(() => new Set([0]));
@@ -69,6 +73,9 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
     tabs?.[nextIndex]?.focus();
   };
 
+  // PRUEBA: mismo estilo que PillTabs (botonera de idiomas/lenguajes
+  // artísticos) - botón individual con borde del color, relleno sólido al
+  // activarse, en vez de la píldora oscura sobre fondo gris redondeado.
   const tabs = items.map((item, index) => {
     const selected = index === safeIndex;
     return (
@@ -82,7 +89,8 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
         tabIndex={selected ? 0 : -1}
         onClick={() => activateTab(index)}
         onKeyDown={(event) => handleKeyDown(event, index)}
-        className={`relative min-h-10 min-w-0 flex-1 whitespace-nowrap rounded-[9px] px-3 py-1.5 text-center text-sm font-semibold leading-tight transition-[background-color,color,box-shadow] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] sm:px-5 sm:text-base md:min-h-11 md:flex-none md:px-6 ${selected ? "bg-[#494963] text-white shadow-[0_4px_14px_rgba(73,73,99,.16)]" : "text-[#494963]/65 hover:bg-white/70 hover:text-[#494963]"}`}
+        className={`rounded-[9px] border px-3 py-2 text-sm font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-white sm:px-5 sm:py-3.5 sm:text-[17px] ${selected ? "bg-[var(--tab)] text-white" : "bg-white text-[var(--tab)]"}`}
+        style={{ borderColor: color, ["--tab" as string]: color }}
       >
         {item.label}
       </button>
@@ -108,7 +116,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
           <div
             role="tablist"
             aria-label={title}
-            className="flex w-full min-w-0 gap-1.5 rounded-2xl bg-[#E6E6EB] p-1.5 md:w-fit"
+            className="flex w-full min-w-0 flex-wrap gap-2 sm:gap-2.5 md:w-fit"
           >
             {tabs}
           </div>

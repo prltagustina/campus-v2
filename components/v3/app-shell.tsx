@@ -78,32 +78,11 @@ const primaryItems = [
   { href: "/eib", label: "EIB", desktopLines: ["EIB"], desktopSubline: undefined, mobileLabel: "EIB", icon: MessageCircle, match: (p: string) => p.startsWith("/eib"), gridRow: ".7fr", enabled: true },
 ].filter((item) => item.enabled !== false);
 
-// Traducción horizontal de la guarda cromática vertical de las portadas.
-// Los valores se tomaron de la portada de Matemática, de arriba hacia abajo.
-const documentSpineGradient = `linear-gradient(to right,
-  #fbe269 0%,
-  #fec700 2%,
-  #ffb500 5%,
-  #ff9900 10%,
-  #ff8841 15%,
-  #ff8874 20%,
-  #ff858f 25%,
-  #f66e7e 30%,
-  #ee506e 35%,
-  #e24d78 40%,
-  #d06596 45%,
-  #bd72b3 50%,
-  #956ec9 55%,
-  #6961dd 60%,
-  #5c76ee 65%,
-  #7ca9f6 70%,
-  #a3d3fc 75%,
-  #83cde1 80%,
-  #53c5be 85%,
-  #45c29e 90%,
-  #6fc276 95%,
-  #87c014 100%
-)`;
+// Mismo gradiente exacto que la franja equivalente del Campus real
+// (campuseducativo.santafe.edu.ar/diseno-curricular/), tomado de su CSS
+// calculado: naranja a violeta, dos puntas nomás - no el arcoíris de
+// muchos colores que tenía antes (se acerca más a la versión final).
+const documentSpineGradient = `linear-gradient(90deg, #FFA102 0%, #48139C 100%)`;
 
 function CampusBrand() {
   return (
@@ -351,6 +330,119 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     document.getElementById("contenido")?.scrollTo(0, 0);
   }, [pathname]);
 
+  // PRUEBA: navegación inspirada en therawmaterials.com (rail principal
+  // Inicio/Áreas/etc). Ahí es scroll real entre secciones de una misma
+  // página; acá son rutas distintas, así que se simula: el ítem activo
+  // "crece" (más peso en el grid), un puntito único se desliza hasta él
+  // (en vez de aparecer/desaparecer en cada uno) y una franja tipo
+  // "Estás en (X)" aparece un instante al cambiar de página.
+  const desktopNavRef = useRef<HTMLDivElement>(null);
+  const desktopItemRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+  const mobileNavRef = useRef<HTMLDivElement>(null);
+  const mobileItemRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+  const [desktopDot, setDesktopDot] = useState<{ top: number; left: number } | null>(null);
+  const [mobileDot, setMobileDot] = useState<{ left: number } | null>(null);
+  // Inicio y Áreas son las únicas vistas con scroll real de sobra (video +
+  // documento + rueda + historia; documento + materiales + formaciones +
+  // video) para que el gesto de la referencia tenga sentido de verdad.
+  // Equipos directivos/Familias/EIB usan tabs, casi no scrollean - ahí se
+  // deja la versión simulada (crecer/mover solo al cambiar de página).
+  const scrollTracked = pathname === "/" || areasOpen;
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    if (!scrollTracked) {
+      setScrollProgress(0);
+      return;
+    }
+    const desktopScrollEl = document.getElementById("contenido");
+    const mobileScrollEl = rootScrollRef.current;
+    let raf = 0;
+
+    const measure = (el: HTMLElement) => {
+      const max = el.scrollHeight - el.clientHeight;
+      return max > 0 ? Math.min(1, Math.max(0, el.scrollTop / max)) : 0;
+    };
+    const scheduleUpdate = (el: HTMLElement) => () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        setScrollProgress(measure(el));
+        raf = 0;
+      });
+    };
+
+    const cleanups: Array<() => void> = [];
+    if (desktopScrollEl) {
+      const handler = scheduleUpdate(desktopScrollEl);
+      desktopScrollEl.addEventListener("scroll", handler, { passive: true });
+      setScrollProgress(measure(desktopScrollEl));
+      cleanups.push(() => desktopScrollEl.removeEventListener("scroll", handler));
+    }
+    if (mobileScrollEl) {
+      const handler = scheduleUpdate(mobileScrollEl);
+      mobileScrollEl.addEventListener("scroll", handler, { passive: true });
+      cleanups.push(() => mobileScrollEl.removeEventListener("scroll", handler));
+    }
+    return () => {
+      cleanups.forEach((cleanup) => cleanup());
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [pathname, scrollTracked]);
+
+  useLayoutEffect(() => {
+    const activeHref = activePrimary?.href;
+    if (!activeHref) return;
+
+    const updateDots = () => {
+      const desktopEl = desktopItemRefs.current[activeHref];
+      const desktopNav = desktopNavRef.current;
+      if (desktopEl && desktopNav) {
+        const navRect = desktopNav.getBoundingClientRect();
+        const elRect = desktopEl.getBoundingClientRect();
+        // Con scroll real: el punto viaja dentro del propio ítem según
+        // cuánto se scrolleó (arriba del todo = recién entrando, abajo del
+        // todo = terminando la vista). Simulado: se queda fijo en la
+        // esquina, como antes.
+        const travel = scrollTracked ? Math.max(0, elRect.height - 24) * scrollProgress : 0;
+        setDesktopDot({ top: elRect.top - navRect.top + 12 + travel, left: elRect.right - navRect.left - 12 });
+      }
+
+      const mobileEl = mobileItemRefs.current[activeHref];
+      const mobileNav = mobileNavRef.current;
+      if (mobileEl && mobileNav) {
+        const navRect = mobileNav.getBoundingClientRect();
+        const elRect = mobileEl.getBoundingClientRect();
+        setMobileDot({ left: elRect.left - navRect.left + elRect.width / 2 + 9 });
+      }
+    };
+
+    updateDots();
+
+    // El ítem activo crece con una transición de grid-template-rows: medir
+    // una sola vez al cambiar de ruta agarra el tamaño DE ANTES de crecer
+    // (la transición todavía no arrancó). ResizeObserver va reportando el
+    // tamaño real cuadro a cuadro mientras crece, así el punto sigue a la
+    // esquina en vez de quedar mal ubicado al terminar. rAF de por medio
+    // (no llamar updateDots directo en cada callback): sin eso, en
+    // Directivos/Familias/EIB (sin scroll real, un solo salto de tamaño)
+    // el punto parpadeaba - RO puede disparar más de una vez por cuadro.
+    const desktopEl = desktopItemRefs.current[activeHref];
+    let raf = 0;
+    const throttledUpdate = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        updateDots();
+        raf = 0;
+      });
+    };
+    const ro = desktopEl && "ResizeObserver" in window ? new ResizeObserver(throttledUpdate) : undefined;
+    ro?.observe(desktopEl!);
+    return () => {
+      ro?.disconnect();
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [pathname, activePrimary, scrollTracked, scrollProgress]);
+
   return (
     <div
       ref={rootScrollRef}
@@ -415,9 +507,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             gap-2.5: mismo separación que AreaSubnav de al lado (antes
             gap-1.5, quedaban más juntos que los botones de área). */}
         <nav
+          ref={desktopNavRef}
           aria-label="Navegación principal"
-          className="hidden w-[168px] shrink-0 gap-2.5 md:grid md:w-[clamp(168px,12.1vw_+_75px,230px)]"
-          style={{ gridTemplateRows: primaryItems.map((item) => item.gridRow).join(" ") }}
+          className="relative hidden w-[168px] shrink-0 gap-2.5 transition-[grid-template-rows] duration-500 ease-in-out md:grid md:w-[clamp(168px,12.1vw_+_75px,230px)]"
+          style={{
+            // El activo suma peso propio (+.6fr): "crece" respecto a los
+            // demás, como la sección activa de la referencia - los otros
+            // conservan su proporción entre sí. Tamaño fijo apenas se
+            // entra (no ligado al scroll): crecer y encogerse en vivo
+            // mientras se scrollea se sentía raro/inestable. Lo que sí
+            // sigue el scroll real (Inicio/Áreas) es el puntito, más abajo.
+            gridTemplateRows: primaryItems
+              .map((item) => `${parseFloat(item.gridRow) + (item.match(pathname) ? 0.6 : 0)}fr`)
+              .join(" "),
+          }}
         >
           {primaryItems.map((item) => {
             const active = item.match(pathname);
@@ -425,6 +528,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             return (
               <Link
                 key={item.href}
+                ref={(el) => { desktopItemRefs.current[item.href] = el; }}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={`flex flex-col items-start justify-between rounded-lg p-4 text-left text-base font-medium leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${active ? "bg-[#494963] text-white" : "bg-[#DADAE1] text-[#494963] hover:bg-[#d1d1d9]"}`}
@@ -448,6 +552,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </Link>
             );
           })}
+          {/* Puntito único que se desliza hasta el ítem activo (en vez de
+             uno fijo por ítem) - mismo espíritu que el indicador de scroll
+             de la referencia, adaptado a que acá el "movimiento" lo dispara
+             un cambio de ruta, no un scroll real. */}
+          {desktopDot ? (
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute h-1.5 w-1.5 rounded-full bg-white transition-[top,left] duration-150 ease-out"
+              style={{ top: desktopDot.top, left: desktopDot.left }}
+            />
+          ) : null}
         </nav>
 
         {hasSecondary && (
@@ -526,6 +641,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       <nav
+        ref={mobileNavRef}
         aria-label="Navegación móvil"
         className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
         style={{ gridTemplateColumns: `repeat(${primaryItems.length}, minmax(0, 1fr))` }}
@@ -534,13 +650,32 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           const active = item.match(pathname);
           const Icon = item.icon;
           return (
-            <Link key={item.href} href={item.mobileHref ?? item.href} aria-current={active ? "page" : undefined} aria-label={item.label} className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[9px] font-bold min-[390px]:text-[10px] ${active ? "text-white" : "text-white/50"}`}>
-              <span className={`grid h-8 w-9 place-items-center rounded-lg min-[390px]:w-10 ${active ? "bg-white text-[#494963]" : ""}`}><Icon className="h-5 w-5" aria-hidden="true" /></span>
+            <Link
+              key={item.href}
+              ref={(el) => { mobileItemRefs.current[item.href] = el; }}
+              href={item.mobileHref ?? item.href}
+              aria-current={active ? "page" : undefined}
+              aria-label={item.label}
+              className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[9px] font-bold min-[390px]:text-[10px] ${active ? "text-white" : "text-white/50"}`}
+            >
+              <span className={`grid h-8 w-9 place-items-center rounded-lg min-[390px]:w-10 ${active ? "bg-white text-[#494963]" : ""}`}>
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </span>
               <span className="max-w-full truncate px-0.5">{item.mobileLabel}</span>
             </Link>
           );
         })}
+        {/* Mismo puntito único deslizante que el rail de desktop, acá en
+           horizontal (arriba de cada ícono, se desliza al cambiar de tab). */}
+        {mobileDot ? (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1.5 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white transition-[left] duration-500 ease-in-out"
+            style={{ left: mobileDot.left }}
+          />
+        ) : null}
       </nav>
+
     </div>
   );
 }

@@ -256,6 +256,13 @@
 .documento-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  /* align-items: center (no el stretch por default de grid, ni start): la
+     portada tiene su propio min-height, mucho más bajo que el texto (3
+     párrafos) - con "start" quedaba pegada arriba con un vacío grande
+     debajo, con "stretch" (el default) se deformaba para igualar la altura
+     del texto ("todo estirado"). Centrada, cada columna conserva su alto
+     natural y queda pareja contra la otra. */
+  align-items: center;
   min-height: 0;
   overflow: hidden;
   border-radius: 0;
@@ -360,19 +367,23 @@
   }
   .documento-hero--compact .documento-hero__description {
     max-width: 30.5rem;
-    margin-top: 1.25rem;
+    /* margin-top/line-height/gap entre párrafos, un poco más ajustados que
+       antes (.85rem, 1.28, .4em - antes 1.25rem, 1.35, .6em): sin tocar
+       tipografía ni el texto, para que el banner completo (portada+texto)
+       quede menos alto - pedido de que sea "más horizontal". */
+    margin-top: .85rem;
     font-size: clamp(.95rem, 1.2vw, 1.05rem);
     font-weight: 400;
-    line-height: 1.35;
+    line-height: 1.28;
     letter-spacing: -.01em;
     color: rgba(237,237,240,.88);
   }
-  .documento-hero--compact .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: .6em; }
-  .documento-hero--compact .documento-hero__actions { margin-top: 1.5rem; }
+  .documento-hero--compact .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: .4em; }
+  .documento-hero--compact .documento-hero__actions { margin-top: 1.1rem; }
 }
 
 /* Cap de alto (decisión: llenar el alto visible, pero puede crecer si el
-   contenido no entra en pantallas muy bajas — no recorta).
+   contenido no entra en pantallas muy bajas - no recorta).
    El shell resta header + breadcrumb: 118px en md, 154px en lg. */
 @media (min-width: 768px) {
   .documento-hero--compact { min-height: clamp(500px, calc(100svh - 214px), 640px); }
