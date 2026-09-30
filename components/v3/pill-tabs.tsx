@@ -50,7 +50,11 @@ export function PillTabs({
             aria-selected={active}
             aria-controls={panelId}
             onClick={() => onSelect(option.id)}
-            className={`rounded-[9px] border px-3 py-2 text-sm font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-[var(--tab-fg)] sm:px-5 sm:py-3.5 sm:text-[17px] ${active ? "bg-[var(--tab)] text-[var(--tab-fg)]" : "bg-white text-[var(--tab)]"}`}
+            // px-3.5/py-2.5/text-[15px] y sm:py-4/sm:text-lg (antes px-3/py-2/
+            // text-sm y sm:py-3.5/sm:text-[17px]): un toquecito más grandes
+            // - pedido explícito (idiomas de Lenguas Extranjeras, lenguajes
+            // de Educación Artística).
+            className={`rounded-[9px] border px-3.5 py-2.5 text-[15px] font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-[var(--tab-fg)] sm:px-5 sm:py-4 sm:text-lg ${active ? "bg-[var(--tab)] text-[var(--tab-fg)]" : "bg-white text-[var(--tab)]"}`}
             style={{ borderColor: color, ["--tab" as string]: color, ["--tab-fg" as string]: activeForeground }}
           >
             {option.name}
