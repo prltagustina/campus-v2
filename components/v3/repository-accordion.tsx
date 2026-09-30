@@ -28,8 +28,14 @@ export function RepositoryMaterialRow({
     .join(" · ");
 
   return (
+    // grid-cols-[minmax(0,1fr)_auto] items-center ya desde mobile (antes
+    // sm:grid-cols/sm:items-center): con una sola columna, Descargar/
+    // Compartir caían en su propia fila abajo del título, flotando con
+    // mucho espacio vacío a la derecha - mismo criterio que ResourceRow
+    // (chips de EIB/Familias/Docentes/Marco General), que ya pone las
+    // acciones al costado del texto desde mobile.
     <article
-      className="group/material grid min-w-0 gap-3 px-4 py-4 transition-colors hover:bg-[#494963]/[.025] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-5 sm:px-7 sm:py-5"
+      className="group/material grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 transition-colors hover:bg-[#494963]/[.025] sm:gap-5 sm:px-7 sm:py-5"
       style={{ ["--area" as string]: color }}
     >
       <a
@@ -65,10 +71,10 @@ export function RepositoryMaterialRow({
         </span>
       </a>
 
-      {/* Mobile: fila de acciones alineada a la izquierda (antes quedaba a la
-         derecha cuando el layout es de una sola columna). El botón de
-         Descargar mantiene el ícono + fondo gris de mobile también en
-         tablet; recién en desktop (xl) pasa a texto sin fondo. */}
+      {/* Acciones al costado del texto ya desde mobile (ver grid del
+         article). El botón de Descargar mantiene el ícono + fondo gris de
+         mobile también en tablet; recién en desktop (xl) pasa a texto sin
+         fondo. */}
       <div className="flex items-center justify-start gap-1 sm:shrink-0">
         <a
           href={file.url}
@@ -116,13 +122,17 @@ export function RepositoryFileGroup({
   }
 
   return (
-    <section className="grid border-b border-l-4 border-transparent border-b-[#494963]/[.07] last:border-b-0 md:grid-cols-[9rem_minmax(0,1fr)]">
+    // lg:grid-cols (no md:): a md (rail + aside ya ocupan buena parte del
+    // ancho) la columna 9rem + 1fr dejaba apenas ~30px para el título del
+    // archivo, partiéndolo en una palabra por línea. Apilado (label arriba,
+    // contenido abajo, ancho completo) hasta que hay espacio real de sobra.
+    <section className="grid border-b border-l-4 border-transparent border-b-[#494963]/[.07] last:border-b-0 lg:grid-cols-[9rem_minmax(0,1fr)]">
       {/* px-4/sm:px-7 (no px-4/md:px-5): mismo inset horizontal que "Docencia"/
          "Primer Ciclo" arriba, para que "1er grado" quede alineado con ellos. */}
-      <header className="px-4 py-4 sm:px-7 md:py-5">
+      <header className="px-4 py-4 sm:px-7 lg:py-5">
         <h3 className="font-display text-base font-semibold text-[#494963]">{label}</h3>
       </header>
-      <div className="divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] md:border-l md:border-t-0">
+      <div className="divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] lg:border-l lg:border-t-0">
         {files.map(({ label: rowLabel, file }, index) => (
           <RepositoryMaterialRow key={`${file.url}-${index}`} label={rowLabel} file={file} color={color} />
         ))}

@@ -15,13 +15,16 @@ export default function HomePage() {
   return (
     <div className="bg-white">
       <div id="presentacion">
-        {/* Sin overrides de padding/esquinas (antes iba pegado a los bordes
-           en mobile, sin redondear): mismo tratamiento que el video de
-           "Presentación audiovisual" en cada área — VideoEmbed ya trae ese
-           inset y ese rounded-2xl por default, no hacía falta pisarlos acá. */}
+        {/* Sin overrides de padding lateral/inferior ni de esquinas (antes iba
+           pegado a los bordes en mobile, sin redondear): mismo tratamiento
+           que el video de "Presentación audiovisual" en cada área. Sí se
+           pisa el padding superior en desktop (md:!pt-0, no el !pt-[14px]
+           por default): tiene que arrancar a la misma altura que el botón
+           "Inicio" del rail, si no queda más abajo. */}
         <VideoEmbed
           videoId="eu8CYPbjehE"
           title="Presentación Diseño Curricular de la Provincia de Santa Fe"
+          topClassName="!pt-4 md:!pt-0"
         />
       </div>
       {/* pt-12/md:pt-16: más aire que el resto de los saltos de Inicio (que
