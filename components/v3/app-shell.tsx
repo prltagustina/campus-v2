@@ -396,14 +396,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      {/* Separación entre rail/aside/contenido fija en 16px desde tablet: antes
-         crecía de 12px (md) a 16px (lg+), quedaba distinto según el tamaño.
+      {/* Separación entre rail/aside/contenido fija en 24px desde tablet
+         (antes 16px, se sentía muy poco aire entre la navegación y el
+         contenido) — mismo valor en los tres casos (rail→aside, rail→
+         contenido cuando no hay aside, aside→contenido), no crece por
+         breakpoint para que sea igual en todos lados.
          bg-white fijo (antes gris en Familias/Docentes/EIB): esa franja de
          abajo es el hueco reservado para la tab bar fija de mobile
          (pb-[5rem+safe-area]) — en gris quedaba como un zócalo visible al
          hacer scroll hasta el final en páginas con poco contenido, cosa que
          no pasaba en blanco porque se mezclaba con el fondo de la página. */}
-      <div className="flex min-h-0 gap-0 bg-white pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-4 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:p-5">
+      <div className="flex min-h-0 gap-0 bg-white pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-6 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:p-5">
         {/* Tablet y desktop: rail apilado (ícono arriba / texto abajo), con la
             bajada de Áreas. Ancho fluido (clamp) en vez de saltos por
             breakpoint: escala parejo entre 168px (md, 768px) y 230px (1280px,

@@ -359,10 +359,10 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
       </div>
 
       {/* Barra de idiomas fija al scrollear, mismo criterio y mismo padding
-         exacto que la barra de lenguajes de Educación Artística (antes
-         px-4/py-3/sm:px-7, distinto del md:px-[14px]/py-6/md:pb-8/md:pt-0
-         de ahí — quedaban con distinto tamaño). */}
-      <div className="sticky top-0 z-30 bg-white px-4 py-6 shadow-[0_8px_16px_-16px_rgba(25,25,42,.35)] md:px-[14px] md:pb-8 md:pt-0">
+         exacto que la barra de lenguajes de Educación Artística. pb-2.5 (no
+         md:pb-8): mismo espacio de abajo que la separación de la botonera
+         de áreas (gap-2.5), en todos los anchos. */}
+      <div className="sticky top-0 z-30 bg-white px-4 pt-6 pb-2.5 md:px-[14px] md:pt-0">
         <PillTabs
           options={idiomas}
           selectedId={idiomaSeleccionado}

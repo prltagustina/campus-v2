@@ -135,7 +135,11 @@ const sizeClasses = {
   /** Nivel principal (áreas en Materiales por ciclo, categorías en Itinerarios). */
   lg: {
     button: "min-h-[78px] gap-2 px-4 py-4 sm:min-h-[88px] sm:gap-4 sm:px-7 sm:py-5",
-    idleBg: "",
+    // Antes vacío: sin materiales, la categoría quedaba lisa/gris, sin
+    // ninguna seña del color del área (como si fuera un bloque
+    // deshabilitado cualquiera). Mismo tinte clarito que ya usan los
+    // subgrupos anidados (sizeClasses.sm) en su estado de reposo.
+    idleBg: "bg-[var(--area)]/[.07]",
     title: "font-display text-[1.4rem] font-medium leading-[1.05] tracking-[-.045em] sm:tracking-[-.035em] sm:text-[1.8rem]",
     description: "mt-1 text-xs font-medium leading-relaxed sm:text-sm",
     arrow: "h-10 w-10",
@@ -229,7 +233,13 @@ export function RepositoryAccordionGroup({
           }}
         >
           <span className="min-w-0">
-            <span className={`block text-balance ${s.title}`} style={!filled && s.titleTinted && total ? { color } : undefined}>{title}</span>
+            {/* Antes exigía total>0 para teñir el título: sin materiales
+               quedaba en el gris neutro de siempre, igual que cualquier
+               bloque deshabilitado. Con el fondo ya teñido (arriba), un
+               título gris encima leía inconsistente — ahora el color se
+               aplica siempre que no haya relleno sólido, con o sin
+               contenido. */}
+            <span className={`block text-balance ${s.title}`} style={!filled && s.titleTinted ? { color } : undefined}>{title}</span>
             {description ? (
               <span className={`block ${s.description} ${filled ? "" : "text-[#494963]/65"}`} style={filled ? { color: fg, opacity: 0.75 } : undefined}>
                 {description}

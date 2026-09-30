@@ -96,7 +96,9 @@ function ArtisticLanguageTabs({
   const options = [{ id: artisticAreaId, name: "Ed. Artística" }, ...subareas];
 
   return (
-    <section className="sticky top-0 z-30 bg-white px-4 py-6 shadow-[0_8px_16px_-16px_rgba(25,25,42,.35)] md:px-[14px] md:pb-8 md:pt-0">
+    // pb-2.5 (no md:pb-8): mismo espacio de abajo que la separación de la
+    // botonera de áreas (gap-2.5), en todos los anchos.
+    <section className="sticky top-0 z-30 bg-white px-4 pt-6 pb-2.5 md:px-[14px] md:pt-0">
       <PillTabs
         options={options}
         selectedId={selectedId}

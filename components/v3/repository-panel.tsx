@@ -32,7 +32,9 @@ export function RepositoryPanel({
   chips?: boolean;
 }) {
   const header = (
-    <div className={`flex items-center justify-between gap-4 ${chips ? "px-1 pb-3" : "border-b border-[#494963]/[.07] px-5 py-3 sm:px-6"}`}>
+    // pb-5 (antes pb-3): más aire entre el título del panel (p. ej. "Marco
+    // normativo") y los chips de abajo, quedaban muy pegados.
+    <div className={`flex items-center justify-between gap-4 ${chips ? "px-1 pb-5" : "border-b border-[#494963]/[.07] px-5 py-3 sm:px-6"}`}>
       <div className="flex min-w-0 items-center gap-3">
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
         <div className="min-w-0">

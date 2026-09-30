@@ -20,10 +20,18 @@ interface SectionTabsProps {
    * página más larga (Marco General), saltar al tope aleja al usuario de
    * donde estaba mirando — pasar `false` ahí. */
   scrollToTopOnChange?: boolean;
+  /** Alineación de la tira de tabs dentro de la sección. "center" (default):
+   * misma caja `mx-auto max-w-4xl` que trae `EditorialPageHeading`, así los
+   * tabs quedan alineados con el título en Familias/Docentes/EIB. "left":
+   * sin centrar — para Marco General, cuyo encabezado propio no usa
+   * `EditorialPageHeading` sino un título pegado a la izquierda; con
+   * "center" los tabs quedaban corridos a la derecha del título en
+   * pantallas anchas (la tarjeta supera los 896px del max-w-4xl). */
+  align?: "left" | "center";
 }
 
 /** Selector editorial estable para páginas con varias colecciones de contenido. */
-export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false, scrollToTopOnChange = true }: SectionTabsProps) {
+export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false, scrollToTopOnChange = true, align = "center" }: SectionTabsProps) {
   const panels = Children.toArray(children);
   const [activeIndex, setActiveIndex] = useState(0);
   const [visitedIndices, setVisitedIndices] = useState<Set<number>>(() => new Set([0]));
@@ -95,7 +103,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
          su pt. Más grande que antes: el título del panel (p. ej. "Marco
          normativo") quedaba muy pegado a los tabs. */}
       <div className="shrink-0 bg-[#F7F7F9] px-4 py-6 sm:px-6 md:py-8">
-        <div className="mx-auto max-w-4xl">
+        <div className={`max-w-4xl ${align === "center" ? "mx-auto" : ""}`}>
           <span className="sr-only">{title}</span>
           <div
             role="tablist"

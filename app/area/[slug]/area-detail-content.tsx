@@ -90,21 +90,24 @@ function MarcoGeneralContent() {
           <div className="px-4 pt-5 sm:px-6 md:pt-8 lg:pt-10">
             <header className="max-w-2xl"><h2 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Documentos y formaciones</h2><p className="mt-2 text-sm sm:text-base lg:text-lg text-[#494963]/50">Materiales institucionales y propuestas para acompañar la implementación.</p></header>
           </div>
-          <SectionTabs title="Recursos del Marco General" items={[{ id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels scrollToTopOnChange={false}>
+          <SectionTabs title="Recursos del Marco General" items={[{ id: "documentos", label: "Documentos" }, { id: "formaciones", label: "Formaciones" }]} keepVisitedPanels scrollToTopOnChange={false} align="left">
             {/* ResourceRow (mismo componente que Familias/Docentes/EIB), con
                el color del Marco General — mismo tratamiento que las filas
                de Itinerarios/repositorios de área (RepositoryMaterialRow):
                ícono y botón de acción teñidos, no un ícono gris genérico.
                chip: tarjeta suelta por ítem, no una caja única con líneas
                divisorias. */}
-            {/* px-4/sm:px-6 afuera, mx-auto max-w-4xl adentro sin padding
-               propio (mismo orden que Familias/Docentes/EIB): si el tope de
-               ancho y el padding van en el mismo div, el padding le resta
-               ancho al tope y los chips quedan más angostos que en el resto
-               (848px en vez de 896px). Así, los chips llegan exactamente al
-               mismo ancho máximo en todos lados. */}
+            {/* px-4/sm:px-6 afuera, max-w-4xl adentro sin padding propio
+               (mismo orden que Familias/Docentes/EIB): si el tope de ancho y
+               el padding van en el mismo div, el padding le resta ancho al
+               tope y los chips quedan más angostos que en el resto (848px en
+               vez de 896px). Así, los chips llegan exactamente al mismo
+               ancho máximo en todos lados. Sin mx-auto (a diferencia de
+               Familias/Docentes/EIB): acá el título y los tabs de arriba
+               están pegados a la izquierda, no centrados — con mx-auto los
+               chips quedaban corridos respecto de ellos en pantallas anchas. */}
             <div className="px-4 pb-5 sm:px-6 md:pb-8 lg:pb-10">
-              <div className="mx-auto max-w-4xl space-y-2">
+              <div className="max-w-4xl space-y-2">
                 {marcoDocuments.map(([title, href]) => (
                   // "Presentación para supervisores": ícono de play, no de
                   // documento — así la distingue el Campus (es un video, no
@@ -123,7 +126,7 @@ function MarcoGeneralContent() {
               </div>
             </div>
             <div className="px-4 pb-5 sm:px-6 md:pb-8 lg:pb-10">
-              <div className="mx-auto max-w-4xl space-y-2">
+              <div className="max-w-4xl space-y-2">
                 {marcoTrainings.map(([title, href]) => (
                   // Bookmark: mismo ícono que distingue "formaciones" de un
                   // documento en Docentes, acá con el color propio de Marco

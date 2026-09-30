@@ -15,14 +15,18 @@ export default function HomePage() {
   return (
     <div className="bg-white">
       <div id="presentacion">
-        {/* Arriba sin padding (el video arranca a la misma altura en la que
-           empieza el botón "Inicio" del rail). A los lados y abajo, el mismo
-           inset que la sección de descarga de acá abajo (DocumentoHero usa
-           v3-section !p-0 md:!p-[14px]), para que los dos midan igual. */}
+        {/* md:!pt-0: arriba sin padding desde tablet (el video arranca a la
+           misma altura en la que empieza el botón "Inicio" del rail). En
+           mobile no hay rail al costado con el que alinearse, y quedaba
+           pegado arriba de todo, contra la franja de breadcrumb — pt-4
+           (el default de VideoEmbed) le da un respiro ahí. A los lados y
+           abajo, el mismo inset que la sección de descarga de acá abajo
+           (DocumentoHero usa v3-section !p-0 md:!p-[14px]), para que los dos
+           midan igual. */}
         <VideoEmbed
           videoId="eu8CYPbjehE"
           title="Presentación Diseño Curricular de la Provincia de Santa Fe"
-          topClassName="!pt-0"
+          topClassName="pt-4 md:!pt-0"
           className="!px-0 !pb-0 md:!px-[14px] md:!pb-0"
           mediaClassName="rounded-none md:rounded-2xl"
         />
