@@ -14,7 +14,25 @@ const INTRO_COPY_EDITORIAL = [
 export default function HomePage() {
   return (
     <div className="bg-white">
-      <div id="presentacion">
+      {/* sticky top-0 + z-index creciente (presentación < documento < rueda <
+         historia): cada sección queda pegada arriba mientras la siguiente la
+         tapa al scrollear, apilándose como tarjetas - sin bordes/sombras
+         nuevas (el "apilado" lo da el propio scroll, no un estilo agregado).
+         Sin padding-top propio en ninguna de las stickeadas (se quitó el
+         pt-6/pt-5/etc que tenían): con padding, al quedar pegada arriba
+         dejaba un hueco vacío entre el borde de la ventana y el contenido
+         (se notaba como "mal encastrada", no a la línea superior). bg-white
+         en las dos primeras: sin fondo propio, dejaban ver lo que quedaba
+         pegado debajo por el padding lateral mientras están stuck.
+         "historia" usa relative (no sticky): no necesita quedar pegada (es
+         la última, nada la tapa a ella) - pero sí necesita estar
+         posicionada (con z-index propio) para pintarse ARRIBA de "rueda" al
+         taparla; un hermano sin position siempre se pinta DEBAJO de uno con
+         position, sin importar el orden en el DOM - además, al ser la
+         última, con sticky se liberaba casi al instante en vez de quedar
+         pegada un buen tramo (caso límite de cuando no hay nada después que
+         la empuje). */}
+      <div id="presentacion" className="sticky top-0 z-10 bg-white">
         {/* Sin overrides de padding lateral/inferior ni de esquinas (antes iba
            pegado a los bordes en mobile, sin redondear): mismo tratamiento
            que el video de "Presentación audiovisual" en cada área. Sí se
@@ -27,12 +45,13 @@ export default function HomePage() {
           topClassName="!pt-4 md:!pt-0"
         />
       </div>
-      {/* pt-6/md:pt-8 (antes pt-12/md:pt-16, y el resto de los saltos de
-         Inicio pt-8/md:pt-10 bajado a pt-5/md:pt-6): menos aire entre
-         secciones a propósito - que se vea que sigue contenido debajo del
-         video y dé pie a scrollear, en vez de sentirse "completo" con lo
-         que entra en la primera pantalla. */}
-      <div id="documento" className="pt-6 md:pt-8">
+      {/* max-h-[90svh] overflow-y-auto: red de seguridad - con la sección
+         pegada arriba (stuck) mientras dura su propio alto, cualquier parte
+         que exceda el alto de pantalla queda inalcanzable (no hay scroll de
+         página posible mientras está pegada). Con esto, si en algún
+         dispositivo el contenido no entra igual, scrollea adentro de la
+         propia tarjeta en vez de perderse. */}
+      <div id="documento" className="sticky top-0 z-20 max-h-[90svh] overflow-y-auto bg-white">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
@@ -48,13 +67,11 @@ export default function HomePage() {
           compact
         />
       </div>
-      {/* pt-5/md:pt-6 (antes pt-8/md:pt-10): mismo espacio en estas dos
-         transiciones (acá y antes de la línea histórica) - la de arriba
-         (video→documento) es la única distinta, ver comentario de
-         "documento". Menos aire entre secciones a propósito (ver ese mismo
-         comentario). */}
-      <div id="rueda" className="bg-[#F1F1F4] pt-5 md:bg-transparent md:pt-6"><CurricularWheel /></div>
-      <div id="historia" className="v3-section !px-0 !pb-0 !pt-5 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-6 md:bg-transparent">
+      {/* max-h-[90svh] overflow-y-auto hasta xl (mismo criterio que
+         "documento"): de xl para arriba la rueda va al lado del acordeón
+         (no apilada), no hace falta. */}
+      <div id="rueda" className="sticky top-0 z-30 max-h-[90svh] overflow-y-auto bg-[#F1F1F4] md:bg-transparent xl:max-h-none xl:overflow-visible"><CurricularWheel /></div>
+      <div id="historia" className="v3-section relative z-40 !px-0 !pb-0 !pt-0 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-0 md:bg-transparent">
         <div className="w-full overflow-hidden rounded-none bg-[#F3F3F5] md:rounded-2xl"><TimelineSection /></div>
       </div>
     </div>

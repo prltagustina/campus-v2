@@ -279,7 +279,13 @@
   background: transparent;
   order: 1;
 }
-.documento-hero--compact .documento-hero__cover { min-height: clamp(280px, 74cqw, 330px); }
+/* clamp(240px, 64cqw, 360px) (antes clamp(280px, 74cqw, 330px), después
+   clamp(160px, 46cqw, 330px) - había quedado demasiado chica): con
+   "documento" con scroll propio de respaldo (max-h-[90svh] overflow-y-auto
+   en app/page.tsx) si en algún dispositivo muy bajo no entra igual, los
+   botones siguen alcanzables scrolleando adentro - no hace falta sacrificar
+   tanto el tamaño de la portada. */
+.documento-hero--compact .documento-hero__cover { min-height: clamp(240px, 64cqw, 360px); }
 .documento-hero__image {
   max-width: 100%;
   max-height: 100%;
@@ -296,9 +302,11 @@
   flex-direction: column;
   justify-content: center;
   padding: clamp(1.5rem, 5.5cqw, 2.25rem);
-  /* Más aire entre el último botón ("Saber más") y el borde inferior de la
-     tarjeta en la vista angosta / mobile. */
-  padding-bottom: clamp(2.75rem, 9cqw, 4.25rem);
+  /* clamp(1.5rem, 5.5cqw, 2.25rem) (antes clamp(2.75rem, 9cqw, 4.25rem), el
+     doble del padding de arriba): con la sección apilada por scroll de
+     Inicio, ese aire extra sumaba a que los botones no entraran en pantallas
+     bajas - mismo valor que el padding superior, alcanza igual. */
+  padding-bottom: clamp(1.5rem, 5.5cqw, 2.25rem);
 }
 .documento-hero__title {
   max-width: 20ch;
@@ -317,7 +325,9 @@
 .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: 1em; }
 .documento-hero__description-editorial-space { display: none; }
 .documento-hero__description-editorial-break { display: inline; }
-.documento-hero__actions { margin-top: clamp(1.5rem, 4.5cqw, 2rem); }
+/* clamp(2rem, 6cqw, 2.5rem) (antes clamp(1.5rem, 4.5cqw, 2rem)): más
+   separación entre el texto y los botones, a pedido. */
+.documento-hero__actions { margin-top: clamp(2rem, 6cqw, 2.5rem); }
 
 /* El shell tiene hasta dos barras laterales. Estas decisiones dependen del
    ancho real del documento y no del viewport, evitando columnas comprimidas
@@ -335,10 +345,12 @@
 
 @container documento-hero (min-width: 620px) {
   .documento-hero--compact {
-    grid-template-columns: minmax(190px, .66fr) minmax(0, 1.34fr);
-    min-height: 420px;
+    /* minmax(220px, .68fr) (antes minmax(190px, .66fr)) y min-height 460px
+       (antes 420px): portada más grande en desktop, a pedido. */
+    grid-template-columns: minmax(220px, .68fr) minmax(0, 1.32fr);
+    min-height: 460px;
   }
-  .documento-hero--compact .documento-hero__cover { min-height: 420px; order: 0; }
+  .documento-hero--compact .documento-hero__cover { min-height: 460px; order: 0; }
   /* Aire a la izquierda: separa la portada del borde de la tarjeta (ref. boceto). */
   .documento-hero--compact .documento-hero__image { padding-left: clamp(1.25rem, 5cqw, 3.25rem); }
   .documento-hero--compact .documento-hero__content { order: 0; padding: clamp(2rem, 4.25cqw, 3rem); }
@@ -349,13 +361,18 @@
 @container documento-hero (min-width: 760px) {
   .documento-hero--standard { grid-template-columns: minmax(240px, .78fr) minmax(0, 1.22fr); min-height: 430px; }
   .documento-hero--standard .documento-hero__cover { min-height: 430px; }
-  .documento-hero--compact { grid-template-columns: minmax(230px, .78fr) minmax(0, 1.22fr); }
+  .documento-hero--compact { grid-template-columns: minmax(260px, .78fr) minmax(0, 1.22fr); min-height: 480px; }
+  .documento-hero--compact .documento-hero__cover { min-height: 480px; }
 }
 
 @container documento-hero (min-width: 1080px) {
   .documento-hero--standard { grid-template-columns: minmax(320px, 1fr) minmax(0, 1fr); min-height: 470px; }
   .documento-hero--standard .documento-hero__content { padding: 4rem; }
-  .documento-hero--compact { grid-template-columns: minmax(300px, .82fr) minmax(0, 1.18fr); }
+  /* minmax(340px, .85fr) y min-height 500px (antes minmax(300px, .82fr),
+     sin min-height propio - heredaba 480px de la query anterior): portada
+     más grande en desktop, a pedido. */
+  .documento-hero--compact { grid-template-columns: minmax(340px, .85fr) minmax(0, 1.15fr); min-height: 500px; }
+  .documento-hero--compact .documento-hero__cover { min-height: 500px; }
   .documento-hero--compact .documento-hero__content { padding: clamp(1.75rem, 3vw, 2.5rem); }
   .documento-hero--compact .documento-hero__title {
     max-width: 26rem;
@@ -379,7 +396,9 @@
     color: rgba(237,237,240,.88);
   }
   .documento-hero--compact .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: .4em; }
-  .documento-hero--compact .documento-hero__actions { margin-top: 1.1rem; }
+  /* 1.75rem (antes 1.1rem): más separación entre el texto y los botones, a
+     pedido - el ajuste anterior lo había dejado muy pegado. */
+  .documento-hero--compact .documento-hero__actions { margin-top: 1.75rem; }
 }
 
 /* Cap de alto (decisión: llenar el alto visible, pero puede crecer si el
@@ -461,6 +480,26 @@
 .wheel-accordion--reserve { margin-top: 0; border-top: 0; }
 @media (min-width: 768px) {
   .wheel-accordion--reserve { margin-top: 1rem; }
+}
+
+/* Alto FIJO (no max-height) del acordeón en mobile/tablet (ver
+   curricular-wheel.tsx): la sección "Trama curricular" de Inicio queda
+   pegada arriba (apilado por scroll) - con alto fijo, el acordeón mide
+   siempre lo mismo, esté todo cerrado o con un panel abierto, así "rueda"
+   (el contenedor pegado) nunca cambia de alto al togglear un ítem. Con
+   max-height en vez de alto fijo, el contenedor SÍ cambiaba de alto al
+   abrir un panel, y en ese momento el bloque de abajo ("historia") se
+   reposicionaba mal (quedaba tapando ítems que en teoría entraban) - un
+   alto fijo evita el problema de raíz en vez de perseguir el reacomodo.
+   overflow-y: auto para el caso raro de un blurb más largo de lo previsto. */
+@media (max-width: 1279px) {
+  .wheel-accordion--scroll { height: 21rem; overflow-y: auto; }
+}
+@media (min-width: 640px) and (max-width: 1279px) {
+  /* Más alto que en mobile: de sm para arriba el acordeón usa tipografía
+     más grande (ver .wheel-accordion--compact .wheel-accordion__trigger),
+     21rem se quedaba corto y tapaba el último ítem ("Marco General"). */
+  .wheel-accordion--scroll { height: 27rem; }
 }
 
 @keyframes v3-slide-in { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: translateX(0); } }
