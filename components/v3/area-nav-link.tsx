@@ -51,17 +51,15 @@ export function AreaNavLink({
 }) {
   const foreground = areaNavForeground(area);
   const short = variant === "sidebar" ? shortAreaName[area.slug] : undefined;
-  // "wheel" (botonera de Áreas en mobile) siempre pintado del color del
-  // área, no solo el activo (antes solo el borde en color, fondo blanco).
-  // "sidebar" (aside de tablet/desktop) no se toca, sigue marcando solo la
-  // actual.
-  const filled = variant === "wheel" ? true : active;
 
   return (
     <Link
       href={`/area/${area.slug}`}
       aria-current={active ? "page" : undefined}
-      className={`group flex min-w-0 w-full items-center justify-between border font-normal tracking-[-0.035em] transition-colors duration-150 hover:bg-[var(--area)] hover:text-[var(--area-active-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${variantClasses[variant]} ${filled ? "bg-[var(--area)] text-[var(--area-active-fg)]" : "bg-white text-[var(--area)]"}`}
+      // active: (no solo hover:) para que se pinte también al toque en
+      // mobile, no solo con mouse - :hover no es confiable en touch (a
+      // veces ni dispara, a veces queda "pegado" hasta tocar otra cosa).
+      className={`group flex min-w-0 w-full items-center justify-between border font-normal tracking-[-0.035em] transition-colors duration-150 hover:bg-[var(--area)] hover:text-[var(--area-active-fg)] active:bg-[var(--area)] active:text-[var(--area-active-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${variantClasses[variant]} ${active ? "bg-[var(--area)] text-[var(--area-active-fg)]" : "bg-white text-[var(--area)]"}`}
       style={{
         borderColor: area.color,
         ["--area" as string]: area.color,
