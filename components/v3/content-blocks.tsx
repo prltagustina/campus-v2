@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Download, ExternalLink, Presentation, Share2 } from "lucide-react";
+import { Download, ExternalLink, Share2 } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { CarouselArrows } from "@/components/v3/carousel-arrows";
 import { CarouselDots } from "@/components/v3/carousel-dots";
@@ -48,10 +48,12 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
     {/* Encabezado suelto, afuera de la tarjeta: mismo criterio "chips" que
        RepositoryPanel (Marco normativo, Documentos disponibles, etc.) —
        antes el título y el "Abrir" vivían dentro de la misma caja que el
-       video, como un contenedor todo-en-uno. */}
+       video, como un contenedor todo-en-uno. Sin ícono y con label chico en
+       mayúsculas (antes h3 + caja de ícono): mismo tratamiento "tipo
+       resolución" que el resto de los encabezados de Familias/Directivos/
+       EIB. */}
     <div className="flex items-center gap-3 px-1 pb-5">
-      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Presentation className="h-4 w-4" /></span>
-      <div className="min-w-0 flex-1"><h3 className="truncate font-display text-xl font-semibold text-[#494963]">{label}</h3></div>
+      <p className="min-w-0 flex-1 truncate text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{label}</p>
       <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
     </div>
     {/* Sin el marco gris (bg-[#E9E9EE] p-1.5/p-2) que envolvía el iframe -
@@ -207,7 +209,11 @@ export function DocumentoStepper({ title, steps }: { title: React.ReactNode; ste
                    del numeral. sm:gap-8 sin tocar (ahí ya se usa como
                    separación horizontal desde md). */}
                 <div className="grid gap-2 sm:gap-8 md:grid-cols-[.4fr_1.6fr] md:items-center">
-                  <span className="font-sans text-6xl font-black leading-none text-[#E4E4E9] sm:text-7xl lg:text-8xl">{String(index + 1).padStart(2, "0")}</span>
+                  {/* Un paso más grande en cada breakpoint (antes
+                     text-6xl/7xl/8xl): pedido explícito, sin romper el
+                     layout - la columna del numeral (.4fr) y el gap ya le
+                     dan lugar de sobra. */}
+                  <span className="font-sans text-7xl font-black leading-none text-[#E4E4E9] sm:text-8xl lg:text-9xl">{String(index + 1).padStart(2, "0")}</span>
                   <div>
                     {step.eyebrow && <p className="v3-eyebrow">{step.eyebrow}</p>}
                     {/* text-xl font-bold en mobile (antes text-lg font-semibold):

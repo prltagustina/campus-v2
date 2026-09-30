@@ -1,7 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { Calendar, ExternalLink, FolderOpen, Layers, Scale } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
 import { RepositoryPanel, ResourceRow } from "@/components/v3/repository-panel";
@@ -154,7 +153,17 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
            DocumentoStepper" (ver comentario arriba), pero había quedado con
            otra clase de fuente y el color armado como opacidad en vez del
            mismo gris sólido — mismas clases exactas que ese numeral. */}
-        <p className="font-sans text-4xl font-black leading-none text-[#E4E4E9] sm:text-5xl">{index}</p>
+        <div className="shrink-0">
+          {/* "Nivel" arriba del numeral: al sacarle el título+ícono al panel
+             "Proyectos por nivel" (quedaba redundante con la tab
+             "Proyectos"), el numeral solo perdía ese contexto. Misma
+             familia/peso/color que el nombre del nivel (el h3 de al lado,
+             "Inicial"/"Primario"), no el label gris chico de "Resolución" -
+             más chico en tamaño (es un prefijo, no el valor) pero del mismo
+             "tipo". */}
+          <p className="font-display text-sm font-semibold text-[#494963] sm:text-base">Nivel</p>
+          <p className="font-sans text-4xl font-black leading-none text-[#E4E4E9] sm:text-5xl">{index}</p>
+        </div>
         {/* text-xl fijo (antes sm:text-2xl): mismo tamaño que el título de
            ArchiveGroup ("Calendario intercultural"/"Memorias y recursos"),
            el otro encabezado de subgrupo dentro de EIB. */}
@@ -191,12 +200,15 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
   );
 }
 
-function ArchiveGroup({ title, icon, items }: { title: string; icon: ReactNode; items: { nombre: string; url: string }[] }) {
+function ArchiveGroup({ title, items }: { title: string; items: { nombre: string; url: string }[] }) {
   return (
     <section>
-      <header className="flex items-center gap-3 px-1 pb-3">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
-        <h3 className="min-w-0 font-display text-xl font-semibold text-[#494963]">{title}</h3>
+      {/* Sin ícono ni título grande (antes h3 + caja de ícono): mismo
+         tratamiento "label chico" que "Resolución"/"Decretos / Ley" del
+         Marco normativo, en vez de un encabezado con la misma presencia que
+         el título del panel (ya retirado). */}
+      <header className="px-1 pb-3">
+        <p className="text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{title}</p>
       </header>
 
       {/* Chips: mismo tratamiento que ProjectGroup (flex, sin numerar cada
@@ -238,14 +250,17 @@ export default function EIBPage() {
       <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Marco normativo" icon={<Scale className="h-4 w-4" />} chips>
+            {/* Sin título ni ícono (antes Scale): única tira de esta tab
+               ("Normativa"), el título quedaba redundante con la tab -
+               "Resolución"/"Decretos / Ley" ya distinguen los subgrupos. */}
+            <RepositoryPanel chips>
               <div className="space-y-6">
                 <div>
                   {/* mb-3 (antes mb-2): quedaba muy pegada a la primera fila de chips. */}
                   <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Resolución</p>
                   <div className="space-y-2">
                     {legislacion.resoluciones.map((documento) => (
-                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip sideActions />
+                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download chip sideActions showActionLabel />
                     ))}
                   </div>
                 </div>
@@ -253,7 +268,7 @@ export default function EIBPage() {
                   <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Decretos / Ley</p>
                   <div className="space-y-2">
                     {legislacion.decretosLey.map((documento) => (
-                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip sideActions />
+                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download chip sideActions showActionLabel />
                     ))}
                   </div>
                 </div>
@@ -264,7 +279,10 @@ export default function EIBPage() {
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Proyectos por nivel" icon={<Layers className="h-4 w-4" />} chips>
+            {/* Sin título ni ícono (antes Layers): única tira de esta tab
+               ("Proyectos"), el contexto "por nivel" pasó a la etiqueta
+               "Nivel" de cada ProjectGroup. */}
+            <RepositoryPanel chips>
               <div className="space-y-6">
                 <ProjectGroup index="01" title="Inicial" items={proyectos.inicial} />
                 <ProjectGroup index="02" title="Primario" items={proyectos.primario} />
@@ -282,8 +300,8 @@ export default function EIBPage() {
                y Docentes (Material de apoyo/Normativa) — acá quedaba con
                menos aire que el resto de EIB. */}
             <div className="space-y-6">
-              <ArchiveGroup title="Calendario intercultural" icon={<Calendar className="h-4 w-4" />} items={celebracionesCalendario} />
-              <ArchiveGroup title="Memorias y recursos" icon={<FolderOpen className="h-4 w-4" />} items={celebracionesMemoria} />
+              <ArchiveGroup title="Calendario intercultural" items={celebracionesCalendario} />
+              <ArchiveGroup title="Memorias y recursos" items={celebracionesMemoria} />
             </div>
           </div>
         </section>

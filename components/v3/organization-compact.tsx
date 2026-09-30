@@ -32,7 +32,11 @@ export function OrganizationCompact() {
         <Carousel opts={{ align: "start", containScroll: false, loop: false }}>
           <div className="pr-5 md:pr-0">
             <h2 className="font-sans text-2xl font-semibold leading-[1.05] tracking-[-0.02em] text-[#494963] sm:text-3xl lg:text-4xl">Cómo está<br />organizada cada área</h2>
-            <p className="mt-2 max-w-md font-sans text-base leading-normal text-[#494963]/50 sm:leading-[1.5]">Todas comparten una misma estructura de seis secciones.</p>
+            {/* text-sm sm:text-base lg:text-lg (antes text-base fijo):
+               mismo tamaño que el resto de los subtítulos de esta vista
+               (Marco General) - "Seleccioná un eje...", "Materiales
+               institucionales...", etc. */}
+            <p className="mt-2 max-w-md font-sans text-sm leading-normal text-[#494963]/50 sm:text-base sm:leading-[1.5] lg:text-lg">Todas comparten una misma estructura de seis secciones.</p>
           </div>
           {/* Anterior/Siguiente sobre las propias tarjetas (no arriba, junto
              al título): "relative" acá adentro, no en el <Carousel>, para
@@ -42,12 +46,20 @@ export function OrganizationCompact() {
              se superponían al borde de la primera/última). */}
           <div className="relative md:px-10">
             <CarouselContent className="mt-5 pr-2 sm:mt-7 md:pr-0">
+              {/* xl:basis-1/3 (no lg, ni solo sm:basis-1/2): en desktop se ven
+                 tres tarjetas, no dos - en tablet (sm/md/lg, hasta iPad en
+                 horizontal ~1024-1180px incluido) se mantienen dos para que
+                 no queden angostas; recién de 1280px para arriba pasan a
+                 tres. */}
               {items.map(([number, title, description, iconSrc]) => (
-                <CarouselItem key={number} className="basis-[86%] sm:basis-1/2">
+                <CarouselItem key={number} className="basis-[86%] sm:basis-1/2 xl:basis-1/3">
                   <article className="flex h-full flex-col rounded-lg bg-white p-[18px] sm:p-5">
-                    <div className="flex items-center gap-2">
-                      {iconSrc ? <Image src={iconSrc} alt="" width={16} height={16} className="h-4 w-4 object-contain" /> : <PresentacionIcon className="h-4 w-4 text-[#494963]" />}
-                      <span className="font-sans text-xl font-bold text-[#494963]/20 sm:text-2xl">{number}</span>
+                    {/* Numeral e ícono un poco más grandes (antes h-4 w-4 /
+                       text-xl sm:text-2xl): pedido explícito, sin romper el
+                       layout de la tarjeta. */}
+                    <div className="flex items-center gap-2.5">
+                      {iconSrc ? <Image src={iconSrc} alt="" width={20} height={20} className="h-5 w-5 object-contain" /> : <PresentacionIcon className="h-5 w-5 text-[#494963]" />}
+                      <span className="font-sans text-2xl font-bold text-[#494963]/20 sm:text-3xl">{number}</span>
                     </div>
                     <h3 className="mt-3.5 font-sans text-base font-semibold text-[#494963]">{title}</h3>
                     <p className="mt-2 font-sans text-[15px] leading-relaxed text-[#494963]/50 sm:text-sm">{description}</p>

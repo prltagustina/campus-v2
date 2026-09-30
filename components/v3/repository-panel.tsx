@@ -4,9 +4,9 @@ import { ShareResourceButton } from "@/components/v3/share-resource-button";
 
 /**
  * Tarjeta de repositorio compartida por las secciones institucionales
- * (Familias, Equipos directivos/Docentes, EIB): mismo encabezado con
- * ícono + título + detalle (+ contador opcional) y lista de filas
- * separadas por línea. Antes cada página la reimplementaba a mano.
+ * (Familias, Equipos directivos/Docentes, EIB): lista de filas separadas
+ * por línea, con encabezado opcional (ícono + título + detalle + contador).
+ * Antes cada página la reimplementaba a mano.
  */
 export function RepositoryPanel({
   title,
@@ -19,34 +19,41 @@ export function RepositoryPanel({
    * ResourceRow), separadas por aire, como en la página de referencia. */
   chips = false,
 }: {
-  title: string;
+  /** Título del panel (p. ej. "Marco normativo", "Documentos disponibles").
+   * Opcional: se retiró de Familias/Directivos/EIB por redundante (la
+   * propia tab ya dice "Documentos"/"Normativa") - sin título ni ícono, no
+   * se arma encabezado y el panel arranca directo en los chips. */
+  title?: string;
   /** Metadata secundaria (p. ej. "Resoluciones y documentos de referencia").
    * Opcional: se está retirando de Familias/Directivos/EIB por ser
    * descriptiva redundante — el título queda solo y gana presencia. */
   detail?: string;
-  icon: ReactNode;
+  icon?: ReactNode;
   /** Badge numérico a la derecha del encabezado. Mismo criterio: se omite
    * salvo que el conteo aporte algo que el título no dice ya. */
   count?: number;
   children: ReactNode;
   chips?: boolean;
 }) {
-  const header = (
+  const hasHeader = Boolean(title || icon || detail || count !== undefined);
+  const header = hasHeader ? (
     // pb-5 (antes pb-3): más aire entre el título del panel (p. ej. "Marco
     // normativo") y los chips de abajo, quedaban muy pegados.
     <div className={`flex items-center justify-between gap-4 ${chips ? "px-1 pb-5" : "border-b border-[#494963]/[.07] px-5 py-3 sm:px-6"}`}>
       <div className="flex min-w-0 items-center gap-3">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span>
-        <div className="min-w-0">
-          <h3 className="font-display text-xl font-semibold text-[#494963]">{title}</h3>
-          {detail ? <p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p> : null}
-        </div>
+        {icon ? <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]">{icon}</span> : null}
+        {(title || detail) ? (
+          <div className="min-w-0">
+            {title ? <h3 className="font-display text-xl font-semibold text-[#494963]">{title}</h3> : null}
+            {detail ? <p className="mt-0.5 text-xs text-[#494963]/40">{detail}</p> : null}
+          </div>
+        ) : null}
       </div>
       {count !== undefined ? (
         <span className="rounded-full bg-[#494963]/[.06] px-3 py-1 text-xs font-bold text-[#494963]/55">{count}</span>
       ) : null}
     </div>
-  );
+  ) : null;
 
   if (chips) return <div>{header}<div className="space-y-2">{children}</div></div>;
 

@@ -462,26 +462,30 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
+      {/* Texto blanco (antes navy #3F3F59/#34344B): sobre el degradé
+         naranja→violeta el navy quedaba con poco contraste en el tramo
+         naranja - pedido explícito de pasar todo (breadcrumb + Buscar) a
+         blanco. */}
       <div
-        className="h-[46px] shrink-0 overflow-hidden bg-[#EDEDF0] px-4 text-[#494963] lg:h-[54px]"
+        className="h-[46px] shrink-0 overflow-hidden bg-[#EDEDF0] px-4 text-white lg:h-[54px]"
         style={{
           backgroundImage: documentSpineGradient,
         }}
       >
         <div className="mx-auto flex h-full max-w-[1160px] items-center">
         <nav aria-label="Ruta actual" className="flex min-w-0 max-w-full flex-none items-center gap-2 text-xs md:max-w-[calc(100%-17rem)] md:text-sm">
-          <Link href="/" className="hidden shrink-0 font-bold text-[#3F3F59] sm:inline">Diseño Curricular</Link>
-          {parentLabel && <><span className="hidden text-[#3F3F59]/55 sm:inline">/</span><span className="hidden font-semibold text-[#3F3F59]/85 sm:inline">{parentLabel}</span></>}
-          <span className="hidden text-[#3F3F59]/55 sm:inline">/</span><span className="truncate font-extrabold text-[#34344B]">{currentLabel}</span>
+          <Link href="/" className="hidden shrink-0 font-bold text-white sm:inline">Diseño Curricular</Link>
+          {parentLabel && <><span className="hidden text-white/55 sm:inline">/</span><span className="hidden font-semibold text-white/85 sm:inline">{parentLabel}</span></>}
+          <span className="hidden text-white/55 sm:inline">/</span><span className="truncate font-extrabold text-white">{currentLabel}</span>
         </nav>
-        <label className="ml-auto flex h-9 shrink-0 items-center gap-2 border-b-2 border-[#3F3F59]/65 px-1 text-xs text-[#3F3F59] transition-[border-color] focus-within:border-[#34344B]">
-          <Search className="h-4 w-4 shrink-0 text-[#3F3F59]" />
+        <label className="ml-auto flex h-9 shrink-0 items-center gap-2 border-b-2 border-white/65 px-1 text-xs text-white transition-[border-color] focus-within:border-white">
+          <Search className="h-4 w-4 shrink-0 text-white" />
           <span className="sr-only">Buscar</span>
           <input
             type="search"
             autoComplete="off"
             spellCheck={false}
-            className="w-16 appearance-none border-0 bg-transparent p-0 font-semibold text-[#34344B] shadow-none outline-none ring-0 placeholder:text-[#3F3F59]/80 [&::-webkit-search-cancel-button]:hidden sm:w-32 md:w-48"
+            className="w-16 appearance-none border-0 bg-transparent p-0 font-semibold text-white shadow-none outline-none ring-0 placeholder:text-white/80 [&::-webkit-search-cancel-button]:hidden sm:w-32 md:w-48"
             placeholder="Buscar"
           />
         </label>
