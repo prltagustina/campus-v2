@@ -193,11 +193,17 @@ export function DocumentoStepper({ title, steps }: { title: React.ReactNode; ste
           <CarouselContent className="mt-5 sm:mt-7">
             {steps.map((step, index) => (
               <CarouselItem key={index} className="basis-full">
-                <div className="grid gap-4 sm:gap-8 md:grid-cols-[.4fr_1.6fr] md:items-center">
+                {/* gap-2 en mobile (antes gap-4): el título quedaba lejos
+                   del numeral. sm:gap-8 sin tocar (ahí ya se usa como
+                   separación horizontal desde md). */}
+                <div className="grid gap-2 sm:gap-8 md:grid-cols-[.4fr_1.6fr] md:items-center">
                   <span className="font-sans text-6xl font-black leading-none text-[#E4E4E9] sm:text-7xl lg:text-8xl">{String(index + 1).padStart(2, "0")}</span>
                   <div>
                     {step.eyebrow && <p className="v3-eyebrow">{step.eyebrow}</p>}
-                    <h3 className="font-sans text-lg font-semibold text-[#494963] sm:text-2xl">{step.title}</h3>
+                    {/* text-xl font-bold en mobile (antes text-lg font-semibold):
+                       quedaba chico y poco presente al lado de un numeral tan
+                       grande. sm:text-2xl sin tocar. */}
+                    <h3 className="font-sans text-xl font-bold text-[#494963] sm:text-2xl sm:font-semibold">{step.title}</h3>
                     {(Array.isArray(step.description) ? step.description : [step.description]).map((paragraph, i) => (
                       <p key={i} className="mt-3 max-w-xl font-sans text-base leading-relaxed text-[#8B8B99] sm:leading-[1.5]">{paragraph}</p>
                     ))}
