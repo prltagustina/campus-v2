@@ -45,13 +45,16 @@ export default function HomePage() {
           topClassName="!pt-4 md:!pt-0"
         />
       </div>
-      {/* max-h-[90svh] overflow-y-auto: red de seguridad - con la sección
-         pegada arriba (stuck) mientras dura su propio alto, cualquier parte
-         que exceda el alto de pantalla queda inalcanzable (no hay scroll de
-         página posible mientras está pegada). Con esto, si en algún
-         dispositivo el contenido no entra igual, scrollea adentro de la
-         propia tarjeta en vez de perderse. */}
-      <div id="documento" className="sticky top-0 z-20 max-h-[90svh] overflow-y-auto bg-white">
+      {/* Sin max-h/overflow-y-auto propio (los había como red de seguridad
+         por si el contenido no entraba en una pantalla baja): position:
+         sticky + overflow:auto en el MISMO elemento rompe el sticky en
+         mobile real (Safari/Chrome de celular) - la sección dejaba de
+         quedar pegada y pasaba a pintarse DETRÁS de "presentación" en vez
+         de taparla al scrollear. Ya no hace falta esa red: la portada se
+         achicó lo suficiente para entrar sin scroll en los celulares
+         comunes (ver .documento-hero--compact .documento-hero__cover en
+         globals.css). */}
+      <div id="documento" className="sticky top-0 z-20 bg-white">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
@@ -67,10 +70,12 @@ export default function HomePage() {
           compact
         />
       </div>
-      {/* max-h-[90svh] overflow-y-auto hasta xl (mismo criterio que
-         "documento"): de xl para arriba la rueda va al lado del acordeón
-         (no apilada), no hace falta. */}
-      <div id="rueda" className="sticky top-0 z-30 max-h-[90svh] overflow-y-auto bg-[#F1F1F4] md:bg-transparent xl:max-h-none xl:overflow-visible"><CurricularWheel /></div>
+      {/* Sin max-h/overflow-y-auto propio (mismo motivo que "documento" -
+         rompía el sticky en mobile real): el acordeón de la trama ya tiene
+         su propio alto fijo + scroll interno en mobile/tablet (ver
+         wheel-accordion--scroll en globals.css y curricular-wheel.tsx), así
+         que "rueda" no necesita esta red también. */}
+      <div id="rueda" className="sticky top-0 z-30 bg-[#F1F1F4] md:bg-transparent"><CurricularWheel /></div>
       <div id="historia" className="v3-section relative z-40 !px-0 !pb-0 !pt-0 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-0 md:bg-transparent">
         <div className="w-full overflow-hidden rounded-none bg-[#F3F3F5] md:rounded-2xl"><TimelineSection /></div>
       </div>
