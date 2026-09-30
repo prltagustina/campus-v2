@@ -149,7 +149,12 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
   return (
     <section className="grid min-w-0 gap-4 border-l-4 border-[#494963]/[.12] pl-5 sm:pl-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-7">
       <header className="flex items-center gap-3 md:block">
-        <p className="font-display text-4xl font-black leading-none tabular-nums text-[#494963]/[.14] sm:text-5xl">{index}</p>
+        {/* font-sans + #E4E4E9 sólido (antes font-display + /[.14] navy):
+           la idea siempre fue "mismo criterio que los pasos de
+           DocumentoStepper" (ver comentario arriba), pero había quedado con
+           otra clase de fuente y el color armado como opacidad en vez del
+           mismo gris sólido — mismas clases exactas que ese numeral. */}
+        <p className="font-sans text-4xl font-black leading-none text-[#E4E4E9] sm:text-5xl">{index}</p>
         {/* text-xl fijo (antes sm:text-2xl): mismo tamaño que el título de
            ArchiveGroup ("Calendario intercultural"/"Memorias y recursos"),
            el otro encabezado de subgrupo dentro de EIB. */}
@@ -236,7 +241,8 @@ export default function EIBPage() {
             <RepositoryPanel title="Marco normativo" icon={<Scale className="h-4 w-4" />} chips>
               <div className="space-y-6">
                 <div>
-                  <p className="mb-2 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Resolución</p>
+                  {/* mb-3 (antes mb-2): quedaba muy pegada a la primera fila de chips. */}
+                  <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Resolución</p>
                   <div className="space-y-2">
                     {legislacion.resoluciones.map((documento) => (
                       <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip sideActions />
@@ -244,7 +250,7 @@ export default function EIBPage() {
                   </div>
                 </div>
                 <div>
-                  <p className="mb-2 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Decretos / Ley</p>
+                  <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Decretos / Ley</p>
                   <div className="space-y-2">
                     {legislacion.decretosLey.map((documento) => (
                       <ResourceRow key={documento.url} title={`"${documento.nombre}"`} description="Descargar PDF" href={documento.url} download chip sideActions />
@@ -271,7 +277,11 @@ export default function EIBPage() {
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <div className="space-y-4">
+            {/* space-y-6 (antes space-y-4): mismo espacio entre grupos que
+               "Marco normativo" (Resolución/Decretos), "Proyectos por nivel"
+               y Docentes (Material de apoyo/Normativa) — acá quedaba con
+               menos aire que el resto de EIB. */}
+            <div className="space-y-6">
               <ArchiveGroup title="Calendario intercultural" icon={<Calendar className="h-4 w-4" />} items={celebracionesCalendario} />
               <ArchiveGroup title="Memorias y recursos" icon={<FolderOpen className="h-4 w-4" />} items={celebracionesMemoria} />
             </div>

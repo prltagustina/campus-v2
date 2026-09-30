@@ -49,7 +49,7 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
        RepositoryPanel (Marco normativo, Documentos disponibles, etc.) —
        antes el título y el "Abrir" vivían dentro de la misma caja que el
        video, como un contenedor todo-en-uno. */}
-    <div className="flex items-center gap-3 px-1 pb-3">
+    <div className="flex items-center gap-3 px-1 pb-5">
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#494963]/[.055] text-[#494963]"><Presentation className="h-4 w-4" /></span>
       <div className="min-w-0 flex-1"><h3 className="truncate font-display text-xl font-semibold text-[#494963]">{label}</h3></div>
       <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>

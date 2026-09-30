@@ -25,9 +25,19 @@ export function FormacionesSection({
   const contextName = artisticLanguage ?? area.name;
 
   const cards = (
-    <CarouselContent className="items-stretch pb-3 pr-2 md:pr-0">
+    // viewportClassName: reserva 4px a cada lado para que la sombra de la
+    // primera/última tarjeta pueda "sangrar" en vez de quedar con un corte
+    // plano contra el borde del carrusel (el viewport con overflow-hidden
+    // recortaba justo ahí). md:-ml-1 compensa el padding para que la
+    // primera tarjeta arranque en el mismo lugar de siempre (al ras).
+    <CarouselContent className="items-stretch pb-3 pr-2 md:pr-0" viewportClassName="md:-ml-1 md:px-1">
       {items.map((item) => <CarouselItem key={item.id} className="basis-[88%] sm:basis-1/2 xl:basis-1/3">
-        <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_5px_20px_rgba(73,73,99,.07)]">
+        {/* shadow chica (mismo criterio que los chips de EIB/Familias/Marco
+           General, ResourceRow), no la sombra grande que traía antes: esas
+           tarjetas viven sobre fondo gris claro, donde una sombra de 20px de
+           blur se pierde — acá el fondo es blanco y esa misma sombra se veía
+           como un halo/fondo gris de más debajo de la tarjeta. */}
+        <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)]">
           <div className="min-h-[116px] p-5" style={{ backgroundColor: area.color, color: area.textOnColor }}>
             <p className="text-[10px] font-bold uppercase tracking-[.14em] opacity-60">Formación docente</p>
             <h3 className="mt-3 font-display text-lg font-semibold leading-snug">{item.name}</h3>

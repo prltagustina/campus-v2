@@ -132,13 +132,24 @@ function Carousel({
   )
 }
 
-function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
+function CarouselContent({
+  className,
+  viewportClassName,
+  ...props
+}: React.ComponentProps<'div'> & {
+  /** Clases extra para el div con overflow-hidden (el que de verdad recorta
+   * el contenido) — el propio `className` solo llega a la fila flex de
+   * adentro. Sirve para reservarle un par de px de aire a los costados y
+   * que la sombra de la primera/última tarjeta no quede con un corte
+   * plano (Formaciones docentes). */
+  viewportClassName?: string
+}) {
   const { carouselRef, orientation } = useCarousel()
 
   return (
     <div
       ref={carouselRef}
-      className="overflow-hidden"
+      className={cn('overflow-hidden', viewportClassName)}
       data-slot="carousel-content"
     >
       <div

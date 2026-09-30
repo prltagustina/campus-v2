@@ -34,8 +34,11 @@ export function PillTabs({
   idPrefix: string;
   className?: string;
 }) {
+  // gap-2.5 desde sm (no md:gap-3): misma separación que la botonera de
+  // áreas (AreaSubnav/rail principal), en vez de un valor propio más
+  // grande a partir de tablet.
   return (
-    <div className={`flex flex-wrap gap-2 sm:gap-2.5 md:gap-3 ${className}`} role="tablist" aria-label={ariaLabel}>
+    <div className={`flex flex-wrap gap-2 sm:gap-2.5 ${className}`} role="tablist" aria-label={ariaLabel}>
       {options.map((option) => {
         const active = option.id === selectedId;
         return (
