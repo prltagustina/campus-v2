@@ -1,4 +1,3 @@
-import { BookOpen } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { SlideDeckEmbed } from "@/components/v3/content-blocks";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
@@ -35,9 +34,11 @@ export default function FamiliasPage() {
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel title="Documentos disponibles" icon={<BookOpen className="h-4 w-4" />} chips>
+            {/* Sin título ni ícono (antes BookOpen): única tira de esta tab
+               ("Materiales"), el título quedaba redundante con la tab. */}
+            <RepositoryPanel chips>
               {materiales.map((material) => (
-                <ResourceRow key={material.url} title={material.titulo} href={material.url} download chip />
+                <ResourceRow key={material.url} title={material.titulo} href={material.url} download chip showActionLabel />
               ))}
             </RepositoryPanel>
           </div>

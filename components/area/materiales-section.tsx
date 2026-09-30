@@ -342,10 +342,11 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
 
   return (
     <section id="materiales">
-      {/* sm:px-7 (no md:px-0): mismo inset que el botón de categoría
-         (RepositoryAccordionGroup, tamaño lg) para que el título quede
-         alineado con "Docencia"/"Estudiantes" de más abajo. */}
-      <div className="mb-6 max-w-2xl px-4 sm:px-7 md:mb-8">
+      {/* px-4 md:px-0 (antes sm:px-7): mismo inset que "Itinerarios
+         didácticos" del resto de las áreas (ItinerarioRepository, más abajo
+         en el archivo) - así queda alineado con el borde del banner de
+         arriba (DocumentoExplainer) y con Funzine, no con un inset propio. */}
+      <div className="mb-6 max-w-2xl px-4 md:px-0 md:mb-8">
         <h3 className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">
           Itinerarios didácticos
         </h3>
@@ -378,17 +379,18 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
         aria-labelledby={"idioma-tab-" + idiomaSeleccionado}
         className="mt-7 sm:mt-8"
       >
-        <div className="px-4 pb-5 sm:px-7 sm:pb-6">
+        <div className="px-4 pb-5 md:px-0 sm:pb-6">
           <h4 className="font-display text-2xl font-semibold tracking-[-.02em] text-[#494963] sm:text-3xl">
             {idiomaInfo.name}
           </h4>
         </div>
 
-        {/* px-4 sm:px-7 (no solo md:px-0 como en las áreas): mismo inset que
-           el header de acá arriba - en mobile cada categoría ya tiene su
-           propio borde redondeado (ver RepositoryAccordionGroup) y quedaba
-           a sangrado, pegada a los bordes de la pantalla, sin margen. */}
-        <div className="flex flex-col gap-2.5 px-4 sm:px-7">
+        {/* px-4 md:px-0 (antes sm:px-7): mismo inset que el header de acá
+           arriba y que el resto de las áreas - en mobile cada categoría ya
+           tiene su propio borde redondeado (ver RepositoryAccordionGroup),
+           por eso el px-4 se mantiene ahí (a sangrado quedaba pegado a los
+           bordes de la pantalla, sin margen). */}
+        <div className="flex flex-col gap-2.5 px-4 md:px-0">
           <RepositoryAccordionGroup
             id={`${idiomaSeleccionado}-secuencias`}
             title="Secuencias didácticas"
