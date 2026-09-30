@@ -60,9 +60,12 @@ function MarcoGeneralContent() {
   }, [selectedAxis]);
   return (
     <div className="bg-white">
-      {/* Sin pb propio: el espacio hasta "Recursos" lo da el !pt-8/md:!pt-10
-         de esa sección (mismo criterio que en las áreas) — un pb acá sumaba
-         un aire extra que no tenía ningún otro salto entre secciones. */}
+      {/* Sin pb propio: el espacio hasta "Recursos" lo da el !pt-5/md:!pt-6
+         de esa sección (mismo criterio que en las áreas) - un pb acá sumaba
+         un aire extra que no tenía ningún otro salto entre secciones. Menos
+         aire que antes (!pt-8/md:!pt-10) a propósito, en toda esta página y
+         en las áreas: que se vea que sigue contenido más abajo y dé pie a
+         scrollear. */}
       <div id="documento">
         <DocumentoExplainer
           titulo="Marco General"
@@ -74,7 +77,7 @@ function MarcoGeneralContent() {
           accentText="#EDEDF0"
         />
       </div>
-      <section id="recursos" className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
+      <section id="recursos" className="v3-section !px-0 !pb-0 !pt-5 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-6 md:bg-transparent">
         {/* SectionTabs (mismo componente que Familias/Docentes/EIB), no el
            tablist manual de antes: separa Documentos y Formaciones en tabs
            reales, con el mismo mecanismo en todos lados (scroll al tope al
@@ -138,7 +141,7 @@ function MarcoGeneralContent() {
           </SectionTabs>
         </div>
       </section>
-      <section id="ejes" className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
+      <section id="ejes" className="v3-section !px-0 !pb-0 !pt-5 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-6 md:bg-transparent"><div className="rounded-none bg-[#F5F5F7] px-4 py-5 sm:px-7 md:rounded-2xl md:py-8 lg:py-10">
         <header className="mb-6 max-w-2xl md:mb-8">
           <h2 className="max-w-[20ch] text-balance font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">Aspectos distintivos del Diseño Curricular</h2>
           {/* Antes text-sm/45: menos presencia que la intro equivalente de

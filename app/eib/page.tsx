@@ -207,8 +207,9 @@ function ArchiveGroup({ title, items }: { title: string; items: { nombre: string
       {/* Sin ícono ni título grande (antes h3 + caja de ícono): mismo
          tratamiento "label chico" que "Resolución"/"Decretos / Ley" del
          Marco normativo, en vez de un encabezado con la misma presencia que
-         el título del panel (ya retirado). */}
-      <header className="px-1 pb-3">
+         el título del panel (ya retirado). pb-6 (antes pb-3): separado del
+         contenido, mismo criterio en todos los labels "tipo resolución". */}
+      <header className="px-1 pb-6">
         <p className="text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{title}</p>
       </header>
 
@@ -257,8 +258,9 @@ export default function EIBPage() {
             <RepositoryPanel chips>
               <div className="space-y-6">
                 <div>
-                  {/* mb-3 (antes mb-2): quedaba muy pegada a la primera fila de chips. */}
-                  <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Resolución</p>
+                  {/* mb-6 (antes mb-3, y antes mb-2): separado de la primera fila de
+                     chips - mismo criterio en todos los labels "tipo resolución". */}
+                  <p className="mb-6 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Resolución</p>
                   <div className="space-y-2">
                     {legislacion.resoluciones.map((documento) => (
                       <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download chip sideActions showActionLabel />
@@ -266,7 +268,7 @@ export default function EIBPage() {
                   </div>
                 </div>
                 <div>
-                  <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Decretos / Ley</p>
+                  <p className="mb-6 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Decretos / Ley</p>
                   <div className="space-y-2">
                     {legislacion.decretosLey.map((documento) => (
                       <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download chip sideActions showActionLabel />
