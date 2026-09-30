@@ -97,8 +97,10 @@ function ArtisticLanguageTabs({
 
   return (
     // pb-2.5 (no md:pb-8): mismo espacio de abajo que la separación de la
-    // botonera de áreas (gap-2.5), en todos los anchos.
-    <section className="sticky top-0 z-30 bg-white px-4 pt-6 pb-2.5 md:px-[14px] md:pt-0">
+    // botonera de áreas (gap-2.5), en todos los anchos. pt-2.5 en mobile
+    // (antes pt-6): mismo valor que el pb, quedaba con mucho más aire arriba
+    // que abajo.
+    <section className="sticky top-0 z-30 bg-white px-4 pt-2.5 pb-2.5 md:px-[14px] md:pt-0">
       <PillTabs
         options={options}
         selectedId={selectedId}
