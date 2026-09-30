@@ -26,7 +26,11 @@ export function VideoEmbed({
 }) {
   return (
     <section className={`v3-section ${className} ${topClassName}`}>
-      <div className={`relative aspect-video overflow-hidden bg-[#171729] shadow-[0_12px_40px_rgba(73,73,99,.10)] ${mediaClassName}`}>
+      {/* Sin shadow propia (antes shadow-[0_12px_40px_rgba(73,73,99,.10)]):
+         en Inicio, con el apilado por scroll, se veía como una mancha al
+         despegarse - pedido explícito de blancos/transparencias, sin
+         sombras (mismo criterio en todo lugar donde se usa este video). */}
+      <div className={`relative aspect-video overflow-hidden bg-[#171729] ${mediaClassName}`}>
         <iframe
           className="absolute inset-0 h-full w-full"
           src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0`}
@@ -131,7 +135,10 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
             src={portadaSrc}
             alt={`Portada de ${titulo}`}
             fill
-            className={`documento-hero__image drop-shadow-[0_20px_28px_rgba(73,73,99,.24)] ${tiltedCover ? "documento-hero__image--tilted" : ""}`}
+            // Sin drop-shadow propio (antes drop-shadow-[0_20px_28px_rgba(73,73,99,.24)]):
+            // con el apilado por scroll de Inicio se veía como una mancha al
+            // despegarse la tarjeta - pedido explícito de blancos/transparencias.
+            className={`documento-hero__image ${tiltedCover ? "documento-hero__image--tilted" : ""}`}
             sizes="(max-width: 559px) 78vw, (max-width: 1279px) 28vw, 24vw"
           />
         </div>
@@ -152,32 +159,44 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
               </span>
             )) : descripcion}
           </p>
-          <div className="documento-hero__actions flex flex-wrap items-center gap-4">
+          {/* Descargar / Saber más / Compartir en una sola fila (antes "Saber
+             más" iba en su propia fila, mt-1 basis-full): pedido explícito
+             de tenerlos alineados, con "Saber más" en el medio. Texto
+             "Descargar PDF" oculto en mobile (solo el ícono) para que los
+             tres entren en una fila incluso en pantallas chicas - además
+             libera alto, que hace falta con la sección apilada por scroll
+             de Inicio (sin esto, con poco alto de pantalla el botón podía
+             quedar tapado). h-10 sm:h-11 en los tres (antes h-[52px]/h-12/
+             h-[52px], quedaban descalzados entre sí): mismo alto exacto que
+             el botón "Descargar PDF" de los banners de área
+             (DocumentoExplainer), para que sea consistente en todo el
+             sitio. */}
+          <div className="documento-hero__actions flex flex-wrap items-center gap-2.5 sm:gap-4">
             <a
               href={pdfUrl}
               target="_blank"
               rel="noreferrer"
               aria-label={`Descargar PDF: ${titulo}`}
-              className="inline-flex h-[52px] items-center gap-2.5 rounded-[9px] px-7 text-[15px] font-semibold tracking-[-0.035em] transition-[filter] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+              className="inline-flex h-10 items-center gap-2.5 rounded-[9px] px-4 text-[15px] font-semibold tracking-[-0.035em] transition-[filter] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70 sm:h-11 sm:px-7"
               style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}
             >
-              <Download className="h-[18px] w-[18px]" strokeWidth={1.75} /> Descargar PDF
+              <Download className="h-[18px] w-[18px] shrink-0" strokeWidth={1.75} /> <span className="hidden sm:inline">Descargar PDF</span>
             </a>
-            <button
-              type="button"
-              onClick={share}
-              aria-label={`Compartir ${titulo}`}
-              className="grid h-[52px] w-[52px] place-items-center rounded-full border border-white/55 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
-            >
-              <Share2 className="h-[18px] w-[18px]" strokeWidth={1.75} />
-            </button>
             {secondaryHref && (
-              <Link href={secondaryHref} className="mt-1 basis-full">
-                <span className="inline-flex h-12 w-fit items-center rounded-[9px] border border-white/55 px-7 text-[15px] font-medium tracking-[-0.035em] transition-colors hover:bg-white/10">
+              <Link href={secondaryHref}>
+                <span className="inline-flex h-10 w-fit items-center rounded-[9px] border border-white/55 px-4 text-[15px] font-medium tracking-[-0.035em] transition-colors hover:bg-white/10 sm:h-11 sm:px-7">
                   Saber más
                 </span>
               </Link>
             )}
+            <button
+              type="button"
+              onClick={share}
+              aria-label={`Compartir ${titulo}`}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/55 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70 sm:h-11 sm:w-11"
+            >
+              <Share2 className="h-[18px] w-[18px]" strokeWidth={1.75} />
+            </button>
           </div>
         </div>
       </div>
