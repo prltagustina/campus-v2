@@ -279,13 +279,15 @@
   background: transparent;
   order: 1;
 }
-/* clamp(240px, 64cqw, 360px) (antes clamp(280px, 74cqw, 330px), después
-   clamp(160px, 46cqw, 330px) - había quedado demasiado chica): con
-   "documento" con scroll propio de respaldo (max-h-[90svh] overflow-y-auto
-   en app/page.tsx) si en algún dispositivo muy bajo no entra igual, los
-   botones siguen alcanzables scrolleando adentro - no hace falta sacrificar
-   tanto el tamaño de la portada. */
-.documento-hero--compact .documento-hero__cover { min-height: clamp(240px, 64cqw, 360px); }
+/* clamp(210px, 56cqw, 360px) (antes clamp(240px, 64cqw, 360px)): con el
+   valor anterior, en mobile el total (portada+texto+botones) pasaba por
+   muy poco el tope de alto de "documento" (max-h-[90svh] en app/page.tsx),
+   activando su scroll propio de respaldo - y con la portada arriba de
+   todo, scrollear ahí adentro se sentía como que "la portada se mueve",
+   que no queda bien. Un poco más chica alcanza para que entre sin scroll
+   en mobile (no hace falta que la tapa se use ahí), sin resignar tanto
+   tamaño como el ajuste de emergencia anterior. */
+.documento-hero--compact .documento-hero__cover { min-height: clamp(195px, 54cqw, 360px); }
 .documento-hero__image {
   max-width: 100%;
   max-height: 100%;
