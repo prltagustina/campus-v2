@@ -15,20 +15,13 @@ export default function HomePage() {
   return (
     <div className="bg-white">
       <div id="presentacion">
-        {/* md:!pt-0: arriba sin padding desde tablet (el video arranca a la
-           misma altura en la que empieza el botón "Inicio" del rail). En
-           mobile no hay rail al costado con el que alinearse, y quedaba
-           pegado arriba de todo, contra la franja de breadcrumb — pt-4
-           (el default de VideoEmbed) le da un respiro ahí. A los lados y
-           abajo, el mismo inset que la sección de descarga de acá abajo
-           (DocumentoHero usa v3-section !p-0 md:!p-[14px]), para que los dos
-           midan igual. */}
+        {/* Sin overrides de padding/esquinas (antes iba pegado a los bordes
+           en mobile, sin redondear): mismo tratamiento que el video de
+           "Presentación audiovisual" en cada área — VideoEmbed ya trae ese
+           inset y ese rounded-2xl por default, no hacía falta pisarlos acá. */}
         <VideoEmbed
           videoId="eu8CYPbjehE"
           title="Presentación Diseño Curricular de la Provincia de Santa Fe"
-          topClassName="pt-4 md:!pt-0"
-          className="!px-0 !pb-0 md:!px-[14px] md:!pb-0"
-          mediaClassName="rounded-none md:rounded-2xl"
         />
       </div>
       {/* pt-12/md:pt-16: más aire que el resto de los saltos de Inicio (que
