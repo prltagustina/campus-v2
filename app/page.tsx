@@ -27,11 +27,12 @@ export default function HomePage() {
           topClassName="!pt-4 md:!pt-0"
         />
       </div>
-      {/* pt-12/md:pt-16: más aire que el resto de los saltos de Inicio (que
-         usan pt-8/md:pt-10) porque acá son dos bloques oscuros y grandes uno
-         pegado al otro (el video y la tarjeta violeta de descarga) — con el
-         mismo valor que los demás se seguía sintiendo muy junto. */}
-      <div id="documento" className="pt-12 md:pt-16">
+      {/* pt-6/md:pt-8 (antes pt-12/md:pt-16, y el resto de los saltos de
+         Inicio pt-8/md:pt-10 bajado a pt-5/md:pt-6): menos aire entre
+         secciones a propósito - que se vea que sigue contenido debajo del
+         video y dé pie a scrollear, en vez de sentirse "completo" con lo
+         que entra en la primera pantalla. */}
+      <div id="documento" className="pt-6 md:pt-8">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
@@ -47,11 +48,13 @@ export default function HomePage() {
           compact
         />
       </div>
-      {/* pt-8/md:pt-10: mismo espacio en estas dos transiciones (acá y antes
-         de la línea histórica) — la de arriba (video→documento) es la única
-         distinta, ver comentario de "documento". */}
-      <div id="rueda" className="bg-[#F1F1F4] pt-8 md:bg-transparent md:pt-10"><CurricularWheel /></div>
-      <div id="historia" className="v3-section !px-0 !pb-0 !pt-8 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
+      {/* pt-5/md:pt-6 (antes pt-8/md:pt-10): mismo espacio en estas dos
+         transiciones (acá y antes de la línea histórica) - la de arriba
+         (video→documento) es la única distinta, ver comentario de
+         "documento". Menos aire entre secciones a propósito (ver ese mismo
+         comentario). */}
+      <div id="rueda" className="bg-[#F1F1F4] pt-5 md:bg-transparent md:pt-6"><CurricularWheel /></div>
+      <div id="historia" className="v3-section !px-0 !pb-0 !pt-5 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-6 md:bg-transparent">
         <div className="w-full overflow-hidden rounded-none bg-[#F3F3F5] md:rounded-2xl"><TimelineSection /></div>
       </div>
     </div>

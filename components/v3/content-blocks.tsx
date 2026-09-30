@@ -51,9 +51,8 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
        video, como un contenedor todo-en-uno. Sin ícono y con label chico en
        mayúsculas (antes h3 + caja de ícono): mismo tratamiento "tipo
        resolución" que el resto de los encabezados de Familias/Directivos/
-       EIB. mb-3 (antes pb-5): misma separación exacta que esos labels
-       ("Resolución", "Material de apoyo...") tienen con su contenido de
-       abajo. */}
+       EIB. mb-3: vuelve a como estaba (el resto de los labels "tipo
+       resolución" pasan a mb-6/pb-6 en vez de achicar este). */}
     <div className="flex items-center gap-3 px-1 mb-3">
       <p className="min-w-0 flex-1 truncate text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{label}</p>
       <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
@@ -195,7 +194,10 @@ export interface StepItem {
 
 export function DocumentoStepper({ title, steps }: { title: React.ReactNode; steps: StepItem[] }) {
   return (
-    <section className="v3-section !px-0 !pb-0 !pt-8 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-10 md:bg-transparent">
+    // !pt-5/md:!pt-6 (antes !pt-8/md:!pt-10): menos aire entre secciones a
+    // propósito, mismo criterio en toda la página - que se vea que sigue
+    // contenido más abajo.
+    <section className="v3-section !px-0 !pb-0 !pt-5 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-6 md:bg-transparent">
       <div className="rounded-none bg-[#F5F5F7] p-5 md:rounded-2xl md:p-8 lg:p-10">
       {/* Sin loop: al llegar al último paso, "Siguiente" se deshabilita en
          vez de volver al primero — mismo criterio en todos los carruseles

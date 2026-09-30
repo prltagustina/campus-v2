@@ -53,7 +53,7 @@ export default function DocentesPage() {
                mayúsculas - mismo criterio que "Resolución"/"Decretos / Ley"
                en EIB. */}
             <div>
-              <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Material de apoyo para el trabajo institucional</p>
+              <p className="mb-6 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Material de apoyo para el trabajo institucional</p>
               <RepositoryPanel chips>
                 {materialApoyo.map((documento) => (
                   // "Presentación para supervisores...": ícono de play, no de
@@ -72,7 +72,7 @@ export default function DocentesPage() {
               </RepositoryPanel>
             </div>
             <div>
-              <p className="mb-3 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Normativa</p>
+              <p className="mb-6 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Normativa</p>
               <RepositoryPanel chips>
                 {normativa.map((documento) => (
                   <ResourceRow key={documento.url} title={documento.nombre} href={documento.url} download chip sideActions />

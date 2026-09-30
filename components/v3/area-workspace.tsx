@@ -120,10 +120,10 @@ function AreaVideoPresentation({ videoId, title }: { videoId: string; title: str
     <section aria-labelledby={`video-${videoId}-title`}>
       {/* px-4/md:px-[14px]: mismo inset que VideoEmbed de acá abajo (su propio
          v3-section, con ese mismo padding) — el título tiene que quedar al
-         ras de su borde, no más adentro. pt-8/md:pt-10: mismo espacio que
+         ras de su borde, no más adentro. pt-5/md:pt-6 (antes pt-8/md:pt-10): mismo espacio que
          separa a Materiales de Formaciones (ver más abajo), para que las
          tres secciones queden parejas entre sí. */}
-      <div className="mb-6 px-4 md:px-[14px] pt-8 md:mb-8 md:pt-10">
+      <div className="mb-6 px-4 md:px-[14px] pt-5 md:mb-8 md:pt-6">
         <h2 id={`video-${videoId}-title`} className="font-display text-2xl font-semibold tracking-[-.03em] text-[#494963] sm:text-3xl lg:text-4xl">
           Presentación audiovisual
         </h2>
@@ -152,7 +152,7 @@ export function AreaWorkspace({ area }: { area: Area }) {
   return <div className="bg-white">
     {/* pb-4/md:pb-6: aire propio después del último bloque (Video u
        Organización). Sin space-y acá: cada sección ya trae su propio
-       pt-8/md:pt-10 (o su pb, en el caso de los tabs) — un space-y sumaba
+       pt-5/md:pt-6 (antes pt-8/md:pt-10; o su pb, en el caso de los tabs) — un space-y sumaba
        un segundo margen encima y duplicaba el salto entre secciones
        respecto de Inicio y Marco General. */}
     <div className="pb-4 md:pb-6">
@@ -183,10 +183,10 @@ export function AreaWorkspace({ area }: { area: Area }) {
             </div>
 
             {selectedArtistic ? (
-              <section className="pt-8 md:px-[14px] md:pt-10"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
+              <section className="pt-5 md:px-[14px] md:pt-6"><MaterialesSection area={area} artisticLanguage={selectedArtistic.name} /></section>
             ) : null}
             {hasSelectedArtisticTrainings ? (
-              <section className="pt-8 md:px-[14px] md:pt-10"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
+              <section className="pt-5 md:px-[14px] md:pt-6"><FormacionesSection area={area} artisticLanguage={selectedArtistic?.name} /></section>
             ) : null}
 
             {selectedArtistic && selectedArtisticMedia ? (
@@ -207,12 +207,12 @@ export function AreaWorkspace({ area }: { area: Area }) {
           {/* pt (no py): el espacio "de abajo" de cada sección lo pone el pt
              de la siguiente, no las dos sumadas — si no, quedaba el doble de
              aire entre Materiales/Formaciones/Presentación que entre
-             Documento y Materiales. Mismo valor en las tres (pt-8/md:pt-10,
+             Documento y Materiales. Mismo valor en las tres (pt-5/md:pt-6, antes pt-8/md:pt-10,
              ver AreaVideoPresentation) para que el ritmo sea parejo. */}
-          <section className="pt-8 md:px-[14px] md:pt-10"><MaterialesSection area={area} /></section>
+          <section className="pt-5 md:px-[14px] md:pt-6"><MaterialesSection area={area} /></section>
           {/* Sin contenedor gris propio: mismo wrapper que Itinerarios, para
              que el título quede alineado con el resto de la vista. */}
-          <section className="pt-8 md:px-[14px] md:pt-10"><FormacionesSection area={area} /></section>
+          <section className="pt-5 md:px-[14px] md:pt-6"><FormacionesSection area={area} /></section>
           {videos[area.slug] ? (
             <div id="video">
               <AreaVideoPresentation videoId={videos[area.slug]} title={`Diseño Curricular Educación Primaria: ${area.name}`} />
