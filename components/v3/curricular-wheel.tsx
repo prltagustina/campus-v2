@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { pendingCopy } from "@/lib/v3-config";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 
@@ -111,6 +111,11 @@ const RENDERED_STATE_IDS = ["intro", "relacion", "ejes", "marco", "enfoques"] as
 
 export function CurricularWheel() {
   const [active, setActive] = useState<WheelStateId>("base");
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const state = wheelStates[active];
   // El grisado CSS interino solo se aplica a los estados que todavía usan el PNG
@@ -163,8 +168,9 @@ export function CurricularWheel() {
                al quedar la sección "pegada" (apilado por scroll de Inicio) sin
                esto esa parte sobrante quedaba inalcanzable. Con scroll propio,
                el acordeón nunca empuja nada fuera de la vista. */}
-            <div className="wheel-accordion wheel-accordion--compact wheel-accordion--reserve wheel-accordion--scroll" aria-label="Lecturas de la trama curricular">
-              {RENDERED_STATE_IDS.map((id) => {
+            {isHydrated && (
+              <div className="wheel-accordion wheel-accordion--compact wheel-accordion--reserve wheel-accordion--scroll" aria-label="Lecturas de la trama curricular">
+                {RENDERED_STATE_IDS.map((id) => {
                 const item = wheelStates[id];
                 const expanded = active === id;
                 const isTitle = id === "intro";
@@ -201,8 +207,9 @@ export function CurricularWheel() {
                     </div>
                   </div>
                 );
-              })}
-            </div>
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
