@@ -56,7 +56,7 @@ export default function HomePage() {
           topClassName="!pt-4 md:!pt-0"
         />
       </div>
-      <div id="documento" className="sticky top-0 z-20 bg-white max-md:pb-8">
+      <div id="documento" className="sticky top-0 z-20 bg-white max-md:pb-16">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
