@@ -118,7 +118,7 @@ export function CurricularWheel() {
          con el apilado por scroll de Inicio, esa sombra se veía como una
          mancha/desprolijidad al despegarse la tarjeta de la siguiente
          sección - pedido explícito de blancos/transparencias, sin sombras. */}
-      <div className="overflow-hidden rounded-none bg-white px-5 pb-12 pt-4 sm:px-8 sm:pb-10 sm:pt-6 md:rounded-2xl md:px-12 md:py-12">
+      <div className="overflow-hidden rounded-none bg-[#F1F1F4] px-5 pb-12 pt-4 sm:px-8 sm:pb-10 sm:pt-6 md:rounded-2xl md:px-12 md:py-12">
         {/* Mobile/tablet: la rueda arriba y el acordeón (con "Trama curricular"
             como primer ítem) debajo. Al quedar el acordeón al final, desplegar
             un ítem lo hace crecer hacia abajo y la rueda no se mueve (sin

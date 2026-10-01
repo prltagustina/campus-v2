@@ -37,7 +37,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
          secciones del sitio. */}
       <div
         className="rounded-none px-4 py-5 sm:rounded-2xl sm:px-6 sm:py-6"
-        style={{ backgroundColor: "#ffffff", color: "#494963" }}
+        style={{ backgroundColor: accent, color: accentText }}
       >
         {/* lg:flex-row (no sm:): en tablet (md, ~768px) rail+aside ya comen
            buena parte del ancho - en fila ahí el texto quedaba aplastado a

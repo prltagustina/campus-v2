@@ -519,7 +519,7 @@
   .v3-scroll-theme main,
   .v3-scroll-theme .v3-section,
   .v3-scroll-theme .v3-content {
-    background-color: #ffffff;
+    background-color: #f3f3f5;
   }
 
   .wheel-accordion--reserve { margin-top: 0; }
