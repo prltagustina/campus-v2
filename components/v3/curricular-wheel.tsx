@@ -113,7 +113,7 @@ export function CurricularWheel() {
     // pegada arriba - el fondo de la tarjeta no llegaba hasta la línea de
     // arriba y se veía la sección de atrás (violeta/gris) asomando. Mismo
     // criterio que DocumentoExplainer (sin ese padding arriba tampoco).
-    <section className="v3-section !p-0 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0" aria-label="Trama curricular">
+    <section className="v3-section !p-0 !pb-24 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0" aria-label="Trama curricular">
       {/* Sin shadow propia (antes md:shadow-[0_12px_45px_rgba(73,73,99,.07)]):
          con el apilado por scroll de Inicio, esa sombra se veía como una
          mancha/desprolijidad al despegarse la tarjeta de la siguiente
