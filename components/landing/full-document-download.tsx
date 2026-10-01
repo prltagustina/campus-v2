@@ -6,9 +6,9 @@ import Image from "next/image";
 export function FullDocumentDownload() {
   return (
     <section className="w-full py-16 md:py-24 bg-[#F5F5F7]">
-      <div className="container mx-auto px-3 sm:px-4">
-        <div className="mx-auto w-full max-w-5xl">
-          <div className="flex flex-col items-center gap-7 sm:gap-10 md:flex-row md:gap-16">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
             {/* Book cover */}
             <div className="flex-shrink-0">
               <Image
@@ -16,13 +16,13 @@ export function FullDocumentDownload() {
                 alt="Portada Diseño Curricular"
                 width={320}
                 height={452}
-                className="h-auto w-[min(52vw,220px)] object-cover rounded-sm shadow-[0_4px_30px_-6px_rgba(0,0,0,0.15)] sm:w-[280px] md:w-[320px]"
+                className="w-[240px] sm:w-[280px] md:w-[320px] h-auto object-cover rounded-sm shadow-[0_4px_30px_-6px_rgba(0,0,0,0.15)]"
               />
             </div>
 
             {/* Text + button */}
-            <div className="flex w-full flex-col items-center text-center md:items-start md:text-left">
-              <h3 className="text-3xl font-bold sm:text-4xl md:text-5xl text-[#494963] leading-tight mb-6 font-display">
+            <div className="flex flex-col items-center md:items-start text-center md:text-left">
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#494963] leading-tight mb-6 font-display">
                 Descargá el
                 <br />
                 documento completo

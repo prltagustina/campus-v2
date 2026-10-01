@@ -32,13 +32,11 @@ interface SectionTabsProps {
    * PillTabs (botonera de idiomas/lenguajes artísticos) - por default el
    * neutro de siempre, para institucionales sin color propio. */
   color?: string;
-  panelOrder?: number[];
 }
 
 /** Selector editorial estable para páginas con varias colecciones de contenido. */
-export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false, scrollToTopOnChange = true, align = "center", color = "#494963", panelOrder }: SectionTabsProps) {
+export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false, scrollToTopOnChange = true, align = "center", color = "#494963" }: SectionTabsProps) {
   const panels = Children.toArray(children);
-  const orderedPanels = panelOrder?.map((index) => panels[index]).filter(Boolean) ?? panels;
   const [activeIndex, setActiveIndex] = useState(0);
   const [visitedIndices, setVisitedIndices] = useState<Set<number>>(() => new Set([0]));
   const panelViewportRef = useRef<HTMLDivElement>(null);
@@ -108,7 +106,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
     );
   });
 
-  if (!activeItem || orderedPanels.length === 0) return null;
+  if (!activeItem || panels.length === 0) return null;
 
   return (
     <div
@@ -144,7 +142,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
         ref={panelViewportRef}
         className="min-w-0 overflow-x-hidden"
       >
-        {keepVisitedPanels ? orderedPanels.map((panel, index) => {
+        {keepVisitedPanels ? panels.map((panel, index) => {
           if (!visitedIndices.has(index)) return null;
           const item = items[index];
           if (!item) return null;
@@ -170,7 +168,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
             aria-label={activeItem.label}
             className="min-w-0"
           >
-            {orderedPanels[safeIndex]}
+            {panels[safeIndex]}
           </div>
         )}
       </div>

@@ -287,7 +287,7 @@
    real (~660-700px útiles, no los ~844px del dispositivo - el navegador
    real resta su propia barra). Portada más chica en mobile para lograrlo;
    el tope de 360px en pantallas más anchas no cambia. */
-.documento-hero--compact .documento-hero__cover { min-height: clamp(150px, 42cqw, 360px); }
+.documento-hero--compact .documento-hero__cover { min-height: clamp(110px, 32cqw, 360px); }
 .documento-hero__image {
   max-width: 100%;
   max-height: 100%;
@@ -303,7 +303,7 @@
   min-width: 0;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(1.1rem, 4cqw, 2.25rem);
+  padding: clamp(1.25rem, 4.5cqw, 2.25rem);
   /* clamp(1rem, 3.5cqw, 2.25rem) (antes clamp(2.75rem, 9cqw, 4.25rem), y
      después clamp(1.5rem, 5.5cqw, 2.25rem)): más chico que el padding de
      arriba a propósito - "documento" no puede tener scroll propio (ver
@@ -312,8 +312,8 @@
   padding-bottom: clamp(1rem, 3.5cqw, 2.25rem);
 }
 .documento-hero__title {
-  max-width: 22ch;
-  font-size: clamp(1.7rem, 6.5cqw, 2.4rem);
+  max-width: 20ch;
+  font-size: clamp(1.8rem, 7cqw, 2.4rem);
   letter-spacing: -.025em;
 }
 .documento-hero__title-line { display: block; }
@@ -322,16 +322,7 @@
      del sitio (mt-2, sin crecer por breakpoint) — antes crecía con el ancho
      del contenedor hasta separarse bastante del título en pantallas grandes. */
   margin-top: .5rem;
-  font-size: clamp(.88rem, 2.65cqw, 1.05rem);
-  }
-
-@container documento-hero (max-width: 559px) {
-  .documento-hero__content { padding: .9rem clamp(1rem, 5.5cqw, 1.5rem) 1.1rem; }
-  .documento-hero--compact .documento-hero__title { font-size: clamp(1.55rem, 6cqw, 2rem); line-height: 1.08; }
-  .documento-hero--compact .documento-hero__description { font-size: clamp(.82rem, 2.5cqw, .98rem); line-height: 1.45; }
-  .documento-hero__description { max-width: 34ch; }
-  .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: .75em; }
-  .documento-hero__actions { margin-top: 1.1rem; }
+  font-size: clamp(.9rem, 2.8cqw, 1.05rem);
 }
 .documento-hero__description-paragraph { display: block; }
 .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: 1em; }
@@ -485,8 +476,7 @@
    alto, así alternar entre ítems no cambia la altura del acordeón y la rueda de
    abajo no se mueve. (Arriba de xl la rueda va al lado, no hace falta.) */
 @media (max-width: 1279px) {
-  .wheel-accordion--reserve .wheel-accordion__panel:not([hidden]) { min-height: 0; }
-  .wheel-figure { max-width: min(78vw, 360px); }
+  .wheel-accordion--reserve .wheel-accordion__panel:not([hidden]) { min-height: 5rem; }
 }
 
 /* La trama arranca con su propio título ("Trama curricular") como primer ítem:
@@ -509,23 +499,11 @@
    alto fijo evita el problema de raíz en vez de perseguir el reacomodo.
    overflow-y: auto para el caso raro de un blurb más largo de lo previsto. */
 @media (max-width: 1279px) {
-  /* El acordeón acompaña su contenido y deja que la página haga el scroll
-     natural, evitando cortes y un segundo scroll escondido. */
-  .wheel-accordion--scroll { height: auto; max-height: none; overflow: visible; }
-}
-@media (max-width: 639px) {
-  .v3-scroll-theme,
-  .v3-scroll-theme > div,
-  .v3-scroll-theme main,
-  .v3-scroll-theme .v3-section,
-  .v3-scroll-theme .v3-content {
-    background-color: #f3f3f5;
-  }
-
-  .wheel-accordion--reserve { margin-top: 0; }
-  .wheel-accordion--compact .wheel-accordion__trigger { padding-top: .7rem; padding-bottom: .7rem; }
-  .wheel-accordion--compact .wheel-accordion__panel { padding-bottom: .8rem; }
-  .wheel-accordion--compact .wheel-accordion__panel p { line-height: 1.5; }
+  /* 24rem (antes 21rem, se quedaba corto): con "Marco General" (el último
+     ítem) abierto, su blurb no entraba del todo y quedaba cortado - más
+     alto para que CUALQUIER blurb entre completo sin necesidad de scrollear
+     adentro. */
+  .wheel-accordion--scroll { height: 24rem; overflow-y: auto; }
 }
 @media (min-width: 640px) and (max-width: 1279px) {
   /* Más alto que en mobile: de sm para arriba el acordeón usa tipografía

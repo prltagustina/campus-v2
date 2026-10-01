@@ -249,7 +249,7 @@ export default function EIBPage() {
         imageSrc="/images/cabecera-eib.jpg"
       />
 
-      <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "efemerides", label: "Efemérides" }, { id: "proyectos", label: "Proyectos" }]} panelOrder={[0, 2, 1]}>
+      <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             {/* Sin título ni ícono (antes Scale): única tira de esta tab
