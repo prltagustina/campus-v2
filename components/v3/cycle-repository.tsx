@@ -87,7 +87,7 @@ export function CycleRepository({
   };
 
   return (
-    <div className="min-h-full bg-white [overflow-anchor:none]">
+    <div className="min-h-full bg-[#F7F7F9] [overflow-anchor:none]">
       <header className="mx-auto max-w-5xl px-4 pb-5 pt-10 md:px-8 md:pb-7 md:pt-14">
         <div className="mb-10 flex h-[10px] w-full overflow-hidden" aria-hidden="true">
           {groups.map((group) => {
