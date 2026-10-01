@@ -58,7 +58,7 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
        EIB. La fila mide 40px por el botón: items-start alinea el label con
        los demás encabezados y, sin margen extra, deja el visor en el mismo
        comienzo vertical que el primer chip de los otros paneles. */}
-    <div className={`flex items-start gap-3 px-1 ${separated ? "pt-3" : ""}`}>
+    <div className="mb-4 flex items-start gap-3 px-1">
       <p className="min-w-0 flex-1 truncate text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{label}</p>
       {showOpen ? <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a> : null}
     </div>

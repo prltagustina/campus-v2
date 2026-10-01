@@ -41,7 +41,6 @@ export default function DocentesPage() {
               title="Presentación para Equipos Directivos y Docentes"
         label="Presentación institucional"
         showOpen={false}
-        separated
       />
           </div>
         </section>
