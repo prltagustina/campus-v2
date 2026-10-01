@@ -647,7 +647,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <nav
         ref={mobileNavRef}
         aria-label="Navegación móvil"
-        className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
         style={{ gridTemplateColumns: `repeat(${primaryItems.length}, minmax(0, 1fr))` }}
       >
         {primaryItems.map((item) => {

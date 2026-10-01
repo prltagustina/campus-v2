@@ -43,7 +43,7 @@ export default function HomePage() {
          última, con sticky se liberaba casi al instante en vez de quedar
          pegada un buen tramo (caso límite de cuando no hay nada después que
          la empuje). */}
-      <div id="presentacion" className="sticky top-0 z-10 bg-white">
+      <div id="presentacion" className="sticky top-0 z-10 bg-white max-md:shadow-[0_4px_12px_rgba(40,40,60,0.12)]">
         {/* Sin overrides de padding lateral/inferior ni de esquinas (antes iba
            pegado a los bordes en mobile, sin redondear): mismo tratamiento
            que el video de "Presentación audiovisual" en cada área. Sí se
@@ -56,7 +56,7 @@ export default function HomePage() {
           topClassName="!pt-4 md:!pt-0"
         />
       </div>
-      <div id="documento" className="sticky top-0 z-20 bg-white max-md:bg-[#494963] max-md:pb-12 max-md:after:absolute max-md:after:inset-x-0 max-md:after:-bottom-px max-md:after:h-3 max-md:after:bg-[#494963]">
+      <div id="documento" className="sticky top-0 z-20 bg-white max-md:shadow-[0_4px_12px_rgba(40,40,60,0.12)] max-md:bg-[#494963] max-md:pb-12 max-md:after:absolute max-md:after:inset-x-0 max-md:after:-bottom-px max-md:after:h-3 max-md:after:bg-[#494963]">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
@@ -72,7 +72,7 @@ export default function HomePage() {
           compact
         />
       </div>
-      <div id="rueda" className="sticky top-0 z-30 bg-[#F1F1F4] md:bg-transparent"><CurricularWheel /></div>
+      <div id="rueda" className="sticky top-0 z-30 bg-[#F1F1F4] max-md:shadow-[0_4px_12px_rgba(40,40,60,0.12)] md:bg-transparent"><CurricularWheel /></div>
       <div id="historia" className="v3-section relative z-40 !px-0 !pb-0 !pt-0 max-md:!pt-8 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:bg-transparent">
         <div className="w-full overflow-hidden rounded-none border-0 bg-[#F3F3F5] md:rounded-2xl"><TimelineSection /></div>
       </div>
