@@ -113,7 +113,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
   return (
     <div
       id={`${instanceId}-switcher`}
-      className="flex w-full flex-col bg-[#F3F3F5] md:bg-[#F7F7F9]"
+      className="flex w-full flex-col bg-[#F7F7F9]"
     >
       {/* py-6/md:py-8 (antes py-4/py-5, y antes de eso py-2.5/py-3, sin
          equivalente abajo — el panel sumaba su propio pt encima, así que el
