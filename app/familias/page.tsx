@@ -29,6 +29,7 @@ export default function FamiliasPage() {
               title="Presentación del Diseño Curricular para Familias"
               label="Presentación para familias"
               showOpen={false}
+              separated
             />
           </div>
         </section>
