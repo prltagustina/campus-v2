@@ -12,19 +12,11 @@ import { SolidAreaArrow } from "@/components/v3/area-nav-link";
  * colorea/destaca en cada lectura, se edita ese objeto y nada más. El resto del
  * componente (layout, acordeón, grisado) no depende de qué estado sea.
  *
- * Grisado: hoy la trama es un PNG plano (no tiene capas separables), así que el
- * grisado real "por sector" no se puede hacer en el DOM. El mecanismo previsto
- * es swap de imagen: cada estado apunta a su propio PNG en
- * `/public/images/trama/` (versión que ya trae grisado + realce horneados).
- * Mientras esos assets no existan, `image` de todos los estados apunta al mismo
- * archivo y se aplica un grisado CSS interino sobre la imagen base + un cartel
- * ("caption") que nombra el foco. Cuando lleguen los PNG definitivos:
- *   1. sumar los archivos a /public/images/trama/
- *   2. cambiar `image` de cada estado a su ruta
- *   3. (opcional) quitar el filtro `.wheel-figure[data-focused]` de globals.css
+ * Grisado: la trama se muestra mediante un PNG definitivo por estado. Cada
+ * imagen ya incluye el grisado y el realce correspondientes a la lectura.
  */
 
-type WheelStateId = "base" | "intro" | "relacion" | "ejes" | "marco" | "enfoques";
+type WheelStateId = "base" | "intro" | "relacion" | "ejes" | "marco";
 
 interface WheelStateConfig {
   /** Rótulo del acordeón. */
@@ -52,18 +44,24 @@ interface WheelStateConfig {
   caption: string;
 }
 
-const WHEEL_BASE_IMAGE = "/images/rueda-actualizada.png";
+const WHEEL_BASE_IMAGE =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-completa-RvJOhM9R5PJVL7Oyie8R1KC0UNYOGO.png";
+const WHEEL_EJES_IMAGE =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-ejes-QeWZsr9GzXoI74upq47yvccP6Sfdqw.png";
+const WHEEL_ENFOQUES_IMAGE =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-enfoques-C5KyoUnEBEa6tptzHCShDiq10Qzkuw.png";
+const WHEEL_MARCO_IMAGE =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-marco-general-CQKyOT2AeQJw8RAGRQ7ciySsIe24kV.png";
 
 export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   base: {
-    label: "Trama completa",
+    label: "Trama curricular",
     blurb: "",
     image: WHEEL_BASE_IMAGE,
     focus: { ring: true, segments: true, nodes: true, center: true },
     caption: "",
   },
-  // Primer ítem del acordeón: es el propio título "Trama curricular". Al abrirlo
-  // muestra una introducción y la rueda queda a color (no atenúa nada).
+  // Primer ítem del acordeón: muestra la trama curricular a color.
   intro: {
     label: "Trama curricular",
     blurb:
@@ -75,7 +73,7 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   relacion: {
     label: "Relación entre las áreas",
     blurb: pendingCopy.wheel.relaciones,
-    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-relacion.png
+    image: WHEEL_ENFOQUES_IMAGE,
     focus: { ring: false, segments: true, nodes: false, center: false },
     caption: "En foco: las nueve áreas y su diálogo entre sí.",
   },
@@ -84,25 +82,16 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
     blurb: pendingCopy.wheel.ejes,
     // PNG definitivo: grisado + circulitos a color horneados en el propio PNG
     // (no lleva el filtro CSS interino, ver `isFocused`).
-    image: "/images/trama/trama-ejes.png",
+    image: WHEEL_EJES_IMAGE,
     focus: { ring: false, segments: false, nodes: true, center: false },
     caption: "En foco: los ejes que organizan los contenidos dentro de cada área.",
   },
   marco: {
     label: "Marco General",
     blurb: pendingCopy.wheel.marco,
-    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-marco.png
+    image: WHEEL_MARCO_IMAGE,
     focus: { ring: false, segments: false, nodes: false, center: true },
     caption: "En foco: el Marco General, en el centro de la trama.",
-  },
-  // Modelado pero NO renderizado: el equipo todavía no definió el título de esta
-  // lectura. Cuando lo tengan: fijar `label` y sumar "enfoques" a RENDERED_STATE_IDS.
-  enfoques: {
-    label: "Enfoques transversales",
-    blurb: pendingCopy.wheel.transversales,
-    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-enfoques.png
-    focus: { ring: true, segments: false, nodes: false, center: false },
-    caption: "En foco: el anillo de enfoques transversales.",
   },
 };
 
