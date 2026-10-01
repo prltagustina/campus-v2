@@ -76,7 +76,7 @@ export function DocumentoExplainer({ titulo, descripcion, portadaSrc, pdfUrl, ac
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`Descargar PDF: ${titulo}`}
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-[9px] bg-white px-4 text-sm font-semibold tracking-[-0.035em] text-[#494963] sm:h-11 sm:px-5"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-[9px] bg-white px-4 font-sans text-sm font-normal tracking-[-0.035em] text-[#494963] sm:h-11 sm:px-5"
               >
                 <Download className="h-4 w-4 shrink-0" />
                 <span>Descargar PDF</span>

@@ -178,14 +178,14 @@ export function DocumentoHero({ titulo, tituloEditorial, eyebrow, descripcion, d
               target="_blank"
               rel="noreferrer"
               aria-label={`Descargar PDF: ${titulo}`}
-              className="inline-flex h-10 items-center gap-2.5 rounded-[9px] px-4 text-[15px] font-semibold tracking-[-0.035em] transition-[filter] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70 sm:h-11 sm:px-7"
+              className="inline-flex h-10 items-center gap-2.5 rounded-[9px] px-4 font-sans text-[15px] font-normal tracking-[-0.035em] transition-[filter] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70 sm:h-11 sm:px-7"
               style={{ backgroundColor: compact ? "#EDEDF0" : accent, color: compact ? "#494963" : accentText }}
             >
               <Download className="h-[18px] w-[18px] shrink-0" strokeWidth={1.75} /> <span className="hidden sm:inline">Descargar PDF</span>
             </a>
             {secondaryHref && (
               <Link href={secondaryHref}>
-                <span className="inline-flex h-10 w-fit items-center rounded-[9px] border border-white/55 px-4 text-[15px] font-medium tracking-[-0.035em] transition-colors hover:bg-white/10 sm:h-11 sm:px-7">
+                <span className="inline-flex h-10 w-fit items-center rounded-[9px] border border-white/55 px-4 font-sans text-[15px] font-normal tracking-[-0.035em] transition-colors hover:bg-white/10 sm:h-11 sm:px-7">
                   Saber más
                 </span>
               </Link>
