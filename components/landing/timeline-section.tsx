@@ -33,7 +33,7 @@ export function TimelineSection() {
         <article key={year} className="grid min-w-0 gap-2 border-t border-[#494963]/10 py-5 first:border-t-0 sm:gap-3 sm:py-6 md:grid-cols-[170px_1fr] md:py-7">
           <div><span className="font-display text-3xl font-semibold tracking-[-.04em] text-[#494963]">{year}</span><span className="mt-1 block text-[10px] font-bold uppercase tracking-[.15em] text-[#494963]/35">{stage}</span></div>
           <div className="min-w-0">
-            <p className="max-w-2xl leading-relaxed text-[#494963]/60">{description}</p>
+            <p className="max-w-2xl text-sm leading-relaxed text-[#494963]/60 md:text-base">{description}</p>
             {year === "2025" ? <ProcesoFotosCarousel photos={proceso2025Fotos} /> : null}
           </div>
         </article>

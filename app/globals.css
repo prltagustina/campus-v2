@@ -253,6 +253,9 @@
 .v3-secondary { animation: v3-slide-in 200ms ease-out both; }
 .v3-section { width: 100%; margin-inline: auto; padding: 14px; }
 .documento-hero-shell { container: documento-hero / inline-size; }
+@media (max-width: 767px) {
+  .documento-hero-shell { background: #494963; }
+}
 .documento-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
