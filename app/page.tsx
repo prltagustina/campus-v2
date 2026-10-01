@@ -43,7 +43,7 @@ export default function HomePage() {
          última, con sticky se liberaba casi al instante en vez de quedar
          pegada un buen tramo (caso límite de cuando no hay nada después que
          la empuje). */}
-      <div id="presentacion" className="sticky top-0 z-10 bg-white max-md:shadow-[inset_0_10px_18px_-8px_rgba(40,40,60,0.5)]">
+      <div id="presentacion" className="sticky top-0 z-10 bg-white max-md:shadow-[inset_0_14px_24px_-6px_rgba(35,35,55,0.72)]">
         {/* Sin overrides de padding lateral/inferior ni de esquinas (antes iba
            pegado a los bordes en mobile, sin redondear): mismo tratamiento
            que el video de "Presentación audiovisual" en cada área. Sí se
@@ -56,7 +56,7 @@ export default function HomePage() {
           topClassName="!pt-4 md:!pt-0"
         />
       </div>
-      <div id="documento" className="sticky top-0 z-20 bg-white max-md:shadow-[inset_0_10px_18px_-8px_rgba(40,40,60,0.5)] max-md:bg-[#494963] max-md:pb-12 ">
+      <div id="documento" className="sticky top-0 z-20 bg-white max-md:shadow-[inset_0_14px_24px_-6px_rgba(35,35,55,0.72)] max-md:bg-[#494963] max-md:pb-12 ">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
@@ -72,7 +72,7 @@ export default function HomePage() {
           compact
         />
       </div>
-      <div id="rueda" className="sticky top-0 z-30 bg-[#F1F1F4] max-md:shadow-[inset_0_10px_18px_-8px_rgba(40,40,60,0.5)] md:bg-transparent"><CurricularWheel /></div>
+      <div id="rueda" className="sticky top-0 z-30 bg-[#F1F1F4] max-md:shadow-[inset_0_14px_24px_-6px_rgba(35,35,55,0.72)] md:bg-transparent"><CurricularWheel /></div>
       <div id="historia" className="v3-section relative z-40 !border-0 !px-0 !pb-0 !pt-0 max-md:!border-0 max-md:!pt-8 max-md:[box-shadow:none] bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:bg-transparent">
         <div className="w-full overflow-hidden rounded-none border-0 bg-[#F3F3F5] md:rounded-2xl"><TimelineSection /></div>
       </div>
