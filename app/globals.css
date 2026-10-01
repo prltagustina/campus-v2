@@ -513,6 +513,12 @@
      natural, evitando cortes y un segundo scroll escondido. */
   .wheel-accordion--scroll { height: auto; max-height: none; overflow: visible; }
 }
+@media (max-width: 639px) {
+  .wheel-accordion--reserve { margin-top: 0; }
+  .wheel-accordion--compact .wheel-accordion__trigger { padding-top: .7rem; padding-bottom: .7rem; }
+  .wheel-accordion--compact .wheel-accordion__panel { padding-bottom: .8rem; }
+  .wheel-accordion--compact .wheel-accordion__panel p { line-height: 1.5; }
+}
 @media (min-width: 640px) and (max-width: 1279px) {
   /* Más alto que en mobile: de sm para arriba el acordeón usa tipografía
      más grande (ver .wheel-accordion--compact .wheel-accordion__trigger),
