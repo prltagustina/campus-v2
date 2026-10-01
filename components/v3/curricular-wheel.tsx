@@ -55,15 +55,15 @@ const WHEEL_MARCO_IMAGE =
 
 export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   base: {
-    label: "Trama completa",
+    label: "Trama curricular",
     blurb: "",
     image: WHEEL_BASE_IMAGE,
     focus: { ring: true, segments: true, nodes: true, center: true },
     caption: "",
   },
-  // Primer ítem del acordeón: muestra la trama completa a color.
+  // Primer ítem del acordeón: muestra la trama curricular a color.
   intro: {
-    label: "Trama completa",
+    label: "Trama curricular",
     blurb:
       "Las nueve áreas se articulan entre sí y con los cinco enfoques transversales, alrededor del Marco General.",
     image: WHEEL_BASE_IMAGE,
