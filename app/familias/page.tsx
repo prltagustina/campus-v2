@@ -15,7 +15,7 @@ const materiales = [
 
 export default function FamiliasPage() {
   return (
-    <div className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F3F3F5] md:bg-[#F7F7F9] md:rounded-2xl md:border md:border-[#494963]/[.06]">
+    <div className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:border md:border-[#494963]/[.06]">
       <EditorialPageHeading
         title="Materiales para familias"
         imageSrc="/images/cabecera-familias.png"
