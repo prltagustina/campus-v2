@@ -113,7 +113,7 @@ export function CurricularWheel() {
     // pegada arriba - el fondo de la tarjeta no llegaba hasta la línea de
     // arriba y se veía la sección de atrás (violeta/gris) asomando. Mismo
     // criterio que DocumentoExplainer (sin ese padding arriba tampoco).
-    <section className="v3-section !p-0 !pb-16 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0" aria-label="Trama curricular">
+    <section className="v3-section !p-0 !pb-24 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0" aria-label="Trama curricular">
       {/* Sin shadow propia (antes md:shadow-[0_12px_45px_rgba(73,73,99,.07)]):
          con el apilado por scroll de Inicio, esa sombra se veía como una
          mancha/desprolijidad al despegarse la tarjeta de la siguiente
@@ -131,7 +131,7 @@ export function CurricularWheel() {
             rueda (se pidió que se vea grande), el acordeón es el que tiene
             su propio scroll acotado en mobile/tablet (ver
             wheel-accordion--scroll más abajo), así nunca tapa nada. */}
-        <div className="grid items-start gap-0 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
+        <div className="grid items-start gap-3 sm:gap-9 xl:grid-cols-[minmax(430px,1.15fr)_minmax(320px,.85fr)] xl:gap-14">
           <figure className="wheel-figure order-1 mx-auto w-full max-w-[284px] min-[400px]:max-w-[320px] sm:max-w-[440px] md:max-w-[520px] xl:max-w-[670px]" data-focused={isFocused || undefined}>
             <div className="wheel-figure__media relative aspect-square w-full">
               <Image
