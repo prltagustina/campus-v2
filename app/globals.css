@@ -288,6 +288,16 @@
    real resta su propia barra). Portada más chica en mobile para lograrlo;
    el tope de 360px en pantallas más anchas no cambia. */
 .documento-hero--compact .documento-hero__cover { min-height: clamp(110px, 32cqw, 360px); }
+
+/* En celulares la portada consume el espacio necesario para leer el título,
+   la descripción y las acciones del documento general. Se recupera en tablet,
+   donde el banner vuelve a tener dos columnas. */
+@media (max-width: 559px) {
+  .documento-hero--standard .documento-hero__cover,
+  .documento-hero--compact .documento-hero__cover { display: none; }
+  .documento-hero--compact .documento-hero__content { padding-top: 1rem; }
+}
+
 .documento-hero__image {
   max-width: 100%;
   max-height: 100%;
