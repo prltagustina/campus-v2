@@ -24,6 +24,17 @@ export default function HomePage() {
          (se notaba como "mal encastrada", no a la línea superior). bg-white
          en las dos primeras: sin fondo propio, dejaban ver lo que quedaba
          pegado debajo por el padding lateral mientras están stuck.
+         Ninguna de las stickeadas tiene overflow/max-h propio ni en un hijo
+         (se probaron las dos formas): position:sticky + overflow:auto, ya
+         sea en el MISMO elemento o en un hijo adentro, termina rompiendo el
+         sticky en mobile real o tapando botones de forma inconsistente
+         entre navegadores - nada de scroll de respaldo acá. En cambio, el
+         contenido de "documento" se achicó lo necesario (ver
+         .documento-hero--compact en globals.css) para entrar siempre sin
+         scroll en una pantalla de celular real, y "rueda" apoya solo en el
+         scroll propio de su acordeón (wheel-accordion--scroll en
+         globals.css), que NO es sticky — un descendiente no-sticky con su
+         propio scroll no tiene ese problema.
          "historia" usa relative (no sticky): no necesita quedar pegada (es
          la última, nada la tapa a ella) - pero sí necesita estar
          posicionada (con z-index propio) para pintarse ARRIBA de "rueda" al
@@ -45,15 +56,6 @@ export default function HomePage() {
           topClassName="!pt-4 md:!pt-0"
         />
       </div>
-      {/* Sin max-h/overflow-y-auto propio (los había como red de seguridad
-         por si el contenido no entraba en una pantalla baja): position:
-         sticky + overflow:auto en el MISMO elemento rompe el sticky en
-         mobile real (Safari/Chrome de celular) - la sección dejaba de
-         quedar pegada y pasaba a pintarse DETRÁS de "presentación" en vez
-         de taparla al scrollear. Ya no hace falta esa red: la portada se
-         achicó lo suficiente para entrar sin scroll en los celulares
-         comunes (ver .documento-hero--compact .documento-hero__cover en
-         globals.css). */}
       <div id="documento" className="sticky top-0 z-20 bg-white">
         <DocumentoHero
           eyebrow=""
@@ -70,11 +72,6 @@ export default function HomePage() {
           compact
         />
       </div>
-      {/* Sin max-h/overflow-y-auto propio (mismo motivo que "documento" -
-         rompía el sticky en mobile real): el acordeón de la trama ya tiene
-         su propio alto fijo + scroll interno en mobile/tablet (ver
-         wheel-accordion--scroll en globals.css y curricular-wheel.tsx), así
-         que "rueda" no necesita esta red también. */}
       <div id="rueda" className="sticky top-0 z-30 bg-[#F1F1F4] md:bg-transparent"><CurricularWheel /></div>
       <div id="historia" className="v3-section relative z-40 !px-0 !pb-0 !pt-0 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-0 md:bg-transparent">
         <div className="w-full overflow-hidden rounded-none bg-[#F3F3F5] md:rounded-2xl"><TimelineSection /></div>

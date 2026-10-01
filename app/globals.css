@@ -279,15 +279,15 @@
   background: transparent;
   order: 1;
 }
-/* clamp(210px, 56cqw, 360px) (antes clamp(240px, 64cqw, 360px)): con el
-   valor anterior, en mobile el total (portada+texto+botones) pasaba por
-   muy poco el tope de alto de "documento" (max-h-[90svh] en app/page.tsx),
-   activando su scroll propio de respaldo - y con la portada arriba de
-   todo, scrollear ahí adentro se sentía como que "la portada se mueve",
-   que no queda bien. Un poco más chica alcanza para que entre sin scroll
-   en mobile (no hace falta que la tapa se use ahí), sin resignar tanto
-   tamaño como el ajuste de emergencia anterior. */
-.documento-hero--compact .documento-hero__cover { min-height: clamp(195px, 54cqw, 360px); }
+/* clamp(110px, 32cqw, 360px) (antes clamp(210px, 56cqw, 360px)): "documento"
+   no puede tener scroll propio (sticky + overflow en el mismo elemento, o
+   hasta en un hijo adentro, termina rompiendo el sticky o tapando botones
+   en mobile real - ver app/page.tsx) así que el total (portada+texto+
+   botones) tiene que entrar siempre sin scroll en una pantalla de celular
+   real (~660-700px útiles, no los ~844px del dispositivo - el navegador
+   real resta su propia barra). Portada más chica en mobile para lograrlo;
+   el tope de 360px en pantallas más anchas no cambia. */
+.documento-hero--compact .documento-hero__cover { min-height: clamp(110px, 32cqw, 360px); }
 .documento-hero__image {
   max-width: 100%;
   max-height: 100%;
@@ -303,12 +303,13 @@
   min-width: 0;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(1.5rem, 5.5cqw, 2.25rem);
-  /* clamp(1.5rem, 5.5cqw, 2.25rem) (antes clamp(2.75rem, 9cqw, 4.25rem), el
-     doble del padding de arriba): con la sección apilada por scroll de
-     Inicio, ese aire extra sumaba a que los botones no entraran en pantallas
-     bajas - mismo valor que el padding superior, alcanza igual. */
-  padding-bottom: clamp(1.5rem, 5.5cqw, 2.25rem);
+  padding: clamp(1.25rem, 4.5cqw, 2.25rem);
+  /* clamp(1rem, 3.5cqw, 2.25rem) (antes clamp(2.75rem, 9cqw, 4.25rem), y
+     después clamp(1.5rem, 5.5cqw, 2.25rem)): más chico que el padding de
+     arriba a propósito - "documento" no puede tener scroll propio (ver
+     comentario de la portada más arriba), así que todo el contenido tiene
+     que entrar siempre en una pantalla de celular real sin scroll. */
+  padding-bottom: clamp(1rem, 3.5cqw, 2.25rem);
 }
 .documento-hero__title {
   max-width: 20ch;
@@ -327,9 +328,12 @@
 .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: 1em; }
 .documento-hero__description-editorial-space { display: none; }
 .documento-hero__description-editorial-break { display: inline; }
-/* clamp(2rem, 6cqw, 2.5rem) (antes clamp(1.5rem, 4.5cqw, 2rem)): más
-   separación entre el texto y los botones, a pedido. */
-.documento-hero__actions { margin-top: clamp(2rem, 6cqw, 2.5rem); }
+/* clamp(1.25rem, 4cqw, 2.5rem) (más separación que antes del todo pedida,
+   pero en mobile "documento" no puede tener scroll propio - ver portada
+   más arriba - así que acá cede un poco para que todo entre siempre sin
+   scroll; en desktop el margen real queda más grande igual por el override
+   desde los 1080px para arriba). */
+.documento-hero__actions { margin-top: clamp(1.25rem, 4cqw, 2.5rem); }
 
 /* El shell tiene hasta dos barras laterales. Estas decisiones dependen del
    ancho real del documento y no del viewport, evitando columnas comprimidas
@@ -495,13 +499,17 @@
    alto fijo evita el problema de raíz en vez de perseguir el reacomodo.
    overflow-y: auto para el caso raro de un blurb más largo de lo previsto. */
 @media (max-width: 1279px) {
-  .wheel-accordion--scroll { height: 21rem; overflow-y: auto; }
+  /* 24rem (antes 21rem, se quedaba corto): con "Marco General" (el último
+     ítem) abierto, su blurb no entraba del todo y quedaba cortado - más
+     alto para que CUALQUIER blurb entre completo sin necesidad de scrollear
+     adentro. */
+  .wheel-accordion--scroll { height: 24rem; overflow-y: auto; }
 }
 @media (min-width: 640px) and (max-width: 1279px) {
   /* Más alto que en mobile: de sm para arriba el acordeón usa tipografía
      más grande (ver .wheel-accordion--compact .wheel-accordion__trigger),
-     21rem se quedaba corto y tapaba el último ítem ("Marco General"). */
-  .wheel-accordion--scroll { height: 27rem; }
+     24rem se quedaba corto para "Marco General" acá también. */
+  .wheel-accordion--scroll { height: 30rem; }
 }
 
 @keyframes v3-slide-in { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: translateX(0); } }

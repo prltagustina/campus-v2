@@ -181,7 +181,7 @@ function ProjectGroup({ title, index, items }: { title: string; index: string; i
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex min-w-0 items-center gap-3 rounded-2xl bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(73,73,99,.065)] transition-shadow hover:shadow-[0_4px_16px_rgba(73,73,99,.10)] sm:px-5"
+            className="group flex min-w-0 items-center gap-3 rounded-2xl border border-[#494963]/[.08] bg-white px-4 py-3.5 transition-colors hover:border-[#494963]/[.16] sm:px-5"
           >
             {/* text-[15px]/sm:text-[17px]: mismo tamaño que el título de
                ResourceRow (Normativa, Familias, Docentes) — antes acá era
@@ -224,7 +224,7 @@ function ArchiveGroup({ title, items }: { title: string; items: { nombre: string
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex min-w-0 items-center gap-3 rounded-2xl bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(73,73,99,.065)] transition-shadow hover:shadow-[0_4px_16px_rgba(73,73,99,.10)] sm:px-5"
+            className="group flex min-w-0 items-center gap-3 rounded-2xl border border-[#494963]/[.08] bg-white px-4 py-3.5 transition-colors hover:border-[#494963]/[.16] sm:px-5"
           >
             <span className="min-w-0 flex-1 text-[15px] font-medium leading-snug text-[#494963] sm:text-[17px]">{asTitle(item.nombre)}</span>
             {/* Mismo color y tamaño que el ícono de "Abrir" de ResourceRow
@@ -243,7 +243,7 @@ function ArchiveGroup({ title, items }: { title: string; items: { nombre: string
 
 export default function EIBPage() {
   return (
-    <main className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:shadow-[0_0_0_1px_rgba(73,73,99,.06)]">
+    <main className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:border md:border-[#494963]/[.06]">
       <EditorialPageHeading
         title="Educación Intercultural Bilingüe"
         imageSrc="/images/cabecera-eib.jpg"

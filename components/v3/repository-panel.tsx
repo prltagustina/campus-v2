@@ -58,7 +58,7 @@ export function RepositoryPanel({
   if (chips) return <div>{header}<div className="space-y-2">{children}</div></div>;
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_5px_24px_rgba(73,73,99,.065)]">
+    <div className="overflow-hidden rounded-2xl border border-[#494963]/[.08] bg-white">
       {header}
       <div className="divide-y divide-[#494963]/[.07]">{children}</div>
     </div>
@@ -86,9 +86,9 @@ export function ResourceRow({
    * lados). Solo Marco General lo usa — en Familias/Docentes/EIB el botón
    * de acción queda solo ícono, igual en todos los anchos. */
   showActionLabel = false,
-  /** "Chip" (EIB): tarjeta blanca individual con sombra propia, en vez de
-   * fila plana dentro de una caja compartida — usar junto con
-   * `RepositoryPanel chips`. */
+  /** "Chip" (EIB): tarjeta blanca individual con borde propio (sin sombra -
+   * blancos planos), en vez de fila plana dentro de una caja compartida -
+   * usar junto con `RepositoryPanel chips`. */
   chip = false,
   /** Acciones al costado del texto ya desde mobile (no recién desde sm) —
    * por defecto en todos lados (antes había que pasarlo caso por caso y
@@ -111,7 +111,7 @@ export function ResourceRow({
 
   return (
     <article
-      className={`group/resource grid min-w-0 gap-3 px-4 py-4 transition-colors sm:px-6 sm:py-5 ${sideActions ? "grid-cols-[minmax(0,1fr)_auto] items-center" : "sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"} sm:gap-5 ${chip ? "rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)] hover:shadow-[0_4px_16px_rgba(73,73,99,.10)]" : "hover:bg-[#494963]/[.025]"}`}
+      className={`group/resource grid min-w-0 gap-3 px-4 py-4 transition-colors sm:px-6 sm:py-5 ${sideActions ? "grid-cols-[minmax(0,1fr)_auto] items-center" : "sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"} sm:gap-5 ${chip ? "rounded-2xl border border-[#494963]/[.08] bg-white hover:border-[#494963]/[.16]" : "hover:bg-[#494963]/[.025]"}`}
       style={{ ["--area" as string]: color }}
     >
       <a
