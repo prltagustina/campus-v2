@@ -27,7 +27,7 @@ const formaciones = [
 
 export default function DocentesPage() {
   return (
-    <div className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:border md:border-[#494963]/[.06]">
+    <div className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F3F3F5] md:bg-[#F7F7F9] md:rounded-2xl md:border md:border-[#494963]/[.06]">
       <EditorialPageHeading
         title="Equipos directivos y docentes"
         imageSrc="/images/cabecera-docentes.png"
