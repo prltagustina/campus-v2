@@ -43,7 +43,7 @@ export default function HomePage() {
          última, con sticky se liberaba casi al instante en vez de quedar
          pegada un buen tramo (caso límite de cuando no hay nada después que
          la empuje). */}
-      <div id="presentacion" className="sticky top-0 z-10 bg-white">
+      <div id="presentacion" className="bg-white">
         {/* Sin overrides de padding lateral/inferior ni de esquinas (antes iba
            pegado a los bordes en mobile, sin redondear): mismo tratamiento
            que el video de "Presentación audiovisual" en cada área. Sí se
@@ -56,7 +56,7 @@ export default function HomePage() {
           topClassName="!pt-4 md:!pt-0"
         />
       </div>
-      <div id="documento" className="sticky top-0 z-20 bg-white">
+      <div id="documento" className="bg-white">
         <DocumentoHero
           eyebrow=""
           titulo="Diseño Curricular para la Educación Primaria de Santa Fe"
@@ -72,7 +72,7 @@ export default function HomePage() {
           compact
         />
       </div>
-      <div id="rueda" className="sticky top-0 z-30 bg-[#F1F1F4] md:bg-transparent"><CurricularWheel /></div>
+      <div id="rueda" className="bg-[#F1F1F4] md:bg-transparent"><CurricularWheel /></div>
       <div id="historia" className="v3-section relative z-40 !px-0 !pb-0 !pt-0 bg-[#F3F3F5] md:!px-[14px] md:!pb-[14px] md:!pt-0 md:bg-transparent">
         <div className="w-full overflow-hidden rounded-none bg-[#F3F3F5] md:rounded-2xl"><TimelineSection /></div>
       </div>
