@@ -436,7 +436,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div
       ref={rootScrollRef}
-      className="v3-scroll-theme flex h-[var(--app-vh,100svh)] flex-col overflow-y-auto overscroll-none bg-[#F3F3F5] text-[#494963] md:bg-[#F5F5F7] md:h-dvh md:overflow-hidden"
+      className="v3-scroll-theme flex h-[var(--app-vh,100svh)] flex-col overflow-y-auto overscroll-none bg-[#F5F5F7] text-[#494963] md:h-dvh md:overflow-hidden"
       style={{ ["--section-scrollbar" as string]: currentArea?.color ?? MARCO_GENERAL_COLOR }}
     >
       <header className="h-[72px] shrink-0 border-b border-[#494963]/[.07] bg-white px-4 lg:h-[100px] lg:px-8" role="banner">
@@ -492,7 +492,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
          (pb-[5rem+safe-area]) — en gris quedaba como un zócalo visible al
          hacer scroll hasta el final en páginas con poco contenido, cosa que
          no pasaba en blanco porque se mezclaba con el fondo de la página. */}
-      <div className="flex min-h-0 gap-0 bg-[#F3F3F5] pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-6 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:p-5">
+      <div className="flex min-h-0 gap-0 bg-white pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-6 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:p-5">
         {/* Tablet y desktop: rail apilado (ícono arriba / texto abajo), con la
             bajada de Áreas. Ancho fluido (clamp) en vez de saltos por
             breakpoint: escala parejo entre 168px (md, 768px) y 230px (1280px,
@@ -506,7 +506,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           className="relative hidden w-[168px] shrink-0 gap-2.5 transition-[grid-template-rows] duration-500 ease-in-out md:grid md:w-[clamp(168px,12.1vw_+_75px,230px)]"
           style={{
             // El activo suma peso propio (+.6fr): "crece" respecto a los
-            // demás, como la secci��n activa de la referencia - los otros
+            // demás, como la sección activa de la referencia - los otros
             // conservan su proporción entre sí. Tamaño fijo apenas se
             // entra (no ligado al scroll): crecer y encogerse en vivo
             // mientras se scrollea se sentía raro/inestable. Lo que sí
@@ -576,7 +576,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
            izquierdo. Sumado al gap del flex de acá arriba, el espacio aside→
            contenido quedaba más grande que el de rail→aside. -ml-[14px]
            cancela ese marco solo acá, para que los dos gaps midan lo mismo. */}
-        <div className={`flex min-h-0 min-w-0 flex-col rounded-none bg-[#F3F3F5] max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen || isHome ? "md:-ml-[14px]" : ""}`}>
+        <div className={`flex min-h-0 min-w-0 flex-col rounded-none bg-white max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen || isHome ? "md:-ml-[14px]" : ""}`}>
         <main
           id="contenido"
           className="min-h-0 overscroll-none max-md:overflow-visible md:flex-1 md:overflow-y-auto"

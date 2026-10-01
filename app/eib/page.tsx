@@ -243,7 +243,7 @@ function ArchiveGroup({ title, items }: { title: string; items: { nombre: string
 
 export default function EIBPage() {
   return (
-    <main className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F3F3F5] md:bg-[#F7F7F9] md:rounded-2xl md:border md:border-[#494963]/[.06]">
+    <main className="flex min-h-full flex-col overflow-hidden rounded-none bg-[#F7F7F9] md:rounded-2xl md:border md:border-[#494963]/[.06]">
       <EditorialPageHeading
         title="Educación Intercultural Bilingüe"
         imageSrc="/images/cabecera-eib.jpg"

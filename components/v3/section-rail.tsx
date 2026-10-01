@@ -121,7 +121,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
          arriba y abajo, ya que cada panel ahora solo trae su pb propio, no
          su pt. Más grande que antes: el título del panel (p. ej. "Marco
          normativo") quedaba muy pegado a los tabs. */}
-      <div className="shrink-0 bg-[#F3F3F5] px-4 py-6 sm:px-6 md:bg-[#F7F7F9] md:py-8">
+      <div className="shrink-0 bg-[#F7F7F9] px-4 py-6 sm:px-6 md:py-8">
         <div className={`max-w-4xl ${align === "center" ? "mx-auto" : ""}`}>
           <span className="sr-only">{title}</span>
           {/* w-full en todos los anchos (antes md:w-fit, se achicaba al
