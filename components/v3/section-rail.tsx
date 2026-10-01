@@ -76,6 +76,12 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
   // PRUEBA: mismo estilo que PillTabs (botonera de idiomas/lenguajes
   // artísticos) - botón individual con borde del color, relleno sólido al
   // activarse, en vez de la píldora oscura sobre fondo gris redondeado.
+  // flex-1 + text-center (antes ancho según su propio texto): pedido
+  // explícito de que ocupen todo el ancho disponible, repartido
+  // proporcionalmente entre todos - no un grupo de botones sueltos
+  // pegados a la izquierda. px-3/py-2/text-sm y sm:py-3.5/sm:text-[17px]:
+  // tamaño de siempre (se había probado más grande y se pidió volver
+  // atrás) - el ancho completo queda igual, solo el tamaño vuelve.
   const tabs = items.map((item, index) => {
     const selected = index === safeIndex;
     return (
@@ -89,7 +95,10 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
         tabIndex={selected ? 0 : -1}
         onClick={() => activateTab(index)}
         onKeyDown={(event) => handleKeyDown(event, index)}
-        className={`rounded-[9px] border px-3 py-2 text-sm font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-white sm:px-5 sm:py-3.5 sm:text-[17px] ${selected ? "bg-[var(--tab)] text-white" : "bg-white text-[var(--tab)]"}`}
+        // min-w-0: sin esto, un flex item no se achica nunca por debajo del
+        // ancho de su propio texto sin cortar ("Formaciones" quedaba fuera
+        // de la vista en vez de compartir el ancho con los otros dos tabs).
+        className={`min-w-0 flex-1 rounded-[9px] border px-3 py-2 text-center text-sm font-normal leading-[1.08] tracking-[-0.035em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] hover:bg-[var(--tab)] hover:text-white sm:px-5 sm:py-3.5 sm:text-[17px] ${selected ? "bg-[var(--tab)] text-white" : "bg-white text-[var(--tab)]"}`}
         style={{ borderColor: color, ["--tab" as string]: color }}
       >
         {item.label}
@@ -113,10 +122,16 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
       <div className="shrink-0 bg-[#F7F7F9] px-4 py-6 sm:px-6 md:py-8">
         <div className={`max-w-4xl ${align === "center" ? "mx-auto" : ""}`}>
           <span className="sr-only">{title}</span>
+          {/* w-full en todos los anchos (antes md:w-fit, se achicaba al
+             ancho de su propio contenido en desktop): pedido explícito de
+             que los tabs ocupen todo el ancho disponible, no una tira
+             suelta pegada a la izquierda - cada botón (flex-1, ver arriba)
+             reparte ese ancho por igual. Sin flex-wrap: siempre en una
+             sola fila. */}
           <div
             role="tablist"
             aria-label={title}
-            className="flex w-full min-w-0 flex-wrap gap-2 sm:gap-2.5 md:w-fit"
+            className="flex w-full min-w-0 gap-1.5 sm:gap-2"
           >
             {tabs}
           </div>
