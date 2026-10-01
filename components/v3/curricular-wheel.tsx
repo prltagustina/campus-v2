@@ -48,6 +48,8 @@ const WHEEL_BASE_IMAGE =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-completa-RvJOhM9R5PJVL7Oyie8R1KC0UNYOGO.png";
 const WHEEL_EJES_IMAGE =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-ejes-QeWZsr9GzXoI74upq47yvccP6Sfdqw.png";
+const WHEEL_ENFOQUES_IMAGE =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-enfoques-C5KyoUnEBEa6tptzHCShDiq10Qzkuw.png";
 const WHEEL_MARCO_IMAGE =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-marco-general-CQKyOT2AeQJw8RAGRQ7ciySsIe24kV.png";
 
@@ -71,7 +73,7 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   relacion: {
     label: "Relación entre las áreas",
     blurb: pendingCopy.wheel.relaciones,
-    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-relacion.png
+    image: WHEEL_ENFOQUES_IMAGE,
     focus: { ring: false, segments: true, nodes: false, center: false },
     caption: "En foco: las nueve áreas y su diálogo entre sí.",
   },
