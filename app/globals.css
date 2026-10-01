@@ -326,7 +326,7 @@
   }
 
 @container documento-hero (max-width: 559px) {
-  .documento-hero__content { padding: .9rem clamp(.75rem, 3.5cqw, 1.25rem) 1.1rem; }
+  .documento-hero__content { padding: .9rem 14px 1.1rem; }
   .documento-hero--compact .documento-hero__title { max-width: none; font-size: clamp(1.35rem, 5.2cqw, 1.8rem); line-height: 1.08; }
   .documento-hero--compact .documento-hero__description { max-width: none; font-size: clamp(.82rem, 2.5cqw, .98rem); line-height: 1.45; }
   .documento-hero__title-line { display: inline; }
