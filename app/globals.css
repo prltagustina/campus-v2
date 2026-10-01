@@ -362,9 +362,9 @@
     font-size: clamp(1.65rem, 6.2cqw, 2rem);
     line-height: 1.08;
   }
-  .documento-hero--compact .documento-hero__description {
-    max-width: none;
-    margin-top: .65rem;
+.documento-hero--compact .documento-hero__description {
+  max-width: none;
+  margin-top: 1rem;
     font-size: clamp(.86rem, 2.65cqw, 1rem);
     line-height: 1.45;
   }
@@ -434,7 +434,7 @@
     letter-spacing: -.01em;
     color: rgba(237,237,240,.88);
   }
-  .documento-hero--compact .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: .4em; }
+  .documento-hero--compact .documento-hero__description-paragraph + .documento-hero__description-paragraph { margin-top: .85em; }
   /* 1.75rem (antes 1.1rem): más separación entre el texto y los botones, a
      pedido - el ajuste anterior lo había dejado muy pegado. */
   .documento-hero--compact .documento-hero__actions { margin-top: 1.75rem; }
