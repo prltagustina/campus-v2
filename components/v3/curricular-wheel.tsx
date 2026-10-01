@@ -121,6 +121,12 @@ export function CurricularWheel() {
   // El grisado CSS interino solo se aplica a los estados que todavía usan el PNG
   // base; los que ya tienen su PNG propio (grisado horneado) se muestran tal cual.
   const isFocused = active !== "base" && active !== "intro" && state.image === WHEEL_BASE_IMAGE;
+  // Los PNG nuevos tienen menos margen transparente que la rueda base. Se
+  // mantiene el tamaño del contenedor y se reduce la rueda anterior para que
+  // todas las tramas ocupen una escala visual equivalente.
+  const imageScaleClass = state.image.includes("trama-marco-general") || state.image.includes("trama-enfoques")
+    ? ""
+    : "scale-[0.86]";
 
   return (
     // !p-0 md:!pb-[14px] md:!pl-[14px] md:!pr-[14px] md:!pt-0 (antes
@@ -154,7 +160,7 @@ export function CurricularWheel() {
                 src={state.image}
                 alt="Trama curricular: nueve áreas articuladas con cinco enfoques transversales y el Marco General"
                 fill
-                className="object-contain"
+                className={`object-contain ${imageScaleClass}`}
                 sizes="(max-width: 1280px) 90vw, 52vw"
                 priority={false}
               />
