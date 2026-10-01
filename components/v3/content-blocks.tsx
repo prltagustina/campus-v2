@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Download, ExternalLink, Share2 } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { CarouselArrows } from "@/components/v3/carousel-arrows";
 import { CarouselDots } from "@/components/v3/carousel-dots";
@@ -58,10 +58,9 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
        EIB. La fila mide 40px por el botón: items-start alinea el label con
        los demás encabezados y, sin margen extra, deja el visor en el mismo
        comienzo vertical que el primer chip de los otros paneles. */}
-    <div className="flex items-start gap-3 px-1">
-      <p className="min-w-0 flex-1 truncate text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{label}</p>
-      <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
-    </div>
+  <div className="px-1">
+  <p className="min-w-0 truncate text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{label}</p>
+  </div>
     {/* Sin el marco gris (bg-[#E9E9EE] p-1.5/p-2) que envolvía el iframe -
        pedido explícito de sacar ese reborde. xl:aspect-auto + xl:h (no
        md:max-h combinado con aspect-video, como había quedado antes): con
