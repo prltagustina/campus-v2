@@ -374,12 +374,10 @@
 
 @container documento-hero (min-width: 620px) {
   .documento-hero--compact {
-    /* minmax(220px, .68fr) (antes minmax(190px, .66fr)) y min-height 460px
-       (antes 420px): portada más grande en desktop, a pedido. */
-    grid-template-columns: minmax(220px, .68fr) minmax(0, 1.32fr);
-    min-height: 460px;
+    grid-template-columns: minmax(190px, .66fr) minmax(0, 1.34fr);
+    min-height: 420px;
   }
-  .documento-hero--compact .documento-hero__cover { min-height: 460px; order: 0; }
+  .documento-hero--compact .documento-hero__cover { min-height: 420px; order: 0; }
   /* Aire a la izquierda: separa la portada del borde de la tarjeta (ref. boceto). */
   .documento-hero--compact .documento-hero__image { padding-left: clamp(1.25rem, 5cqw, 3.25rem); }
   .documento-hero--compact .documento-hero__content { order: 0; padding: clamp(2rem, 4.25cqw, 3rem); }
