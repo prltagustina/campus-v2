@@ -39,8 +39,9 @@ export default function DocentesPage() {
             <SlideDeckEmbed
               src="https://docs.google.com/presentation/d/1BKzPQiSzHd73OvYHmVLTDccV-qt8g-tg/embed?start=false&loop=false&delayms=3000"
               title="Presentación para Equipos Directivos y Docentes"
-              label="Presentación institucional"
-            />
+        label="Presentación institucional"
+        showOpen={false}
+      />
           </div>
         </section>
 

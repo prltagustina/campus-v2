@@ -45,7 +45,7 @@ export function VideoEmbed({
   );
 }
 
-export function SlideDeckEmbed({ src, title, label = "Presentación institucional" }: { src: string; title: string; label?: string }) {
+export function SlideDeckEmbed({ src, title, label = "Presentación institucional", showOpen = true }: { src: string; title: string; label?: string; showOpen?: boolean }) {
   const [loaded, setLoaded] = useState(false);
 
   return <div>
@@ -60,7 +60,7 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
        comienzo vertical que el primer chip de los otros paneles. */}
     <div className="flex items-start gap-3 px-1">
       <p className="min-w-0 flex-1 truncate text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{label}</p>
-      <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a>
+      {showOpen ? <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a> : null}
     </div>
     {/* Sin el marco gris (bg-[#E9E9EE] p-1.5/p-2) que envolvía el iframe -
        pedido explícito de sacar ese reborde. xl:aspect-auto + xl:h (no
