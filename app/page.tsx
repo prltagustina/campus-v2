@@ -13,7 +13,7 @@ const INTRO_COPY_EDITORIAL = [
 
 export default function HomePage() {
   return (
-    <div className="bg-white">
+    <div className="bg-[#F3F3F5]">
       {/* sticky top-0 + z-index creciente (presentación < documento < rueda <
          historia): cada sección queda pegada arriba mientras la siguiente la
          tapa al scrollear, apilándose como tarjetas - sin bordes/sombras
