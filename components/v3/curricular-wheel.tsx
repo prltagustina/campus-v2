@@ -91,7 +91,7 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   marco: {
     label: "Marco General",
     blurb: pendingCopy.wheel.marco,
-    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-marco.png
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-marco-general-PhzfMpfIblldOxs6G94etWR36wlTbD.png",
     focus: { ring: false, segments: false, nodes: false, center: true },
     caption: "En foco: el Marco General, en el centro de la trama.",
   },
@@ -100,14 +100,14 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
   enfoques: {
     label: "Enfoques transversales",
     blurb: pendingCopy.wheel.transversales,
-    image: WHEEL_BASE_IMAGE, // TODO(trama): /images/trama/trama-enfoques.png
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-enfoques-hO7laGTjwuvhY05btCStdEDStUfOh8.png",
     focus: { ring: true, segments: false, nodes: false, center: false },
     caption: "En foco: el anillo de enfoques transversales.",
   },
 };
 
 /** Ítems del acordeón, en orden. El primero ("intro") es el propio título. */
-const RENDERED_STATE_IDS = ["intro", "relacion", "ejes", "marco"] as const satisfies readonly WheelStateId[];
+const RENDERED_STATE_IDS = ["intro", "relacion", "ejes", "marco", "enfoques"] as const satisfies readonly WheelStateId[];
 
 export function CurricularWheel() {
   const [active, setActive] = useState<WheelStateId>("base");

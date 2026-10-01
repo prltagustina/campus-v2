@@ -22,7 +22,7 @@ function WheelBadge() {
 export function DescargaMarcoSection() {
   return (
     <section id="descarga-marco" className="w-full bg-[#EDEDF0]">
-      <div className="w-full max-w-5xl mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-36 lg:py-44">
+      <div className="w-full max-w-5xl mx-auto px-6 pt-24 pb-36 md:px-12 md:py-36 lg:px-16 lg:py-44">
         <div className="flex flex-col items-center">
           <div className="w-full max-w-3xl mx-auto">
             <div className="flex flex-col sm:flex-row items-center gap-10 sm:gap-14">
