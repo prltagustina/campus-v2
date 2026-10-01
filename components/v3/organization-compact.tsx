@@ -26,8 +26,8 @@ export function OrganizationCompact() {
   return (
     // !pt-5/md:!pt-6 (antes !pt-8/md:!pt-10): menos aire entre secciones a
     // propósito, mismo criterio en toda la página.
-    <section className="v3-section !px-0 !pb-0 !pt-5 bg-[#F5F5F7] md:!px-[14px] md:!pb-[14px] md:!pt-6 md:bg-transparent">
-      <div className="rounded-none bg-[#F5F5F7] pb-9 pl-5 pt-5 md:rounded-2xl md:p-8 lg:p-10">
+    <section className="v3-section !px-0 !pb-0 !pt-5 bg-white md:!px-[14px] md:!pb-[14px] md:!pt-6 md:bg-transparent">
+      <div className="rounded-none bg-white pb-9 pl-5 pt-5 md:rounded-2xl md:p-8 lg:p-10">
         {/* Sin loop: al llegar a la última tarjeta, "Siguiente" se deshabilita
            en vez de volver a la primera — mismo criterio en todos los
            carruseles del sitio. */}
