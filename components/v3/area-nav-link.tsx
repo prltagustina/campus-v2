@@ -59,7 +59,7 @@ export function AreaNavLink({
       // active: (no solo hover:) para que se pinte también al toque en
       // mobile, no solo con mouse - :hover no es confiable en touch (a
       // veces ni dispara, a veces queda "pegado" hasta tocar otra cosa).
-      className={`group flex min-w-0 w-full items-center justify-between border font-normal tracking-[-0.035em] transition-colors duration-150 hover:bg-[var(--area)] hover:text-[var(--area-active-fg)] active:bg-[var(--area)] active:text-[var(--area-active-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${variantClasses[variant]} ${active ? "bg-[var(--area)] text-[var(--area-active-fg)]" : "bg-white text-[var(--area)]"}`}
+      className={`group flex min-w-0 w-full items-center justify-between border font-semibold tracking-[-0.035em] transition-colors duration-150 hover:bg-[var(--area)] hover:text-[var(--area-active-fg)] active:bg-[var(--area)] active:text-[var(--area-active-fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${variantClasses[variant]} ${active ? "bg-[var(--area)] text-[var(--area-active-fg)]" : "bg-white text-[var(--area)]"}`}
       style={{
         borderColor: area.color,
         ["--area" as string]: area.color,
