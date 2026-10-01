@@ -388,9 +388,13 @@
 @container documento-hero (min-width: 760px) {
   .documento-hero--standard { grid-template-columns: minmax(240px, .78fr) minmax(0, 1.22fr); min-height: 430px; }
   .documento-hero--standard .documento-hero__cover { min-height: 430px; }
+  .documento-hero--standard .documento-hero__image { width: 100%; height: 100%; padding: .25rem; transform: scale(1.7) !important; }
+  .documento-hero--standard .documento-hero__image--tilted { transform: rotate(2.6deg) scale(1.06); }
   .documento-hero--compact { grid-template-columns: minmax(260px, .78fr) minmax(0, 1.22fr); min-height: 480px; }
   .documento-hero--compact .documento-hero__cover { min-height: 480px; }
-}
+  .documento-hero--compact .documento-hero__image { width: 100%; height: 100%; padding: .5rem; transform: scale(1.32); }
+  .documento-hero--compact .documento-hero__image--tilted { transform: rotate(2.6deg) scale(1.2); }
+  }
 
 @container documento-hero (min-width: 1080px) {
   .documento-hero--standard { grid-template-columns: minmax(320px, 1fr) minmax(0, 1fr); min-height: 470px; }
@@ -400,6 +404,8 @@
      más grande en desktop, a pedido. */
   .documento-hero--compact { grid-template-columns: minmax(340px, .85fr) minmax(0, 1.15fr); min-height: 500px; }
   .documento-hero--compact .documento-hero__cover { min-height: 500px; }
+  .documento-hero--compact .documento-hero__image { padding: .75rem; transform: scale(1.1); }
+  .documento-hero--compact .documento-hero__image--tilted { transform: rotate(2.6deg) scale(1.04); }
   .documento-hero--compact .documento-hero__content { padding: clamp(1.75rem, 3vw, 2.5rem); }
   .documento-hero--compact .documento-hero__title {
     max-width: 26rem;
