@@ -338,7 +338,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // "Estás en (X)" aparece un instante al cambiar de página.
   const desktopNavRef = useRef<HTMLDivElement>(null);
   const desktopItemRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+  const mobileNavRef = useRef<HTMLDivElement>(null);
+  const mobileItemRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const [desktopDot, setDesktopDot] = useState<{ top: number; left: number } | null>(null);
+  const [mobileDot, setMobileDot] = useState<{ left: number } | null>(null);
   // Inicio y Áreas son las únicas vistas con scroll real de sobra (video +
   // documento + rueda + historia; documento + materiales + formaciones +
   // video) para que el gesto de la referencia tenga sentido de verdad.
@@ -404,6 +407,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         setDesktopDot({ top: elRect.top - navRect.top + 12 + travel, left: elRect.right - navRect.left - 12 });
       }
 
+      const mobileEl = mobileItemRefs.current[activeHref];
+      const mobileNav = mobileNavRef.current;
+      if (mobileEl && mobileNav) {
+        const navRect = mobileNav.getBoundingClientRect();
+        const elRect = mobileEl.getBoundingClientRect();
+        setMobileDot({ left: elRect.left - navRect.left + elRect.width / 2 + 9 });
+      }
     };
 
     updateDots();
@@ -635,6 +645,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       <nav
+        ref={mobileNavRef}
         aria-label="Navegación móvil"
         className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
         style={{ gridTemplateColumns: `repeat(${primaryItems.length}, minmax(0, 1fr))` }}
@@ -645,7 +656,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           return (
             <Link
               key={item.href}
-
+              ref={(el) => { mobileItemRefs.current[item.href] = el; }}
               href={item.mobileHref ?? item.href}
               aria-current={active ? "page" : undefined}
               aria-label={item.label}
@@ -658,6 +669,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           );
         })}
+        {/* Mismo puntito único deslizante que el rail de desktop, acá en
+           horizontal (arriba de cada ícono, se desliza al cambiar de tab). */}
+        {mobileDot ? (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1.5 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white transition-[left] duration-500 ease-in-out"
+            style={{ left: mobileDot.left }}
+          />
+        ) : null}
       </nav>
 
     </div>

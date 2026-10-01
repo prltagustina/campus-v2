@@ -70,9 +70,9 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
     : "#";
 
   return (
-    <section id="descarga" className="flex w-full flex-col items-center px-3 sm:px-0">
-      <div className="w-full max-w-5xl mx-auto">
-        <div className="flex flex-col items-center gap-7 sm:flex-row sm:gap-10 md:gap-14">
+    <section id="descarga" className="flex flex-col items-center">
+      <div className="w-full max-w-3xl mx-auto">
+        <div className="flex flex-col sm:flex-row items-center gap-10 sm:gap-14">
           {/* Book cover -- editorial style with subtle shadow */}
           <div className="flex-shrink-0">
             <Image
@@ -80,12 +80,12 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
               alt={`Portada ${displayName}`}
               width={280}
               height={396}
-              className="w-[min(58vw,220px)] sm:w-[260px] md:w-[300px] h-auto object-cover rounded-sm shadow-[0_2px_20px_-4px_rgba(0,0,0,0.12)]"
+              className="w-[220px] sm:w-[260px] md:w-[300px] h-auto object-cover rounded-sm shadow-[0_2px_20px_-4px_rgba(0,0,0,0.12)]"
             />
           </div>
 
           {/* Text + button -- clean editorial layout */}
-          <div className="flex w-full flex-col items-center text-center sm:items-start sm:text-left">
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
             {/* Area badge */}
             <div className="flex items-center gap-3 mb-5">
               <WheelBadge color={area.color} />
@@ -105,7 +105,7 @@ export function DescargaDocumentoSection({ area, selectedSubarea }: DescargaDocu
             </h3>
 
             {/* Description */}
-            <p className="max-w-none text-[#494963]/60 text-lg sm:text-xl leading-relaxed mb-7 sm:mb-9 font-medium">
+            <p className="text-[#494963]/60 text-lg sm:text-xl leading-relaxed mb-9 max-w-md font-medium">
               {"Para profundizar en los contenidos, ejes y orientaciones de esta \u00e1rea curricular."}
             </p>
 
