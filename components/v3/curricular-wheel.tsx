@@ -16,7 +16,7 @@ import { SolidAreaArrow } from "@/components/v3/area-nav-link";
  * imagen ya incluye el grisado y el realce correspondientes a la lectura.
  */
 
-type WheelStateId = "base" | "intro" | "relacion" | "ejes" | "marco" | "enfoques";
+type WheelStateId = "base" | "intro" | "relacion" | "ejes" | "marco";
 
 interface WheelStateConfig {
   /** Rótulo del acordeón. */
@@ -48,8 +48,6 @@ const WHEEL_BASE_IMAGE =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-completa-RvJOhM9R5PJVL7Oyie8R1KC0UNYOGO.png";
 const WHEEL_EJES_IMAGE =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-ejes-QeWZsr9GzXoI74upq47yvccP6Sfdqw.png";
-const WHEEL_ENFOQUES_IMAGE =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-enfoques-C5KyoUnEBEa6tptzHCShDiq10Qzkuw.png";
 const WHEEL_MARCO_IMAGE =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trama-marco-general-CQKyOT2AeQJw8RAGRQ7ciySsIe24kV.png";
 
@@ -61,10 +59,9 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
     focus: { ring: true, segments: true, nodes: true, center: true },
     caption: "",
   },
-  // Primer ítem del acordeón: es el propio título "Trama curricular". Al abrirlo
-  // muestra una introducción y la rueda queda a color (no atenúa nada).
+  // Primer ítem del acordeón: muestra la trama completa a color.
   intro: {
-    label: "Trama curricular",
+    label: "Trama completa",
     blurb:
       "Las nueve áreas se articulan entre sí y con los cinco enfoques transversales, alrededor del Marco General.",
     image: WHEEL_BASE_IMAGE,
@@ -94,19 +91,10 @@ export const wheelStates: Record<WheelStateId, WheelStateConfig> = {
     focus: { ring: false, segments: false, nodes: false, center: true },
     caption: "En foco: el Marco General, en el centro de la trama.",
   },
-  // Modelado pero NO renderizado: el equipo todavía no definió el título de esta
-  // lectura. Cuando lo tengan: fijar `label` y sumar "enfoques" a RENDERED_STATE_IDS.
-  enfoques: {
-    label: "Enfoques transversales",
-    blurb: pendingCopy.wheel.transversales,
-    image: WHEEL_ENFOQUES_IMAGE,
-    focus: { ring: true, segments: false, nodes: false, center: false },
-    caption: "En foco: el anillo de enfoques transversales.",
-  },
 };
 
 /** Ítems del acordeón, en orden. El primero ("intro") es el propio título. */
-const RENDERED_STATE_IDS = ["intro", "relacion", "ejes", "marco", "enfoques"] as const satisfies readonly WheelStateId[];
+const RENDERED_STATE_IDS = ["intro", "relacion", "ejes", "marco"] as const satisfies readonly WheelStateId[];
 
 export function CurricularWheel() {
   const [active, setActive] = useState<WheelStateId>("base");
