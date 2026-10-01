@@ -193,7 +193,7 @@ function AreaSubnav({ pathname }: { pathname: string }) {
       <Link
         href="/area/marco-general"
         aria-current={marcoActive ? "page" : undefined}
-        className={`flex h-full min-h-0 w-full min-w-0 items-center justify-between rounded-[9px] border border-[#494963] px-[15px] py-2 text-[clamp(15px,1.35vw,20px)] xl:text-[clamp(17px,1.35vw,20px)] font-normal leading-[1.15] tracking-[-0.035em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
+        className={`flex h-full min-h-0 w-full min-w-0 items-center justify-between rounded-[9px] border border-[#494963] px-[15px] py-2 text-[clamp(15px,1.35vw,20px)] xl:text-[clamp(17px,1.35vw,20px)] font-semibold leading-[1.15] tracking-[-0.035em] transition-colors duration-150 hover:bg-[#494963] hover:text-[#E9E9EE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#494963] ${marcoActive ? "bg-[#494963] text-[#E9E9EE]" : "bg-white text-[#494963]"}`}
       >
         <span className="min-w-0 text-balance text-pretty break-words">Marco General</span>
         <SolidAreaArrow />
@@ -647,7 +647,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <nav
         ref={mobileNavRef}
         aria-label="Navegación móvil"
-        className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 border-t border-white/10 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
         style={{ gridTemplateColumns: `repeat(${primaryItems.length}, minmax(0, 1fr))` }}
       >
         {primaryItems.map((item) => {
