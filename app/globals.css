@@ -505,6 +505,12 @@
      adentro. */
   .wheel-accordion--scroll { height: 24rem; overflow-y: auto; }
 }
+@media (max-width: 767px) {
+  .wheel-accordion--scroll { height: auto; max-height: none; overflow: visible; }
+  .wheel-accordion--reserve .wheel-accordion__panel:not([hidden]) { min-height: 0; }
+  .wheel-accordion--compact .wheel-accordion__trigger { padding-top: .65rem; padding-bottom: .65rem; }
+  .wheel-accordion--compact .wheel-accordion__panel { padding-bottom: .75rem; }
+}
 @media (min-width: 640px) and (max-width: 1279px) {
   /* Más alto que en mobile: de sm para arriba el acordeón usa tipografía
      más grande (ver .wheel-accordion--compact .wheel-accordion__trigger),
