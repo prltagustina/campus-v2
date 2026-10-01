@@ -674,7 +674,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {mobileDot ? (
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute top-1.5 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white transition-[left] duration-500 ease-in-out"
+            className="pointer-events-none absolute top-1.5 hidden h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white transition-[left] duration-500 ease-in-out md:block"
             style={{ left: mobileDot.left }}
           />
         ) : null}

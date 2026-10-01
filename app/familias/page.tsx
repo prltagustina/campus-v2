@@ -28,6 +28,7 @@ export default function FamiliasPage() {
               src="https://docs.google.com/presentation/d/1iE4BFRuhcT7yXhRfCoDpeEEx8ZSYyqWH/embed?start=false&loop=false&delayms=3000"
               title="Presentación del Diseño Curricular para Familias"
               label="Presentación para familias"
+              showOpen={false}
             />
           </div>
         </section>

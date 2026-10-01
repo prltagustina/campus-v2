@@ -249,7 +249,7 @@ export default function EIBPage() {
         imageSrc="/images/cabecera-eib.jpg"
       />
 
-      <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "proyectos", label: "Proyectos" }, { id: "efemerides", label: "Efemérides" }]}>
+      <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "efemerides", label: "Efemérides" }, { id: "proyectos", label: "Proyectos" }]}>
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             {/* Sin título ni ícono (antes Scale): única tira de esta tab
@@ -282,9 +282,15 @@ export default function EIBPage() {
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            {/* Sin título ni ícono (antes Layers): única tira de esta tab
-               ("Proyectos"), el contexto "por nivel" pasó a la etiqueta
-               "Nivel" de cada ProjectGroup. */}
+            <div className="space-y-6">
+              <ArchiveGroup title="Calendario intercultural" items={celebracionesCalendario} />
+              <ArchiveGroup title="Memorias y recursos" items={celebracionesMemoria} />
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
+          <div className="mx-auto max-w-4xl">
             <RepositoryPanel chips>
               <div className="space-y-6">
                 <ProjectGroup index="01" title="Inicial" items={proyectos.inicial} />
@@ -293,19 +299,6 @@ export default function EIBPage() {
                 <ProjectGroup index="04" title="Terciario" items={proyectos.terciario} />
               </div>
             </RepositoryPanel>
-          </div>
-        </section>
-
-        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
-          <div className="mx-auto max-w-4xl">
-            {/* space-y-6 (antes space-y-4): mismo espacio entre grupos que
-               "Marco normativo" (Resolución/Decretos), "Proyectos por nivel"
-               y Docentes (Material de apoyo/Normativa) — acá quedaba con
-               menos aire que el resto de EIB. */}
-            <div className="space-y-6">
-              <ArchiveGroup title="Calendario intercultural" items={celebracionesCalendario} />
-              <ArchiveGroup title="Memorias y recursos" items={celebracionesMemoria} />
-            </div>
           </div>
         </section>
       </SectionTabs>
