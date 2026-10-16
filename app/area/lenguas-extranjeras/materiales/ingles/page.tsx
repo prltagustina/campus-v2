@@ -240,9 +240,9 @@ export default function InglesMaterilesPage() {
 
                   {/* Todo lo que es texto/logo/botones va centrado con un
                      máximo de ancho — a todo el ancho de la columna se veía
-                     desproporcionado en desktop. El video y la ilustración
-                     de personajes sí ocupan todo el ancho (son piezas
-                     visuales, no texto). */}
+                     desproporcionado en desktop. El video de presentación
+                     también va en esta columna; la ilustración de
+                     personajes sí ocupa todo el ancho. */}
                   <div className="mx-auto max-w-2xl">
                     <BackLink href="/area/lenguas-extranjeras" label="Volver a Lenguas Extranjeras" className="mt-6 sm:mt-8" />
 
@@ -271,15 +271,13 @@ export default function InglesMaterilesPage() {
                     </div>
                   </div>
 
-                  {/* Video oficial de presentación: a todo el ancho de la
-                     columna (igual que VideoEmbed en "Presentación
-                     audiovisual" de cada área), no topado como el resto. */}
-                  <div ref={presentacionRef} id="presentacion" className="mb-10 sm:mb-12">
-                    <div className="mx-auto max-w-2xl">
-                      <p className="mb-3 text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">
-                        Video de presentación
-                      </p>
-                    </div>
+                  {/* Video oficial de presentación: en la misma columna
+                     centrada que el texto, para que en desktop quede
+                     alineado con el logo y la bienvenida. */}
+                  <div ref={presentacionRef} id="presentacion" className="mx-auto mb-10 max-w-2xl sm:mb-12">
+                    <p className="mb-3 text-xs font-bold uppercase tracking-[.16em] text-[#494963]/40">
+                      Video de presentación
+                    </p>
                     <div className="relative aspect-video overflow-hidden rounded-xl bg-[#494963]/5">
                       <iframe
                         src={`https://www.youtube-nocookie.com/embed/${PRESENTATION_VIDEO_ID}?rel=0`}
