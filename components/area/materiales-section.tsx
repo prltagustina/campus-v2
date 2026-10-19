@@ -493,15 +493,13 @@ function ItinerarioRepository({
   color: string;
   activeForeground: string;
 }) {
-  const [openCategorias, setOpenCategorias] = useState<Set<string>>(() => new Set());
+  // Una sola categoría abierta a la vez, igual que los ciclos/subgrupos
+  // anidados: abrir Docencia cierra Estudiantes/Articulación y viceversa
+  // (antes un Set permitía varias abiertas juntas).
+  const [openCategoria, setOpenCategoria] = useState<string | null>(null);
 
   const toggleCategoria = (id: string) => {
-    setOpenCategorias((current) => {
-      const next = new Set(current);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+    setOpenCategoria((current) => (current === id ? null : id));
   };
 
   return (
@@ -515,7 +513,7 @@ function ItinerarioRepository({
           categoria={categoria}
           color={color}
           activeForeground={activeForeground}
-          open={openCategorias.has(categoria.id)}
+          open={openCategoria === categoria.id}
           onToggle={() => toggleCategoria(categoria.id)}
         />
       ))}
