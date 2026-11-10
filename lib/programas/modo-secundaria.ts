@@ -220,7 +220,7 @@ export const temas: Tema[] = [
             titulo: "La Alfabetización Inicial en el nivel Secundario",
             detalle: "Cuaderno de Actividades",
             meta: "PDF",
-            portada: `${UPLOADS}/2026/09/portada_alfabetizacion_cuaderno_actividades-211x300.png`,
+            portada: "/portadas/alfabetizacion-cuaderno-actividades.png",
             acciones: [
               { tipo: "ver", url: vistaDrive("1uMg0n8UFr-yOxrY6ZORslb21yrn0Dnbo") },
               { tipo: "descargar", url: descargaDrive("1uMg0n8UFr-yOxrY6ZORslb21yrn0Dnbo") },
@@ -232,7 +232,7 @@ export const temas: Tema[] = [
             titulo: "La Alfabetización Inicial en el nivel Secundario",
             detalle: "Guía para Docentes",
             meta: "PDF",
-            portada: `${UPLOADS}/2026/09/portada_alfabetizacion_guia_docentes-e1789493185883-212x300.png`,
+            portada: "/portadas/alfabetizacion-guia-docentes.png",
             acciones: [
               { tipo: "ver", url: vistaDrive("1OpyGPHXWS4Ytv6MFwY7tlNwSo5XRiUrW") },
               { tipo: "descargar", url: descargaDrive("1OpyGPHXWS4Ytv6MFwY7tlNwSo5XRiUrW") },
@@ -244,7 +244,7 @@ export const temas: Tema[] = [
             titulo: "Fortalecer las trayectorias de los estudiantes: Alfabetización.",
             detalle: "Educación Secundaria",
             meta: "PDF",
-            portada: `${UPLOADS}/2026/09/portada_alfabetizacion_fortalecer_trayectorias-211x300.png`,
+            portada: "/portadas/alfabetizacion-fortalecer-trayectorias.png",
             acciones: [
               { tipo: "ver", url: vistaDrive("1K8gMT0wCusll72olT_Gxzj-2OUwMpwTM") },
               { tipo: "descargar", url: descargaDrive("1K8gMT0wCusll72olT_Gxzj-2OUwMpwTM") },

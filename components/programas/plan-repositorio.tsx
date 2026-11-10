@@ -3,36 +3,9 @@
 import { useState } from "react";
 import { PillTabs } from "@/components/v3/pill-tabs";
 import { RepositoryAccordionGroup, RepositoryFileGroup } from "@/components/v3/repository-accordion";
-import { TarjetasPortada } from "@/components/programas/tarjetas-portada";
 import type { CategoriaId, CategoriaPlan, Etapa } from "@/lib/programas/plan-matematica";
 
 const TINTA = "#494963";
-
-/**
- * Lo que va adentro de una categoría: filas del repositorio o, en Juegos
- * Matemáticos, las tarjetas con tapa como en el Campus (la misma grilla de
- * Modo Secundaria), con el aire de las filas.
- */
-function Contenido({ categoria, color }: { categoria: CategoriaPlan; color: string }) {
-  if (categoria.conPortadas && categoria.archivos.every((archivo) => archivo.portada)) {
-    return (
-      <div className="px-4 py-6 sm:px-7">
-        <TarjetasPortada
-          color={color}
-          items={categoria.archivos.map((archivo) => ({
-            id: archivo.url,
-            titulo: archivo.nombre,
-            meta: archivo.formato,
-            portada: archivo.portada!,
-            descargar: archivo.accion ? undefined : archivo.url,
-            ver: archivo.accion === "ver" ? archivo.url : undefined,
-          }))}
-        />
-      </div>
-    );
-  }
-  return <RepositoryFileGroup files={categoria.archivos.map((file) => ({ file }))} color={color} />;
-}
 
 /**
  * Repositorio de un nivel del Plan (maqueta de Visuales Curricular,
@@ -111,7 +84,7 @@ export function PlanRepositorio({
             open={abierta === categoria.id}
             onToggle={() => setAbierta((actual) => (actual === categoria.id ? null : categoria.id))}
           >
-            <Contenido categoria={categoria} color={color} />
+            <RepositoryFileGroup files={categoria.archivos.map((file) => ({ file }))} color={color} conPortadas={categoria.conPortadas} />
           </RepositoryAccordionGroup>
         ))}
       </div>

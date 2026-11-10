@@ -4,7 +4,7 @@ import { SlideDeckEmbed } from "@/components/v3/content-blocks";
 import { RepositoryPanel, ResourceRow } from "@/components/v3/repository-panel";
 import { CampusIsologo } from "@/components/programas/campus-isologo";
 import { RepositorioCategorias, type CategoriaSecundaria } from "@/components/programas/secundaria-repositorio";
-import { TarjetasPortada } from "@/components/programas/tarjetas-portada";
+import { TarjetasPortada } from "@/components/v3/tarjetas-portada";
 import type { ItinerarioFile } from "@/lib/itinerarios-data";
 import type { Tema } from "@/lib/programas/modo-secundaria";
 import type { GrupoRecursos, Recurso } from "@/lib/programas/tipos";
