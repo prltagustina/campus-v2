@@ -58,7 +58,8 @@ const tesoro: Recurso = {
   id: "tesoro-matematico",
   titulo: "Tesoro Matemático",
   meta: "PDF",
-  portada: `${UPLOADS}/2026/08/tesoro-matematico.jpg`,
+  // Tapas del Campus, copiadas al sitio (/public/portadas) como las de Diseño Curricular.
+  portada: "/portadas/tesoro-matematico.jpg",
   acciones: [{ tipo: "descargar", url: descarga("17FWD2utGDmv74KrB92tnH3_KR6BpQI5f") }],
   origen: [
     { pagina: ORIGEN, ubicacion: "Educación Primaria > Juegos Matemáticos > 7mo. Grado" },
@@ -70,7 +71,7 @@ const tesoroAnexo: Recurso = {
   id: "tesoro-matematico-anexo",
   titulo: "Tesoro Matemático - Anexo",
   meta: "PDF",
-  portada: `${UPLOADS}/2026/08/tesoro-matematico-anexo.jpg`,
+  portada: "/portadas/tesoro-matematico-anexo.jpg",
   acciones: [{ tipo: "descargar", url: descarga("1lbrQwLFsOOSrvEa4f8B2wsv_H20ZQshI") }],
   origen: tesoro.origen,
 };
@@ -79,7 +80,7 @@ const tesoroGuia: Recurso = {
   id: "tesoro-matematico-guia-docente",
   titulo: "Tesoro Matemático - Guía Docente",
   meta: "PDF",
-  portada: `${UPLOADS}/2026/08/tesoro-matematico-guia-docente.jpg`,
+  portada: "/portadas/tesoro-matematico-guia-docente.jpg",
   acciones: [{ tipo: "descargar", url: descarga("1GsPsWNeh32uFhnbczFBg1pD6mhVxe_l0") }],
   origen: tesoro.origen,
 };
@@ -322,6 +323,7 @@ function comoArchivo(ubicacion: Ubicacion): ItinerarioFile {
     descripcion: pagina ? undefined : recurso.detalle,
     formato: pagina ? recurso.detalle : "PDF",
     url: accion.url,
+    portada: recurso.portada,
     accion: accion.tipo === "ver" ? "ver" : pagina ? "abrir" : undefined,
   };
 }
@@ -330,6 +332,10 @@ export interface CategoriaPlan {
   id: CategoriaId;
   titulo: string;
   archivos: ItinerarioFile[];
+  /** Juegos Matemáticos va con las tapas, como en el Campus; el resto, como filas. */
+  conPortadas: boolean;
+  /** Si en este grado no hay nada: en qué grados o años sí hay ("Disponibles en 7mo grado"). */
+  disponibleEn?: string;
 }
 
 /**
@@ -342,9 +348,15 @@ export interface CategoriaPlan {
 export function repositorioDe(nivel: Nivel, etapa?: string): CategoriaPlan[] {
   return (Object.keys(categorias) as CategoriaId[])
     .filter((categoria) => nivel.ubicaciones.some((u) => u.categoria === categoria))
-    .map((categoria) => ({
-      id: categoria,
-      titulo: categorias[categoria],
-      archivos: ubicacionesDe(nivel, etapa).filter((u) => u.categoria === categoria).map(comoArchivo),
-    }));
+    .map((categoria) => {
+      const archivos = ubicacionesDe(nivel, etapa).filter((u) => u.categoria === categoria).map(comoArchivo);
+      const conContenido = nivel.etapas.filter((e) => ubicacionesDe(nivel, e.slug).some((u) => u.categoria === categoria)).map((e) => e.nombre);
+      return {
+        id: categoria,
+        titulo: categorias[categoria],
+        archivos,
+        conPortadas: categoria === "juegos",
+        disponibleEn: !archivos.length && conContenido.length ? `Disponibles en ${conContenido.join(" y ")}` : undefined,
+      };
+    });
 }
