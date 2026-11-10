@@ -58,7 +58,9 @@ export function TarjetasPortada({ items, color = "#494963" }: { items: TarjetaPo
             <h3 className="mt-4 text-pretty text-[15px] font-medium leading-snug text-[#494963] sm:text-[17px]">{item.titulo}</h3>
             {item.detalle ? <p className="mt-1 text-sm text-[#494963]/[.82]">{item.detalle}</p> : null}
             {item.meta ? <p className="mt-1 text-xs text-[#494963]/[.82]">{item.meta}</p> : null}
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+            {/* mt-auto: las acciones quedan alineadas abajo en toda la fila,
+               aunque un título ocupe más líneas que otro. */}
+            <div className="mt-auto flex flex-wrap items-center gap-2 pt-3">
               {item.descargar ? <AccionPortada tipo="descargar" url={item.descargar} titulo={contexto} /> : null}
               {item.ver ? <AccionPortada tipo="ver" url={item.ver} titulo={contexto} /> : null}
               <ShareResourceButton title={contexto} url={item.descargar ?? item.ver ?? ""} />

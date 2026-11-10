@@ -3,9 +3,36 @@
 import { useState } from "react";
 import { PillTabs } from "@/components/v3/pill-tabs";
 import { RepositoryAccordionGroup, RepositoryFileGroup } from "@/components/v3/repository-accordion";
+import { TarjetasPortada } from "@/components/programas/tarjetas-portada";
 import type { CategoriaId, CategoriaPlan, Etapa } from "@/lib/programas/plan-matematica";
 
 const TINTA = "#494963";
+
+/**
+ * Lo que va adentro de una categoría: filas del repositorio o, en Juegos
+ * Matemáticos, las tarjetas con tapa como en el Campus (la misma grilla de
+ * Modo Secundaria), con el aire de las filas.
+ */
+function Contenido({ categoria, color }: { categoria: CategoriaPlan; color: string }) {
+  if (categoria.conPortadas && categoria.archivos.every((archivo) => archivo.portada)) {
+    return (
+      <div className="px-4 py-6 sm:px-7">
+        <TarjetasPortada
+          color={color}
+          items={categoria.archivos.map((archivo) => ({
+            id: archivo.url,
+            titulo: archivo.nombre,
+            meta: archivo.formato,
+            portada: archivo.portada!,
+            descargar: archivo.accion ? undefined : archivo.url,
+            ver: archivo.accion === "ver" ? archivo.url : undefined,
+          }))}
+        />
+      </div>
+    );
+  }
+  return <RepositoryFileGroup files={categoria.archivos.map((file) => ({ file }))} color={color} />;
+}
 
 /**
  * Repositorio de un nivel del Plan (maqueta de Visuales Curricular,
@@ -15,7 +42,7 @@ const TINTA = "#494963";
  * de la otra (Materiales, Formaciones, Juegos Matemáticos) con el repositorio
  * de "Itinerarios didácticos" de cada área. Una categoría abierta por vez y
  * la primera con contenido abierta al entrar; una categoría sin nada para ese
- * grado queda sin contenido, como en las áreas.
+ * grado queda sin contenido, como en las áreas, y dice en qué grados hay.
  */
 export function PlanRepositorio({
   nivelId,
@@ -77,13 +104,14 @@ export function PlanRepositorio({
             key={categoria.id}
             id={`${nivelId}-${etapa}-${categoria.id}`}
             title={categoria.titulo}
+            description={categoria.disponibleEn}
             total={categoria.archivos.length}
             color={color}
             activeForeground={colorTexto}
             open={abierta === categoria.id}
             onToggle={() => setAbierta((actual) => (actual === categoria.id ? null : categoria.id))}
           >
-            <RepositoryFileGroup files={categoria.archivos.map((file) => ({ file }))} color={color} />
+            <Contenido categoria={categoria} color={color} />
           </RepositoryAccordionGroup>
         ))}
       </div>
