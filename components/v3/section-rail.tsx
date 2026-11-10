@@ -1,6 +1,6 @@
 "use client";
 
-import { Children, type KeyboardEvent, type ReactNode, useId, useRef, useState } from "react";
+import { Children, type KeyboardEvent, type ReactNode, useEffect, useId, useRef, useState } from "react";
 
 export interface SectionRailItem {
   id: string;
@@ -32,10 +32,14 @@ interface SectionTabsProps {
    * PillTabs (botonera de idiomas/lenguajes artísticos) - por default el
    * neutro de siempre, para institucionales sin color propio. */
   color?: string;
+  /** La pestaña elegida queda en la dirección (`#id` de la pestaña), para
+   * compartirla o recargar en ella. Apagado por defecto: Familias, Equipos
+   * y EIB siguen igual. Lo usan las secciones de Modo Secundaria. */
+  hashSync?: boolean;
 }
 
 /** Selector editorial estable para páginas con varias colecciones de contenido. */
-export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false, scrollToTopOnChange = true, align = "center", color = "#494963" }: SectionTabsProps) {
+export function SectionTabs({ title = "Secciones", items, children, keepVisitedPanels = false, scrollToTopOnChange = true, align = "center", color = "#494963", hashSync = false }: SectionTabsProps) {
   const panels = Children.toArray(children);
   const [activeIndex, setActiveIndex] = useState(0);
   const [visitedIndices, setVisitedIndices] = useState<Set<number>>(() => new Set([0]));
@@ -44,8 +48,7 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
   const safeIndex = Math.min(activeIndex, Math.max(items.length - 1, 0));
   const activeItem = items[safeIndex];
 
-  const activateTab = (index: number) => {
-    if (index === safeIndex) return;
+  const showTab = (index: number) => {
     if (keepVisitedPanels) {
       setVisitedIndices((current) => {
         if (current.has(index)) return current;
@@ -55,8 +58,31 @@ export function SectionTabs({ title = "Secciones", items, children, keepVisitedP
       });
     }
     setActiveIndex(index);
+  };
+
+  const activateTab = (index: number) => {
+    if (index === safeIndex) return;
+    showTab(index);
+    if (hashSync && items[index]) window.history.replaceState(null, "", `#${items[index].id}`);
     if (scrollToTopOnChange) document.getElementById("contenido")?.scrollTo({ top: 0, behavior: "instant" });
   };
+
+  // hashSync: al entrar (o al cambiar la dirección a mano) abre la pestaña
+  // de `#id`. Ningún elemento tiene ese id, así que el navegador no salta.
+  const itemIds = items.map((item) => item.id).join("|");
+  useEffect(() => {
+    if (!hashSync) return;
+    const ids = itemIds.split("|");
+    const fromHash = () => {
+      const index = ids.indexOf(decodeURIComponent(window.location.hash.slice(1)));
+      if (index !== -1) showTab(index);
+    };
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    return () => window.removeEventListener("hashchange", fromHash);
+    // showTab solo usa setters de estado.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hashSync, itemIds]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
     let nextIndex = index;

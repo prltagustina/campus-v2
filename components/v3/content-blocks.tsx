@@ -45,7 +45,7 @@ export function VideoEmbed({
   );
 }
 
-export function SlideDeckEmbed({ src, title, label = "Presentación institucional", showOpen = true, separated = false }: { src: string; title: string; label?: string; showOpen?: boolean; separated?: boolean }) {
+export function SlideDeckEmbed({ src, title, label = "Presentación institucional", showOpen = true, separated = false, labelClassName = "text-[#494963]/40" }: { src: string; title: string; label?: string; showOpen?: boolean; separated?: boolean; /** Tono del rótulo; Plan de Matemática y Modo Secundaria usan /82 (contraste AA). */ labelClassName?: string }) {
   const [loaded, setLoaded] = useState(false);
 
   return <div>
@@ -59,7 +59,7 @@ export function SlideDeckEmbed({ src, title, label = "Presentación instituciona
        los demás encabezados y, sin margen extra, deja el visor en el mismo
        comienzo vertical que el primer chip de los otros paneles. */}
     <div className="mb-8 flex items-start gap-3 px-1">
-      <p className="min-w-0 flex-1 truncate text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{label}</p>
+      <p className={`min-w-0 flex-1 truncate text-xs font-bold uppercase tracking-[.1em] ${labelClassName}`}>{label}</p>
       {showOpen ? <a href={src} target="_blank" rel="noreferrer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors hover:bg-[#494963]/[.12]" aria-label={`Abrir ${title} en una nueva pestaña`}><ExternalLink className="h-4 w-4" /></a> : null}
     </div>
     {/* Sin el marco gris (bg-[#E9E9EE] p-1.5/p-2) que envolvía el iframe -

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Download, FileText } from "lucide-react";
+import { Bookmark, Download, ExternalLink, Eye, FileText } from "lucide-react";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
 import type { ItinerarioFile } from "@/lib/itinerarios-data";
@@ -23,9 +23,17 @@ export function RepositoryMaterialRow({
   file: ItinerarioFile;
   color: string;
 }) {
-  const meta = [file.formato ?? "PDF", file.paginas ? `${file.paginas} páginas` : null, file.size]
+  // Por defecto, descarga. "ver" (visor de Drive, Plan de Matemática): no se
+  // promete una descarga que el enlace no hace. "abrir": una página (las
+  // formaciones del Plan), con el ícono de formación de todo el sitio.
+  const ver = file.accion === "ver";
+  const abrir = file.accion === "abrir";
+  const accionLabel = ver ? "Ver documento" : abrir ? "Abrir" : "Descargar";
+  const meta = [file.formato ?? (abrir ? null : "PDF"), file.paginas ? `${file.paginas} páginas` : null, file.size]
     .filter(Boolean)
     .join(" · ");
+  const Icono = abrir ? Bookmark : FileText;
+  const IconoAccion = ver ? Eye : abrir ? ExternalLink : Download;
 
   return (
     // grid-cols-[minmax(0,1fr)_auto] items-center ya desde mobile (antes
@@ -42,11 +50,11 @@ export function RepositoryMaterialRow({
         href={file.url}
         target="_blank"
         rel="noopener noreferrer"
-        download
-        aria-label={`Descargar ${file.nombre}`}
+        download={ver || abrir ? undefined : true}
+        aria-label={`${accionLabel} ${file.nombre}`}
         className="flex min-w-0 items-start gap-3"
       >
-        <FileText className="mt-0.5 h-4 w-4 shrink-0" style={{ color }} aria-hidden="true" />
+        <Icono className="mt-0.5 h-4 w-4 shrink-0" style={{ color }} aria-hidden="true" />
 
         <span className="min-w-0 flex-1">
           {label ? (
@@ -67,7 +75,7 @@ export function RepositoryMaterialRow({
               {file.descripcion}
             </span>
           ) : null}
-          <span className="mt-1 block text-xs text-[#494963]/42 sm:text-sm">{meta}</span>
+          {meta ? <span className="mt-1 block text-xs text-[#494963]/42 sm:text-sm">{meta}</span> : null}
         </span>
       </a>
 
@@ -80,12 +88,12 @@ export function RepositoryMaterialRow({
           href={file.url}
           target="_blank"
           rel="noopener noreferrer"
-          download
-          aria-label={`Descargar ${file.nombre}`}
+          download={ver || abrir ? undefined : true}
+          aria-label={`${accionLabel} ${file.nombre}`}
           className="inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent"
         >
-          <Download className="h-4 w-4 shrink-0" />
-          <span className="hidden text-xs font-semibold xl:inline xl:text-sm">Descargar</span>
+          <IconoAccion className="h-4 w-4 shrink-0" />
+          <span className="hidden text-xs font-semibold xl:inline xl:text-sm">{accionLabel}</span>
         </a>
         <ShareResourceButton title={file.nombre} url={file.url} />
       </div>
