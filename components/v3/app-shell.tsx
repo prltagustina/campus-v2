@@ -3,13 +3,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ComponentType } from "react";
 import {
+  ArrowLeftRight,
   BriefcaseBusiness,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ClipboardCheck,
   Home,
+  LayoutGrid,
+  Library,
   MapPinned,
   MessageCircle,
   Search,
@@ -19,11 +22,29 @@ import { orderedAreas, cycles } from "@/lib/v3-config";
 import { MARCO_GENERAL_COLOR, TERRITORIO_ENABLED, MATERIALES_POR_CICLO_ENABLED } from "@/lib/constants";
 import { AreasMaterialsIcon, CycleMaterialsIcon } from "@/components/v3/navigation-icons";
 import { AreaNavLink, areaNavForeground, SolidAreaArrow } from "@/components/v3/area-nav-link";
+import { ProgramsMenu } from "@/components/programas/programs-menu";
+import { migasDePrograma, programaDeRuta } from "@/lib/programas/programas";
+import { planMatematica } from "@/lib/programas/plan-matematica";
+import { modoSecundaria, rutaSeccionSecundaria, seccionesSecundaria } from "@/lib/programas/modo-secundaria";
+
+interface RailItem {
+  href: string;
+  /** Destino en la barra móvil, si difiere (p. ej. la botonera de áreas). */
+  mobileHref?: string;
+  label: string;
+  desktopLines: string[];
+  desktopSubline?: string;
+  mobileLabel: string;
+  icon: ComponentType<{ className?: string; strokeWidth?: number }>;
+  match: (p: string) => boolean;
+  gridRow: string;
+  enabled: boolean;
+}
 
 // gridRow: peso relativo de cada item en el grid vertical de la nav desktop
 // (ver "gridTemplateRows" más abajo). Se recalcula solo con los items visibles,
 // así que alternar TERRITORIO_ENABLED / MATERIALES_POR_CICLO_ENABLED no rompe el layout.
-const primaryItems = [
+const primaryItems: RailItem[] = [
   { href: "/", label: "Inicio", desktopLines: ["Inicio"], desktopSubline: undefined, mobileLabel: "Inicio", icon: Home, match: (p: string) => p === "/", gridRow: ".7fr", enabled: true },
   {
     // Desktop/tablet (rail con aside siempre visible para elegir área): entra
@@ -77,6 +98,27 @@ const primaryItems = [
   { href: "/familias", label: "Familias", desktopLines: ["Familias"], desktopSubline: undefined, mobileLabel: "Familias", icon: Users, match: (p: string) => p.startsWith("/familias"), gridRow: ".7fr", enabled: true },
   { href: "/eib", label: "EIB", desktopLines: ["EIB"], desktopSubline: undefined, mobileLabel: "EIB", icon: MessageCircle, match: (p: string) => p.startsWith("/eib"), gridRow: ".7fr", enabled: true },
 ].filter((item) => item.enabled !== false);
+
+// Columna principal en las rutas de los programas: las secciones de cada
+// programa, como Inicio/Áreas/Equipos/Familias/EIB en Diseño Curricular (el
+// nombre del programa va en la franja, no es un botón). Cada programa tiene
+// las suyas; no se mezclan entre sí ni con las de Diseño Curricular.
+const iconosSecundaria = { inicio: Home, curricular: Library, ensenanza: ClipboardCheck, trayectorias: ArrowLeftRight, institucional: BriefcaseBusiness } as const;
+const mobileSecundaria = { inicio: "Inicio", curricular: "Diseño", ensenanza: "Enseñanza", trayectorias: "Trayectorias", institucional: "Gestión" } as const;
+const secundariaRailItems: RailItem[] = seccionesSecundaria.map((seccion) => {
+  const href = rutaSeccionSecundaria(seccion);
+  return {
+    href,
+    label: seccion.nombre,
+    desktopLines: [seccion.nombre],
+    desktopSubline: undefined,
+    mobileLabel: mobileSecundaria[seccion.id],
+    icon: iconosSecundaria[seccion.id],
+    match: (p: string) => (seccion.slug ? p === href || p.startsWith(`${href}/`) : p === `/${modoSecundaria.slug}`),
+    gridRow: ".7fr",
+    enabled: true,
+  };
+});
 
 // Mismo gradiente exacto que la franja equivalente del Campus real
 // (campuseducativo.santafe.edu.ar/diseno-curricular/), tomado de su CSS
@@ -275,6 +317,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const territoryOpen = TERRITORIO_ENABLED && pathname.startsWith("/territorio");
   const territoryActions = pathname.startsWith("/territorio/acciones");
   const territoryProximas = pathname.startsWith("/territorio/proximas");
+  // Plan Provincial de Matemática y Modo Secundaria: entradas propias, en
+  // lugar de la navegación de Diseño Curricular. Modo Secundaria tiene sus
+  // secciones en la columna principal y en la barra móvil. El Plan no tiene
+  // columnas al costado ni barra móvil: sus niveles van en una botonera
+  // horizontal dentro del contenido (maqueta de Visuales Curricular,
+  // 2026-11-10).
+  const programa = programaDeRuta(pathname);
+  const esPrograma = programa !== "diseno-curricular";
+  const esPlan = programa === "plan-provincial-de-matematica";
   const hasSecondary = areasOpen || cyclesOpen || territoryOpen;
   // Inicio: su primer bloque (VideoEmbed) es un v3-section con 14px de
   // padding propio a la izquierda — sin compensar, el video quedaba 14px
@@ -284,7 +335,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const isHome = pathname === "/";
   const currentArea = orderedAreas.find((area) => pathname === `/area/${area.slug}` || pathname.startsWith(`/area/${area.slug}/`));
   const currentCycle = cycles.find((cycle) => pathname === `/ciclo/${cycle.slug}`);
-  const activePrimary = primaryItems.find((item) => item.match(pathname));
+  const railItems = esPlan || programa === "portada" ? [] : programa === "modo-secundaria" ? secundariaRailItems : primaryItems;
+  const mobileItems = railItems;
+  const activePrimary = railItems.find((item) => item.match(pathname));
   const currentLabel = (territoryActions ? "Acciones" : territoryProximas ? "Próximas" : undefined)
     ?? currentArea?.name
     ?? (pathname === "/area/marco-general" || pathname === "/marco-general" ? "Marco General" : undefined)
@@ -330,6 +383,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     document.getElementById("contenido")?.scrollTo(0, 0);
   }, [pathname]);
 
+  // El body no scrollea nunca y, desde 768 px, el shell tampoco (solo
+  // #contenido): si algo los corre (el salto a un #ancla que hace el
+  // navegador o el router, un foco), queda el encabezado cortado arriba y
+  // una franja vacía abajo. Se devuelven a 0.
+  useEffect(() => {
+    const root = rootScrollRef.current;
+    if (!root) return;
+    const escritorio = window.matchMedia("(min-width: 768px)");
+    const corregir = () => {
+      // body y ventana nunca scrollean (el shell ocupa toda la pantalla);
+      // el shell, tampoco desde 768 px (ahí scrollea #contenido).
+      if (document.body.scrollTop !== 0) document.body.scrollTop = 0;
+      if (window.scrollY !== 0) window.scrollTo(0, 0);
+      if (escritorio.matches && root.scrollTop !== 0) root.scrollTop = 0;
+    };
+    root.addEventListener("scroll", corregir, { passive: true });
+    document.body.addEventListener("scroll", corregir, { passive: true });
+    window.addEventListener("scroll", corregir, { passive: true });
+    return () => {
+      root.removeEventListener("scroll", corregir);
+      document.body.removeEventListener("scroll", corregir);
+      window.removeEventListener("scroll", corregir);
+    };
+  }, []);
+
   // PRUEBA: navegación inspirada en therawmaterials.com (rail principal
   // Inicio/Áreas/etc). Ahí es scroll real entre secciones de una misma
   // página; acá son rutas distintas, así que se simula: el ítem activo
@@ -347,7 +425,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // video) para que el gesto de la referencia tenga sentido de verdad.
   // Equipos directivos/Familias/EIB usan tabs, casi no scrollean - ahí se
   // deja la versión simulada (crecer/mover solo al cambiar de página).
-  const scrollTracked = pathname === "/" || areasOpen;
+  // Programas: mismo criterio. El Inicio de Modo Secundaria sigue el
+  // scroll; sus secciones con pestañas, no.
+  const scrollTracked = pathname === "/" || areasOpen || pathname === `/${modoSecundaria.slug}`;
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -447,14 +527,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div
       ref={rootScrollRef}
       className="v3-scroll-theme flex h-[var(--app-vh,100svh)] flex-col overflow-y-auto overscroll-none bg-[#F5F5F7] text-[#494963] md:h-dvh md:overflow-hidden"
-      style={{ ["--section-scrollbar" as string]: currentArea?.color ?? MARCO_GENERAL_COLOR }}
+      style={{ ["--section-scrollbar" as string]: esPlan ? planMatematica.color : currentArea?.color ?? MARCO_GENERAL_COLOR }}
     >
       <header className="h-[72px] shrink-0 border-b border-[#494963]/[.07] bg-white px-4 lg:h-[100px] lg:px-8" role="banner">
         <div className="mx-auto flex h-full max-w-[1376px] items-center justify-between">
           <Link href="/" aria-label="Campus Educativo — Inicio"><CampusBrand /></Link>
           <nav className="mx-auto hidden items-center gap-8 text-[15px] font-medium text-[#66666B] lg:flex xl:gap-12 xl:text-base">
             <span>Formación Continua</span>
-            <span className="flex items-center gap-2">Programas <ChevronDown className="h-3.5 w-3.5 fill-current" strokeWidth={1.5} /></span>
+            <ProgramsMenu />
             <span>Recursos</span>
             <span>Blog</span>
           </nav>
@@ -473,11 +553,42 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         }}
       >
         <div className="mx-auto flex h-full max-w-[1160px] items-center">
+        {/* Acceso común a las tres experiencias (Diseño Curricular, Plan de
+           Matemática, Modo Secundaria) en todos los tamaños: el menú
+           institucional del encabezado solo aparece desde 1024 px. Fondo
+           blanco con tinta: el texto blanco no llega a 4,5:1 sobre el tramo
+           naranja del degradé. */}
+        <Link
+          href="/programas"
+          aria-current={programa === "portada" ? "page" : undefined}
+          className="mr-3 inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full bg-white px-2.5 text-xs font-bold text-[#494963] transition-colors hover:bg-[#EDEDF0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white md:text-sm"
+        >
+          <LayoutGrid className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+          Programas
+        </Link>
+        {esPrograma ? (
+          <nav aria-label="Ruta actual" className="flex min-w-0 max-w-full flex-none items-center gap-2 text-xs md:max-w-[calc(100%-17rem)] md:text-sm">
+            {migasDePrograma(pathname).filter((miga) => miga.label !== "Programas").map((miga, index, migas) => {
+              const ultima = index === migas.length - 1;
+              return (
+                <span key={miga.label} className={`flex min-w-0 items-center gap-2 ${ultima ? "" : "hidden sm:flex"}`}>
+                  {index > 0 ? <span className="hidden text-white/55 sm:inline" aria-hidden="true">/</span> : null}
+                  {ultima ? (
+                    <span aria-current="page" className="truncate font-extrabold text-white">{miga.label}</span>
+                  ) : (
+                    <Link href={miga.href ?? "/"} className="shrink-0 font-bold text-white underline-offset-4 hover:underline">{miga.label}</Link>
+                  )}
+                </span>
+              );
+            })}
+          </nav>
+        ) : (
         <nav aria-label="Ruta actual" className="flex min-w-0 max-w-full flex-none items-center gap-2 text-xs md:max-w-[calc(100%-17rem)] md:text-sm">
           <Link href="/" className="hidden shrink-0 font-bold text-white sm:inline">Diseño Curricular</Link>
           {parentLabel && <><span className="hidden text-white/55 sm:inline">/</span><span className="hidden font-semibold text-white/85 sm:inline">{parentLabel}</span></>}
           <span className="hidden text-white/55 sm:inline">/</span><span className="truncate font-extrabold text-white">{currentLabel}</span>
         </nav>
+        )}
         <label className="ml-auto flex h-9 shrink-0 items-center gap-2 border-b-2 border-white/65 px-1 text-xs text-white transition-[border-color] focus-within:border-white">
           <Search className="h-4 w-4 shrink-0 text-white" />
           <span className="sr-only">Buscar</span>
@@ -502,7 +613,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
          (pb-[5rem+safe-area]) — en gris quedaba como un zócalo visible al
          hacer scroll hasta el final en páginas con poco contenido, cosa que
          no pasaba en blanco porque se mezclaba con el fondo de la página. */}
-      <div className="flex min-h-0 gap-0 bg-white pb-[calc(5rem+env(safe-area-inset-bottom))] max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-6 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:p-5">
+      <div className={`flex min-h-0 gap-0 bg-white ${mobileItems.length ? "pb-[calc(5rem+env(safe-area-inset-bottom))]" : "pb-0"} max-md:block max-md:shrink-0 max-md:overflow-visible md:flex-1 md:gap-6 md:overflow-hidden md:bg-white md:p-3 md:pb-3 lg:p-5`}>
         {/* Tablet y desktop: rail apilado (ícono arriba / texto abajo), con la
             bajada de Áreas. Ancho fluido (clamp) en vez de saltos por
             breakpoint: escala parejo entre 168px (md, 768px) y 230px (1280px,
@@ -510,6 +621,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             igual que el máximo de tablet, sin un salto brusco justo ahí.
             gap-2.5: mismo separación que AreaSubnav de al lado (antes
             gap-1.5, quedaban más juntos que los botones de área). */}
+        {railItems.length > 0 && (
         <nav
           ref={desktopNavRef}
           aria-label="Navegación principal"
@@ -521,12 +633,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             // entra (no ligado al scroll): crecer y encogerse en vivo
             // mientras se scrollea se sentía raro/inestable. Lo que sí
             // sigue el scroll real (Inicio/Áreas) es el puntito, más abajo.
-            gridTemplateRows: primaryItems
+            gridTemplateRows: railItems
               .map((item) => `${parseFloat(item.gridRow) + (item.match(pathname) ? 0.6 : 0)}fr`)
               .join(" "),
           }}
         >
-          {primaryItems.map((item) => {
+          {railItems.map((item) => {
             const active = item.match(pathname);
             const Icon = item.icon;
             return (
@@ -568,6 +680,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             />
           ) : null}
         </nav>
+        )}
 
         {hasSecondary && (
           // Áreas: el aside con la columna de áreas + Marco General ya se ve
@@ -589,7 +702,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className={`flex min-h-0 min-w-0 flex-col rounded-none bg-white max-md:overflow-visible md:flex-1 md:overflow-hidden md:rounded-2xl md:bg-white ${areasOpen || isHome ? "md:-ml-[14px]" : ""}`}>
         <main
           id="contenido"
-          className="min-h-0 overscroll-none max-md:overflow-visible md:flex-1 md:overflow-y-auto"
+          className={`min-h-0 overscroll-none max-md:overflow-visible md:flex-1 md:overflow-y-auto ${esPrograma ? "md:[scrollbar-gutter:stable]" : ""}`}
           tabIndex={-1}
         >
           {cyclesOpen ? (
@@ -644,13 +757,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
+      {mobileItems.length > 0 && (
       <nav
         ref={mobileNavRef}
         aria-label="Navegación móvil"
         className="fixed inset-x-0 bottom-0 z-50 grid h-[calc(4rem+env(safe-area-inset-bottom))] min-h-16 bg-[#494963] pb-[env(safe-area-inset-bottom)] md:hidden"
-        style={{ gridTemplateColumns: `repeat(${primaryItems.length}, minmax(0, 1fr))` }}
+        style={{ gridTemplateColumns: `repeat(${mobileItems.length}, minmax(0, 1fr))` }}
       >
-        {primaryItems.map((item) => {
+        {mobileItems.map((item) => {
           const active = item.match(pathname);
           const Icon = item.icon;
           return (
@@ -679,6 +793,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           />
         ) : null}
       </nav>
+      )}
 
     </div>
   );

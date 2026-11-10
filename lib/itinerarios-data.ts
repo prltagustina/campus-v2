@@ -14,6 +14,9 @@ export interface ItinerarioFile {
   url: string;
   /** Imagen de portada (primera página del PDF) pre-generada en /public/portadas. */
   portada?: string;
+  /** "ver": el enlace abre un visor (Google Drive), no descarga. "abrir": una
+   * página (p. ej. una formación del Campus). Por defecto, descarga. */
+  accion?: "ver" | "abrir";
 }
 
 export interface ItinerarioGrado {

@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { SectionTabs } from "@/components/v3/section-rail";
 import { EditorialPageHeading } from "@/components/v3/editorial-page-heading";
 import { RepositoryPanel, ResourceRow } from "@/components/v3/repository-panel";
@@ -138,105 +138,41 @@ const celebracionesMemoria = celebraciones.filter((_, index) => [5, 6, 7, 13, 14
 /** Títulos de proyectos y efemérides: van entre comillas normales (si no las traen ya). */
 const asTitle = (nombre: string) => (nombre.trim().startsWith('"') ? nombre : `"${nombre}"`);
 
+/** Las efemérides y los proyectos son páginas del Campus (no documentos): la
+ * fila lleva la flecha de página, la misma que en Modo Secundaria. */
+const iconoPagina = <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-[#494963]" aria-hidden="true" />;
+
+function PaginaRow({ item }: { item: { nombre: string; url: string } }) {
+  return <ResourceRow title={asTitle(item.nombre)} href={item.url} icon={iconoPagina} sideActions />;
+}
+
 /**
  * Los niveles (Inicial/Primario/Secundario/Terciario) necesitan más presencia
  * que un simple label: número grande y pálido (mismo criterio que los pasos
- * de DocumentoStepper) + título más grande, con el mismo borde de acento a
- * la izquierda que ya usan las categorías de Itinerarios Didácticos.
+ * de DocumentoStepper) + título más grande. Los proyectos van en una caja de
+ * repositorio (filas separadas por línea), no en chips sueltos - mismo
+ * criterio que Modo Secundaria.
  */
 function ProjectGroup({ title, index, items }: { title: string; index: string; items: { nombre: string; url: string }[] }) {
   return (
-    <section className="grid min-w-0 gap-4 border-l-4 border-[#494963]/[.12] pl-5 sm:pl-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-7">
-      <header className="flex items-center gap-3 md:block">
-        {/* font-sans + #E4E4E9 sólido (antes font-display + /[.14] navy):
-           la idea siempre fue "mismo criterio que los pasos de
-           DocumentoStepper" (ver comentario arriba), pero había quedado con
-           otra clase de fuente y el color armado como opacidad en vez del
-           mismo gris sólido — mismas clases exactas que ese numeral. */}
+    <section className="grid min-w-0 gap-4 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-7">
+      <header className="flex items-center gap-3 px-1 md:block md:pt-4">
+        {/* Mismas clases exactas que el numeral de DocumentoStepper. */}
         <div className="shrink-0">
-          <p className="font-sans text-4xl font-black leading-none text-[#E4E4E9] sm:text-5xl">{index}</p>
+          <p className="font-sans text-4xl font-black leading-none text-[#E4E4E9] sm:text-5xl" aria-hidden="true">{index}</p>
         </div>
-        {/* "Nivel" junto al nombre (antes arriba del numeral, en su propia
-           línea): al sacarle el título+ícono al panel "Proyectos por nivel"
-           (quedaba redundante con la tab "Proyectos"), el numeral solo
-           perdía ese contexto - va en el mismo renglón que el nombre, como
-           prefijo más liviano (font-normal + opacidad), para que lea
-           "Nivel Inicial" de corrido en vez de quedar separado arriba.
-           text-xl fijo (antes sm:text-2xl): mismo tamaño que el título de
-           ArchiveGroup ("Calendario intercultural"/"Memorias y recursos"),
-           el otro encabezado de subgrupo dentro de EIB. */}
-        <h3 className="font-display text-xl leading-tight text-[#494963]">
-          <span className="font-normal text-[#494963]/45">Nivel </span>
+        {/* "Nivel" junto al nombre, como prefijo más liviano, para que lea
+           "Nivel Inicial" de corrido. Mismo tamaño que el título de las
+           cajas de Efemérides ("Calendario intercultural"). */}
+        <h3 className="font-display text-xl leading-tight text-[#494963] md:mt-3">
+          <span className="font-normal text-[#494963]/[.82]">Nivel </span>
           <span className="font-semibold">{title}</span>
         </h3>
       </header>
 
-      {/* Chips: cada proyecto es su propia tarjeta suelta (no una lista con
-         líneas divisorias dentro de una caja), como en la página de
-         referencia. */}
-      <div className="min-w-0 space-y-2">
-        {items.map((item) => (
-          <a
-            key={item.url}
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex min-w-0 items-center gap-3 rounded-2xl border border-[#494963]/[.08] bg-white px-4 py-3.5 transition-colors hover:border-[#494963]/[.16] sm:px-5"
-          >
-            {/* text-[15px]/sm:text-[17px]: mismo tamaño que el título de
-               ResourceRow (Normativa, Familias, Docentes) — antes acá era
-               text-sm/sm:text-[15px], un punto más chico que el resto. */}
-            <span className="min-w-0 flex-1 text-[15px] font-medium leading-snug text-[#494963] sm:text-[17px]">{asTitle(item.nombre)}</span>
-            {/* Mismo color y tamaño que el ícono de "Abrir" de ResourceRow
-               (Formaciones de Marco General, Documentos, etc.): bg-[.06] +
-               texto oscuro sólido, no el gris apagado (/35) que tenía antes. */}
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors group-hover:bg-[#494963]/[.12]" aria-hidden="true">
-              <ExternalLink className="h-4 w-4" />
-            </span>
-            <span className="sr-only">Abrir {item.nombre}</span>
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ArchiveGroup({ title, items }: { title: string; items: { nombre: string; url: string }[] }) {
-  return (
-    <section>
-      {/* Sin ícono ni título grande (antes h3 + caja de ícono): mismo
-         tratamiento "label chico" que "Resolución"/"Decretos / Ley" del
-         Marco normativo, en vez de un encabezado con la misma presencia que
-         el título del panel (ya retirado). pb-6 (antes pb-3): separado del
-         contenido, mismo criterio en todos los labels "tipo resolución". */}
-      <header className="px-1 pb-6">
-        <p className="text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">{title}</p>
-      </header>
-
-      {/* Chips: mismo tratamiento que ProjectGroup (flex, sin numerar cada
-         ítem, mismo tamaño de texto) — antes tenían un numeral propio
-         (text-[10px]) y el título en otro tamaño (text-[13px]/text-sm), y
-         los dos carruseles de chips no quedaban parejos entre sí. */}
-      <div className="grid gap-2 sm:grid-cols-2">
-        {items.map((item) => (
-          <a
-            key={item.url}
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex min-w-0 items-center gap-3 rounded-2xl border border-[#494963]/[.08] bg-white px-4 py-3.5 transition-colors hover:border-[#494963]/[.16] sm:px-5"
-          >
-            <span className="min-w-0 flex-1 text-[15px] font-medium leading-snug text-[#494963] sm:text-[17px]">{asTitle(item.nombre)}</span>
-            {/* Mismo color y tamaño que el ícono de "Abrir" de ResourceRow
-               (Formaciones de Marco General, Documentos, etc.): bg-[.06] +
-               texto oscuro sólido, no el gris apagado (/35) que tenía antes. */}
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#494963]/[.06] text-[#494963] transition-colors group-hover:bg-[#494963]/[.12]" aria-hidden="true">
-              <ExternalLink className="h-4 w-4" />
-            </span>
-            <span className="sr-only">Abrir {item.nombre}</span>
-          </a>
-        ))}
-      </div>
+      <RepositoryPanel>
+        {items.map((item) => <PaginaRow key={item.url} item={item} />)}
+      </RepositoryPanel>
     </section>
   );
 }
@@ -252,53 +188,46 @@ export default function EIBPage() {
       <SectionTabs title="Contenidos de Educación Intercultural Bilingüe" items={[{ id: "normativa", label: "Normativa" }, { id: "efemerides", label: "Efemérides" }, { id: "proyectos", label: "Proyectos" }]}>
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            {/* Sin título ni ícono (antes Scale): única tira de esta tab
-               ("Normativa"), el título quedaba redundante con la tab -
-               "Resolución"/"Decretos / Ley" ya distinguen los subgrupos. */}
-            <RepositoryPanel chips>
-              <div className="space-y-6">
-                <div>
-                  {/* mb-6 (antes mb-3, y antes mb-2): separado de la primera fila de
-                     chips - mismo criterio en todos los labels "tipo resolución". */}
-                  <p className="mb-6 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Resolución</p>
-                  <div className="space-y-2">
-                    {legislacion.resoluciones.map((documento) => (
-                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download chip sideActions showActionLabel />
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <p className="mb-6 px-1 text-xs font-bold uppercase tracking-[.1em] text-[#494963]/40">Decretos / Ley</p>
-                  <div className="space-y-2">
-                    {legislacion.decretosLey.map((documento) => (
-                      <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download chip sideActions showActionLabel />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </RepositoryPanel>
-          </div>
-        </section>
-
-        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
-          <div className="mx-auto max-w-4xl">
+            {/* Sin título general (antes Scale): única
+               tira de esta tab ("Normativa"). Cada subgrupo es una caja de
+               repositorio con su nombre como encabezado (antes label chico +
+               chips sueltos), mismo criterio que Modo Secundaria. */}
             <div className="space-y-6">
-              <ArchiveGroup title="Calendario intercultural" items={celebracionesCalendario} />
-              <ArchiveGroup title="Memorias y recursos" items={celebracionesMemoria} />
+              <RepositoryPanel title="Resolución">
+                {legislacion.resoluciones.map((documento) => (
+                  <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download sideActions showActionLabel />
+                ))}
+              </RepositoryPanel>
+              <RepositoryPanel title="Decretos / Ley">
+                {legislacion.decretosLey.map((documento) => (
+                  <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download sideActions showActionLabel />
+                ))}
+              </RepositoryPanel>
             </div>
           </div>
         </section>
 
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
-            <RepositoryPanel chips>
-              <div className="space-y-6">
-                <ProjectGroup index="01" title="Inicial" items={proyectos.inicial} />
-                <ProjectGroup index="02" title="Primario" items={proyectos.primario} />
-                <ProjectGroup index="03" title="Secundario" items={proyectos.secundario} />
-                <ProjectGroup index="04" title="Terciario" items={proyectos.terciario} />
-              </div>
-            </RepositoryPanel>
+            <div className="space-y-6">
+              <RepositoryPanel title="Calendario intercultural">
+                {celebracionesCalendario.map((item) => <PaginaRow key={item.url} item={item} />)}
+              </RepositoryPanel>
+              <RepositoryPanel title="Memorias y recursos">
+                {celebracionesMemoria.map((item) => <PaginaRow key={item.url} item={item} />)}
+              </RepositoryPanel>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
+          <div className="mx-auto max-w-4xl">
+            <div className="space-y-8">
+              <ProjectGroup index="01" title="Inicial" items={proyectos.inicial} />
+              <ProjectGroup index="02" title="Primario" items={proyectos.primario} />
+              <ProjectGroup index="03" title="Secundario" items={proyectos.secundario} />
+              <ProjectGroup index="04" title="Terciario" items={proyectos.terciario} />
+            </div>
           </div>
         </section>
       </SectionTabs>

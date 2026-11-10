@@ -36,10 +36,12 @@ export default function FamiliasPage() {
         <section className="px-4 pb-3 sm:px-6 sm:pb-4 md:pb-4">
           <div className="mx-auto max-w-4xl">
             {/* Sin título ni ícono (antes BookOpen): única tira de esta tab
-               ("Materiales"), el título quedaba redundante con la tab. */}
-            <RepositoryPanel chips>
+               ("Materiales"), el título quedaba redundante con la tab. Caja
+               de repositorio (una caja blanca, filas separadas por línea),
+               no chips sueltos - mismo criterio que Modo Secundaria. */}
+            <RepositoryPanel>
               {materiales.map((material) => (
-                <ResourceRow key={material.url} title={material.titulo} href={material.url} download chip showActionLabel />
+                <ResourceRow key={material.url} title={material.titulo} href={material.url} download showActionLabel />
               ))}
             </RepositoryPanel>
           </div>

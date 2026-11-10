@@ -96,6 +96,11 @@ export function ResourceRow({
    * necesario). Pasar `false` solo si un título+descripción puntual
    * necesita el quiebre a dos líneas en mobile. */
   sideActions = true,
+  /** Verbo propio de la acción cuando no es descargar ni abrir una página
+   * (p. ej. "Ver documento" para un visor, "Acceder al aula"). Opcional:
+   * sin él, "Descargar"/"Abrir" como siempre. */
+  actionLabel,
+  actionIcon,
 }: {
   title: string;
   description?: string;
@@ -106,8 +111,10 @@ export function ResourceRow({
   showActionLabel?: boolean;
   chip?: boolean;
   sideActions?: boolean;
+  actionLabel?: string;
+  actionIcon?: ReactNode;
 }) {
-  const actionLabel = download ? "Descargar" : "Abrir";
+  const label = actionLabel ?? (download ? "Descargar" : "Abrir");
 
   return (
     <article
@@ -119,7 +126,7 @@ export function ResourceRow({
         download={download || undefined}
         target={download ? undefined : "_blank"}
         rel={download ? undefined : "noopener noreferrer"}
-        aria-label={`${actionLabel} ${title}`}
+        aria-label={`${label} ${title}`}
         className="flex min-w-0 items-start gap-3"
       >
         {icon ?? <FileText className="mt-0.5 h-4 w-4 shrink-0" style={{ color }} aria-hidden="true" />}
@@ -135,11 +142,11 @@ export function ResourceRow({
           download={download || undefined}
           target={download ? undefined : "_blank"}
           rel={download ? undefined : "noopener noreferrer"}
-          aria-label={`${actionLabel} ${title}`}
+          aria-label={`${label} ${title}`}
           className={`inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] ${showActionLabel ? "xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent" : ""}`}
         >
-          {download ? <Download className="h-4 w-4 shrink-0" /> : <ExternalLink className="h-4 w-4 shrink-0" />}
-          {showActionLabel ? <span className="hidden text-xs font-semibold xl:inline xl:text-sm">{actionLabel}</span> : null}
+          {actionIcon ?? (download ? <Download className="h-4 w-4 shrink-0" /> : <ExternalLink className="h-4 w-4 shrink-0" />)}
+          {showActionLabel ? <span className="hidden text-xs font-semibold xl:inline xl:text-sm">{label}</span> : null}
         </a>
         <ShareResourceButton title={title} url={href} />
       </div>
