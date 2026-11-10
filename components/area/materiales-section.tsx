@@ -163,6 +163,7 @@ function CicloAccordion({
       id={groupId}
       title={ciclo.name}
       total={total}
+      proximamente
       color={color}
       activeForeground={activeForeground}
       size="sm"
@@ -173,10 +174,11 @@ function CicloAccordion({
         <RepositoryFileGroup
           files={publishedGrados.flatMap((grado) => grado.files.map((file) => ({ file })))}
           color={color}
+          conPortadas
         />
       ) : (
         publishedGrados.map((grado) => (
-          <RepositoryFileGroup key={grado.id} label={grado.name} files={grado.files.map((file) => ({ file }))} color={color} />
+          <RepositoryFileGroup key={grado.id} label={grado.name} files={grado.files.map((file) => ({ file }))} color={color} conPortadas />
         ))
       )}
     </RepositoryAccordionGroup>
@@ -207,13 +209,14 @@ function SubgrupoAccordion({
       id={groupId}
       title={subgrupo.nombre}
       total={subgrupo.files.length}
+      proximamente
       color={color}
       activeForeground={activeForeground}
       size="sm"
       open={open}
       onToggle={onToggle}
     >
-      <RepositoryFileGroup files={subgrupo.files.map((file) => ({ file }))} color={color} />
+      <RepositoryFileGroup files={subgrupo.files.map((file) => ({ file }))} color={color} conPortadas />
     </RepositoryAccordionGroup>
   );
 }
@@ -268,6 +271,7 @@ function CategoriaAccordion({
       title={categoriaDisplayTitle(categoria)}
       description={categoria.descripcion}
       total={total}
+      proximamente
       color={color}
       activeForeground={activeForeground}
       open={open}
@@ -286,12 +290,10 @@ function CategoriaAccordion({
         </a>
       ) : null}
 
-      {/* Al abrir la categoría ya se ve todo adentro: ciclos/subgrupos sin
-         materiales se omiten (ya no hay "Próximamente" que los explique, y
-         no tiene sentido un grupo siempre abierto mostrando nada). */}
+      {/* Ciclos y subgrupos sin materiales todavía se muestran como en el
+         Campus: sin abrirse y con "Próximamente". */}
       {ciclos ? (
         ciclos
-          .filter((ciclo) => totalFilesInGrados(ciclo.grados) > 0)
           .map((ciclo) => (
             <CicloAccordion
               key={ciclo.id}
@@ -305,7 +307,6 @@ function CategoriaAccordion({
           ))
       ) : categoria.subgrupos ? (
         categoria.subgrupos
-          .filter((subgrupo) => subgrupo.files.length > 0)
           .map((subgrupo) => (
             <SubgrupoAccordion
               key={subgrupo.id}
@@ -318,7 +319,7 @@ function CategoriaAccordion({
             />
           ))
       ) : categoria.files && categoria.files.length > 0 ? (
-        <RepositoryFileGroup files={categoria.files.map((file) => ({ file }))} color={color} />
+        <RepositoryFileGroup files={categoria.files.map((file) => ({ file }))} color={color} conPortadas />
       ) : null}
     </RepositoryAccordionGroup>
   );
@@ -395,17 +396,19 @@ function LenguasExtranjerasRepository({ area }: { area: Area }) {
             id={`${idiomaSeleccionado}-secuencias`}
             title="Secuencias didácticas"
             total={secuencias.length}
+            proximamente
             color={area.color}
             activeForeground={area.textOnColor}
             open={categoriaAbierta === "secuencias"}
             onToggle={() => toggleCategory("secuencias")}
           >
-            <RepositoryFileGroup files={secuencias.map((item) => ({ file: item }))} color={area.color} />
+            <RepositoryFileGroup files={secuencias.map((item) => ({ file: item }))} color={area.color} conPortadas />
           </RepositoryAccordionGroup>
           <RepositoryAccordionGroup
             id={`${idiomaSeleccionado}-normativa`}
             title="Normativa"
             total={normativa.length}
+            proximamente
             color={area.color}
             activeForeground={area.textOnColor}
             open={categoriaAbierta === "guias"}

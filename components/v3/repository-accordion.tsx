@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { Bookmark, Download, ExternalLink, Eye, FileText } from "lucide-react";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
+import { TarjetasPortada } from "@/components/v3/tarjetas-portada";
 import type { ItinerarioFile } from "@/lib/itinerarios-data";
 
 /**
@@ -102,25 +103,65 @@ export function RepositoryMaterialRow({
 }
 
 /**
+ * Los materiales con su tapa, como en el Campus (tarjetas compartidas con el
+ * Plan y Modo Secundaria): tres por fila si el bloque tiene ancho, si no
+ * filas con la tapa chica. Las páginas (formaciones) no tienen tapa: van
+ * como filas.
+ */
+function MaterialesConTapa({ files, color, nivelTitulo }: { files: { label?: string; file: ItinerarioFile }[]; color: string; nivelTitulo?: "h3" | "h4" }) {
+  return (
+    <div className="px-4 py-5 sm:px-7">
+      <TarjetasPortada
+        color={color}
+        nivelTitulo={nivelTitulo}
+        items={files.map(({ label, file }, index) => ({
+          id: `${file.url}-${index}`,
+          rotulo: label,
+          titulo: file.nombre,
+          detalle: file.descripcion,
+          meta: [file.formato ?? "PDF", file.paginas ? `${file.paginas} páginas` : null, file.size].filter(Boolean).join(" · "),
+          portada: file.portada,
+          descargar: file.accion ? undefined : file.url,
+          ver: file.accion === "ver" ? file.url : undefined,
+        }))}
+      />
+    </div>
+  );
+}
+
+/**
  * Columna de materiales, opcionalmente encabezada por una etiqueta (p. ej. un
  * grado). Sin etiqueta, es solo una lista de filas separadas por línea.
+ * `conPortadas`: los documentos van con su tapa (repositorios de las áreas y
+ * del Plan, como en el Campus); las páginas siguen como filas.
  */
 export function RepositoryFileGroup({
   label,
   files,
   color,
+  conPortadas = false,
 }: {
   label?: string;
   files: { label?: string; file: ItinerarioFile }[];
   color: string;
+  conPortadas?: boolean;
 }) {
+  const tapas = conPortadas && files.length > 0 && files.every(({ file }) => file.accion !== "abrir");
+  const filas = (
+    <>
+      {files.map(({ label: rowLabel, file }, index) => (
+        <RepositoryMaterialRow key={`${file.url}-${index}`} label={rowLabel} file={file} color={color} />
+      ))}
+    </>
+  );
+
   if (!label) {
-    return (
-      <div className="divide-y divide-[#494963]/[.07] border-b border-b-[#494963]/[.07] last:border-b-0">
-        {files.map(({ label: rowLabel, file }, index) => (
-          <RepositoryMaterialRow key={`${file.url}-${index}`} label={rowLabel} file={file} color={color} />
-        ))}
+    return tapas ? (
+      <div className="border-b border-b-[#494963]/[.07] last:border-b-0">
+        <MaterialesConTapa files={files} color={color} />
       </div>
+    ) : (
+      <div className="divide-y divide-[#494963]/[.07] border-b border-b-[#494963]/[.07] last:border-b-0">{filas}</div>
     );
   }
 
@@ -135,11 +176,13 @@ export function RepositoryFileGroup({
       <header className="px-4 py-4 sm:px-7 lg:py-5">
         <h3 className="font-display text-base font-semibold text-[#494963]">{label}</h3>
       </header>
-      <div className="divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] lg:border-l lg:border-t-0">
-        {files.map(({ label: rowLabel, file }, index) => (
-          <RepositoryMaterialRow key={`${file.url}-${index}`} label={rowLabel} file={file} color={color} />
-        ))}
-      </div>
+      {tapas ? (
+        <div className="min-w-0 border-t border-[#494963]/[.07] lg:border-l lg:border-t-0">
+          <MaterialesConTapa files={files} color={color} nivelTitulo="h4" />
+        </div>
+      ) : (
+        <div className="divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] lg:border-l lg:border-t-0">{filas}</div>
+      )}
     </section>
   );
 }
@@ -199,6 +242,9 @@ export function RepositoryAccordionGroup({
    * usan los niveles anidados de Itinerarios: al abrir el grupo grande ya se
    * ve todo adentro, sin un clic extra por ciclo/subgrupo). */
   collapsible = true,
+  /** Sin materiales todavía: en vez de la flecha, "Próximamente", como en el
+   * Campus (repositorios de las áreas). Apagado por defecto. */
+  proximamente = false,
   children,
 }: {
   id: string;
@@ -214,6 +260,7 @@ export function RepositoryAccordionGroup({
   onToggle?: () => void;
   size?: keyof typeof sizeClasses;
   collapsible?: boolean;
+  proximamente?: boolean;
   children: ReactNode;
 }) {
   const contentId = `repositorio-${id}`;
@@ -283,6 +330,8 @@ export function RepositoryAccordionGroup({
             <span className={`inline-flex shrink-0 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} style={{ color: filled ? fg : color }} aria-hidden="true">
               <SolidAreaArrow />
             </span>
+          ) : proximamente ? (
+            <span className="shrink-0 text-[10px] font-bold uppercase tracking-[.14em] text-[#494963]/[.75] sm:text-xs">Próximamente</span>
           ) : null}
         </button>
       ) : (

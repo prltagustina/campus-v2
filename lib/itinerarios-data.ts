@@ -64,6 +64,9 @@ const PDF_BASE =
 
 const ART_BASE = "/documentos/articulacion";
 
+/** Descarga directa de un archivo de Drive, como los enlaces del Campus. */
+const drive = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
+
 /* ── Estructura base de ciclos/grados vacía (sin material aún) ── */
 function ciclosVacios(): ItinerarioCiclo[] {
   return [
@@ -110,66 +113,159 @@ interface RecursosDocenciaArea {
 }
 
 const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
+  // Los mismos cuadernillos, títulos, enlaces y tapas que
+  // https://campuseducativo.santafe.edu.ar/diseno-curricular/matematica/
+  // (relevado el 2026-11-10; tapas copiadas a /public/portadas).
   matematica: {
-    ciclos: [
+    ciclos: ciclosConRecursos({
+      "1ro": [
       {
-        id: "primer-ciclo",
-        name: "Primer ciclo",
-        grados: [
-          {
-            id: "1ro",
-            name: "1er Grado",
-            files: [
-              {
-                nombre: "\"La enseñanza del número y del sistema de numeración\"",
-                formato: "PDF",
-                paginas: 64,
-                size: "5.6 MB",
-                url: `${PDF_BASE}/matematica_1er_-grado_2026.pdf`,
-                portada: "/portadas/matematica-1ro.jpg",
-              },
-            ],
-          },
-          {
-            id: "2do",
-            name: "2do Grado",
-            files: [
-              {
-                nombre: "\"La enseñanza de las operaciones\"",
-                formato: "PDF",
-                paginas: 48,
-                size: "3.7 MB",
-                url: `${PDF_BASE}/matematica_2do_grado_2026.pdf`,
-                portada: "/portadas/matematica-2do.jpg",
-              },
-            ],
-          },
-          {
-            id: "3ro",
-            name: "3er Grado",
-            files: [
-              {
-                nombre: "\"La enseñanza de la geometría\"",
-                formato: "PDF",
-                paginas: 56,
-                size: "4.5 MB",
-                url: `${PDF_BASE}/matematica_3er_grado_2026.pdf`,
-                portada: "/portadas/matematica-3ro.jpg",
-              },
-            ],
-          },
-        ],
+        nombre: "Matemática - 1er Grado Nº 1",
+        formato: "PDF",
+        url: drive("1J2BRX4T7iQHIfYWZS9o8VtDe9nT3stBS"),
+        portada: "/portadas/matematica-1ro-n1.jpg",
       },
       {
-        id: "segundo-ciclo",
-        name: "Segundo ciclo",
-        grados: [
-          { id: "4to", name: "4to Grado", files: [] },
-          { id: "5to", name: "5to Grado", files: [] },
-          { id: "6to", name: "6to Grado", files: [] },
-        ],
+        nombre: "Matemática - 1er Grado Nº 1.1",
+        formato: "PDF",
+        url: drive("13OwasVlY5ftk5O4WiWajr7Wr3UUHZ-PC"),
+        portada: "/portadas/matematica-1ro-n1-1.jpg",
       },
-    ],
+      {
+        nombre: "Matemática - 1er Grado Nº 1.2",
+        formato: "PDF",
+        url: drive("15qurEru4d905xrpEwohJD8QoKgLkEORR"),
+        portada: "/portadas/matematica-1ro-n1-2.jpg",
+      },
+      {
+        nombre: "Matemática - 1er Grado Nº 1.3",
+        formato: "PDF",
+        url: drive("1v_0NhYi4_baYUFwUaohfoHM0GfAWNt-9"),
+        portada: "/portadas/matematica-1ro-n1-3.jpg",
+      },
+      ],
+      "2do": [
+      {
+        nombre: "Matemática - 2do Grado Nº 1",
+        formato: "PDF",
+        url: drive("1Qu7v-0-hr639y-lPUMKObhi0Cv-zUn2z"),
+        portada: "/portadas/matematica-2do-n1.jpg",
+      },
+      {
+        nombre: "Matemática - 2do Grado Nº 1.1",
+        formato: "PDF",
+        url: drive("150oX3yGgqcZh9i5cNgp1LzmqLvQ_-GdT"),
+        portada: "/portadas/matematica-2do-n1-1.jpg",
+      },
+      {
+        nombre: "Matemática - 2do Grado Nº 1.2",
+        formato: "PDF",
+        url: drive("1U1-ost12lM4KfH9NKIUtyzP62aJD5hOW"),
+        portada: "/portadas/matematica-2do-n1-2.jpg",
+      },
+      {
+        nombre: "Matemática - 2do Grado Nº 1.3",
+        formato: "PDF",
+        url: drive("15iOlgQZ0MqCzI_OhAJoM3m_k0oY88wWJ"),
+        portada: "/portadas/matematica-2do-n1-3.jpg",
+      },
+      ],
+      "3ro": [
+      {
+        nombre: "Matemática - 3er Grado Nº 1",
+        formato: "PDF",
+        url: drive("1CPaQ5ix51Znx2wHwtE0LHSJQQ36UjUEe"),
+        portada: "/portadas/matematica-3ro-n1.jpg",
+      },
+      {
+        nombre: "Matemática - 3er Grado Nº 1.1",
+        formato: "PDF",
+        url: drive("1zQqYEOuqg7peGgaQBk56e-yUQB0FGnjK"),
+        portada: "/portadas/matematica-3ro-n1-1.jpg",
+      },
+      {
+        nombre: "Matemática - 3er Grado Nº 1.2",
+        formato: "PDF",
+        url: drive("1AuOy1595Sf_vS3FfNMgm50OCC5RbFx-t"),
+        portada: "/portadas/matematica-3ro-n1-2.jpg",
+      },
+      {
+        nombre: "Matemática - 3er Grado Nº 1.3",
+        formato: "PDF",
+        url: drive("1GWvboZKJ5Ny4-4X4HNY62SaILmdUhzJT"),
+        portada: "/portadas/matematica-3ro-n1-3.jpg",
+      },
+      ],
+      "4to": [
+      {
+        nombre: "Matemática - 4to Grado Nº 1",
+        formato: "PDF",
+        url: drive("1ZZfsiaFI5JKqiGVyEpe4QFuXMoQhimkR"),
+        portada: "/portadas/matematica-4to-n1.jpg",
+      },
+      {
+        nombre: "Matemática - 4to Grado Nº 1.1",
+        formato: "PDF",
+        url: drive("17WwKtbcqZKW7d1Lc7KRxkPBdIguf3bwA"),
+        portada: "/portadas/matematica-4to-n1-1.jpg",
+      },
+      ],
+      "5to": [
+      {
+        nombre: "Matemática - 5to Grado Nº 1",
+        formato: "PDF",
+        url: drive("11XhHm-LcGDG-pEgbiXbSOPjS7IodiyYf"),
+        portada: "/portadas/matematica-5to-n1.jpg",
+      },
+      {
+        nombre: "Matemática - 5to Grado Nº 1.1",
+        formato: "PDF",
+        url: drive("1rieZYFnMbiqFkrJcT9WvMh9VjQXLV5OH"),
+        portada: "/portadas/matematica-5to-n1-1.jpg",
+      },
+      ],
+      "6to": [
+      {
+        nombre: "Matemática - 6to Grado Nº 1",
+        formato: "PDF",
+        url: drive("1vRjsPSLehexGFy0iCXt2SJlWMl2fRySQ"),
+        portada: "/portadas/matematica-6to-n1.png",
+      },
+      {
+        nombre: "Matemática - 6to Grado Nº 1.1",
+        formato: "PDF",
+        url: drive("1WqZD4iVrTnU6B6keafcYFJrdqYKHgMBl"),
+        portada: "/portadas/matematica-6to-n1-1.jpg",
+      },
+      ],
+    }),
+    gradosSueltos: septimo([
+      {
+        nombre: "Matemática - 7mo Grado Nº 1",
+        formato: "PDF",
+        url: drive("17MOt0A5732BfzMknguoMHcyQIPvXDHaL"),
+        portada: "/portadas/matematica-7mo-n1.png",
+      },
+      {
+        nombre: "Matemática - 7mo Grado Nº 1.1",
+        formato: "PDF",
+        url: drive("1niXQ-j5cDkEJFZq4eoSK4IBNw5Ugmg9A"),
+        portada: "/portadas/matematica-7mo-n1-1.jpg",
+      },
+    ]),
+  },
+  "ciencias-sociales": {
+    // Secuencia de 4to grado, publicada en el Campus (pendiente desde agosto).
+    ciclos: ciclosConRecursos({
+      "4to": [
+        {
+          nombre: "\"¡Viajamos al pasado! Descubrimos la Santa Fe Colonial\"",
+          formato: "PDF",
+          url: drive("11TlMYCOOEPJhlgy7H_fvgJrivIzWFeCh"),
+          portada: "/portadas/ciencias-sociales-4to.jpg",
+        },
+      ],
+    }),
     gradosSueltos: septimo(),
   },
   "ciencias-naturales": {
@@ -197,6 +293,14 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
           paginas: 25,
           url: "/documentos/secuencias/secuencia-educacion-fisica-1er-grado.pdf",
           portada: "/portadas/educacion-fisica-1ro.jpg",
+        },
+      ],
+      "4to": [
+        {
+          nombre: "“Jugando Ando”",
+          formato: "PDF",
+          url: drive("1GTvTd-FfdM8iia97pH5YY1HZoBna3O_t"),
+          portada: "/portadas/educacion-fisica-4to.jpg",
         },
       ],
     }),
@@ -325,7 +429,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
  * Rellena con placeholders las categorías/grados que todavía no tienen
  * material real, para ver el diseño con todo "pintado". Revertir después
  * de la revisión visual - no es contenido real. */
-const SIMULATE_ALL_FILLED = true;
+const SIMULATE_ALL_FILLED = false;
 
 function placeholderFile(label: string): ItinerarioFile {
   return {
@@ -341,10 +445,12 @@ function placeholderFile(label: string): ItinerarioFile {
 // a cada grado (tenga o no material real), para decidir si conviene
 // expandir todo por default o dar la opción de colapsar con varios
 // documentos por nivel. Revertir junto con SIMULATE_ALL_FILLED.
-const SIMULATE_MULTIPLE_FILES_PER_LEVEL = true;
+const SIMULATE_MULTIPLE_FILES_PER_LEVEL = false;
 
 function conVariosArchivos(files: ItinerarioFile[], gradoName: string): ItinerarioFile[] {
-  if (!SIMULATE_MULTIPLE_FILES_PER_LEVEL) return files;
+  // Solo en grados sin material real: al lado de materiales reales (con sus
+  // tapas del Campus) el relleno confundía.
+  if (!SIMULATE_MULTIPLE_FILES_PER_LEVEL || files.some((file) => file.url !== "#")) return files;
   const extras = ["Guía complementaria", "Secuencia didáctica adicional"];
   return [...files, ...extras.map((extra) => placeholderFile(`${extra} - ${gradoName}`))];
 }

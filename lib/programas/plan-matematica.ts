@@ -38,7 +38,8 @@ export interface Ubicacion {
   /** Grados o años a los que corresponde; vacío = todo el nivel. */
   etapas: string[];
   recurso: Recurso;
-  /** Título en esta ubicación, si el Campus lo cambia según dónde aparece. */
+  /** Título en esta ubicación, si el Campus lo cambia según dónde aparece
+   * (los juegos: "- 7mo Grado" o "- 1er y 2do Año"). */
   titulo?: string;
 }
 
@@ -90,7 +91,7 @@ export const itinerariosPrimerAno: Recurso = {
   id: "itinerarios-matematicos-1er-ano",
   titulo: "Itinerarios Matemáticos - 1er Año",
   meta: "PDF",
-  portada: `${UPLOADS}/2026/06/portada_mat_sec-212x300.png`,
+  portada: "/portadas/plan-secundaria-itinerarios-1er-ano.png",
   // En el Campus el botón dice "Descargar PDF", pero el enlace abre el
   // visor de Google Drive: se nombra por lo que hace.
   acciones: [{ tipo: "ver", url: "https://drive.google.com/file/d/1FAlrWLUdQ2DF5zTcvnXGlL0C3q376zXw/view?usp=drive_link" }],
@@ -148,23 +149,23 @@ const gradosPrimaria: Etapa[] = [
 ];
 
 const materialesPrimaria: [string, Recurso][] = [
-  ["1er-grado", cuadernillo("mat-1-n1", "Matemática - 1er Grado Nº 1", "1J2BRX4T7iQHIfYWZS9o8VtDe9nT3stBS", `${UPLOADS}/2026/07/matematica-1ro-212x300.jpg`, "1er. Grado")],
-  ["1er-grado", cuadernillo("mat-1-n1-1", "Matemática - 1er Grado Nº 1.1", "13OwasVlY5ftk5O4WiWajr7Wr3UUHZ-PC", `${UPLOADS}/2026/07/matematica-1er-grado-1.1-2026.jpg`, "1er. Grado")],
-  ["1er-grado", cuadernillo("mat-1-n1-2", "Matemática - 1er Grado Nº 1.2", "15qurEru4d905xrpEwohJD8QoKgLkEORR", `${UPLOADS}/2026/08/matematica-1er-grado1.2.jpg`, "1er. Grado")],
-  ["2do-grado", cuadernillo("mat-2-n1", "Matemática - 2do Grado Nº 1", "1Qu7v-0-hr639y-lPUMKObhi0Cv-zUn2z", `${UPLOADS}/2026/07/matematica-2do-212x300.jpg`, "2do. Grado")],
-  ["2do-grado", cuadernillo("mat-2-n1-1", "Matemática - 2do Grado Nº 1.1", "150oX3yGgqcZh9i5cNgp1LzmqLvQ_-GdT", `${UPLOADS}/2026/07/matematica-2do-grado-1.1-2026.jpg`, "2do. Grado")],
-  ["2do-grado", cuadernillo("mat-2-n1-2", "Matemática - 2do Grado Nº 1.2", "1U1-ost12lM4KfH9NKIUtyzP62aJD5hOW", `${UPLOADS}/2026/08/matematica-2do-grado1.2.jpg`, "2do. Grado")],
-  ["3er-grado", cuadernillo("mat-3-n1", "Matemática - 3er Grado Nº 1", "1CPaQ5ix51Znx2wHwtE0LHSJQQ36UjUEe", `${UPLOADS}/2026/07/matematica-3ro-212x300.jpg`, "3er. Grado")],
-  ["3er-grado", cuadernillo("mat-3-n1-1", "Matemática - 3er Grado Nº 1.1", "1zQqYEOuqg7peGgaQBk56e-yUQB0FGnjK", `${UPLOADS}/2026/07/matematica-3er-grado-1.1-2026.jpg`, "3er. Grado")],
-  ["3er-grado", cuadernillo("mat-3-n1-2", "Matemática - 3er Grado Nº 1.2", "1AuOy1595Sf_vS3FfNMgm50OCC5RbFx-t", `${UPLOADS}/2026/08/matematica-3er-grado1.2.jpg`, "3er. Grado")],
-  ["4to-grado", cuadernillo("mat-4-n1", "Matemática - 4to Grado Nº 1", "1ZZfsiaFI5JKqiGVyEpe4QFuXMoQhimkR", `${UPLOADS}/2026/08/matematica-4tor-grado1.2.jpg`, "4to. Grado")],
-  ["4to-grado", cuadernillo("mat-4-n1-1", "Matemática - 4to Grado Nº 1.1", "1c58vDJ7SKtV_BxzIFrIl_r6OHQsPoo08", `${UPLOADS}/2026/08/Matematica-4to-ed1-1.jpg`, "4to. Grado")],
-  ["5to-grado", cuadernillo("mat-5-n1", "Matemática - 5to Grado Nº 1", "11XhHm-LcGDG-pEgbiXbSOPjS7IodiyYf", `${UPLOADS}/2026/08/matematica-5tor-grado1.jpg`, "5to. Grado")],
-  ["5to-grado", cuadernillo("mat-5-n1-1", "Matemática - 5to Grado Nº 1.1", "1rieZYFnMbiqFkrJcT9WvMh9VjQXLV5OH", `${UPLOADS}/2026/08/matematica-5togrado-1-1.jpg`, "5to. Grado")],
-  ["6to-grado", cuadernillo("mat-6-n1", "Matemática - 6to Grado N° 1", "1vRjsPSLehexGFy0iCXt2SJlWMl2fRySQ", `${UPLOADS}/2026/08/portada_mat_6-212x300.png`, "6to. Grado")],
-  ["6to-grado", cuadernillo("mat-6-n1-1", "Matemática - 6to Grado N° 1.1", "1bI5qdMdGWcG71jVb41MZ2qfNDPfb4UyJ", `${UPLOADS}/2026/08/matematica-gto-grado-1-1.jpg`, "6to. Grado")],
-  ["7mo-grado", cuadernillo("mat-7-n1", "Matemática - 7mo Grado N° 1", "17MOt0A5732BfzMknguoMHcyQIPvXDHaL", `${UPLOADS}/2026/08/portada_mat_7-212x300.png`, "7mo. Grado")],
-  ["7mo-grado", cuadernillo("mat-7-n1-1", "Matemática - 7mo Grado N° 1.1", "1niXQ-j5cDkEJFZq4eoSK4IBNw5Ugmg9A", `${UPLOADS}/2026/08/matematica-7mogrdo-1-1.jpg`, "7mo. Grado")],
+  ["1er-grado", cuadernillo("mat-1-n1", "Matemática - 1er Grado Nº 1", "1J2BRX4T7iQHIfYWZS9o8VtDe9nT3stBS", "/portadas/matematica-1ro-n1.jpg", "1er. Grado")],
+  ["1er-grado", cuadernillo("mat-1-n1-1", "Matemática - 1er Grado Nº 1.1", "13OwasVlY5ftk5O4WiWajr7Wr3UUHZ-PC", "/portadas/matematica-1ro-n1-1.jpg", "1er. Grado")],
+  ["1er-grado", cuadernillo("mat-1-n1-2", "Matemática - 1er Grado Nº 1.2", "15qurEru4d905xrpEwohJD8QoKgLkEORR", "/portadas/matematica-1ro-n1-2.jpg", "1er. Grado")],
+  ["2do-grado", cuadernillo("mat-2-n1", "Matemática - 2do Grado Nº 1", "1Qu7v-0-hr639y-lPUMKObhi0Cv-zUn2z", "/portadas/matematica-2do-n1.jpg", "2do. Grado")],
+  ["2do-grado", cuadernillo("mat-2-n1-1", "Matemática - 2do Grado Nº 1.1", "150oX3yGgqcZh9i5cNgp1LzmqLvQ_-GdT", "/portadas/matematica-2do-n1-1.jpg", "2do. Grado")],
+  ["2do-grado", cuadernillo("mat-2-n1-2", "Matemática - 2do Grado Nº 1.2", "1U1-ost12lM4KfH9NKIUtyzP62aJD5hOW", "/portadas/matematica-2do-n1-2.jpg", "2do. Grado")],
+  ["3er-grado", cuadernillo("mat-3-n1", "Matemática - 3er Grado Nº 1", "1CPaQ5ix51Znx2wHwtE0LHSJQQ36UjUEe", "/portadas/matematica-3ro-n1.jpg", "3er. Grado")],
+  ["3er-grado", cuadernillo("mat-3-n1-1", "Matemática - 3er Grado Nº 1.1", "1zQqYEOuqg7peGgaQBk56e-yUQB0FGnjK", "/portadas/matematica-3ro-n1-1.jpg", "3er. Grado")],
+  ["3er-grado", cuadernillo("mat-3-n1-2", "Matemática - 3er Grado Nº 1.2", "1AuOy1595Sf_vS3FfNMgm50OCC5RbFx-t", "/portadas/matematica-3ro-n1-2.jpg", "3er. Grado")],
+  ["4to-grado", cuadernillo("mat-4-n1", "Matemática - 4to Grado Nº 1", "1ZZfsiaFI5JKqiGVyEpe4QFuXMoQhimkR", "/portadas/matematica-4to-n1.jpg", "4to. Grado")],
+  ["4to-grado", cuadernillo("mat-4-n1-1", "Matemática - 4to Grado Nº 1.1", "1c58vDJ7SKtV_BxzIFrIl_r6OHQsPoo08", "/portadas/matematica-4to-n1-1.jpg", "4to. Grado")],
+  ["5to-grado", cuadernillo("mat-5-n1", "Matemática - 5to Grado Nº 1", "11XhHm-LcGDG-pEgbiXbSOPjS7IodiyYf", "/portadas/matematica-5to-n1.jpg", "5to. Grado")],
+  ["5to-grado", cuadernillo("mat-5-n1-1", "Matemática - 5to Grado Nº 1.1", "1rieZYFnMbiqFkrJcT9WvMh9VjQXLV5OH", "/portadas/matematica-5to-n1-1.jpg", "5to. Grado")],
+  ["6to-grado", cuadernillo("mat-6-n1", "Matemática - 6to Grado N° 1", "1vRjsPSLehexGFy0iCXt2SJlWMl2fRySQ", "/portadas/matematica-6to-n1.png", "6to. Grado")],
+  ["6to-grado", cuadernillo("mat-6-n1-1", "Matemática - 6to Grado N° 1.1", "1bI5qdMdGWcG71jVb41MZ2qfNDPfb4UyJ", "/portadas/matematica-6to-n1-1.jpg", "6to. Grado")],
+  ["7mo-grado", cuadernillo("mat-7-n1", "Matemática - 7mo Grado N° 1", "17MOt0A5732BfzMknguoMHcyQIPvXDHaL", "/portadas/matematica-7mo-n1.png", "7mo. Grado")],
+  ["7mo-grado", cuadernillo("mat-7-n1-1", "Matemática - 7mo Grado N° 1.1", "1niXQ-j5cDkEJFZq4eoSK4IBNw5Ugmg9A", "/portadas/matematica-7mo-n1-1.jpg", "7mo. Grado")],
 ];
 
 const formacionesPrimaria: [string, Recurso][] = [
@@ -191,7 +192,7 @@ export const niveles: Nivel[] = [
           id: "oportunidades-inicial",
           titulo: "Oportunidades para hacer Matemática en la Educación Inicial",
           meta: "PDF",
-          portada: `${UPLOADS}/2026/06/FotalecimientoCurricular-212x300.jpg`,
+          portada: "/portadas/plan-inicial-oportunidades.jpg",
           acciones: [{ tipo: "descargar", url: descarga("1DQHlu0LkioQ5D0bak2ktkQqSeEXWcIEq") }],
           origen: [{ pagina: ORIGEN, ubicacion: "Educación Inicial > Materiales > Inicial" }],
         },
@@ -332,7 +333,8 @@ export interface CategoriaPlan {
   id: CategoriaId;
   titulo: string;
   archivos: ItinerarioFile[];
-  /** Juegos Matemáticos va con las tapas, como en el Campus; el resto, como filas. */
+  /** Materiales y Juegos Matemáticos van con las tapas, como en el Campus;
+   * Formaciones (páginas), como filas. */
   conPortadas: boolean;
   /** Si en este grado no hay nada: en qué grados o años sí hay ("Disponibles en 7mo grado"). */
   disponibleEn?: string;
@@ -355,7 +357,7 @@ export function repositorioDe(nivel: Nivel, etapa?: string): CategoriaPlan[] {
         id: categoria,
         titulo: categorias[categoria],
         archivos,
-        conPortadas: categoria === "juegos",
+        conPortadas: categoria !== "formaciones",
         disponibleEn: !archivos.length && conContenido.length ? `Disponibles en ${conContenido.join(" y ")}` : undefined,
       };
     });

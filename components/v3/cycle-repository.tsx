@@ -53,6 +53,7 @@ function AreaRepository({
               label={grade.name}
               files={grade.files.map(({ category, file }) => ({ label: categoryLabel(category), file }))}
               color={group.color}
+              conPortadas
             />
           ))}
         </div>
