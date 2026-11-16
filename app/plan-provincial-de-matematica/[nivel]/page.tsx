@@ -37,7 +37,13 @@ export default async function NivelPage({ params }: { params: Promise<{ nivel: s
         color={color}
         colorTexto={colorTexto}
         titulo={planMatematica.nombre}
-        descripcion="Materiales, formaciones y juegos matemáticos para Educación Inicial, Primaria y Secundaria."
+        descripcion={
+          <>
+            Materiales, formaciones y juegos matemáticos para
+            <br />
+            Educación Inicial, Primaria y Secundaria.
+          </>
+        }
         imagen={planMatematica.imagen}
       />
       <NivelBotonera actual={nivel.id} />
