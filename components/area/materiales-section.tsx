@@ -63,7 +63,7 @@ const secuenciasPorIdioma: Record<
 > = {
   ingles: [
     {
-      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
+      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.9 MB",
@@ -72,7 +72,7 @@ const secuenciasPorIdioma: Record<
   ],
   aleman: [
     {
-      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
+      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.8 MB",
@@ -81,7 +81,7 @@ const secuenciasPorIdioma: Record<
   ],
   frances: [
     {
-      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
+      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.9 MB",
@@ -90,7 +90,7 @@ const secuenciasPorIdioma: Record<
   ],
   italiano: [
     {
-      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
+      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.9 MB",
@@ -99,7 +99,7 @@ const secuenciasPorIdioma: Record<
   ],
   portugues: [
     {
-      nombre: "\"Del mundo a lo local: diseñamos nuestra mascota mundialista\"",
+      nombre: "Del mundo a lo local: diseñamos nuestra mascota mundialista",
       descripcion: "Secuencia 1",
       paginas: 41,
       size: "1.8 MB",

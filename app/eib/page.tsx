@@ -135,15 +135,14 @@ const celebraciones = [
 const celebracionesCalendario = celebraciones.filter((_, index) => [0, 1, 2, 3, 4, 8, 9, 10, 11, 12].includes(index));
 const celebracionesMemoria = celebraciones.filter((_, index) => [5, 6, 7, 13, 14].includes(index));
 
-/** Títulos de proyectos y efemérides: van entre comillas normales (si no las traen ya). */
-const asTitle = (nombre: string) => (nombre.trim().startsWith('"') ? nombre : `"${nombre}"`);
 
 /** Las efemérides y los proyectos son páginas del Campus (no documentos): la
  * fila lleva la flecha de página, la misma que en Modo Secundaria. */
 const iconoPagina = <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-[#494963]" aria-hidden="true" />;
 
 function PaginaRow({ item }: { item: { nombre: string; url: string } }) {
-  return <ResourceRow title={asTitle(item.nombre)} href={item.url} icon={iconoPagina} sideActions />;
+  // Títulos sin comillas (normas APA).
+  return <ResourceRow title={item.nombre} href={item.url} icon={iconoPagina} sideActions />;
 }
 
 /**
@@ -195,12 +194,12 @@ export default function EIBPage() {
             <div className="space-y-6">
               <RepositoryPanel title="Resolución">
                 {legislacion.resoluciones.map((documento) => (
-                  <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download sideActions showActionLabel />
+                  <ResourceRow key={documento.url} title={documento.nombre} href={documento.url} download sideActions showActionLabel />
                 ))}
               </RepositoryPanel>
               <RepositoryPanel title="Decretos / Ley">
                 {legislacion.decretosLey.map((documento) => (
-                  <ResourceRow key={documento.url} title={`"${documento.nombre}"`} href={documento.url} download sideActions showActionLabel />
+                  <ResourceRow key={documento.url} title={documento.nombre} href={documento.url} download sideActions showActionLabel />
                 ))}
               </RepositoryPanel>
             </div>

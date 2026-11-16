@@ -64,6 +64,7 @@ export function PlanRepositorio({
           panelId={panelId}
           idPrefix={`${nivelId}-etapa`}
           className="mb-5 px-4 md:mb-6 md:px-0"
+          fill
         />
       ) : null}
       <div
