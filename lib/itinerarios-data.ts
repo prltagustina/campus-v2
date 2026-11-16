@@ -259,7 +259,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
     ciclos: ciclosConRecursos({
       "4to": [
         {
-          nombre: "\"¡Viajamos al pasado! Descubrimos la Santa Fe Colonial\"",
+          nombre: "¡Viajamos al pasado! Descubrimos la Santa Fe Colonial",
           formato: "PDF",
           url: drive("11TlMYCOOEPJhlgy7H_fvgJrivIzWFeCh"),
           portada: "/portadas/ciencias-sociales-4to.jpg",
@@ -272,7 +272,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
     ciclos: ciclosConRecursos({
       "5to": [
         {
-          nombre: "“Alimentos en escena: ciencia y salud en nuestra mesa”",
+          nombre: "Alimentos en escena: ciencia y salud en nuestra mesa",
           formato: "PDF",
           size: "26 MB",
           paginas: 22,
@@ -287,7 +287,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
     ciclos: ciclosConRecursos({
       "1ro": [
         {
-          nombre: "“Misión misteriosa: actividades lúdicas para sentir, pensar, hacer y compartir”",
+          nombre: "Misión misteriosa: actividades lúdicas para sentir, pensar, hacer y compartir",
           formato: "PDF",
           size: "1.7 MB",
           paginas: 25,
@@ -297,7 +297,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
       ],
       "4to": [
         {
-          nombre: "“Jugando Ando”",
+          nombre: "Jugando Ando",
           formato: "PDF",
           url: drive("1GTvTd-FfdM8iia97pH5YY1HZoBna3O_t"),
           portada: "/portadas/educacion-fisica-4to.jpg",
@@ -310,7 +310,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
     ciclos: ciclosConRecursos({
       "1ro": [
         {
-          nombre: "“Arte en todas partes: exploración de las formas y espacios \"con ojos de artista\"”",
+          nombre: "Arte en todas partes: exploración de las formas y espacios \"con ojos de artista\"",
           descripcion: "Artes Visuales",
           formato: "PDF",
           size: "39 MB",
@@ -321,7 +321,7 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
       ],
       "5to": [
         {
-          nombre: "“Entre tierra, mate y chamamé: el Litoral argentino desde sus músicas”",
+          nombre: "Entre tierra, mate y chamamé: el Litoral argentino desde sus músicas",
           descripcion: "Música",
           formato: "PDF",
           size: "0.8 MB",
@@ -345,7 +345,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
   "ciencias-sociales": {
     estudiantes: [
       {
-        nombre: "\"Aprender a estudiar con autonomía\"",
+        nombre: "Aprender a estudiar con autonomía",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         size: "1.4 MB",
@@ -356,7 +356,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     ],
     docencia: [
       {
-        nombre: "\"Aprender a estudiar con autonomía\"",
+        nombre: "Aprender a estudiar con autonomía",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         size: "0.7 MB",
@@ -369,7 +369,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
   "lengua-y-literatura": {
     estudiantes: [
       {
-        nombre: "\"Aprender a estudiar con autonomía\"",
+        nombre: "Aprender a estudiar con autonomía",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         size: "2.2 MB",
@@ -380,7 +380,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     ],
     docencia: [
       {
-        nombre: "\"Aprender a estudiar con autonomía\"",
+        nombre: "Aprender a estudiar con autonomía",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         size: "0.6 MB",
@@ -393,7 +393,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
   "ciencias-naturales": {
     estudiantes: [
       {
-        nombre: "\"Aprender a estudiar con autonomía\"",
+        nombre: "Aprender a estudiar con autonomía",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         size: "2.3 MB",
@@ -404,7 +404,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
     ],
     docencia: [
       {
-        nombre: "\"Aprender a estudiar con autonomía\"",
+        nombre: "Aprender a estudiar con autonomía",
         descripcion: "Articulación primaria - secundaria",
         formato: "PDF",
         size: "0.7 MB",
@@ -433,7 +433,7 @@ const SIMULATE_ALL_FILLED = false;
 
 function placeholderFile(label: string): ItinerarioFile {
   return {
-    nombre: `"${label}"`,
+    nombre: label,
     formato: "PDF",
     paginas: 32,
     size: "4.2 MB",

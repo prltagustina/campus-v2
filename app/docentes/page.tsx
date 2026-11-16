@@ -9,20 +9,20 @@ import { RepositoryPanel, ResourceRow } from "@/components/v3/repository-panel";
 // ("Material de apoyo para el trabajo institucional" y "Normativa" son dos
 // grupos separados ahí, no uno solo).
 const materialApoyo = [
-  { nombre: "\"Documento de acompañamiento N° 1 - Implementación del Diseño Curricular\"", url: "https://drive.google.com/uc?export=download&id=1Cv30cZWqHd6eRjGZPn700FYSnOHTwS_e" },
-  { nombre: "\"Documento de acompañamiento N° 2 - Implementación del área Saberes, Vidas y Mundos\"", url: "https://drive.google.com/uc?export=download&id=1Cvo5D0_Y6SCh2E64xQBnPFX5TiKYR8OO" },
-  { nombre: "\"Presentación para supervisores, directivos y docentes\"", url: "https://drive.google.com/uc?export=download&id=1qZYlfBemNZLdpVV-VbvHuWMvEM7D_CHy" },
-  { nombre: "\"Jornada Ampliada o Completa - Más tiempo para transformar los aprendizajes\"", url: "https://drive.google.com/uc?export=download&id=1z0MgQRSc2tt-9u_Sayu4QHnUSBDgzt6c" },
+  { nombre: "Documento de acompañamiento N° 1 - Implementación del Diseño Curricular", url: "https://drive.google.com/uc?export=download&id=1Cv30cZWqHd6eRjGZPn700FYSnOHTwS_e" },
+  { nombre: "Documento de acompañamiento N° 2 - Implementación del área Saberes, Vidas y Mundos", url: "https://drive.google.com/uc?export=download&id=1Cvo5D0_Y6SCh2E64xQBnPFX5TiKYR8OO" },
+  { nombre: "Presentación para supervisores, directivos y docentes", url: "https://drive.google.com/uc?export=download&id=1qZYlfBemNZLdpVV-VbvHuWMvEM7D_CHy" },
+  { nombre: "Jornada Ampliada o Completa - Más tiempo para transformar los aprendizajes", url: "https://drive.google.com/uc?export=download&id=1z0MgQRSc2tt-9u_Sayu4QHnUSBDgzt6c" },
 ] as const;
 
 const normativa = [
-  { nombre: "\"Res. 43/2026 - Implementación del área de Lenguas Extranjeras\"", url: "https://drive.google.com/uc?export=download&id=1c0sFWyQ-nPSncOKgEDnASczNaG4orxBL" },
-  { nombre: "\"Res. 1410/2026 - Programa Inglés para la Ruralidad\"", url: "https://drive.google.com/uc?export=download&id=1u0HwB1R56w29xQnbJx4tDNA2qS_H-Rtf" },
+  { nombre: "Res. 43/2026 - Implementación del área de Lenguas Extranjeras", url: "https://drive.google.com/uc?export=download&id=1c0sFWyQ-nPSncOKgEDnASczNaG4orxBL" },
+  { nombre: "Res. 1410/2026 - Programa Inglés para la Ruralidad", url: "https://drive.google.com/uc?export=download&id=1u0HwB1R56w29xQnbJx4tDNA2qS_H-Rtf" },
 ] as const;
 
 const formaciones = [
-  ["\"Diversificación para la Enseñanza\"", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
-  ["\"Planificar la enseñanza en el marco del nuevo Diseño Curricular\"", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
+  ["Diversificación para la Enseñanza", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
+  ["Planificar la enseñanza en el marco del nuevo Diseño Curricular", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
 ] as const;
 
 export default function DocentesPage() {

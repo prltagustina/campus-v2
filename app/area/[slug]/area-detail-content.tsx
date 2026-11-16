@@ -33,14 +33,14 @@ const centralAxes = [
 // (antes había acá dos ítems más — Resolución 1410/2026 y Jornada Ampliada —
 // que en el Campus solo están en Docentes, no en Marco General).
 const marcoDocuments = [
-  ["\"Documento de acompañamiento para docentes y directivos, N° 1\"", "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/02/Documento-de-acompanamiento-para-directivos-y-supervisores-N1.pdf"],
-  ["\"Documento de acompañamiento para docentes y directivos, N° 2\"", "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/02/Documento-de-acompanamiento-para-directivos-y-supervisores-N2.pdf"],
-  ["\"Presentación para supervisores, directivos y docentes\"", "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2025/12/Presentacion-para-supervisores-directivos-y-docentes.pdf"],
+  ["Documento de acompañamiento para docentes y directivos, N° 1", "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/02/Documento-de-acompanamiento-para-directivos-y-supervisores-N1.pdf"],
+  ["Documento de acompañamiento para docentes y directivos, N° 2", "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2026/02/Documento-de-acompanamiento-para-directivos-y-supervisores-N2.pdf"],
+  ["Presentación para supervisores, directivos y docentes", "https://campuseducativo.santafe.edu.ar/wp-content/uploads/sites/3/2025/12/Presentacion-para-supervisores-directivos-y-docentes.pdf"],
 ] as const;
 
 const marcoTrainings = [
-  ["\"Diversificación para la Enseñanza\"", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
-  ["\"Planificar la enseñanza en el nuevo Diseño Curricular\"", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
+  ["Diversificación para la Enseñanza", "https://campuseducativo.santafe.edu.ar/diversificacion-de-la-ensenanza-c2"],
+  ["Planificar la enseñanza en el nuevo Diseño Curricular", "https://campuseducativo.santafe.edu.ar/planificar-la-ensenanza-en-el-marco-del-nuevo-diseno-curricular-para-la-educacion-primaria-de-la-provincia-de-santa-fe/"],
 ] as const;
 
 function MarcoGeneralContent() {

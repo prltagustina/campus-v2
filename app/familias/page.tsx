@@ -7,10 +7,10 @@ import { RepositoryPanel, ResourceRow } from "@/components/v3/repository-panel";
 // https://campuseducativo.santafe.edu.ar/diseno-curricular/familias/ (sin la
 // aclaración descriptiva que se le había agregado acá).
 const materiales = [
-  { titulo: "\"Cartilla para familias\"", url: "/docs/Familias_cartilla_familias.pdf" },
-  { titulo: "\"Presentación del Diseño Curricular para Familias\"", url: "/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf" },
-  { titulo: "\"Objetivos y contenidos - Lengua y Literatura\"", url: "/docs/Familias_objetivos_contenido_LenguayLiteratura.pdf" },
-  { titulo: "\"Objetivos y contenidos - Matemática\"", url: "/docs/Familias_objetivos_contenido_Matematica.pdf" },
+  { titulo: "Cartilla para familias", url: "/docs/Familias_cartilla_familias.pdf" },
+  { titulo: "Presentación del Diseño Curricular para Familias", url: "/docs/PTT_DISENO_CURRICULAR_para_FAMILIAS.pdf" },
+  { titulo: "Objetivos y contenidos - Lengua y Literatura", url: "/docs/Familias_objetivos_contenido_LenguayLiteratura.pdf" },
+  { titulo: "Objetivos y contenidos - Matemática", url: "/docs/Familias_objetivos_contenido_Matematica.pdf" },
 ] as const;
 
 export default function FamiliasPage() {
