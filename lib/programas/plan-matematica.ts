@@ -1,11 +1,14 @@
 import { areasData } from "@/lib/areas-data";
 import type { ItinerarioFile } from "@/lib/itinerarios-data";
+import { cuadernilloMatematica } from "@/lib/matematica-secuencias";
 import type { Recurso } from "@/lib/programas/tipos";
 
 /**
  * Plan Provincial de Matemática. Contenido relevado el 2026-10-19 de
  * https://campuseducativo.santafe.edu.ar/plan-provincial-de-matematica/
- * Títulos y enlaces tal como figuran ahí.
+ * Títulos y enlaces tal como figuran ahí. El 2026-11-24 se sumaron los
+ * cuadernillos Nº 1.3 de 1er a 3er grado, que el Campus agregó después (con
+ * los mismos PDF que el repositorio de Matemática de Diseño Curricular).
  */
 
 const ORIGEN = "Plan Provincial de Matemática";
@@ -115,17 +118,19 @@ export const formacionPrimerAno: Recurso = {
 
 /* ── Primaria: cuadernillos y formaciones por grado ── */
 
+// Portada nueva (simulada) y bajada de la secuencia: lib/matematica-secuencias.ts.
 const cuadernillo = (
   id: string,
   titulo: string,
   driveId: string,
-  portada: string,
+  clave: string,
   grado: string,
 ): Recurso => ({
   id,
   titulo,
+  detalle: cuadernilloMatematica(clave).bajada,
   meta: "PDF",
-  portada,
+  portada: cuadernilloMatematica(clave).portada,
   acciones: [{ tipo: "descargar", url: descarga(driveId) }],
   origen: [{ pagina: ORIGEN, ubicacion: `Educación Primaria > Materiales > ${grado}` }],
 });
@@ -149,23 +154,26 @@ const gradosPrimaria: Etapa[] = [
 ];
 
 const materialesPrimaria: [string, Recurso][] = [
-  ["1er-grado", cuadernillo("mat-1-n1", "Matemática - 1er Grado Nº 1", "1J2BRX4T7iQHIfYWZS9o8VtDe9nT3stBS", "/portadas/matematica-1ro-n1.jpg", "1er. Grado")],
-  ["1er-grado", cuadernillo("mat-1-n1-1", "Matemática - 1er Grado Nº 1.1", "13OwasVlY5ftk5O4WiWajr7Wr3UUHZ-PC", "/portadas/matematica-1ro-n1-1.jpg", "1er. Grado")],
-  ["1er-grado", cuadernillo("mat-1-n1-2", "Matemática - 1er Grado Nº 1.2", "15qurEru4d905xrpEwohJD8QoKgLkEORR", "/portadas/matematica-1ro-n1-2.jpg", "1er. Grado")],
-  ["2do-grado", cuadernillo("mat-2-n1", "Matemática - 2do Grado Nº 1", "1Qu7v-0-hr639y-lPUMKObhi0Cv-zUn2z", "/portadas/matematica-2do-n1.jpg", "2do. Grado")],
-  ["2do-grado", cuadernillo("mat-2-n1-1", "Matemática - 2do Grado Nº 1.1", "150oX3yGgqcZh9i5cNgp1LzmqLvQ_-GdT", "/portadas/matematica-2do-n1-1.jpg", "2do. Grado")],
-  ["2do-grado", cuadernillo("mat-2-n1-2", "Matemática - 2do Grado Nº 1.2", "1U1-ost12lM4KfH9NKIUtyzP62aJD5hOW", "/portadas/matematica-2do-n1-2.jpg", "2do. Grado")],
-  ["3er-grado", cuadernillo("mat-3-n1", "Matemática - 3er Grado Nº 1", "1CPaQ5ix51Znx2wHwtE0LHSJQQ36UjUEe", "/portadas/matematica-3ro-n1.jpg", "3er. Grado")],
-  ["3er-grado", cuadernillo("mat-3-n1-1", "Matemática - 3er Grado Nº 1.1", "1zQqYEOuqg7peGgaQBk56e-yUQB0FGnjK", "/portadas/matematica-3ro-n1-1.jpg", "3er. Grado")],
-  ["3er-grado", cuadernillo("mat-3-n1-2", "Matemática - 3er Grado Nº 1.2", "1AuOy1595Sf_vS3FfNMgm50OCC5RbFx-t", "/portadas/matematica-3ro-n1-2.jpg", "3er. Grado")],
-  ["4to-grado", cuadernillo("mat-4-n1", "Matemática - 4to Grado Nº 1", "1ZZfsiaFI5JKqiGVyEpe4QFuXMoQhimkR", "/portadas/matematica-4to-n1.jpg", "4to. Grado")],
-  ["4to-grado", cuadernillo("mat-4-n1-1", "Matemática - 4to Grado Nº 1.1", "1c58vDJ7SKtV_BxzIFrIl_r6OHQsPoo08", "/portadas/matematica-4to-n1-1.jpg", "4to. Grado")],
-  ["5to-grado", cuadernillo("mat-5-n1", "Matemática - 5to Grado Nº 1", "11XhHm-LcGDG-pEgbiXbSOPjS7IodiyYf", "/portadas/matematica-5to-n1.jpg", "5to. Grado")],
-  ["5to-grado", cuadernillo("mat-5-n1-1", "Matemática - 5to Grado Nº 1.1", "1rieZYFnMbiqFkrJcT9WvMh9VjQXLV5OH", "/portadas/matematica-5to-n1-1.jpg", "5to. Grado")],
-  ["6to-grado", cuadernillo("mat-6-n1", "Matemática - 6to Grado N° 1", "1vRjsPSLehexGFy0iCXt2SJlWMl2fRySQ", "/portadas/matematica-6to-n1.png", "6to. Grado")],
-  ["6to-grado", cuadernillo("mat-6-n1-1", "Matemática - 6to Grado N° 1.1", "1bI5qdMdGWcG71jVb41MZ2qfNDPfb4UyJ", "/portadas/matematica-6to-n1-1.jpg", "6to. Grado")],
-  ["7mo-grado", cuadernillo("mat-7-n1", "Matemática - 7mo Grado N° 1", "17MOt0A5732BfzMknguoMHcyQIPvXDHaL", "/portadas/matematica-7mo-n1.png", "7mo. Grado")],
-  ["7mo-grado", cuadernillo("mat-7-n1-1", "Matemática - 7mo Grado N° 1.1", "1niXQ-j5cDkEJFZq4eoSK4IBNw5Ugmg9A", "/portadas/matematica-7mo-n1-1.jpg", "7mo. Grado")],
+  ["1er-grado", cuadernillo("mat-1-n1", "Matemática - 1er Grado Nº 1", "1J2BRX4T7iQHIfYWZS9o8VtDe9nT3stBS", "1ro-n1", "1er. Grado")],
+  ["1er-grado", cuadernillo("mat-1-n1-1", "Matemática - 1er Grado Nº 1.1", "13OwasVlY5ftk5O4WiWajr7Wr3UUHZ-PC", "1ro-n1-1", "1er. Grado")],
+  ["1er-grado", cuadernillo("mat-1-n1-2", "Matemática - 1er Grado Nº 1.2", "15qurEru4d905xrpEwohJD8QoKgLkEORR", "1ro-n1-2", "1er. Grado")],
+  ["1er-grado", cuadernillo("mat-1-n1-3", "Matemática - 1er Grado Nº 1.3", "1v_0NhYi4_baYUFwUaohfoHM0GfAWNt-9", "1ro-n1-3", "1er. Grado")],
+  ["2do-grado", cuadernillo("mat-2-n1", "Matemática - 2do Grado Nº 1", "1Qu7v-0-hr639y-lPUMKObhi0Cv-zUn2z", "2do-n1", "2do. Grado")],
+  ["2do-grado", cuadernillo("mat-2-n1-1", "Matemática - 2do Grado Nº 1.1", "150oX3yGgqcZh9i5cNgp1LzmqLvQ_-GdT", "2do-n1-1", "2do. Grado")],
+  ["2do-grado", cuadernillo("mat-2-n1-2", "Matemática - 2do Grado Nº 1.2", "1U1-ost12lM4KfH9NKIUtyzP62aJD5hOW", "2do-n1-2", "2do. Grado")],
+  ["2do-grado", cuadernillo("mat-2-n1-3", "Matemática - 2do Grado Nº 1.3", "15iOlgQZ0MqCzI_OhAJoM3m_k0oY88wWJ", "2do-n1-3", "2do. Grado")],
+  ["3er-grado", cuadernillo("mat-3-n1", "Matemática - 3er Grado Nº 1", "1CPaQ5ix51Znx2wHwtE0LHSJQQ36UjUEe", "3ro-n1", "3er. Grado")],
+  ["3er-grado", cuadernillo("mat-3-n1-1", "Matemática - 3er Grado Nº 1.1", "1zQqYEOuqg7peGgaQBk56e-yUQB0FGnjK", "3ro-n1-1", "3er. Grado")],
+  ["3er-grado", cuadernillo("mat-3-n1-2", "Matemática - 3er Grado Nº 1.2", "1AuOy1595Sf_vS3FfNMgm50OCC5RbFx-t", "3ro-n1-2", "3er. Grado")],
+  ["3er-grado", cuadernillo("mat-3-n1-3", "Matemática - 3er Grado Nº 1.3", "1GWvboZKJ5Ny4-4X4HNY62SaILmdUhzJT", "3ro-n1-3", "3er. Grado")],
+  ["4to-grado", cuadernillo("mat-4-n1", "Matemática - 4to Grado Nº 1", "1ZZfsiaFI5JKqiGVyEpe4QFuXMoQhimkR", "4to-n1", "4to. Grado")],
+  ["4to-grado", cuadernillo("mat-4-n1-1", "Matemática - 4to Grado Nº 1.1", "1c58vDJ7SKtV_BxzIFrIl_r6OHQsPoo08", "4to-n1-1", "4to. Grado")],
+  ["5to-grado", cuadernillo("mat-5-n1", "Matemática - 5to Grado Nº 1", "11XhHm-LcGDG-pEgbiXbSOPjS7IodiyYf", "5to-n1", "5to. Grado")],
+  ["5to-grado", cuadernillo("mat-5-n1-1", "Matemática - 5to Grado Nº 1.1", "1rieZYFnMbiqFkrJcT9WvMh9VjQXLV5OH", "5to-n1-1", "5to. Grado")],
+  ["6to-grado", cuadernillo("mat-6-n1", "Matemática - 6to Grado N° 1", "1vRjsPSLehexGFy0iCXt2SJlWMl2fRySQ", "6to-n1", "6to. Grado")],
+  ["6to-grado", cuadernillo("mat-6-n1-1", "Matemática - 6to Grado N° 1.1", "1bI5qdMdGWcG71jVb41MZ2qfNDPfb4UyJ", "6to-n1-1", "6to. Grado")],
+  ["7mo-grado", cuadernillo("mat-7-n1", "Matemática - 7mo Grado N° 1", "17MOt0A5732BfzMknguoMHcyQIPvXDHaL", "7mo-n1", "7mo. Grado")],
+  ["7mo-grado", cuadernillo("mat-7-n1-1", "Matemática - 7mo Grado N° 1.1", "1niXQ-j5cDkEJFZq4eoSK4IBNw5Ugmg9A", "7mo-n1-1", "7mo. Grado")],
 ];
 
 const formacionesPrimaria: [string, Recurso][] = [
