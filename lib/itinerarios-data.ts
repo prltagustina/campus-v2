@@ -1,3 +1,5 @@
+import { cuadernilloMatematica } from "@/lib/matematica-secuencias";
+
 /* ─────────────────────────────────────────────
  * Itinerarios didácticos por área
  * Organizados en categorías por ciclo y grado: recursos para la docencia
@@ -67,6 +69,13 @@ const ART_BASE = "/documentos/articulacion";
 /** Descarga directa de un archivo de Drive, como los enlaces del Campus. */
 const drive = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
 
+// Portada nueva (simulada) y bajada de la secuencia de cada cuadernillo de
+// Matemática; ver lib/matematica-secuencias.ts.
+const cuadernillo = (clave: string) => {
+  const { portada, bajada } = cuadernilloMatematica(clave);
+  return { portada, descripcion: bajada };
+};
+
 /* ── Estructura base de ciclos/grados vacía (sin material aún) ── */
 function ciclosVacios(): ItinerarioCiclo[] {
   return [
@@ -113,9 +122,10 @@ interface RecursosDocenciaArea {
 }
 
 const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
-  // Los mismos cuadernillos, títulos, enlaces y tapas que
+  // Los mismos cuadernillos, títulos y enlaces que
   // https://campuseducativo.santafe.edu.ar/diseno-curricular/matematica/
-  // (relevado el 2026-11-10; tapas copiadas a /public/portadas).
+  // (relevado el 2026-11-10). Tapas: las nuevas simuladas, con la bajada de
+  // cada secuencia (2026-11-24); las del Campus siguen en /public/portadas.
   matematica: {
     ciclos: ciclosConRecursos({
       "1ro": [
@@ -123,25 +133,25 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
         nombre: "Matemática - 1er Grado Nº 1",
         formato: "PDF",
         url: drive("1J2BRX4T7iQHIfYWZS9o8VtDe9nT3stBS"),
-        portada: "/portadas/matematica-1ro-n1.jpg",
+        ...cuadernillo("1ro-n1"),
       },
       {
         nombre: "Matemática - 1er Grado Nº 1.1",
         formato: "PDF",
         url: drive("13OwasVlY5ftk5O4WiWajr7Wr3UUHZ-PC"),
-        portada: "/portadas/matematica-1ro-n1-1.jpg",
+        ...cuadernillo("1ro-n1-1"),
       },
       {
         nombre: "Matemática - 1er Grado Nº 1.2",
         formato: "PDF",
         url: drive("15qurEru4d905xrpEwohJD8QoKgLkEORR"),
-        portada: "/portadas/matematica-1ro-n1-2.jpg",
+        ...cuadernillo("1ro-n1-2"),
       },
       {
         nombre: "Matemática - 1er Grado Nº 1.3",
         formato: "PDF",
         url: drive("1v_0NhYi4_baYUFwUaohfoHM0GfAWNt-9"),
-        portada: "/portadas/matematica-1ro-n1-3.jpg",
+        ...cuadernillo("1ro-n1-3"),
       },
       ],
       "2do": [
@@ -149,25 +159,25 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
         nombre: "Matemática - 2do Grado Nº 1",
         formato: "PDF",
         url: drive("1Qu7v-0-hr639y-lPUMKObhi0Cv-zUn2z"),
-        portada: "/portadas/matematica-2do-n1.jpg",
+        ...cuadernillo("2do-n1"),
       },
       {
         nombre: "Matemática - 2do Grado Nº 1.1",
         formato: "PDF",
         url: drive("150oX3yGgqcZh9i5cNgp1LzmqLvQ_-GdT"),
-        portada: "/portadas/matematica-2do-n1-1.jpg",
+        ...cuadernillo("2do-n1-1"),
       },
       {
         nombre: "Matemática - 2do Grado Nº 1.2",
         formato: "PDF",
         url: drive("1U1-ost12lM4KfH9NKIUtyzP62aJD5hOW"),
-        portada: "/portadas/matematica-2do-n1-2.jpg",
+        ...cuadernillo("2do-n1-2"),
       },
       {
         nombre: "Matemática - 2do Grado Nº 1.3",
         formato: "PDF",
         url: drive("15iOlgQZ0MqCzI_OhAJoM3m_k0oY88wWJ"),
-        portada: "/portadas/matematica-2do-n1-3.jpg",
+        ...cuadernillo("2do-n1-3"),
       },
       ],
       "3ro": [
@@ -175,25 +185,25 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
         nombre: "Matemática - 3er Grado Nº 1",
         formato: "PDF",
         url: drive("1CPaQ5ix51Znx2wHwtE0LHSJQQ36UjUEe"),
-        portada: "/portadas/matematica-3ro-n1.jpg",
+        ...cuadernillo("3ro-n1"),
       },
       {
         nombre: "Matemática - 3er Grado Nº 1.1",
         formato: "PDF",
         url: drive("1zQqYEOuqg7peGgaQBk56e-yUQB0FGnjK"),
-        portada: "/portadas/matematica-3ro-n1-1.jpg",
+        ...cuadernillo("3ro-n1-1"),
       },
       {
         nombre: "Matemática - 3er Grado Nº 1.2",
         formato: "PDF",
         url: drive("1AuOy1595Sf_vS3FfNMgm50OCC5RbFx-t"),
-        portada: "/portadas/matematica-3ro-n1-2.jpg",
+        ...cuadernillo("3ro-n1-2"),
       },
       {
         nombre: "Matemática - 3er Grado Nº 1.3",
         formato: "PDF",
         url: drive("1GWvboZKJ5Ny4-4X4HNY62SaILmdUhzJT"),
-        portada: "/portadas/matematica-3ro-n1-3.jpg",
+        ...cuadernillo("3ro-n1-3"),
       },
       ],
       "4to": [
@@ -201,13 +211,13 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
         nombre: "Matemática - 4to Grado Nº 1",
         formato: "PDF",
         url: drive("1ZZfsiaFI5JKqiGVyEpe4QFuXMoQhimkR"),
-        portada: "/portadas/matematica-4to-n1.jpg",
+        ...cuadernillo("4to-n1"),
       },
       {
         nombre: "Matemática - 4to Grado Nº 1.1",
         formato: "PDF",
         url: drive("17WwKtbcqZKW7d1Lc7KRxkPBdIguf3bwA"),
-        portada: "/portadas/matematica-4to-n1-1.jpg",
+        ...cuadernillo("4to-n1-1"),
       },
       ],
       "5to": [
@@ -215,13 +225,13 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
         nombre: "Matemática - 5to Grado Nº 1",
         formato: "PDF",
         url: drive("11XhHm-LcGDG-pEgbiXbSOPjS7IodiyYf"),
-        portada: "/portadas/matematica-5to-n1.jpg",
+        ...cuadernillo("5to-n1"),
       },
       {
         nombre: "Matemática - 5to Grado Nº 1.1",
         formato: "PDF",
         url: drive("1rieZYFnMbiqFkrJcT9WvMh9VjQXLV5OH"),
-        portada: "/portadas/matematica-5to-n1-1.jpg",
+        ...cuadernillo("5to-n1-1"),
       },
       ],
       "6to": [
@@ -229,13 +239,13 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
         nombre: "Matemática - 6to Grado Nº 1",
         formato: "PDF",
         url: drive("1vRjsPSLehexGFy0iCXt2SJlWMl2fRySQ"),
-        portada: "/portadas/matematica-6to-n1.png",
+        ...cuadernillo("6to-n1"),
       },
       {
         nombre: "Matemática - 6to Grado Nº 1.1",
         formato: "PDF",
         url: drive("1WqZD4iVrTnU6B6keafcYFJrdqYKHgMBl"),
-        portada: "/portadas/matematica-6to-n1-1.jpg",
+        ...cuadernillo("6to-n1-1"),
       },
       ],
     }),
@@ -244,13 +254,13 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
         nombre: "Matemática - 7mo Grado Nº 1",
         formato: "PDF",
         url: drive("17MOt0A5732BfzMknguoMHcyQIPvXDHaL"),
-        portada: "/portadas/matematica-7mo-n1.png",
+        ...cuadernillo("7mo-n1"),
       },
       {
         nombre: "Matemática - 7mo Grado Nº 1.1",
         formato: "PDF",
         url: drive("1niXQ-j5cDkEJFZq4eoSK4IBNw5Ugmg9A"),
-        portada: "/portadas/matematica-7mo-n1-1.jpg",
+        ...cuadernillo("7mo-n1-1"),
       },
     ]),
   },
