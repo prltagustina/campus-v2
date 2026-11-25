@@ -115,10 +115,11 @@ export function ContenidosPortada({
     <Popover open={abierto} onOpenChange={setAbierto}>
       <PopoverAnchor virtualRef={anclaRef as RefObject<{ getBoundingClientRect: () => DOMRect }>} />
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-      {/* Fondo apenas oscurecido mientras está abierto (pedido de Cami):
-         debajo del popover; un clic ahí cuenta como afuera y lo cierra. */}
+      {/* Fondo apenas oscurecido mientras está abierto (pedido de Cami),
+         debajo del popover. Solo visual (pointer-events-none): nunca puede
+         dejar la página bloqueada; un clic afuera igual cierra el popover. */}
       {abierto
-        ? createPortal(<div aria-hidden="true" className="fixed inset-0 z-40 bg-[#25253a]/25 animate-in fade-in-0 duration-200" />, document.body)
+        ? createPortal(<div aria-hidden="true" className="pointer-events-none fixed inset-0 z-40 bg-[#25253a]/25 animate-in fade-in-0 duration-200" />, document.body)
         : null}
       <PopoverContent
         side="bottom"
