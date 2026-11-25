@@ -4,7 +4,6 @@ import { FileText, Plus } from "lucide-react";
 import { useRef, type ReactNode, type RefObject } from "react";
 import type { ContenidosSecuencia } from "@/lib/contenidos-secuencias";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { colorTextoSobreBlanco } from "@/lib/color-texto";
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
@@ -52,7 +51,7 @@ export function ContenidosPortada({
       ref={botonRef}
       type="button"
       aria-label={`Ver contenidos: ${descripcion}`}
-      className="mt-2.5 inline-flex h-8 w-fit items-center gap-1.5 rounded-[9px] bg-[color-mix(in_srgb,var(--accion)_9%,white)] px-2.5 text-[13px] font-semibold text-[var(--accion-texto)] transition-colors duration-150 hover:bg-[color-mix(in_srgb,var(--accion)_16%,white)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] data-[state=open]:bg-[color-mix(in_srgb,var(--accion)_16%,white)]"
+      className="mt-2.5 inline-flex h-8 w-fit items-center gap-1.5 rounded-[9px] bg-[color-mix(in_srgb,var(--accion)_9%,white)] px-2.5 text-[13px] font-semibold text-[var(--accion)] transition-colors duration-150 hover:bg-[color-mix(in_srgb,var(--accion)_16%,white)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] data-[state=open]:bg-[color-mix(in_srgb,var(--accion)_16%,white)]"
     >
       <Plus className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} aria-hidden="true" />
       Ver contenidos
@@ -63,7 +62,6 @@ export function ContenidosPortada({
   // el color de la sección se vuelve a pasar acá.
   const estiloColor = {
     ["--accion" as string]: color,
-    ["--accion-texto" as string]: colorTextoSobreBlanco(color),
     // Barra de scroll (si la lista no entra) en el color del área.
     ["--section-scrollbar" as string]: color,
   };
@@ -78,8 +76,8 @@ export function ContenidosPortada({
   );
 
   // Editorial y mínimo: la portada con el nombre de la secuencia y, debajo,
-  // cada eje en mayúsculas y en el color del área con su bajada (los
-  // contenidos) en párrafos, como el diseño de Visuales Curricular.
+  // cada eje en mayúsculas y en el color del área (el mismo, sin
+  // oscurecerlo, en todas las áreas) con su bajada (los contenidos).
   const encabezado = (Titulo: typeof SheetTitle | "p") => (
     <div className="flex items-start gap-4 border-b border-[#494963]/[.1] pb-4">
       <div className="w-[76px] shrink-0">{tapa}</div>
@@ -96,7 +94,7 @@ export function ContenidosPortada({
       <div className="mt-3 divide-y divide-[#494963]/[.1]">
         {contenidos.ejes.map(({ eje, items }) => (
           <section key={eje} className="py-4 first:pt-0">
-            <h4 className="text-[15px] font-bold uppercase leading-snug tracking-[.02em] text-[var(--accion-texto)]">{eje}</h4>
+            <h4 className="text-[15px] font-bold uppercase leading-snug tracking-[.02em] text-[var(--accion)]">{eje}</h4>
             {items?.length ? (
               <ul className="mt-3 space-y-2.5">
                 {items.map((item) => (

@@ -2,7 +2,6 @@ import { Download, Eye, FileText } from "lucide-react";
 import type { ContenidosSecuencia } from "@/lib/contenidos-secuencias";
 import { ContenidosPortada } from "@/components/v3/contenidos-portada";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
-import { colorTextoSobreBlanco } from "@/lib/color-texto";
 
 export interface TarjetaPortada {
   id: string;
@@ -76,7 +75,7 @@ export function TarjetasPortada({
   const Titulo = nivelTitulo;
   return (
     <div className="@container">
-    <ul className="grid gap-3 @min-[820px]:grid-cols-3 @min-[820px]:gap-4" style={{ ["--accion" as string]: color, ["--accion-texto" as string]: colorTextoSobreBlanco(color) }}>
+    <ul className="grid gap-3 @min-[820px]:grid-cols-3 @min-[820px]:gap-4" style={{ ["--accion" as string]: color }}>
       {items.map((item) => {
         const contexto = item.detalle ? `${item.titulo}, ${item.detalle}` : item.titulo;
         const acciones = (
