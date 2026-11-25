@@ -1,40 +1,40 @@
 "use client";
 
-import { FileText, Plus } from "lucide-react";
-import { useRef, type ReactNode, type RefObject } from "react";
+import { Plus } from "lucide-react";
+import { useRef, useState, type RefObject } from "react";
+import { createPortal } from "react-dom";
 import type { ContenidosSecuencia } from "@/lib/contenidos-secuencias";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 /**
- * «Ver contenidos» de una tarjeta con portada: la portada, el nombre de la
- * secuencia y sus ejes con los contenidos, para saber de qué trata antes de
- * descargarla (pedido de Visuales Curricular). Se abre con un clic, no al
- * pasar el mouse; adentro van las mismas acciones de la tarjeta. En escritorio es un popover que se abre siempre en el mismo lugar
- * (pedido explícito: que no salte por la vista): debajo del botón y centrado
- * sobre la tarjeta (arriba del botón si abajo no entra). En celular, un panel
- * desde abajo.
+ * «Ver contenidos» de una tarjeta con portada: el nombre de la secuencia y
+ * sus ejes con los contenidos, para saber de qué trata antes de descargarla
+ * (pedido de Visuales Curricular). Es solo información: la portada y las
+ * acciones (Descargar, Compartir) ya están en la tarjeta y no se repiten
+ * (pedido de Agu y Cami, 2026-11-25). Se abre con un clic, no al pasar el
+ * mouse. En escritorio es un popover que se abre siempre en el mismo lugar
+ * (que no salte por la vista): debajo del botón y centrado sobre la tarjeta
+ * (arriba del botón si abajo no entra), con el fondo apenas oscurecido; un
+ * clic afuera lo cierra. En celular, un panel desde abajo.
  */
 export function ContenidosPortada({
   titulo,
   descripcion,
-  portada,
   contenidos,
   color,
-  acciones,
 }: {
   /** Título de la tarjeta: encabeza el popover si la secuencia no tiene
    * otro nombre. */
   titulo: string;
   /** Título y bajada, para lectores de pantalla. */
   descripcion: string;
-  portada?: string;
   contenidos: ContenidosSecuencia;
   color: string;
-  acciones: ReactNode;
 }) {
   const isMobile = useIsMobile();
+  const [abierto, setAbierto] = useState(false);
   const botonRef = useRef<HTMLButtonElement>(null);
   // Ancla a medida: a lo ancho, la tarjeta entera (para centrar el popover
   // sobre ella); a lo alto, el botón (para abrirlo justo debajo).
@@ -66,25 +66,13 @@ export function ContenidosPortada({
     ["--section-scrollbar" as string]: color,
   };
 
-  const tapa = portada ? (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={portada} alt="" className="aspect-[212/300] w-full rounded-[4px] object-cover shadow-[0_6px_14px_rgba(20,20,35,.16)]" />
-  ) : (
-    <span className="grid aspect-[212/300] w-full place-items-center rounded-[4px] border border-[color-mix(in_srgb,var(--accion)_22%,transparent)] bg-white text-[var(--accion)]" aria-hidden="true">
-      <FileText className="h-5 w-5 opacity-60" strokeWidth={1.5} />
-    </span>
-  );
-
-  // Editorial y mínimo: la portada con el nombre de la secuencia y, debajo,
-  // cada eje en mayúsculas y en el color del área (el mismo, sin
-  // oscurecerlo, en todas las áreas) con su bajada (los contenidos).
+  // Editorial y mínimo: el nombre de la secuencia y, debajo, cada eje en
+  // mayúsculas y en el color del área (el mismo, sin oscurecerlo, en todas
+  // las áreas) con su bajada (los contenidos).
   const encabezado = (Titulo: typeof SheetTitle | "p") => (
-    <div className="flex items-start gap-4 border-b border-[#494963]/[.1] pb-4">
-      <div className="w-[76px] shrink-0">{tapa}</div>
-      <div className="min-w-0">
-        <p className="text-[10px] font-bold uppercase leading-none tracking-[.15em] text-[#494963]/55">Secuencia didáctica</p>
-        <Titulo className="mt-2 text-pretty font-display text-[19px] font-medium leading-[1.15] tracking-[-0.02em] text-[#494963]">{contenidos.secuencia ?? titulo}</Titulo>
-      </div>
+    <div className="border-b border-[#494963]/[.1] pb-4">
+      <p className="text-[10px] font-bold uppercase leading-none tracking-[.15em] text-[#494963]/55">Secuencia didáctica</p>
+      <Titulo className="mt-2 text-pretty font-display text-[19px] font-medium leading-[1.15] tracking-[-0.02em] text-[#494963]">{contenidos.secuencia ?? titulo}</Titulo>
     </div>
   );
 
@@ -93,7 +81,7 @@ export function ContenidosPortada({
       <p className="text-[10px] font-bold uppercase leading-none tracking-[.15em] text-[#494963]/55">Contenidos</p>
       <div className="mt-3 divide-y divide-[#494963]/[.1]">
         {contenidos.ejes.map(({ eje, items }) => (
-          <section key={eje} className="py-4 first:pt-0">
+          <section key={eje} className="py-4 first:pt-0 last:pb-0">
             <h4 className="text-[15px] font-bold uppercase leading-snug tracking-[.02em] text-[var(--accion)]">{eje}</h4>
             {items?.length ? (
               <ul className="mt-3 space-y-2.5">
@@ -114,20 +102,24 @@ export function ContenidosPortada({
     return (
       <Sheet>
         <SheetTrigger asChild>{trigger}</SheetTrigger>
-        <SheetContent side="bottom" style={estiloColor} className="v3-scroll-theme max-h-[88dvh] gap-0 overflow-y-auto rounded-t-2xl border-0 bg-white px-5 pb-6 pt-6">
+        <SheetContent side="bottom" style={estiloColor} className="v3-scroll-theme max-h-[88dvh] gap-0 overflow-y-auto rounded-t-2xl border-0 bg-white px-5 pb-8 pt-6">
           <div className="pr-10">{encabezado(SheetTitle)}</div>
           <SheetDescription className="sr-only">Contenidos de {descripcion}</SheetDescription>
           {lista}
-          <div className="mt-4 flex flex-wrap items-center gap-2">{acciones}</div>
         </SheetContent>
       </Sheet>
     );
   }
 
   return (
-    <Popover>
+    <Popover open={abierto} onOpenChange={setAbierto}>
       <PopoverAnchor virtualRef={anclaRef as RefObject<{ getBoundingClientRect: () => DOMRect }>} />
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
+      {/* Fondo apenas oscurecido mientras está abierto (pedido de Cami):
+         debajo del popover; un clic ahí cuenta como afuera y lo cierra. */}
+      {abierto
+        ? createPortal(<div aria-hidden="true" className="fixed inset-0 z-40 bg-[#25253a]/25 animate-in fade-in-0 duration-200" />, document.body)
+        : null}
       <PopoverContent
         side="bottom"
         align="center"
@@ -137,11 +129,9 @@ export function ContenidosPortada({
         aria-label={`Contenidos de ${descripcion}`}
         className="flex max-h-[min(36rem,var(--radix-popover-content-available-height))] w-[min(23rem,calc(100vw-2rem))] flex-col rounded-2xl border-0 bg-white p-0 text-[#494963] shadow-[0_12px_32px_rgba(73,73,99,.18)] ring-1 ring-[#494963]/[.08]"
       >
-        {/* Encabezado y acciones fijos; si la lista es larga, se desplaza
-           solo ella (Descargar siempre a la vista). */}
+        {/* Encabezado fijo; si la lista es larga, se desplaza solo ella. */}
         <div className="shrink-0 px-5 pt-5">{encabezado("p")}</div>
-        <div className="v3-scroll-theme min-h-0 flex-1 overflow-y-auto px-5 pb-1">{lista}</div>
-        <div className="flex shrink-0 flex-wrap items-center gap-2 border-t border-[#494963]/[.08] px-5 py-4">{acciones}</div>
+        <div className="v3-scroll-theme min-h-0 flex-1 overflow-y-auto px-5 pb-5">{lista}</div>
       </PopoverContent>
     </Popover>
   );
