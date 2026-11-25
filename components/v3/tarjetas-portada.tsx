@@ -105,7 +105,7 @@ export function TarjetasPortada({
               {/* Junto a la bajada y no en la fila de acciones: en las
                  tarjetas de a tres, Descargar, Ver contenidos y Compartir no
                  entran en una línea. */}
-              {item.contenidos ? <ContenidosPortada titulo={item.titulo} descripcion={contexto} portada={item.portada} contenidos={item.contenidos} color={color} acciones={acciones} /> : null}
+              {item.contenidos ? <ContenidosPortada titulo={item.titulo} descripcion={contexto} contenidos={item.contenidos} color={color} /> : null}
               {/* El pie (línea + acciones) va abajo de todo (mt-auto), con el
                  mismo aire arriba y abajo de la línea: así la línea queda a
                  la misma altura en todas las tarjetas de la fila y nunca
