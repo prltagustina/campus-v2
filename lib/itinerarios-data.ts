@@ -1,4 +1,15 @@
 import { cuadernilloMatematica } from "@/lib/matematica-secuencias";
+import {
+  contenidosArticulacionDocentes,
+  contenidosArticulacionEstudiantes,
+  contenidosArtesVisuales1ro,
+  contenidosCienciasNaturales5to,
+  contenidosCienciasSociales4to,
+  contenidosEducacionFisica1ro,
+  contenidosEducacionFisica4to,
+  contenidosMusica5to,
+  type ContenidosSecuencia,
+} from "@/lib/contenidos-secuencias";
 
 /* ─────────────────────────────────────────────
  * Itinerarios didácticos por área
@@ -19,6 +30,9 @@ export interface ItinerarioFile {
   /** "ver": el enlace abre un visor (Google Drive), no descarga. "abrir": una
    * página (p. ej. una formación del Campus). Por defecto, descarga. */
   accion?: "ver" | "abrir";
+  /** Eje y contenidos de la secuencia: se leen en el popover «Ver contenidos»
+   * de la tarjeta, antes de descargar. */
+  contenidos?: ContenidosSecuencia;
 }
 
 export interface ItinerarioGrado {
@@ -33,7 +47,9 @@ export interface ItinerarioCiclo {
   grados: ItinerarioGrado[];
 }
 
-export type CategoriaId = "docencia" | "estudiantes" | "articulacion";
+// articulacion-docencia / articulacion-estudiantes: Docencia y Estudiantes
+// del bloque propio de Articulación en las áreas (materiales-section.tsx).
+export type CategoriaId = "docencia" | "estudiantes" | "articulacion" | "articulacion-docencia" | "articulacion-estudiantes";
 
 /** Subgrupo desplegable dentro de una categoría (p. ej. Estudiantes / Docencia). */
 export interface ItinerarioSubgrupo {
@@ -72,8 +88,8 @@ const drive = (id: string) => `https://drive.google.com/uc?export=download&id=${
 // Portada nueva (simulada) y bajada de la secuencia de cada cuadernillo de
 // Matemática; ver lib/matematica-secuencias.ts.
 const cuadernillo = (clave: string) => {
-  const { portada, bajada } = cuadernilloMatematica(clave);
-  return { portada, descripcion: bajada };
+  const { portada, bajada, contenidos } = cuadernilloMatematica(clave);
+  return { portada, descripcion: bajada, contenidos };
 };
 
 /* ── Estructura base de ciclos/grados vacía (sin material aún) ── */
@@ -272,7 +288,8 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
           nombre: "¡Viajamos al pasado! Descubrimos la Santa Fe Colonial",
           formato: "PDF",
           url: drive("11TlMYCOOEPJhlgy7H_fvgJrivIzWFeCh"),
-          portada: "/portadas/ciencias-sociales-4to.jpg",
+          portada: "/portadas/nuevas/ciencias-sociales-4to.jpg",
+          contenidos: contenidosCienciasSociales4to,
         },
       ],
     }),
@@ -287,7 +304,8 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
           size: "26 MB",
           paginas: 22,
           url: "/documentos/secuencias/secuencia-ciencias-naturales-5to-grado.pdf",
-          portada: "/portadas/ciencias-naturales-5to.jpg",
+          portada: "/portadas/nuevas/ciencias-naturales-5to.jpg",
+          contenidos: contenidosCienciasNaturales5to,
         },
       ],
     }),
@@ -302,7 +320,8 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
           size: "1.7 MB",
           paginas: 25,
           url: "/documentos/secuencias/secuencia-educacion-fisica-1er-grado.pdf",
-          portada: "/portadas/educacion-fisica-1ro.jpg",
+          portada: "/portadas/nuevas/educacion-fisica-1ro.jpg",
+          contenidos: contenidosEducacionFisica1ro,
         },
       ],
       "4to": [
@@ -310,7 +329,8 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
           nombre: "Jugando Ando",
           formato: "PDF",
           url: drive("1GTvTd-FfdM8iia97pH5YY1HZoBna3O_t"),
-          portada: "/portadas/educacion-fisica-4to.jpg",
+          portada: "/portadas/nuevas/educacion-fisica-4to.jpg",
+          contenidos: contenidosEducacionFisica4to,
         },
       ],
     }),
@@ -326,7 +346,8 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
           size: "39 MB",
           paginas: 27,
           url: "/documentos/secuencias/secuencia-artes-visuales-1er-grado.pdf",
-          portada: "/portadas/artes-visuales-1ro.jpg",
+          portada: "/portadas/nuevas/artes-visuales-1ro.jpg",
+          contenidos: contenidosArtesVisuales1ro,
         },
       ],
       "5to": [
@@ -337,7 +358,8 @@ const recursosDocenciaPorArea: Record<string, RecursosDocenciaArea> = {
           size: "0.8 MB",
           paginas: 27,
           url: "/documentos/secuencias/secuencia-musica-5to-grado.pdf",
-          portada: "/portadas/musica-5to.jpg",
+          portada: "/portadas/nuevas/musica-5to.jpg",
+          contenidos: contenidosMusica5to,
         },
       ],
     }),
@@ -362,6 +384,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         paginas: 39,
         url: `${ART_BASE}/CienciasSociales-Estudiantes.pdf`,
         portada: "/portadas/ciencias-sociales-articulacion-estudiantes.jpg",
+        contenidos: contenidosArticulacionEstudiantes,
       },
     ],
     docencia: [
@@ -373,6 +396,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         paginas: 12,
         url: `${ART_BASE}/Ciencias-Sociales-Docentes.pdf`,
         portada: "/portadas/ciencias-sociales-articulacion-docentes.jpg",
+        contenidos: contenidosArticulacionDocentes,
       },
     ],
   },
@@ -386,6 +410,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         paginas: 36,
         url: `${ART_BASE}/Lengua-y-Literatura-Estudiantes.pdf`,
         portada: "/portadas/lengua-articulacion-estudiantes.jpg",
+        contenidos: contenidosArticulacionEstudiantes,
       },
     ],
     docencia: [
@@ -397,6 +422,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         paginas: 9,
         url: `${ART_BASE}/Lengua-y-Literatura-Docentes.pdf`,
         portada: "/portadas/lengua-articulacion-docentes.jpg",
+        contenidos: contenidosArticulacionDocentes,
       },
     ],
   },
@@ -410,6 +436,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         paginas: 43,
         url: `${ART_BASE}/Ciencias-Naturales-Estudiantes.pdf`,
         portada: "/portadas/ciencias-naturales-articulacion-estudiantes.jpg",
+        contenidos: contenidosArticulacionEstudiantes,
       },
     ],
     docencia: [
@@ -421,6 +448,7 @@ const articulacionPorArea: Record<string, ArticulacionArea> = {
         paginas: 10,
         url: `${ART_BASE}/Ciencias-Naturales-Docentes.pdf`,
         portada: "/portadas/ciencias-naturales-articulacion-docentes.jpg",
+        contenidos: contenidosArticulacionDocentes,
       },
     ],
   },

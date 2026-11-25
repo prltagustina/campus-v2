@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { FileText, ChevronDown, BookOpen, Download, ArrowUpRight } from "lucide-react";
 import type { Area } from "@/lib/areas-data";
+import { contenidosLenguasExtranjeras, type ContenidosSecuencia } from "@/lib/contenidos-secuencias";
 import {
   getItinerario,
   type ItinerarioGrado,
@@ -59,7 +60,7 @@ const normativaOtrasLenguas = [pautaLenguasExtranjeras];
 /* Secuencias didácticas reales por idioma (tomadas del Campus Educativo) */
 const secuenciasPorIdioma: Record<
   string,
-  { nombre: string; descripcion: string; paginas: number; size: string; url: string }[]
+  { nombre: string; descripcion: string; paginas: number; size: string; url: string; contenidos: ContenidosSecuencia }[]
 > = {
   ingles: [
     {
@@ -68,6 +69,7 @@ const secuenciasPorIdioma: Record<
       paginas: 41,
       size: "1.9 MB",
       url: "/documentos/secuencias/secuencia1_ingles.pdf",
+      contenidos: contenidosLenguasExtranjeras,
     },
   ],
   aleman: [
@@ -77,6 +79,7 @@ const secuenciasPorIdioma: Record<
       paginas: 41,
       size: "1.8 MB",
       url: "/documentos/secuencias/secuencia1_aleman.pdf",
+      contenidos: contenidosLenguasExtranjeras,
     },
   ],
   frances: [
@@ -86,6 +89,7 @@ const secuenciasPorIdioma: Record<
       paginas: 41,
       size: "1.9 MB",
       url: "/documentos/secuencias/secuencia1_frances.pdf",
+      contenidos: contenidosLenguasExtranjeras,
     },
   ],
   italiano: [
@@ -95,6 +99,7 @@ const secuenciasPorIdioma: Record<
       paginas: 41,
       size: "1.9 MB",
       url: "/documentos/secuencias/secuencia1_italiano.pdf",
+      contenidos: contenidosLenguasExtranjeras,
     },
   ],
   portugues: [
@@ -104,6 +109,7 @@ const secuenciasPorIdioma: Record<
       paginas: 41,
       size: "1.8 MB",
       url: "/documentos/secuencias/secuencia1_portugues.pdf",
+      contenidos: contenidosLenguasExtranjeras,
     },
   ],
 };
@@ -142,6 +148,7 @@ function ciclosDeCategoria(categoria: ItinerarioCategoria): ItinerarioCicloEntry
 function CicloAccordion({
   groupId,
   ciclo,
+  categoria,
   color,
   activeForeground,
   open,
@@ -149,6 +156,8 @@ function CicloAccordion({
 }: {
   groupId: string;
   ciclo: ItinerarioCicloEntry;
+  /** Categoría que lo contiene: se antepone en la barra fija. */
+  categoria: string;
   color: string;
   activeForeground: string;
   open: boolean;
@@ -169,6 +178,7 @@ function CicloAccordion({
       size="sm"
       open={open}
       onToggle={onToggle}
+      contextoFijo={categoria}
     >
       {singleGrado ? (
         <RepositoryFileGroup
@@ -192,6 +202,7 @@ function CicloAccordion({
 function SubgrupoAccordion({
   groupId,
   subgrupo,
+  categoria,
   color,
   activeForeground,
   open,
@@ -199,6 +210,8 @@ function SubgrupoAccordion({
 }: {
   groupId: string;
   subgrupo: ItinerarioSubgrupo;
+  /** Categoría que lo contiene: se antepone en la barra fija. */
+  categoria: string;
   color: string;
   activeForeground: string;
   open: boolean;
@@ -215,6 +228,7 @@ function SubgrupoAccordion({
       size="sm"
       open={open}
       onToggle={onToggle}
+      contextoFijo={categoria}
     >
       <RepositoryFileGroup files={subgrupo.files.map((file) => ({ file }))} color={color} conPortadas />
     </RepositoryAccordionGroup>
@@ -299,6 +313,7 @@ function CategoriaAccordion({
               key={ciclo.id}
               groupId={`categoria-${categoria.id}-ciclo-${ciclo.id}`}
               ciclo={ciclo}
+              categoria={categoriaDisplayTitle(categoria)}
               color={color}
               activeForeground={activeForeground}
               open={openNested === ciclo.id}
@@ -312,6 +327,7 @@ function CategoriaAccordion({
               key={subgrupo.id}
               groupId={`categoria-${categoria.id}-subgrupo-${subgrupo.id}`}
               subgrupo={subgrupo}
+              categoria={categoriaDisplayTitle(categoria)}
               color={color}
               activeForeground={activeForeground}
               open={openNested === subgrupo.id}
@@ -483,8 +499,8 @@ function filterItinerarioByLanguage(
   };
 }
 
-/* Contenedor con estado de apertura de categorías (Docencia/Estudiantes/
-   Articulación) y de sus grupos anidados (ciclos/subgrupos). Vive en su
+/* Contenedor con estado de apertura de categorías (Docencia/Estudiantes, de
+   Itinerarios o de Articulación) y de sus grupos anidados (ciclos). Vive en su
    propio componente para no llamar hooks condicionalmente detrás del
    `return` temprano de Lenguas Extranjeras en MaterialesSection. */
 function ItinerarioRepository({
@@ -531,6 +547,25 @@ export function MaterialesSection({ area, artisticLanguage }: MaterialesSectionP
 
   const itinerario = filterItinerarioByLanguage(getItinerario(area.slug), artisticLanguage);
 
+  // Articulación Primaria-Secundaria como bloque propio, igual que
+  // Itinerarios didácticos y dividido como él en Docencia y Estudiantes
+  // (pedido de Visuales Curricular, 2026-11-24: antes era una tercera
+  // categoría de Itinerarios, con sus recursos para la docencia y para los
+  // estudiantes adentro). Solo cambia cómo se muestra: los datos siguen
+  // igual (los usa también Materiales por ciclo).
+  const itinerarios = { categorias: itinerario.categorias.filter((categoria) => categoria.id !== "articulacion") };
+  const articulacion = itinerario.categorias.find((categoria) => categoria.id === "articulacion");
+  const articulacionPorDestinatario = articulacion?.subgrupos
+    ? {
+        categorias: articulacion.subgrupos.map((subgrupo) => ({
+          id: subgrupo.id === "docencia" ? ("articulacion-docencia" as const) : ("articulacion-estudiantes" as const),
+          nombre: subgrupo.id === "docencia" ? "Docencia" : "Estudiantes",
+          descripcion: `${subgrupo.nombre}.`,
+          files: subgrupo.files,
+        })),
+      }
+    : null;
+
   return (
     <section id="materiales" className="min-w-0 max-w-full">
       {/* px-4 md:px-0: el botón de categoría de más abajo (RepositoryAccordionGroup)
@@ -547,7 +582,21 @@ export function MaterialesSection({ area, artisticLanguage }: MaterialesSectionP
         </p>
       </div>
 
-      <ItinerarioRepository itinerario={itinerario} color={area.color} activeForeground={areaNavForeground(area)} />
+      <ItinerarioRepository itinerario={itinerarios} color={area.color} activeForeground={areaNavForeground(area)} />
+
+      {articulacionPorDestinatario ? (
+        <>
+          <div className="mb-6 mt-12 max-w-2xl px-4 md:mb-8 md:mt-16 md:px-0">
+            <h3 className="text-2xl font-semibold tracking-[-.03em] text-[#494963] font-display text-balance sm:text-3xl lg:text-4xl">
+              {articulacion?.nombre}
+            </h3>
+            <p className="text-sm sm:text-base lg:text-lg text-[#494963]/50 mt-2 max-w-xl text-pretty">
+              {articulacion?.descripcion}
+            </p>
+          </div>
+          <ItinerarioRepository itinerario={articulacionPorDestinatario} color={area.color} activeForeground={areaNavForeground(area)} />
+        </>
+      ) : null}
     </section>
   );
 }

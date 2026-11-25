@@ -1,3 +1,5 @@
+import { contenidosMatematica, type ContenidosSecuencia } from "@/lib/contenidos-secuencias";
+
 /* ─────────────────────────────────────────────
  * Cuadernillos de Matemática (Primaria): la secuencia didáctica de cada uno y
  * su portada nueva.
@@ -41,11 +43,14 @@ const secuencias: Record<string, { secuencia: string; eje: string }> = {
 
 export type ClaveCuadernillo = keyof typeof secuencias;
 
-/** Portada nueva y bajada del cuadernillo (clave: "1ro-n1", "4to-n1-1"...). */
+/** Portada nueva, bajada y contenidos del cuadernillo (clave: "1ro-n1",
+ * "4to-n1-1"...). */
 export function cuadernilloMatematica(clave: ClaveCuadernillo) {
   const { secuencia, eje } = secuencias[clave];
+  const contenidos: ContenidosSecuencia = { secuencia, ejes: [{ eje, items: contenidosMatematica[clave] }] };
   return {
     portada: `/portadas/nuevas/matematica-${clave}.jpg`,
     bajada: `Secuencia didáctica: ${secuencia}\u00a0· ${eje}`,
+    contenidos,
   };
 }

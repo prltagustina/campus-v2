@@ -1,5 +1,8 @@
 import { Download, Eye, FileText } from "lucide-react";
+import type { ContenidosSecuencia } from "@/lib/contenidos-secuencias";
+import { ContenidosPortada } from "@/components/v3/contenidos-portada";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
+import { colorTextoSobreBlanco } from "@/lib/color-texto";
 
 export interface TarjetaPortada {
   id: string;
@@ -15,6 +18,8 @@ export interface TarjetaPortada {
   descargar?: string;
   /** Visor (Google Drive): solo el ojo. */
   ver?: string;
+  /** Eje y contenidos de la secuencia: suma «Ver contenidos». */
+  contenidos?: ContenidosSecuencia;
 }
 
 /**
@@ -71,9 +76,16 @@ export function TarjetasPortada({
   const Titulo = nivelTitulo;
   return (
     <div className="@container">
-    <ul className="grid gap-3 @min-[820px]:grid-cols-3 @min-[820px]:gap-4" style={{ ["--accion" as string]: color }}>
+    <ul className="grid gap-3 @min-[820px]:grid-cols-3 @min-[820px]:gap-4" style={{ ["--accion" as string]: color, ["--accion-texto" as string]: colorTextoSobreBlanco(color) }}>
       {items.map((item) => {
         const contexto = item.detalle ? `${item.titulo}, ${item.detalle}` : item.titulo;
+        const acciones = (
+          <>
+            {item.descargar ? <AccionPortada tipo="descargar" url={item.descargar} titulo={contexto} /> : null}
+            {item.ver ? <AccionPortada tipo="ver" url={item.ver} titulo={contexto} /> : null}
+            <ShareResourceButton title={contexto} url={item.descargar ?? item.ver ?? ""} />
+          </>
+        );
         return (
           <li key={item.id} className="flex min-w-0 overflow-hidden rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)] ring-1 ring-[#494963]/[.06] @min-[820px]:flex-col">
             <div className="flex shrink-0 items-center justify-center bg-[color-mix(in_srgb,var(--accion)_6%,white)] p-3 @min-[820px]:px-6 @min-[820px]:py-7">
@@ -91,15 +103,17 @@ export function TarjetasPortada({
               <Titulo className="text-pretty text-[15px] font-medium leading-snug text-[#494963] sm:text-[17px]">{item.titulo}</Titulo>
               {item.detalle ? <p className="mt-1 text-sm text-[#494963]/[.82]">{item.detalle}</p> : null}
               {item.meta ? <p className="mt-1 text-xs text-[#494963]/[.82]">{item.meta}</p> : null}
+              {/* Junto a la bajada y no en la fila de acciones: en las
+                 tarjetas de a tres, Descargar, Ver contenidos y Compartir no
+                 entran en una línea. */}
+              {item.contenidos ? <ContenidosPortada titulo={item.titulo} descripcion={contexto} portada={item.portada} contenidos={item.contenidos} color={color} acciones={acciones} /> : null}
               {/* El pie (línea + acciones) va abajo de todo (mt-auto), con el
                  mismo aire arriba y abajo de la línea: así la línea queda a
                  la misma altura en todas las tarjetas de la fila y nunca
                  pegada al texto, aunque un título ocupe más líneas. */}
               <div className="mt-auto pt-3 @min-[820px]:pt-4">
                 <div className="flex flex-wrap items-center gap-2 @min-[820px]:border-t @min-[820px]:border-[#494963]/[.07] @min-[820px]:pt-4">
-                  {item.descargar ? <AccionPortada tipo="descargar" url={item.descargar} titulo={contexto} /> : null}
-                  {item.ver ? <AccionPortada tipo="ver" url={item.ver} titulo={contexto} /> : null}
-                  <ShareResourceButton title={contexto} url={item.descargar ?? item.ver ?? ""} />
+                  {acciones}
                 </div>
               </div>
             </div>
