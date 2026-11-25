@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Bookmark, Download, ExternalLink, Eye, FileText } from "lucide-react";
 import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
@@ -123,6 +123,7 @@ function MaterialesConTapa({ files, color, nivelTitulo }: { files: { label?: str
           portada: file.portada,
           descargar: file.accion ? undefined : file.url,
           ver: file.accion === "ver" ? file.url : undefined,
+          contenidos: file.contenidos,
         }))}
       />
     </div>
@@ -170,7 +171,9 @@ export function RepositoryFileGroup({
     // ancho) la columna 9rem + 1fr dejaba apenas ~30px para el título del
     // archivo, partiéndolo en una palabra por línea. Apilado (label arriba,
     // contenido abajo, ancho completo) hasta que hay espacio real de sobra.
-    <section className="grid border-b border-b-[#494963]/[.07] last:border-b-0 lg:grid-cols-[9rem_minmax(0,1fr)]">
+    // data-grado: la barra fija del ciclo lo usa para mostrar en qué grado
+    // se está al bajar ("Docencia / Primer ciclo / 2do Grado").
+    <section data-grado={label} className="grid border-b border-b-[#494963]/[.07] last:border-b-0 lg:grid-cols-[9rem_minmax(0,1fr)]">
       {/* px-4/sm:px-7 (no px-4/md:px-5): mismo inset horizontal que "Docencia"/
          "Primer Ciclo" arriba, para que "1er grado" quede alineado con ellos. */}
       <header className="px-4 py-4 sm:px-7 lg:py-5">
@@ -245,6 +248,12 @@ export function RepositoryAccordionGroup({
   /** Sin materiales todavía: en vez de la flecha, "Próximamente", como en el
    * Campus (repositorios de las áreas). Apagado por defecto. */
   proximamente = false,
+  /** Nivel anidado (ciclo/subgrupo de Itinerarios): abierto, su barra queda
+   * fija arriba al scrollear, para no perderse entre muchos materiales
+   * (pedido de Visuales Curricular, 2026-11-24). Es el nombre de la
+   * categoría que lo contiene, que se antepone mientras la barra está fija
+   * ("Docencia · Segundo ciclo"). */
+  contextoFijo,
   children,
 }: {
   id: string;
@@ -261,6 +270,7 @@ export function RepositoryAccordionGroup({
   size?: keyof typeof sizeClasses;
   collapsible?: boolean;
   proximamente?: boolean;
+  contextoFijo?: string;
   children: ReactNode;
 }) {
   const contentId = `repositorio-${id}`;
@@ -274,6 +284,52 @@ export function RepositoryAccordionGroup({
    * no "esto tiene materiales". */
   const filled = s.solidFill && isOpen;
 
+  // Barra fija: solo con el grupo abierto. «Pegada» = ya se separó del borde
+  // de arriba de su grupo (está fija); ahí se pinta del color del área y
+  // muestra dónde se está.
+  const sectionRef = useRef<HTMLElement>(null);
+  const botonRef = useRef<HTMLButtonElement>(null);
+  const fija = contextoFijo !== undefined && collapsible && isOpen;
+  const [pegada, setPegada] = useState(false);
+  // Grado que se está viendo debajo de la barra fija (el último cuyo bloque
+  // ya pasó por debajo de ella).
+  const [grado, setGrado] = useState<string | null>(null);
+  useEffect(() => {
+    if (!fija) {
+      setPegada(false);
+      setGrado(null);
+      return;
+    }
+    const medir = () => {
+      const grupo = sectionRef.current?.getBoundingClientRect();
+      const barra = botonRef.current?.getBoundingClientRect();
+      if (!grupo || !barra) return;
+      setPegada(barra.top - grupo.top > 1);
+      let actual: string | null = null;
+      sectionRef.current?.querySelectorAll<HTMLElement>("[data-grado]").forEach((bloque) => {
+        if (bloque.getBoundingClientRect().top <= barra.bottom + 1) actual = bloque.dataset.grado ?? null;
+      });
+      setGrado(actual);
+    };
+    medir();
+    // El scroll es del contenido (escritorio) o de la página (celular): se
+    // escucha en captura para enterarse de los dos.
+    document.addEventListener("scroll", medir, { capture: true, passive: true });
+    window.addEventListener("resize", medir);
+    return () => {
+      document.removeEventListener("scroll", medir, { capture: true });
+      window.removeEventListener("resize", medir);
+    };
+  }, [fija]);
+
+  // Cerrar desde la barra fija: al plegarse, el grupo quedaría arriba, fuera
+  // de la vista; se lo vuelve a mostrar para no perder el lugar.
+  const alternar = () => {
+    const estabaPegada = pegada;
+    onToggle?.();
+    if (estabaPegada) requestAnimationFrame(() => sectionRef.current?.scrollIntoView({ block: "nearest" }));
+  };
+
   return (
     // Borde propio del color del área en el nivel principal (lg), como los
     // botones de área del rail - antes vivían todos juntos dentro de una
@@ -283,14 +339,19 @@ export function RepositoryAccordionGroup({
     // abajo del color del área (antes gris parejo, no distinguía de qué
     // área era) - sin ella, uno se pegaba directo con el siguiente sobre
     // el mismo fondo, sin ninguna separación visible entre los dos.
+    // overflow-clip (no overflow-hidden) en el nivel principal: recorta igual
+    // las esquinas, pero deja que la barra del nivel anidado quede fija al
+    // scrollear (overflow-hidden la encerraba).
     <section
-      className={`[overflow-anchor:none] ${size === "lg" ? "overflow-hidden rounded-[9px] border" : "border-b border-[var(--area)]/[.3] last:border-b-0"}`}
+      ref={sectionRef}
+      className={`[overflow-anchor:none] ${size === "lg" ? "overflow-clip rounded-[9px] border" : "border-b border-[var(--area)]/[.3] last:border-b-0"}`}
       style={{ ["--area" as string]: color, ...(size === "lg" ? { borderColor: color } : {}) }}
     >
       {collapsible ? (
         <button
+          ref={botonRef}
           type="button"
-          onClick={onToggle}
+          onClick={alternar}
           disabled={total === 0}
           aria-disabled={total === 0}
           aria-expanded={isOpen}
@@ -300,12 +361,16 @@ export function RepositoryAccordionGroup({
           // sin caja (ver más abajo), queda centrada en el medio del
           // bloque completo, como un acordeón normal.
           className={`group grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-left text-[#494963] transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#494963] disabled:cursor-default disabled:hover:bg-transparent ${s.button} ${
-            filled ? "hover:brightness-95" : isOpen ? "bg-[var(--area)]/[.06]" : `hover:bg-[var(--area)]/[.04] ${s.idleBg}`
+            filled ? "hover:brightness-95" : isOpen ? (fija ? "sticky top-0 z-10 bg-[color-mix(in_srgb,var(--area)_6%,white)]" : "bg-[var(--area)]/[.06]") : `hover:bg-[var(--area)]/[.04] ${s.idleBg}`
           }`}
+          // Fija («pegada»): franja en el color del área con letra blanca
+          // (o la tinta en las áreas claras: el mismo activeForeground del
+          // nivel principal), para que se lea como el encabezado del lugar
+          // donde se está.
           style={{
             ["--area" as string]: color,
-            backgroundColor: filled ? color : undefined,
-            color: filled ? fg : undefined,
+            backgroundColor: filled || pegada ? color : undefined,
+            color: filled || pegada ? fg : undefined,
           }}
         >
           <span className="min-w-0">
@@ -315,7 +380,27 @@ export function RepositoryAccordionGroup({
                título gris encima leía inconsistente, ahora el color se
                aplica siempre que no haya relleno sólido, con o sin
                contenido. */}
-            <span className={`block text-balance ${s.title}`} style={!filled && s.titleTinted ? { color } : undefined}>{title}</span>
+            <span className={`block text-balance ${s.title}`} style={!filled && !pegada && s.titleTinted ? { color } : undefined}>
+              {/* Fija: como la miga de pan de la franja de arriba
+                 ("Docencia / Primer ciclo / 2do Grado"): los niveles
+                 anteriores más suaves y el último pleno. En celular, sin la
+                 categoría, para que entre en una línea. */}
+              {pegada ? (
+                <>
+                  <span className="hidden font-medium opacity-75 sm:inline">{contextoFijo}</span>
+                  <span className="mx-2 hidden font-normal opacity-45 sm:inline" aria-hidden="true">/</span>
+                </>
+              ) : null}
+              {pegada && grado ? (
+                <>
+                  <span className="font-medium opacity-75">{title}</span>
+                  <span className="mx-2 font-normal opacity-45" aria-hidden="true">/</span>
+                  <span>{grado}</span>
+                </>
+              ) : (
+                title
+              )}
+            </span>
             {description ? (
               <span className={`block ${s.description} ${filled ? "" : "text-[#494963]/65"}`} style={filled ? { color: fg, opacity: 0.75 } : undefined}>
                 {description}
@@ -327,7 +412,7 @@ export function RepositoryAccordionGroup({
              flecha de los botones de área) - mismo tamaño que ahí, rotada
              90° al abrir en vez de apuntar siempre a la derecha. */}
           {total ? (
-            <span className={`inline-flex shrink-0 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} style={{ color: filled ? fg : color }} aria-hidden="true">
+            <span className={`inline-flex shrink-0 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} style={{ color: filled || pegada ? fg : color }} aria-hidden="true">
               <SolidAreaArrow />
             </span>
           ) : proximamente ? (
