@@ -1,3 +1,5 @@
+import type { ContenidosSecuencia } from "@/lib/contenidos-secuencias";
+
 /**
  * Tipos compartidos por los programas del Campus que no son Diseño Curricular
  * (Plan Provincial de Matemática, Modo Secundaria). Los datos viven en
@@ -37,6 +39,8 @@ export interface Recurso {
   meta?: string;
   /** Portada publicada en el Campus. */
   portada?: string;
+  /** Ejes y contenidos de la secuencia, para «Ver contenidos» en la tarjeta. */
+  contenidos?: ContenidosSecuencia;
   /** "horizontal" para banners de programas (2:1); por defecto, tapa de documento (3:4). */
   portadaFormato?: "vertical" | "horizontal";
   /** Solo si la imagen tiene texto propio que hay que transcribir. */

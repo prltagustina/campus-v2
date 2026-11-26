@@ -96,11 +96,10 @@ function ArtisticLanguageTabs({
   const options = [{ id: artisticAreaId, name: "Ed. Artística" }, ...subareas];
 
   return (
-    // pb-2.5 (no md:pb-8): mismo espacio de abajo que la separación de la
-    // botonera de áreas (gap-2.5), en todos los anchos. pt-2.5 en mobile
-    // (antes pt-6): mismo valor que el pb, quedaba con mucho más aire arriba
-    // que abajo.
-    <section className="sticky top-0 z-30 bg-white px-4 pt-2.5 pb-2.5 md:px-[14px] md:pt-0">
+    // pb-5/md:pb-7 (antes pb-2.5): más aire entre la botonera de lenguajes y
+    // el banner del documento, que quedaba amontonado (pedido de Agus,
+    // 2026-11-25). pt-2.5 en mobile: arriba sigue igual.
+    <section className="sticky top-0 z-30 bg-white px-4 pt-2.5 pb-5 md:px-[14px] md:pt-0 md:pb-7">
       <PillTabs
         options={options}
         selectedId={selectedId}

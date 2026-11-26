@@ -131,6 +131,7 @@ const cuadernillo = (
   detalle: cuadernilloMatematica(clave).bajada,
   meta: "PDF",
   portada: cuadernilloMatematica(clave).portada,
+  contenidos: cuadernilloMatematica(clave).contenidos,
   acciones: [{ tipo: "descargar", url: descarga(driveId) }],
   origen: [{ pagina: ORIGEN, ubicacion: `Educación Primaria > Materiales > ${grado}` }],
 });
@@ -333,6 +334,7 @@ function comoArchivo(ubicacion: Ubicacion): ItinerarioFile {
     formato: pagina ? recurso.detalle : "PDF",
     url: accion.url,
     portada: recurso.portada,
+    contenidos: recurso.contenidos,
     accion: accion.tipo === "ver" ? "ver" : pagina ? "abrir" : undefined,
   };
 }

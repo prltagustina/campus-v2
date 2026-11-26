@@ -2,6 +2,7 @@ import { Download, Eye, FileText } from "lucide-react";
 import type { ContenidosSecuencia } from "@/lib/contenidos-secuencias";
 import { ContenidosPortada } from "@/components/v3/contenidos-portada";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
+import { colorSobreArea, colorTextoArea } from "@/lib/color-texto";
 
 export interface TarjetaPortada {
   id: string;
@@ -39,7 +40,7 @@ function AccionPortada({ tipo, url, titulo }: { tipo: "ver" | "descargar"; url: 
       download={ver ? undefined : ""}
       aria-label={`${ver ? "Ver documento" : "Descargar PDF"}: ${titulo}${ver ? " (se abre en una pestaña nueva)" : ""}`}
       title={ver ? "Ver documento" : undefined}
-      className={`inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[9px] border border-[color-mix(in_srgb,var(--accion)_25%,transparent)] bg-white text-sm font-semibold text-[var(--accion)] transition-colors duration-150 hover:border-[var(--accion)] hover:bg-[var(--accion)] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] ${ver ? "w-10" : "px-3.5"}`}
+      className={`inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[9px] border border-[color-mix(in_srgb,var(--accion)_25%,transparent)] bg-white text-sm font-semibold text-[var(--accion-texto)] transition-colors duration-150 hover:border-[var(--accion)] hover:bg-[var(--accion)] hover:text-[var(--accion-sobre)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] ${ver ? "w-10" : "px-3.5"}`}
     >
       <Icono className="h-4 w-4 shrink-0" aria-hidden="true" />
       {/* "Descargar", como en las filas del repositorio: el formato ya
@@ -54,11 +55,11 @@ function AccionPortada({ tipo, url, titulo }: { tipo: "ver" | "descargar"; url: 
  * tarjetas de Formaciones del sitio: tarjeta blanca redondeada con la sombra
  * chica, arriba la tapa centrada sobre un fondo apenas teñido del color de la
  * sección y abajo el título, el formato y las acciones (alineadas abajo,
- * separadas por la línea fina de Formaciones). Cuando el bloque tiene ancho
- * para que entren las acciones en una línea (820 px, se mide el bloque y no
- * la pantalla), tres por fila, todas del mismo ancho; si no, cada tarjeta es
- * una fila (tapa chica a la izquierda, datos y acciones a la derecha), para
- * no apilar tapas enormes.
+ * separadas por la línea fina de Formaciones). Se mide el bloque y no la
+ * pantalla: desde 820 px, tres por fila; desde 540 px, dos por fila; más
+ * angosto, cada tarjeta es una fila (tapa a la izquierda, datos y acciones
+ * a la derecha), para no apilar tapas enormes. Portadas de hasta 180 px
+ * (pedido de Agus, 2026-11-25: que se vean más grandes).
  * La usan Modo Secundaria (Alfabetización, Itinerarios Matemáticos) y los
  * Juegos Matemáticos del Plan.
  */
@@ -75,7 +76,7 @@ export function TarjetasPortada({
   const Titulo = nivelTitulo;
   return (
     <div className="@container">
-    <ul className="grid gap-3 @min-[820px]:grid-cols-3 @min-[820px]:gap-4" style={{ ["--accion" as string]: color }}>
+    <ul className="grid gap-3 @min-[540px]:grid-cols-2 @min-[540px]:gap-4 @min-[820px]:grid-cols-3" style={{ ["--accion" as string]: color, ["--accion-texto" as string]: colorTextoArea(color), ["--accion-sobre" as string]: colorSobreArea(color) }}>
       {items.map((item) => {
         const contexto = item.detalle ? `${item.titulo}, ${item.detalle}` : item.titulo;
         const acciones = (
@@ -86,32 +87,36 @@ export function TarjetasPortada({
           </>
         );
         return (
-          <li key={item.id} className="flex min-w-0 overflow-hidden rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)] ring-1 ring-[#494963]/[.06] @min-[820px]:flex-col">
-            <div className="flex shrink-0 items-center justify-center bg-[color-mix(in_srgb,var(--accion)_6%,white)] p-3 @min-[820px]:px-6 @min-[820px]:py-7">
+          <li key={item.id} className="flex min-w-0 overflow-hidden rounded-2xl bg-white shadow-[0_2px_10px_rgba(73,73,99,.065)] ring-1 ring-[#494963]/[.06] @min-[540px]:flex-col">
+            <div className="flex shrink-0 items-center justify-center bg-[color-mix(in_srgb,var(--accion)_6%,white)] p-3 @min-[540px]:px-6 @min-[540px]:py-7">
               {item.portada ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={item.portada} alt="" loading="lazy" className="aspect-[212/300] w-16 rounded-[4px] object-cover shadow-[0_8px_20px_rgba(20,20,35,.16)] @min-[480px]:w-20 @min-[820px]:w-full @min-[820px]:max-w-[150px]" />
+                <img src={item.portada} alt="" loading="lazy" className="aspect-[212/300] w-20 rounded-[4px] object-cover shadow-[0_8px_20px_rgba(20,20,35,.16)] @min-[400px]:w-24 @min-[540px]:w-full @min-[540px]:max-w-[180px]" />
               ) : (
-                <span className="grid aspect-[212/300] w-16 place-items-center rounded-[4px] border border-[color-mix(in_srgb,var(--accion)_22%,transparent)] bg-white text-[var(--accion)] @min-[480px]:w-20 @min-[820px]:w-full @min-[820px]:max-w-[150px]" aria-hidden="true">
-                  <FileText className="h-5 w-5 opacity-60 @min-[820px]:h-8 @min-[820px]:w-8" strokeWidth={1.5} />
+                <span className="grid aspect-[212/300] w-20 place-items-center rounded-[4px] border border-[color-mix(in_srgb,var(--accion)_22%,transparent)] bg-white text-[var(--accion)] @min-[400px]:w-24 @min-[540px]:w-full @min-[540px]:max-w-[180px]" aria-hidden="true">
+                  <FileText className="h-5 w-5 opacity-60 @min-[540px]:h-8 @min-[540px]:w-8" strokeWidth={1.5} />
                 </span>
               )}
             </div>
-            <div className="flex min-w-0 flex-1 flex-col p-4 @min-[820px]:p-5">
-              {item.rotulo ? <p className="mb-1.5 text-[10px] font-bold uppercase leading-none tracking-[.15em] text-[var(--accion)]">{item.rotulo}</p> : null}
+            <div className="flex min-w-0 flex-1 flex-col p-4 @min-[540px]:p-5">
+              {item.rotulo ? <p className="mb-1.5 text-[10px] font-bold uppercase leading-none tracking-[.15em] text-[var(--accion-texto)]">{item.rotulo}</p> : null}
               <Titulo className="text-pretty text-[15px] font-medium leading-snug text-[#494963] sm:text-[17px]">{item.titulo}</Titulo>
               {item.detalle ? <p className="mt-1 text-sm text-[#494963]/[.82]">{item.detalle}</p> : null}
               {item.meta ? <p className="mt-1 text-xs text-[#494963]/[.82]">{item.meta}</p> : null}
-              {/* Junto a la bajada y no en la fila de acciones: en las
-                 tarjetas de a tres, Descargar, Ver contenidos y Compartir no
-                 entran en una línea. */}
-              {item.contenidos ? <ContenidosPortada titulo={item.titulo} descripcion={contexto} contenidos={item.contenidos} color={color} /> : null}
-              {/* El pie (línea + acciones) va abajo de todo (mt-auto), con el
-                 mismo aire arriba y abajo de la línea: así la línea queda a
-                 la misma altura en todas las tarjetas de la fila y nunca
-                 pegada al texto, aunque un título ocupe más líneas. */}
-              <div className="mt-auto pt-3 @min-[820px]:pt-4">
-                <div className="flex flex-wrap items-center gap-2 @min-[820px]:border-t @min-[820px]:border-[#494963]/[.07] @min-[820px]:pt-4">
+              {/* El pie (Ver contenidos, línea y acciones) va abajo de todo
+                 (mt-auto), con el mismo aire arriba y abajo de la línea: así
+                 «Ver contenidos» y la línea quedan a la misma altura en todas
+                 las tarjetas de la fila (pedido de Agus) y nunca pegados al
+                 texto, aunque un título o una bajada ocupen más líneas. Ver
+                 contenidos va en su propia línea: en las tarjetas de a tres no
+                 entra junto a Descargar y Compartir. */}
+              <div className="mt-auto pt-3 @min-[540px]:pt-4">
+                {item.contenidos ? (
+                  <div className="mb-3 @min-[540px]:mb-4">
+                    <ContenidosPortada titulo={item.titulo} descripcion={contexto} contenidos={item.contenidos} color={color} />
+                  </div>
+                ) : null}
+                <div className="flex flex-wrap items-center gap-2 @min-[540px]:border-t @min-[540px]:border-[#494963]/[.07] @min-[540px]:pt-4">
                   {acciones}
                 </div>
               </div>

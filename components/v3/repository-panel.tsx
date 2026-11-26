@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Download, ExternalLink, FileText } from "lucide-react";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
+import { colorTextoArea } from "@/lib/color-texto";
 
 /**
  * Tarjeta de repositorio compartida por las secciones institucionales
@@ -119,7 +120,7 @@ export function ResourceRow({
   return (
     <article
       className={`group/resource grid min-w-0 gap-3 px-4 py-4 transition-colors sm:px-6 sm:py-5 ${sideActions ? "grid-cols-[minmax(0,1fr)_auto] items-center" : "sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"} sm:gap-5 ${chip ? "rounded-2xl border border-[#494963]/[.08] bg-white hover:border-[#494963]/[.16]" : "hover:bg-[#494963]/[.025]"}`}
-      style={{ ["--area" as string]: color }}
+      style={{ ["--area" as string]: color, ["--area-texto" as string]: colorTextoArea(color) }}
     >
       <a
         href={href}
@@ -143,7 +144,7 @@ export function ResourceRow({
           target={download ? undefined : "_blank"}
           rel={download ? undefined : "noopener noreferrer"}
           aria-label={`${label} ${title}`}
-          className={`inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] ${showActionLabel ? "xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent" : ""}`}
+          className={`inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area-texto)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] ${showActionLabel ? "xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent" : ""}`}
         >
           {actionIcon ?? (download ? <Download className="h-4 w-4 shrink-0" /> : <ExternalLink className="h-4 w-4 shrink-0" />)}
           {showActionLabel ? <span className="hidden text-xs font-semibold xl:inline xl:text-sm">{label}</span> : null}
