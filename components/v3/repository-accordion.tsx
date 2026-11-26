@@ -6,6 +6,7 @@ import { SolidAreaArrow } from "@/components/v3/area-nav-link";
 import { ShareResourceButton } from "@/components/v3/share-resource-button";
 import { TarjetasPortada } from "@/components/v3/tarjetas-portada";
 import type { ItinerarioFile } from "@/lib/itinerarios-data";
+import { colorTextoArea } from "@/lib/color-texto";
 
 /**
  * Piezas presentacionales compartidas por los repositorios de materiales
@@ -45,7 +46,7 @@ export function RepositoryMaterialRow({
     // acciones al costado del texto desde mobile.
     <article
       className="group/material grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 transition-colors hover:bg-[#494963]/[.025] sm:gap-5 sm:px-7 sm:py-5"
-      style={{ ["--area" as string]: color }}
+      style={{ ["--area" as string]: color, ["--area-texto" as string]: colorTextoArea(color) }}
     >
       <a
         href={file.url}
@@ -61,7 +62,7 @@ export function RepositoryMaterialRow({
           {label ? (
             <span
               className="block text-[9px] font-bold uppercase leading-none tracking-[.15em] sm:text-[10px]"
-              style={{ color }}
+              style={{ color: colorTextoArea(color) }}
             >
               {label}
             </span>
@@ -91,7 +92,7 @@ export function RepositoryMaterialRow({
           rel="noopener noreferrer"
           download={ver || abrir ? undefined : true}
           aria-label={`${accionLabel} ${file.nombre}`}
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#494963]/[.06] text-[var(--area-texto)] transition-colors hover:bg-[#494963]/[.12] hover:text-[#494963] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#494963] xl:w-auto xl:rounded-none xl:bg-transparent xl:px-2 xl:hover:bg-transparent"
         >
           <IconoAccion className="h-4 w-4 shrink-0" />
           <span className="hidden text-xs font-semibold xl:inline xl:text-sm">{accionLabel}</span>
@@ -173,18 +174,20 @@ export function RepositoryFileGroup({
     // contenido abajo, ancho completo) hasta que hay espacio real de sobra.
     // data-grado: la barra fija del ciclo lo usa para mostrar en qué grado
     // se está al bajar ("Docencia / Primer ciclo / 2do Grado").
-    <section data-grado={label} className="grid border-b border-b-[#494963]/[.07] last:border-b-0 lg:grid-cols-[9rem_minmax(0,1fr)]">
-      {/* px-4/sm:px-7 (no px-4/md:px-5): mismo inset horizontal que "Docencia"/
-         "Primer Ciclo" arriba, para que "1er grado" quede alineado con ellos. */}
-      <header className="px-4 py-4 sm:px-7 lg:py-5">
-        <h3 className="font-display text-base font-semibold text-[#494963]">{label}</h3>
+    // El grado va arriba de sus materiales y no en una columna al costado
+    // (pedido de Agus, 2026-11-25): las tarjetas ocupan todo el ancho y las
+    // portadas se ven más grandes. px-4/sm:px-7: mismo inset que "Docencia"
+    // y "Primer ciclo" arriba, para que el grado quede alineado con ellos.
+    <section data-grado={label} className="border-b border-b-[#494963]/[.07] last:border-b-0">
+      <header className="px-4 pt-5 sm:px-7 sm:pt-6">
+        <h3 className="font-display text-base font-semibold text-[#494963] sm:text-lg">{label}</h3>
       </header>
       {tapas ? (
-        <div className="min-w-0 border-t border-[#494963]/[.07] lg:border-l lg:border-t-0">
+        <div className="min-w-0">
           <MaterialesConTapa files={files} color={color} nivelTitulo="h4" />
         </div>
       ) : (
-        <div className="divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07] lg:border-l lg:border-t-0">{filas}</div>
+        <div className="mt-4 divide-y divide-[#494963]/[.07] border-t border-[#494963]/[.07]">{filas}</div>
       )}
     </section>
   );
@@ -380,7 +383,7 @@ export function RepositoryAccordionGroup({
                título gris encima leía inconsistente, ahora el color se
                aplica siempre que no haya relleno sólido, con o sin
                contenido. */}
-            <span className={`block text-balance ${s.title}`} style={!filled && !pegada && s.titleTinted ? { color } : undefined}>
+            <span className={`block text-balance ${s.title}`} style={!filled && !pegada && s.titleTinted ? { color: colorTextoArea(color) } : undefined}>
               {/* Fija: como la miga de pan de la franja de arriba
                  ("Docencia / Primer ciclo / 2do Grado"): los niveles
                  anteriores más suaves y el último pleno. En celular, sin la
@@ -422,7 +425,7 @@ export function RepositoryAccordionGroup({
       ) : (
         <div className={`grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center text-left text-[#494963] ${s.button} ${s.idleBg}`} style={{ ["--area" as string]: color }}>
           <span className="min-w-0">
-            <span className={`block text-balance ${s.title}`} style={s.titleTinted ? { color } : undefined}>{title}</span>
+            <span className={`block text-balance ${s.title}`} style={s.titleTinted ? { color: colorTextoArea(color) } : undefined}>{title}</span>
             {description ? <span className={`block ${s.description} text-[#494963]/65`}>{description}</span> : null}
           </span>
         </div>

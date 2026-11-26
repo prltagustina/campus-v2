@@ -15,6 +15,7 @@ import {
 import { areaNavForeground } from "@/components/v3/area-nav-link";
 import { RepositoryAccordionGroup, RepositoryFileGroup } from "@/components/v3/repository-accordion";
 import { PillTabs } from "@/components/v3/pill-tabs";
+import { colorTextoArea } from "@/lib/color-texto";
 
 interface MaterialesSectionProps {
   area: Area;
@@ -297,7 +298,7 @@ function CategoriaAccordion({
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1.5 border-b border-[#494963]/[.07] px-5 py-4 text-sm font-semibold transition-opacity hover:opacity-70 sm:px-7"
-          style={{ color }}
+          style={{ color: colorTextoArea(color) }}
         >
           <span>{categoria.recursoGeneral.nombre}</span>
           <ArrowUpRight className="h-4 w-4" />
